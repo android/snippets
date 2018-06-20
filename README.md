@@ -1,5 +1,6 @@
-# Background
+# Android Snippets
 This repository holds code snippets used in Android documentation on [developer.android.com](https://developer.android.com/guide).
+It is a work in progress, as many snippets are still embedded as static HTML.
 
 # Quality Assurance
 The code snippets compile and show best practices. Runtime verification is not needed;
