@@ -1,7 +1,9 @@
 # Background
-New snippets on developer.android.com/guides will be dynamically linked to this repo instead of 
-written as embedded HTML on the page.
+This repository holds code snippets used in Android documentation on [developer.android.com](https://developer.android.com/guide).
+
+# Quality Assurance
+The code snippets compile and show best practices. Runtime verification is not needed;
+code irrelevant to the doc is usually stubbed out.
 
 # Contributing
-We accept your pull requests! The code must compile and show best practices. Runtime verification 
-is not needed; code irrelevant to the doc can be stubbed out.
+We love contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
