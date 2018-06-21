@@ -223,7 +223,7 @@ class MySliceProvider : SliceProvider() {
             // [START_EXCLUDE]
             // [END_EXCLUDE]
         }
-    // [END see_more_action
+    // [END see_more_action]
 
     // [START see_more_row]
     fun seeMoreRowSlice(sliceUri: Uri) =
