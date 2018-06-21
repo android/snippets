@@ -37,7 +37,7 @@ public class GettingStartedSliceProvider extends SliceProvider {
         return false;
     }
 
-    // [START slices_getting_started_onBindSlice]
+    // [START on_bind_slice]
     @Override
     public Slice onBindSlice(Uri sliceUri) {
         // Create parent ListBuilder.
@@ -58,9 +58,9 @@ public class GettingStartedSliceProvider extends SliceProvider {
         // Build List.
         return listBuilder.build();
     }
-    // [END slices_getting_started_onBindSlice]
+    // [END on_bind_slice]
 
-    // [START slices_getting_started_createSlice]
+    // [START create_slice]
     public Slice createSlice(Uri sliceUri) {
         SliceAction activityAction = createActivityAction();
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
@@ -77,9 +77,9 @@ public class GettingStartedSliceProvider extends SliceProvider {
                 IconCompat.createWithResource(getContext(), R.drawable.ic_home),
                 "Open MainActivity");
     }
-    // [END slices_getting_started_createSlice]
+    // [END create_slice]
 
-    // [START slices_getting_started_createBrightnessSlice]
+    // [START create_brightness_slice]
     public Slice createBrightnessSlice(Uri sliceUri) {
         SliceAction toggleAction = new SliceAction(createToggleIntent(),
                 "Toggle adaptive brightness", true);
@@ -106,9 +106,9 @@ public class GettingStartedSliceProvider extends SliceProvider {
         Intent intent = new Intent(getContext(), MyBroadcastReceiver.class);
         return PendingIntent.getBroadcast(getContext(), 0, intent, 0);
     }
-    // [END slices_getting_started_createBrightnessSlice]
+    // [END create_brightness_slice]
 
-    // [START slices_getting_started_createDynamicSlice]
+    // [START create_dynamic_slice]
     public Slice createDynamicSlice(Uri sliceUri) {
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
         ListBuilder.RowBuilder rowBuilder = new ListBuilder.RowBuilder(listBuilder);
@@ -134,5 +134,5 @@ public class GettingStartedSliceProvider extends SliceProvider {
                 .putExtra(MyBroadcastReceiver.EXTRA_MESSAGE, s);
         return PendingIntent.getBroadcast(getContext(), 0, intent, 0);
     }
-    // [END slices_getting_started_createDynamicSlice]
+    // [END create_dynamic_slice]
 }

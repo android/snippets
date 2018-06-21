@@ -31,7 +31,7 @@ import com.example.android.snippets.R
 class GettingStartedSliceProvider : SliceProvider() {
     lateinit var brightnessPendingIntent: PendingIntent
 
-    // [START slices_getting_started_onBindSlice]
+    // [START on_bind_slice]
     override fun onBindSlice(sliceUri: Uri): Slice? {
         return if (sliceUri.path == "/hello") {
             ListBuilder(context, sliceUri, ListBuilder.INFINITY)
@@ -43,13 +43,13 @@ class GettingStartedSliceProvider : SliceProvider() {
                 .build()
         }
     }
-    // [END slices_getting_started_onBindSlice]
+    // [END on_bind_slice]
 
     override fun onCreateSliceProvider(): Boolean {
         return true
     }
 
-    // [START slices_getting_started_createSlice]
+    // [START create_slice]
     fun createSlice(sliceUri: Uri): Slice {
         val activityAction = createActivityAction()
         return list(context, sliceUri, INFINITY) {
@@ -68,9 +68,9 @@ class GettingStartedSliceProvider : SliceProvider() {
             "Open MainActivity."
         )
     }
-    // [END slices_getting_started_createSlice]
+    // [END create_slice]
 
-    // [START slices_getting_started_createBrightnessSlice]
+    // [START create_brightness_slice]
     fun createBrightnessSlice(sliceUri: Uri): Slice {
         val toggleAction =
             SliceAction(createToggleIntent(), "Toggle adaptive brightness", true)
@@ -92,11 +92,11 @@ class GettingStartedSliceProvider : SliceProvider() {
         val intent = Intent(context, MyBroadcastReceiver::class.java)
         return PendingIntent.getBroadcast(context, 0, intent, 0)
     }
-    // [END slices_getting_started_createBrightnessSlice]
+    // [END create_brightness_slice]
 
     lateinit var actionIcon: IconCompat
 
-    // [START slices_getting_started_createDynamicSlice]
+    // [START create_dynamic_slice]
     fun createDynamicSlice(sliceUri: Uri): Slice {
         return when (sliceUri.path) {
             "/count" -> {
@@ -128,5 +128,5 @@ class GettingStartedSliceProvider : SliceProvider() {
                 .putExtra(MyBroadcastReceiver.EXTRA_MESSAGE, s), 0
         )
     }
-    // [END slices_getting_started_createDynamicSlice]
+    // [END create_dynamic_slice]
 }

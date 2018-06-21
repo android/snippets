@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-// [START slices_getting_started_MyBroadcastReceiver]
+// [START broadcast_receiver_example]
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
     public static int sReceivedCount = 0;
@@ -41,4 +41,4 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         }
     }
 }
-// [END slices_getting_started_MyBroadcastReceiver]
+// [END broadcast_receiver_example]

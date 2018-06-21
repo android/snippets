@@ -28,6 +28,7 @@ import androidx.slice.builders.header
 import androidx.slice.builders.inputRange
 import androidx.slice.builders.list
 import androidx.slice.builders.row
+import androidx.slice.builders.seeMoreRow
 import androidx.slice.core.SliceHints
 import androidx.slice.core.SliceHints.ICON_IMAGE
 import com.example.android.snippets.R
@@ -61,6 +62,7 @@ class MySliceProvider : SliceProvider() {
         return false
     }
 
+    // [START create_slice_with_header]
     fun createSliceWithHeader(sliceUri: Uri) =
         list(context, sliceUri, ListBuilder.INFINITY) {
             setAccentColor(0xff0F9D) // Specify color for tinting icons
@@ -78,7 +80,9 @@ class MySliceProvider : SliceProvider() {
                 )
             }
         }
+    // [END create_slice_with_header]
 
+    // [START create_slice_with_action_in_header]
     fun createSliceWithActionInHeader(sliceUri: Uri): Slice {
         // Construct our slice actions.
         val noteAction = SliceAction(
@@ -114,7 +118,9 @@ class MySliceProvider : SliceProvider() {
             addAction(cameraNoteAction)
         }
     }
+    // [END create_slice_with_action_in_header]
 
+    // [START create_action_with_action_in_row]
     fun createActionWithActionInRow(sliceUri: Uri): Slice {
         // Primary action - open wifi settings.
         val primaryAction = SliceAction(
@@ -139,7 +145,9 @@ class MySliceProvider : SliceProvider() {
             }
         }
     }
+    // [END create_action_with_action_in_row]
 
+    // [START create_slice_with_gridrow]
     fun createSliceWithGridRow(sliceUri: Uri): Slice {
         // Create the parent builder.
         return list(context, sliceUri, ListBuilder.INFINITY) {
@@ -175,7 +183,9 @@ class MySliceProvider : SliceProvider() {
             }
         }
     }
+    // [END create_slice_with_gridrow]
 
+    // [START create_slice_with_range]
     fun createSliceWithRange(sliceUri: Uri): Slice {
         return list(context, sliceUri, ListBuilder.INFINITY) {
             inputRange {
@@ -186,7 +196,9 @@ class MySliceProvider : SliceProvider() {
             }
         }
     }
+    // [END create_slice_with_range]
 
+    // [START create_slice_showing_loading]
     fun createSliceShowingLoading(sliceUri: Uri): Slice {
         // We’re waiting to load the time to work so indicate that on the slice by
         // setting the subtitle with the overloaded method and indicate true.
@@ -200,26 +212,37 @@ class MySliceProvider : SliceProvider() {
             }
         }
     }
+    // [END create_slice_showing_loading]
 
-//    fun seeMoreAction(listBuilder: ListBuilder) {
-//        listBuilder.setSeeMoreAction(seeAllNetworksPendingIntent)
-//    }
-//
-//    fun seeMoreRow(listBuilder: ListBuilder) {
-//        listBuilder.setSeeMoreRow {
-//            it.apply {
-//                setTitle("See all available networks")
-//                addEndItem(
-//                    IconCompat.createWithResource(context, R.drawable.ic_right_caret), ICON_IMAGE
-//                )
-//                setPrimaryAction(
-//                    SliceAction(
-//                        seeAllNetworksPendingIntent,
-//                        IconCompat.createWithResource(context, R.drawable.ic_wifi),
-//                        "Wi-Fi Networks"
-//                    )
-//                )
-//            }
-//        }
-//    }
+    // [START see_more_action]
+    fun seeMoreActionSlice(sliceUri: Uri) =
+        list(context, sliceUri, ListBuilder.INFINITY) {
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+            setSeeMoreAction(seeAllNetworksPendingIntent)
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+        }
+    // [END see_more_action
+
+    // [START see_more_row]
+    fun seeMoreRowSlice(sliceUri: Uri) =
+        list(context, sliceUri, ListBuilder.INFINITY) {
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+            seeMoreRow {
+                setTitle("See all available networks")
+                addEndItem(
+                    IconCompat.createWithResource(context, R.drawable.ic_right_caret), ICON_IMAGE
+                )
+                setPrimaryAction(
+                    SliceAction(
+                        seeAllNetworksPendingIntent,
+                        IconCompat.createWithResource(context, R.drawable.ic_wifi),
+                        "Wi-Fi Networks"
+                    )
+                )
+            }
+        }
+    // [END see_more_row]
 }

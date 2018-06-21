@@ -61,6 +61,7 @@ public class MySliceProvider extends SliceProvider {
         return null;
     }
 
+    // [START create_slice_with_header]
     public Slice createSliceWithHeader(Uri sliceUri) {
         // Construct the parent.
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY)
@@ -88,7 +89,9 @@ public class MySliceProvider extends SliceProvider {
 
         return listBuilder.build();
     }
+    // [END create_slice_with_header]
 
+    // [START create_slice_with_action_in_header]
     public Slice createSliceWithActionInHeader(Uri sliceUri) {
 
         // Construct the list.
@@ -125,7 +128,9 @@ public class MySliceProvider extends SliceProvider {
 
         return listBuilder.build();
     }
+    // [END create_slice_with_action_in_header]
 
+    // [START create_action_with_action_in_row]
     public Slice createActionWithActionInRow(Uri sliceUri) {
         // Primary action - open wifi settings.
         SliceAction primaryAction = new SliceAction(wifiSettingsPendingIntent,
@@ -154,7 +159,9 @@ public class MySliceProvider extends SliceProvider {
         // Build the slice.
         return listBuilder.build();
     }
+    // [END create_action_with_action_in_row]
 
+    // [START create_slice_with_gridrow]
     public Slice createSliceWithGridRow(Uri sliceUri) {
         // Create the parent builder.
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
@@ -198,7 +205,9 @@ public class MySliceProvider extends SliceProvider {
 
         return listBuilder.build();
     }
+    // [END create_slice_with_gridrow]
 
+    // [START create_slice_with_range]
     public Slice createSliceWithRange(Uri sliceUri) {
         // Construct the parent.
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
@@ -216,7 +225,9 @@ public class MySliceProvider extends SliceProvider {
 
         return listBuilder.build();
     }
+    // [END create_slice_with_range]
 
+    // [START create_slice_showing_loading]
     public Slice createSliceShowingLoading(Uri sliceUri) {
         // Construct the parent.
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
@@ -236,12 +247,25 @@ public class MySliceProvider extends SliceProvider {
 
         return listBuilder.build();
     }
+    // [END create_slice_showing_loading]
 
-    public void seeMoreAction(ListBuilder listBuilder) {
+    // [START see_more_action]
+    public Slice seeMoreActionSlice(Uri sliceUri) {
+        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
+        // [START_EXCLUDE]
+        // [END_EXCLUDE]
         listBuilder.setSeeMoreAction(seeAllNetworksPendingIntent);
+        // [START_EXCLUDE]
+        // [END_EXCLUDE]
+        return listBuilder.build();
     }
+    // [END see_more_action]
 
-    public void seeMoreRow(ListBuilder listBuilder) {
+    // [START see_more_row]
+    public Slice seeMoreRowSlice(Uri sliceUri) {
+        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
+        // [START_EXCLUDE]
+        // [END_EXCLUDE]
         RowBuilder rowBuilder = new RowBuilder(listBuilder)
                 .setTitle("See all available networks")
                 .addEndItem(IconCompat.createWithResource(getContext(), R.drawable.ic_right_caret),
@@ -250,5 +274,9 @@ public class MySliceProvider extends SliceProvider {
                         IconCompat.createWithResource(getContext(), R.drawable.ic_wifi),
                         "Wi-Fi Networks"));
         listBuilder.setSeeMoreRow(rowBuilder);
+        // [START_EXCLUDE]
+        // [END_EXCLUDE]
+        return listBuilder.build();
     }
+    // [END see_more_row]
 }

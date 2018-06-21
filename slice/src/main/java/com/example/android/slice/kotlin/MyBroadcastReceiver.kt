@@ -35,7 +35,7 @@ import android.widget.Toast
 //        const val EXTRA_MESSAGE = "message"
 //    }
 //}
-// [START slices_getting_started_MyBroadcastReceiver]
+// [START broadcastreceiver_example]
 class MyBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -57,4 +57,4 @@ class MyBroadcastReceiver : BroadcastReceiver() {
         const val EXTRA_MESSAGE = "message"
     }
 }
-// [END slices_getting_started_MyBroadcastReceiver]
+// [END broadcastreceiver_example]
