@@ -34,13 +34,13 @@ class GettingStartedSliceProvider : SliceProvider() {
     // [START on_bind_slice]
     override fun onBindSlice(sliceUri: Uri): Slice? {
         return if (sliceUri.path == "/hello") {
-            ListBuilder(context, sliceUri, ListBuilder.INFINITY)
-                .addRow { it.setTitle("URI found.") }
-                .build()
+            list(context, sliceUri, ListBuilder.INFINITY) {
+                row { setTitle("URI found.") }
+            }
         } else {
-            ListBuilder(context, sliceUri, ListBuilder.INFINITY)
-                .addRow { it.setTitle("URI not found.") }
-                .build()
+            list(context, sliceUri, ListBuilder.INFINITY) {
+                row { setTitle("URI not found.") }
+            }
         }
     }
     // [END on_bind_slice]
