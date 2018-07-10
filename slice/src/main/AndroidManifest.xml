@@ -26,6 +26,7 @@
             <intent-filter>
                 <action android:name="androidx.intent.SLICE_ACTION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.app.slice.category.SLICE"/>
                 <data
                     android:host="slice.android.example.com"
                     android:pathPrefix="/"
@@ -39,6 +40,7 @@
             <intent-filter>
                 <action android:name="androidx.intent.SLICE_ACTION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.app.slice.category.SLICE"/>
                 <data
                     android:host="slice.android.example.com"
                     android:pathPrefix="/"
@@ -52,6 +54,7 @@
             <intent-filter>
                 <action android:name="androidx.intent.SLICE_ACTION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.app.slice.category.SLICE"/>
                 <data
                     android:host="slice.android.example.com"
                     android:pathPrefix="/"
@@ -65,6 +68,7 @@
             <intent-filter>
                 <action android:name="androidx.intent.SLICE_ACTION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.app.slice.category.SLICE"/>
                 <data
                     android:host="slice.android.example.com"
                     android:pathPrefix="/"

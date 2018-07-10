@@ -33,13 +33,20 @@ class GettingStartedSliceProvider : SliceProvider() {
 
     // [START on_bind_slice]
     override fun onBindSlice(sliceUri: Uri): Slice? {
+        val activityAction = createActivityAction()
         return if (sliceUri.path == "/hello") {
             list(context, sliceUri, ListBuilder.INFINITY) {
-                row { setTitle("URI found.") }
+                row {
+                    primaryAction = activityAction
+                    title = "Hello World."
+                }
             }
         } else {
             list(context, sliceUri, ListBuilder.INFINITY) {
-                row { setTitle("URI not found.") }
+                row {
+                    primaryAction = activityAction
+                    title = "URI not recognized."
+                }
             }
         }
     }
@@ -54,18 +61,19 @@ class GettingStartedSliceProvider : SliceProvider() {
         val activityAction = createActivityAction()
         return list(context, sliceUri, INFINITY) {
             row {
-                setTitle("Perform action in app")
-                setPrimaryAction(activityAction)
+                title = "Perform action in app"
+                primaryAction = activityAction
             }
         }
     }
 
     fun createActivityAction(): SliceAction {
         val intent = Intent(context, MainActivity::class.java)
-        return SliceAction(
-            PendingIntent.getActivity(context, 0, intent, 0),
+        return SliceAction.create(
+            PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0),
             IconCompat.createWithResource(context, R.drawable.ic_home),
-            "Open MainActivity."
+            ListBuilder.ICON_IMAGE,
+            "Enter app"
         )
     }
     // [END create_slice]
@@ -73,17 +81,21 @@ class GettingStartedSliceProvider : SliceProvider() {
     // [START create_brightness_slice]
     fun createBrightnessSlice(sliceUri: Uri): Slice {
         val toggleAction =
-            SliceAction(createToggleIntent(), "Toggle adaptive brightness", true)
+            SliceAction.createToggle(
+                createToggleIntent(),
+                "Toggle adaptive brightness",
+                true
+            )
         return list(context, sliceUri, ListBuilder.INFINITY) {
             row {
-                setTitle("Adaptive brightness")
-                setSubtitle("Optimizes brightness for available light")
-                setPrimaryAction(toggleAction)
+                title = "Adaptive brightness"
+                subtitle = "Optimizes brightness for available light"
+                primaryAction = toggleAction
             }
             inputRange {
-                setInputAction(brightnessPendingIntent)
-                setMax(100)
-                setValue(45)
+                inputAction = (brightnessPendingIntent)
+                max = 100
+                value = 45
             }
         }
     }
@@ -100,22 +112,27 @@ class GettingStartedSliceProvider : SliceProvider() {
     fun createDynamicSlice(sliceUri: Uri): Slice {
         return when (sliceUri.path) {
             "/count" -> {
-                val toastAndIncrementAction = SliceAction(
-                    createToastAndIncrementIntent("Item clicked"),
-                    actionIcon, "Increment."
+                val toastAndIncrementAction = SliceAction.create(
+                    createToastAndIncrementIntent("Item clicked."),
+                    actionIcon,
+                    ListBuilder.ICON_IMAGE,
+                    "Increment."
                 )
                 list(context, sliceUri, ListBuilder.INFINITY) {
                     row {
-                        setPrimaryAction(toastAndIncrementAction)
-                        setTitle("Count: ${MyBroadcastReceiver.receivedCount}")
-                        setSubtitle("Click me")
+                        primaryAction = toastAndIncrementAction
+                        title = "Count: ${MyBroadcastReceiver.receivedCount}"
+                        subtitle = "Click me"
                     }
                 }
             }
 
             else -> {
                 list(context, sliceUri, ListBuilder.INFINITY) {
-                    row { setTitle("URI not found.") }
+                    row {
+                        primaryAction = createActivityAction()
+                        title = "URI not found."
+                    }
                 }
             }
         }
