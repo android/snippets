@@ -67,16 +67,16 @@ class MySliceProvider : SliceProvider() {
         list(context, sliceUri, ListBuilder.INFINITY) {
             setAccentColor(0xff0F9D) // Specify color for tinting icons
             header {
-                setTitle("Get a ride")
-                setSubtitle("Ride in 4 min")
-                setSummary("Work in 1 hour 45 min | Home in 12 min")
+                title = "Get a ride"
+                subtitle = "Ride in 4 min"
+                summary = "Work in 1 hour 45 min | Home in 12 min"
             }
             row {
-                setTitle("Home")
-                setSubtitle("12 miles | 12 min | $9.00")
+                title = "Home"
+                subtitle = "12 miles | 12 min | $9.00"
                 addEndItem(
                     IconCompat.createWithResource(context, R.drawable.ic_home),
-                    SliceHints.ICON_IMAGE
+                    ListBuilder.ICON_IMAGE
                 )
             }
         }
@@ -85,21 +85,21 @@ class MySliceProvider : SliceProvider() {
     // [START create_slice_with_action_in_header]
     fun createSliceWithActionInHeader(sliceUri: Uri): Slice {
         // Construct our slice actions.
-        val noteAction = SliceAction(
+        val noteAction = SliceAction.create(
             takeNoteIntent,
             IconCompat.createWithResource(context, R.drawable.ic_pencil),
             ICON_IMAGE,
             "Take note"
         )
 
-        val voiceNoteAction = SliceAction(
+        val voiceNoteAction = SliceAction.create(
             voiceNoteIntent,
             IconCompat.createWithResource(context, R.drawable.ic_mic),
             ICON_IMAGE,
             "Take voice note"
         )
 
-        val cameraNoteAction = SliceAction(
+        val cameraNoteAction = SliceAction.create(
             cameraNoteIntent,
             IconCompat.createWithResource(context, R.drawable.ic_camera),
             ICON_IMAGE,
@@ -110,8 +110,8 @@ class MySliceProvider : SliceProvider() {
         return list(context, sliceUri, ListBuilder.INFINITY) {
             setAccentColor(0xfff4b4) // Specify color for tinting icons
             header {
-                setTitle("Create new note")
-                setSubtitle("Easily done with this note taking app")
+                title = "Create new note"
+                subtitle = "Easily done with this note taking app"
             }
             addAction(noteAction)
             addAction(voiceNoteAction)
@@ -123,24 +123,26 @@ class MySliceProvider : SliceProvider() {
     // [START create_action_with_action_in_row]
     fun createActionWithActionInRow(sliceUri: Uri): Slice {
         // Primary action - open wifi settings.
-        val primaryAction = SliceAction(
+        val wifiAction = SliceAction.create(
             wifiSettingsPendingIntent,
             IconCompat.createWithResource(context, R.drawable.ic_wifi),
+            ICON_IMAGE,
             "Wi-Fi Settings"
         )
 
         // Toggle action - toggle wifi.
-        val toggleAction = SliceAction(
+        val toggleAction = SliceAction.createToggle(
             wifiTogglePendingIntent,
-            "Toggle Wi-Fi", isConnected /* isChecked */
+            "Toggle Wi-Fi",
+            isConnected /* isChecked */
         )
 
         // Create the parent builder.
         return list(context, wifiUri, ListBuilder.INFINITY) {
             setAccentColor(0xff4285) // Specify color for tinting icons / controls.
             row {
-                setTitle("Wi-Fi")
-                setPrimaryAction(primaryAction)
+                title = "Wi-Fi"
+                primaryAction = wifiAction
                 addEndItem(toggleAction)
             }
         }
@@ -152,33 +154,35 @@ class MySliceProvider : SliceProvider() {
         // Create the parent builder.
         return list(context, sliceUri, ListBuilder.INFINITY) {
             header {
-                setTitle("Famous restaurants")
-                setPrimaryAction(SliceAction(pendingIntent, icon, "Famous restaurants"))
+                title = "Famous restaurants"
+                primaryAction = SliceAction.create(
+                    pendingIntent, icon, ListBuilder.ICON_IMAGE, "Famous restaurants"
+                )
             }
             gridRow {
                 cell {
                     addImage(image1, LARGE_IMAGE)
                     addTitleText("Top Restaurant")
                     addText("0.3 mil")
-                    setContentIntent(intent1)
+                    contentIntent = intent1
                 }
                 cell {
                     addImage(image2, LARGE_IMAGE)
                     addTitleText("Fast and Casual")
                     addText("0.5 mil")
-                    setContentIntent(intent2)
+                    contentIntent = intent2
                 }
                 cell {
                     addImage(image3, LARGE_IMAGE)
                     addTitleText("Casual Diner")
                     addText("0.9 mi")
-                    setContentIntent(intent3)
+                    contentIntent = intent3
                 }
                 cell {
                     addImage(image4, LARGE_IMAGE)
                     addTitleText("Ramen Spot")
                     addText("1.2 mi")
-                    setContentIntent(intent4)
+                    contentIntent = intent4
                 }
             }
         }
@@ -189,10 +193,10 @@ class MySliceProvider : SliceProvider() {
     fun createSliceWithRange(sliceUri: Uri): Slice {
         return list(context, sliceUri, ListBuilder.INFINITY) {
             inputRange {
-                setTitle("Ring Volume")
-                setInputAction(volumeChangedPendingIntent)
-                setMax(100)
-                setValue(30)
+                title = "Ring Volume"
+                inputAction = volumeChangedPendingIntent
+                max = 100
+                value = 30
             }
         }
     }
@@ -204,11 +208,9 @@ class MySliceProvider : SliceProvider() {
         // setting the subtitle with the overloaded method and indicate true.
         return list(context, sliceUri, ListBuilder.INFINITY) {
             row {
-                setTitle("Ride to work")
+                title = "Ride to work"
                 setSubtitle(null, true)
-                addEndItem(
-                    IconCompat.createWithResource(context, R.drawable.ic_work), ICON_IMAGE
-                )
+                addEndItem(IconCompat.createWithResource(context, R.drawable.ic_work), ICON_IMAGE)
             }
         }
     }
@@ -231,16 +233,15 @@ class MySliceProvider : SliceProvider() {
             // [START_EXCLUDE]
             // [END_EXCLUDE]
             seeMoreRow {
-                setTitle("See all available networks")
+                title = "See all available networks"
                 addEndItem(
                     IconCompat.createWithResource(context, R.drawable.ic_right_caret), ICON_IMAGE
                 )
-                setPrimaryAction(
-                    SliceAction(
-                        seeAllNetworksPendingIntent,
-                        IconCompat.createWithResource(context, R.drawable.ic_wifi),
-                        "Wi-Fi Networks"
-                    )
+                primaryAction = SliceAction.create(
+                    seeAllNetworksPendingIntent,
+                    IconCompat.createWithResource(context, R.drawable.ic_wifi),
+                    ListBuilder.ICON_IMAGE,
+                    "Wi-Fi Networks"
                 )
             }
         }

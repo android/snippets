@@ -40,65 +40,78 @@ public class GettingStartedSliceProvider extends SliceProvider {
     // [START on_bind_slice]
     @Override
     public Slice onBindSlice(Uri sliceUri) {
-        // Create parent ListBuilder.
-        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
-
-        // Create RowBuilder.
-        ListBuilder.RowBuilder rowBuilder = new ListBuilder.RowBuilder(listBuilder);
-
-        if (sliceUri.getPath().equals("/hello")) {
-            rowBuilder.setTitle("URI found.");
-        } else {
-            rowBuilder.setTitle("URI not found.");
+        if (getContext() == null) {
+            return null;
         }
-
-        // Add Row to List.
-        listBuilder.addRow(rowBuilder);
-
-        // Build List.
+        SliceAction activityAction = createActivityAction();
+        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
+        // Create parent ListBuilder.
+        if ("/hello".equals(sliceUri.getPath())) {
+            listBuilder.addRow(new ListBuilder.RowBuilder()
+                    .setTitle("Hello World")
+                    .setPrimaryAction(activityAction)
+            );
+        } else {
+            listBuilder.addRow(new ListBuilder.RowBuilder()
+                    .setTitle("URI not recognized")
+                    .setPrimaryAction(activityAction)
+            );
+        }
         return listBuilder.build();
     }
     // [END on_bind_slice]
 
     // [START create_slice]
     public Slice createSlice(Uri sliceUri) {
+        if (getContext() == null) {
+            return null;
+        }
         SliceAction activityAction = createActivityAction();
-        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
-        ListBuilder.RowBuilder rowBuilder = new ListBuilder.RowBuilder(listBuilder)
-                .setTitle("Perform action in app.")
-                .setPrimaryAction(activityAction);
-        listBuilder.addRow(rowBuilder);
-        return listBuilder.build();
+        return new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY)
+                .addRow(new ListBuilder.RowBuilder()
+                        .setTitle("Perform action in app.")
+                        .setPrimaryAction(activityAction)
+                ).build();
     }
 
     public SliceAction createActivityAction() {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        return new SliceAction(PendingIntent.getActivity(getContext(), 0, intent, 0),
+        if (getContext() == null) {
+            return null;
+        }
+        return SliceAction.create(
+                PendingIntent.getActivity(
+                        getContext(),
+                        0,
+                        new Intent(getContext(), MainActivity.class),
+                        0
+                ),
                 IconCompat.createWithResource(getContext(), R.drawable.ic_home),
-                "Open MainActivity");
+                ListBuilder.ICON_IMAGE,
+                "Enter app"
+        );
     }
     // [END create_slice]
 
     // [START create_brightness_slice]
     public Slice createBrightnessSlice(Uri sliceUri) {
-        SliceAction toggleAction = new SliceAction(createToggleIntent(),
-                "Toggle adaptive brightness", true);
-        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
-        ListBuilder.RowBuilder rowBuilder = new ListBuilder.RowBuilder(listBuilder)
-                .setTitle("Adaptive brightness")
-                .setSubtitle("Optimizes brightness for available light.")
-                .setPrimaryAction(toggleAction);
-
-        listBuilder.addRow(rowBuilder);
-
-        ListBuilder.InputRangeBuilder inputRangeBuilder = new ListBuilder.InputRangeBuilder(
-                listBuilder)
-                .setInputAction(brightnessPendingIntent)
-                .setMax(100)
-                .setValue(45);
-
-        listBuilder.addInputRange(inputRangeBuilder);
-
+        if (getContext() == null) {
+            return null;
+        }
+        SliceAction toggleAction = SliceAction.createToggle(
+                createToggleIntent(),
+                "Toggle adaptive brightness",
+                true
+        );
+        ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY)
+                .addRow(new ListBuilder.RowBuilder()
+                        .setTitle("Adaptive brightness")
+                        .setSubtitle("Optimizes brightness for available light.")
+                        .setPrimaryAction(toggleAction)
+                ).addInputRange(new ListBuilder.InputRangeBuilder()
+                        .setInputAction(brightnessPendingIntent)
+                        .setMax(100)
+                        .setValue(45)
+                );
         return listBuilder.build();
     }
 
@@ -110,20 +123,31 @@ public class GettingStartedSliceProvider extends SliceProvider {
 
     // [START create_dynamic_slice]
     public Slice createDynamicSlice(Uri sliceUri) {
+        if (getContext() == null || sliceUri.getPath() == null) {
+            return null;
+        }
         ListBuilder listBuilder = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY);
-        ListBuilder.RowBuilder rowBuilder = new ListBuilder.RowBuilder(listBuilder);
         switch (sliceUri.getPath()) {
             case "/count":
-                SliceAction toastAndIncrementAction = new SliceAction(createToastAndIncrementIntent(
-                        "Item clicked."), actionIcon, "Increment.");
-                rowBuilder.setPrimaryAction(toastAndIncrementAction)
-                        .setTitle("Count: " + MyBroadcastReceiver.sReceivedCount)
-                        .setSubtitle("Click me");
-                listBuilder.addRow(rowBuilder);
+                SliceAction toastAndIncrementAction = SliceAction.create(
+                        createToastAndIncrementIntent("Item clicked."),
+                        actionIcon,
+                        ListBuilder.ICON_IMAGE,
+                        "Increment."
+                );
+                listBuilder.addRow(
+                        new ListBuilder.RowBuilder()
+                                .setPrimaryAction(toastAndIncrementAction)
+                                .setTitle("Count: " + MyBroadcastReceiver.sReceivedCount)
+                                .setSubtitle("Click me")
+                );
                 break;
             default:
-                rowBuilder.setTitle("URI not found.");
-                listBuilder.addRow(rowBuilder);
+                listBuilder.addRow(
+                        new ListBuilder.RowBuilder()
+                                .setPrimaryAction(createActivityAction())
+                                .setTitle("URI not found.")
+                );
                 break;
         }
         return listBuilder.build();
