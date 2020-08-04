@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sample.android.bluetoothle">
+
+    <application>
+        <activity android:name=".kotlin.MainActivity"></activity>
+        <activity android:name=".java.DeviceScanActivity" />
+        <activity android:name=".java.MainActivity" />
+    </application>
+    <!--
+ If your app targets Android 9 or lower, you can declare
+         ACCESS_COARSE_LOCATION instead.
+    -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+    <!--
+ This declares that this app is only available for devices that support Bluetooth Low
+    Energy.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+</manifest>

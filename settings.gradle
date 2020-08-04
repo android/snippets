@@ -1,1 +1,1 @@
-include ':shared', ':slice'
+include ':shared', ':slice', ':bluetoothle'
