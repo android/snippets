@@ -70,7 +70,7 @@ class GettingStartedSliceProvider : SliceProvider() {
     fun createActivityAction(): SliceAction {
         val intent = Intent(context, MainActivity::class.java)
         return SliceAction.create(
-            PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0),
+            PendingIntent.getActivity(context, 0, intent, 0),
             IconCompat.createWithResource(context, R.drawable.ic_home),
             ListBuilder.ICON_IMAGE,
             "Enter app"
