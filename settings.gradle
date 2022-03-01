@@ -1,1 +1,1 @@
-include ':shared', ':slice', ':bluetoothle'
+include ':shared', ':slice', ':bluetoothle', ':compose:recomposehighlighter'
