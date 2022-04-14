@@ -8,18 +8,18 @@ import org.junit.Test
 
 // [START coroutine_test_repo_dispatcher_injection_test]
 class RepositoryTest {
-   @Test
-   fun repoInitWorksAndDataIsHelloWorld() = runTest {
-       val dispatcher = StandardTestDispatcher(testScheduler)
-       val repository = Repository(dispatcher)
+    @Test
+    fun repoInitWorksAndDataIsHelloWorld() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        val repository = Repository(dispatcher)
 
-       repository.initialize()
-       advanceUntilIdle() // Runs the new coroutine
-       assertEquals(true, repository.initialized.get())
+        repository.initialize()
+        advanceUntilIdle() // Runs the new coroutine
+        assertEquals(true, repository.initialized.get())
 
-       val data = repository.fetchData() // No thread switch, delay is skipped
-       assertEquals("Hello world", data)
-   }
+        val data = repository.fetchData() // No thread switch, delay is skipped
+        assertEquals("Hello world", data)
+    }
 }
 // [END coroutine_test_repo_dispatcher_injection_test]
 

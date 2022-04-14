@@ -23,16 +23,16 @@ import org.junit.Test
 
 // [START coroutine_test_dispatcher_types]
 class DispatcherTypesTest {
-   @get:Rule
-   val mainDispatcherRule = MainDispatcherRule()
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
-   @Test
-   fun injectingTestDispatchers() = runTest { // Uses Main’s scheduler
-       // Use the UnconfinedTestDispatcher from the Main dispatcher
-       val unconfinedRepo = Repository(mainDispatcherRule.testDispatcher)
+    @Test
+    fun injectingTestDispatchers() = runTest { // Uses Main’s scheduler
+        // Use the UnconfinedTestDispatcher from the Main dispatcher
+        val unconfinedRepo = Repository(mainDispatcherRule.testDispatcher)
 
-       // Create a new StandardTestDispatcher (uses Main’s scheduler)
-       val standardRepo = Repository(StandardTestDispatcher())
-   }
+        // Create a new StandardTestDispatcher (uses Main’s scheduler)
+        val standardRepo = Repository(StandardTestDispatcher())
+    }
 }
 // [END coroutine_test_dispatcher_types]

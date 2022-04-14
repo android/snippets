@@ -24,13 +24,13 @@ import kotlinx.coroutines.launch
 
 // [START coroutine_test_homeviewmodel]
 class HomeViewModel : ViewModel() {
-   private val _message = MutableStateFlow("")
-   val message: StateFlow<String> get() = _message
+    private val _message = MutableStateFlow("")
+    val message: StateFlow<String> get() = _message
 
-   fun loadMessage() {
-      viewModelScope.launch {
-         _message.value = "Greetings!"
-      }
-   }
+    fun loadMessage() {
+        viewModelScope.launch {
+            _message.value = "Greetings!"
+        }
+    }
 }
 // [END coroutine_test_homeviewmodel]

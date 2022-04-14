@@ -36,20 +36,21 @@ class MainDispatcherRule(
     override fun starting(description: Description) {
         Dispatchers.setMain(testDispatcher)
     }
+
     override fun finished(description: Description) {
         Dispatchers.resetMain()
     }
 }
 
 class HomeViewModelTestUsingRule {
-   @get:Rule
-   val mainDispatcherRule = MainDispatcherRule()
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
-   @Test
-   fun settingMainDispatcher() = runTest { // Uses Main’s scheduler
-       val viewModel = HomeViewModel()
-       viewModel.loadMessage()
-       Assert.assertEquals("Greetings!", viewModel.message.value)
-   }
+    @Test
+    fun settingMainDispatcher() = runTest { // Uses Main’s scheduler
+        val viewModel = HomeViewModel()
+        viewModel.loadMessage()
+        Assert.assertEquals("Greetings!", viewModel.message.value)
+    }
 }
 // [END coroutine_test_homeviewmodeltest_with_rule]

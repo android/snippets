@@ -16,7 +16,6 @@
 
 package com.example.android.coroutines.testing
 
-import com.example.android.coroutines.testing.HomeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -27,18 +26,18 @@ import org.junit.Test
 
 // [START coroutine_test_homeviewmodel_test]
 class HomeViewModelTest {
-   @Test
-   fun settingMainDispatcher() = runTest {
-       val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-       Dispatchers.setMain(testDispatcher)
+    @Test
+    fun settingMainDispatcher() = runTest {
+        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+        Dispatchers.setMain(testDispatcher)
 
-       try {
-           val viewModel = HomeViewModel()
-           viewModel.loadMessage() // Uses testDispatcher, runs its coroutine eagerly
-           assertEquals("Greetings!", viewModel.message.value)
-       } finally {
-           Dispatchers.resetMain()
-       }
-   }
+        try {
+            val viewModel = HomeViewModel()
+            viewModel.loadMessage() // Uses testDispatcher, runs its coroutine eagerly
+            assertEquals("Greetings!", viewModel.message.value)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 }
 // [END coroutine_test_homeviewmodel_test]

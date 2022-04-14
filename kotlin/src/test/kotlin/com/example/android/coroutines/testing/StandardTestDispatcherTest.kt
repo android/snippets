@@ -16,7 +16,6 @@
 
 package com.example.android.coroutines.testing
 
-import com.example.android.coroutines.testing.UserRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
