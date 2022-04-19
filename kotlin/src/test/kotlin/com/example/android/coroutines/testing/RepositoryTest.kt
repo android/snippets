@@ -32,8 +32,8 @@ class BetterRepositoryTest {
 
         repository.initialize().await() // Suspends until the new coroutine is done
         assertEquals(true, repository.initialized.get())
-
         // [START_EXCLUDE]
+
         val data = repository.fetchData()
         assertEquals("Hello world", data)
         // [END_EXCLUDE]

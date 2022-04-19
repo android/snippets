@@ -23,6 +23,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestWatcher
@@ -50,7 +51,7 @@ class HomeViewModelTestUsingRule {
     fun settingMainDispatcher() = runTest { // Uses Main’s scheduler
         val viewModel = HomeViewModel()
         viewModel.loadMessage()
-        Assert.assertEquals("Greetings!", viewModel.message.value)
+        assertEquals("Greetings!", viewModel.message.value)
     }
 }
 // [END coroutine_test_homeviewmodeltest_with_rule]
