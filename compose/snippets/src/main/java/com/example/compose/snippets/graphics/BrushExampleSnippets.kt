@@ -268,7 +268,7 @@ fun GraphicsImageBrush() {
     // [END android_compose_graphics_brush_image]
 }
 
-// [START brush_custom_shader]
+// [START android_compose_brush_custom_shader]
 @Language("AGSL")
 val CUSTOM_SHADER = """
     uniform float2 resolution;
