@@ -91,7 +91,7 @@ fun BrushExamplesScreen() {
 @Preview
 @Composable
 fun GraphicsBrushCanvasUsage() {
-    // [START brush_basic_canvas]
+    // [START android_compose_brush_basic_canvas]
     val brush = Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
     Canvas(
         modifier = Modifier.size(200.dp),
@@ -99,13 +99,13 @@ fun GraphicsBrushCanvasUsage() {
             drawCircle(brush)
         }
     )
-    // [END brush_basic_canvas]
+    // [END android_compose_brush_basic_canvas]
 }
 
 @Preview
 @Composable
 fun GraphicsBrushColorStopUsage() {
-    // [START brush_color_stop]
+    // [START android_compose_brush_color_stop]
     val colorStops = arrayOf(
         0.0f to Color.Yellow,
         0.2f to Color.Red,
@@ -116,13 +116,13 @@ fun GraphicsBrushColorStopUsage() {
             .requiredSize(200.dp)
             .background(Brush.horizontalGradient(colorStops = colorStops))
     )
-    // [END brush_color_stop]
+    // [END android_compose_brush_color_stop]
 }
 
 @Preview
 @Composable
 fun GraphicsBrushTileMode() {
-    // [START brush_tile_mode]
+    // [START android_compose_brush_tile_mode]
     val listColors = listOf(Color.Yellow, Color.Red, Color.Blue)
     val tileSize = with(LocalDensity.current) {
         50.dp.toPx()
@@ -138,13 +138,13 @@ fun GraphicsBrushTileMode() {
                 )
             )
     )
-    // [END brush_tile_mode]
+    // [END android_compose_brush_tile_mode]
 }
 
 @Composable
 @Preview
 fun GraphicsBrushSize() {
-    // [START graphics_brush_size]
+    // [START android_compose_graphics_brush_size]
     val listColors = listOf(Color.Yellow, Color.Red, Color.Blue)
     val customBrush = remember {
         object : ShaderBrush() {
@@ -164,13 +164,13 @@ fun GraphicsBrushSize() {
             .requiredSize(200.dp)
             .background(customBrush)
     )
-    // [END graphics_brush_size]
+    // [END android_compose_graphics_brush_size]
 }
 
 @Composable
 @Preview
 fun GraphicsBrushSizeRadialGradientBefore() {
-    // [START graphics_brush_size_radial_before]
+    // [START android_compose_graphics_brush_size_radial_before]
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -180,13 +180,13 @@ fun GraphicsBrushSizeRadialGradientBefore() {
                 )
             )
     )
-    // [END graphics_brush_size_radial_before]
+    // [END android_compose_graphics_brush_size_radial_before]
 }
 
 @Preview
 @Composable
 fun GraphicsBrushSizeRadialGradientAfter() {
-    // [START graphics_brush_size_radial_after]
+    // [START android_compose_graphics_brush_size_radial_after]
     val largeRadialGradient = object : ShaderBrush() {
         override fun createShader(size: Size): Shader {
             val biggerDimension = maxOf(size.height, size.width)
@@ -204,13 +204,13 @@ fun GraphicsBrushSizeRadialGradientAfter() {
             .fillMaxSize()
             .background(largeRadialGradient)
     )
-    // [END graphics_brush_size_radial_after]
+    // [END android_compose_graphics_brush_size_radial_after]
 }
 
 @Preview
 @Composable
 fun GraphicsBrushSizeRecreationExample() {
-    // [START graphics_brush_recreation]
+    // [START android_compose_graphics_brush_recreation]
     val colorStops = arrayOf(
         0.0f to Color.Yellow,
         0.2f to Color.Red,
@@ -234,14 +234,14 @@ fun GraphicsBrushSizeRecreationExample() {
                 }
             }
     )
-    // [END graphics_brush_recreation]
+    // [END android_compose_graphics_brush_recreation]
 }
 
 @OptIn(ExperimentalTextApi::class)
 @Preview
 @Composable
 fun GraphicsImageBrush() {
-    // [START graphics_brush_image]
+    // [START android_compose_graphics_brush_image]
     val imageBrush = ShaderBrush(ImageShader(ImageBitmap.imageResource(id = R.drawable.dog)))
 
     // Use ImageShader Brush with background
@@ -265,7 +265,7 @@ fun GraphicsImageBrush() {
     Canvas(onDraw = {
         drawCircle(imageBrush)
     }, modifier = Modifier.size(200.dp))
-    // [END graphics_brush_image]
+    // [END android_compose_graphics_brush_image]
 }
 
 // [START brush_custom_shader]
@@ -282,9 +282,9 @@ val CUSTOM_SHADER = """
         return mix(color, color2, mixValue);
     }
 """.trimIndent()
-// [END brush_custom_shader]
+// [END android_compose_brush_custom_shader]
 
-// [START brush_custom_shader_usage]
+// [START android_compose_brush_custom_shader_usage]
 val Coral = Color(0xFFF3A397)
 val LightYellow = Color(0xFFF8EE94)
 
@@ -316,4 +316,4 @@ fun ShaderBrushExample() {
         .height(200.dp)
     )
 }
-// [END brush_custom_shader_usage]
+// [END android_compose_brush_custom_shader_usage]
