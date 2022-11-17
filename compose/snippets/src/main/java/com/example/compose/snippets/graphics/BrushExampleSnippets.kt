@@ -72,6 +72,10 @@ import org.intellij.lang.annotations.Language
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+/**
+ * The snippets in this file relate to the documentation at
+ * https://developr.android.com/jetpack/compose/graphics/draw/brush
+ */
 @Composable
 fun BrushExamplesScreen() {
     Column(Modifier.verticalScroll(rememberScrollState())) {
