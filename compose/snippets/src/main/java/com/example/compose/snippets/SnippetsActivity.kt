@@ -16,11 +16,15 @@ package com.example.compose.snippets
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.compose.snippets.graphics.BrushExamplesScreen
+import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
 class SnippetsActivity : ComponentActivity() {
@@ -33,7 +37,12 @@ class SnippetsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    BrushExamplesScreen()
+                    // TODO - We should put these in different navigation destinations
+                    Column(modifier = Modifier
+                        .fillMaxSize()) {
+                       // BrushExamplesScreen()
+                        ImageExamplesScreen()
+                    }
                 }
             }
         }
