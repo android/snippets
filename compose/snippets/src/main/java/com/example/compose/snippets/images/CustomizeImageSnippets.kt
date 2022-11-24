@@ -113,6 +113,7 @@ fun ClipImageExample() {
 @Preview
 @Composable
 fun ClipRoundedCorner() {
+    // [START android_compose_clip_image_rounded_corner]
     Image(
         painter = painterResource(id = R.drawable.dog),
         contentDescription = stringResource(id = R.string.dog_content_description),
@@ -121,6 +122,7 @@ fun ClipRoundedCorner() {
             .size(200.dp)
             .clip(RoundedCornerShape(16.dp))
     )
+    // [END android_compose_clip_image_rounded_corner]
 }
 
 @Preview
@@ -323,7 +325,7 @@ fun ImageBlur() {
 @Preview
 @Composable
 fun ImageBlurEdgeTreatment() {
-    // [START android_compose_image_blur]
+    // [START android_compose_image_blur_edge_treatment]
     Image(
         painter = painterResource(id = R.drawable.dog),
         contentDescription = stringResource(id = R.string.dog_content_description),
@@ -337,5 +339,5 @@ fun ImageBlurEdgeTreatment() {
             )
             .clip(RoundedCornerShape(8.dp))
     )
-    /// [END android_compose_image_blur]
+    /// [END android_compose_image_blur_edge_treatment]
 }
