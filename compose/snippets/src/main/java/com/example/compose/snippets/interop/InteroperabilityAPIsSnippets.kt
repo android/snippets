@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -40,7 +39,7 @@ import com.example.compose.snippets.databinding.ExampleLayoutBinding
 import com.example.compose.snippets.databinding.FragmentExampleBinding
 import com.example.compose.snippets.databinding.MyFragmentLayoutBinding
 
-// [START android_compose_interop_apis_compose_in_views
+// [START android_compose_interop_apis_compose_in_views]
 class ExampleActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -57,9 +56,9 @@ class ExampleActivity : ComponentActivity() {
 fun Greeting(name: String) {
   Text(text = "Hello $name!")
 }
-// [END android_compose_interop_apis_compose_in_views
+// [END android_compose_interop_apis_compose_in_views]
 
-// [START android_compose_interop_apis_compose_in_fragment_view_binding
+// [START android_compose_interop_apis_compose_in_fragment_view_binding]
 class ExampleFragment : Fragment() {
 
   private var _binding: FragmentExampleBinding? = null
@@ -92,9 +91,9 @@ class ExampleFragment : Fragment() {
     _binding = null
   }
 }
-// [END android_compose_interop_apis_compose_in_fragment_view_binding
+// [END android_compose_interop_apis_compose_in_fragment_view_binding]
 
-// [START android_compose_interop_apis_compose_in_fragment_no_xml
+// [START android_compose_interop_apis_compose_in_fragment_no_xml]
 class ExampleFragmentNoXml : Fragment() {
 
   override fun onCreateView(
@@ -115,9 +114,9 @@ class ExampleFragmentNoXml : Fragment() {
     }
   }
 }
-// [END android_compose_interop_apis_compose_in_fragment_no_xml
+// [END android_compose_interop_apis_compose_in_fragment_no_xml]
 
-// [START android_compose_interop_apis_compose_in_fragment_multiple
+// [START android_compose_interop_apis_compose_in_fragment_multiple]
 class ExampleFragmentMultipleComposeView : Fragment() {
 
   override fun onCreateView(
@@ -138,9 +137,9 @@ class ExampleFragmentMultipleComposeView : Fragment() {
     })
   }
 }
-// [END android_compose_interop_apis_compose_in_fragment_multiple
+// [END android_compose_interop_apis_compose_in_fragment_multiple]
 
-// [START android_compose_interop_apis_views_in_compose
+// [START android_compose_interop_apis_views_in_compose]
 @Composable
 fun CustomView() {
   var selectedItem by remember { mutableStateOf(0) }
@@ -181,18 +180,18 @@ class MyView(context: Context) : View(context) {
   var selectedItem: Int = 0
 }
 // [END_EXCLUDE silent]
-// [END android_compose_interop_apis_views_in_compose
+// [END android_compose_interop_apis_views_in_compose]
 
-// [START android_compose_interop_apis_android_view_binding
+// [START android_compose_interop_apis_android_view_binding]
 @Composable
 fun AndroidViewBindingExample() {
   AndroidViewBinding(ExampleLayoutBinding::inflate) {
     exampleView.setBackgroundColor(Color.GRAY)
   }
 }
-// [END android_compose_interop_apis_android_view_binding
+// [END android_compose_interop_apis_android_view_binding]
 
-// [START android_compose_interop_apis_fragments_in_compose
+// [START android_compose_interop_apis_fragments_in_compose]
 @Composable
 fun FragmentInComposeExample() {
   AndroidViewBinding(MyFragmentLayoutBinding::inflate) {
@@ -203,9 +202,9 @@ fun FragmentInComposeExample() {
 // [START_EXCLUDE silent]
 class MyFragment : Fragment()
 // [END_EXCLUDE]
-// [END android_compose_interop_apis_fragments_in_compose
+// [END android_compose_interop_apis_fragments_in_compose]
 
-// [START android_compose_interop_apis_composition_locals
+// [START android_compose_interop_apis_composition_locals]
 @Composable
 fun ToastGreetingButton(greeting: String) {
   val context = LocalContext.current
@@ -215,9 +214,9 @@ fun ToastGreetingButton(greeting: String) {
     Text("Greet")
   }
 }
-// [END android_compose_interop_apis_composition_locals
+// [END android_compose_interop_apis_composition_locals]
 
-// [START android_compose_interop_apis_other_interactions
+// [START android_compose_interop_apis_other_interactions]
 // [START_EXCLUDE silent]
 data class DataExample(val title: String)
 val data = DataExample("Hi")
@@ -242,9 +241,9 @@ fun ExampleComposable(data: DataExample, onButtonClick: () -> Unit) {
     Text(data.title)
   }
 }
-// [END android_compose_interop_apis_other_interactions
+// [END android_compose_interop_apis_other_interactions]
 
-// [START android_compose_interop_apis_broadcast_receivers
+// [START android_compose_interop_apis_broadcast_receivers]
 @Composable
 fun SystemBroadcastReceiver(
   systemAction: String,
@@ -284,4 +283,4 @@ fun HomeScreen() {
 
   /* Rest of the HomeScreen */
 }
-// [END android_compose_interop_apis_broadcast_receivers
+// [END android_compose_interop_apis_broadcast_receivers]

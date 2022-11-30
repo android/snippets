@@ -59,6 +59,7 @@ fun YourAppTheme(content: @Composable () -> Unit) {
 // [END_EXCLUDE]
 // [END android_compose_interop_existing_ui_shared]
 
+// [START android_compose_interop_existing_ui_shared_view_binding]
 class ViewBindingActivity : ComponentActivity() {
 
   private lateinit var binding: ActivityExampleBinding
@@ -74,3 +75,4 @@ class ViewBindingActivity : ComponentActivity() {
     }
   }
 }
+// [END android_compose_interop_existing_ui_shared_view_binding]
