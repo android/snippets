@@ -3,4 +3,9 @@
     <string name="dog_content_description">Golden Retriever in fall leaves</string>
     <string name="shopping_cart_content_desc">Shopping cart</string>
     <string name="bus_content_description">Bus</string>
+    <string name="title">Title</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="body">Body</string>
+    <string name="confirm">Confirm</string>
+    <string name="greeting">Greeting</string>
 </resources>
