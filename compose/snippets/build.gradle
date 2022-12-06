@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id "com.diffplug.spotless" version "6.12.0"
 }
 
 android {
@@ -69,4 +70,31 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:"
     debugImplementation "androidx.compose.ui:ui-tooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest"
+}
+
+spotless {
+    kotlin {
+        target "**/*.kt"
+        targetExclude "**/build/**/*.kt"
+        ktlint("0.46.1").editorConfigOverride(
+                [
+                        "ktlint_code_style"             : "android",
+                        "ij_kotlin_allow_trailing_comma": true,
+                        "disabled_rules"                : "filename," +
+                                "annotation,annotation-spacing," +
+                                "argument-list-wrapping," +
+                                "double-colon-spacing," +
+                                "enum-entry-name-case," +
+                                "multiline-if-else," +
+                                "no-empty-first-line-in-method-block," +
+                                "package-name," +
+                                "trailing-comma," +
+                                "spacing-around-angle-brackets," +
+                                "spacing-between-declarations-with-annotations," +
+                                "spacing-between-declarations-with-comments," +
+                                "unary-op-spacing"
+                ]
+        )
+        licenseHeaderFile(rootProject.file("spotless/copyright.kt"), '(^(?![\\/ ]\\*).*$)')
+    }
 }
