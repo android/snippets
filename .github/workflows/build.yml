@@ -40,5 +40,8 @@ jobs:
       with:
         java-version: 11
 
+    - name: Check formatting
+      run: ./gradlew spotlessCheck --stacktrace
+
     - name: Build Compose
       run: ./gradlew :compose:build

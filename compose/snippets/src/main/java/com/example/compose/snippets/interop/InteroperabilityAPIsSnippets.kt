@@ -62,6 +62,7 @@ fun Greeting(name: String) {
 class ExampleFragment : Fragment() {
 
   private var _binding: FragmentExampleBinding? = null
+
   // This property is only valid between onCreateView and onDestroyView.
   private val binding get() = _binding!!
 
@@ -125,13 +126,17 @@ class ExampleFragmentMultipleComposeView : Fragment() {
     savedInstanceState: Bundle?
   ): View = LinearLayout(requireContext()).apply {
     addView(ComposeView(requireContext()).apply {
-      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setViewCompositionStrategy(
+        ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+      )
       id = R.id.compose_view_x
       //...
     })
     addView(TextView(requireContext()))
     addView(ComposeView(requireContext()).apply {
-      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+      setViewCompositionStrategy(
+        ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+      )
       id = R.id.compose_view_y
       //...
     })
@@ -175,6 +180,7 @@ fun ContentExample() {
     CustomView()
   }
 }
+
 // [START_EXCLUDE silent]
 class MyView(context: Context) : View(context) {
   var selectedItem: Int = 0
@@ -199,6 +205,7 @@ fun FragmentInComposeExample() {
     // ...
   }
 }
+
 // [START_EXCLUDE silent]
 class MyFragment : Fragment()
 // [END_EXCLUDE]
@@ -219,7 +226,9 @@ fun ToastGreetingButton(greeting: String) {
 // [START android_compose_interop_apis_other_interactions]
 // [START_EXCLUDE silent]
 data class DataExample(val title: String)
+
 val data = DataExample("Hi")
+
 // [END_EXCLUDE]
 class OtherInteractionsActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
