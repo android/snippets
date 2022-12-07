@@ -41,7 +41,7 @@ jobs:
         java-version: 11
 
     - name: Check formatting
-      run: ./gradlew spotlessCheck --stacktrace
+      run: ./gradlew :compose:spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
 
     - name: Build Compose
       run: ./gradlew :compose:build
