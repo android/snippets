@@ -234,7 +234,7 @@ fun GraphicsBrushSizeRecreationExample() {
                     drawRect(brush = brush)
                     inset(5f) {
             /* will allocate a shader to occupy the 170 x 170 dp drawing area as the
-             inset scope reduces the drawing area by 5 pixels on the left, top,
+             inset scope reduces the  drawing area by 5 pixels on the left, top,
              right, bottom sides */
                         drawRect(brush = brush)
                     }
@@ -257,6 +257,16 @@ fun GraphicsImageBrush() {
         modifier = Modifier
             .requiredSize(200.dp)
             .background(imageBrush)
+    )
+
+    // Use ImageShader Brush with TextStyle
+    Text(
+        text = "Hello Android!",
+        style = TextStyle(
+            brush = imageBrush,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 36.sp
+        )
     )
 
     // Use ImageShader Brush with TextStyle
