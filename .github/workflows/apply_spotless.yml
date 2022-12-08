@@ -11,18 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Build snippets
+name: Apply Spotless
 
 on:
-  push:
-    branches: [ '*' ]
   pull_request:
-    branches: [ '*' ]
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  spotlessApply:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -35,8 +32,9 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
 
-    - name: Check formatting
-      run: ./gradlew :compose:spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
+    - name: Apply spotless formatting
+      run: ./gradlew :compose:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
 
-    - name: Build Compose
-      run: ./gradlew :compose:build
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply Spotless
