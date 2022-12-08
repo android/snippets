@@ -1,18 +1,30 @@
+/*
+ * Copyright 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.graphics
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -30,21 +42,14 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -125,7 +130,8 @@ fun ModifierDrawBehind() {
 @Preview
 fun ModifierDrawWithCache() {
     // [START android_compose_graphics_modifiers_drawWithCache]
-    Text("Hello Compose!",
+    Text(
+        "Hello Compose!",
         modifier = Modifier
             .drawWithCache {
                 val brush = Brush.linearGradient(
@@ -140,8 +146,8 @@ fun ModifierDrawWithCache() {
                         cornerRadius = CornerRadius(10.dp.toPx())
                     )
                 }
-
-            })
+            }
+    )
     // [END android_compose_graphics_modifiers_drawWithCache]
 }
 
@@ -217,13 +223,14 @@ fun ModifierGraphicsLayerModifierOrigin() {
 fun ModifierGraphicsLayerModifierClipShape() {
     // [START android_compose_graphics_modifiers_graphicsLayer_clip_shape]
     Column(modifier = Modifier.padding(16.dp)) {
-        Box(modifier = Modifier
-            .size(200.dp)
-            .graphicsLayer {
-                clip = true
-                shape = CircleShape
-            }
-            .background(Color(0xFFF06292))
+        Box(
+            modifier = Modifier
+                .size(200.dp)
+                .graphicsLayer {
+                    clip = true
+                    shape = CircleShape
+                }
+                .background(Color(0xFFF06292))
         ) {
             Text(
                 "Hello Compose",
@@ -242,16 +249,17 @@ fun ModifierGraphicsLayerModifierClipShape() {
 
     // [START android_compose_graphics_modifiers_graphicsLayer_clip_shape_2]
     Column(modifier = Modifier.padding(16.dp)) {
-        Box(modifier = Modifier
-            .clip(RectangleShape)
-            .size(200.dp)
-            .border(2.dp, Color.Black)
-            .graphicsLayer {
-                clip = true
-                shape = CircleShape
-                translationY = 50.dp.toPx()
-            }
-            .background(Color(0xFFF06292))
+        Box(
+            modifier = Modifier
+                .clip(RectangleShape)
+                .size(200.dp)
+                .border(2.dp, Color.Black)
+                .graphicsLayer {
+                    clip = true
+                    shape = CircleShape
+                    translationY = 50.dp.toPx()
+                }
+                .background(Color(0xFFF06292))
         ) {
             Text(
                 "Hello Compose",
@@ -456,11 +464,11 @@ val Red = Color(0xFFEF5350)
 
 // [START android_compose_graphics_modifier_flipped]
 class FlippedModifier : DrawModifier {
-  override fun ContentDrawScope.draw() {
-      scale(1f, -1f) {
-          this@draw.drawContent()
-      }
-  }
+    override fun ContentDrawScope.draw() {
+        scale(1f, -1f) {
+            this@draw.drawContent()
+        }
+    }
 }
 
 fun Modifier.flipped() = this.then(FlippedModifier())
@@ -469,11 +477,11 @@ fun Modifier.flipped() = this.then(FlippedModifier())
 @Preview
 @Composable
 fun ModifierGraphicsFlippedUsage() {
-  // [START android_compose_graphics_modifier_flipped_usage]
-  Text(
-      "Hello Compose!",
-      modifier = Modifier
-          .flipped()
-  )
-  // [END android_compose_graphics_modifier_flipped_usage]
+    // [START android_compose_graphics_modifier_flipped_usage]
+    Text(
+        "Hello Compose!",
+        modifier = Modifier
+            .flipped()
+    )
+    // [END android_compose_graphics_modifier_flipped_usage]
 }

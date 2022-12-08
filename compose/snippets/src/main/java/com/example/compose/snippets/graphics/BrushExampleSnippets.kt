@@ -1,16 +1,19 @@
 /*
- *  Copyright 2022 Google LLC
+ * Copyright 2022 The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.example.compose.snippets.graphics
 
 import android.graphics.RuntimeShader
@@ -91,7 +94,6 @@ fun BrushExamplesScreen() {
     }
 }
 
-
 @Preview
 @Composable
 fun GraphicsBrushCanvasUsage() {
@@ -160,7 +162,6 @@ fun GraphicsBrushSize() {
                     tileMode = TileMode.Mirror
                 )
             }
-
         }
     }
     Box(
@@ -201,7 +202,6 @@ fun GraphicsBrushSizeRadialGradientAfter() {
                 colorStops = listOf(0f, 0.95f)
             )
         }
-
     }
 
     Box(
@@ -228,14 +228,14 @@ fun GraphicsBrushSizeRecreationExample() {
             .drawBehind {
                 drawRect(brush = brush) // will allocate a shader to occupy the 200 x 200 dp drawing area
                 inset(10f) {
-                    /* Will allocate a shader to occupy the 180 x 180 dp drawing area as the
-                     inset scope reduces the drawing  area by 10 pixels on the left, top, right,
-                    bottom sides */
+          /* Will allocate a shader to occupy the 180 x 180 dp drawing area as the
+           inset scope reduces the drawing  area by 10 pixels on the left, top, right,
+          bottom sides */
                     drawRect(brush = brush)
                     inset(5f) {
-                        /* will allocate a shader to occupy the 170 x 170 dp drawing area as the
-                         inset scope reduces the  drawing area by 5 pixels on the left, top,
-                         right, bottom sides */
+            /* will allocate a shader to occupy the 170 x 170 dp drawing area as the
+             inset scope reduces the  drawing area by 5 pixels on the left, top,
+             right, bottom sides */
                         drawRect(brush = brush)
                     }
                 }
@@ -249,7 +249,8 @@ fun GraphicsBrushSizeRecreationExample() {
 @Composable
 fun GraphicsImageBrush() {
     // [START android_compose_graphics_brush_image]
-    val imageBrush = ShaderBrush(ImageShader(ImageBitmap.imageResource(id = R.drawable.dog)))
+    val imageBrush =
+        ShaderBrush(ImageShader(ImageBitmap.imageResource(id = R.drawable.dog)))
 
     // Use ImageShader Brush with background
     Box(
@@ -262,7 +263,17 @@ fun GraphicsImageBrush() {
     Text(
         text = "Hello Android!",
         style = TextStyle(
-            brush =  imageBrush,
+            brush = imageBrush,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 36.sp
+        )
+    )
+
+    // Use ImageShader Brush with TextStyle
+    Text(
+        text = "Hello Android!",
+        style = TextStyle(
+            brush = imageBrush,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 36.sp
         )
@@ -299,28 +310,36 @@ val LightYellow = Color(0xFFF8EE94)
 @Composable
 @Preview
 fun ShaderBrushExample() {
-    Box(modifier = Modifier
-        .drawWithCache {
-            val shader = RuntimeShader(CUSTOM_SHADER)
-            val shaderBrush = ShaderBrush(shader)
-            shader.setFloatUniform("resolution", size.width, size.height)
-            onDrawBehind {
-                shader.setColorUniform(
-                    "color",
-                    android.graphics.Color.valueOf(
-                        LightYellow.red, LightYellow.green, LightYellow
-                            .blue, LightYellow.alpha
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val shader = RuntimeShader(CUSTOM_SHADER)
+                val shaderBrush = ShaderBrush(shader)
+                shader.setFloatUniform("resolution", size.width, size.height)
+                onDrawBehind {
+                    shader.setColorUniform(
+                        "color",
+                        android.graphics.Color.valueOf(
+                            LightYellow.red, LightYellow.green,
+                            LightYellow
+                                .blue,
+                            LightYellow.alpha
+                        )
                     )
-                )
-                shader.setColorUniform(
-                    "color2",
-                    android.graphics.Color.valueOf(Coral.red, Coral.green, Coral.blue, Coral.alpha)
-                )
-                drawRect(shaderBrush)
+                    shader.setColorUniform(
+                        "color2",
+                        android.graphics.Color.valueOf(
+                            Coral.red,
+                            Coral.green,
+                            Coral.blue,
+                            Coral.alpha
+                        )
+                    )
+                    drawRect(shaderBrush)
+                }
             }
-        }
-        .fillMaxWidth()
-        .height(200.dp)
+            .fillMaxWidth()
+            .height(200.dp)
     )
 }
 // [END android_compose_brush_custom_shader_usage]
