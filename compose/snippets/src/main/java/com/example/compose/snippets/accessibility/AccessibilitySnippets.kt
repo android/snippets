@@ -86,11 +86,9 @@ private fun CheckableRow() {
         var checked by remember { mutableStateOf(false) }
         Row(
             Modifier
-                .toggleable(
-                    value = checked,
+                .toggleable(value = checked,
                     role = Role.Checkbox,
-                    onValueChange = { checked = !checked }
-                )
+                    onValueChange = { checked = !checked })
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
@@ -116,8 +114,7 @@ private fun SmallBox() {
                 .align(Alignment.Center)
                 .clickable { clicked = !clicked }
                 .background(Color.Black)
-                .size(1.dp)
-        )
+                .size(1.dp))
     }
 }
 // [END android_compose_accessibility_box_touch_target]
@@ -137,8 +134,7 @@ private fun LargeBox() {
                 .align(Alignment.Center)
                 .clickable { clicked = !clicked }
                 .background(Color.Black)
-                .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
-        )
+                .sizeIn(minWidth = 48.dp, minHeight = 48.dp))
     }
 }
 // [END android_compose_accessibility_box_min_size]
@@ -163,11 +159,9 @@ private fun ArticleListItem(openArticle: () -> Unit) {
 private fun LowLevelClickLabel(openArticle: () -> Boolean) {
     // R.string.action_read_article = "read article"
     val readArticleLabel = stringResource(R.string.action_read_article)
-    Canvas(
-        Modifier.semantics {
-            onClick(label = readArticleLabel, action = openArticle)
-        }
-    ) {
+    Canvas(Modifier.semantics {
+        onClick(label = readArticleLabel, action = openArticle)
+    }) {
         // ..
     }
 }
@@ -237,15 +231,14 @@ private fun PostCardSimple(
     val actionLabel = stringResource(
         if (isFavorite) R.string.unfavorite else R.string.favorite
     )
-    Row(
-        modifier = Modifier
-            .clickable(onClick = { /* ... */ })
-            .semantics {
-                // Set any explicit semantic properties
-                customActions = listOf(
-                    CustomAccessibilityAction(actionLabel, onToggleFavorite)
-                )
-            }
+    Row(modifier = Modifier
+        .clickable(onClick = { /* ... */ })
+        .semantics {
+            // Set any explicit semantic properties
+            customActions = listOf(
+                CustomAccessibilityAction(actionLabel, onToggleFavorite)
+            )
+        }
     ) {
         /* ... */
         BookmarkButton(
@@ -267,7 +260,7 @@ private fun TopicItem(itemTitle: String, selected: Boolean, onToggle: () -> Unit
         modifier = Modifier
             .semantics {
                 // Set any explicit semantic properties
-                stateDescription = if (selected) stateSubscribed else stateNotSubscribed
+                stateDescription = if(selected) stateSubscribed else stateNotSubscribed
             }
             .toggleable(
                 value = selected,
@@ -292,9 +285,7 @@ private fun Subsection(text: String) {
 
 private class Post(val imageThumb: Painter? = null)
 private class Metadata(
-    val author: Author = Author(),
-    val date: String? = null,
-    val readTimeMinutes: String? = null
+    val author: Author = Author(), val date: String? = null, val readTimeMinutes: String? = null
 )
 
 private class Author(val name: String = "fake")
