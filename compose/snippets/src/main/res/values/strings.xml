@@ -8,4 +8,10 @@
     <string name="body">Body</string>
     <string name="confirm">Confirm</string>
     <string name="greeting">Greeting</string>
+    <string name="action_read_article">DUMMY</string>
+    <string name="label_share">DUMMY</string>
+    <string name="unfavorite">DUMMY</string>
+    <string name="favorite">DUMMY</string>
+    <string name="subscribed">DUMMY</string>
+    <string name="not_subscribed">DUMMY</string>
 </resources>
