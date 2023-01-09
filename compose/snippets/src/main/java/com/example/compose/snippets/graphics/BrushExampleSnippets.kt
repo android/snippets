@@ -269,16 +269,6 @@ fun GraphicsImageBrush() {
         )
     )
 
-    // Use ImageShader Brush with TextStyle
-    Text(
-        text = "Hello Android!",
-        style = TextStyle(
-            brush = imageBrush,
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 36.sp
-        )
-    )
-
     // Use ImageShader Brush with DrawScope#drawCircle()
     Canvas(onDraw = {
         drawCircle(imageBrush)
