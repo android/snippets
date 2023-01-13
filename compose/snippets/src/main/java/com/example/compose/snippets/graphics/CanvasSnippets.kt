@@ -1,5 +1,8 @@
 package com.example.compose.snippets.graphics
 
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -7,12 +10,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
@@ -21,6 +26,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.inset
@@ -28,6 +34,8 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.withSaveLayer
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -282,19 +290,44 @@ fun CanvasMeasureTextOverflow() {
 @Composable
 fun CanvasDrawIntoCanvas() {
     // [START android_compose_graphics_canvas_draw_into_canvas]
-    val paint = remember { Paint() }
-    Column(modifier = Modifier.drawWithContent {
-        val matrix = ColorMatrix().apply {
-            setToSaturation(0f)
-        }
-        paint.colorFilter = colorMatrix(matrix)
+    val drawable = ShapeDrawable(OvalShape())
+    Spacer(modifier = Modifier.drawWithContent {
         drawIntoCanvas { canvas ->
-            canvas.saveLayer(size.toRect(), paint)
-            this@drawWithContent.drawContent()
-            canvas.restore()
+            drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
+            drawable.draw(canvas.nativeCanvas)
         }
-    }){
-        // All composable content will be desaturated
-    }
+    }.fillMaxSize())
     // [END android_compose_graphics_canvas_draw_into_canvas]
+}
+
+@Preview
+@Composable
+fun CanvasDrawShape() {
+    // [START android_compose_graphics_draw_shape]
+    val purpleColor = Color(0xFFBA68C8)
+    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp), onDraw = {
+        drawCircle(purpleColor)
+    })
+    // [END android_compose_graphics_draw_shape]
+}
+
+@Preview
+@Composable
+fun CanvasDrawOtherShapes() {
+    val purpleColor = Color(0xFFBA68C8)
+    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp), onDraw = {
+        //drawRect(purpleColor)
+       // drawRoundRect(purpleColor, cornerRadius = CornerRadius(20.dp.toPx()))
+       /* drawLine(purpleColor, Offset.Zero, end = Offset(size.width, size.height), strokeWidth = 2
+            .dp.toPx())*/
+        //drawOval(purpleColor)
+        //drawArc(purpleColor, startAngle = 0f, sweepAngle = 270f, useCenter = true)
+        drawPoints(listOf(Offset(0f, 0f),
+            Offset(size.width / 3f, size.height / 2f),
+            Offset(size.width / 2f, size.height / 5f),
+            Offset(size.width, size.height)),
+            color = purpleColor,
+            pointMode = PointMode.Points, strokeWidth =  10.dp.toPx()
+            )
+    })
 }
