@@ -1,15 +1,28 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.graphics
 
 import android.graphics.Canvas
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,15 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter.Companion.colorMatrix
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -39,7 +46,6 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.withSaveLayer
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -74,11 +80,13 @@ import java.util.Collections.rotate
 @Composable
 fun BasicCanvasUsage() {
     // [START android_compose_graphics_canvas_basic]
-    Spacer(modifier = Modifier
-        .fillMaxSize()
-        .drawBehind {
-            // this = DrawScope
-        })
+    Spacer(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                // this = DrawScope
+            }
+    )
     // [END android_compose_graphics_canvas_basic]
 }
 
@@ -122,7 +130,6 @@ fun CanvasTransformationScale() {
         }
     }
     // [END android_compose_graphics_canvas_scale]
-
 }
 
 @Preview
@@ -135,7 +142,6 @@ fun CanvasTransformationTranslate() {
         }
     }
     // [END android_compose_graphics_canvas_translate]
-
 }
 
 @Preview
@@ -211,23 +217,24 @@ fun CanvasDrawImage() {
     // [END android_compose_graphics_canvas_draw_image]
 }
 
-
 @Preview
 @Composable
 fun CanvasDrawPath() {
     // [START android_compose_graphics_canvas_draw_path]
-    Spacer(modifier = Modifier
-        .drawWithCache {
-            val path = Path()
-            path.moveTo(0f, 0f)
-            path.lineTo(size.width / 2f, size.height / 2f)
-            path.lineTo(size.width, 0f)
-            path.close()
-            onDrawBehind {
-                drawPath(path, Color.Magenta, style = Stroke(width = 10f))
+    Spacer(
+        modifier = Modifier
+            .drawWithCache {
+                val path = Path()
+                path.moveTo(0f, 0f)
+                path.lineTo(size.width / 2f, size.height / 2f)
+                path.lineTo(size.width, 0f)
+                path.close()
+                onDrawBehind {
+                    drawPath(path, Color.Magenta, style = Stroke(width = 10f))
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_canvas_draw_path]
 }
 
@@ -241,21 +248,23 @@ fun CanvasMeasureText() {
     // [START android_compose_graphics_canvas_draw_text_measure]
     val textMeasurer = rememberTextMeasurer()
 
-    Spacer(modifier = Modifier
-        .drawWithCache {
-            val measuredText =
-                textMeasurer.measure(
-                    AnnotatedString(longTextSample),
-                    constraints = Constraints.fixedWidth((size.width * 2f / 3f).toInt()),
-                    style = TextStyle(fontSize = 18.sp)
-                )
+    Spacer(
+        modifier = Modifier
+            .drawWithCache {
+                val measuredText =
+                    textMeasurer.measure(
+                        AnnotatedString(longTextSample),
+                        constraints = Constraints.fixedWidth((size.width * 2f / 3f).toInt()),
+                        style = TextStyle(fontSize = 18.sp)
+                    )
 
-            onDrawBehind {
-                drawRect(pinkColor, size = measuredText.size.toSize())
-                drawText(measuredText)
+                onDrawBehind {
+                    drawRect(pinkColor, size = measuredText.size.toSize())
+                    drawText(measuredText)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_canvas_draw_text_measure]
 }
 
@@ -269,25 +278,27 @@ fun CanvasMeasureTextOverflow() {
     // [START android_compose_graphics_canvas_draw_text_measure_ellipsis]
     val textMeasurer = rememberTextMeasurer()
 
-    Spacer(modifier = Modifier
-        .drawWithCache {
-            val measuredText =
-                textMeasurer.measure(
-                    AnnotatedString(longTextSample),
-                    constraints = Constraints.fixed(
-                        width = (size.width / 3f).toInt(),
-                        height = (size.height / 3f).toInt()
-                    ),
-                    overflow = TextOverflow.Ellipsis,
-                    style = TextStyle(fontSize = 18.sp)
-                )
+    Spacer(
+        modifier = Modifier
+            .drawWithCache {
+                val measuredText =
+                    textMeasurer.measure(
+                        AnnotatedString(longTextSample),
+                        constraints = Constraints.fixed(
+                            width = (size.width / 3f).toInt(),
+                            height = (size.height / 3f).toInt()
+                        ),
+                        overflow = TextOverflow.Ellipsis,
+                        style = TextStyle(fontSize = 18.sp)
+                    )
 
-            onDrawBehind {
-                drawRect(pinkColor, size = measuredText.size.toSize())
-                drawText(measuredText)
+                onDrawBehind {
+                    drawRect(pinkColor, size = measuredText.size.toSize())
+                    drawText(measuredText)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_canvas_draw_text_measure_ellipsis]
 }
 
@@ -296,14 +307,16 @@ fun CanvasMeasureTextOverflow() {
 fun CanvasDrawIntoCanvas() {
     // [START android_compose_graphics_canvas_draw_into_canvas]
     val drawable = ShapeDrawable(OvalShape())
-    Spacer(modifier = Modifier
-        .drawWithContent {
-            drawIntoCanvas { canvas ->
-                drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
-                drawable.draw(canvas.nativeCanvas)
+    Spacer(
+        modifier = Modifier
+            .drawWithContent {
+                drawIntoCanvas { canvas ->
+                    drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
+                    drawable.draw(canvas.nativeCanvas)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_canvas_draw_into_canvas]
 }
 
@@ -312,11 +325,14 @@ fun CanvasDrawIntoCanvas() {
 fun CanvasDrawShape() {
     // [START android_compose_graphics_draw_shape]
     val purpleColor = Color(0xFFBA68C8)
-    Canvas(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp), onDraw = {
-        drawCircle(purpleColor)
-    })
+    Canvas(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        onDraw = {
+            drawCircle(purpleColor)
+        }
+    )
     // [END android_compose_graphics_draw_shape]
 }
 
@@ -324,20 +340,23 @@ fun CanvasDrawShape() {
 @Composable
 fun CanvasDrawOtherShapes() {
     val purpleColor = Color(0xFFBA68C8)
-    Canvas(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp), onDraw = {
-        drawPoints(
-            listOf(
-                Offset(0f, 0f),
-                Offset(size.width / 3f, size.height / 2f),
-                Offset(size.width / 2f, size.height / 5f),
-                Offset(size.width, size.height)
-            ),
-            color = purpleColor,
-            pointMode = PointMode.Points, strokeWidth = 10.dp.toPx()
-        )
-    })
+    Canvas(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        onDraw = {
+            drawPoints(
+                listOf(
+                    Offset(0f, 0f),
+                    Offset(size.width / 3f, size.height / 2f),
+                    Offset(size.width / 2f, size.height / 5f),
+                    Offset(size.width, size.height)
+                ),
+                color = purpleColor,
+                pointMode = PointMode.Points, strokeWidth = 10.dp.toPx()
+            )
+        }
+    )
 }
 
 @Preview
