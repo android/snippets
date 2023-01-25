@@ -1,10 +1,12 @@
 package com.example.compose.snippets.graphics
 
+import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.util.Log
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
@@ -15,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter.Companion.colorMatrix
@@ -49,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.compose.snippets.R
+import java.util.Collections.rotate
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -69,9 +74,11 @@ import com.example.compose.snippets.R
 @Composable
 fun BasicCanvasUsage() {
     // [START android_compose_graphics_canvas_basic]
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        // this = DrawScope
-    }
+    Spacer(modifier = Modifier
+        .fillMaxSize()
+        .drawBehind {
+            // this = DrawScope
+        })
     // [END android_compose_graphics_canvas_basic]
 }
 
@@ -85,7 +92,6 @@ fun CanvasCircleExample() {
             color = Color.Magenta,
             size = canvasQuadrantSize
         )
-
     }
     // [END android_compose_graphics_canvas_circle]
 }
@@ -108,8 +114,7 @@ fun CanvasDrawDiagonalLineExample() {
 
 @Preview
 @Composable
-fun CanvasTranformationScale() {
-
+fun CanvasTransformationScale() {
     // [START android_compose_graphics_canvas_scale]
     Canvas(modifier = Modifier.fillMaxSize()) {
         scale(scaleX = 10f, scaleY = 15f) {
@@ -291,12 +296,14 @@ fun CanvasMeasureTextOverflow() {
 fun CanvasDrawIntoCanvas() {
     // [START android_compose_graphics_canvas_draw_into_canvas]
     val drawable = ShapeDrawable(OvalShape())
-    Spacer(modifier = Modifier.drawWithContent {
-        drawIntoCanvas { canvas ->
-            drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
-            drawable.draw(canvas.nativeCanvas)
+    Spacer(modifier = Modifier
+        .drawWithContent {
+            drawIntoCanvas { canvas ->
+                drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
+                drawable.draw(canvas.nativeCanvas)
+            }
         }
-    }.fillMaxSize())
+        .fillMaxSize())
     // [END android_compose_graphics_canvas_draw_into_canvas]
 }
 
@@ -305,7 +312,9 @@ fun CanvasDrawIntoCanvas() {
 fun CanvasDrawShape() {
     // [START android_compose_graphics_draw_shape]
     val purpleColor = Color(0xFFBA68C8)
-    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp), onDraw = {
+    Canvas(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp), onDraw = {
         drawCircle(purpleColor)
     })
     // [END android_compose_graphics_draw_shape]
@@ -315,19 +324,34 @@ fun CanvasDrawShape() {
 @Composable
 fun CanvasDrawOtherShapes() {
     val purpleColor = Color(0xFFBA68C8)
-    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp), onDraw = {
-        //drawRect(purpleColor)
-       // drawRoundRect(purpleColor, cornerRadius = CornerRadius(20.dp.toPx()))
-       /* drawLine(purpleColor, Offset.Zero, end = Offset(size.width, size.height), strokeWidth = 2
-            .dp.toPx())*/
-        //drawOval(purpleColor)
-        //drawArc(purpleColor, startAngle = 0f, sweepAngle = 270f, useCenter = true)
-        drawPoints(listOf(Offset(0f, 0f),
-            Offset(size.width / 3f, size.height / 2f),
-            Offset(size.width / 2f, size.height / 5f),
-            Offset(size.width, size.height)),
+    Canvas(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp), onDraw = {
+        drawPoints(
+            listOf(
+                Offset(0f, 0f),
+                Offset(size.width / 3f, size.height / 2f),
+                Offset(size.width / 2f, size.height / 5f),
+                Offset(size.width, size.height)
+            ),
             color = purpleColor,
-            pointMode = PointMode.Points, strokeWidth =  10.dp.toPx()
-            )
+            pointMode = PointMode.Points, strokeWidth = 10.dp.toPx()
+        )
     })
+}
+
+@Preview
+@Composable
+fun CanvasTransformationScaleAnim() {
+    val animatable = remember {
+        Animatable(1f)
+    }
+    LaunchedEffect(Unit) {
+        animatable.animateTo(10f, animationSpec = tween(3000, 3000, easing = LinearEasing))
+    }
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        scale(scaleX = animatable.value, scaleY = animatable.value * 1.5f) {
+            drawCircle(Color.Blue, radius = 20.dp.toPx())
+        }
+    }
 }
