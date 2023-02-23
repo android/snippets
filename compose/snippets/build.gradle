@@ -65,6 +65,8 @@ dependencies {
     implementation 'androidx.compose.runtime:runtime-livedata'
 
     implementation "androidx.fragment:fragment:1.5.5"
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+    implementation 'com.google.android.material:material:1.8.0'
     def accompanist = "0.28.0"
     implementation "com.google.accompanist:accompanist-themeadapter-appcompat:$accompanist"
     implementation "com.google.accompanist:accompanist-themeadapter-material3:$accompanist"
