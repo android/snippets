@@ -168,7 +168,10 @@ fun ScopesAndReceivers() {
             // This method accepts a lambda of type DrawScope.() -> Unit
             // therefore in this lambda we can access properties and functions
             // available from DrawScope, such as the `drawRectangle` function.
-            drawRect( /*...*/ /* [START_EXCLUDE] */color = Color.Red/* [END_EXCLUDE] */)
+            drawRect(
+                /*...*/
+                /* [START_EXCLUDE] */color = Color.Red/* [END_EXCLUDE] */
+            )
         }
     )
     // [END android_compose_kotlin_receiver_scope]
@@ -332,24 +335,26 @@ fun MoveBoxWhereTapped() {
 
     Box(
         // The pointerInput modifier takes a suspend block of code
-        Modifier.fillMaxSize().pointerInput(Unit) {
-            // Create a new CoroutineScope to be able to create new
-            // coroutines inside a suspend function
-            coroutineScope {
-                while (true) {
-                    // Wait for the user to tap on the screen
-                    val offset = awaitPointerEventScope {
-                        awaitFirstDown().position
-                    }
-                    // Launch a new coroutine to asynchronously animate to where
-                    // the user tapped on the screen
-                    launch {
-                        // Animate to the pressed position
-                        animatedOffset.animateTo(offset)
+        Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                // Create a new CoroutineScope to be able to create new
+                // coroutines inside a suspend function
+                coroutineScope {
+                    while (true) {
+                        // Wait for the user to tap on the screen
+                        val offset = awaitPointerEventScope {
+                            awaitFirstDown().position
+                        }
+                        // Launch a new coroutine to asynchronously animate to
+                        // where the user tapped on the screen
+                        launch {
+                            // Animate to the pressed position
+                            animatedOffset.animateTo(offset)
+                        }
                     }
                 }
             }
-        }
     ) {
         Text("Tap anywhere", Modifier.align(Alignment.Center))
         Box(
