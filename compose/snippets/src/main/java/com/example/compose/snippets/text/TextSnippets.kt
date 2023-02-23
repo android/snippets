@@ -543,8 +543,9 @@ private object TextCleanInputSnippet {
 
 /** Effective State management **/
 
-// [START android_compose_text_state_viewmodel]
+
 private object TextEffectiveStateManagement1 {
+    // [START android_compose_text_state_viewmodel]
     class SignUpViewModel : ViewModel() {
 
         var username by mutableStateOf("")
@@ -552,8 +553,8 @@ private object TextEffectiveStateManagement1 {
 
         /* ... */
     }
+    // [END android_compose_text_state_viewmodel]
 }
-// [END android_compose_text_state_viewmodel]
 
 // [START android_compose_text_state_management]
 private object TextEffectiveStateManagement2 {
