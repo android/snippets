@@ -137,7 +137,7 @@ fun ControlPanelWithToggle(isEnabled: Boolean, onEnabledChanged: (Boolean) -> Un
 // [END android_compose_migrate_considerations_promote_encapsulation]
 
 // STUB
-class User {
+class User(name: String = "") {
     val userType = "STUB"
 }
 
