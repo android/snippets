@@ -17,7 +17,6 @@
 package com.example.compose.snippets.sideeffects
 
 import android.media.Image
-import androidx.compose.foundation.gestures.ModifierLocalScrollableContainerProvider.value
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -88,7 +87,10 @@ fun MyScreen(
     }
 }
 // [START_EXCLUDE silent]
-class Movie
+class Movie {
+    val url = ""
+    val id = ""
+}
 class UiState<T> {
     val hasError = true
 }
@@ -203,7 +205,7 @@ fun rememberFirebaseAnalytics(user: User): FirebaseAnalytics {
 @Composable
 fun loadNetworkImage(
     url: String,
-    imageRepository: ImageRepository
+    imageRepository: ImageRepository = ImageRepository()
 ): State<Result<Image>> {
 
     // Creates a State<T> with Result.Loading as initial value
