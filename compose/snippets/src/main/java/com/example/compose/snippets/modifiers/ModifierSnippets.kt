@@ -58,9 +58,10 @@ private object PaddingAndFill {
     // [START android_compose_modifiers_paddingandfill]
     @Composable
     private fun Greeting(name: String) {
-        Column(modifier = Modifier
-            .padding(24.dp)
-            .fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
         ) {
             Text(text = "Hello,")
             Text(text = name)
@@ -71,6 +72,7 @@ private object PaddingAndFill {
 
 private object Order1 {
     val onClick = {}
+
     // [START android_compose_modifiers_order1]
     @Composable
     fun ArtistCard(/*...*/) {
@@ -89,6 +91,7 @@ private object Order1 {
 
 private object Order2 {
     val onClick = {}
+
     // [START android_compose_modifiers_order2]
     @Composable
     fun ArtistCard(/*...*/) {
@@ -195,7 +198,8 @@ private object MatchParentSize {
             Spacer(
                 Modifier
                     .matchParentSize()
-                    .background(Color.LightGray))
+                    .background(Color.LightGray)
+            )
             ArtistCard()
         }
     }
@@ -267,7 +271,6 @@ private object AnimationExtracted {
         )
     }
     // [END android_compose_modifiers_animationextracted]
-
 }
 
 private object UnscopedModifiers1 {
@@ -340,7 +343,7 @@ private fun ScopedModifiers2() {
     // [START android_compose_modifiers_scopedmodifiers2]
     Column(modifier = Modifier.fillMaxWidth()) {
         // Weight modifier is scoped to the Column composable
-        val reusableItemModifier =  Modifier.weight(1f)
+        val reusableItemModifier = Modifier.weight(1f)
 
         // Weight will be properly assigned here since this Text is a direct child of Column
         Text1(
