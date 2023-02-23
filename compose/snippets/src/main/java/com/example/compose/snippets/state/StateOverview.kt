@@ -144,8 +144,10 @@ private object StateSnippet4 {
     val CitySaver = run {
         val nameKey = "Name"
         val countryKey = "Country"
-        mapSaver(save = { mapOf(nameKey to it.name, countryKey to it.country) },
-            restore = { City(it[nameKey] as String, it[countryKey] as String) })
+        mapSaver(
+            save = { mapOf(nameKey to it.name, countryKey to it.country) },
+            restore = { City(it[nameKey] as String, it[countryKey] as String) }
+        )
     }
 
     @Composable
@@ -162,8 +164,10 @@ private fun StateSnippets5() {
     // [START android_compose_state_restoring_listSaver]
     data class City(val name: String, val country: String)
 
-    val CitySaver = listSaver<City, Any>(save = { listOf(it.name, it.country) },
-        restore = { City(it[0] as String, it[1] as String) })
+    val CitySaver = listSaver<City, Any>(
+        save = { listOf(it.name, it.country) },
+        restore = { City(it[0] as String, it[1] as String) }
+    )
 
     @Composable
     fun CityScreen() {
@@ -239,7 +243,6 @@ class MyAppState(
 ) { /* ... */ }
 // [END android_compose_state_remember_keys_app_state]
 
-
 @Composable
 private fun RememberKeysSnippet3() {
     val typedQuery = ""
@@ -251,7 +254,6 @@ private fun RememberKeysSnippet3() {
     }
     // [END android_compose_state_rememberSaveable_keys]
 }
-
 
 /**
  * Add fake Parcelize and Parcelable to avoid adding dependency on
