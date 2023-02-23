@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package com.example.compose.snippets.text
+
 /*
  * Fakes needed for snippets to build:
  */

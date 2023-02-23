@@ -16,8 +16,8 @@
 
 @file:Suppress("unused", "PreviewMustBeTopLevelFunction")
 
-import TextDownloadableFontsSnippet1.provider
-import TextDownloadableFontsSnippet2.fontFamily
+package com.example.compose.snippets.text
+
 import androidx.compose.material.Text
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.unit.sp
+import com.example.compose.snippets.text.TextDownloadableFontsSnippet1.provider
 
 /**
  * This file lets DevRel track changes to snippets present in
@@ -98,7 +99,6 @@ fun DownloadableFontsText() {
     )
 }
 
-
 private object TextDownloadableFontsSnippet4 {
     val MyTypography = Typography(
         body1 = TextStyle(
@@ -165,3 +165,5 @@ private object DownloadableFontsDebug3 {
 
 
 }
+
+val fontFamily = FontFamily()

@@ -16,6 +16,8 @@
 
 @file:Suppress("unused", "UNUSED_VARIABLE", "PreviewMustBeTopLevelFunction")
 
+package com.example.compose.snippets.text
+
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
