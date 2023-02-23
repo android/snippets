@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.compose.snippets.sideeffects
 
 import android.media.Image
@@ -41,7 +42,6 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -229,7 +229,7 @@ class ImageRepository {
 }
 sealed class Result<out T> {
     object Loading : Result<Nothing>()
-    object Error: Result<Nothing>()
+    object Error : Result<Nothing>()
     class Success<T>(t: T?) : Result<T>()
 }
 // [END_EXCLUDE]
