@@ -49,7 +49,8 @@ private object SavingUIStateSnippets1 {
 
         ClickableText(
             text = AnnotatedString(message.content),
-            onClick = { showDetails = !showDetails })
+            onClick = { showDetails = !showDetails }
+        )
 
         if (showDetails) {
             Text(message.timestamp)
@@ -62,7 +63,8 @@ private object SavingUIStateSnippets2 {
     // [START android_compose_state_with_saver]
     @Composable
     fun rememberLazyListState(
-        initialFirstVisibleItemIndex: Int = 0, initialFirstVisibleItemScrollOffset: Int = 0
+        initialFirstVisibleItemIndex: Int = 0,
+        initialFirstVisibleItemScrollOffset: Int = 0
     ): LazyListState {
         return rememberSaveable(saver = LazyListState.Saver) {
             LazyListState(
@@ -115,7 +117,8 @@ private object SavingUIStateSnippets4 {
     private const val CHANNEL_FILTER_SAVED_STATE_KEY = "ChannelFilterKey"
 
     class ChannelViewModel(
-        channelsRepository: ChannelsRepository, private val savedStateHandle: SavedStateHandle
+        channelsRepository: ChannelsRepository,
+        private val savedStateHandle: SavedStateHandle
     ) : ViewModel() {
 
         private val savedFilterType: StateFlow<ChannelsFilterType> = savedStateHandle.getStateFlow(

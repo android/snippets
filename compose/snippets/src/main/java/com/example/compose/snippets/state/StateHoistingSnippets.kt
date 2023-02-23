@@ -184,13 +184,14 @@ private object StateHoistingSnippets4 {
 
         ConversationScreen(
             messages = messages,
-            onSendMessage = { message: Message -> conversationViewModel.sendMessage(message) })
-
+            onSendMessage = { message: Message -> conversationViewModel.sendMessage(message) }
+        )
     }
 
     @Composable
     private fun ConversationScreen(
-        messages: List<Message>, onSendMessage: (Message) -> Unit
+        messages: List<Message>,
+        onSendMessage: (Message) -> Unit
     ) {
 
         MessagesList(messages, onSendMessage)
@@ -198,7 +199,6 @@ private object StateHoistingSnippets4 {
     }
     // [END android_compose_state_hoisting_vm_hoisting]
 }
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 private object StateHoistingSnippets5 {
@@ -238,7 +238,7 @@ private object StateHoistingSnippets5 {
 @OptIn(ExperimentalMaterial3Api::class)
 private object StateHoistingSnippets6 {
     @Composable
-    private fun ConversationScreen(onCloseDrawer :()->Unit){}
+    private fun ConversationScreen(onCloseDrawer: () -> Unit) {}
     enum class DrawerContent {
         Empty, Content
     }
@@ -254,7 +254,7 @@ private object StateHoistingSnippets6 {
 
         fun closeDrawer(uiScope: CoroutineScope) {
             viewModelScope.launch {
-                withContext(uiScope.coroutineContext) {  // Use instead of the default context
+                withContext(uiScope.coroutineContext) { // Use instead of the default context
                     drawerState.close()
                 }
                 // Fetch drawer content and update state
