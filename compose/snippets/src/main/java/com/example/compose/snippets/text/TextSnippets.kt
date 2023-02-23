@@ -536,13 +536,13 @@ private object TextCleanInputSnippet {
             value = input,
             onValueChange = { newText ->
                 input = newText.trimStart { it == '0' }
-            })
+            }
+        )
     }
     // [END android_compose_text_textfield_clean_input]
 }
 
 /** Effective State management **/
-
 
 private object TextEffectiveStateManagement1 {
     // [START android_compose_text_state_viewmodel]
