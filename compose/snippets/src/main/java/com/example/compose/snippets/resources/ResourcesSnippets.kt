@@ -169,7 +169,7 @@ private val craneFontFamily = FontFamily(light, regular, medium, semibold)
 val craneTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = craneFontFamily
-    )    /* ... */
+    ) /* ... */
 )
 
 // Pass the typography to a MaterialTheme that will create a theme using
