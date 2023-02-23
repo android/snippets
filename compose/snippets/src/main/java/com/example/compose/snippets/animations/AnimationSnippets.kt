@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("CanBeVal", "UNUSED_VARIABLE", "UNUSED_PARAMETER", "unused")
 
 package com.example.compose.snippets.animations
@@ -273,12 +289,12 @@ private fun AnimatedContentTransitionSpec(count: Int) {
                 // If the target number is larger, it slides up and fades in
                 // while the initial (smaller) number slides up and fades out.
                 slideInVertically { height -> height } + fadeIn() with
-                        slideOutVertically { height -> -height } + fadeOut()
+                    slideOutVertically { height -> -height } + fadeOut()
             } else {
                 // If the target number is smaller, it slides down and fades in
                 // while the initial number slides down and fades out.
                 slideInVertically { height -> -height } + fadeIn() with
-                        slideOutVertically { height -> height } + fadeOut()
+                    slideOutVertically { height -> height } + fadeOut()
             }.using(
                 // Disable clipping since the faded slide-in/out should
                 // be displayed out of bounds.
@@ -303,22 +319,22 @@ private fun AnimatedContentSizeTransform() {
             targetState = expanded,
             transitionSpec = {
                 fadeIn(animationSpec = tween(150, 150)) with
-                        fadeOut(animationSpec = tween(150)) using
-                        SizeTransform { initialSize, targetSize ->
-                            if (targetState) {
-                                keyframes {
-                                    // Expand horizontally first.
-                                    IntSize(targetSize.width, initialSize.height) at 150
-                                    durationMillis = 300
-                                }
-                            } else {
-                                keyframes {
-                                    // Shrink vertically first.
-                                    IntSize(initialSize.width, targetSize.height) at 150
-                                    durationMillis = 300
-                                }
+                    fadeOut(animationSpec = tween(150)) using
+                    SizeTransform { initialSize, targetSize ->
+                        if (targetState) {
+                            keyframes {
+                                // Expand horizontally first.
+                                IntSize(targetSize.width, initialSize.height) at 150
+                                durationMillis = 300
+                            }
+                        } else {
+                            keyframes {
+                                // Shrink vertically first.
+                                IntSize(initialSize.width, targetSize.height) at 150
+                                durationMillis = 300
                             }
                         }
+                    }
             }
         ) { targetExpanded ->
             if (targetExpanded) {
@@ -361,7 +377,6 @@ private object UpdateTransitionEnumState {
         Expanded
     }
     // [END android_compose_animations_transitions_box_state]
-
 
     @Composable
     private fun UpdateTransitionInstance() {
@@ -420,7 +435,6 @@ private object UpdateTransitionEnumState {
         // ……
         // [END android_compose_animations_transitions_state]
     }
-
 }
 
 @OptIn(ExperimentalTransitionApi::class)
