@@ -203,7 +203,7 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
             }
         }
     }
-    // [END android_compose_animations_animated_visibility_animate_enter_exit]
+    // [END android_compose_animations_animated_visibility_animate_enter_exit_children]
 }
 
 @OptIn(ExperimentalAnimationApi::class)
