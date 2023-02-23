@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,6 @@ package com.example.compose.snippets.text
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.text.font.Font
 import androidx.compose.material.Text
 import androidx.compose.material.Typography
 import androidx.compose.material3.MaterialTheme
@@ -31,12 +30,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.googlefonts.isAvailableOnDevice
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.text.DownloadableFontsDebugSnippet.handler
@@ -67,11 +67,11 @@ private object TextDownloadableFontsSnippet2 {
 
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.googlefonts.GoogleFont
-    import androidx.compose.ui.text.font.FontFamily
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.googlefonts.GoogleFont
+     import androidx.compose.ui.text.font.FontFamily
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
 
@@ -81,9 +81,7 @@ private object TextDownloadableFontsSnippet2 {
         Font(googleFont = fontName, fontProvider = provider)
     )
     // [END android_compose_text_df_fontFamily]
-
 }
-
 
 @OptIn(ExperimentalTextApi::class)
 private object TextDownloadableFontsSnippet3 {
@@ -91,11 +89,11 @@ private object TextDownloadableFontsSnippet3 {
 
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.googlefonts.GoogleFont
-    import androidx.compose.ui.text.font.FontFamily
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.googlefonts.GoogleFont
+     import androidx.compose.ui.text.font.FontFamily
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
 
@@ -110,7 +108,6 @@ private object TextDownloadableFontsSnippet3 {
         )
     )
     // [END android_compose_text_df_fontFamily_style]
-
 }
 
 @Composable
@@ -153,7 +150,6 @@ private object TextDownloadableFontsSnippet4 {
         )/*...*/
         // [END android_compose_text_app_typography]
     }
-
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -162,12 +158,11 @@ private object FallbackFontsSnippet1 {
 
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
-
 
     val fontName = GoogleFont("Lobster Two")
 
@@ -184,13 +179,12 @@ private object FallbackFontsSnippet2 {
 
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.font.Font
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.font.Font
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
-
 
     val fontName = GoogleFont("Lobster Two")
 
@@ -202,7 +196,6 @@ private object FallbackFontsSnippet2 {
     )
     // [END android_compose_text_df_fallbacks_style]
 }
-
 
 @OptIn(ExperimentalTextApi::class)
 private object DownloadableFontsDebugSnippet {
