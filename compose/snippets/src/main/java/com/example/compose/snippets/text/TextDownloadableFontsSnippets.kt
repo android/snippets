@@ -236,7 +236,7 @@ private object DownloadableFontsDebugSnippet2 {
 private object DownloadableFontsDebugSnippet3 {
     @Composable
     fun DownloadableFontsDebugSnippet() {
-        // [END android_compose_text_df_debug_apis]
+        // [START android_compose_text_df_debug_apis]
         val context = LocalContext.current
         LaunchedEffect(Unit) {
             if (provider.isAvailableOnDevice(context)) {
