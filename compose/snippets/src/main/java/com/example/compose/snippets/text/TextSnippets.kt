@@ -464,7 +464,11 @@ private object TextTextFieldSnippet {
     fun SimpleFilledTextFieldSample() {
         var text by remember { mutableStateOf("Hello") }
 
-        TextField(value = text, onValueChange = { text = it }, label = { Text("Label") })
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Label") }
+        )
     }
     // [END android_compose_text_textfield_filled]
 }
@@ -476,7 +480,11 @@ private object TextOutlinedTextFieldSnippet {
     fun SimpleOutlinedTextFieldSample() {
         var text by remember { mutableStateOf("") }
 
-        OutlinedTextField(value = text, onValueChange = { text = it }, label = { Text("Label") })
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Label") }
+        )
     }
     // [END android_compose_text_textfield_outlined]
 }
@@ -524,17 +532,20 @@ private object TextCleanInputSnippet {
     @Composable
     fun NoLeadingZeroes() {
         var input by rememberSaveable { mutableStateOf("") }
-        TextField(value = input, onValueChange = { newText ->
-            input = newText.trimStart { it == '0' }
-        })
+        TextField(
+            value = input,
+            onValueChange = { newText ->
+                input = newText.trimStart { it == '0' }
+            }
+        )
     }
     // [END android_compose_text_textfield_clean_input]
 }
 
 /** Effective State management **/
 
-// [START android_compose_text_state_viewmodel]
 private object TextEffectiveStateManagement1 {
+    // [START android_compose_text_state_viewmodel]
     class SignUpViewModel : ViewModel() {
 
         var username by mutableStateOf("")
@@ -542,15 +553,15 @@ private object TextEffectiveStateManagement1 {
 
         /* ... */
     }
+    // [END android_compose_text_state_viewmodel]
 }
-// [END android_compose_text_state_viewmodel]
 
-// [START android_compose_text_state_management]
 private object TextEffectiveStateManagement2 {
     class UserRepository
 
     val viewModel = SignUpViewModel(UserRepository())
 
+    // [START android_compose_text_state_management]
     // SignUpViewModel.kt
 
     class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -575,8 +586,8 @@ private object TextEffectiveStateManagement2 {
             /*...*/
         )
     }
+    // [END android_compose_text_state_management]
 }
-// [END android_compose_text_state_management]
 
 private val firaSansFamily = FontFamily()
 
