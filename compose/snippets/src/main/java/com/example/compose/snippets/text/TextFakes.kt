@@ -30,6 +30,8 @@ object R {
         const val firasans_italic = 1
         const val firasans_medium = 1
         const val firasans_bold = 1
+        const val my_font_regular = 0
+        const val my_font_regular_bold = 0
     }
 
     object array {
