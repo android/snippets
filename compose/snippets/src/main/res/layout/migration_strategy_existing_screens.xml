@@ -15,10 +15,20 @@
   ~   limitations under the License.
   ~
   -->
-<!-- [START android_compose_migration_fragment_in_compose_xml] -->
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_container_view"
+<!-- [START android_compose_migration_strategy_existing_screens] -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="com.example.compose.snippets.interop.MyFragment" />
-<!-- [END android_compose_migration_fragment_in_compose_xml] -->
+    android:layout_height="match_parent">
+
+  <TextView
+      android:id="@+id/text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+  <androidx.compose.ui.platform.ComposeView
+      android:id="@+id/compose_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+</LinearLayout>
+<!-- [END android_compose_migration_strategy_existing_screens] -->
