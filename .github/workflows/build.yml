@@ -40,3 +40,5 @@ jobs:
 
     - name: Build Compose
       run: ./gradlew :compose:build
+    - name: Lint Compose samples
+      run: ./gradlew :compose:snippets:lint

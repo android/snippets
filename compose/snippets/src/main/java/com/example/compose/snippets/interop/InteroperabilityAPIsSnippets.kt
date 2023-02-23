@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UNUSED_VARIABLE")
+
 package com.example.compose.snippets.interop
 
 import android.content.BroadcastReceiver
