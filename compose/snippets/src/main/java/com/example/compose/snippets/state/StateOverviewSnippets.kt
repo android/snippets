@@ -30,7 +30,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,14 +65,6 @@ private fun HelloContent() {
     }
 }
 // [END android_compose_state_overview]
-
-private object StateSnippetInterface {
-    // [START android_compose_state_interface]
-    interface MutableState<T> : State<T> {
-        override var value: T
-    }
-    // [END android_compose_state_interface]
-}
 
 private object StateSnippet1 {
     @OptIn(ExperimentalMaterial3Api::class)
