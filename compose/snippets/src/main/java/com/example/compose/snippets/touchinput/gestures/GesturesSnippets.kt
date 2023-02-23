@@ -19,9 +19,15 @@
 package com.example.compose.snippets.touchinput.gestures
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -29,9 +35,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
@@ -109,3 +119,62 @@ private fun ScrollBoxesSmooth() {
     }
 }
 // [END android_compose_touchinput_gestures_smooth_scroll]
+
+@Preview
+// [START android_compose_touchinput_gestures_scrollable]
+@Composable
+private fun ScrollableSample() {
+    // actual composable state
+    var offset by remember { mutableStateOf(0f) }
+    Box(
+        Modifier
+            .size(150.dp)
+            .scrollable(
+                orientation = Orientation.Vertical,
+                // Scrollable state: describes how to consume
+                // scrolling delta and update offset
+                state = rememberScrollableState { delta ->
+                    offset += delta
+                    delta
+                }
+            )
+            .background(Color.LightGray),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(offset.toString())
+    }
+}
+// [END android_compose_touchinput_gestures_scrollable]
+
+// [START android_compose_touchinput_gestures_nested_scroll]
+@Composable
+private fun AutomaticNestedScroll() {
+    val gradient = Brush.verticalGradient(0f to Color.Gray, 1000f to Color.White)
+    Box(
+        modifier = Modifier
+            .background(Color.LightGray)
+            .verticalScroll(rememberScrollState())
+            .padding(32.dp)
+    ) {
+        Column {
+            repeat(6) {
+                Box(
+                    modifier = Modifier
+                        .height(128.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        "Scroll here",
+                        modifier = Modifier
+                            .border(12.dp, Color.DarkGray)
+                            .background(brush = gradient)
+                            .padding(24.dp)
+                            .height(150.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+// [END android_compose_touchinput_gestures_nested_scroll]
+
