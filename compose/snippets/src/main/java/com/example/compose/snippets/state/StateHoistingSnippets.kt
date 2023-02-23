@@ -272,7 +272,7 @@ private object StateHoistingSnippets6 {
 
         ConversationScreen(onCloseDrawer = { conversationViewModel.closeDrawer(uiScope = scope) })
     }
-    // [END android_compose_state_hoisting_vm_ui_element_state]
+    // [END android_compose_state_hoisting_vm_ui_element_state_caveat]
 }
 
 data class Message(var id: String = "", var content: String = "", var timestamp: String = "")
