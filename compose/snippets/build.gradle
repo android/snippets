@@ -19,6 +19,11 @@ android {
             useSupportLibrary true
         }
     }
+    lint {
+        checkAllWarnings true
+        warningsAsErrors true
+        baseline = file("lint-baseline.xml")
+    }
 
     buildTypes {
         release {
@@ -48,24 +53,27 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.compose.animation:animation-graphics'
+
     def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
     implementation(composeBom)
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.ui:ui-viewbinding"
+    implementation 'androidx.compose.animation:animation-graphics'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material:material'
+    implementation 'androidx.compose.runtime:runtime-livedata'
+
     implementation "androidx.fragment:fragment:1.5.5"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'com.google.android.material:material:1.8.0'
-    implementation "com.google.accompanist:accompanist-themeadapter-appcompat:0.28.0"
-    implementation "com.google.accompanist:accompanist-themeadapter-material3:0.28.0"
-    implementation "com.google.accompanist:accompanist-themeadapter-material:0.28.0"
+    def accompanist = "0.28.0"
+    implementation "com.google.accompanist:accompanist-themeadapter-appcompat:$accompanist"
+    implementation "com.google.accompanist:accompanist-themeadapter-material3:$accompanist"
+    implementation "com.google.accompanist:accompanist-themeadapter-material:$accompanist"
     implementation "io.coil-kt:coil-compose:2.2.2"
     implementation 'androidx.activity:activity-compose:1.6.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.compose.material3:material3:1.0.1'
-    implementation 'androidx.compose.material:material:1.3.1'
-    implementation 'androidx.compose.runtime:runtime-livedata'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'

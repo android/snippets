@@ -53,7 +53,7 @@ import org.junit.Test
 */
 
 class AnimationTestingSnippets {
-    // [START android_compose_animations_gesture_example]
+    // [START android_compose_animations_testing_example]
     @get:Rule
     val rule = createComposeRule()
 
@@ -80,7 +80,7 @@ class AnimationTestingSnippets {
         // `assertAgainGolden` needs to be implemented in your code.
         rule.onRoot().captureToImage().assertAgainstGolden()
     }
-    // [END android_compose_animations_gesture_example]
+    // [END android_compose_animations_testing_example]
 }
 
 /*
