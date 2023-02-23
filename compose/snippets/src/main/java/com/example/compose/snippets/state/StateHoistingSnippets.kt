@@ -174,7 +174,7 @@ private object StateHoistingSnippets4 {
     }
     // [END android_compose_state_hoisting_vm]
 
-    // [START android_compose_state_hoisting_vm_hoisting]
+    // [START android_compose_state_hoisting_vm_usage]
     @Composable
     private fun ConversationScreen(
         conversationViewModel: ConversationViewModel = viewModel()
@@ -197,7 +197,7 @@ private object StateHoistingSnippets4 {
         MessagesList(messages, onSendMessage)
         /* ... */
     }
-    // [END android_compose_state_hoisting_vm_hoisting]
+    // [END android_compose_state_hoisting_vm_usage]
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
