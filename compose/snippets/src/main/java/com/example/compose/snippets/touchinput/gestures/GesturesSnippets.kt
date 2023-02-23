@@ -177,4 +177,3 @@ private fun AutomaticNestedScroll() {
     }
 }
 // [END android_compose_touchinput_gestures_nested_scroll]
-
