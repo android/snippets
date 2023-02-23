@@ -124,7 +124,6 @@ private fun OptimizeStateReadsBefore() {
             painterResource(id = android.R.drawable.star_on),
             contentDescription = null,
             // [END_EXCLUDE]
-            // ..
             // Non-optimal implementation!
             Modifier.offset(
                 with(LocalDensity.current) {
@@ -134,10 +133,10 @@ private fun OptimizeStateReadsBefore() {
             )
         )
 
-        LazyColumn(state = listState)
-        // [START_EXCLUDE]
-        {}
-        // [END_EXCLUDE]
+        LazyColumn(state = listState) {
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+        }
     }
     // [END android_compose_phases_optimize_state_reads_before]
 }
@@ -153,7 +152,6 @@ private fun OptimizeStateReadsAfter() {
             painterResource(id = android.R.drawable.star_on),
             contentDescription = null,
             // [END_EXCLUDE]
-            // ..
             // Non-optimal implementation!
             Modifier.offset {
                 // State read of firstVisibleItemScrollOffset in Layout
@@ -161,10 +159,10 @@ private fun OptimizeStateReadsAfter() {
             }
         )
 
-        LazyColumn(state = listState)
-        // [START_EXCLUDE]
-        {}
-        // [END_EXCLUDE]
+        LazyColumn(state = listState) {
+            // [START_EXCLUDE]
+            // [END_EXCLUDE]
+        }
     }
     // [END android_compose_phases_optimize_state_reads_after]
 }
