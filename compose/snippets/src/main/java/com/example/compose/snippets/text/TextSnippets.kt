@@ -170,7 +170,7 @@ private object TextMultipleFontsSnippet {
 
 @Composable
 private fun TextDefineFontFamilySnippet() {
-    // [START android_compose_text_multiple_fonts]
+    // [START android_compose_text_multiple_fonts_styles]
     val firaSansFamily = FontFamily(
         Font(R.font.firasans_light, FontWeight.Light),
         Font(R.font.firasans_regular, FontWeight.Normal),
@@ -178,7 +178,7 @@ private fun TextDefineFontFamilySnippet() {
         Font(R.font.firasans_medium, FontWeight.Medium),
         Font(R.font.firasans_bold, FontWeight.Bold)
     )
-    // [END android_compose_text_multiple_fonts]
+    // [END android_compose_text_multiple_fonts_styles]
 }
 
 @Composable
