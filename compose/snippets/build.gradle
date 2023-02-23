@@ -60,6 +60,7 @@ dependencies {
     implementation 'androidx.compose.material:material'
     implementation 'androidx.compose.runtime:runtime-livedata'
     implementation 'androidx.compose.material:material-icons-extended'
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     implementation "androidx.fragment:fragment:1.5.5"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
