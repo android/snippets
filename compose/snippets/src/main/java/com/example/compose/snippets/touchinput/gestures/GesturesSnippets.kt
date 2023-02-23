@@ -24,18 +24,30 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,14 +58,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 
 @Preview
 // [START android_compose_touchinput_gestures_clickable]
@@ -189,6 +206,7 @@ private fun AutomaticNestedScroll() {
 private object NestedScrollInterop {
     // [START android_compose_touchinput_gestures_nested_scroll_interop_activity]
     open class MainActivity : ComponentActivity() {
+        @OptIn(ExperimentalComposeUiApi::class)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
@@ -215,8 +233,8 @@ private object NestedScrollInterop {
             }
         }
     }
-
     // [END android_compose_touchinput_gestures_nested_scroll_interop_activity]
+
     object R {
         object id {
             val compose_view = 1
@@ -227,3 +245,109 @@ private object NestedScrollInterop {
         }
     }
 }
+
+// [START android_compose_touchinput_gestures_draggable]
+@Composable
+private fun DraggableText() {
+    var offsetX by remember { mutableStateOf(0f) }
+    Text(
+        modifier = Modifier
+            .offset { IntOffset(offsetX.roundToInt(), 0) }
+            .draggable(
+                orientation = Orientation.Horizontal,
+                state = rememberDraggableState { delta ->
+                    offsetX += delta
+                }
+            ),
+        text = "Drag me!"
+    )
+}
+// [END android_compose_touchinput_gestures_draggable]
+
+// [START android_compose_touchinput_gestures_draggable_pointerinput]
+@Composable
+private fun DraggableTextLowLevel() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        var offsetX by remember { mutableStateOf(0f) }
+        var offsetY by remember { mutableStateOf(0f) }
+
+        Box(
+            Modifier
+                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+                .background(Color.Blue)
+                .size(50.dp)
+                .pointerInput(Unit) {
+                    detectDragGestures { change, dragAmount ->
+                        change.consume()
+                        offsetX += dragAmount.x
+                        offsetY += dragAmount.y
+                    }
+                }
+        )
+    }
+}
+// [END android_compose_touchinput_gestures_draggable_pointerinput]
+
+// [START android_compose_touchinput_gestures_swipeable]
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun SwipeableSample() {
+    val width = 96.dp
+    val squareSize = 48.dp
+
+    val swipeableState = rememberSwipeableState(0)
+    val sizePx = with(LocalDensity.current) { squareSize.toPx() }
+    val anchors = mapOf(0f to 0, sizePx to 1) // Maps anchor points (in px) to states
+
+    Box(
+        modifier = Modifier
+            .width(width)
+            .swipeable(
+                state = swipeableState,
+                anchors = anchors,
+                thresholds = { _, _ -> FractionalThreshold(0.3f) },
+                orientation = Orientation.Horizontal
+            )
+            .background(Color.LightGray)
+    ) {
+        Box(
+            Modifier
+                .offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
+                .size(squareSize)
+                .background(Color.DarkGray)
+        )
+    }
+}
+// [END android_compose_touchinput_gestures_swipeable]
+
+// [START android_compose_touchinput_gestures_transformable]
+@Composable
+private fun TransformableSample() {
+    // set up all transformation states
+    var scale by remember { mutableStateOf(1f) }
+    var rotation by remember { mutableStateOf(0f) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
+    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+        scale *= zoomChange
+        rotation += rotationChange
+        offset += offsetChange
+    }
+    Box(
+        Modifier
+            // apply other transformations like rotation and zoom
+            // on the pizza slice emoji
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale,
+                rotationZ = rotation,
+                translationX = offset.x,
+                translationY = offset.y
+            )
+            // add transformable to listen to multitouch transformation events
+            // after offset
+            .transformable(state = state)
+            .background(Color.Blue)
+            .fillMaxSize()
+    )
+}
+// [END android_compose_touchinput_gestures_transformable]
