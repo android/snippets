@@ -556,12 +556,12 @@ private object TextEffectiveStateManagement1 {
     // [END android_compose_text_state_viewmodel]
 }
 
-// [START android_compose_text_state_management]
 private object TextEffectiveStateManagement2 {
     class UserRepository
 
     val viewModel = SignUpViewModel(UserRepository())
 
+    // [START android_compose_text_state_management]
     // SignUpViewModel.kt
 
     class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -586,8 +586,8 @@ private object TextEffectiveStateManagement2 {
             /*...*/
         )
     }
+    // [END android_compose_text_state_management]
 }
-// [END android_compose_text_state_management]
 
 private val firaSansFamily = FontFamily()
 
