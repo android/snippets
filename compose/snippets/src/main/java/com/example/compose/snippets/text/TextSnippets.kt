@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -144,8 +144,10 @@ private object TextShadowSnippet {
     fun TextShadow() {
         val offset = Offset(5.0f, 10.0f)
         Text(
-            text = "Hello world!", style = TextStyle(
-                fontSize = 24.sp, shadow = Shadow(
+            text = "Hello world!",
+            style = TextStyle(
+                fontSize = 24.sp,
+                shadow = Shadow(
                     color = Color.Blue, offset = offset, blurRadius = 3f
                 )
             )
@@ -201,17 +203,19 @@ private object TextMultipleStylesSnippet {
     // [START android_compose_text_multistyle]
     @Composable
     fun MultipleStylesInText() {
-        Text(buildAnnotatedString {
-            withStyle(style = SpanStyle(color = Color.Blue)) {
-                append("H")
-            }
-            append("ello ")
+        Text(
+            buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Blue)) {
+                    append("H")
+                }
+                append("ello ")
 
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Red)) {
-                append("W")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Red)) {
+                    append("W")
+                }
+                append("orld")
             }
-            append("orld")
-        })
+        )
     }
     // [END android_compose_text_multistyle]
 }
@@ -220,21 +224,23 @@ private object TextParagraphStyleSnippet {
     // [START android_compose_text_paragraph_style]
     @Composable
     fun ParagraphStyle() {
-        Text(buildAnnotatedString {
-            withStyle(style = ParagraphStyle(lineHeight = 30.sp)) {
-                withStyle(style = SpanStyle(color = Color.Blue)) {
-                    append("Hello\n")
+        Text(
+            buildAnnotatedString {
+                withStyle(style = ParagraphStyle(lineHeight = 30.sp)) {
+                    withStyle(style = SpanStyle(color = Color.Blue)) {
+                        append("Hello\n")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            fontWeight = FontWeight.Bold, color = Color.Red
+                        )
+                    ) {
+                        append("World\n")
+                    }
+                    append("Compose")
                 }
-                withStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.Bold, color = Color.Red
-                    )
-                ) {
-                    append("World\n")
-                }
-                append("Compose")
             }
-        })
+        )
     }
     // [END android_compose_text_paragraph_style]
 }
@@ -265,7 +271,8 @@ private object TextBrushSnippet1 {
         val gradientColors = listOf(Cyan, LightBlue, Purple /*...*/)
 
         Text(
-            text = text, style = TextStyle(
+            text = text,
+            style = TextStyle(
                 brush = Brush.linearGradient(
                     colors = gradientColors
                 )
@@ -300,19 +307,21 @@ private object TextBrushSnippet3 {
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
         // [START android_compose_text_annotatedString_brush]
-        Text(text = buildAnnotatedString {
-            append("Do not allow people to dim your shine\n")
-            withStyle(
-                SpanStyle(
-                    brush = Brush.linearGradient(
-                        colors = rainbowColors
+        Text(
+            text = buildAnnotatedString {
+                append("Do not allow people to dim your shine\n")
+                withStyle(
+                    SpanStyle(
+                        brush = Brush.linearGradient(
+                            colors = rainbowColors
+                        )
                     )
-                )
-            ) {
-                append("because they are blinded.")
+                ) {
+                    append("because they are blinded.")
+                }
+                append("\nTell them to put some sunglasses on.")
             }
-            append("\nTell them to put some sunglasses on.")
-        })
+        )
         // [END android_compose_text_annotatedString_brush]
     }
 }
@@ -350,11 +359,14 @@ private object TextIncludeFontPaddingSnippet {
     fun AlignedText(text: String) {
         // [START android_compose_text_includeFontPadding]
         Text(
-            text = text, style = LocalTextStyle.current.merge(
+            text = text,
+            style = LocalTextStyle.current.merge(
                 TextStyle(
-                    lineHeight = 2.5.em, platformStyle = PlatformTextStyle(
+                    lineHeight = 2.5.em,
+                    platformStyle = PlatformTextStyle(
                         includeFontPadding = false
-                    ), lineHeightStyle = LineHeightStyle(
+                    ),
+                    lineHeightStyle = LineHeightStyle(
                         alignment = LineHeightStyle.Alignment.Center,
                         trim = LineHeightStyle.Trim.None
                     )

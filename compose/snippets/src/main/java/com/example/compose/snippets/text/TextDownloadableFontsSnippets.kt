@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,11 @@ import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.text.TextDownloadableFontsSnippet1.provider
 
@@ -51,11 +51,11 @@ private object TextDownloadableFontsSnippet1 {
 private object TextDownloadableFontsSnippet2 {
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.googlefonts.GoogleFont
-    import androidx.compose.ui.text.font.FontFamily
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.googlefonts.GoogleFont
+     import androidx.compose.ui.text.font.FontFamily
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
 
@@ -64,19 +64,17 @@ private object TextDownloadableFontsSnippet2 {
     val fontFamily = FontFamily(
         Font(googleFont = fontName, fontProvider = provider)
     )
-
 }
-
 
 @OptIn(ExperimentalTextApi::class)
 private object TextDownloadableFontsSnippet3 {
     // [START_EXCLUDE]
     /**
-    // [END_EXCLUDE]
-    import androidx.compose.ui.text.googlefonts.GoogleFont
-    import androidx.compose.ui.text.font.FontFamily
-    import androidx.compose.ui.text.googlefonts.Font
-    // [START_EXCLUDE]
+     // [END_EXCLUDE]
+     import androidx.compose.ui.text.googlefonts.GoogleFont
+     import androidx.compose.ui.text.font.FontFamily
+     import androidx.compose.ui.text.googlefonts.Font
+     // [START_EXCLUDE]
      **/
     // [END_EXCLUDE]
 
@@ -88,7 +86,6 @@ private object TextDownloadableFontsSnippet3 {
             weight = FontWeight.Bold, style = FontStyle.Italic
         )
     )
-
 }
 
 @Composable
@@ -132,38 +129,21 @@ private object TextDownloadableFontsSnippet4 {
         )
         /*...*/
     }
-
 }
 
 @OptIn(ExperimentalTextApi::class)
-private object FallbackFontsSnippet1 {
-
-
-}
+private object FallbackFontsSnippet1
 
 @OptIn(ExperimentalTextApi::class)
-private object FallbackFontsSnippet2 {
-
-
-}
-
+private object FallbackFontsSnippet2
 
 @OptIn(ExperimentalTextApi::class)
-private object DownloadableFontsDebug1 {
-
-
-}
+private object DownloadableFontsDebug1
 
 @OptIn(ExperimentalTextApi::class)
-private object DownloadableFontsDebug2 {
-
-
-}
+private object DownloadableFontsDebug2
 
 @OptIn(ExperimentalTextApi::class)
-private object DownloadableFontsDebug3 {
-
-
-}
+private object DownloadableFontsDebug3
 
 val fontFamily = FontFamily()
