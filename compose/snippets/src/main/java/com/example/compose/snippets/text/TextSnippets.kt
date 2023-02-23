@@ -464,7 +464,11 @@ private object TextTextFieldSnippet {
     fun SimpleFilledTextFieldSample() {
         var text by remember { mutableStateOf("Hello") }
 
-        TextField(value = text, onValueChange = { text = it }, label = { Text("Label") })
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Label") }
+        )
     }
     // [END android_compose_text_textfield_filled]
 }
@@ -476,7 +480,11 @@ private object TextOutlinedTextFieldSnippet {
     fun SimpleOutlinedTextFieldSample() {
         var text by remember { mutableStateOf("") }
 
-        OutlinedTextField(value = text, onValueChange = { text = it }, label = { Text("Label") })
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Label") }
+        )
     }
     // [END android_compose_text_textfield_outlined]
 }
@@ -524,9 +532,11 @@ private object TextCleanInputSnippet {
     @Composable
     fun NoLeadingZeroes() {
         var input by rememberSaveable { mutableStateOf("") }
-        TextField(value = input, onValueChange = { newText ->
-            input = newText.trimStart { it == '0' }
-        })
+        TextField(
+            value = input,
+            onValueChange = { newText ->
+                input = newText.trimStart { it == '0' }
+            })
     }
     // [END android_compose_text_textfield_clean_input]
 }
