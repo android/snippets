@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 The Android Open Source Project
+ * Copyright 2023 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -568,24 +568,3 @@ private val firaSansFamily = FontFamily()
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF0066FF)
-
-/*
- * Fakes needed for snippets to build:
- */
-private object R {
-    object string {
-        const val hello_world = 1
-    }
-
-    object font {
-        const val firasans_light = 1
-        const val firasans_regular = 1
-        const val firasans_italic = 1
-        const val firasans_medium = 1
-        const val firasans_bold = 1
-    }
-
-    object array {
-        const val com_google_android_gms_fonts_certs = 1
-    }
-}
