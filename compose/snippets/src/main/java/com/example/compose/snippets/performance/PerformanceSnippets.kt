@@ -218,7 +218,6 @@ private object DeferredReadGood {
     // [END android_compose_performance_deferredreadafter]
 }
 
-
 // [START android_compose_performance_deferredreadafter2]
 @Composable
 private fun Title(snack: Snack, scrollProvider: () -> Int) {
@@ -242,7 +241,8 @@ fun AnimateColorBefore() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(color))
+            .background(color)
+    )
     // [END android_compose_performance_animatecolorbefore]
 }
 
