@@ -32,35 +32,35 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.inset
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import kotlin.properties.ReadWriteProperty
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 // [START android_compose_kotlin_default_arguments]
 fun drawSquare(
@@ -303,7 +303,7 @@ fun Coroutines(scrollState: ScrollState, viewModel: MyViewModel) {
 }
 
 @Composable
-fun CoroutinesConcurrent(scrollState: ScrollState, viewModel: MyViewModel){
+fun CoroutinesConcurrent(scrollState: ScrollState, viewModel: MyViewModel) {
     // [START android_compose_kotlin_coroutines_concurrent]
     // Create a CoroutineScope that follows this composable's lifecycle
     val composableScope = rememberCoroutineScope()
