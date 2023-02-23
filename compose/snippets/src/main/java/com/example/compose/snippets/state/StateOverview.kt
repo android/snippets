@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused")
+@file:Suppress("unused", "UNUSED_VARIABLE")
 
 import android.content.res.Resources
 import android.graphics.BitmapShader
