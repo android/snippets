@@ -315,7 +315,6 @@ private object UnscopedModifiers2 {
     // [END android_compose_modifiers_unscopedmodifiers2]
 }
 
-
 @Composable
 private fun ScopedModifiers1() {
     // [START android_compose_modifiers_scopedmodifiers1]
@@ -434,4 +433,3 @@ private fun Text1(modifier: Modifier = Modifier) {
 private fun Text2(modifier: Modifier = Modifier) {
     // Empty for snippets
 }
-
