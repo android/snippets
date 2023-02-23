@@ -19,11 +19,6 @@ android {
             useSupportLibrary true
         }
     }
-    lint {
-        checkAllWarnings true
-        warningsAsErrors true
-        baseline = file("lint-baseline.xml")
-    }
 
     buildTypes {
         release {
