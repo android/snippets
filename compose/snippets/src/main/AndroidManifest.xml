@@ -42,6 +42,9 @@
 
         <activity android:name="MyActivity"
             android:exported="false"/>
+
+        <activity android:name="com.example.compose.snippets.touchinput.gestures.NestedScrollInterop$MainActivity" />
+
     </application>
 
 </manifest>
