@@ -21,7 +21,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.ModalDrawer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.BottomAppBar
@@ -38,6 +40,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -48,8 +51,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -127,7 +133,7 @@ fun ScaffoldTopAppBarDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -144,7 +150,7 @@ fun ScaffoldBottomBarDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -163,7 +169,7 @@ fun ScaffoldFabDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -183,7 +189,7 @@ fun ScaffoldFabPositionDemo() {
         floatingActionButtonPosition = FabPosition.Center
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -205,7 +211,7 @@ fun ScaffoldFabAndBottomBarDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -235,7 +241,7 @@ fun ScaffoldSnackbarDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -279,7 +285,7 @@ fun ScaffoldSnackbarResultDemo() {
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
     }
@@ -294,7 +300,12 @@ fun DrawerDemo() {
             ModalDrawerSheet {
                 Text("Drawer title", modifier = Modifier.padding(16.dp))
                 Divider()
-                // Drawer items
+                NavigationDrawerItem(
+                    label = { Text(text = "Drawer Item") },
+                    selected = false,
+                    onClick = { /*TODO*/ }
+                )
+                // ...other drawer items
             }
         }
     ) {
@@ -309,9 +320,7 @@ fun DrawerGesturesDemo() {
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
-                Divider()
-                // Drawer items
+                // Drawer contents
             }
         },
         gesturesEnabled = false
@@ -329,13 +338,15 @@ fun DrawerStateDemo() {
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { /* Drawer content */ },
+        drawerContent = {
+            ModalDrawerSheet { /* Drawer content */ }
+        },
     ) {
         Scaffold(
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    text = { Text("Show snackbar") },
-                    icon = { Icon(Icons.Filled.Image, contentDescription = "") },
+                    text = { Text("Show drawer") },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = "") },
                     onClick = {
                         scope.launch {
                             drawerState.apply {
@@ -347,7 +358,7 @@ fun DrawerStateDemo() {
             }
         ) { contentPadding ->
             // Screen content
-            // [START_EXCLUDE]
+            // [START_EXCLUDE silent]
             Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
             // [END_EXCLUDE]
         }
@@ -367,40 +378,40 @@ fun BottomSheetDemo() {
     // [START android_compose_layout_material_bottom_sheet2]
     val sheetState = rememberSheetState()
     val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text("Show snackbar") },
-                icon = { Icon(Icons.Filled.Image, contentDescription = "") },
+                text = { Text("Show bottom sheet") },
+                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
                 onClick = {
-                    scope.launch {
-                        sheetState.apply {
-                            if (isVisible) collapse() else show()
-                        }
-                    }
+                    showBottomSheet = true
                 }
             )
         }
     ) { contentPadding ->
         // Screen content
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
-    }
-    ModalBottomSheet(
-        onDismissRequest = { /* Executed when the sheet is dismissed */ },
-        sheetState = sheetState
-    ) {
-        // Sheet content
+
+        if (showBottomSheet)  {
+            ModalBottomSheet(
+                onDismissRequest = { /* Executed when the sheet is dismissed */ },
+                sheetState = sheetState
+            ) {
+                // Sheet content
+                Button(onClick = {
+                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            showBottomSheet = false
+                        }
+                    }
+                }) {
+                    Text("Hide bottom sheet")
+                }
+            }
+        }
     }
     // [END android_compose_layout_material_bottom_sheet2]
 }
-
-// [START android_compose_layout_material_modal_bottom_sheet]
-// [END android_compose_layout_material_modal_bottom_sheet]
-
-// [START android_compose_layout_material_backdrop_scaffold]
-// [END android_compose_layout_material_backdrop_scaffold]
-
-// [START android_compose_layout_material_backdrop_scaffold2]
-// [END android_compose_layout_material_backdrop_scaffold2]
