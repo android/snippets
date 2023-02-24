@@ -170,7 +170,7 @@ fun MyTheme(
 // [END android_compose_material2_dark_theme]
 
 @Composable
-fun DarkTheme(){
+fun DarkTheme() {
     // [START android_compose_material2_dark_theme_check]
     val isLightTheme = MaterialTheme.colors.isLight
     Icon(
@@ -187,7 +187,7 @@ fun DarkTheme(){
 }
 
 @Composable
-fun Elevation(){
+fun Elevation() {
     // [START android_compose_material2_elevation]
     Surface(
         elevation = 2.dp,
@@ -216,7 +216,7 @@ fun Elevation(){
 }
 
 @Composable
-fun ColorAccents(){
+fun ColorAccents() {
     // [START android_compose_material2_color_accents]
     Surface(
         // Switches between primary in light theme and surface in dark theme
@@ -248,14 +248,14 @@ fun TypeSystem() {
         )
         /*...*/
     )
-    MaterialTheme(typography = myTypography, /*...*/){
+    MaterialTheme(typography = myTypography, /*...*/) {
         /*...*/
     }
     // [END android_compose_material2_typography]
 
     // [START android_compose_material2_typography_default]
     val typography = Typography(defaultFontFamily = raleway)
-    MaterialTheme(typography = typography, /*...*/){
+    MaterialTheme(typography = typography, /*...*/) {
         /*...*/
     }
     // [END android_compose_material2_typography_default]
@@ -269,7 +269,7 @@ fun TypeSystem() {
 }
 
 @Composable
-fun ShapeSystem(){
+fun ShapeSystem() {
     // [START android_compose_material2_shapes]
     val shapes = Shapes(
         small = RoundedCornerShape(percent = 50),
@@ -282,7 +282,7 @@ fun ShapeSystem(){
         )
     )
 
-    MaterialTheme(shapes = shapes, /*...*/){
+    MaterialTheme(shapes = shapes, /*...*/) {
         /*...*/
     }
     // [END android_compose_material2_shapes]
@@ -343,7 +343,7 @@ fun RelatedSection(/* ... */) {
 // [END android_compose_material2_theme_overlays]
 
 @Composable
-fun ComponentStates(){
+fun ComponentStates() {
     // [START android_compose_material2_component_states]
     Button(
         onClick = { /* ... */ },
