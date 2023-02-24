@@ -41,6 +41,7 @@ import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.layouts.CustomLayoutsSnippet2.firstBaselineToTop
@@ -86,25 +87,23 @@ private object CustomLayoutsSnippet2 {
     // [END android_compose_layouts_first_baseline]
 }
 
-private object CustomLayoutsSnippet3 {
-
-    // [START android_compose_layouts_first_baseline_usage]
-    @Composable
-    fun TextWithPaddingToBaselinePreview() {
-        MyApplicationTheme {
-            Text("Hi there!", Modifier.firstBaselineToTop(32.dp))
-        }
+// [START android_compose_layouts_first_baseline_usage]
+@Preview
+@Composable
+fun TextWithPaddingToBaselinePreview() {
+    MyApplicationTheme {
+        Text("Hi there!", Modifier.firstBaselineToTop(32.dp))
     }
-
-    //    @Preview
-    @Composable
-    fun TextWithNormalPaddingPreview() {
-        MyApplicationTheme {
-            Text("Hi there!", Modifier.padding(top = 32.dp))
-        }
-    }
-    // [END android_compose_layouts_first_baseline_usage]
 }
+
+@Preview
+@Composable
+fun TextWithNormalPaddingPreview() {
+    MyApplicationTheme {
+        Text("Hi there!", Modifier.padding(top = 32.dp))
+    }
+}
+// [END android_compose_layouts_first_baseline_usage]
 
 private object CustomLayoutsSnippet4 {
     // [START android_compose_layouts_custom_layout_basic]
