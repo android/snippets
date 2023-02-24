@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.layouts
 
 /*
@@ -109,45 +125,43 @@ private fun BarChart(
             }
             // [END_EXCLUDE]
             // Calculate baselines
-            val maxYBaseline =
-                // [START_EXCLUDE]
-                remember(dataPoints) {
+            val maxYBaseline = /* [START_EXCLUDE] */remember(dataPoints) {
                 dataPoints.maxOrNull()?.let {
                     (maxValue - it) * yPositionRatio
                 } ?: 0f
-            }
-            // [END_EXCLUDE]
-            val minYBaseline = // [START_EXCLUDE]
-                remember(dataPoints) {
+            } /* [END_EXCLUDE] */
+            val minYBaseline = /* [START_EXCLUDE] */remember(dataPoints) {
                 dataPoints.minOrNull()?.let {
                     (maxValue - it) * yPositionRatio
                 } ?: 0f
-            }
-            //[END_EXCLUDE]
-            Layout(content = {}, modifier = Modifier.drawBehind {
-                // [START_EXCLUDE]
-                dataPoints.forEachIndexed { index, dataPoint ->
-                    val rectSize = Size(60f, dataPoint * yPositionRatio)
-                    val topLeftOffset = Offset(
-                        x = xPositionRatio * (index + 1) - xOffset,
-                        y = (maxValue - dataPoint) * yPositionRatio
+            } /* [END_EXCLUDE] */
+            Layout(
+                content = {},
+                modifier = Modifier.drawBehind {
+                    // [START_EXCLUDE]
+                    dataPoints.forEachIndexed { index, dataPoint ->
+                        val rectSize = Size(60f, dataPoint * yPositionRatio)
+                        val topLeftOffset = Offset(
+                            x = xPositionRatio * (index + 1) - xOffset,
+                            y = (maxValue - dataPoint) * yPositionRatio
+                        )
+                        drawRect(Color(0xFF3DDC84), topLeftOffset, rectSize)
+                    }
+                    drawLine(
+                        Color(0xFF073042),
+                        start = Offset(0f, 0f),
+                        end = Offset(0f, maxHeight.toPx()),
+                        strokeWidth = 6f
                     )
-                    drawRect(Color(0xFF3DDC84), topLeftOffset, rectSize)
+                    drawLine(
+                        Color(0xFF073042),
+                        start = Offset(0f, maxHeight.toPx()),
+                        end = Offset(maxWidth.toPx(), maxHeight.toPx()),
+                        strokeWidth = 6f
+                    )
+                    // [END_EXCLUDE]
                 }
-                drawLine(
-                    Color(0xFF073042),
-                    start = Offset(0f, 0f),
-                    end = Offset(0f, maxHeight.toPx()),
-                    strokeWidth = 6f
-                )
-                drawLine(
-                    Color(0xFF073042),
-                    start = Offset(0f, maxHeight.toPx()),
-                    end = Offset(maxWidth.toPx(), maxHeight.toPx()),
-                    strokeWidth = 6f
-                )
-                // [END_EXCLUDE]
-            }) { _, constraints ->
+            ) { _, constraints ->
                 with(constraints) {
                     layout(
                         width = if (hasBoundedWidth) maxWidth else minWidth,
