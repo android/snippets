@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ModalDrawer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
@@ -395,7 +394,7 @@ fun BottomSheetDemo() {
         Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         // [END_EXCLUDE]
 
-        if (showBottomSheet)  {
+        if (showBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = { /* Executed when the sheet is dismissed */ },
                 sheetState = sheetState
