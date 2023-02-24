@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.compose.snippets.layout
 
 import androidx.compose.foundation.layout.Box
@@ -20,7 +21,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
@@ -394,7 +394,6 @@ fun BottomSheetDemo() {
     }
     // [END android_compose_layout_material_bottom_sheet2]
 }
-
 
 // [START android_compose_layout_material_modal_bottom_sheet]
 // [END android_compose_layout_material_modal_bottom_sheet]
