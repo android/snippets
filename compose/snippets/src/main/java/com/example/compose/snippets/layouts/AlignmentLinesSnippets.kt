@@ -127,16 +127,16 @@ private fun BarChart(
             // Calculate baselines
             val maxYBaseline = // [START_EXCLUDE]
                 remember(dataPoints) {
-                dataPoints.maxOrNull()?.let {
-                    (maxValue - it) * yPositionRatio
-                } ?: 0f
-            } // [END_EXCLUDE]
+                    dataPoints.maxOrNull()?.let {
+                        (maxValue - it) * yPositionRatio
+                    } ?: 0f
+                } // [END_EXCLUDE]
             val minYBaseline = // [START_EXCLUDE]
                 remember(dataPoints) {
-                dataPoints.minOrNull()?.let {
-                    (maxValue - it) * yPositionRatio
-                } ?: 0f
-            }
+                    dataPoints.minOrNull()?.let {
+                        (maxValue - it) * yPositionRatio
+                    } ?: 0f
+                }
             // [END_EXCLUDE]
             Layout(
                 content = {},
