@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("unused")
 
 package com.example.compose.snippets.layouts
@@ -25,7 +41,6 @@ import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.layouts.CustomLayoutsSnippet2.firstBaselineToTop
@@ -71,24 +86,25 @@ private object CustomLayoutsSnippet2 {
     // [END android_compose_layouts_first_baseline]
 }
 
-// [START android_compose_layouts_first_baseline_usage]
-@Preview
-@Composable
-fun TextWithPaddingToBaselinePreview() {
-    MyApplicationTheme {
-        Text("Hi there!", Modifier.firstBaselineToTop(32.dp))
-    }
-}
+private object CustomLayoutsSnippet3 {
 
-@Preview
-@Composable
-fun TextWithNormalPaddingPreview() {
-    MyApplicationTheme {
-        Text("Hi there!", Modifier.padding(top = 32.dp))
+    // [START android_compose_layouts_first_baseline_usage]
+    @Composable
+    fun TextWithPaddingToBaselinePreview() {
+        MyApplicationTheme {
+            Text("Hi there!", Modifier.firstBaselineToTop(32.dp))
+        }
     }
-}
-// [END android_compose_layouts_first_baseline_usage]
 
+    //    @Preview
+    @Composable
+    fun TextWithNormalPaddingPreview() {
+        MyApplicationTheme {
+            Text("Hi there!", Modifier.padding(top = 32.dp))
+        }
+    }
+    // [END android_compose_layouts_first_baseline_usage]
+}
 
 private object CustomLayoutsSnippet4 {
     // [START android_compose_layouts_custom_layout_basic]
@@ -163,7 +179,6 @@ private object CustomLayoutsSnippet5and6 {
         }
     }
     // [END android_compose_layouts_custom_layout_more_details]
-
 
     // Snippet 6
     // [START android_compose_layouts_custom_layout_usage]
