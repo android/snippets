@@ -366,6 +366,7 @@ fun BottomSheetDemo() {
 
     // [START android_compose_layout_material_bottom_sheet2]
     val sheetState = rememberSheetState()
+    val scope = rememberCoroutineScope()
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -373,8 +374,8 @@ fun BottomSheetDemo() {
                 icon = { Icon(Icons.Filled.Image, contentDescription = "") },
                 onClick = {
                     scope.launch {
-                        drawerState.apply {
-                            if (isClosed) open() else close()
+                        sheetState.apply {
+                            if (isVisible) collapse() else show()
                         }
                     }
                 }
