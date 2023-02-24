@@ -87,7 +87,6 @@ private object CustomLayoutsSnippet2 {
     // [END android_compose_layouts_first_baseline]
 }
 
-
 // [START android_compose_layouts_first_baseline_usage]
 @Preview
 @Composable
