@@ -362,24 +362,23 @@ private fun ScopedModifiers2() {
 }
 
 private object ChainingExtractedModifiers {
-    // [START android_compose_modifiers_chainingextractedmodifiers]
-    val reusableModifier = Modifier
-        .fillMaxWidth()
-        .background(Color.Red)
-        .padding(12.dp)
+    val otherModifier = Modifier
 
-    // [START_EXCLUDE]
     @Composable
     private fun Snippet() {
-        val otherModifier = Modifier
-        // [END_EXCLUDE]
+        // Note: In a real app, you would define the modifier outside of the composable where it is
+        // needed. For the snippet in the documentation, putting it in one place is clearer.
+        // [START android_compose_modifiers_chainingextractedmodifiers]
+        val reusableModifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Red)
+            .padding(12.dp)
 
         // Append to your reusableModifier
         reusableModifier.clickable { /*...*/ }
 
         // Append your reusableModifier
         otherModifier.then(reusableModifier)
-
         // [END android_compose_modifiers_chainingextractedmodifiers]
     }
 }
