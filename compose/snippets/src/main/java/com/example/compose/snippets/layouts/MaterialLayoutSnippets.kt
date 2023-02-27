@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.layout
+package com.example.compose.snippets.layouts
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -396,7 +396,9 @@ fun BottomSheetDemo() {
 
         if (showBottomSheet) {
             ModalBottomSheet(
-                onDismissRequest = { /* Executed when the sheet is dismissed */ },
+                onDismissRequest = {
+                    showBottomSheet = false
+                },
                 sheetState = sheetState
             ) {
                 // Sheet content
