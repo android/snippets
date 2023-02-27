@@ -573,7 +573,7 @@ private object LazyGridTipSnippets {
             item { Item(2) }
             // ...
         }
-        // [END android_compose_layouts_lazy_grid_multiple_elements]
+        // [END android_compose_layouts_lazy_grid_multiple_elements_divider]
     }
     @Composable
     private fun Item(id: Int) {
