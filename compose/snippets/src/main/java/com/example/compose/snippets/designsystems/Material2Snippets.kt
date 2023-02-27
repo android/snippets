@@ -62,9 +62,15 @@ import com.example.compose.snippets.R
 fun Material2() {
     // [START android_compose_material2_theme]
     MaterialTheme(
-        colors = /* [START_EXCLUDE] */ MaterialTheme.colors /* [END_EXCLUDE]  */,
-        typography = /* [START_EXCLUDE] */ MaterialTheme.typography /* [END_EXCLUDE]  */,
-        shapes = /* [START_EXCLUDE] */ MaterialTheme.shapes /* [END_EXCLUDE]  */
+        colors = // [START_EXCLUDE]
+        MaterialTheme.colors,
+        // [END_EXCLUDE]
+        typography = // [START_EXCLUDE] */
+        MaterialTheme.typography,
+        // [END_EXCLUDE]
+        shapes = // [START_EXCLUDE]
+        MaterialTheme.shapes
+        // [END_EXCLUDE]
     ) {
         // app content
     }
@@ -144,7 +150,6 @@ fun ColorUsage() {
     // LocalContentAlpha. De-emphasize content by setting content alpha
     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
         Text(
-            /*...*/
             // [START_EXCLUDE]
             ""
             // [END_EXCLUDE]
@@ -152,14 +157,12 @@ fun ColorUsage() {
     }
     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
         Icon(
-            /*...*/
             // [START_EXCLUDE]
             Icons.Filled.ArrowBack,
             contentDescription = null
             // [END_EXCLUDE]
         )
         Text(
-            /*...*/
             // [START_EXCLUDE]
             ""
             // [END_EXCLUDE]
