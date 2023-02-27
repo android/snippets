@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("unused", "UNUSED_VARIABLE")
 
 package com.example.compose.snippets.lists
@@ -41,11 +57,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 /*
 * Copyright 2023 The Android Open Source Project
@@ -130,8 +146,7 @@ private fun GridItemSpanExample() {
     // [END android_compose_layouts_lazy_vertical_grid_full_span ]
 }
 @Composable
-private fun CategoryCard(category: String){
-
+private fun CategoryCard(category: String) {
 }
 @Composable
 private fun ListsSnippetsContentPadding() {
@@ -438,9 +453,11 @@ private fun LazyItemAnimationWithSpec() {
     // [START android_compose_layouts_lazy_column_item_animation_with_spec]
     LazyColumn {
         items(books, key = { it.id }) {
-            Row(Modifier.animateItemPlacement(
-                tween(durationMillis = 250)
-            )) {
+            Row(
+                Modifier.animateItemPlacement(
+                    tween(durationMillis = 250)
+                )
+            ) {
                 // ...
             }
         }
@@ -574,12 +591,10 @@ private object LazyGridTipSnippets {
         // [END android_compose_layouts_lazy_grid_multiple_elements]
     }
     @Composable
-    private fun Item(id : Int) {
-
+    private fun Item(id: Int) {
     }
     @Composable
     private fun Divider() {
-
     }
 }
 
