@@ -63,23 +63,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-/*
-* Copyright 2023 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
 private object ListsSnippetsColumn {
-    // [START android_compose_layouts_list_column ]
+    // [START android_compose_layouts_list_column]
     @Composable
     fun MessageList(messages: List<Message>) {
         Column {
@@ -88,12 +73,12 @@ private object ListsSnippetsColumn {
             }
         }
     }
-    // [END android_compose_layouts_list_column ]
+    // [END android_compose_layouts_list_column]
 }
 
 @Composable
 private fun ListsSnippetsLazyListScope1() {
-    // [START android_compose_layouts_lazy_column_basic ]
+    // [START android_compose_layouts_lazy_column_basic]
     LazyColumn {
         // Add a single item
         item {
@@ -110,13 +95,13 @@ private fun ListsSnippetsLazyListScope1() {
             Text(text = "Last item")
         }
     }
-    // [END android_compose_layouts_lazy_column_basic ]
+    // [END android_compose_layouts_lazy_column_basic]
 }
 
 private object ListsSnippetsLazyListScope2 {
     @Composable
     fun MessageList(messages: List<Message>) {
-        // [START android_compose_layouts_lazy_column_basic_extension ]
+        // [START android_compose_layouts_lazy_column_basic_extension]
         /**
          * import androidx.compose.foundation.lazy.items
          */
@@ -125,12 +110,12 @@ private object ListsSnippetsLazyListScope2 {
                 MessageRow(message)
             }
         }
-        // [END android_compose_layouts_lazy_column_basic_extension ]
+        // [END android_compose_layouts_lazy_column_basic_extension]
     }
 }
 @Composable
 private fun GridItemSpanExample() {
-    // [START android_compose_layouts_lazy_vertical_grid_full_span ]
+    // [START android_compose_layouts_lazy_vertical_grid_full_span]
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 30.dp)
     ) {
@@ -143,47 +128,47 @@ private fun GridItemSpanExample() {
         }
         // ...
     }
-    // [END android_compose_layouts_lazy_vertical_grid_full_span ]
+    // [END android_compose_layouts_lazy_vertical_grid_full_span]
 }
 @Composable
 private fun CategoryCard(category: String) {
 }
 @Composable
 private fun ListsSnippetsContentPadding() {
-    // [START android_compose_layouts_lazy_column_padding ]
+    // [START android_compose_layouts_lazy_column_padding]
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     ) {
         // ...
     }
-    // [END android_compose_layouts_lazy_column_padding ]
+    // [END android_compose_layouts_lazy_column_padding]
 }
 
 @Composable
 private fun ListsSnippetsContentSpacing1() {
-    // [START android_compose_layouts_lazy_content_spacing ]
+    // [START android_compose_layouts_lazy_content_spacing]
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         // ...
     }
-    // [END android_compose_layouts_lazy_content_spacing ]
+    // [END android_compose_layouts_lazy_content_spacing]
 }
 
 @Composable
 private fun ListsSnippetsContentSpacing2() {
-    // [START android_compose_layouts_lazy_row_content_spacing ]
+    // [START android_compose_layouts_lazy_row_content_spacing]
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         // ...
     }
-    // [END android_compose_layouts_lazy_row_content_spacing ]
+    // [END android_compose_layouts_lazy_row_content_spacing]
 }
 
 @Composable
 private fun ListsSnippetsContentSpacing3(photos: List<Photo>) {
-    // [START android_compose_layouts_lazy_grid_content_spacing ]
+    // [START android_compose_layouts_lazy_grid_content_spacing]
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -193,11 +178,11 @@ private fun ListsSnippetsContentSpacing3(photos: List<Photo>) {
             PhotoItem(item)
         }
     }
-    // [END android_compose_layouts_lazy_grid_content_spacing ]
+    // [END android_compose_layouts_lazy_grid_content_spacing]
 }
 
 private object ListsSnippetsStickyHeaders1 {
-    // [START android_compose_layouts_lazy_column_sticky_header ]
+    // [START android_compose_layouts_lazy_column_sticky_header]
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ListWithHeader(items: List<Item>) {
@@ -211,11 +196,11 @@ private object ListsSnippetsStickyHeaders1 {
             }
         }
     }
-    // [END android_compose_layouts_lazy_column_sticky_header ]
+    // [END android_compose_layouts_lazy_column_sticky_header]
 }
 
 private object ListsSnippetsStickyHeaders2 {
-    // [START android_compose_layouts_lazy_column_sticky_header_multiple ]
+    // [START android_compose_layouts_lazy_column_sticky_header_multiple]
     // This ideally would be done in the ViewModel
     val grouped = contacts.groupBy { it.firstName[0] }
 
@@ -234,13 +219,13 @@ private object ListsSnippetsStickyHeaders2 {
             }
         }
     }
-    // [END android_compose_layouts_lazy_column_sticky_header_multiple ]
+    // [END android_compose_layouts_lazy_column_sticky_header_multiple]
 }
 
 private object ListsSnippetsGrids {
     @Composable
     fun PhotoGrid(photos: List<Photo>) {
-        // [START android_compose_layouts_lazy_grid_adaptive ]
+        // [START android_compose_layouts_lazy_grid_adaptive]
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 128.dp)
         ) {
@@ -248,12 +233,12 @@ private object ListsSnippetsGrids {
                 PhotoItem(photo)
             }
         }
-        // [END android_compose_layouts_lazy_grid_adaptive ]
+        // [END android_compose_layouts_lazy_grid_adaptive]
     }
 }
 
 private object ListsSnippetsReactingScrollPosition1 {
-    // [START android_compose_layouts_lazy_column_state ]
+    // [START android_compose_layouts_lazy_column_state]
     @Composable
     fun MessageList(messages: List<Message>) {
         // Remember our own LazyListState
@@ -264,11 +249,11 @@ private object ListsSnippetsReactingScrollPosition1 {
             // ...
         }
     }
-    // [END android_compose_layouts_lazy_column_state ]
+    // [END android_compose_layouts_lazy_column_state]
 }
 
 private object ListsSnippetsReactingScrollPosition2 {
-    // [START android_compose_layouts_lazy_column_scroll_to_top ]
+    // [START android_compose_layouts_lazy_column_scroll_to_top]
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun MessageList(messages: List<Message>) {
@@ -293,12 +278,12 @@ private object ListsSnippetsReactingScrollPosition2 {
             }
         }
     }
-    // [END android_compose_layouts_lazy_column_scroll_to_top ]
+    // [END android_compose_layouts_lazy_column_scroll_to_top]
 }
 
 @Composable
 private fun ListsSnippetsReactingScrollPosition3(messages: List<Message>) {
-    // [START android_compose_layouts_lazy_column_state_react_event ]
+    // [START android_compose_layouts_lazy_column_state_react_event]
     val listState = rememberLazyListState()
 
     LazyColumn(state = listState) {
@@ -314,11 +299,11 @@ private fun ListsSnippetsReactingScrollPosition3(messages: List<Message>) {
                 MyAnalyticsService.sendScrolledPastFirstItemEvent()
             }
     }
-    // [END android_compose_layouts_lazy_column_state_react_event ]
+    // [END android_compose_layouts_lazy_column_state_react_event]
 }
 
 private object ListsSnippetsControllingScrollPosition {
-    // [START android_compose_layouts_lazy_column_animate_scroll_to_item ]
+    // [START android_compose_layouts_lazy_column_animate_scroll_to_item]
     @Composable
     fun MessageList(messages: List<Message>) {
         val listState = rememberLazyListState()
@@ -338,11 +323,11 @@ private object ListsSnippetsControllingScrollPosition {
             }
         )
     }
-    // [END android_compose_layouts_lazy_column_animate_scroll_to_item ]
+    // [END android_compose_layouts_lazy_column_animate_scroll_to_item]
 }
 
 private object ListsSnippetsPaging {
-    // [START android_compose_layouts_lazy_column_paging ]
+    // [START android_compose_layouts_lazy_column_paging]
     @Composable
     fun MessageList(pager: Pager<Int, Message>) {
         val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
@@ -357,13 +342,13 @@ private object ListsSnippetsPaging {
             }
         }
     }
-    // [END android_compose_layouts_lazy_column_paging ]
+    // [END android_compose_layouts_lazy_column_paging]
 }
 
 private object ListsSnippetsItemKeys {
     @Composable
     fun MessageList(messages: List<Message>) {
-        // [START android_compose_layouts_lazy_column_item_keys ]
+        // [START android_compose_layouts_lazy_column_item_keys]
         LazyColumn {
             items(
                 items = messages,
@@ -375,7 +360,7 @@ private object ListsSnippetsItemKeys {
                 MessageRow(message)
             }
         }
-        // [END android_compose_layouts_lazy_column_item_keys ]
+        // [END android_compose_layouts_lazy_column_item_keys]
     }
 }
 data class Book(val id: String)
@@ -384,7 +369,7 @@ private fun LazyColumnRemembered() {
     val books = remember {
         listOf(Book("1"))
     }
-    // [START android_compose_layouts_lazy_column_remembered_value ]
+    // [START android_compose_layouts_lazy_column_remembered_value]
     LazyColumn {
         items(books, key = { it.id }) {
             val rememberedValue = remember {
@@ -392,7 +377,7 @@ private fun LazyColumnRemembered() {
             }
         }
     }
-    // [END android_compose_layouts_lazy_column_remembered_value ]
+    // [END android_compose_layouts_lazy_column_remembered_value]
 }
 
 @Composable
@@ -630,20 +615,6 @@ private fun ContentTypeExample() {
     }
     // [END android_compose_layouts_lazy_content_type]
 }
-
-@Composable
-private fun ListsContentTypeSnippet() {
-    LazyColumn {
-        items(elements, contentType = { it.type }) {
-            // ...
-        }
-    }
-}
-
-// ========================
-// Fakes below
-// ========================
-
 private class Message(val id: Long)
 private class Item
 
