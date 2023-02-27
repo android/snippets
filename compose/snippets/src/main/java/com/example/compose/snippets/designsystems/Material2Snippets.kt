@@ -143,14 +143,27 @@ fun ColorUsage() {
     // By default, both Icon & Text use the combination of LocalContentColor &
     // LocalContentAlpha. De-emphasize content by setting content alpha
     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-        Text(/*...*//* [START_EXCLUDE] */ "" /* [END_EXCLUDE]  */)
+        Text(
+            /*...*/
+            // [START_EXCLUDE]
+            ""
+            // [END_EXCLUDE]
+        )
     }
     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
         Icon(
-            /*...*//* [START_EXCLUDE] */ Icons.Filled.ArrowBack,
-            contentDescription = null /* [END_EXCLUDE]  */
+            /*...*/
+            // [START_EXCLUDE]
+            Icons.Filled.ArrowBack,
+            contentDescription = null
+            // [END_EXCLUDE]
         )
-        Text(/*...*//* [START_EXCLUDE] */ "" /* [END_EXCLUDE]  */)
+        Text(
+            /*...*/
+            // [START_EXCLUDE]
+            ""
+            // [END_EXCLUDE]
+        )
     }
     // [END android_compose_material2_content_alpha]
 }
