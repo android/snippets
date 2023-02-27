@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.layout
+package com.example.compose.snippets.layouts
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
