@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.layouts.pager
 
 import android.util.Log
@@ -129,15 +145,16 @@ fun PagerAnimateToPage() {
         val coroutineScope = rememberCoroutineScope()
         Button(onClick = {
             coroutineScope.launch {
-                pagerState.animateScrollToPage(5,
-                    animationSpec = tween(1000))
+                pagerState.animateScrollToPage(
+                    5,
+                    animationSpec = tween(1000)
+                )
             }
         }, modifier = Modifier.align(Alignment.BottomCenter)) {
             Text("Animate to Page 5")
         }
         // [END android_compose_layouts_pager_animate_to_page]
     }
-
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -145,7 +162,8 @@ fun PagerAnimateToPage() {
 @Composable
 fun PagerContentPadding() {
     // [START android_compose_layouts_pager_content_padding]
-    HorizontalPager(pageCount = 10,
+    HorizontalPager(
+        pageCount = 10,
         contentPadding = PaddingValues(16.dp)
     ) { page ->
         // Our page content
@@ -176,7 +194,8 @@ fun PagerNotifiedPageChanges() {
             }
         }
 
-        HorizontalPager(pageCount = 10,
+        HorizontalPager(
+            pageCount = 10,
             state = pagerState
         ) { page ->
             // Our page content
@@ -199,7 +218,8 @@ fun PagerIndicator() {
         val pageCount = 10
         val pagerState = rememberPagerState()
 
-        HorizontalPager(pageCount = pageCount,
+        HorizontalPager(
+            pageCount = pageCount,
             state = pagerState
         ) { page ->
             // Our page content
@@ -218,11 +238,12 @@ fun PagerIndicator() {
         ) {
             repeat(pageCount) { iteration ->
                 val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
-                Box(modifier = Modifier
-                    .padding(2.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .size(20.dp)
+                Box(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(20.dp)
 
                 )
             }
@@ -238,7 +259,8 @@ fun PagerTransformContent() {
     val pageCount = 10
     val pagerState = rememberPagerState()
 
-    HorizontalPager(pageCount = pageCount,
+    HorizontalPager(
+        pageCount = pageCount,
         state = pagerState
     ) { page ->
         // Our page content
@@ -255,10 +277,8 @@ fun PagerItem(index: Int) {
     )
 }
 
-
 @Composable
 fun LazyListEx() {
     LazyColumn(content = {
-
     },)
 }
