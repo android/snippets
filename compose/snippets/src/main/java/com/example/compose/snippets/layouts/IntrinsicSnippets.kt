@@ -32,8 +32,10 @@ package com.example.compose.snippets.layouts
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -101,7 +103,7 @@ private object IntrinsicsSnippet2 {
     // [START android_compose_intrinsics_twotexts2]
     @Composable
     fun TwoTexts(modifier: Modifier = Modifier, text1: String, text2: String) {
-        Row(modifier = modifier) {
+        Row(modifier = modifier.height(IntrinsicSize.Min)) {
             Text(
                 modifier = Modifier
                     .weight(1f)
