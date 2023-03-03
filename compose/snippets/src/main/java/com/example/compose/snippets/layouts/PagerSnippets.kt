@@ -19,7 +19,7 @@
 )
 @file:Suppress("unused")
 
-package com.example.compose.snippets.layouts.pager
+package com.example.compose.snippets.layouts
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
