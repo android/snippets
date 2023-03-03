@@ -66,7 +66,6 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.compose.snippets.util.rememberRandomSampleImageUrl
 import kotlin.math.absoluteValue
 import kotlinx.coroutines.launch
