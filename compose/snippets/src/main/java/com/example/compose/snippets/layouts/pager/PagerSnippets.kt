@@ -184,12 +184,6 @@ fun PagerWithTabsExample() {
     TabRow(
         // Our selected tab is our current page
         selectedTabIndex = pagerState.currentPage,
-        /*// Override the indicator, using the provided pagerTabIndicatorOffset modifier
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-            )
-        }*/
     ) {
         // Add tabs for all of our pages
         pages.forEachIndexed { index, title ->
@@ -345,28 +339,3 @@ fun PagerIndicator() {
         // [END android_compose_pager_indicator]
     }
 }
-/*
-
-@Preview
-@Composable
-fun HorizontalPagerIndicatorSample() {
-    // [START android_compose_layouts_pager_horizontal_indicator]
-    val pagerState = rememberPagerState()
-    val pageCount = 10
-    Column {
-        // Display 10 items
-        HorizontalPager(pageCount = pageCount) { page ->
-            // Our page content
-            Text(
-                text = "Page: $page",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier.padding(16.dp),
-            pageCount = pageCount
-        )
-    }
-    // [END android_compose_layouts_pager_horizontal_indicator]
-}*/
