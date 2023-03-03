@@ -17,6 +17,8 @@
 @file:OptIn(
     ExperimentalFoundationApi::class
 )
+@file:Suppress("unused")
+
 package com.example.compose.snippets.layouts.pager
 
 import android.util.Log
@@ -51,6 +53,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import kotlin.math.absoluteValue
@@ -356,3 +359,14 @@ fun PagerIndicator() {
         // [END android_compose_pager_indicator]
     }
 }
+
+// [START android_compose_pager_custom_page_size]
+private val threePagesPerViewport = object : PageSize {
+    override fun Density.calculateMainAxisPageSize(
+        availableSpace: Int,
+        pageSpacing: Int
+    ): Int {
+        return (availableSpace - 2 * pageSpacing) / 3
+    }
+}
+// [END android_compose_pager_custom_page_size]
