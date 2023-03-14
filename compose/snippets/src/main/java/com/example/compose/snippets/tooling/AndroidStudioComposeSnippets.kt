@@ -46,6 +46,7 @@ fun SimpleComposable() {
 // [END android_compose_tooling_simple_composable]
 
 // [START android_compose_tooling_simple_composable_preview]
+@Preview
 @Composable
 fun SimpleComposablePreview() {
     SimpleComposable()
