@@ -41,7 +41,8 @@ private object ModernEmojiComposeDisableSnippet {
     fun ModernEmojiComposeDisableSnippet() {
         // [START android_compose_text_emoji]
         Text(
-            text = "Hello $EMOJI_TEXT", style = TextStyle(
+            text = "Hello $EMOJI_TEXT",
+            style = TextStyle(
                 platformStyle = PlatformTextStyle(
                     emojiSupportMatch = EmojiSupportMatch.None
                 )/* ... */
@@ -72,7 +73,6 @@ private object EmojiSnippets2 {
         }
     }
     // [END android_compose_text_emoji_compatibility_component]
-
 
     object R {
         object id {
@@ -129,7 +129,6 @@ private object EmojiSnippets3 {
     }
 }
 
-
 private object EmojiSnippets4 {
     // [START android_compose_text_emoji_compatibility_viewbinding]
     class MyActivity : AppCompatActivity() {
@@ -137,22 +136,23 @@ private object EmojiSnippets4 {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            setContentView(ComposeView(this).apply {
-                setContent {
-                    Column {
-                        Text(EMOJI_TEXT)
+            setContentView(
+                ComposeView(this).apply {
+                    setContent {
+                        Column {
+                            Text(EMOJI_TEXT)
 
-                        AndroidViewBinding(ExampleViewBinding::inflate) {
-                            emojiTextView.text = EMOJI_TEXT
+                            AndroidViewBinding(ExampleViewBinding::inflate) {
+                                emojiTextView.text = EMOJI_TEXT
+                            }
                         }
                     }
                 }
-            })
+            )
         }
     }
     // [END android_compose_text_emoji_compatibility_viewbinding]
 }
-
 
 private object EmojiSnippets5 {
     // [START android_compose_text_emoji_compatibility_compat]
@@ -161,19 +161,21 @@ private object EmojiSnippets5 {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            setContentView(ComposeView(this).apply {
-                setContent {
-                    Column {
-                        Text(EMOJI_TEXT)
+            setContentView(
+                ComposeView(this).apply {
+                    setContent {
+                        Column {
+                            Text(EMOJI_TEXT)
 
-                        AndroidView(
-                            factory = { context -> AppCompatTextView(context) },
-                            update = { it.text = EMOJI_TEXT })
+                            AndroidView(
+                                factory = { context -> AppCompatTextView(context) },
+                                update = { it.text = EMOJI_TEXT }
+                            )
+                        }
                     }
                 }
-            })
+            )
         }
     }
     // [END android_compose_text_emoji_compatibility_compat]
 }
-
