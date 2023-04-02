@@ -67,7 +67,7 @@ private object EmojiSnippets2 {
 
             composeView.apply {
                 setContent {
-                    // compose content
+                    // compose code
                 }
             }
         }
