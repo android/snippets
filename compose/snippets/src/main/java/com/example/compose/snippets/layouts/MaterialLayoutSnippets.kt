@@ -48,7 +48,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.rememberSheetState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -375,7 +375,7 @@ fun BottomSheetDemo() {
     // [END android_compose_layout_material_bottom_sheet]
 
     // [START android_compose_layout_material_bottom_sheet2]
-    val sheetState = rememberSheetState()
+    val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
     Scaffold(
