@@ -19,7 +19,9 @@ on:
   pull_request:
     branches: [ '*' ]
   workflow_dispatch:
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -34,9 +36,10 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '11'
-
-    - name: Check formatting
-      run: ./gradlew :compose:spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
-
+    - name: Apply formatting if failed
+      run: ./gradlew :compose:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply Spotless
     - name: Build Compose
-      run: ./gradlew :compose:build
+      run: ./gradlew :compose:snippets:build
