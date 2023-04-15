@@ -28,7 +28,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFontFamilyResolver
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -52,7 +51,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 
 private object TextDownloadableFontsSnippet1 {
     // [START android_compose_text_df_provider]
-    @OptIn(ExperimentalTextApi::class)
     val provider = GoogleFont.Provider(
         providerAuthority = "com.google.android.gms.fonts",
         providerPackage = "com.google.android.gms",
@@ -61,7 +59,6 @@ private object TextDownloadableFontsSnippet1 {
     // [END android_compose_text_df_provider]
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object TextDownloadableFontsSnippet2 {
     // [START android_compose_text_df_fontFamily]
 
@@ -83,7 +80,6 @@ private object TextDownloadableFontsSnippet2 {
     // [END android_compose_text_df_fontFamily]
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object TextDownloadableFontsSnippet3 {
     // [START android_compose_text_df_fontFamily_style]
 
@@ -152,7 +148,6 @@ private object TextDownloadableFontsSnippet4 {
     }
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object FallbackFontsSnippet1 {
     // [START android_compose_text_df_fallbacks]
 
@@ -173,7 +168,6 @@ private object FallbackFontsSnippet1 {
     // [END android_compose_text_df_fallbacks]
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object FallbackFontsSnippet2 {
     // [START android_compose_text_df_fallbacks_style]
 
@@ -197,7 +191,6 @@ private object FallbackFontsSnippet2 {
     // [END android_compose_text_df_fallbacks_style]
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object DownloadableFontsDebugSnippet {
     // [START android_compose_text_df_debug_apis_handler]
     val handler = CoroutineExceptionHandler { _, throwable ->
@@ -207,7 +200,6 @@ private object DownloadableFontsDebugSnippet {
     // [END android_compose_text_df_debug_apis_handler]
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object DownloadableFontsDebugSnippet2 {
     @Composable
     fun DownloadableFontsDebugSnippet() {
@@ -225,7 +217,6 @@ private object DownloadableFontsDebugSnippet2 {
     }
 }
 
-@OptIn(ExperimentalTextApi::class)
 private object DownloadableFontsDebugSnippet3 {
     @Composable
     fun DownloadableFontsDebugSnippet() {
