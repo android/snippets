@@ -89,8 +89,8 @@ private fun BackButtonExample() {
     // [END android_compose_libraries_back_button]
 }
 
-private object HiltExamples {
-    // [START android_compose_libraries_hilt ]
+private object ViewModelExamples {
+    // [START android_compose_libraries_viewmodel ]
     class MyViewModel : ViewModel() { /*...*/ }
 
     // import androidx.lifecycle.viewmodel.compose.viewModel
@@ -100,14 +100,14 @@ private object HiltExamples {
     ) {
         // use viewModel here
     }
-    // [END android_compose_libraries_hilt ]
+    // [END android_compose_libraries_viewmodel ]
 
 
 
 }
 
-private object HiltExample2 {
-    // [START android_compose_libraries_hilt_2 ]
+private object ViewModelExample2 {
+    // [START android_compose_libraries_viewmodel_2 ]
     class MyViewModel : ViewModel() { /*...*/ }
     // import androidx.lifecycle.viewmodel.compose.viewModel
     @Composable
@@ -121,7 +121,7 @@ private object HiltExample2 {
     fun MyScreen2(
         viewModel: MyViewModel = viewModel() // Same instance as in MyScreen
     ) { /* ... */ }
-    // [END android_compose_libraries_hilt_2 ]
+    // [END android_compose_libraries_viewmodel_2 ]
 }
 
 private object StreamData {
