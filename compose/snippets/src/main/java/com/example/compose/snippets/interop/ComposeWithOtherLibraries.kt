@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("unused")
 
 package com.example.compose.snippets.interop
@@ -25,8 +41,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import coil.compose.rememberAsyncImagePainter
-import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,14 +49,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import coil.compose.rememberAsyncImagePainter
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.flow.Flow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -78,7 +94,6 @@ fun GetContentExample() {
 }
 // [END android_compose_libraries_activity_contract ]
 
-
 @Composable
 private fun BackButtonExample() {
     // [START android_compose_libraries_back_button]
@@ -101,9 +116,6 @@ private object ViewModelExamples {
         // use viewModel here
     }
     // [END android_compose_libraries_viewmodel ]
-
-
-
 }
 
 private object ViewModelExample2 {
@@ -146,8 +158,7 @@ private object StreamData {
     // [END android_compose_libraries_stream_of_data ]
 
     @Composable
-    fun ShowData(value: State<String?>){
-
+    fun ShowData(value: State<String?>) {
     }
 }
 
@@ -167,13 +178,11 @@ private object HiltExample3 {
 
     // [END android_compose_libraries_hilt_3]
     interface ExampleRepository
-
 }
 
 private object HiltViewModel {
     @HiltViewModel
-    class MyViewModel @Inject constructor(
-    ) : ViewModel() { /* ... */ }
+    class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
     // [START android_compose_libraries_hilt_viewmodel]
     // import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -195,19 +204,15 @@ private object HiltViewModel {
 
     @Composable
     private fun MyScreen(viewModel: MyViewModel) {
-
     }
 }
 
-
 private object HiltViewModelBackStack {
     @HiltViewModel
-    class MyViewModel @Inject constructor(
-    ) : ViewModel() { /* ... */ }
+    class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
 
     @HiltViewModel
-    class ParentViewModel @Inject constructor(
-    ) : ViewModel() { /* ... */ }
+    class ParentViewModel @Inject constructor() : ViewModel() { /* ... */ }
     // [START android_compose_libraries_hilt_viewmodel_back_stack]
     // import androidx.hilt.navigation.compose.hiltViewModel
     // import androidx.navigation.compose.getBackStackEntry
@@ -234,7 +239,6 @@ private object HiltViewModelBackStack {
 
     @Composable
     private fun ExampleWithRouteScreen(viewModel: ParentViewModel) {
-
     }
 }
 
