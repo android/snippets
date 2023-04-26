@@ -75,7 +75,7 @@ import kotlinx.coroutines.flow.Flow
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-// [START android_compose_libraries_activity_contract ]
+// [START android_compose_libraries_activity_contract]
 @Composable
 fun GetContentExample() {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -92,7 +92,7 @@ fun GetContentExample() {
         )
     }
 }
-// [END android_compose_libraries_activity_contract ]
+// [END android_compose_libraries_activity_contract]
 
 @Composable
 private fun BackButtonExample() {
@@ -105,7 +105,7 @@ private fun BackButtonExample() {
 }
 
 private object ViewModelExamples {
-    // [START android_compose_libraries_viewmodel ]
+    // [START android_compose_libraries_viewmodel]
     class MyViewModel : ViewModel() { /*...*/ }
 
     // import androidx.lifecycle.viewmodel.compose.viewModel
@@ -115,11 +115,11 @@ private object ViewModelExamples {
     ) {
         // use viewModel here
     }
-    // [END android_compose_libraries_viewmodel ]
+    // [END android_compose_libraries_viewmodel]
 }
 
 private object ViewModelExample2 {
-    // [START android_compose_libraries_viewmodel_2 ]
+    // [START android_compose_libraries_viewmodel_2]
     class MyViewModel : ViewModel() { /*...*/ }
     // import androidx.lifecycle.viewmodel.compose.viewModel
     @Composable
@@ -133,7 +133,7 @@ private object ViewModelExample2 {
     fun MyScreen2(
         viewModel: MyViewModel = viewModel() // Same instance as in MyScreen
     ) { /* ... */ }
-    // [END android_compose_libraries_viewmodel_2 ]
+    // [END android_compose_libraries_viewmodel_2]
 }
 
 private object StreamData {
@@ -141,7 +141,7 @@ private object StreamData {
     class MyViewModel : ViewModel() {
         val exampleLiveData: LiveData<String> = MutableLiveData("")
     }
-    // [START android_compose_libraries_stream_of_data ]
+    // [START android_compose_libraries_stream_of_data]
     // import androidx.lifecycle.viewmodel.compose.viewModel
     @Composable
     fun MyScreen(
@@ -155,7 +155,7 @@ private object StreamData {
             ShowData(dataExample)
         }
     }
-    // [END android_compose_libraries_stream_of_data ]
+    // [END android_compose_libraries_stream_of_data]
 
     @Composable
     fun ShowData(value: State<String?>) {
@@ -243,7 +243,7 @@ private object HiltViewModelBackStack {
 }
 
 private object PagingExample {
-    // [START android_compose_libraries_paging_example ]
+    // [START android_compose_libraries_paging_example]
     @Composable
     fun MyScreen(flow: Flow<PagingData<String>>) {
         val lazyPagingItems = flow.collectAsLazyPagingItems()
@@ -253,11 +253,11 @@ private object PagingExample {
             }
         }
     }
-    // [END android_compose_libraries_paging_example ]
+    // [END android_compose_libraries_paging_example]
 }
 
 private object MapsExample {
-    // [START android_compose_libraries_maps_example ]
+    // [START android_compose_libraries_maps_example]
     @Composable
     fun MapsExample() {
         val singapore = LatLng(1.35, 103.87)
@@ -275,5 +275,5 @@ private object MapsExample {
             )
         }
     }
-    // [END android_compose_libraries_maps_example ]
+    // [END android_compose_libraries_maps_example]
 }
