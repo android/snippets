@@ -116,6 +116,7 @@ fun VerticalPagerSample() {
     // [END android_compose_layouts_pager_vertical_basic]
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PagerScrollToItem() {

@@ -140,9 +140,6 @@ private fun IncorrectDoubleGestureDetector() {
                     // Never reached
                     detectDragGestures { _, _ -> log = "Dragging" }
                 }
-                .pointerInput(Unit) {
-                    detectDragGestures { _, _ -> log = "Dragging" }
-                }
         )
     }
     // [END android_compose_touchinput_pointerinput_incorrect_double_gesture_detector]
