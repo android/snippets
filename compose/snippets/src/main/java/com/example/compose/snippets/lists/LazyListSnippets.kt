@@ -38,6 +38,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -57,6 +60,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.compose.snippets.tooling.Preview
 import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -614,6 +618,37 @@ private fun ContentTypeExample() {
         }
     }
     // [END android_compose_layouts_lazy_content_type]
+}
+
+@Preview
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LazyStaggeredGridSnippet() {
+    // [START android_compose_layouts_lazy_staggered_grid_adaptive]
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(100.dp),
+        content = {
+            items(photos) { photo ->
+                PhotoItem(photo)
+            }
+        }
+    )
+    // [END android_compose_layouts_lazy_staggered_grid_adaptive]
+}
+@Preview
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LazyStaggeredGridSnippetFixed() {
+    // [START android_compose_layouts_lazy_staggered_grid_fixed]
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        content = {
+            items(photos) { photo ->
+                PhotoItem(photo)
+            }
+        }
+    )
+    // [END android_compose_layouts_lazy_staggered_grid_fixed]
 }
 private class Message(val id: Long)
 private class Item
