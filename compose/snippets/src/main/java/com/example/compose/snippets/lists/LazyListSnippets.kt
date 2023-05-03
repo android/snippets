@@ -632,6 +632,8 @@ fun LazyStaggeredGridSnippet() {
     // [START android_compose_layouts_lazy_staggered_grid_adaptive]
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(200.dp),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
             items(randomSizedPhotos) { photo ->
                 AsyncImage(
@@ -653,6 +655,8 @@ fun LazyStaggeredGridSnippetFixed() {
     // [START android_compose_layouts_lazy_staggered_grid_fixed]
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(3),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
             items(randomSizedPhotos) { photo ->
                 AsyncImage(
