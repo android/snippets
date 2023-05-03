@@ -28,8 +28,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -38,6 +41,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -50,6 +56,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.paging.Pager
@@ -57,6 +64,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.example.compose.snippets.tooling.Preview
+import com.example.compose.snippets.util.randomSampleImageUrl
 import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -615,6 +624,53 @@ private fun ContentTypeExample() {
     }
     // [END android_compose_layouts_lazy_content_type]
 }
+
+@Preview
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LazyStaggeredGridSnippet() {
+    // [START android_compose_layouts_lazy_staggered_grid_adaptive]
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(200.dp),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        content = {
+            items(randomSizedPhotos) { photo ->
+                AsyncImage(
+                    model = photo,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                )
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    )
+    // [END android_compose_layouts_lazy_staggered_grid_adaptive]
+}
+@Preview
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LazyStaggeredGridSnippetFixed() {
+    // [START android_compose_layouts_lazy_staggered_grid_fixed]
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(3),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        content = {
+            items(randomSizedPhotos) { photo ->
+                AsyncImage(
+                    model = photo,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                )
+            }
+        },
+        modifier = Modifier.fillMaxSize()
+    )
+    // [END android_compose_layouts_lazy_staggered_grid_fixed]
+}
 private class Message(val id: Long)
 private class Item
 
@@ -654,3 +710,32 @@ private object MyAnalyticsService {
 
 private class ContentTypeElement(val type: Long)
 private val elements = listOf<ContentTypeElement>()
+
+private val randomSizedPhotos = listOf(
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 900, height = 1600),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 300, height = 400),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 900, height = 1600),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 300, height = 400),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 900, height = 1600),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 300, height = 400),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 300, height = 400),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 900, height = 1600),
+    randomSampleImageUrl(width = 500, height = 500),
+    randomSampleImageUrl(width = 300, height = 400),
+    randomSampleImageUrl(width = 1600, height = 900),
+    randomSampleImageUrl(width = 500, height = 500),
+)
