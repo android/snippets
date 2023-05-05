@@ -1,26 +1,31 @@
 package com.example.compose.snippets.touchinput.focus
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridSpanLayoutProvider.LazyGridItemSpanScopeImpl.maxLineSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,19 +33,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusDirection.Companion.Down
+import androidx.compose.ui.focus.FocusDirection.Companion.Right
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusRequester.Companion.Cancel
+import androidx.compose.ui.focus.FocusRequester.Companion.Default
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.node.CanFocusChecker.down
-import androidx.compose.ui.node.CanFocusChecker.next
-import androidx.compose.ui.node.CanFocusChecker.right
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -93,13 +105,13 @@ fun OverrideDefaultOrder() {
     // [START android_compose_touchinput_focus_override]
     Column {
         Row {
-            Button(Modifier.focusRequester(first)) { Text("First field") }
-            Button(Modifier.focusRequester(third)) { Text("Third field") }
+            TextButton({}, Modifier.focusRequester(first)) { Text("First field") }
+            TextButton({}, Modifier.focusRequester(third)) { Text("Third field") }
         }
 
         Row {
-            Button(Modifier.focusRequester(second)) { Text("Second field") }
-            Button(Modifier.focusRequester(fourth)) { Text("Fourth field") }
+            TextButton({}, Modifier.focusRequester(second)) { Text("Second field") }
+            TextButton({}, Modifier.focusRequester(fourth)) { Text("Fourth field") }
         }
     }
     // [END android_compose_touchinput_focus_override]
@@ -107,34 +119,34 @@ fun OverrideDefaultOrder() {
     // [START android_compose_touchinput_focus_override_use]
     Column {
         Row {
-            Button(
-              Modifier
-                .focusRequester(first)
-                .focusProperties { next = second }
+            TextButton({},
+                Modifier
+                    .focusRequester(first)
+                    .focusProperties { next = second }
             ) {
                 Text("First field")
             }
-            Button(
-              Modifier
-                .focusRequester(third)
-                .focusProperties { next = fourth }
+            TextButton({},
+                Modifier
+                    .focusRequester(third)
+                    .focusProperties { next = fourth }
             ) {
                 Text("Third field")
             }
         }
 
         Row {
-            Button(
-              Modifier
-                .focusRequester(second)
-                .focusProperties { next = third }
+            TextButton({},
+                Modifier
+                    .focusRequester(second)
+                    .focusProperties { next = third }
             ) {
                 Text("Second field")
             }
-            Button(
-              Modifier
-                .focusRequester(fourth)
-                .focusProperties { next = first }
+            TextButton({},
+                Modifier
+                    .focusRequester(fourth)
+                    .focusProperties { next = first }
             ) {
                 Text("Fourth field")
             }
@@ -143,25 +155,47 @@ fun OverrideDefaultOrder() {
     // [END android_compose_touchinput_focus_override_use]
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun OverrideTwoDimensionalOrder() {
-    // [START android_compose_touchinput_focus_override_2d]
-    Button(modifier = Modifier
-      .focusRequester(fourth)
-      .focusProperties {
 
-        down = third
-        right = second
-      }
-    ) {
-        ...
-    }
+    val (second, third, fourth) = remember { FocusRequester.createRefs() }
+
+    // [START android_compose_touchinput_focus_override_2d]
+    TextButton(onClick = {},
+        modifier = Modifier
+            .focusRequester(fourth)
+            .focusProperties {
+                down = third
+                right = second
+            }
+    ) {}
     // [END android_compose_touchinput_focus_override_2d]
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun FocusGroup() {
+
+    @Composable
+    fun FilterChipA() {
+    }
+
+    @Composable
+    fun FilterChipB() {
+    }
+
+    @Composable
+    fun FilterChipC() {
+    }
+
+    @Composable
+    fun SweetsCard(sweets: Int) {
+    }
+
+    val chocolates = 0
+
     // [START android_compose_touchinput_focus_group]
     LazyVerticalGrid(columns = GridCells.Fixed(4)) {
         item(span = { GridItemSpan(maxLineSpan) }) {
@@ -182,12 +216,12 @@ private fun FocusGroup() {
 @Composable
 private fun Focusable() {
     // [START android_compose_touchinput_focus_focusable]
-    val color by remember { mutableStateOf(Green) }
+    var color by remember { mutableStateOf(Green) }
     Box(
-      Modifier
-        .background(color)
-        .onFocusChanged { color = if (it.isFocused) Blue else Green }
-        .focusable()
+        Modifier
+            .background(color)
+            .onFocusChanged { color = if (it.isFocused) Blue else Green }
+            .focusable()
     ) {
         Text("Focusable 1")
     }
@@ -213,8 +247,13 @@ private fun Unfocusable() {
 private fun RequestFocus() {
     // [START android_compose_touchinput_focus_request]
     val focusRequester = remember { FocusRequester() }
+    var text by remember { mutableStateOf("") }
 
-    TextField(modifier = Modifier.focusRequester(focusRequester))
+    TextField(
+        value = text,
+        onValueChange = { text = it },
+        modifier = Modifier.focusRequester(focusRequester)
+    )
     // [END android_compose_touchinput_focus_request]
 }
 
@@ -238,6 +277,7 @@ private fun RequestFocus2() {
 
 @Composable
 private fun Capture() {
+    var text by remember { mutableStateOf("") }
     // [START android_compose_touchinput_focus_capture]
     val textField = FocusRequester()
 
@@ -246,7 +286,7 @@ private fun Capture() {
         onValueChange = {
             text = it
 
-            if (it.text.length > 3) {
+            if (it.length > 3) {
                 textField.captureFocus()
             } else {
                 textField.freeFocus()
@@ -257,20 +297,24 @@ private fun Capture() {
     // [END android_compose_touchinput_focus_capture]
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ModifierOrder() {
+
+    val (item1, item2) = remember { FocusRequester.createRefs() }
+
     // [START android_compose_touchinput_focus_order_1]
-  Modifier
-    .focusProperties { right = item1 }
-    .focusProperties { right = item2 }
-    .focusable()
+    Modifier
+        .focusProperties { right = item1 }
+        .focusProperties { right = item2 }
+        .focusable()
     // [END android_compose_touchinput_focus_order_1]
     // [START android_compose_touchinput_focus_order_2]
-  Modifier
-    .focusProperties { right = Default }
-    .focusProperties { right = item1 }
-    .focusProperties { right = item2 }
-    .focusable()
+    Modifier
+        .focusProperties { right = Default }
+        .focusProperties { right = item1 }
+        .focusProperties { right = item2 }
+        .focusable()
     // [END android_compose_touchinput_focus_order_2]
 }
 
@@ -279,7 +323,7 @@ private fun ModifierOrder() {
 fun FancyButton(modifier: Modifier = Modifier) {
     Row(modifier.focusProperties { canFocus = false }) {
         Text("Click me")
-        Button(onClick = { … }) { Text("OK") }
+        Button(onClick = { }) { Text("OK") }
     }
 }
 // [END android_compose_touchinput_focus_order_overwrite]
@@ -295,30 +339,31 @@ private fun CallFancyButton() {
 private fun ModifierOrder2() {
     // [START android_compose_touchinput_focus_order_request_1]
     Box(
-      Modifier
-        .focusable()
-        .focusRequester()
-        .onFocusChanged {}
+        Modifier
+            .focusable()
+            .focusRequester(Default)
+            .onFocusChanged {}
     )
     // [END android_compose_touchinput_focus_order_request_1]
     // [START android_compose_touchinput_focus_order_request_2]
     Box(
-      Modifier
-        .onFocusChanged {}
-        .focusRequester()
-        .focusable()
+        Modifier
+            .onFocusChanged {}
+            .focusRequester(Default)
+            .focusable()
     )
     // [END android_compose_touchinput_focus_order_request_2]
     // [START android_compose_touchinput_focus_order_request_3]
     Box(
-      Modifier
-        .focusRequester()
-        .onFocusChanged {}
-        .focusable()
+        Modifier
+            .focusRequester(Default)
+            .onFocusChanged {}
+            .focusable()
     )
     // [END android_compose_touchinput_focus_order_request_3]
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun RedirectFocus() {
     // [START android_compose_touchinput_focus_redirect]
@@ -337,11 +382,16 @@ private fun RedirectFocus() {
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun FocusAdvancing() {
     // [START android_compose_touchinput_focus_advancing]
     val focusManager = LocalFocusManager.current
+    var text by remember { mutableStateOf("") }
+
     TextField(
+        value = text,
+        onValueChange = { text = it },
         modifier = Modifier.onPreviewKeyEvent {
             when {
                 KeyEventType.KeyUp == it.type && Key.Tab == it.key -> {
@@ -361,17 +411,18 @@ private fun ReactToFocus() {
     // [START android_compose_touchinput_focus_react]
     var color by remember { mutableStateOf(Color.White) }
     Card(
-        modifier = Modifier.onFocusChanged {
-            color = if (it.isFocus) Red else White
-        }.border(5.dp, color),
-        onClick = { ... }
-    )
+        modifier = Modifier
+            .onFocusChanged {
+                color = if (it.isFocused) Red else White
+            }
+            .border(5.dp, color)
+    ) {}
     // [END android_compose_touchinput_focus_react]
 }
 
 // [START android_compose_touchinput_focus_advanced_cues]
 private class MyHighlightIndicationInstance(isEnabledState: State<Boolean>) :
-  IndicationInstance {
+    IndicationInstance {
     private val isEnabled by isEnabledState
     override fun ContentDrawScope.drawIndication() {
         drawContent()
@@ -407,8 +458,8 @@ private fun ApplyIndication() {
                 interactionSource = interactionSource,
                 indication = highlightIndication,
                 enabled = true,
-                onClick = { … }
+                onClick = { }
             )
-    )
+    ){}
     // [END android_compose_touchinput_focus_apply_indication]
 }
