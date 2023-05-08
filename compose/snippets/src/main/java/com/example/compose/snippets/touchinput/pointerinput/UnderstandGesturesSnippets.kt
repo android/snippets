@@ -44,7 +44,6 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastAny
 
 @Preview
 @Composable
@@ -112,7 +111,7 @@ private fun CheckConsumption() {
             awaitEachGesture {
                 while (true) {
                     val event = awaitPointerEvent()
-                    if (event.changes.fastAny { it.isConsumed }) {
+                    if (event.changes.any { it.isConsumed }) {
                         // A pointer is consumed by another gesture handler
                     } else {
                         // Handle unconsumed event
