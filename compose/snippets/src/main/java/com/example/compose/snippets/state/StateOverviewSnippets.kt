@@ -48,7 +48,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_state_overview]
 @Composable
 private fun HelloContent() {
@@ -68,7 +67,6 @@ private fun HelloContent() {
 // [END android_compose_state_overview]
 
 private object StateSnippet1 {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_state_remember]
     @Composable
     fun HelloContent() {
@@ -100,7 +98,6 @@ private object StateSnippet2 {
         HelloContent(name = name, onNameChange = { name = it })
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun HelloContent(name: String, onNameChange: (String) -> Unit) {
         Column(modifier = Modifier.padding(16.dp)) {

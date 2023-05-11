@@ -235,7 +235,6 @@ private object StateHoistingSnippets5 {
     // [END android_compose_state_hoisting_vm_ui_element_state]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private object StateHoistingSnippets6 {
     @Composable
     private fun ConversationScreen(onCloseDrawer: () -> Unit) {}

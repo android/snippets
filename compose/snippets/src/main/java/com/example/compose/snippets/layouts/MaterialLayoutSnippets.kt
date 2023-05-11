@@ -109,7 +109,6 @@ fun ExtendedFabDemo() {
     // [END android_compose_layout_material_fab]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldDemo() {
     // [START android_compose_layout_material_scaffold]
@@ -139,7 +138,6 @@ fun ScaffoldTopAppBarDemo() {
     // [END android_compose_layout_material_appbar]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldBottomBarDemo() {
     // [START android_compose_layout_material_bottombar]
@@ -156,7 +154,6 @@ fun ScaffoldBottomBarDemo() {
     // [END android_compose_layout_material_bottombar]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldFabDemo() {
     // [START android_compose_layout_material_scaffold_fab]
@@ -175,7 +172,6 @@ fun ScaffoldFabDemo() {
     // [END android_compose_layout_material_scaffold_fab]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldFabPositionDemo() {
     // [START android_compose_layout_material_scaffold_fab_position]
@@ -195,7 +191,6 @@ fun ScaffoldFabPositionDemo() {
     // [END android_compose_layout_material_scaffold_fab_position]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldFabAndBottomBarDemo() {
     // [START android_compose_layout_material_scaffold_fab_docked]
@@ -217,7 +212,6 @@ fun ScaffoldFabAndBottomBarDemo() {
     // [END android_compose_layout_material_scaffold_fab_docked]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldSnackbarDemo() {
     // [START android_compose_layout_material_snackbar]
@@ -247,7 +241,6 @@ fun ScaffoldSnackbarDemo() {
     // [END android_compose_layout_material_snackbar]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldSnackbarResultDemo() {
     // [START android_compose_layout_material_snackbar_result]
@@ -329,7 +322,6 @@ fun DrawerGesturesDemo() {
     // [END android_compose_layout_material_modal_drawer_gestures]
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawerStateDemo() {
     // [START android_compose_layout_material_modal_drawer_programmatic]

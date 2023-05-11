@@ -52,7 +52,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // [START android_compose_side_effects_launchedeffect]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyScreen(
     state: UiState<List<Movie>>,
@@ -98,7 +97,6 @@ class UiState<T> {
 // [END android_compose_side_effects_launchedeffect]
 
 // [START android_compose_side_effects_remembercoroutinescope]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesScreen(snackbarHostState: SnackbarHostState) {
 
