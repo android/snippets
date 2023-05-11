@@ -26,7 +26,6 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -283,7 +282,7 @@ private object TextBrushSnippet1 {
 }
 
 private object TextBrushSnippet2 {
-    @OptIn(ExperimentalTextApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -302,7 +301,7 @@ private object TextBrushSnippet2 {
 }
 
 private object TextBrushSnippet3 {
-    @OptIn(ExperimentalTextApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -327,7 +326,7 @@ private object TextBrushSnippet3 {
 }
 
 private object TextBrushSnippet4 {
-    @OptIn(ExperimentalTextApi::class, ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -458,7 +457,6 @@ private object TextClickableAnnotatedSnippet {
 }
 
 private object TextTextFieldSnippet {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_text_textfield_filled]
     @Composable
     fun SimpleFilledTextFieldSample() {
@@ -474,7 +472,6 @@ private object TextTextFieldSnippet {
 }
 
 private object TextOutlinedTextFieldSnippet {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_text_textfield_outlined]
     @Composable
     fun SimpleOutlinedTextFieldSample() {
@@ -490,7 +487,6 @@ private object TextOutlinedTextFieldSnippet {
 }
 
 private object TextStylingTextFieldSnippet {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_text_textfield_styled]
     @Composable
     fun StyledTextField() {
@@ -509,7 +505,6 @@ private object TextStylingTextFieldSnippet {
 }
 
 private object TextFormattingTextFieldSnippet {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_text_textfield_visualtransformation]
     @Composable
     fun PasswordTextField() {
@@ -527,7 +522,6 @@ private object TextFormattingTextFieldSnippet {
 }
 
 private object TextCleanInputSnippet {
-    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_text_textfield_clean_input]
     @Composable
     fun NoLeadingZeroes() {
@@ -576,7 +570,6 @@ private object TextEffectiveStateManagement2 {
 
     // SignUpScreen.kt
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun SignUpScreen(/*...*/) {
 

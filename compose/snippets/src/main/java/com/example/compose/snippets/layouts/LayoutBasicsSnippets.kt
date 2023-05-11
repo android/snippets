@@ -31,7 +31,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -163,7 +162,6 @@ fun WithConstraintsComposable() {
 // [END android_compose_layout_basics_8]
 
 // [START android_compose_layout_basics_9]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(/*...*/) {
     ModalNavigationDrawer(drawerContent = { /* ... */ }) {

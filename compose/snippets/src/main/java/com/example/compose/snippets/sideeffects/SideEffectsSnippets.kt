@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -52,7 +51,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // [START android_compose_side_effects_launchedeffect]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyScreen(
     state: UiState<List<Movie>>,
@@ -98,7 +96,6 @@ class UiState<T> {
 // [END android_compose_side_effects_launchedeffect]
 
 // [START android_compose_side_effects_remembercoroutinescope]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesScreen(snackbarHostState: SnackbarHostState) {
 
