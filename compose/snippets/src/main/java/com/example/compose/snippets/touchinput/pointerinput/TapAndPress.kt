@@ -167,7 +167,8 @@ private fun ImageGridContextMenu(photos: List<Photo>) {
     if (contextMenuPhotoId != null) {
         PhotoActionsSheet(
             photo = photos.first { it.id == contextMenuPhotoId },
-            onDismissSheet = { contextMenuPhotoId = null })
+            onDismissSheet = { contextMenuPhotoId = null }
+        )
     }
     // [END android_compose_touchinput_pointerinput_long_clickable]
     if (activePhotoId != null) {
