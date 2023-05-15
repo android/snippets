@@ -124,9 +124,9 @@ private fun ImageGrid(photos: List<Photo>) {
         items(photos, { it.id }) { photo ->
             ImageItem(
                 photo,
-                // [START android_compose_touchinput_pointerinput_clickable_highlight]
+                // [[START android_compose_touchinput_pointerinput_clickable_highlight]]
                 Modifier.clickable { activePhotoId = photo.id }
-                // [END android_compose_touchinput_pointerinput_clickable_highlight]
+                // [[END android_compose_touchinput_pointerinput_clickable_highlight]]
             )
         }
     }
@@ -150,7 +150,7 @@ private fun ImageGridContextMenu(photos: List<Photo>) {
         items(photos, { it.id }) { photo ->
             ImageItem(
                 photo,
-                // [START android_compose_touchinput_pointerinput_long_clickable_highlight]
+                // [[START android_compose_touchinput_pointerinput_long_clickable_highlight]]
                 Modifier
                     .combinedClickable(
                         onClick = { activePhotoId = photo.id },
@@ -160,7 +160,7 @@ private fun ImageGridContextMenu(photos: List<Photo>) {
                         },
                         onLongClickLabel = stringResource(R.string.open_context_menu)
                     )
-                // [END android_compose_touchinput_pointerinput_long_clickable_highlight]
+                // [[END android_compose_touchinput_pointerinput_long_clickable_highlight]]
             )
         }
     }
@@ -298,9 +298,9 @@ private fun Scrim(onClose: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier
             // handle pointer input
-            // [START android_compose_touchinput_pointerinput_scrim_highlight]
+            // [[START android_compose_touchinput_pointerinput_scrim_highlight]]
             .pointerInput(onClose) { detectTapGestures { onClose() } }
-            // [END android_compose_touchinput_pointerinput_scrim_highlight]
+            // [[END android_compose_touchinput_pointerinput_scrim_highlight]]
             // handle accessibility services
             .semantics(mergeDescendants = true) {
                 contentDescription = strClose
@@ -333,7 +333,7 @@ private fun ImageWithZoom(photo: Photo, modifier: Modifier = Modifier) {
         painter = rememberAsyncImagePainter(model = photo.highResUrl),
         contentDescription = null,
         modifier = modifier
-            // [START android_compose_touchinput_pointerinput_double_tap_zoom_highlight]
+            // [[START android_compose_touchinput_pointerinput_double_tap_zoom_highlight]]
             .pointerInput(Unit) {
                 detectTapGestures(
                     onDoubleTap = { tapOffset ->
@@ -343,7 +343,7 @@ private fun ImageWithZoom(photo: Photo, modifier: Modifier = Modifier) {
                     }
                 )
             }
-            // [END android_compose_touchinput_pointerinput_double_tap_zoom_highlight]
+            // [[END android_compose_touchinput_pointerinput_double_tap_zoom_highlight]]
             .graphicsLayer {
                 scaleX = if (zoomed) 2f else 1f
                 scaleY = if (zoomed) 2f else 1f
