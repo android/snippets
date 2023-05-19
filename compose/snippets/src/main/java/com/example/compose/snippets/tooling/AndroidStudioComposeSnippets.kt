@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.tooling
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.compose.foundation.background
@@ -88,22 +87,19 @@ fun HelloWorldPreview() {
 }
 // [END android_compose_tooling_multipreview_usage]
 
-annotation class DevicePreviews
-
 // [START android_compose_tooling_multipreview_combine]
 @Preview(
-    name = "dark theme",
-    group = "themes",
-    uiMode = UI_MODE_NIGHT_YES
+    name = "Spanish",
+    group = "locale",
+    locale = "es"
 )
 @FontScalePreviews
-@DevicePreviews
 annotation class CombinedPreviews
 
 @CombinedPreviews
 @Composable
 fun HelloWorldPreview2() {
-    MaterialTheme { Surface { Text("Hello world") } }
+    MaterialTheme { Surface { Text(stringResource(R.string.hello_world)) } }
 }
 // [END android_compose_tooling_multipreview_combine]
 
