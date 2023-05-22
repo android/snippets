@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("unused")
 
 package com.example.compose.snippets.util
@@ -114,7 +130,6 @@ object MaterialColors {
     val LightGreen800 = Color(0xFF558B2F)
     val LightGreen900 = Color(0xFF33691E)
 
-
     val Green50 = Color(0xFFE8F5E9)
     val Green100 = Color(0xFFC8E6C9)
     val Green200 = Color(0xFFA5D6A7)
@@ -136,7 +151,6 @@ object MaterialColors {
     val Lime700 = Color(0xFFAFB42B)
     val Lime800 = Color(0xFF9E9D24)
     val Lime900 = Color(0xFF827717)
-
 
     val Yellow50 = Color(0xFFFFFDE7)
     val Yellow100 = Color(0xFFFFF9C4)
