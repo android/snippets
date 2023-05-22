@@ -373,7 +373,7 @@ fun FlowLayout_StretchMiddleItem() {
         Spacer(modifier = middleStretchModifier.background(MaterialColors.Blue200))
         Spacer(modifier = itemModifier.background(MaterialColors.Pink200))
     }
-    // [END android_compose_flow_layout_stretch_all]
+    // [END android_compose_flow_layout_stretch_middle]
 }
 
 @OptIn(ExperimentalLayoutApi::class)
