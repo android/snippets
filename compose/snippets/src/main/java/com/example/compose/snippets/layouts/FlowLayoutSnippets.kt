@@ -196,9 +196,11 @@ fun FlowLayout_Graph_Horizontal() {
             .background(MaterialColors.Blue200)
         repeat(7) { index ->
             val randomPercentage = Random.nextFloat()
-            Spacer(modifier = itemModifier
-                .align(Alignment.Bottom)
-                .fillMaxHeight(randomPercentage))
+            Spacer(
+                modifier = itemModifier
+                    .align(Alignment.Bottom)
+                    .fillMaxHeight(randomPercentage)
+            )
         }
     }
     // [END android_compose_flow_horizontal_graph]
@@ -214,7 +216,7 @@ fun FlowLayout_Graph_Vertical() {
         modifier = paddingModifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
 
-        ) {
+    ) {
         val itemModifier = Modifier
             .padding(4.dp)
             .height(48.dp)
