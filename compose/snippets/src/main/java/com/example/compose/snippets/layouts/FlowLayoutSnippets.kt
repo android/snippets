@@ -186,9 +186,8 @@ fun FlowLayout_Graph_Horizontal() {
     val paddingModifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp)
     // [START android_compose_flow_horizontal_graph]
     FlowRow(
-        modifier = paddingModifier.height(300.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.Bottom
+        modifier = paddingModifier.height(200.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         val itemModifier = Modifier
             .padding(4.dp)
@@ -197,7 +196,9 @@ fun FlowLayout_Graph_Horizontal() {
             .background(MaterialColors.Blue200)
         repeat(7) { index ->
             val randomPercentage = Random.nextFloat()
-            Spacer(modifier = itemModifier.fillMaxHeight(randomPercentage))
+            Spacer(modifier = itemModifier
+                .align(Alignment.Bottom)
+                .fillMaxHeight(randomPercentage))
         }
     }
     // [END android_compose_flow_horizontal_graph]
@@ -212,8 +213,8 @@ fun FlowLayout_Graph_Vertical() {
     FlowColumn(
         modifier = paddingModifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalAlignment = Alignment.Start
-    ) {
+
+        ) {
         val itemModifier = Modifier
             .padding(4.dp)
             .height(48.dp)
@@ -221,7 +222,11 @@ fun FlowLayout_Graph_Vertical() {
             .background(MaterialColors.Blue200)
         repeat(7) {
             val randomPercentage = Random.nextFloat()
-            Spacer(modifier = itemModifier.fillMaxWidth(randomPercentage))
+            Spacer(
+                modifier = itemModifier
+                    .fillMaxWidth(randomPercentage)
+                    .align(Alignment.End)
+            )
         }
     }
     // [END android_compose_flow_vertical_graph]
@@ -314,15 +319,15 @@ private fun FlowRow_MainAxis_Spacedby_Arrangement() {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
-private fun FlowRow_MainAxis_VerticalAlignment() {
+private fun FlowRow_MainAxis_VerticalArrangement() {
     FlowRow(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalAlignment = Alignment.Bottom
+        verticalArrangement = Arrangement.Top
     ) {
-        FlowItemsDifferentHeights()
+        FlowItemsDifferentHeights(modifier = Modifier.align(Alignment.Bottom))
     }
 }
 
@@ -421,77 +426,77 @@ fun Item(modifier: Modifier = Modifier, color: Color) {
 }
 
 @Composable
-private fun FlowItemsDifferentHeights() {
+private fun FlowItemsDifferentHeights(modifier: Modifier = Modifier) {
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(50.dp)
             .height(48.dp),
         color = MaterialColors.Amber300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(70.dp)
             .height(100.dp),
         color = MaterialColors.Blue300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(96.dp)
             .height(120.dp),
         color = MaterialColors.Cyan300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(40.dp)
             .height(110.dp),
         color = MaterialColors.DeepPurple300
     )
 
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(150.dp)
             .height(90.dp),
         color = MaterialColors.Green300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(60.dp)
             .height(70.dp),
         color = MaterialColors.Red300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(102.dp)
             .height(30.dp),
         color = MaterialColors.Purple300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(42.dp)
             .height(90.dp),
         color = MaterialColors.Teal300
     )
 
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(50.dp)
             .height(40.dp),
         color = MaterialColors.Pink300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(120.dp)
             .height(30.dp),
         color = MaterialColors.Lime300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(110.dp)
             .height(50.dp),
         color = MaterialColors.Yellow300
     )
     Item(
-        modifier = Modifier
+        modifier = modifier
             .width(90.dp)
             .height(120.dp),
         color = MaterialColors.DeepPurple300
