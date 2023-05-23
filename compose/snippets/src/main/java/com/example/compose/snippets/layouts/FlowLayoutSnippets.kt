@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -45,22 +46,10 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.util.MaterialColors
 import kotlin.random.Random
 
+@Preview
 @OptIn(ExperimentalLayoutApi::class)
 // [START android_compose_flow_row_simple]
 @Composable
-@Preview
-fun FlowRowSimpleUsage() {
-    FlowRow {
-        Box { }
-        Box { }
-        Box { }
-    }
-}
-// [END android_compose_flow_row_simple]
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
 private fun FlowRowSimpleUsageExample() {
     FlowRow(modifier = Modifier.padding(8.dp)) {
         ChipItem("Price: High to Low")
@@ -70,169 +59,8 @@ private fun FlowRowSimpleUsageExample() {
         ChipItem("£50 pn")
     }
 }
+// [END android_compose_flow_row_simple]
 
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_StretchAll() {
-    // [START android_compose_flow_layout_stretch_all]
-    FlowRow(
-        modifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        val itemModifier = Modifier
-            .aspectRatio(1f)
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-
-        Spacer(modifier = itemModifier.background(MaterialColors.Green200))
-        Spacer(modifier = itemModifier.background(MaterialColors.Blue200))
-        Spacer(modifier = itemModifier.background(MaterialColors.Pink200))
-        Spacer(modifier = itemModifier.background(MaterialColors.Purple200))
-    }
-    // [END android_compose_flow_layout_stretch_all]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_StretchMiddleItem() {
-    // [START android_compose_flow_layout_stretch_middle]
-    FlowRow(
-        modifier = Modifier
-            .padding(start = 4.dp, top = 16.dp, end = 4.dp)
-            .height(200.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        val itemModifier = Modifier
-            .fillMaxHeight()
-            .width(48.dp)
-            .clip(RoundedCornerShape(8.dp))
-
-        Spacer(modifier = itemModifier.background(MaterialColors.Green200))
-        val middleStretchModifier = Modifier
-            .fillMaxHeight()
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-        Spacer(modifier = middleStretchModifier.background(MaterialColors.Blue200))
-        Spacer(modifier = itemModifier.background(MaterialColors.Pink200))
-    }
-    // [END android_compose_flow_layout_stretch_middle]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_Grid() {
-    // [START android_compose_flow_layout_grid]
-    val rows = 3
-    val columns = 3
-    FlowRow(
-        modifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        maxItemsInEachRow = rows
-    ) {
-        val itemModifier = Modifier
-            .padding(4.dp)
-            .height(80.dp)
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialColors.Blue200)
-        repeat(rows * columns) {
-            Spacer(modifier = itemModifier)
-        }
-    }
-    // [END android_compose_flow_layout_grid]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_AlternatingGrid() {
-    // [START android_compose_flow_layout_alternating_grid]
-    FlowRow(
-        modifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        maxItemsInEachRow = 2
-    ) {
-        val itemModifier = Modifier
-            .padding(4.dp)
-            .height(80.dp)
-            .clip(RoundedCornerShape(8.dp))
-        repeat(6) { item ->
-            // if the item is the third item, don't use weight modifier, but rather fillMaxWidth
-            if ((item + 1) % 3 == 0) {
-                Spacer(
-                    modifier = itemModifier
-                        .fillMaxWidth()
-                        .background(MaterialColors.Blue200)
-                )
-            } else {
-                Spacer(
-                    modifier = itemModifier
-                        .weight(0.5f)
-                        .background(MaterialColors.Blue200)
-                )
-            }
-        }
-    }
-    // [END android_compose_flow_layout_alternating_grid]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_Graph_Horizontal() {
-    val paddingModifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp)
-    // [START android_compose_flow_horizontal_graph]
-    FlowRow(
-        modifier = paddingModifier.height(200.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        val itemModifier = Modifier
-            .padding(4.dp)
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialColors.Blue200)
-        repeat(7) { index ->
-            val randomPercentage = Random.nextFloat()
-            Spacer(
-                modifier = itemModifier
-                    .align(Alignment.Bottom)
-                    .fillMaxHeight(randomPercentage)
-            )
-        }
-    }
-    // [END android_compose_flow_horizontal_graph]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-@Preview
-fun FlowLayout_Graph_Vertical() {
-    val paddingModifier = Modifier.padding(start = 4.dp, top = 16.dp, end = 4.dp)
-    // [START android_compose_flow_vertical_graph]
-    FlowColumn(
-        modifier = paddingModifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-
-    ) {
-        val itemModifier = Modifier
-            .padding(4.dp)
-            .height(48.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialColors.Blue200)
-        repeat(7) {
-            val randomPercentage = Random.nextFloat()
-            Spacer(
-                modifier = itemModifier
-                    .fillMaxWidth(randomPercentage)
-                    .align(Alignment.End)
-            )
-        }
-    }
-    // [END android_compose_flow_vertical_graph]
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -341,7 +169,6 @@ private fun FlowRow_MaxItems() {
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
         maxItemsInEachRow = 3
     ) {
         FlowItems()
@@ -503,4 +330,63 @@ private fun FlowItemsDifferentHeights(modifier: Modifier = Modifier) {
             .height(120.dp),
         color = MaterialColors.DeepPurple300
     )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+@Preview
+fun FlowLayout_Grid() {
+    // [START android_compose_flow_layout_grid]
+    val rows = 3
+    val columns = 3
+    FlowRow(
+        modifier = Modifier.padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        maxItemsInEachRow = rows
+    ) {
+        val itemModifier = Modifier
+            .padding(4.dp)
+            .height(80.dp)
+            .weight(1f)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialColors.Blue200)
+        repeat(rows * columns) {
+            Spacer(modifier = itemModifier)
+        }
+    }
+    // [END android_compose_flow_layout_grid]
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+@Preview
+fun FlowLayout_AlternatingGrid() {
+    // [START android_compose_flow_layout_alternating_grid]
+    FlowRow(
+        modifier = Modifier.padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        maxItemsInEachRow = 2
+    ) {
+        val itemModifier = Modifier
+            .padding(4.dp)
+            .height(80.dp)
+            .clip(RoundedCornerShape(8.dp))
+        repeat(6) { item ->
+            // if the item is the third item, don't use weight modifier, but rather fillMaxWidth
+            if ((item + 1) % 3 == 0) {
+                Spacer(
+                    modifier = itemModifier
+                        .fillMaxWidth()
+                        .background(MaterialColors.Blue200)
+                )
+            } else {
+                Spacer(
+                    modifier = itemModifier
+                        .weight(0.5f)
+                        .background(MaterialColors.Blue200)
+                )
+            }
+        }
+    }
+    // [END android_compose_flow_layout_alternating_grid]
 }
