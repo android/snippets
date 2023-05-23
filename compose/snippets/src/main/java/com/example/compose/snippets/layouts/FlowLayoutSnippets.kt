@@ -21,12 +21,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,7 +40,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.util.MaterialColors
-import kotlin.random.Random
 
 @Preview
 @OptIn(ExperimentalLayoutApi::class)
@@ -60,7 +55,6 @@ private fun FlowRowSimpleUsageExample() {
     }
 }
 // [END android_compose_flow_row_simple]
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
