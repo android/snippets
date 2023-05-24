@@ -154,10 +154,39 @@ private fun FlowRow_MainAxis_VerticalArrangement() {
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        FlowItemsDifferentHeights(modifier = Modifier.align(Alignment.Bottom))
+        FlowItems()
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+@Preview
+private fun FlowRow_MainAxis_VerticalArrangement_Center() {
+    FlowRow(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        FlowItems()
+    }
+}
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+@Preview
+private fun FlowRow_MainAxis_VerticalArrangement_Bottom() {
+    FlowRow(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        FlowItems()
     }
 }
 
