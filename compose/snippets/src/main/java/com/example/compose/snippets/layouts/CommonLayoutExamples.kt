@@ -1,11 +1,25 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.layouts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -47,7 +61,8 @@ fun Layout_Graph_Vertical() {
     // [START android_compose_layout_vertical_graph]
     Column(
         modifier = paddingModifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
         val itemModifier = Modifier
             .padding(4.dp)
             .height(48.dp)
@@ -64,7 +79,6 @@ fun Layout_Graph_Vertical() {
     }
     // [END android_compose_layout_vertical_graph]
 }
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -139,5 +153,3 @@ fun Layout_StretchMiddleItem() {
     }
     // [END android_compose_layout_stretch_middle]
 }
-
-
