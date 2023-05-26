@@ -22,17 +22,40 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Text
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -43,6 +66,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 
 class RVActivity : ComponentActivity() {
     private lateinit var composeView: ComposeView
@@ -216,6 +240,156 @@ private object MigrationCommonScenariosNavigationStep7 {
         }
     }
 // [END android_compose_interop_migration_common_scenarios_navigation_step_7]
+}
+
+class CoordinatorLayoutActivity : ComponentActivity() {
+
+    private lateinit var composeView: ComposeView
+
+    private fun step2() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step2]
+        composeView.setContent {
+            Scaffold(Modifier.fillMaxSize()) { contentPadding ->
+                // Scaffold contents
+                // [START_EXCLUDE]
+                Box(Modifier.padding(contentPadding))
+                // [END_EXCLUDE]
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_step2]
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    private fun step3() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step3]
+        composeView.setContent {
+            Scaffold(Modifier.fillMaxSize()) { contentPadding ->
+                HorizontalPager(
+                    pageCount = 10,
+                    modifier = Modifier.padding(contentPadding)
+                ) { /* Page contents */ }
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_step3]
+    }
+
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+    private fun step4() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step4]
+        composeView.setContent {
+            Scaffold(
+                Modifier.fillMaxSize(),
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text("My App")
+                        }
+                    )
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { /* Handle click */ }
+                    ) {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = "Add Button"
+                        )
+                    }
+                }) { contentPadding ->
+                HorizontalPager(
+                    pageCount = 10,
+                    modifier = Modifier.padding(contentPadding)
+                ) { /* Page contents */ }
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_step4]
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    private fun commonUseCaseToolbars() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_toolbars]
+        // 1. Create the TopAppBarScrollBehavior
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text("My App")
+                    },
+                    // 2. Provide scrollBehavior to TopAppBar
+                    scrollBehavior = scrollBehavior
+                )
+            },
+            // 3. Connect the scrollBehavior.nestedScrollConnection to the Scaffold
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        ) { contentPadding ->
+            /* Contents */
+            // [START_EXCLUDE]
+            Box(Modifier.padding(contentPadding))
+            // [END_EXCLUDE]
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_toolbars]
+    }
+
+    @Composable
+    private fun commonUseCaseDrawers() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_drawers]
+        ModalNavigationDrawer(
+            drawerContent = {
+                ModalDrawerSheet {
+                    Text("Drawer title", modifier = Modifier.padding(16.dp))
+                    Divider()
+                    NavigationDrawerItem(
+                        label = { Text(text = "Drawer Item") },
+                        selected = false,
+                        onClick = { /*TODO*/ }
+                    )
+                    // ...other drawer items
+                }
+            }
+        ) {
+            Scaffold(Modifier.fillMaxSize()) { contentPadding ->
+                // Scaffold content
+                // [START_EXCLUDE]
+                Box(Modifier.padding(contentPadding))
+                // [END_EXCLUDE]
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_drawers]
+    }
+
+    @Composable
+    private fun commonUseCaseSnackbars() {
+        // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_snackbars]
+        val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
+            floatingActionButton = {
+                ExtendedFloatingActionButton(
+                    text = { Text("Show snackbar") },
+                    icon = { Icon(Icons.Filled.Image, contentDescription = "") },
+                    onClick = {
+                        scope.launch {
+                            snackbarHostState.showSnackbar("Snackbar")
+                        }
+                    }
+                )
+            }
+        ) { contentPadding ->
+            // Screen content
+            // [START_EXCLUDE]
+            Box(Modifier.padding(contentPadding))
+            // [END_EXCLUDE]
+        }
+        // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_snackbars]
+    }
 }
 
 /*
