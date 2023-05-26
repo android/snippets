@@ -10,7 +10,7 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ >* See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
@@ -22,7 +22,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Text
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +40,68 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+class RVActivity : ComponentActivity() {
+    private lateinit var composeView: ComposeView
+    private lateinit var recyclerView: RecyclerView
+    private fun step2() {
+        // [START android_compose_interop_migration_common_scenarios_recyclerview_step2]
+        // recyclerView.layoutManager = LinearLayoutManager(context)
+        composeView.setContent {
+            LazyColumn(Modifier.fillMaxSize()) {
+                // We use a LazyColumn since the layout manager of the RecyclerView is a vertical LinearLayoutManager
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_recyclerview_step2]
+    }
+
+    private fun step4() {
+        // [START android_compose_interop_migration_common_scenarios_recyclerview_step4]
+        val data = listOf<MyData>(/* ... */)
+        composeView.setContent {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(data) {
+                    ListItem(it)
+                }
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_recyclerview_step4]
+    }
+
+    private fun commonUseCase1() {
+        // [START android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_1]
+        val itemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+        recyclerView.addItemDecoration(itemDecoration)
+        // [END android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_1]
+    }
+
+    @Composable
+    fun commonUseCase2(data: List<MyData>) {
+        // [START android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_2]
+        LazyColumn(Modifier.fillMaxSize()) {
+            itemsIndexed(data) { index, d ->
+                ListItem(d)
+                if (index != data.size -1) {
+                    Divider()
+                }
+            }
+        }
+        // [END android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_2]
+    }
+}
+
+// [START android_compose_interop_migration_common_scenarios_recyclerview_step3]
+@Composable
+fun ListItem(data: MyData, modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth()) {
+        Text(text = data.name)
+        // … other composables required for displaying `data`
+    }
+}
+// [END android_compose_interop_migration_common_scenarios_recyclerview_step3]
 
 // [START android_compose_interop_migration_common_scenarios_navigation_step_2]
 class SampleActivity : ComponentActivity() {
@@ -162,3 +233,6 @@ fun SecondScreen(
 }
 
 class FirstViewModel : ViewModel()
+data class MyData(
+    val name: String
+)
