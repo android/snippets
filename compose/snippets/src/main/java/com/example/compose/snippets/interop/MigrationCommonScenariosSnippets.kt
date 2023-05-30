@@ -295,7 +295,8 @@ class CoordinatorLayoutActivity : ComponentActivity() {
                             contentDescription = "Add Button"
                         )
                     }
-                }) { contentPadding ->
+                }
+            ) { contentPadding ->
                 HorizontalPager(
                     pageCount = 10,
                     modifier = Modifier.padding(contentPadding)
