@@ -405,15 +405,9 @@ fun FlowLayout_AlternatingGrid() {
         repeat(6) { item ->
             // if the item is the third item, don't use weight modifier, but rather fillMaxWidth
             if ((item + 1) % 3 == 0) {
-                Spacer(
-                    modifier = itemModifier
-                        .fillMaxWidth()
-                )
+                Spacer(modifier = itemModifier.fillMaxWidth())
             } else {
-                Spacer(
-                    modifier = itemModifier
-                        .weight(0.5f)
-                )
+                Spacer(modifier = itemModifier.weight(0.5f))
             }
         }
     }
