@@ -18,6 +18,7 @@ package com.example.compose.snippets.layouts
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Chip
@@ -145,7 +147,9 @@ private fun FlowRow_MainAxis_Spacedby_Arrangement() {
 private fun FlowRow_MainAxis_VerticalArrangement() {
     FlowRow(
         modifier = Modifier
-            .fillMaxSize()
+            .padding(8.dp)
+            .size(400.dp)
+            .border(2.dp, Color.DarkGray)
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.Top
@@ -160,7 +164,9 @@ private fun FlowRow_MainAxis_VerticalArrangement() {
 private fun FlowRow_MainAxis_VerticalArrangement_Center() {
     FlowRow(
         modifier = Modifier
-            .fillMaxSize()
+            .padding(8.dp)
+            .size(400.dp)
+            .border(2.dp, Color.DarkGray)
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.Center
@@ -174,7 +180,9 @@ private fun FlowRow_MainAxis_VerticalArrangement_Center() {
 private fun FlowRow_MainAxis_VerticalArrangement_Bottom() {
     FlowRow(
         modifier = Modifier
-            .fillMaxSize()
+            .padding(8.dp)
+            .size(400.dp)
+            .border(2.dp, Color.DarkGray)
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.Bottom
@@ -393,19 +401,18 @@ fun FlowLayout_AlternatingGrid() {
             .padding(4.dp)
             .height(80.dp)
             .clip(RoundedCornerShape(8.dp))
+            .background(Color.Blue)
         repeat(6) { item ->
             // if the item is the third item, don't use weight modifier, but rather fillMaxWidth
             if ((item + 1) % 3 == 0) {
                 Spacer(
                     modifier = itemModifier
                         .fillMaxWidth()
-                        .background(MaterialColors.Blue200)
                 )
             } else {
                 Spacer(
                     modifier = itemModifier
                         .weight(0.5f)
-                        .background(MaterialColors.Blue200)
                 )
             }
         }
