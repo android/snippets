@@ -149,7 +149,6 @@ fun M3SupportScaffoldSnippet() {
     // [END android_compose_insets_m3_scaffold]
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
@@ -159,6 +158,7 @@ fun OverrideDefaultInsetsSnippet() {
         windowInsets = WindowInsets(0, 0, 0, 0),
         title = {
             Text("Hi")
-        })
+        }
+    )
     // [END android_compose_insets_override_defaults]
 }
