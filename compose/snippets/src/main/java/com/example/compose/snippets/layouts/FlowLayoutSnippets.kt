@@ -413,3 +413,22 @@ fun FlowLayout_AlternatingGrid() {
     }
     // [END android_compose_flow_layout_alternating_grid]
 }
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun FlowLayout_FractionalSizing() {
+    // [START android_compose_flow_layout_fractional_sizing]
+    FlowRow(
+        modifier = Modifier.padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        maxItemsInEachRow = 3
+    ) {
+        val itemModifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+        Box(modifier = itemModifier.height(200.dp).width(60.dp).background(Color.Red))
+        Box(modifier = itemModifier.height(200.dp).fillMaxWidth(0.7f).background(Color.Blue))
+        Box(modifier = itemModifier.height(200.dp).weight(1f).background(Color.Magenta))
+    }
+    // [END android_compose_flow_layout_fractional_sizing]
+}
