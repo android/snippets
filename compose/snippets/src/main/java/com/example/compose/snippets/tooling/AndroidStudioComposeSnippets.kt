@@ -34,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.UiMode
+import androidx.compose.ui.tooling.preview.Wallpaper
+import androidx.compose.ui.tooling.preview.Wallpapers
 import com.example.compose.snippets.R
 import com.example.compose.snippets.interop.User
 
@@ -145,9 +147,11 @@ fun UserProfilePreview(
 ) {
     UserProfile(user)
 }
+
 // [START_EXCLUDE silent]
 @Composable
-fun UserProfile(user: User) { }
+fun UserProfile(user: User) {
+}
 // [END_EXCLUDE]
 // [END android_compose_tooling_preview_parameter_provider_composable]
 
@@ -184,6 +188,7 @@ annotation class Preview(
     val showBackground: Boolean = false,
     val backgroundColor: Long = 0,
     @UiMode val uiMode: Int = 0,
-    @Device val device: String = Devices.DEFAULT
+    @Device val device: String = Devices.DEFAULT,
+    @Wallpaper val wallpaper: Int = Wallpapers.NONE,
 )
 // [END android_compose_tooling_preview_annotation]
