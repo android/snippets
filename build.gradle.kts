@@ -1,6 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.gradle.versions)
+    alias(libs.plugins.version.catalog.update)
+}
 
-buildscript {
+apply("${project.rootDir}/buildscripts/toml-updater-config.gradle")
+
+/*buildscript {
     ext {
         compose_compiler_version = '1.4.3'
         kotlin_version = '1.8.10'
@@ -29,4 +35,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
+}*/
