@@ -33,9 +33,6 @@ android {
     }
 }
 dependencies {
-    implementation(fileTree("libs") {
-        include("*.jar")
-    })
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
