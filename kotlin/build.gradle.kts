@@ -5,10 +5,10 @@ plugins {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
-    namespace = "com.example.kotlin"
+    namespace = "com.example.android.kotlin"
 
     defaultConfig {
-        applicationId = "com.example.kotlin"
+        applicationId = "com.example.android.kotlin"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
@@ -34,17 +34,12 @@ android {
     }
 
     buildFeatures {
-        compose = true
         // Disable unused AGP features
         buildConfig = false
         aidl = false
         renderScript = false
         resValues = false
         shaders = false
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packaging.resources {
