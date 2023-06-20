@@ -25,5 +25,5 @@ include(
         ":bluetoothle",
         ":compose:recomposehighlighter",
         ":kotlin",
-        ":compose:snippets"
+        ":compose:snippets",
 )
