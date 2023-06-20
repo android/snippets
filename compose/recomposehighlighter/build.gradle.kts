@@ -26,6 +26,19 @@ android {
                     "proguard-rules.pro")
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        compose = true
+        // Disable unused AGP features
+        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 dependencies {
     val composeBom = platform(libs.androidx.compose.bom)
