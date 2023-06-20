@@ -22,7 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "snippets"
 include(
         ":shared",
-        ":slice",
         ":bluetoothle",
         ":compose:recomposehighlighter",
         ":kotlin",

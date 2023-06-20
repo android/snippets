@@ -43,3 +43,10 @@ jobs:
         commit_message: Apply Spotless
     - name: Build Compose
       run: ./gradlew :compose:snippets:build
+    - name: Build recompose snippets
+      run: ./gradlew :compose:recomposehighlighter:build
+    - name: Build kotlin snippets
+      run: ./gradlew :kotlin:build
+    - name: Build bluetoothle snippets
+      run: ./gradlew :bluetoothle:build
+
