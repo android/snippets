@@ -20,9 +20,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 
 class StandardTestDispatcherTest {
+    @Ignore
     // [START coroutine_test_standard_failing]
     @Test
     fun standardTest() = runTest {

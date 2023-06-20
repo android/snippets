@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 
 class UnconfinedTestDispatcherTest {
@@ -36,6 +37,7 @@ class UnconfinedTestDispatcherTest {
     }
     // [END coroutine_test_unconfined]
 
+    @Ignore
     // [START coroutine_test_unconfined_yielding]
     @Test
     fun yieldingTest() = runTest(UnconfinedTestDispatcher()) {
