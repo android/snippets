@@ -248,8 +248,10 @@ private object PagingExample {
     fun MyScreen(flow: Flow<PagingData<String>>) {
         val lazyPagingItems = flow.collectAsLazyPagingItems()
         LazyColumn {
-            items(lazyPagingItems.itemCount,
-                key = lazyPagingItems.itemKey {  it }) { index ->
+            items(
+                lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it }
+            ) { index ->
                 val item = lazyPagingItems[index]
                 Text("Item is $item")
             }
