@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Image
@@ -264,8 +265,11 @@ class CoordinatorLayoutActivity : ComponentActivity() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step3]
         composeView.setContent {
             Scaffold(Modifier.fillMaxSize()) { contentPadding ->
+                val pagerState = rememberPagerState {
+                    10
+                }
                 HorizontalPager(
-                    pageCount = 10,
+                    state = pagerState,
                     modifier = Modifier.padding(contentPadding)
                 ) { /* Page contents */ }
             }
@@ -297,8 +301,11 @@ class CoordinatorLayoutActivity : ComponentActivity() {
                     }
                 }
             ) { contentPadding ->
+                val pagerState = rememberPagerState {
+                    10
+                }
                 HorizontalPager(
-                    pageCount = 10,
+                    state = pagerState,
                     modifier = Modifier.padding(contentPadding)
                 ) { /* Page contents */ }
             }
