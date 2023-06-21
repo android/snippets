@@ -416,7 +416,7 @@ private val threePagesPerViewport = object : PageSize {
 @Composable
 private fun CustomSnapDistance() {
     // [START android_compose_pager_custom_snap_distance]
-    val pagerState = rememberPagerState(pageCount = {10})
+    val pagerState = rememberPagerState(pageCount = { 10 })
 
     val fling = PagerDefaults.flingBehavior(
         state = pagerState,

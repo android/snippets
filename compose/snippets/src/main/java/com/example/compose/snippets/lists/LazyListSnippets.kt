@@ -342,8 +342,10 @@ private object ListsSnippetsPaging {
         val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
         LazyColumn {
-            items(lazyPagingItems.itemCount,
-                key = lazyPagingItems.itemKey { it.id }) { index ->
+            items(
+                lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it.id }
+            ) { index ->
                 val message = lazyPagingItems[index]
                 if (message != null) {
                     MessageRow(message)
