@@ -9,55 +9,54 @@ androidx-activity-compose = "1.7.2"
 androidx-appcompat = "1.6.1"
 androidx-benchmark = "1.1.1"
 androidx-benchmark-junit4 = "1.1.0-beta04"
-androidx-cardview = "1.0.0-beta01"
-androidx-coordinator-layout = "1.2.0"
+androidx-cardview = "1.0.0"
 androidx-compose-bom = "2023.06.00"
 androidx-constraintlayout = "2.1.4"
-androidx-constraintlayout-compose = "1.1.0-alpha04"
+androidx-constraintlayout-compose = "1.1.0-alpha10"
+androidx-coordinator-layout = "1.2.0"
 androidx-corektx = "1.10.1"
 androidx-emoji2-views = "1.3.0"
-androidx-fragment-ktx = "1.5.7"
+androidx-fragment-ktx = "1.6.0"
 androidx-lifecycle-compose = "2.6.1"
 androidx-lifecycle-runtime-compose = "2.6.1"
-androidx-navigation = "2.5.3"
-androidx-palette = "1.0.0"
-androidx-paging = "1.0.0-alpha18"
+androidx-navigation = "2.6.0"
+androidx-paging = "3.2.0-beta01"
 androidx-paging-common = "3.1.1"
-androidx-slice = "1.0.0-alpha4"
+androidx-palette = "1.0.0"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
 androidx-test-ext-junit = "1.1.5"
 androidx-test-ext-truth = "1.5.0"
-androidx-window = "1.1.0-beta02"
+androidx-window = "1.2.0-alpha02"
 androidxHiltNavigationCompose = "1.0.0"
 androix-test-uiautomator = "2.2.0"
-coil = "2.2.2"
+coil = "2.4.0"
 # @keep
-compileSdk = "33"
-compose-compiler = "1.4.0"
-coroutines = "1.6.4"
+compileSdk = "34"
+compose-compiler = "1.4.7"
+coroutines = "1.7.1"
 google-maps = "18.1.0"
-gradle-versions = "0.46.0"
-hilt = "2.44"
+gradle-versions = "0.47.0"
+hilt = "2.46.1"
 hiltExt = "1.0.0"
 # @pin When updating to AGP 7.4.0-alpha10 and up we can update this https://developer.android.com/studio/write/java8-support#library-desugaring-versions
 jdkDesugar = "1.2.2"
 junit = "4.13.2"
 # @pin Update in conjuction with Compose Compiler
-kotlin = "1.8.0"
+kotlin = "1.8.21"
 ksp = "1.8.0-1.0.9"
 maps-compose = "2.11.4"
-material = "1.9.0-beta01"
+material = "1.10.0-alpha04"
 # @keep
 minSdk = "21"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 recyclerview = "1.3.0"
 robolectric = "4.9.2"
 rome = "1.18.0"
 room = "2.5.1"
 secrets = "2.0.1"
 # @keep
-targetSdk = "33"
+targetSdk = "34"
 version-catalog-update = "0.8.0"
 
 [libraries]
@@ -66,14 +65,14 @@ accompanist-permissions = { module = "com.google.accompanist:accompanist-permiss
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-theme-adapter-appcompat = { module = "com.google.accompanist:accompanist-themeadapter-appcompat", version.ref = "accompanist" }
-accompanist-theme-adapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 accompanist-theme-adapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist" }
+accompanist-theme-adapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-benchmark-macrobenchmark = { module = "androidx.benchmark:benchmark-macro", version.ref = "androidx-benchmark" }
 androidx-benchmark-macrobenchmark-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark-junit4" }
-androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview"}
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
@@ -86,8 +85,8 @@ androidx-compose-materialWindow = { module = "androidx.compose.material3:materia
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
-androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
@@ -103,7 +102,7 @@ androidx-emoji2-views = { module = "androidx.emoji2:emoji2-views", version.ref =
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
-androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
 androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
@@ -111,10 +110,9 @@ androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecyc
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-paging-common-ktx = { module = "androidx.paging:paging-common-ktx", version.ref = "androidx-paging-common" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
-androidx-slice = { module = "androidx.slice:slice-builders-ktx", version.ref = "androidx-slice"}
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }

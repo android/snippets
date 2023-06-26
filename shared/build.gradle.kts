@@ -8,10 +8,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    kotlin {
+        jvmToolchain(17)
+    }
     buildTypes {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")

@@ -51,6 +51,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    kotlin {
+        jvmToolchain(17)
+    }
+
     buildFeatures {
         compose = true
         // Disable unused AGP features
@@ -66,6 +70,9 @@ android {
         // our test APK to build (has no effect on our AARs)
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
+    }
+    lint {
+        lintConfig = file("lint.xml")
     }
 }
 

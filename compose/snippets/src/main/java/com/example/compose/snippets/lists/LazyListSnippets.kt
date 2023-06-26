@@ -61,7 +61,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.paging.Pager
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.tooling.Preview
@@ -342,7 +342,11 @@ private object ListsSnippetsPaging {
         val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
         LazyColumn {
-            items(lazyPagingItems) { message ->
+            items(
+                lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it.id }
+            ) { index ->
+                val message = lazyPagingItems[index]
                 if (message != null) {
                     MessageRow(message)
                 } else {
