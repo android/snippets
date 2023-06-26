@@ -1,5 +1,6 @@
 package com.sample.android.bluetoothle.java;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.BluetoothLeScanner;
@@ -35,6 +36,7 @@ public class DeviceScanActivity extends ListActivity {
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
 
+    @SuppressLint("MissingPermission")
     private void scanLeDevice() {
         if (!mScanning) {
             // Stops scanning after a pre-defined scan period.
