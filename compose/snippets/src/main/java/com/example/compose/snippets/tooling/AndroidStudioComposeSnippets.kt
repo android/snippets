@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.tooling
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange
 import androidx.compose.foundation.background
@@ -35,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.UiMode
+import androidx.compose.ui.tooling.preview.Wallpaper
+import androidx.compose.ui.tooling.preview.Wallpapers
 import com.example.compose.snippets.R
 import com.example.compose.snippets.interop.User
 
@@ -88,22 +89,19 @@ fun HelloWorldPreview() {
 }
 // [END android_compose_tooling_multipreview_usage]
 
-annotation class DevicePreviews
-
 // [START android_compose_tooling_multipreview_combine]
 @Preview(
-    name = "dark theme",
-    group = "themes",
-    uiMode = UI_MODE_NIGHT_YES
+    name = "Spanish",
+    group = "locale",
+    locale = "es"
 )
 @FontScalePreviews
-@DevicePreviews
 annotation class CombinedPreviews
 
 @CombinedPreviews
 @Composable
 fun HelloWorldPreview2() {
-    MaterialTheme { Surface { Text("Hello world") } }
+    MaterialTheme { Surface { Text(stringResource(R.string.hello_world)) } }
 }
 // [END android_compose_tooling_multipreview_combine]
 
@@ -149,9 +147,11 @@ fun UserProfilePreview(
 ) {
     UserProfile(user)
 }
+
 // [START_EXCLUDE silent]
 @Composable
-fun UserProfile(user: User) { }
+fun UserProfile(user: User) {
+}
 // [END_EXCLUDE]
 // [END android_compose_tooling_preview_parameter_provider_composable]
 
@@ -188,6 +188,7 @@ annotation class Preview(
     val showBackground: Boolean = false,
     val backgroundColor: Long = 0,
     @UiMode val uiMode: Int = 0,
-    @Device val device: String = Devices.DEFAULT
+    @Device val device: String = Devices.DEFAULT,
+    @Wallpaper val wallpaper: Int = Wallpapers.NONE,
 )
 // [END android_compose_tooling_preview_annotation]

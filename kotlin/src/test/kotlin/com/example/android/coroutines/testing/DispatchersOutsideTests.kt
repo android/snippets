@@ -18,6 +18,7 @@ package com.example.android.coroutines.testing.repo
 
 import com.example.android.coroutines.testing.MainDispatcherRule
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -25,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 
 // Helper function to let code below compile
-private fun Repository(): Repository = TODO()
+private fun Repository(): Repository = Repository(Dispatchers.IO)
 
 private
 // [START coroutine_test_repo_with_rule_blank]
@@ -40,6 +41,9 @@ class RepositoryTestWithRule {
     @Test
     fun someRepositoryTest() = runTest {
         // Test the repository...
+        // [START_EXCLUDE]
+        assert(repository != null)
+        // [END_EXCLUDE]
     }
 }
 // [END coroutine_test_repo_with_rule_blank]

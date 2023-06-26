@@ -31,11 +31,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: set up Java 11
+    - name: set up Java 17
       uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '11'
+        distribution: 'zulu'
+        java-version: '17'
     - name: Apply formatting if failed
       run: ./gradlew :compose:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
     - uses: stefanzweifel/git-auto-commit-action@v4
@@ -43,3 +43,10 @@ jobs:
         commit_message: Apply Spotless
     - name: Build Compose
       run: ./gradlew :compose:snippets:build
+    - name: Build recompose snippets
+      run: ./gradlew :compose:recomposehighlighter:build
+    - name: Build kotlin snippets
+      run: ./gradlew :kotlin:build
+   # TODO fix bluetoothle snippets (lint is failing) - name: Build bluetoothle snippets
+   #   run: ./gradlew :bluetoothle:build
+
