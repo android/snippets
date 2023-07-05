@@ -106,6 +106,8 @@ dependencies {
     implementation(libs.androidx.coordinator.layout)
     implementation(libs.google.android.material)
 
+    implementation(libs.androidx.glance.appwidget)
+
     implementation(libs.accompanist.theme.adapter.appcompat)
     implementation(libs.accompanist.theme.adapter.material3)
     implementation(libs.accompanist.theme.adapter.material)
