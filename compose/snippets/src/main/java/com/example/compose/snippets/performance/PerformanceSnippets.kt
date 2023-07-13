@@ -287,8 +287,6 @@ private data class Contact(val name: String) : Comparable<Contact> {
     }
 }
 
-private val sortComparator = naturalOrder<Contact>()
-
 class Note {
     val id: Int = 0
 }
