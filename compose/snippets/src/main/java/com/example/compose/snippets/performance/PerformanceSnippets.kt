@@ -71,8 +71,8 @@ private object ContactsListGoodSort {
         comparator: Comparator<Contact>,
         modifier: Modifier = Modifier
     ) {
-        val sortedContacts = remember(contacts, sortComparator) {
-            contacts.sortedWith(sortComparator)
+        val sortedContacts = remember(contacts, comparator) {
+            contacts.sortedWith(comparator)
         }
 
         LazyColumn(modifier) {
