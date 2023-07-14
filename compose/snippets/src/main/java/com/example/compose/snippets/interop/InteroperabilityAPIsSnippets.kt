@@ -54,6 +54,7 @@ import com.example.compose.snippets.R
 import com.example.compose.snippets.databinding.ExampleLayoutBinding
 import com.example.compose.snippets.databinding.FragmentExampleBinding
 import com.example.compose.snippets.databinding.MyFragmentLayoutBinding
+import com.example.compose.snippets.tooling.Preview
 
 // [START android_compose_interop_apis_compose_in_views]
 class ExampleActivity : ComponentActivity() {
@@ -313,3 +314,11 @@ fun HomeScreen() {
     /* Rest of the HomeScreen */
 }
 // [END android_compose_interop_apis_broadcast_receivers]
+
+// [START android_compose_interop_apis_layout_preview_composable]
+@Preview
+@Composable
+fun GreetingPreview() {
+    Greeting(name = "Android")
+}
+// [END android_compose_interop_apis_layout_preview_composable]
