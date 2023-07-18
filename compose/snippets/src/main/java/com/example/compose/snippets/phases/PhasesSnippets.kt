@@ -152,7 +152,6 @@ private fun OptimizeStateReadsAfter() {
             painterResource(id = android.R.drawable.star_on),
             contentDescription = null,
             // [END_EXCLUDE]
-            // Non-optimal implementation!
             Modifier.offset {
                 // State read of firstVisibleItemScrollOffset in Layout
                 IntOffset(x = 0, y = listState.firstVisibleItemScrollOffset / 2)
