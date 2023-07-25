@@ -19,11 +19,15 @@ package com.example.compose.snippets
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.snippets.LandingScreen.LandingScreen
+import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
@@ -32,18 +36,21 @@ class SnippetsActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SnippetsTheme {
+                val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // TODO - We should put these in different navigation destinations
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        // BrushExamplesScreen()
-                        ImageExamplesScreen()
+                    NavHost(navController, startDestination = "LandingScreen") {
+                        composable("LandingScreen") {
+                            LandingScreen(
+                                toBrushExamples = { navController.navigate("BrushExamples") },
+                                toImageExamples = { navController.navigate("ImageExamples") },
+                            )
+                        }
+                        composable("BrushExamples") { BrushExamplesScreen() }
+                        composable("ImageExamples") { ImageExamplesScreen() }
                     }
                 }
             }
