@@ -45,10 +45,7 @@ class SnippetsActivity : ComponentActivity() {
                 ) {
                     NavHost(navController, startDestination = "LandingScreen") {
                         composable("LandingScreen") {
-                            LandingScreen(
-                                toBrushExamples = { navController.navigate("BrushExamples") },
-                                toImageExamples = { navController.navigate("ImageExamples") },
-                            )
+                            LandingScreen { navController.navigate(it.route) }
                         }
                         Destination.values().forEach { destination ->
                             composable(destination.route) {

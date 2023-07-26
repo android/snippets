@@ -37,8 +37,7 @@ import com.example.compose.snippets.navigation.Destination
 
 @Composable
 fun LandingScreen(
-    toBrushExamples: () -> Unit,
-    toImageExamples: () -> Unit,
+    navigate: (Destination) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,12 +57,12 @@ fun LandingScreen(
         Text(
             text = "Use the following buttons to view a selection of the snippets used in the Android documentation."
         )
-        NavigationButtons(toBrushExamples, toImageExamples)
+        NavigationItems { navigate(it) }
     }
 }
 
 @Composable
-fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit){
+fun NavigationItems(navigate: (Destination) -> Unit){
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -73,18 +72,26 @@ fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit){
     ) {
         items(Destination.values().toList()){ destination ->
             when (destination) {
-                Destination.BrushExamples -> NavigationButton(destination.title, toBrushExamples)
-                Destination.ImageExamples -> NavigationButton(destination.title, toImageExamples)
+                Destination.BrushExamples -> NavigationItem(destination) {
+                    navigate(
+                        destination
+                    )
+                }
+                Destination.ImageExamples -> NavigationItem(destination) {
+                    navigate(
+                        destination
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun NavigationButton(title: String, onClick: () -> Unit){
+fun NavigationItem(destination: Destination, onClick: () -> Unit){
     Button(
         onClick = { onClick() }
     ) {
-        Text(title)
+        Text(destination.title)
     }
 }
