@@ -63,7 +63,7 @@ fun LandingScreen(
 }
 
 @Composable
-fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit){
+fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -71,7 +71,7 @@ fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit){
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        items(Destination.values().toList()){ destination ->
+        items(Destination.values().toList()) { destination ->
             when (destination) {
                 Destination.BrushExamples -> NavigationButton(destination.title, toBrushExamples)
                 Destination.ImageExamples -> NavigationButton(destination.title, toImageExamples)
@@ -81,7 +81,7 @@ fun NavigationButtons(toBrushExamples: () -> Unit, toImageExamples: () -> Unit){
 }
 
 @Composable
-fun NavigationButton(title: String, onClick: () -> Unit){
+fun NavigationButton(title: String, onClick: () -> Unit) {
     Button(
         onClick = { onClick() }
     ) {
