@@ -71,17 +71,10 @@ fun NavigationItems(navigate: (Destination) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(Destination.values().toList()) { destination ->
-            when (destination) {
-                Destination.BrushExamples -> NavigationItem(destination) {
-                    navigate(
-                        destination
-                    )
-                }
-                Destination.ImageExamples -> NavigationItem(destination) {
-                    navigate(
-                        destination
-                    )
-                }
+            NavigationItem(destination) {
+                navigate(
+                    destination
+                )
             }
         }
     }
@@ -92,6 +85,6 @@ fun NavigationItem(destination: Destination, onClick: () -> Unit) {
     Button(
         onClick = { onClick() }
     ) {
-        Text(destination.title)
+        Text( destination.title )
     }
 }
