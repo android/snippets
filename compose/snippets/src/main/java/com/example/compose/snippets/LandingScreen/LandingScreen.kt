@@ -62,7 +62,7 @@ fun LandingScreen(
 }
 
 @Composable
-fun NavigationItems(navigate: (Destination) -> Unit){
+fun NavigationItems(navigate: (Destination) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -70,7 +70,7 @@ fun NavigationItems(navigate: (Destination) -> Unit){
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        items(Destination.values().toList()){ destination ->
+        items(Destination.values().toList()) { destination ->
             when (destination) {
                 Destination.BrushExamples -> NavigationItem(destination) {
                     navigate(
@@ -88,7 +88,7 @@ fun NavigationItems(navigate: (Destination) -> Unit){
 }
 
 @Composable
-fun NavigationItem(destination: Destination, onClick: () -> Unit){
+fun NavigationItem(destination: Destination, onClick: () -> Unit) {
     Button(
         onClick = { onClick() }
     ) {
