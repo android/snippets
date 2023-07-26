@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.LandingScreen.LandingScreen
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
+import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
 class SnippetsActivity : ComponentActivity() {
@@ -49,8 +50,14 @@ class SnippetsActivity : ComponentActivity() {
                                 toImageExamples = { navController.navigate("ImageExamples") },
                             )
                         }
-                        composable("BrushExamples") { BrushExamplesScreen() }
-                        composable("ImageExamples") { ImageExamplesScreen() }
+                        Destination.values().forEach { destination ->
+                            composable(destination.route) {
+                                when (destination) {
+                                    Destination.BrushExamples -> BrushExamplesScreen()
+                                    Destination.ImageExamples -> ImageExamplesScreen()
+                                }
+                            }
+                        }
                     }
                 }
             }
