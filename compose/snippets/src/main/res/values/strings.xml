@@ -42,4 +42,5 @@
         <item quantity="other">%1$d minutes</item>
     </plurals>
     <string name="hello_world">Hello world</string>
+    <string name="glance_title">Example String for Glance</string>
 </resources>
