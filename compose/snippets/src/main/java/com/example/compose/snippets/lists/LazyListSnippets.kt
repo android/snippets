@@ -57,6 +57,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.paging.Pager
@@ -64,7 +65,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import com.example.compose.snippets.tooling.Preview
 import com.example.compose.snippets.util.randomSampleImageUrl
 import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
