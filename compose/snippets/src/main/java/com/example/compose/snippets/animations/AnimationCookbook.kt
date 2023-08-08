@@ -23,8 +23,11 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,9 +35,12 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,12 +59,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlin.math.roundToInt
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -75,6 +83,16 @@ import androidx.navigation.compose.rememberNavController
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+@Preview
+@Composable
+fun AnimationExamplesScreen() {
+    Column {
+        AnimatedVisibilityCookbook()
+
+    }
+}
+
 @Preview
 @Composable
 fun AnimatedVisibilityCookbook() {
@@ -200,24 +218,68 @@ fun AnimatePadding() {
 @Preview
 @Composable
 fun AnimateSizeChange() {
-    // [START android_compose_animation_size_change]
-    var expanded by remember { mutableStateOf(false) }
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+        // [START android_compose_animation_size_change]
+        var expanded by remember { mutableStateOf(false) }
+        Box(
+            modifier = Modifier
+                .background(colorBlue)
+                .animateContentSize()
+                .height(if (expanded) 400.dp else 200.dp)
+                .fillMaxWidth()
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    expanded = !expanded
+                }
 
-    Box(
-        modifier = Modifier
-            .animateContentSize()
-            .height(if (expanded) 400.dp else 200.dp)
-            .background(colorBlue)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                expanded = !expanded
-            }
-    ) {
+        ) {
+
+        }
+        // [END android_compose_animation_size_change]
     }
-    // [END android_compose_animation_size_change]
 }
+
+@Preview
+@Composable
+fun AnimateOffset() {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+        // [START android_compose_animation_size_change]
+        var moved by remember { mutableStateOf(false) }
+        val pxToMove = with(LocalDensity.current){
+            100.dp.toPx().roundToInt()
+        }
+        val offset by animateIntOffsetAsState(
+            targetValue = if (moved) {
+                IntOffset(pxToMove, pxToMove)
+            } else {
+                IntOffset.Zero
+            }, label = "offset"
+        )
+
+        Box(
+            modifier = Modifier
+                .offset {
+                    offset
+                }
+                .background(colorBlue)
+                .size(100.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    moved = !moved
+                }
+        )
+        // [END android_compose_animation_size_change]
+    }
+}
+
 @Preview
 @Composable
 fun AnimateBetweenComposableDestinations() {
@@ -269,6 +331,57 @@ fun AnimateBetweenComposableDestinations() {
         }
     }
     // [END android_compose_animate_destinations]
+}
+
+@Preview
+@Composable
+fun AnimateSizeChange_Specs() {
+    Row(modifier = Modifier.fillMaxSize()) {
+        var expanded by remember { mutableStateOf(false) }
+        Column(modifier = Modifier
+            .padding(8.dp).weight(1f)) {
+            Text("No spec set")
+            Box(
+                modifier = Modifier
+                    .background(colorBlue)
+                    .animateContentSize()
+                    .height(if (expanded) 300.dp else 200.dp)
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        expanded = !expanded
+                    }
+
+            ) {
+
+            }
+        }
+        Column(modifier = Modifier
+            .padding(8.dp).weight(1f)) {
+            Text("Custom spec")
+            // [START android_compose_animation_size_change_spec]
+            Box(
+                modifier = Modifier
+                    .background(colorBlue)
+                    .animateContentSize(spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioHighBouncy))
+                    .height(if (expanded) 300.dp else 200.dp)
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        expanded = !expanded
+                    }
+
+            ) {
+
+            }
+            // [END android_compose_animation_size_change_spec]
+        }
+    }
+
 }
 
 val colorGreen = Color(0xFF53D9A1)

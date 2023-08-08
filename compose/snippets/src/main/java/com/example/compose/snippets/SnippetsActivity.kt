@@ -27,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.LandingScreen.LandingScreen
+import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.navigation.Destination
@@ -52,6 +53,7 @@ class SnippetsActivity : ComponentActivity() {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
+                                    Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
                                 }
                             }
                         }
