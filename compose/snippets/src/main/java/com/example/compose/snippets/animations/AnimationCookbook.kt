@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.animations
 
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -77,7 +93,6 @@ fun AnimatedVisibilityCookbook() {
                     .clip(RoundedCornerShape(8.dp))
                     .background(colorGreen)
             ) {
-
             }
             // [END_EXCLUDE]
         }
@@ -116,7 +131,6 @@ fun AnimatedVisibilityCookbook_ModifierAlpha() {
                 .background(colorGreen)
                 .align(Alignment.TopCenter)
         ) {
-
         }
         // [END android_compose_animation_cookbook_visibility_alpha]
         Button(modifier = Modifier.align(Alignment.BottomCenter), onClick = {
@@ -125,7 +139,6 @@ fun AnimatedVisibilityCookbook_ModifierAlpha() {
             Text("Show/Hide")
         }
     }
-
 }
 
 @Composable
@@ -141,13 +154,14 @@ fun AnimateBackgroundColor() {
         if (animateBackgroundColor) colorGreen else colorBlue,
         label = "color"
     )
-    Column(modifier = Modifier.drawBehind {
-        drawRect(animatedColor)
-    }) {
+    Column(
+        modifier = Modifier.drawBehind {
+            drawRect(animatedColor)
+        }
+    ) {
         // your composable here
     }
     // [END android_compose_animate_background_color]
-
 }
 
 @Preview
@@ -163,19 +177,22 @@ fun AnimatePadding() {
                 0.dp
             } else {
                 20.dp
-            }, label = "padding"
+            },
+            label = "padding"
         )
-        Box(modifier = Modifier
-            .aspectRatio(1f)
-            .fillMaxSize()
-            .padding(animatedPadding)
-            .background(Color(0xff53D9A1))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                toggled = !toggled
-            })
+        Box(
+            modifier = Modifier
+                .aspectRatio(1f)
+                .fillMaxSize()
+                .padding(animatedPadding)
+                .background(Color(0xff53D9A1))
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    toggled = !toggled
+                }
+        )
         // [END android_compose_animation_padding]
     }
 }
@@ -198,7 +215,6 @@ fun AnimateSizeChange() {
                 expanded = !expanded
             }
     ) {
-
     }
     // [END android_compose_animation_size_change]
 }
@@ -207,19 +223,23 @@ fun AnimateSizeChange() {
 fun AnimateBetweenComposableDestinations() {
     // [START android_compose_animate_destinations]
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "landing",
+    NavHost(
+        navController = navController, startDestination = "landing",
         enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.Hold }) {
+        exitTransition = { ExitTransition.Hold }
+    ) {
         val animationSpec = tween<IntOffset>(500, easing = EaseInOut)
         composable("landing") {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xff53D9A1))
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        navController.navigate("detail")
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xff53D9A1))
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            navController.navigate("detail")
+                        }
                     }
-                }) {
+            ) {
                 Text("Landing", modifier = Modifier.padding(16.dp))
             }
         }
@@ -234,14 +254,16 @@ fun AnimateBetweenComposableDestinations() {
                 animationSpec = animationSpec
             )
         }) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF4FC3F7))
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        navController.popBackStack()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF4FC3F7))
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            navController.popBackStack()
+                        }
                     }
-                }) {
+            ) {
                 Text("Detail", modifier = Modifier.padding(16.dp))
             }
         }
@@ -251,4 +273,3 @@ fun AnimateBetweenComposableDestinations() {
 
 val colorGreen = Color(0xFF53D9A1)
 val colorBlue = Color(0xFF4FC3F7)
-
