@@ -89,7 +89,6 @@ import kotlin.math.roundToInt
 fun AnimationExamplesScreen() {
     Column {
         AnimatedVisibilityCookbook()
-
     }
 }
 
@@ -218,9 +217,11 @@ fun AnimatePadding() {
 @Preview
 @Composable
 fun AnimateSizeChange() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         // [START android_compose_animation_size_change]
         var expanded by remember { mutableStateOf(false) }
         Box(
@@ -237,7 +238,6 @@ fun AnimateSizeChange() {
                 }
 
         ) {
-
         }
         // [END android_compose_animation_size_change]
     }
@@ -246,12 +246,14 @@ fun AnimateSizeChange() {
 @Preview
 @Composable
 fun AnimateOffset() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         // [START android_compose_animation_size_change]
         var moved by remember { mutableStateOf(false) }
-        val pxToMove = with(LocalDensity.current){
+        val pxToMove = with(LocalDensity.current) {
             100.dp.toPx().roundToInt()
         }
         val offset by animateIntOffsetAsState(
@@ -259,7 +261,8 @@ fun AnimateOffset() {
                 IntOffset(pxToMove, pxToMove)
             } else {
                 IntOffset.Zero
-            }, label = "offset"
+            },
+            label = "offset"
         )
 
         Box(
@@ -338,8 +341,10 @@ fun AnimateBetweenComposableDestinations() {
 fun AnimateSizeChange_Specs() {
     Row(modifier = Modifier.fillMaxSize()) {
         var expanded by remember { mutableStateOf(false) }
-        Column(modifier = Modifier
-            .padding(8.dp).weight(1f)) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp).weight(1f)
+        ) {
             Text("No spec set")
             Box(
                 modifier = Modifier
@@ -355,11 +360,12 @@ fun AnimateSizeChange_Specs() {
                     }
 
             ) {
-
             }
         }
-        Column(modifier = Modifier
-            .padding(8.dp).weight(1f)) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp).weight(1f)
+        ) {
             Text("Custom spec")
             // [START android_compose_animation_size_change_spec]
             Box(
@@ -376,12 +382,10 @@ fun AnimateSizeChange_Specs() {
                     }
 
             ) {
-
             }
             // [END android_compose_animation_size_change_spec]
         }
     }
-
 }
 
 val colorGreen = Color(0xFF53D9A1)
