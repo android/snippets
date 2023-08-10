@@ -108,7 +108,6 @@ import kotlin.math.roundToInt
 fun AnimationExamplesScreen() {
     Column {
         AnimatedVisibilityCookbook()
-
     }
 }
 
@@ -258,7 +257,6 @@ fun AnimateSizeChange() {
                 }
 
         ) {
-
         }
         // [END android_compose_animation_size_change]
     }
@@ -282,7 +280,8 @@ fun AnimateOffset() {
                 IntOffset(pxToMove, pxToMove)
             } else {
                 IntOffset.Zero
-            }, label = "offset"
+            },
+            label = "offset"
         )
 
         Box(
@@ -365,7 +364,6 @@ fun AnimateSizeChange_Specs() {
                     }
 
             ) {
-
             }
         }
         Column(
@@ -394,12 +392,10 @@ fun AnimateSizeChange_Specs() {
                     }
 
             ) {
-
             }
             // [END android_compose_animation_size_change_spec]
         }
     }
-
 }
 
 val colorGreen = Color(0xFF53D9A1)
