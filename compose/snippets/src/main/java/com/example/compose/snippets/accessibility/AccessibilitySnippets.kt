@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused", "UNUSED_PARAMETER", "UNUSED_VARIABLE")
+@file:Suppress("unused", "UNUSED_PARAMETER", "ClassName")
 
 package com.example.compose.snippets.accessibility
 
@@ -342,7 +342,7 @@ fun TraversalGroupDemo2() {
   val bottomSampleText1 = "the left column."
   val topSampleText2 = "This sentence is"
   val bottomSampleText2 = "on the right."
-  Row() {
+  Row {
     CardBox(
 //      1,
       topSampleText1,
@@ -364,11 +364,8 @@ private object ClockFaceBefore {
   @Composable
   fun ClockFaceDemo() {
     CircularLayout {
-      var counter = 12
-      repeat(12) {
-        ClockText(value = counter)
-        // Increment the counter as the numbers are put onto the clock face.
-        counter += 1
+      repeat(12) { hour ->
+        ClockText(hour)
       }
     }
   }
@@ -376,7 +373,7 @@ private object ClockFaceBefore {
   @Composable
   private fun ClockText(value: Int) {
     Box(modifier = Modifier) {
-      Text((value % 12).toString())
+      Text((if (value == 0) 12 else value).toString())
     }
   }
   // [END android_compose_accessibility_traversal_clock_face_initial]
@@ -391,11 +388,8 @@ private object ClockFaceAfter {
   @Composable
   fun ClockFaceDemo() {
     CircularLayout(Modifier.semantics { isTraversalGroup = true }) {
-      var counter = 12
-      repeat(12) {
-        ClockText(value = counter)
-        // Increment the counter as the numbers are put onto the clock face.
-        counter += 1
+      repeat(12) { hour ->
+        ClockText(hour)
       }
     }
   }
@@ -403,7 +397,7 @@ private object ClockFaceAfter {
   @Composable
   private fun ClockText(value: Int) {
     Box(modifier = Modifier.semantics { this.traversalIndex = value.toFloat() }) {
-      Text((value % 12).toString())
+      Text((if (value == 0) 12 else value).toString())
     }
   }
   // [END android_compose_accessibility_traversal_clock_face_modified]
