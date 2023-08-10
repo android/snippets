@@ -311,11 +311,14 @@ fun AnimateBetweenComposableDestinations() {
     NavHost(
         navController = navController, startDestination = "landing",
         enterTransition = {
-            fadeIn(animationSpec = tween(60, delayMillis = 60, easing = LinearEasing
-            )) + scaleIn(animationSpec = tween(300, easing = customBezierCurve), initialScale = 0.8f)
+            fadeIn(
+                animationSpec = tween(
+                    60, delayMillis = 60, easing = LinearEasing
+                )
+            ) + scaleIn(animationSpec = tween(300, easing = customBezierCurve), initialScale = 0.8f)
         },
         exitTransition = {
-           scaleOut(animationSpec = tween(300, easing = customBezierCurve), targetScale = 1.1f)
+            scaleOut(animationSpec = tween(300, easing = customBezierCurve), targetScale = 1.1f)
         },
         popExitTransition = {
             scaleOut(animationSpec = tween(300, easing = customBezierCurve), targetScale = 0.8f)
@@ -326,14 +329,16 @@ fun AnimateBetweenComposableDestinations() {
                 navController.navigate("detail/${URLEncoder.encode(it)}")
             })
         }
-        composable("detail/{photoUrl}",
+        composable(
+            "detail/{photoUrl}",
             arguments = listOf(navArgument("photoUrl") { type = NavType.StringType })
         ) { backStackEntry ->
             ScreenDetails(
                 photo = URLDecoder.decode(backStackEntry.arguments!!.getString("photoUrl")!!),
                 onBackClicked = {
                     navController.popBackStack()
-                })
+                }
+            )
         }
     }
     // [END android_compose_animate_destinations]
@@ -410,32 +415,36 @@ fun AnimationLayoutIndividualItem() {
     val interactionSource = remember {
         MutableInteractionSource()
     }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .clickable(indication = null, interactionSource = interactionSource) {
-            toggled = !toggled
-        }) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(indication = null, interactionSource = interactionSource) {
+                toggled = !toggled
+            }
+    ) {
         val offset = animateIntOffsetAsState(
             targetValue = if (toggled) {
                 IntOffset(150, 150)
             } else {
                 IntOffset.Zero
-            }, label = "offset"
+            },
+            label = "offset"
         )
         Box(
             modifier = Modifier
                 .size(100.dp)
                 .background(colorBlue)
         )
-        Box(modifier = Modifier
-            .layout { measurable, constraints ->
-                val placeable = measurable.measure(constraints)
-                layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
-                    placeable.placeRelative(offset.value)
+        Box(
+            modifier = Modifier
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+                    layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
+                        placeable.placeRelative(offset.value)
+                    }
                 }
-            }
-            .size(100.dp)
-            .background(colorGreen)
+                .size(100.dp)
+                .background(colorGreen)
         )
         Box(
             modifier = Modifier
@@ -443,7 +452,6 @@ fun AnimationLayoutIndividualItem() {
                 .background(colorBlue)
         )
     }
-
 }
 
 @Composable
@@ -474,11 +482,13 @@ private fun ScreenLanding(onItemClicked: (String) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = {
-                Text("Photo Details")
-            },
+            TopAppBar(
+                title = {
+                    Text("Photo Details")
+                },
                 navigationIcon = {
                     IconButton(onClick = { onBackClicked() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
