@@ -276,19 +276,19 @@ private object VariableFontsTypographyTheme {
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "Jetpack Compose",
+                        text = "Compose",
                         style = MaterialTheme.typography.displayLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 1
                     )
                     Text(
-                        text = "Use the modern toolkit for building native UI on Android.",
+                        text = "Beautiful UIs on Android",
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 2
                     )
                     Text(
-                        text = "With Jetpack Compose, you can leverage…",
+                        text = "Jetpack Compose is Android’s recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 3
@@ -299,11 +299,7 @@ private object VariableFontsTypographyTheme {
     }
     // [END android_compose_variable_fonts_usage]
 }
-@Composable
-@Preview
-fun CardDetailsPreview() {
-    VariableFontsTypographyTheme.CardDetails()
-}
+
 private object VariableFontsTypographyCustomAxes {
     // [START android_compose_variable_font_custom_axes]
     fun ascenderHeight(ascenderHeight: Float): FontVariation.Setting {
@@ -456,19 +452,19 @@ private object VariableFontsTypographyCustomAxes {
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "Jetpack Compose",
+                        text = "Compose",
                         style = MaterialTheme.typography.displayLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 1
                     )
                     Text(
-                        text = "Use the modern toolkit for building native UI on Android.",
+                        text = "Beautiful UIs on Android.",
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 2
                     )
                     Text(
-                        text = "With Jetpack Compose, you can leverage…",
+                        text = "Jetpack Compose is Android’s recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 3
@@ -477,4 +473,14 @@ private object VariableFontsTypographyCustomAxes {
             }
         }
     }
+}
+@Composable
+@Preview
+fun VariableFontConfigured() {
+    VariableFontsTypographyTheme.CardDetails()
+}
+@Composable
+@Preview
+fun VariableFontConfiguredCustomAxes() {
+    VariableFontsTypographyCustomAxes.CardDetails()
 }
