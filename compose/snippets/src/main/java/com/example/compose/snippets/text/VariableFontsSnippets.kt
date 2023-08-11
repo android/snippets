@@ -44,7 +44,7 @@ private object VariableFontSnippet1 {
     // [START android_compose_text_variable_fonts_define]
     // In Typography.kt
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily =
+    val displayLargeFontFamily =
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -69,7 +69,7 @@ private object VariableFontDefaultSnippet2 {
         )
     )
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val displayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -107,7 +107,7 @@ private object VariableFontSnippetsExtractedSettings {
     }
 
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val displayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -134,7 +134,7 @@ private object VariableFontSnippetsUseTheme {
         )
     )
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val displayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -152,7 +152,7 @@ private object VariableFontSnippetsUseTheme {
     // Type.kt
     val Typography = Typography(
         displayLarge = TextStyle(
-            fontFamily = DisplayLargeFontFamily,
+            fontFamily = displayLargeFontFamily,
             fontSize = 50.sp,
             lineHeight = 64.sp,
             letterSpacing = 0.sp,
@@ -196,7 +196,7 @@ private object VariableFontsTypographyTheme {
         )
     )
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val displayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -211,7 +211,7 @@ private object VariableFontsTypographyTheme {
         default
     }
     @OptIn(ExperimentalTextApi::class)
-    val HeadlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val headlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -227,7 +227,7 @@ private object VariableFontsTypographyTheme {
     }
 
     @OptIn(ExperimentalTextApi::class)
-    val BodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val bodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -248,20 +248,20 @@ private object VariableFontsTypographyTheme {
     // Type.kt
     val Typography = Typography(
         displayLarge = TextStyle(
-            fontFamily = DisplayLargeFontFamily,
+            fontFamily = displayLargeFontFamily,
             fontSize = 50.sp,
             lineHeight = 64.sp,
             letterSpacing = 0.sp,
             /***/
         ),
         headlineMedium = TextStyle(
-            fontFamily = HeadlineMediumFontFamily,
+            fontFamily = headlineMediumFontFamily,
             fontSize = 35.sp,
             lineHeight = 37.sp
             /***/
         ),
         bodyLarge = TextStyle(
-            fontFamily = BodyLargeFontFamily,
+            fontFamily = bodyLargeFontFamily,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             lineHeight = 28.sp,
@@ -369,7 +369,7 @@ private object VariableFontsTypographyCustomAxes {
     )
     // [START android_compose_variable_font_custom_axis_usage]
     @OptIn(ExperimentalTextApi::class)
-    val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val displayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -388,7 +388,7 @@ private object VariableFontsTypographyCustomAxes {
     // [END android_compose_variable_font_custom_axis_usage]
 
     @OptIn(ExperimentalTextApi::class)
-    val HeadlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val headlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -406,7 +406,7 @@ private object VariableFontsTypographyCustomAxes {
     }
 
     @OptIn(ExperimentalTextApi::class)
-    val BodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    val bodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
                 R.font.robotoflex_variable,
@@ -429,20 +429,20 @@ private object VariableFontsTypographyCustomAxes {
     // Type.kt
     val Typography = Typography(
         displayLarge = TextStyle(
-            fontFamily = DisplayLargeFontFamily,
+            fontFamily = displayLargeFontFamily,
             fontSize = 50.sp,
             lineHeight = 64.sp,
             letterSpacing = 0.sp,
             /***/
         ),
         headlineMedium = TextStyle(
-            fontFamily = HeadlineMediumFontFamily,
+            fontFamily = headlineMediumFontFamily,
             fontSize = 35.sp,
             lineHeight = 37.sp
             /***/
         ),
         bodyLarge = TextStyle(
-            fontFamily = BodyLargeFontFamily,
+            fontFamily = bodyLargeFontFamily,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             lineHeight = 28.sp,
