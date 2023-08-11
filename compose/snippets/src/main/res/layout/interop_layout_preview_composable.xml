@@ -15,14 +15,18 @@
   ~   limitations under the License.
   ~
   -->
-<resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="default_widget_background">#FFF</color>
-    <color name="outline_color">#FFF</color>
-</resources>
+<!-- [START android_compose_interop_layout_preview_composable] -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <androidx.compose.ui.platform.ComposeView
+      android:id="@+id/my_compose_view"
+      tools:composableName="com.example.compose.snippets.interop.InteroperabilityAPIsSnippetsKt.GreetingPreview"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"/>
+
+</LinearLayout>
+<!-- [END android_compose_interop_layout_preview_composable] -->

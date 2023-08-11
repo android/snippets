@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
@@ -313,3 +314,11 @@ fun HomeScreen() {
     /* Rest of the HomeScreen */
 }
 // [END android_compose_interop_apis_broadcast_receivers]
+
+// [START android_compose_interop_apis_layout_preview_composable]
+@Preview
+@Composable
+fun GreetingPreview() {
+    Greeting(name = "Android")
+}
+// [END android_compose_interop_apis_layout_preview_composable]

@@ -77,6 +77,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.work.runtime.ktx)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -105,6 +106,9 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.coordinator.layout)
     implementation(libs.google.android.material)
+
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
 
     implementation(libs.accompanist.theme.adapter.appcompat)
     implementation(libs.accompanist.theme.adapter.material3)
