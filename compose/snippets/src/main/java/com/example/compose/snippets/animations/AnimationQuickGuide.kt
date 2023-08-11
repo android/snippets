@@ -17,23 +17,20 @@
 package com.example.compose.snippets.animations
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
@@ -41,8 +38,8 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,7 +54,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.grid.LazyGridItemScopeImpl.animateItemPlacement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -65,8 +61,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -85,8 +81,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -427,11 +421,13 @@ fun AnimateOffset() {
     val interactionSource = remember {
         MutableInteractionSource()
     }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .clickable(indication = null, interactionSource = interactionSource) {
-            toggled = !toggled
-        }) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(indication = null, interactionSource = interactionSource) {
+                toggled = !toggled
+            }
+    ) {
         // [START android_compose_animation_cookbook_offset]
         val offset = animateIntOffsetAsState(
             targetValue = if (toggled) {
@@ -440,12 +436,13 @@ fun AnimateOffset() {
                 IntOffset.Zero
             }
         )
-        Box(modifier = Modifier
-            .offset {
-                offset.value
-            }
-            .size(100.dp)
-            .background(colorGreen)
+        Box(
+            modifier = Modifier
+                .offset {
+                    offset.value
+                }
+                .size(100.dp)
+                .background(colorGreen)
         )
         // [END android_compose_animation_cookbook_offset]
     }
@@ -498,18 +495,17 @@ fun AnimateElevation() {
                 8.dp
             }
         )
-        Box(modifier = Modifier
-            .size(100.dp)
-            .align(Alignment.Center)
-            .graphicsLayer {
-                this.shadowElevation = elevation.value.toPx()
-            }
-            .clickable(interactionSource = mutableInteractionSource, indication = null) {
-
-            }
-            .background(colorGreen)
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .align(Alignment.Center)
+                .graphicsLayer {
+                    this.shadowElevation = elevation.value.toPx()
+                }
+                .clickable(interactionSource = mutableInteractionSource, indication = null) {
+                }
+                .background(colorGreen)
         ) {
-
         }
         // [END android_compose_animation_cookbook_elevation]
     }
@@ -522,25 +518,32 @@ fun AnimatedContentExampleSwitch() {
     var state by remember {
         mutableStateOf(UiState.Loading)
     }
-    AnimatedContent(state, modifier = Modifier.clickable {
-        state = when (state) {
-            UiState.Loading -> UiState.Loaded
-            UiState.Loaded -> UiState.Error
-            UiState.Error -> UiState.Loading
+    AnimatedContent(
+        state,
+        modifier = Modifier.clickable {
+            state = when (state) {
+                UiState.Loading -> UiState.Loaded
+                UiState.Loaded -> UiState.Error
+                UiState.Error -> UiState.Loading
+            }
         }
-    }) { targetState ->
+    ) { targetState ->
         when (targetState) {
             UiState.Loading -> {
-                Box(modifier = Modifier
-                    .background(colorGreen)
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .background(colorGreen)
+                        .fillMaxSize()
+                ) {
                     Text("Loading", modifier = Modifier.align(Alignment.Center))
                 }
             }
             UiState.Loaded -> {
-                Box(modifier = Modifier
-                    .background(colorBlue)
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .background(colorBlue)
+                        .fillMaxSize()
+                ) {
                     Text("Loaded", modifier = Modifier.align(Alignment.Center))
                 }
             }
@@ -564,12 +567,14 @@ fun AnimationLayout() {
     val interactionSource = remember {
         MutableInteractionSource()
     }
-    Column(modifier = Modifier
-        .padding(16.dp)
-        .fillMaxSize()
-        .clickable(indication = null, interactionSource = interactionSource) {
-            toggled = !toggled
-        }) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .clickable(indication = null, interactionSource = interactionSource) {
+                toggled = !toggled
+            }
+    ) {
         val offset = animateIntOffsetAsState(
             targetValue = if (toggled) {
                 IntOffset(150, 150)
@@ -577,22 +582,27 @@ fun AnimationLayout() {
                 IntOffset.Zero
             }
         )
-        Box(modifier = Modifier
-            .size(100.dp)
-            .background(colorBlue))
-        Box(modifier = Modifier
-            .layout { measurable, constraints ->
-                val placeable = measurable.measure(constraints)
-                layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
-                    placeable.placeRelative(offset.value)
-                }
-            }
-            .size(100.dp)
-            .background(colorGreen)
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(colorBlue)
         )
-        Box(modifier = Modifier
-            .size(100.dp)
-            .background(colorBlue))
+        Box(
+            modifier = Modifier
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+                    layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
+                        placeable.placeRelative(offset.value)
+                    }
+                }
+                .size(100.dp)
+                .background(colorGreen)
+        )
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(colorBlue)
+        )
     }
     // [END android_compose_animation_layout_offset ]
 }
@@ -607,24 +617,30 @@ fun AnimateAlignment() {
     val interactionSource = remember {
         MutableInteractionSource()
     }
-    Column(modifier = Modifier
-        .padding(16.dp)
-        .fillMaxSize()
-        .clickable(indication = null, interactionSource = interactionSource) {
-            toggled = !toggled
-        }) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .clickable(indication = null, interactionSource = interactionSource) {
+                toggled = !toggled
+            }
+    ) {
 
-        Box(modifier = Modifier
-            .size(100.dp)
-            .background(colorBlue))
-        Box(modifier = Modifier
-
-            .size(100.dp)
-            .background(colorGreen)
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(colorBlue)
         )
-        Box(modifier = Modifier
-            .size(100.dp)
-            .background(colorBlue))
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(colorGreen)
+        )
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(colorBlue)
+        )
     }
     // [END android_compose_animate_item_placement]
 }
