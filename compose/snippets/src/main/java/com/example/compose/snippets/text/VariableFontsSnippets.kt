@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 @file:Suppress("unused", "PreviewMustBeTopLevelFunction")
 package com.example.compose.snippets.text
 
@@ -31,7 +47,8 @@ private object VariableFontSnippet1 {
     val DisplayLargeFontFamily =
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(950),
                     FontVariation.width(30f),
                     FontVariation.slant(-6f),
@@ -55,7 +72,8 @@ private object VariableFontDefaultSnippet2 {
     val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(950),
                     FontVariation.width(30f),
                     FontVariation.slant(-6f),
@@ -92,7 +110,8 @@ private object VariableFontSnippetsExtractedSettings {
     val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(DisplayLargeVFConfig.WEIGHT),
                     FontVariation.width(DisplayLargeVFConfig.WIDTH),
                     FontVariation.slant(DisplayLargeVFConfig.SLANT),
@@ -118,7 +137,8 @@ private object VariableFontSnippetsUseTheme {
     val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WEIGHT),
                     FontVariation.width(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WIDTH),
                     FontVariation.slant(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.SLANT),
@@ -179,7 +199,8 @@ private object VariableFontsTypographyTheme {
     val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WEIGHT),
                     FontVariation.width(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WIDTH),
                     FontVariation.slant(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.SLANT),
@@ -193,7 +214,8 @@ private object VariableFontsTypographyTheme {
     val HeadlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(HeadlineMediumVFConfig.WEIGHT),
                     FontVariation.width(HeadlineMediumVFConfig.WIDTH),
                     FontVariation.slant(HeadlineMediumVFConfig.SLANT)
@@ -208,7 +230,8 @@ private object VariableFontsTypographyTheme {
     val BodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(BodyLargeVFConfig.WEIGHT),
                     FontVariation.width(BodyLargeVFConfig.WIDTH),
                     FontVariation.slant(BodyLargeVFConfig.SLANT)
@@ -349,7 +372,8 @@ private object VariableFontsTypographyCustomAxes {
     val DisplayLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(DisplayLargeVFConfig.WEIGHT),
                     FontVariation.width(DisplayLargeVFConfig.WIDTH),
                     FontVariation.slant(DisplayLargeVFConfig.SLANT),
@@ -367,7 +391,8 @@ private object VariableFontsTypographyCustomAxes {
     val HeadlineMediumFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(HeadlineMediumVFConfig.WEIGHT),
                     FontVariation.width(HeadlineMediumVFConfig.WIDTH),
                     FontVariation.slant(HeadlineMediumVFConfig.SLANT),
@@ -384,7 +409,8 @@ private object VariableFontsTypographyCustomAxes {
     val BodyLargeFontFamily = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         FontFamily(
             Font(
-                R.font.robotoflex_variable, variationSettings = FontVariation.Settings(
+                R.font.robotoflex_variable,
+                variationSettings = FontVariation.Settings(
                     FontVariation.weight(BodyLargeVFConfig.WEIGHT),
                     FontVariation.width(BodyLargeVFConfig.WIDTH),
                     FontVariation.slant(BodyLargeVFConfig.SLANT),
@@ -424,7 +450,6 @@ private object VariableFontsTypographyCustomAxes {
             /***/
         ),
     )
-
 
     @Composable
     fun MyCustomTheme(
