@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.animations
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -23,22 +24,31 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.LazyGridItemScopeImpl.animateItemPlacement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,8 +61,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -141,6 +154,7 @@ fun AnimatedVisibilityCookbook_ModifierAlpha() {
     }
 }
 
+@Preview
 @Composable
 fun AnimateBackgroundColor() {
     var animateBackgroundColor by remember {
@@ -270,6 +284,220 @@ fun AnimateBetweenComposableDestinations() {
     }
     // [END android_compose_animate_destinations]
 }
+@Preview
+@Composable
+fun AnimateOffset() {
+    var toggled by remember {
+        mutableStateOf(false)
+    }
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .clickable(indication = null, interactionSource = interactionSource) {
+            toggled = !toggled
+        }) {
+        // [START android_compose_animation_cookbook_offset]
+        val offset = animateIntOffsetAsState(
+            targetValue = if (toggled) {
+                IntOffset(50, 50)
+            } else {
+                IntOffset.Zero
+            }
+        )
+        Box(modifier = Modifier
+            .offset {
+                offset.value
+            }
+            .size(100.dp)
+            .background(colorGreen)
+        )
+        // [END android_compose_animation_cookbook_offset]
+    }
+}
+@Preview
+@Composable
+fun SmoothAnimateText() {
+    // [START android_compose_animation_cookbook_text]
+    val infiniteTransition = rememberInfiniteTransition()
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 8f,
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse)
+    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = "Hello",
+            modifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                    transformOrigin = TransformOrigin.Center
+                }
+                .align(Alignment.Center),
+            // Text composable does not take TextMotion as a parameter.
+            // Provide it via style argument but make sure that we are copying from current theme
+            style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated)
+        )
+    }
 
+    // [END android_compose_animation_cookbook_text]
+}
+
+@Preview
+@Composable
+fun AnimateElevation() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        // [START android_compose_animation_cookbook_elevation]
+        val mutableInteractionSource = remember {
+            MutableInteractionSource()
+        }
+        val pressed = mutableInteractionSource.collectIsPressedAsState()
+        val elevation = animateDpAsState(
+            targetValue = if (pressed.value) {
+                32.dp
+            } else {
+                8.dp
+            }
+        )
+        Box(modifier = Modifier
+            .size(100.dp)
+            .align(Alignment.Center)
+            .graphicsLayer {
+                this.shadowElevation = elevation.value.toPx()
+            }
+            .clickable(interactionSource = mutableInteractionSource, indication = null) {
+
+            }
+            .background(colorGreen)
+        ) {
+
+        }
+        // [END android_compose_animation_cookbook_elevation]
+    }
+}
+
+@Preview
+@Composable
+fun AnimatedContentExampleSwitch() {
+    // [START android_compose_animation_cookbook_animated_content]
+    var state by remember {
+        mutableStateOf(UiState.Loading)
+    }
+    AnimatedContent(state, modifier = Modifier.clickable {
+        state = when (state) {
+            UiState.Loading -> UiState.Loaded
+            UiState.Loaded -> UiState.Error
+            UiState.Error -> UiState.Loading
+        }
+    }) { targetState ->
+        when (targetState) {
+            UiState.Loading -> {
+                Box(modifier = Modifier
+                    .background(colorGreen)
+                    .fillMaxSize()) {
+                    Text("Loading", modifier = Modifier.align(Alignment.Center))
+                }
+            }
+            UiState.Loaded -> {
+                Box(modifier = Modifier
+                    .background(colorBlue)
+                    .fillMaxSize()) {
+                    Text("Loaded", modifier = Modifier.align(Alignment.Center))
+                }
+            }
+            UiState.Error -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Text("Error", modifier = Modifier.align(Alignment.Center))
+                }
+            }
+        }
+    }
+    // [END android_compose_animation_cookbook_animated_content]
+}
+
+@Preview
+@Composable
+fun AnimationLayout() {
+    // [START android_compose_animation_layout_offset]
+    var toggled by remember {
+        mutableStateOf(false)
+    }
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    Column(modifier = Modifier
+        .padding(16.dp)
+        .fillMaxSize()
+        .clickable(indication = null, interactionSource = interactionSource) {
+            toggled = !toggled
+        }) {
+        val offset = animateIntOffsetAsState(
+            targetValue = if (toggled) {
+                IntOffset(150, 150)
+            } else {
+                IntOffset.Zero
+            }
+        )
+        Box(modifier = Modifier
+            .size(100.dp)
+            .background(colorBlue))
+        Box(modifier = Modifier
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(constraints)
+                layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
+                    placeable.placeRelative(offset.value)
+                }
+            }
+            .size(100.dp)
+            .background(colorGreen)
+        )
+        Box(modifier = Modifier
+            .size(100.dp)
+            .background(colorBlue))
+    }
+    // [END android_compose_animation_layout_offset ]
+}
+
+@Preview
+@Composable
+fun AnimateAlignment() {
+    // [START android_compose_animate_item_placement]
+    var toggled by remember {
+        mutableStateOf(false)
+    }
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    Column(modifier = Modifier
+        .padding(16.dp)
+        .fillMaxSize()
+        .clickable(indication = null, interactionSource = interactionSource) {
+            toggled = !toggled
+        }) {
+
+        Box(modifier = Modifier
+            .size(100.dp)
+            .background(colorBlue))
+        Box(modifier = Modifier
+
+            .size(100.dp)
+            .background(colorGreen)
+        )
+        Box(modifier = Modifier
+            .size(100.dp)
+            .background(colorBlue))
+    }
+    // [END android_compose_animate_item_placement]
+}
+enum class UiState {
+    Loading,
+    Loaded,
+    Error
+}
 val colorGreen = Color(0xFF53D9A1)
 val colorBlue = Color(0xFF4FC3F7)
