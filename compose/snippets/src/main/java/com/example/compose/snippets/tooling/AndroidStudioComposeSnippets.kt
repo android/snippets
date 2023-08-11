@@ -175,20 +175,23 @@ fun UserProfilePreview2(
 }
 // [END android_compose_tooling_preview_parameter_provider_composable2]
 
-// [START android_compose_tooling_preview_annotation]
-annotation class Preview(
-    val name: String = "",
-    val group: String = "",
-    @IntRange(from = 1) val apiLevel: Int = -1,
-    val widthDp: Int = -1,
-    val heightDp: Int = -1,
-    val locale: String = "",
-    @FloatRange(from = 0.01) val fontScale: Float = 1f,
-    val showSystemUi: Boolean = false,
-    val showBackground: Boolean = false,
-    val backgroundColor: Long = 0,
-    @UiMode val uiMode: Int = 0,
-    @Device val device: String = Devices.DEFAULT,
-    @Wallpaper val wallpaper: Int = Wallpapers.NONE,
-)
+private object PreviewAnnotationEx {
+    // [START android_compose_tooling_preview_annotation]
+    annotation class Preview(
+        val name: String = "",
+        val group: String = "",
+        @IntRange(from = 1) val apiLevel: Int = -1,
+        val widthDp: Int = -1,
+        val heightDp: Int = -1,
+        val locale: String = "",
+        @FloatRange(from = 0.01) val fontScale: Float = 1f,
+        val showSystemUi: Boolean = false,
+        val showBackground: Boolean = false,
+        val backgroundColor: Long = 0,
+        @UiMode val uiMode: Int = 0,
+        @Device val device: String = Devices.DEFAULT,
+        @Wallpaper val wallpaper: Int = Wallpapers.NONE,
+    )
 // [END android_compose_tooling_preview_annotation]
+}
+
