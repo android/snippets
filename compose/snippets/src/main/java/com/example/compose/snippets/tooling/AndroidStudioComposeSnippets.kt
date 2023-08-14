@@ -175,7 +175,7 @@ fun UserProfilePreview2(
 }
 // [END android_compose_tooling_preview_parameter_provider_composable2]
 
-private object PreviewApiDefinition {
+private object PreviewAnnotationEx {
     // [START android_compose_tooling_preview_annotation]
     annotation class Preview(
         val name: String = "",
@@ -192,5 +192,5 @@ private object PreviewApiDefinition {
         @Device val device: String = Devices.DEFAULT,
         @Wallpaper val wallpaper: Int = Wallpapers.NONE,
     )
-    // [END android_compose_tooling_preview_annotation]
+// [END android_compose_tooling_preview_annotation]
 }
