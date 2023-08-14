@@ -650,7 +650,7 @@ fun AnimationLayout() {
                 .background(colorBlue)
         )
     }
-    // [END android_compose_animation_layout_offset ]
+    // [END android_compose_animation_layout_offset]
 }
 
 @Preview
