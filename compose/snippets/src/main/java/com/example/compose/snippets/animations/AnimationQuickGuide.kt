@@ -469,7 +469,7 @@ fun AnimateTextColor() {
         val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
         val animatedColor by infiniteTransition.animateColor(
             initialValue = Color(0xFF60DDAD),
-            targetValue =  Color(0xFF4285F4),
+            targetValue = Color(0xFF4285F4),
             animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
             label = "color"
         )
