@@ -291,7 +291,7 @@ fun AnimateOffset() {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // [START android_compose_animation_size_change]
+        // [START android_compose_animation_offset_change]
         var moved by remember { mutableStateOf(false) }
         val pxToMove = with(LocalDensity.current) {
             100.dp.toPx().roundToInt()
@@ -319,7 +319,7 @@ fun AnimateOffset() {
                     moved = !moved
                 }
         )
-        // [END android_compose_animation_size_change]
+        // [END android_compose_animation_offset_change]
     }
 }
 
