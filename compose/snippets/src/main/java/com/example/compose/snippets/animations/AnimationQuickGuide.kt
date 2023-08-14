@@ -510,7 +510,7 @@ fun ConcurrentAnimatable() {
     Box(modifier = Modifier.graphicsLayer {
         alpha = alphaAnimation.value
     })
-    // [END android_compose_animation_concurrent_animatable]
+    // [END android_compose_animation_on_launch]
 }
 
 @Preview
