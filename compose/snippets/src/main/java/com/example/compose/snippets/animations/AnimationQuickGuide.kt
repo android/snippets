@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.example.compose.snippets.animations
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -33,8 +39,9 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,6 +50,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,14 +58,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -81,16 +89,19 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.compose.AsyncImage
+import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -317,37 +328,51 @@ fun AnimateOffset() {
 fun AnimateBetweenComposableDestinations() {
     // [START android_compose_animate_destinations]
     val navController = rememberNavController()
-    val customBezierCurve = CubicBezierEasing(1.0f, 0f, 0.6f, 1f)
     NavHost(
         navController = navController, startDestination = "landing",
-        enterTransition = {
-            fadeIn(
-                animationSpec = tween(
-                    60, delayMillis = 60, easing = LinearEasing
-                )
-            ) + scaleIn(animationSpec = tween(300, easing = customBezierCurve), initialScale = 0.8f)
-        },
-        exitTransition = {
-            scaleOut(animationSpec = tween(300, easing = customBezierCurve), targetScale = 1.1f)
-        },
-        popExitTransition = {
-            scaleOut(animationSpec = tween(300, easing = customBezierCurve), targetScale = 0.8f)
-        }
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.Hold }
     ) {
         composable("landing") {
-            ScreenLanding(onItemClicked = {
-                navController.navigate("detail/${URLEncoder.encode(it)}")
-            })
+            ScreenLanding(
+                // [START_EXCLUDE]
+                onItemClicked = {
+                    navController.navigate("detail/${URLEncoder.encode(it)}")
+                }
+                // [END_EXCLUDE]
+            )
         }
         composable(
             "detail/{photoUrl}",
-            arguments = listOf(navArgument("photoUrl") { type = NavType.StringType })
+            arguments = listOf(navArgument("photoUrl") { type = NavType.StringType }),
+            enterTransition = {
+                fadeIn(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideIntoContainer(
+                    animationSpec = tween(300, easing = EaseIn),
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                )
+            },
+            exitTransition = {
+                fadeOut(
+                    animationSpec = tween(
+                        300, easing = LinearEasing
+                    )
+                ) + slideOutOfContainer(
+                    animationSpec = tween(300, easing = EaseOut),
+                    towards = AnimatedContentTransitionScope.SlideDirection.End
+                )
+            }
         ) { backStackEntry ->
             ScreenDetails(
+                // [START_EXCLUDE]
                 photo = URLDecoder.decode(backStackEntry.arguments!!.getString("photoUrl")!!),
                 onBackClicked = {
                     navController.popBackStack()
                 }
+                // [END_EXCLUDE]
             )
         }
     }
@@ -412,50 +437,17 @@ fun AnimateSizeChange_Specs() {
         }
     }
 }
-@Preview
-@Composable
-fun AnimateOffset() {
-    var toggled by remember {
-        mutableStateOf(false)
-    }
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .clickable(indication = null, interactionSource = interactionSource) {
-                toggled = !toggled
-            }
-    ) {
-        // [START android_compose_animation_cookbook_offset]
-        val offset = animateIntOffsetAsState(
-            targetValue = if (toggled) {
-                IntOffset(50, 50)
-            } else {
-                IntOffset.Zero
-            }
-        )
-        Box(
-            modifier = Modifier
-                .offset {
-                    offset.value
-                }
-                .size(100.dp)
-                .background(colorGreen)
-        )
-        // [END android_compose_animation_cookbook_offset]
-    }
-}
+
 @Preview
 @Composable
 fun SmoothAnimateText() {
     // [START android_compose_animation_cookbook_text]
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 8f,
-        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse)
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+        label = "scale"
     )
     Box(modifier = Modifier.fillMaxSize()) {
         Text(
@@ -493,7 +485,7 @@ fun AnimateElevation() {
                 32.dp
             } else {
                 8.dp
-            }
+            }, label = "elevation"
         )
         Box(
             modifier = Modifier
@@ -520,41 +512,91 @@ fun AnimatedContentExampleSwitch() {
     }
     AnimatedContent(
         state,
-        modifier = Modifier.clickable {
+        transitionSpec = {
+            fadeIn(
+                animationSpec = tween(3000)
+            ) togetherWith fadeOut(animationSpec = tween(3000))
+        },
+        modifier = Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) {
             state = when (state) {
                 UiState.Loading -> UiState.Loaded
                 UiState.Loaded -> UiState.Error
                 UiState.Error -> UiState.Loading
             }
-        }
+        }, label = "Animated Content"
     ) { targetState ->
         when (targetState) {
             UiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .background(colorGreen)
-                        .fillMaxSize()
-                ) {
-                    Text("Loading", modifier = Modifier.align(Alignment.Center))
-                }
+                LoadingScreen()
             }
+
             UiState.Loaded -> {
-                Box(
-                    modifier = Modifier
-                        .background(colorBlue)
-                        .fillMaxSize()
-                ) {
-                    Text("Loaded", modifier = Modifier.align(Alignment.Center))
-                }
+                LoadedScreen()
             }
+
             UiState.Error -> {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text("Error", modifier = Modifier.align(Alignment.Center))
-                }
+                ErrorScreen()
             }
         }
     }
     // [END android_compose_animation_cookbook_animated_content]
+}
+
+@Composable
+private fun ErrorScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        //[START_EXCLUDE]
+        Text("Error", fontSize = 18.sp)
+        //[END_EXCLUDE]
+    }
+}
+
+@Composable
+private fun LoadedScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        //[START_EXCLUDE]
+        Text("Loaded", fontSize = 18.sp)
+        Image(
+            painterResource(id = R.drawable.dog),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(16.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                ),
+            contentDescription = "dog",
+            contentScale = ContentScale.Crop
+        )
+        //[END_EXCLUDE]
+    }
+}
+
+@Composable
+private fun LoadingScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+        CircularProgressIndicator(modifier = Modifier.size(48.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Loading", fontSize = 18.sp)
+    }
 }
 
 @Preview
@@ -575,12 +617,13 @@ fun AnimationLayout() {
                 toggled = !toggled
             }
     ) {
+        val offsetTarget = if (toggled) {
+            IntOffset(150, 150)
+        } else {
+            IntOffset.Zero
+        }
         val offset = animateIntOffsetAsState(
-            targetValue = if (toggled) {
-                IntOffset(150, 150)
-            } else {
-                IntOffset.Zero
-            }
+            targetValue = offsetTarget, label = "offset"
         )
         Box(
             modifier = Modifier
@@ -590,9 +633,10 @@ fun AnimationLayout() {
         Box(
             modifier = Modifier
                 .layout { measurable, constraints ->
+                    val offsetValue = if (isLookingAhead) offsetTarget else offset.value
                     val placeable = measurable.measure(constraints)
-                    layout(placeable.width + offset.value.x, placeable.height + offset.value.y) {
-                        placeable.placeRelative(offset.value)
+                    layout(placeable.width + offsetValue.x, placeable.height + offsetValue.y) {
+                        placeable.placeRelative(offsetValue)
                     }
                 }
                 .size(100.dp)
@@ -644,11 +688,13 @@ fun AnimateAlignment() {
     }
     // [END android_compose_animate_item_placement]
 }
+
 enum class UiState {
     Loading,
     Loaded,
     Error
 }
+
 val colorGreen = Color(0xFF53D9A1)
 val colorBlue = Color(0xFF4FC3F7)
 
@@ -702,9 +748,8 @@ fun AnimationLayoutIndividualItem() {
 
 @Composable
 private fun ScreenLanding(onItemClicked: (String) -> Unit) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Adaptive(200.dp),
-        verticalItemSpacing = 4.dp,
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(200.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
             items(randomSizedPhotos) { photo ->
@@ -714,7 +759,7 @@ private fun ScreenLanding(onItemClicked: (String) -> Unit) {
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .height(200.dp)
                         .clickable {
                             onItemClicked(photo)
                         }
@@ -750,10 +795,10 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-
+                    .height(200.dp)
             )
-            Text("Photo details")
+            Spacer(modifier = Modifier.height(18.dp))
+            Text("Photo details", fontSize = 18.sp, modifier = Modifier.padding(8.dp))
         }
     }
 }
