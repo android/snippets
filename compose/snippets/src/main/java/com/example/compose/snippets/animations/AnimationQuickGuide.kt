@@ -109,10 +109,10 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
-import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.net.URLEncoder
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -489,9 +489,11 @@ fun InfinitelyRepeatable() {
         ),
         label = "color"
     )
-    Column(modifier = Modifier.drawBehind {
-        drawRect(color)
-    }) {
+    Column(
+        modifier = Modifier.drawBehind {
+            drawRect(color)
+        }
+    ) {
         // your composable here
     }
     // [END android_compose_animation_infinitely_repeating]
@@ -507,9 +509,11 @@ fun ConcurrentAnimatable() {
     LaunchedEffect(Unit) {
         alphaAnimation.animateTo(1f)
     }
-    Box(modifier = Modifier.graphicsLayer {
-        alpha = alphaAnimation.value
-    })
+    Box(
+        modifier = Modifier.graphicsLayer {
+            alpha = alphaAnimation.value
+        }
+    )
     // [END android_compose_animation_on_launch]
 }
 
@@ -570,7 +574,6 @@ fun TransitionExampleConcurrent() {
     }
     // [END android_compose_concurrent_transition]
 }
-
 
 @Preview
 @Composable
