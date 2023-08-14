@@ -23,21 +23,26 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.animateRect
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -83,6 +88,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
@@ -103,6 +109,7 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
+import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.net.URLEncoder
 import kotlin.math.roundToInt
@@ -331,7 +338,7 @@ fun AnimateBetweenComposableDestinations() {
     NavHost(
         navController = navController, startDestination = "landing",
         enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.Hold }
+        exitTransition = { ExitTransition.None }
     ) {
         composable("landing") {
             ScreenLanding(
@@ -470,6 +477,103 @@ fun SmoothAnimateText() {
 
 @Preview
 @Composable
+fun InfinitelyRepeatable() {
+    // [START android_compose_animation_infinitely_repeating]
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite")
+    val color by infiniteTransition.animateColor(
+        initialValue = Color.Green,
+        targetValue = Color.Blue,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "color"
+    )
+    Column(modifier = Modifier.drawBehind {
+        drawRect(color)
+    }) {
+        // your composable here
+    }
+    // [END android_compose_animation_infinitely_repeating]
+}
+
+@Preview
+@Composable
+fun ConcurrentAnimatable() {
+    // [START android_compose_animation_on_launch]
+    val alphaAnimation = remember {
+        Animatable(0f)
+    }
+    LaunchedEffect(Unit) {
+        alphaAnimation.animateTo(1f)
+    }
+    Box(modifier = Modifier.graphicsLayer {
+        alpha = alphaAnimation.value
+    })
+    // [END android_compose_animation_concurrent_animatable]
+}
+
+@Preview
+@Composable
+fun SequentialAnimations() {
+    // [START android_compose_animation_sequential]
+    val alphaAnimation = remember { Animatable(0f) }
+    val yAnimation = remember { Animatable(0f) }
+
+    LaunchedEffect("animationKey") {
+        alphaAnimation.animateTo(1f)
+        yAnimation.animateTo(100f)
+        yAnimation.animateTo(500f, animationSpec = tween(100))
+    }
+    // [END android_compose_animation_sequential]
+}
+
+@Preview
+@Composable
+fun ConcurrentAnimations() {
+    // [START android_compose_animation_concurrent]
+    val alphaAnimation = remember { Animatable(0f) }
+    val yAnimation = remember { Animatable(0f) }
+
+    LaunchedEffect("animationKey") {
+        launch {
+            alphaAnimation.animateTo(1f)
+        }
+        launch {
+            yAnimation.animateTo(100f)
+        }
+    }
+    // [END android_compose_animation_concurrent]
+}
+enum class BoxState {
+    Collapsed,
+    Expanded
+}
+@Preview
+@Composable
+fun TransitionExampleConcurrent() {
+    // [START android_compose_concurrent_transition]
+    var currentState by remember { mutableStateOf(BoxState.Collapsed) }
+    val transition = updateTransition(currentState, label = "transition")
+
+    val rect by transition.animateRect(label = "rect") { state ->
+        when (state) {
+            BoxState.Collapsed -> Rect(0f, 0f, 100f, 100f)
+            BoxState.Expanded -> Rect(100f, 100f, 300f, 300f)
+        }
+    }
+    val borderWidth by transition.animateDp(label = "borderWidth") { state ->
+        when (state) {
+            BoxState.Collapsed -> 1.dp
+            BoxState.Expanded -> 0.dp
+        }
+    }
+    // [END android_compose_concurrent_transition]
+}
+
+
+@Preview
+@Composable
 fun AnimateElevation() {
     Box(
         modifier = Modifier
@@ -534,11 +638,9 @@ fun AnimatedContentExampleSwitch() {
             UiState.Loading -> {
                 LoadingScreen()
             }
-
             UiState.Loaded -> {
                 LoadedScreen()
             }
-
             UiState.Error -> {
                 ErrorScreen()
             }
