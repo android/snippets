@@ -485,7 +485,8 @@ fun AnimateElevation() {
                 32.dp
             } else {
                 8.dp
-            }, label = "elevation"
+            },
+            label = "elevation"
         )
         Box(
             modifier = Modifier
@@ -526,7 +527,8 @@ fun AnimatedContentExampleSwitch() {
                 UiState.Loaded -> UiState.Error
                 UiState.Error -> UiState.Loading
             }
-        }, label = "Animated Content"
+        },
+        label = "Animated Content"
     ) { targetState ->
         when (targetState) {
             UiState.Loading -> {
@@ -552,9 +554,9 @@ private fun ErrorScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //[START_EXCLUDE]
+        // [START_EXCLUDE]
         Text("Error", fontSize = 18.sp)
-        //[END_EXCLUDE]
+        // [END_EXCLUDE]
     }
 }
 
@@ -566,7 +568,7 @@ private fun LoadedScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //[START_EXCLUDE]
+        // [START_EXCLUDE]
         Text("Loaded", fontSize = 18.sp)
         Image(
             painterResource(id = R.drawable.dog),
@@ -580,7 +582,7 @@ private fun LoadedScreen() {
             contentDescription = "dog",
             contentScale = ContentScale.Crop
         )
-        //[END_EXCLUDE]
+        // [END_EXCLUDE]
     }
 }
 
