@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.topcomponents
 
 import android.util.Log
@@ -21,27 +37,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FloatingActionButtonExamples(){
+fun FloatingActionButtonExamples() {
     Column(
         modifier = Modifier
             .padding(48.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-    ){
+    ) {
         Text("Floating action button:")
-        Example( onClick = { Log.d("FAB", "FAB clicked.")} )
+        Example(onClick = { Log.d("FAB", "FAB clicked.") })
         Text("Small floating action button:")
-        SmallExample( onClick = { Log.d("FAB", "Small FAB clicked.")} )
+        SmallExample(onClick = { Log.d("FAB", "Small FAB clicked.") })
         Text("Large floating action button:")
-        LargeExample( onClick = { Log.d("FAB", "Large FAB clicked.")} )
+        LargeExample(onClick = { Log.d("FAB", "Large FAB clicked.") })
         Text("Floating action button with text:")
-        ExtendedExample( onClick = { Log.d("FAB", "Extended FAB clicked.")} )
+        ExtendedExample(onClick = { Log.d("FAB", "Extended FAB clicked.") })
     }
 }
 
 @Composable
-fun Example(onClick: () -> Unit){
+fun Example(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = { onClick() },
     ) {
@@ -50,7 +66,7 @@ fun Example(onClick: () -> Unit){
 }
 
 @Composable
-fun ExtendedExample(onClick: () -> Unit){
+fun ExtendedExample(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = { onClick() },
         icon = { Icon(Icons.Filled.Edit, "Extended floating action button.") },
@@ -59,7 +75,7 @@ fun ExtendedExample(onClick: () -> Unit){
 }
 
 @Composable
-fun SmallExample(onClick: () -> Unit){
+fun SmallExample(onClick: () -> Unit) {
     SmallFloatingActionButton(
         onClick = { onClick() },
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -70,7 +86,7 @@ fun SmallExample(onClick: () -> Unit){
 }
 
 @Composable
-fun LargeExample(onClick: () -> Unit){
+fun LargeExample(onClick: () -> Unit) {
     LargeFloatingActionButton(
         onClick = { onClick() },
 

@@ -85,6 +85,6 @@ fun NavigationItem(destination: Destination, onClick: () -> Unit) {
     Button(
         onClick = { onClick() }
     ) {
-        Text( destination.title )
+        Text(destination.title)
     }
 }

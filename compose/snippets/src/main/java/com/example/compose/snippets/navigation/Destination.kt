@@ -23,7 +23,7 @@ enum class Destination(val route: String, val title: String) {
     TopComponentsExamples("topComponents", "Top Compose Components"),
 }
 
-enum class TopComponentsDestination(val route: String, val title: String){
+enum class TopComponentsDestination(val route: String, val title: String) {
     CardExamples("cardExamples", "Card"),
     SwitchExamples("switchExamples", "Switch"),
     SliderExamples("sliderExamples", "Slider"),

@@ -27,26 +27,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.LandingScreen.LandingScreen
-import com.example.compose.snippets.graphics.BrushExamplesScreen
-import com.example.compose.snippets.images.ImageExamplesScreen
-import com.example.compose.snippets.navigation.Destination
-import com.example.compose.snippets.navigation.TopComponentsDestination
-import com.example.compose.snippets.topcomponents.AppBarExamples
-import com.example.compose.snippets.topcomponents.ButtonExamples
-import com.example.compose.snippets.topcomponents.TopComponentsScreen
 import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
-import com.example.compose.snippets.ui.theme.SnippetsTheme
-import com.example.topcomponents.CardExamples
+import com.example.compose.snippets.navigation.TopComponentsDestination
+import com.example.compose.snippets.topcomponents.AppBarExamples
+import com.example.compose.snippets.topcomponents.ButtonExamples
 import com.example.compose.snippets.topcomponents.ChipExamples
 import com.example.compose.snippets.topcomponents.DialogExamples
 import com.example.compose.snippets.topcomponents.FloatingActionButtonExamples
 import com.example.compose.snippets.topcomponents.ProgressIndicatorExamples
 import com.example.compose.snippets.topcomponents.ScaffoldExample
 import com.example.compose.snippets.topcomponents.SliderExamples
+import com.example.compose.snippets.topcomponents.TopComponentsScreen
+import com.example.compose.snippets.ui.theme.SnippetsTheme
+import com.example.topcomponents.CardExamples
 import com.example.topcomponents.SwitchExamples
 
 class SnippetsActivity : ComponentActivity() {
@@ -78,7 +75,7 @@ class SnippetsActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        TopComponentsDestination.values().forEach{ destination ->
+                        TopComponentsDestination.values().forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     TopComponentsDestination.CardExamples -> CardExamples()

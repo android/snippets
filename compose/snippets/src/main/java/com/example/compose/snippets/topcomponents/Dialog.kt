@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.topcomponents
 
 import androidx.compose.foundation.Image
@@ -23,24 +39,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.compose.snippets.R
 
-
 @Composable
-fun DialogExamples(){
+fun DialogExamples() {
     val openMinimalDialog = remember { mutableStateOf(false) }
     val openDialogWithImage = remember { mutableStateOf(false) }
     val openFullScreenDialog = remember { mutableStateOf(false) }
@@ -54,20 +69,24 @@ fun DialogExamples(){
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Click the following button to toggle the given dialog example.")
-        Button( onClick = { openMinimalDialog.value = !openMinimalDialog.value }
-        ){
+        Button(
+            onClick = { openMinimalDialog.value = !openMinimalDialog.value }
+        ) {
             Text("Minimal dialog component")
         }
-        Button( onClick = { openDialogWithImage.value = !openDialogWithImage.value }
-        ){
+        Button(
+            onClick = { openDialogWithImage.value = !openDialogWithImage.value }
+        ) {
             Text("Dialog component with an image")
         }
-        Button( onClick = { openAlertDialog.value = !openAlertDialog.value }
-        ){
+        Button(
+            onClick = { openAlertDialog.value = !openAlertDialog.value }
+        ) {
             Text("Alert dialog component with buttons")
         }
-        Button( onClick = { openFullScreenDialog.value = !openFullScreenDialog.value }
-        ){
+        Button(
+            onClick = { openFullScreenDialog.value = !openFullScreenDialog.value }
+        ) {
             Text("Full screen dialog")
         }
 
@@ -110,7 +129,7 @@ fun DialogExamples(){
 }
 
 @Composable
-fun MinimalDialog(onDismissRequest: () -> Unit){
+fun MinimalDialog(onDismissRequest: () -> Unit) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -136,7 +155,7 @@ fun DialogWithImage(
     onConfirmation: () -> Unit,
     painter: Painter,
     imageDescription: String,
-){
+) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         // Draw a rectangle shape with rounded corners inside the dialog
         Card(
@@ -145,7 +164,7 @@ fun DialogWithImage(
                 .height(375.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -167,17 +186,17 @@ fun DialogWithImage(
                     modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
-                ){
+                ) {
                     TextButton(
                         onClick = { onDismissRequest() },
                         modifier = Modifier.padding(8.dp),
-                    ){
+                    ) {
                         Text("Dismiss")
                     }
                     TextButton(
                         onClick = { onConfirmation() },
                         modifier = Modifier.padding(8.dp),
-                    ){
+                    ) {
                         Text("Confirm")
                     }
                 }
@@ -194,7 +213,7 @@ fun AlertDialogExample(
     dialogTitle: String,
     dialogText: String,
     icon: ImageVector,
-){
+) {
     AlertDialog(
         icon = {
             Icon(icon, contentDescription = "Example Icon")
@@ -204,7 +223,7 @@ fun AlertDialogExample(
         },
         text = {
             Text(text = dialogText)
-               },
+        },
         onDismissRequest = {
             onDismissRequest()
         },
@@ -230,30 +249,30 @@ fun AlertDialogExample(
 }
 
 @Composable
-fun FullScreenDialog(onDismissRequest: () -> Unit){
+fun FullScreenDialog(onDismissRequest: () -> Unit) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
             dismissOnBackPress = true,
         ),
-    ){
+    ) {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surfaceVariant),
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
-            ){
+            ) {
                 Text(
                     text = "This is a full screen dialog",
                     textAlign = TextAlign.Center,
                 )
-                TextButton(onClick = { onDismissRequest() }){
+                TextButton(onClick = { onDismissRequest() }) {
                     Text("Dismiss")
                 }
             }
