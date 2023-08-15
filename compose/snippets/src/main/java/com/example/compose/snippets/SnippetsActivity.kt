@@ -34,6 +34,11 @@ import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.topcomponents.AppBarExamples
 import com.example.compose.snippets.topcomponents.ButtonExamples
 import com.example.compose.snippets.topcomponents.TopComponentsScreen
+import com.example.compose.snippets.animations.AnimationExamplesScreen
+import com.example.compose.snippets.graphics.BrushExamplesScreen
+import com.example.compose.snippets.images.ImageExamplesScreen
+import com.example.compose.snippets.landing.LandingScreen
+import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 import com.example.topcomponents.CardExamples
 import com.example.compose.snippets.topcomponents.ChipExamples
@@ -64,6 +69,7 @@ class SnippetsActivity : ComponentActivity() {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
+                                    Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
                                     Destination.TopComponentsExamples -> TopComponentsScreen {
                                         navController.navigate(
                                             it.route
@@ -84,7 +90,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ButtonExamples -> ButtonExamples()
                                     TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
-                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()                          
                                 }
                             }
                         }

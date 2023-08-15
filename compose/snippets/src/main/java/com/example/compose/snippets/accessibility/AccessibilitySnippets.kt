@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused", "UNUSED_PARAMETER", "UNUSED_VARIABLE")
+@file:Suppress("unused", "UNUSED_PARAMETER", "ClassName")
 
 package com.example.compose.snippets.accessibility
 
@@ -24,6 +24,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,12 +33,19 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,9 +63,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
@@ -289,6 +299,144 @@ private fun Subsection(text: String) {
     )
 }
 // [END android_compose_accessibility_headings]
+
+// [START android_compose_accessibility_traversal_isTraversalGroup_initial]
+// CardBox() function takes in top and bottom sample text.
+@Composable
+fun CardBox(
+    topSampleText: String,
+    bottomSampleText: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier) {
+        Column {
+            Text(topSampleText)
+            Text(bottomSampleText)
+        }
+    }
+}
+
+@Composable
+fun TraversalGroupDemo() {
+    val topSampleText1 = "This sentence is in "
+    val bottomSampleText1 = "the left column."
+    val topSampleText2 = "This sentence is "
+    val bottomSampleText2 = "on the right."
+    Row {
+        CardBox(
+            topSampleText1,
+            bottomSampleText1
+        )
+        CardBox(
+            topSampleText2,
+            bottomSampleText2
+        )
+    }
+}
+// [END android_compose_accessibility_traversal_isTraversalGroup_initial]
+
+// [START android_compose_accessibility_traversal_isTraversalGroup_modified]
+@Composable
+fun TraversalGroupDemo2() {
+    val topSampleText1 = "This sentence is in "
+    val bottomSampleText1 = "the left column."
+    val topSampleText2 = "This sentence is"
+    val bottomSampleText2 = "on the right."
+    Row {
+        CardBox(
+//      1,
+            topSampleText1,
+            bottomSampleText1,
+            Modifier.semantics { isTraversalGroup = true }
+        )
+        CardBox(
+//      2,
+            topSampleText2,
+            bottomSampleText2,
+            Modifier.semantics { isTraversalGroup = true }
+        )
+    }
+}
+// [END android_compose_accessibility_traversal_isTraversalGroup_modified]
+
+private object ClockFaceBefore {
+    // [START android_compose_accessibility_traversal_clock_face_initial]
+    @Composable
+    fun ClockFaceDemo() {
+        CircularLayout {
+            repeat(12) { hour ->
+                ClockText(hour)
+            }
+        }
+    }
+
+    @Composable
+    private fun ClockText(value: Int) {
+        Box(modifier = Modifier) {
+            Text((if (value == 0) 12 else value).toString())
+        }
+    }
+    // [END android_compose_accessibility_traversal_clock_face_initial]
+
+    @Composable
+    private fun CircularLayout(content: @Composable () -> Unit) {
+    }
+}
+
+private object ClockFaceAfter {
+    // [START android_compose_accessibility_traversal_clock_face_modified]
+    @Composable
+    fun ClockFaceDemo() {
+        CircularLayout(Modifier.semantics { isTraversalGroup = true }) {
+            repeat(12) { hour ->
+                ClockText(hour)
+            }
+        }
+    }
+
+    @Composable
+    private fun ClockText(value: Int) {
+        Box(modifier = Modifier.semantics { this.traversalIndex = value.toFloat() }) {
+            Text((if (value == 0) 12 else value).toString())
+        }
+    }
+    // [END android_compose_accessibility_traversal_clock_face_modified]
+
+    @Composable
+    private fun CircularLayout(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    }
+}
+
+// [START android_compose_accessibility_traversal_fab]
+@Composable
+fun FloatingBox() {
+    Box(modifier = Modifier.semantics { isTraversalGroup = true; traversalIndex = -1f }) {
+        FloatingActionButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "fab icon")
+        }
+    }
+}
+// [END android_compose_accessibility_traversal_fab]
+
+private object ColumnWithFab {
+    // [START android_compose_accessibility_traversal_fab_scaffold]
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun ColumnWithFABFirstDemo() {
+        Scaffold(
+            topBar = { TopAppBar(title = { Text("Top App Bar") }) },
+            floatingActionButtonPosition = FabPosition.End,
+            floatingActionButton = { FloatingBox() },
+            content = { padding -> ContentColumn(padding = padding) },
+            bottomBar = { BottomAppBar { Text("Bottom App Bar") } }
+        )
+    }
+    // [END android_compose_accessibility_traversal_fab_scaffold]
+
+    @Composable
+    private fun ContentColumn(padding: PaddingValues) {
+    }
+}
 
 private class Post(val imageThumb: Painter? = null)
 private class Metadata(

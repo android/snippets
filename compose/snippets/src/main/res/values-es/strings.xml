@@ -43,4 +43,5 @@
   </plurals>
   <string name="hello_world">Hola mundo</string>
   <string name="feathertop_content_description">Una vista del amanecer desde Mount Feathertop, Victoria.</string>
+  <string name="glance_title">Example String for Glance</string>
 </resources>
