@@ -67,6 +67,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -75,6 +76,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -457,6 +459,33 @@ fun SmoothAnimateText() {
     }
 
     // [END android_compose_animation_cookbook_text]
+}
+
+@Preview
+@Composable
+fun AnimateTextColor() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // [START android_compose_animation_cookbook_text]
+        val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
+        val animatedColor by infiniteTransition.animateColor(
+            initialValue = Color(0xFF60DDAD),
+            targetValue = Color(0xFF4285F4),
+            animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+            label = "color"
+        )
+
+        BasicText(
+            text = "Hello Compose",
+            color = {
+                animatedColor
+            },
+            // [START_EXCLUDE]
+            style = MaterialTheme.typography.displayLarge,
+            modifier = Modifier.align(Alignment.Center).padding(16.dp)
+            // [END_EXCLUDE]
+        )
+        // [END android_compose_animation_cookbook_text]
+    }
 }
 
 @Preview
