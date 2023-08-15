@@ -30,7 +30,19 @@ import com.example.compose.snippets.LandingScreen.LandingScreen
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.navigation.Destination
+import com.example.compose.snippets.navigation.TopComponentsDestination
+import com.example.compose.snippets.topcomponents.AppBarExamples
+import com.example.compose.snippets.topcomponents.ButtonExamples
+import com.example.compose.snippets.topcomponents.TopComponentsScreen
 import com.example.compose.snippets.ui.theme.SnippetsTheme
+import com.example.topcomponents.CardExamples
+import com.example.compose.snippets.topcomponents.ChipExamples
+import com.example.compose.snippets.topcomponents.DialogExamples
+import com.example.compose.snippets.topcomponents.FloatingActionButtonExamples
+import com.example.compose.snippets.topcomponents.ProgressIndicatorExamples
+import com.example.compose.snippets.topcomponents.ScaffoldExample
+import com.example.compose.snippets.topcomponents.SliderExamples
+import com.example.topcomponents.SwitchExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +64,27 @@ class SnippetsActivity : ComponentActivity() {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
+                                    Destination.TopComponentsExamples -> TopComponentsScreen {
+                                        navController.navigate(
+                                            it.route
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        TopComponentsDestination.values().forEach{ destination ->
+                            composable(destination.route) {
+                                when (destination) {
+                                    TopComponentsDestination.CardExamples -> CardExamples()
+                                    TopComponentsDestination.SwitchExamples -> SwitchExamples()
+                                    TopComponentsDestination.SliderExamples -> SliderExamples()
+                                    TopComponentsDestination.DialogExamples -> DialogExamples()
+                                    TopComponentsDestination.ChipExamples -> ChipExamples()
+                                    TopComponentsDestination.FloatingActionButtonExamples -> FloatingActionButtonExamples()
+                                    TopComponentsDestination.ButtonExamples -> ButtonExamples()
+                                    TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
+                                    TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()
                                 }
                             }
                         }

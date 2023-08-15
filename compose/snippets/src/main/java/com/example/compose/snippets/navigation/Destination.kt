@@ -19,4 +19,19 @@ package com.example.compose.snippets.navigation
 enum class Destination(val route: String, val title: String) {
     BrushExamples("brushExamples", "Brush Examples"),
     ImageExamples("imageExamples", "Image Examples"),
+    TopComponentsExamples("topComponents", "Top Compose Components"),
+}
+
+enum class TopComponentsDestination(val route: String, val title: String){
+    CardExamples("cardExamples", "Card"),
+    SwitchExamples("switchExamples", "Switch"),
+    SliderExamples("sliderExamples", "Slider"),
+    DialogExamples("dialogExamples", "Dialog"),
+    ChipExamples("chipExamples", "Chip"),
+    FloatingActionButtonExamples("floatingActionButtonExamples", "Floating Action Button"),
+    ButtonExamples("buttonExamples", "Button"),
+    ProgressIndicatorExamples("progressIndicatorExamples", "Progress Indicators"),
+    ScaffoldExample("scaffoldExample", "Scaffold"),
+    AppBarExamples("appBarExamples", "App bars"),
+
 }
