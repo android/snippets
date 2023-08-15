@@ -465,7 +465,7 @@ fun SmoothAnimateText() {
 @Composable
 fun AnimateTextColor() {
     Box(modifier = Modifier.fillMaxSize()) {
-        // [START android_compose_animation_cookbook_text]
+        // [START android_compose_animation_cookbook_text_color]
         val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
         val animatedColor by infiniteTransition.animateColor(
             initialValue = Color(0xFF60DDAD),
@@ -484,7 +484,7 @@ fun AnimateTextColor() {
             modifier = Modifier.align(Alignment.Center).padding(16.dp)
             // [END_EXCLUDE]
         )
-        // [END android_compose_animation_cookbook_text]
+        // [END android_compose_animation_cookbook_text_color]
     }
 }
 
