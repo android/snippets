@@ -79,7 +79,7 @@ fun ElevatedButtonExample(onClick: () -> Unit) {
         Text("Elevated")
     }
 }
-// [END android_compose_components_filledtonalbutton]
+// [END android_compose_components_elevatedbutton]
 
 // [START android_compose_components_outlinedbutton]
 @Composable
