@@ -114,7 +114,6 @@ fun FilterChipExample() {
 }
 // [END android_compose_components_filterchip]
 
-
 // You could set this up similarly to the filter chip above and have it toggleable, but this is
 // an example of a chip that can dismiss with a click.
 // [START android_compose_components_inputchip]

@@ -145,4 +145,3 @@ fun OutlinedCardExample() {
     }
 }
 // [END android_compose_components_outlinedcard]
-

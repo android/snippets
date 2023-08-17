@@ -102,4 +102,3 @@ fun LargeExample(onClick: () -> Unit) {
     }
 }
 // [END android_compose_components_largefab]
-
