@@ -20,7 +20,7 @@ enum class Destination(val route: String, val title: String) {
     BrushExamples("brushExamples", "Brush Examples"),
     ImageExamples("imageExamples", "Image Examples"),
     AnimationQuickGuideExamples("animationExamples", "Animation Examples"),
-    TopComponentsExamples("topComponents", "Top Compose Components"),
+    ComponentsExamples("topComponents", "Top Compose Components"),
 }
 
 enum class TopComponentsDestination(val route: String, val title: String) {

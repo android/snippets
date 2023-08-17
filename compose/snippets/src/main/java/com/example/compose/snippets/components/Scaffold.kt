@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.topcomponents
+package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

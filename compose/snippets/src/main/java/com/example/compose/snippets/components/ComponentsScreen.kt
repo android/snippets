@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.topcomponents
+package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.navigation.TopComponentsDestination
 
 @Composable
-fun TopComponentsScreen(navigate: (TopComponentsDestination) -> Unit) {
+fun ComponentsScreen(navigate: (TopComponentsDestination) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)

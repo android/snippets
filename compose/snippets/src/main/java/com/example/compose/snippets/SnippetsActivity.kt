@@ -32,15 +32,15 @@ import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
-import com.example.compose.snippets.topcomponents.AppBarExamples
-import com.example.compose.snippets.topcomponents.ButtonExamples
-import com.example.compose.snippets.topcomponents.ChipExamples
-import com.example.compose.snippets.topcomponents.DialogExamples
-import com.example.compose.snippets.topcomponents.FloatingActionButtonExamples
-import com.example.compose.snippets.topcomponents.ProgressIndicatorExamples
-import com.example.compose.snippets.topcomponents.ScaffoldExample
-import com.example.compose.snippets.topcomponents.SliderExamples
-import com.example.compose.snippets.topcomponents.TopComponentsScreen
+import com.example.compose.snippets.components.AppBarExamples
+import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.ChipExamples
+import com.example.compose.snippets.components.DialogExamples
+import com.example.compose.snippets.components.FloatingActionButtonExamples
+import com.example.compose.snippets.components.ProgressIndicatorExamples
+import com.example.compose.snippets.components.ScaffoldExample
+import com.example.compose.snippets.components.SliderExamples
+import com.example.compose.snippets.components.ComponentsScreen
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 import com.example.topcomponents.CardExamples
 import com.example.topcomponents.SwitchExamples
@@ -66,7 +66,7 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
                                     Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
-                                    Destination.TopComponentsExamples -> TopComponentsScreen {
+                                    Destination.ComponentsExamples -> ComponentsScreen {
                                         navController.navigate(
                                             it.route
                                         )
