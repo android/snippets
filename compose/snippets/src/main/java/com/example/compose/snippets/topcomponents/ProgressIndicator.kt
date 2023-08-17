@@ -33,12 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@Preview
 @Composable
 fun ProgressIndicatorExamples() {
     Column(
@@ -59,6 +61,7 @@ fun ProgressIndicatorExamples() {
     }
 }
 
+// [START android_compose_components_determinateindicator]
 @Composable
 fun DeterminateIndicator(circular: Boolean = false) {
     var currentProgress by remember { mutableFloatStateOf(0f) }
@@ -90,7 +93,9 @@ fun DeterminateIndicator(circular: Boolean = false) {
         }
     }
 }
+// [END android_compose_components_determinateindicator]
 
+// [START android_compose_components_indeterminateindicator]
 @Composable
 fun IndeterminateIndicator(circular: Boolean = false) {
     var loading by remember { mutableStateOf(false) }
@@ -112,3 +117,4 @@ fun IndeterminateIndicator(circular: Boolean = false) {
         )
     }
 }
+// [END android_compose_components_indeterminateindicator]

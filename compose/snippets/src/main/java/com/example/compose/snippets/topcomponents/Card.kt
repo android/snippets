@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -54,6 +55,7 @@ fun CardExamples() {
     }
 }
 
+// [START android_compose_components_customcard]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomCardExample(event: () -> Unit) {
@@ -78,8 +80,10 @@ fun CustomCardExample(event: () -> Unit) {
         )
     }
 }
+// [END android_compose_components_customcard]
 
-@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_elevatedcard]
+@Preview
 @Composable
 fun ElevatedCardExample() {
     ElevatedCard(
@@ -97,8 +101,10 @@ fun ElevatedCardExample() {
         )
     }
 }
+// [END android_compose_components_elevatedcard]
 
-@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_filledcard]
+@Preview
 @Composable
 fun FilledCardExample() {
     Card(
@@ -116,8 +122,10 @@ fun FilledCardExample() {
         )
     }
 }
+// [END android_compose_components_filledcard]
 
-@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_outlinedcard]
+@Preview
 @Composable
 fun OutlinedCardExample() {
     OutlinedCard(
@@ -136,3 +144,5 @@ fun OutlinedCardExample() {
         )
     }
 }
+// [END android_compose_components_outlinedcard]
+

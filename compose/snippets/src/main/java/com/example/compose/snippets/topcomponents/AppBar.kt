@@ -56,8 +56,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@Preview
 @Composable
 fun AppBarExamples() {
     var selection by remember { mutableStateOf("none") }
@@ -110,6 +112,7 @@ fun AppBarOptions(
     }
 }
 
+@Preview
 @Composable
 fun BottomAppBarExample() {
     Scaffold(
@@ -158,6 +161,7 @@ fun BottomAppBarExample() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun SmallTopAppBarExample() {
     Scaffold(
@@ -178,6 +182,7 @@ fun SmallTopAppBarExample() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun CenterAlignedTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -223,6 +228,7 @@ fun CenterAlignedTopAppBarExample() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun MediumTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -267,6 +273,7 @@ fun MediumTopAppBarExample() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun LargeTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())

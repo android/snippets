@@ -56,6 +56,7 @@ fun FloatingActionButtonExamples() {
     }
 }
 
+// [START android_compose_components_fab]
 @Composable
 fun Example(onClick: () -> Unit) {
     FloatingActionButton(
@@ -64,7 +65,9 @@ fun Example(onClick: () -> Unit) {
         Icon(Icons.Filled.Add, "Floating action button.")
     }
 }
+// [END android_compose_components_fab]
 
+// [START android_compose_components_extendedfab]
 @Composable
 fun ExtendedExample(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
@@ -73,7 +76,9 @@ fun ExtendedExample(onClick: () -> Unit) {
         text = { Text(text = "Extended FAB") },
     )
 }
+// [END android_compose_components_extendedfab]
 
+// [START android_compose_components_smallfab]
 @Composable
 fun SmallExample(onClick: () -> Unit) {
     SmallFloatingActionButton(
@@ -84,7 +89,9 @@ fun SmallExample(onClick: () -> Unit) {
         Icon(Icons.Filled.Add, "Small floating action button.")
     }
 }
+// [END android_compose_components_smallfab]
 
+// [START android_compose_components_largefab]
 @Composable
 fun LargeExample(onClick: () -> Unit) {
     LargeFloatingActionButton(
@@ -94,3 +101,5 @@ fun LargeExample(onClick: () -> Unit) {
         Icon(Icons.Filled.Add, "Large floating action button")
     }
 }
+// [END android_compose_components_largefab]
+

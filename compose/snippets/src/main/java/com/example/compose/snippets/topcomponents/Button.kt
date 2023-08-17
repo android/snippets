@@ -54,34 +54,43 @@ fun ButtonExamples() {
     }
 }
 
+// [START android_compose_components_filledbutton]
 @Composable
 fun FilledButtonExample(onClick: () -> Unit) {
     Button(onClick = { onClick() }) {
         Text("Filled")
     }
 }
+// [END android_compose_components_filledbutton]
 
+// [START android_compose_components_filledtonalbutton]
 @Composable
 fun FilledTonalButtonExample(onClick: () -> Unit) {
     FilledTonalButton(onClick = { onClick() }) {
         Text("Tonal")
     }
 }
+// [END android_compose_components_filledtonalbutton]
 
+// [START android_compose_components_elevatedbutton]
 @Composable
 fun ElevatedButtonExample(onClick: () -> Unit) {
     ElevatedButton(onClick = { onClick() }) {
         Text("Elevated")
     }
 }
+// [END android_compose_components_filledtonalbutton]
 
+// [START android_compose_components_outlinedbutton]
 @Composable
 fun OutlinedButtonExample(onClick: () -> Unit) {
     OutlinedButton(onClick = { onClick() }) {
         Text("Outlined")
     }
 }
+// [END android_compose_components_outlinedbutton]
 
+// [START android_compose_components_textbutton]
 @Composable
 fun TextButtonExample(onClick: () -> Unit) {
     TextButton(
@@ -90,3 +99,4 @@ fun TextButtonExample(onClick: () -> Unit) {
         Text("Text Button")
     }
 }
+// [END android_compose_components_textbutton]

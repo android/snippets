@@ -33,8 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@Preview
 @Composable
 fun SliderExamples() {
     Column(
@@ -53,6 +55,8 @@ fun SliderExamples() {
     }
 }
 
+// [START android_compose_components_sliderminimal]
+@Preview
 @Composable
 fun SliderMinimalExample() {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
@@ -64,7 +68,10 @@ fun SliderMinimalExample() {
         Text(text = sliderPosition.toString())
     }
 }
+// [END android_compose_components_sliderminimal]
 
+// [START android_compose_components_slideradvanced]
+@Preview
 @Composable
 fun SliderAdvancedExample() {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
@@ -83,7 +90,10 @@ fun SliderAdvancedExample() {
         Text(text = sliderPosition.toString())
     }
 }
+// [END android_compose_components_slideradvanced]
 
+// [START android_compose_components_rangeslider]
+@Preview
 @Composable
 fun RangeSliderExample() {
     var sliderPosition by remember { mutableStateOf(0f..100f) }
@@ -101,3 +111,4 @@ fun RangeSliderExample() {
         Text(text = sliderPosition.toString())
     }
 }
+// [END android_compose_components_rangeslider]

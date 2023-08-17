@@ -49,11 +49,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.compose.snippets.R
 
+@Preview
 @Composable
 fun DialogExamples() {
     val openMinimalDialog = remember { mutableStateOf(false) }
@@ -128,6 +130,7 @@ fun DialogExamples() {
     }
 }
 
+// [START android_compose_components_minimaldialog]
 @Composable
 fun MinimalDialog(onDismissRequest: () -> Unit) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -148,7 +151,9 @@ fun MinimalDialog(onDismissRequest: () -> Unit) {
         }
     }
 }
+// [END android_compose_components_minimaldialog]
 
+// [START android_compose_components_dialogwithimage]
 @Composable
 fun DialogWithImage(
     onDismissRequest: () -> Unit,
@@ -204,7 +209,9 @@ fun DialogWithImage(
         }
     }
 }
+// [END android_compose_components_dialogwithimage]
 
+// [START android_compose_components_alertdialog]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertDialogExample(
@@ -247,7 +254,9 @@ fun AlertDialogExample(
         }
     )
 }
+// [END android_compose_components_alertdialog]
 
+// [START android_compose_components_fullscreendialog]
 @Composable
 fun FullScreenDialog(onDismissRequest: () -> Unit) {
     Dialog(
@@ -279,3 +288,5 @@ fun FullScreenDialog(onDismissRequest: () -> Unit) {
         }
     }
 }
+// [END android_compose_components_fullscreendialog]
+

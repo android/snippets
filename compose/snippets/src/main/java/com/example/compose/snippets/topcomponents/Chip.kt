@@ -44,9 +44,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun ChipExamples() {
     Column(
@@ -67,6 +68,8 @@ fun ChipExamples() {
     }
 }
 
+// [START android_compose_components_assistchip]
+@Preview
 @Composable
 fun AssistChipExample() {
     AssistChip(
@@ -81,8 +84,11 @@ fun AssistChipExample() {
         }
     )
 }
+// [END android_compose_components_assistchip]
 
+// [START android_compose_components_filterchip]
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun FilterChipExample() {
     var selected by remember { mutableStateOf(false) }
@@ -106,9 +112,12 @@ fun FilterChipExample() {
         },
     )
 }
+// [END android_compose_components_filterchip]
+
 
 // You could set this up similarly to the filter chip above and have it toggleable, but this is
 // an example of a chip that can dismiss with a click.
+// [START android_compose_components_inputchip]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputChipExample(
@@ -141,7 +150,10 @@ fun InputChipExample(
         },
     )
 }
+// [END android_compose_components_inputchip]
 
+// [START android_compose_components_suggestionchip]
+@Preview
 @Composable
 fun SuggestionChipExample() {
     SuggestionChip(
@@ -149,3 +161,4 @@ fun SuggestionChipExample() {
         label = { Text("Suggestion chip") }
     )
 }
+// [END android_compose_components_suggestionchip]
