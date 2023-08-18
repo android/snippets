@@ -27,19 +27,28 @@ import android.graphics.Picture
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -48,9 +57,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import com.example.compose.snippets.R
+import kotlinx.coroutines.Dispatchers
 import java.io.File
 import kotlinx.coroutines.launch
 
@@ -72,43 +84,16 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun BitmapFromComposableSnippet() {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val picture = remember {
         Picture()
     }
-    val context = LocalContext.current
-
-    val coroutineScope = rememberCoroutineScope()
-    // [START android_compose_draw_into_bitmap]
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .drawWithCache {
-                // Example that shows how to redirect rendering to an Android Picture and then
-                // draw the picture into the original destination
-                val width = this.size.width.toInt()
-                val height = this.size.height.toInt()
-                onDrawWithContent {
-                    val pictureCanvas =
-                        androidx.compose.ui.graphics.Canvas(picture.beginRecording(width, height))
-                    draw(this, this.layoutDirection, pictureCanvas, this.size) {
-                        this@onDrawWithContent.drawContent()
-                    }
-                    picture.endRecording()
-
-                    drawIntoCanvas { canvas -> canvas.nativeCanvas.drawPicture(picture) }
-                }
-            }
-    ) {
-        // [START_EXCLUDE]
-        Image(
-            painterResource(id = R.drawable.dog),
-            contentDescription = null,
-            modifier = Modifier.aspectRatio(1f),
-            contentScale = ContentScale.Crop
-        )
-        Text("Sample Text")
-        IconButton(onClick = {
-            coroutineScope.launch {
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = {
+            // TODO Move this logic to your ViewModel,
+            //  Then trigger side effect with the result URI to share
+            coroutineScope.launch(Dispatchers.IO) {
                 val bitmap = createBitmapFromPicture(picture)
                 val uri = bitmap.saveToDisk(context)
                 shareBitmap(context, uri)
@@ -116,9 +101,69 @@ fun BitmapFromComposableSnippet() {
         }) {
             Icon(Icons.Default.Share, "share")
         }
-        // [END_EXCLUDE]
+    }) { padding ->
+        // [START android_compose_draw_into_bitmap]
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .drawWithCache {
+                    // Example that shows how to redirect rendering to an Android Picture and then
+                    // draw the picture into the original destination
+                    val width = this.size.width.toInt()
+                    val height = this.size.height.toInt()
+                    onDrawWithContent {
+                        val pictureCanvas =
+                            androidx.compose.ui.graphics.Canvas(
+                                picture.beginRecording(
+                                    width,
+                                    height
+                                )
+                            )
+                        draw(this, this.layoutDirection, pictureCanvas, this.size) {
+                            this@onDrawWithContent.drawContent()
+                        }
+                        picture.endRecording()
+
+                        drawIntoCanvas { canvas -> canvas.nativeCanvas.drawPicture(picture) }
+                    }
+                }
+        ) {
+            ScreenContentToCapture()
+        }
+        // [END android_compose_draw_into_bitmap]
     }
-    // [END android_compose_draw_into_bitmap]
+}
+
+@Composable
+private fun ScreenContentToCapture() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.linearGradient(
+                    listOf(
+                        Color(0xFFF5D5C0),
+                        Color(0xFFF8E8E3)
+                    )
+                )
+            )
+    ) {
+        Image(
+            painterResource(id = R.drawable.sunset),
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(1f)
+                .padding(32.dp),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            "Into the Ocean depths",
+            fontSize = 18.sp
+        )
+    }
 }
 
 suspend fun createBitmapFromPicture(picture: Picture): Bitmap {
@@ -138,7 +183,7 @@ suspend fun createBitmapFromPicture(picture: Picture): Bitmap {
 private suspend fun Bitmap.saveToDisk(context: Context): Uri {
     val file = File(
         context.getExternalFilesDir("external_files"),
-        "screenshot${System.currentTimeMillis()}.png"
+        "screenshot-${System.currentTimeMillis()}.png"
     )
     file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)
     return FileProvider.getUriForFile(
