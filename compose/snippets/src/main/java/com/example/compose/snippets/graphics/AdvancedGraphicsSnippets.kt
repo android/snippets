@@ -16,8 +16,7 @@
 
 package com.example.compose.snippets.graphics
 
-import android.R.attr.height
-import android.R.attr.width
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
@@ -25,7 +24,11 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Picture
 import android.graphics.drawable.PictureDrawable
+import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +41,9 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -57,11 +63,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.FileProvider
 import com.example.compose.snippets.R
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
+import kotlin.coroutines.resume
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -78,27 +87,58 @@ import kotlinx.coroutines.launch
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+@OptIn(ExperimentalPermissionsApi::class)
 @Preview
 @Composable
 fun BitmapFromComposableSnippet() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     val picture = remember {
         Picture()
     }
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = {
-            // TODO Move this logic to your ViewModel,
-            //  Then trigger side effect with the result URI to share
-            coroutineScope.launch(Dispatchers.IO) {
-                val bitmap = createBitmapFromPicture(picture)
-                val uri = bitmap.saveToDisk(context)
-                shareBitmap(context, uri)
-            }
-        }) {
-            Icon(Icons.Default.Share, "share")
+
+    val writeStorageAccessState = rememberMultiplePermissionsState(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // No permissions are needed on Android 10+ to add files in the shared storage
+            emptyList()
+        } else {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-    }) { padding ->
+    )
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                // TODO Move this logic to your ViewModel,
+                //  Then trigger side effect with the result URI to share
+                if (writeStorageAccessState.allPermissionsGranted) {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        val bitmap = createBitmapFromPicture(picture)
+                        val uri = bitmap.saveToDisk(context)
+                        shareBitmap(context, uri)
+                    }
+                } else if (writeStorageAccessState.shouldShowRationale) {
+                    coroutineScope.launch {
+                        val result = snackbarHostState.showSnackbar(
+                            message = "The storage permission is needed to save the image",
+                            actionLabel = "Grant Access"
+                        )
+
+                        if (result == SnackbarResult.ActionPerformed) {
+                            writeStorageAccessState.launchMultiplePermissionRequest()
+                        }
+                    }
+                } else {
+                    writeStorageAccessState.launchMultiplePermissionRequest()
+                }
+            }) {
+                Icon(Icons.Default.Share, "share")
+            }
+        }
+    ) { padding ->
         // [START android_compose_draw_into_bitmap]
         Column(
             modifier = Modifier
@@ -163,31 +203,49 @@ private fun ScreenContentToCapture() {
     }
 }
 
-suspend fun createBitmapFromPicture(picture: Picture): Bitmap {
+fun createBitmapFromPicture(picture: Picture): Bitmap {
     val pictureDrawable = PictureDrawable(picture)
-    val bitmap =
-        Bitmap.createBitmap(
-            pictureDrawable.intrinsicWidth,
-            pictureDrawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
+    val bitmap = Bitmap.createBitmap(
+        pictureDrawable.intrinsicWidth,
+        pictureDrawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+
     val canvas = Canvas(bitmap)
     canvas.drawColor(android.graphics.Color.WHITE)
     canvas.drawPicture(pictureDrawable.picture)
     return bitmap
 }
 
-private fun Bitmap.saveToDisk(context: Context): Uri {
+private suspend fun Bitmap.saveToDisk(context: Context): Uri {
     val file = File(
-        context.getExternalFilesDir("external_files"),
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
         "screenshot-${System.currentTimeMillis()}.png"
     )
+
     file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)
-    return FileProvider.getUriForFile(
-        context,
-        context.applicationContext.packageName + ".provider",
-        file
-    )
+
+    return scanFilePath(context, file.path) ?: throw Exception("File could not be saved")
+}
+
+/**
+ * We call [MediaScannerConnection] to index the newly created image inside MediaStore to be visible
+ * for other apps, as well as returning its [MediaStore] Uri
+ */
+private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
+    return suspendCancellableCoroutine { continuation ->
+        MediaScannerConnection.scanFile(
+            context,
+            arrayOf(filePath),
+            arrayOf("image/png")
+        ) { _, scannedUri ->
+            if (scannedUri == null) {
+                continuation.cancel(Exception("File $filePath could not be scanned"))
+            } else {
+                continuation.resume(scannedUri)
+            }
+        }
+    }
 }
 
 private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
