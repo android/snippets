@@ -101,6 +101,7 @@ fun BitmapFromComposableSnippet() {
 
     val writeStorageAccessState = rememberMultiplePermissionsState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // No permissions are needed on Android 10+ to add files in the shared storage
             emptyList()
         } else {
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
