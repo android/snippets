@@ -63,6 +63,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import com.example.compose.snippets.R
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import java.io.File
 import kotlinx.coroutines.launch
 
@@ -180,7 +181,7 @@ suspend fun createBitmapFromPicture(picture: Picture): Bitmap {
     return bitmap
 }
 
-private suspend fun Bitmap.saveToDisk(context: Context): Uri {
+private fun Bitmap.saveToDisk(context: Context): Uri {
     val file = File(
         context.getExternalFilesDir("external_files"),
         "screenshot-${System.currentTimeMillis()}.png"
