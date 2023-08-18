@@ -20,4 +20,5 @@ enum class Destination(val route: String, val title: String) {
     BrushExamples("brushExamples", "Brush Examples"),
     ImageExamples("imageExamples", "Image Examples"),
     AnimationQuickGuideExamples("animationExamples", "Animation Examples"),
+    ScreenshotExample("screenshotExample", "Screenshot Examples"),
 }
