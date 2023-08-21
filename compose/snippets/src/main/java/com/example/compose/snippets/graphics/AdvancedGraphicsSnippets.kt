@@ -149,6 +149,7 @@ fun BitmapFromComposableSnippet() {
                     // draw the picture into the original destination
                     val width = this.size.width.toInt()
                     val height = this.size.height.toInt()
+
                     onDrawWithContent {
                         val pictureCanvas =
                             androidx.compose.ui.graphics.Canvas(
