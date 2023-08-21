@@ -20,4 +20,19 @@ enum class Destination(val route: String, val title: String) {
     BrushExamples("brushExamples", "Brush Examples"),
     ImageExamples("imageExamples", "Image Examples"),
     AnimationQuickGuideExamples("animationExamples", "Animation Examples"),
+    ComponentsExamples("topComponents", "Top Compose Components"),
+}
+
+// Enum class for compose components navigation screen.
+enum class TopComponentsDestination(val route: String, val title: String) {
+    CardExamples("cardExamples", "Card"),
+    SwitchExamples("switchExamples", "Switch"),
+    SliderExamples("sliderExamples", "Slider"),
+    DialogExamples("dialogExamples", "Dialog"),
+    ChipExamples("chipExamples", "Chip"),
+    FloatingActionButtonExamples("floatingActionButtonExamples", "Floating Action Button"),
+    ButtonExamples("buttonExamples", "Button"),
+    ProgressIndicatorExamples("progressIndicatorExamples", "Progress Indicators"),
+    ScaffoldExample("scaffoldExample", "Scaffold"),
+    AppBarExamples("appBarExamples", "App bars"),
 }

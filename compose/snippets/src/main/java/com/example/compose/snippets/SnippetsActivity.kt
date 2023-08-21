@@ -27,11 +27,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
+import com.example.compose.snippets.components.AppBarExamples
+import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.ChipExamples
+import com.example.compose.snippets.components.ComponentsScreen
+import com.example.compose.snippets.components.DialogExamples
+import com.example.compose.snippets.components.FloatingActionButtonExamples
+import com.example.compose.snippets.components.ProgressIndicatorExamples
+import com.example.compose.snippets.components.ScaffoldExample
+import com.example.compose.snippets.components.SliderExamples
+import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
+import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
+import com.example.topcomponents.CardExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +66,27 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
                                     Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
+                                    Destination.ComponentsExamples -> ComponentsScreen {
+                                        navController.navigate(
+                                            it.route
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        TopComponentsDestination.values().forEach { destination ->
+                            composable(destination.route) {
+                                when (destination) {
+                                    TopComponentsDestination.CardExamples -> CardExamples()
+                                    TopComponentsDestination.SwitchExamples -> SwitchExamples()
+                                    TopComponentsDestination.SliderExamples -> SliderExamples()
+                                    TopComponentsDestination.DialogExamples -> DialogExamples()
+                                    TopComponentsDestination.ChipExamples -> ChipExamples()
+                                    TopComponentsDestination.FloatingActionButtonExamples -> FloatingActionButtonExamples()
+                                    TopComponentsDestination.ButtonExamples -> ButtonExamples()
+                                    TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
+                                    TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()                          
                                 }
                             }
                         }
