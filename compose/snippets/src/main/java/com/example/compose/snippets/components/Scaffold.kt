@@ -41,9 +41,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-// [START android_compose_components_scaffold]
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_scaffold]
 @Composable
 fun ScaffoldExample() {
     var presses by remember { mutableIntStateOf(0) }

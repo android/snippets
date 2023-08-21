@@ -55,8 +55,9 @@ fun CardExamples() {
     }
 }
 
-// [START android_compose_components_customcard]
+
 @OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_customcard]
 @Composable
 fun CustomCardExample(event: () -> Unit) {
     Card(
@@ -82,8 +83,8 @@ fun CustomCardExample(event: () -> Unit) {
 }
 // [END android_compose_components_customcard]
 
-// [START android_compose_components_elevatedcard]
 @Preview
+// [START android_compose_components_elevatedcard]
 @Composable
 fun ElevatedCardExample() {
     ElevatedCard(
@@ -103,8 +104,8 @@ fun ElevatedCardExample() {
 }
 // [END android_compose_components_elevatedcard]
 
-// [START android_compose_components_filledcard]
 @Preview
+// [START android_compose_components_filledcard]
 @Composable
 fun FilledCardExample() {
     Card(
@@ -124,8 +125,8 @@ fun FilledCardExample() {
 }
 // [END android_compose_components_filledcard]
 
-// [START android_compose_components_outlinedcard]
 @Preview
+// [START android_compose_components_outlinedcard]
 @Composable
 fun OutlinedCardExample() {
     OutlinedCard(

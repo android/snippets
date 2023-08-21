@@ -59,6 +59,7 @@ fun ProgressIndicatorExamples() {
     }
 }
 
+@Preview
 // [START android_compose_components_determinateindicator]
 @Composable
 fun LinearDeterminateIndicator() {
@@ -97,6 +98,7 @@ suspend fun loadProgress(updateProgress: (Float) -> Unit) {
 }
 // [END android_compose_components_determinateindicator]
 
+@Preview
 @Composable
 fun CircularDeterminateIndicator() {
     var currentProgress by remember { mutableStateOf(0f) }
@@ -125,6 +127,7 @@ fun CircularDeterminateIndicator() {
     }
 }
 
+@Preview
 @Composable
 fun IndeterminateLinearIndicator() {
     var loading by remember { mutableStateOf(false) }
@@ -141,8 +144,8 @@ fun IndeterminateLinearIndicator() {
     )
 }
 
-// [START android_compose_components_indeterminateindicator]
 @Preview
+// [START android_compose_components_indeterminateindicator]
 @Composable
 fun IndeterminateCircularIndicator() {
     var loading by remember { mutableStateOf(false) }
