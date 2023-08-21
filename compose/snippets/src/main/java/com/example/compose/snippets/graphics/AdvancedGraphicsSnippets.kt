@@ -23,7 +23,6 @@ import android.content.Intent.createChooser
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Picture
-import android.graphics.drawable.PictureDrawable
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -94,10 +93,7 @@ fun BitmapFromComposableSnippet() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-
-    val picture = remember {
-        Picture()
-    }
+    val picture = remember { Picture() }
 
     val writeStorageAccessState = rememberMultiplePermissionsState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -107,33 +103,37 @@ fun BitmapFromComposableSnippet() {
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     )
+    // This logic should live in your ViewModel - trigger a side effect to invoke URI sharing.
+    // checks permissions granted, and then saves the bitmap from a Picture that is already capturing content
+    // and shares it with the default share sheet.
+    fun shareBitmapFromComposable() {
+        if (writeStorageAccessState.allPermissionsGranted) {
+            coroutineScope.launch(Dispatchers.IO) {
+                val bitmap = createBitmapFromPicture(picture)
+                val uri = bitmap.saveToDisk(context)
+                shareBitmap(context, uri)
+            }
+        } else if (writeStorageAccessState.shouldShowRationale) {
+            coroutineScope.launch {
+                val result = snackbarHostState.showSnackbar(
+                    message = "The storage permission is needed to save the image",
+                    actionLabel = "Grant Access"
+                )
+
+                if (result == SnackbarResult.ActionPerformed) {
+                    writeStorageAccessState.launchMultiplePermissionRequest()
+                }
+            }
+        } else {
+            writeStorageAccessState.launchMultiplePermissionRequest()
+        }
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                // TODO Move this logic to your ViewModel,
-                //  Then trigger side effect with the result URI to share
-                if (writeStorageAccessState.allPermissionsGranted) {
-                    coroutineScope.launch(Dispatchers.IO) {
-                        val bitmap = createBitmapFromPicture(picture)
-                        val uri = bitmap.saveToDisk(context)
-                        shareBitmap(context, uri)
-                    }
-                } else if (writeStorageAccessState.shouldShowRationale) {
-                    coroutineScope.launch {
-                        val result = snackbarHostState.showSnackbar(
-                            message = "The storage permission is needed to save the image",
-                            actionLabel = "Grant Access"
-                        )
-
-                        if (result == SnackbarResult.ActionPerformed) {
-                            writeStorageAccessState.launchMultiplePermissionRequest()
-                        }
-                    }
-                } else {
-                    writeStorageAccessState.launchMultiplePermissionRequest()
-                }
+                shareBitmapFromComposable()
             }) {
                 Icon(Icons.Default.Share, "share")
             }
@@ -203,17 +203,16 @@ private fun ScreenContentToCapture() {
     }
 }
 
-fun createBitmapFromPicture(picture: Picture): Bitmap {
-    val pictureDrawable = PictureDrawable(picture)
+private fun createBitmapFromPicture(picture: Picture): Bitmap {
     val bitmap = Bitmap.createBitmap(
-        pictureDrawable.intrinsicWidth,
-        pictureDrawable.intrinsicHeight,
+        picture.width,
+        picture.height,
         Bitmap.Config.ARGB_8888
     )
 
     val canvas = Canvas(bitmap)
     canvas.drawColor(android.graphics.Color.WHITE)
-    canvas.drawPicture(pictureDrawable.picture)
+    canvas.drawPicture(picture)
     return bitmap
 }
 

@@ -17,6 +17,7 @@
 package com.example.compose.snippets
 
 import android.os.Bundle
+import android.os.StrictMode
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +38,7 @@ import com.example.compose.snippets.ui.theme.SnippetsTheme
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StrictMode.enableDefaults()
         setContent {
             SnippetsTheme {
                 val navController = rememberNavController()
