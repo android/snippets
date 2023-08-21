@@ -112,6 +112,7 @@ fun AppBarOptions(
     }
 }
 
+// [START android_compose_components_bottomappbar]
 @Preview
 @Composable
 fun BottomAppBarExample() {
@@ -159,9 +160,11 @@ fun BottomAppBarExample() {
         )
     }
 }
+// [END android_compose_components_bottomappbar]
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_smalltopappbar]
 @Composable
 fun SmallTopAppBarExample() {
     Scaffold(
@@ -180,9 +183,11 @@ fun SmallTopAppBarExample() {
         ScrollContent(innerPadding)
     }
 }
+// [END android_compose_components_smalltopappbar]
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_centeralignedtopappbar]
 @Composable
 fun CenterAlignedTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -226,9 +231,11 @@ fun CenterAlignedTopAppBarExample() {
         ScrollContent(innerPadding)
     }
 }
+// [END android_compose_components_centeralignedtopappbar]
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_mediumtopappbar]
 @Composable
 fun MediumTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -271,9 +278,11 @@ fun MediumTopAppBarExample() {
         ScrollContent(innerPadding)
     }
 }
+// [END android_compose_components_mediumtopappbar]
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_largetopappbar]
 @Composable
 fun LargeTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
@@ -316,6 +325,7 @@ fun LargeTopAppBarExample() {
         ScrollContent(innerPadding)
     }
 }
+// [END android_compose_components_largetopappbar]
 
 @Composable
 fun ScrollContent(innerPadding: PaddingValues) {
