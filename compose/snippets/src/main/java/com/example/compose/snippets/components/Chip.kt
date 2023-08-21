@@ -86,7 +86,6 @@ fun AssistChipExample() {
 }
 // [END android_compose_components_assistchip]
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 // [START android_compose_components_filterchip]

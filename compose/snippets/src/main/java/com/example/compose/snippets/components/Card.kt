@@ -55,7 +55,6 @@ fun CardExamples() {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_customcard]
 @Composable
