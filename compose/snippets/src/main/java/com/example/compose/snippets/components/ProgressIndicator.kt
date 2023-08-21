@@ -27,16 +27,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -51,21 +49,22 @@ fun ProgressIndicatorExamples() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Determinate linear indicator:")
-        DeterminateIndicator()
+        LinearDeterminateIndicator()
         Text("Indeterminate linear indicator:")
-        IndeterminateIndicator()
+        IndeterminateLinearIndicator()
         Text("Determinate circular indicator:")
-        DeterminateIndicator(true)
+        CircularDeterminateIndicator()
         Text("Indeterminate circular indicator:")
-        IndeterminateIndicator(true)
+        IndeterminateCircularIndicator()
     }
 }
 
 // [START android_compose_components_determinateindicator]
 @Composable
-fun DeterminateIndicator(circular: Boolean = false) {
-    var currentProgress by remember { mutableFloatStateOf(0f) }
+fun LinearDeterminateIndicator() {
+    var currentProgress by remember { mutableStateOf(0f) }
     var loading by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope() // Create a coroutine scope
 
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -73,31 +72,61 @@ fun DeterminateIndicator(circular: Boolean = false) {
     ) {
         Button(onClick = {
             loading = true
-            GlobalScope.launch(Dispatchers.Default) {
-                for (i in 1..100) {
-                    // LinearProgressIndicator works on a range of 0.0f to 1.0f, so we need to
-                    // divide by 100 in this example.
-                    currentProgress = i.toFloat() / 100
-                    delay(500)
+            scope.launch {
+                loadProgress { progress ->
+                    currentProgress = progress
                 }
+                loading = false // Reset loading when the coroutine finishes
             }
         }, enabled = !loading) {
             Text("Start loading")
         }
 
-        if (!loading) return
-
-        when {
-            circular -> CircularProgressIndicator(progress = currentProgress)
-            else -> LinearProgressIndicator(progress = currentProgress)
+        if (loading) {
+            LinearProgressIndicator(progress = currentProgress)
         }
+    }
+}
+
+/** Iterate the progress value */
+suspend fun loadProgress(updateProgress: (Float) -> Unit) {
+    for (i in 1..100) {
+        updateProgress(i.toFloat() / 100)
+        delay(500)
     }
 }
 // [END android_compose_components_determinateindicator]
 
-// [START android_compose_components_indeterminateindicator]
 @Composable
-fun IndeterminateIndicator(circular: Boolean = false) {
+fun CircularDeterminateIndicator() {
+    var currentProgress by remember { mutableStateOf(0f) }
+    var loading by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope() // Create a coroutine scope
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Button(onClick = {
+            loading = true
+            scope.launch {
+                loadProgress { progress ->
+                    currentProgress = progress
+                }
+                loading = false // Reset loading when the coroutine finishes
+            }
+        }, enabled = !loading) {
+            Text("Start loading")
+        }
+
+        if (loading) {
+            CircularProgressIndicator(progress = currentProgress)
+        }
+    }
+}
+
+@Composable
+fun IndeterminateLinearIndicator() {
     var loading by remember { mutableStateOf(false) }
 
     Button(onClick = { loading = true }, enabled = !loading) {
@@ -106,15 +135,27 @@ fun IndeterminateIndicator(circular: Boolean = false) {
 
     if (!loading) return
 
-    when {
-        circular -> CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            trackColor = MaterialTheme.colorScheme.secondary,
-        )
-        else -> LinearProgressIndicator(
-            color = MaterialTheme.colorScheme.surfaceVariant,
-            trackColor = MaterialTheme.colorScheme.secondary,
-        )
+    LinearProgressIndicator(
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        trackColor = MaterialTheme.colorScheme.secondary,
+    )
+}
+
+// [START android_compose_components_indeterminateindicator]
+@Preview
+@Composable
+fun IndeterminateCircularIndicator() {
+    var loading by remember { mutableStateOf(false) }
+
+    Button(onClick = { loading = true }, enabled = !loading) {
+        Text("Start loading")
     }
+
+    if (!loading) return
+
+    CircularProgressIndicator(
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        trackColor = MaterialTheme.colorScheme.secondary,
+    )
 }
 // [END android_compose_components_indeterminateindicator]

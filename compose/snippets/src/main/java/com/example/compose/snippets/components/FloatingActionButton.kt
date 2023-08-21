@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -96,7 +97,7 @@ fun SmallExample(onClick: () -> Unit) {
 fun LargeExample(onClick: () -> Unit) {
     LargeFloatingActionButton(
         onClick = { onClick() },
-
+        shape = CircleShape,
     ) {
         Icon(Icons.Filled.Add, "Large floating action button")
     }
