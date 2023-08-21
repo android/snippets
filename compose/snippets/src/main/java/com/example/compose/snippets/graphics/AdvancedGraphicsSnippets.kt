@@ -205,6 +205,7 @@ private fun ScreenContentToCapture() {
 }
 
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
+    // [START android_compose_draw_into_bitmap_convert_picture]
     val bitmap = Bitmap.createBitmap(
         picture.width,
         picture.height,
@@ -214,6 +215,7 @@ private fun createBitmapFromPicture(picture: Picture): Bitmap {
     val canvas = Canvas(bitmap)
     canvas.drawColor(android.graphics.Color.WHITE)
     canvas.drawPicture(picture)
+    // [END android_compose_draw_into_bitmap_convert_picture]
     return bitmap
 }
 
