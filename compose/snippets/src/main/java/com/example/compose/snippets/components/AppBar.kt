@@ -112,8 +112,8 @@ fun AppBarOptions(
     }
 }
 
-// [START android_compose_components_bottomappbar]
 @Preview
+// [START android_compose_components_bottomappbar]
 @Composable
 fun BottomAppBarExample() {
     Scaffold(

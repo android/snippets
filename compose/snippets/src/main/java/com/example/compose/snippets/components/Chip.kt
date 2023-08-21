@@ -68,8 +68,8 @@ fun ChipExamples() {
     }
 }
 
-// [START android_compose_components_assistchip]
 @Preview
+// [START android_compose_components_assistchip]
 @Composable
 fun AssistChipExample() {
     AssistChip(
@@ -86,9 +86,10 @@ fun AssistChipExample() {
 }
 // [END android_compose_components_assistchip]
 
-// [START android_compose_components_filterchip]
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_filterchip]
 @Composable
 fun FilterChipExample() {
     var selected by remember { mutableStateOf(false) }
@@ -116,8 +117,8 @@ fun FilterChipExample() {
 
 // You could set this up similarly to the filter chip above and have it toggleable, but this is
 // an example of a chip that can dismiss with a click.
-// [START android_compose_components_inputchip]
 @OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_inputchip]
 @Composable
 fun InputChipExample(
     text: String,
@@ -151,8 +152,8 @@ fun InputChipExample(
 }
 // [END android_compose_components_inputchip]
 
-// [START android_compose_components_suggestionchip]
 @Preview
+// [START android_compose_components_suggestionchip]
 @Composable
 fun SuggestionChipExample() {
     SuggestionChip(

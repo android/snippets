@@ -60,8 +60,8 @@ fun SwitchExamples() {
     }
 }
 
-// [START android_compose_components_switchminimal]
 @Preview
+// [START android_compose_components_switchminimal]
 @Composable
 fun SwitchMinimalExample() {
     var checked by remember { mutableStateOf(true) }
@@ -75,8 +75,8 @@ fun SwitchMinimalExample() {
 }
 // [END android_compose_components_switchminimal]
 
-// [START android_compose_components_switchwithicon]
 @Preview
+// [START android_compose_components_switchwithicon]
 @Composable
 fun SwitchWithIconExample() {
     var checked by remember { mutableStateOf(true) }
@@ -101,8 +101,8 @@ fun SwitchWithIconExample() {
 }
 // [END android_compose_components_switchwithicon]
 
-// [START android_compose_components_switchwithlabel]
 @Preview
+// [START android_compose_components_switchwithlabel]
 @Composable
 fun SwitchWithLabelMinimalExample() {
     var checked by remember { mutableStateOf(true) }
@@ -124,8 +124,8 @@ fun SwitchWithLabelMinimalExample() {
 }
 // [END android_compose_components_switchwithlabel]
 
-// [START android_compose_components_switchwithcustomcolors]
 @Preview
+// [START android_compose_components_switchwithcustomcolors]
 @Composable
 fun SwitchWithCustomColors() {
     var checked by remember { mutableStateOf(true) }
