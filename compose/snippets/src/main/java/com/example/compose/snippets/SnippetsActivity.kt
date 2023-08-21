@@ -43,7 +43,7 @@ import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 import com.example.topcomponents.CardExamples
-import com.example.topcomponents.SwitchExamples
+import com.example.compose.snippets.components.SwitchExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
