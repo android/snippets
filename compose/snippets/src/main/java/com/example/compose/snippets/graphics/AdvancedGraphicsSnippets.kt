@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -212,7 +211,7 @@ private fun createBitmapFromPicture(picture: Picture): Bitmap {
         Bitmap.Config.ARGB_8888
     )
 
-    val canvas = Canvas(bitmap)
+    val canvas = android.graphics.Canvas(bitmap)
     canvas.drawColor(android.graphics.Color.WHITE)
     canvas.drawPicture(picture)
     // [END android_compose_draw_into_bitmap_convert_picture]
