@@ -114,6 +114,8 @@ dependencies {
     implementation(libs.accompanist.theme.adapter.material3)
     implementation(libs.accompanist.theme.adapter.material)
 
+    implementation(libs.accompanist.permissions)
+
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)

@@ -610,7 +610,7 @@ object SizeModeSnippets3 {
 
         @Composable
         private fun MyContent() {
-            // Size will be the max available size for the AppWidget
+            // Size will be the size of the AppWidget
             val size = LocalSize.current
             Column {
                 Text(text = "Where to?", modifier = GlanceModifier.padding(12.dp))
