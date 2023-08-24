@@ -120,22 +120,22 @@ fun BottomAppBarExample() {
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(Icons.Filled.Check, contentDescription = "Localized description")
                     }
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             Icons.Filled.Edit,
                             contentDescription = "Localized description",
                         )
                     }
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             Icons.Filled.Mic,
                             contentDescription = "Localized description",
                         )
                     }
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             Icons.Filled.Image,
                             contentDescription = "Localized description",
@@ -175,7 +175,7 @@ fun SmallTopAppBarExample() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-                    Text("Small Top app bar")
+                    Text("Small Top App Bar")
                 }
             )
         },
@@ -209,7 +209,7 @@ fun CenterAlignedTopAppBarExample() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description"
@@ -217,7 +217,7 @@ fun CenterAlignedTopAppBarExample() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = "Localized description"
@@ -256,7 +256,7 @@ fun MediumTopAppBarExample() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description"
@@ -264,7 +264,7 @@ fun MediumTopAppBarExample() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = "Localized description"
@@ -303,7 +303,7 @@ fun LargeTopAppBarExample() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description"
@@ -311,7 +311,7 @@ fun LargeTopAppBarExample() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { /* do something */ }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = "Localized description"

@@ -90,7 +90,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ButtonExamples -> ButtonExamples()
                                     TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
-                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()                          
                                 }
                             }
                         }

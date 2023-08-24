@@ -56,13 +56,17 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.compose.snippets.R
 
 @Preview
+// [START android_compose_components_dialogparent]
 @Composable
 fun DialogExamples() {
+    // [START_EXCLUDE]
     val openMinimalDialog = remember { mutableStateOf(false) }
     val openDialogWithImage = remember { mutableStateOf(false) }
     val openFullScreenDialog = remember { mutableStateOf(false) }
+    // [END_EXCLUDE]
     val openAlertDialog = remember { mutableStateOf(false) }
 
+    // [START_EXCLUDE]
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -92,7 +96,9 @@ fun DialogExamples() {
             Text("Full screen dialog")
         }
 
+        // [END_EXCLUDE]
         when {
+            // [START_EXCLUDE]
             openMinimalDialog.value -> {
                 MinimalDialog(
                     onDismissRequest = { openMinimalDialog.value = false },
@@ -114,6 +120,7 @@ fun DialogExamples() {
                     onDismissRequest = { openFullScreenDialog.value = false },
                 )
             }
+            // [END_EXCLUDE]
             openAlertDialog.value -> {
                 AlertDialogExample(
                     onDismissRequest = { openAlertDialog.value = false },
@@ -129,6 +136,7 @@ fun DialogExamples() {
         }
     }
 }
+// [END android_compose_components_dialogparent]
 
 // [START android_compose_components_minimaldialog]
 @Composable
