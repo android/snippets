@@ -19,7 +19,9 @@ package com.example.compose.snippets.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -70,6 +72,7 @@ fun LinearDeterminateIndicator() {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Button(onClick = {
             loading = true
@@ -84,6 +87,10 @@ fun LinearDeterminateIndicator() {
         }
 
         if (loading) {
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = currentProgress
+            )
             LinearProgressIndicator(progress = currentProgress)
         }
     }
@@ -93,7 +100,7 @@ fun LinearDeterminateIndicator() {
 suspend fun loadProgress(updateProgress: (Float) -> Unit) {
     for (i in 1..100) {
         updateProgress(i.toFloat() / 100)
-        delay(500)
+        delay(100)
     }
 }
 // [END android_compose_components_determinateindicator]
@@ -108,6 +115,7 @@ fun CircularDeterminateIndicator() {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Button(onClick = {
             loading = true
@@ -122,6 +130,10 @@ fun CircularDeterminateIndicator() {
         }
 
         if (loading) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                progress = currentProgress
+            )
             CircularProgressIndicator(progress = currentProgress)
         }
     }
@@ -139,6 +151,7 @@ fun IndeterminateLinearIndicator() {
     if (!loading) return
 
     LinearProgressIndicator(
+        modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceVariant,
         trackColor = MaterialTheme.colorScheme.secondary,
     )
@@ -157,6 +170,7 @@ fun IndeterminateCircularIndicator() {
     if (!loading) return
 
     CircularProgressIndicator(
+        modifier = Modifier.width(64.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
         trackColor = MaterialTheme.colorScheme.secondary,
     )
