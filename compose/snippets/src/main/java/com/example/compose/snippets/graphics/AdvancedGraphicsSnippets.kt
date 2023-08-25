@@ -26,12 +26,8 @@ import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.Environment
-import android.os.StrictMode
 import android.provider.MediaStore
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +40,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -64,10 +59,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -215,8 +207,7 @@ private fun ScreenContentToCapture() {
                 .graphicsLayer {
                     rotationY = 20f
                     compositingStrategy = CompositingStrategy.Offscreen
-                }
-            ,
+                },
             contentScale = ContentScale.Crop
         )
         Text(
