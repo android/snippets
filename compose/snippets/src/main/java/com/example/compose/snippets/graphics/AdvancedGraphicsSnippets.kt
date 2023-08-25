@@ -26,8 +26,12 @@ import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,10 +39,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -52,17 +58,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
@@ -166,6 +178,7 @@ fun BitmapFromComposableSnippet() {
                         drawIntoCanvas { canvas -> canvas.nativeCanvas.drawPicture(picture) }
                     }
                 }
+
         ) {
             ScreenContentToCapture()
         }
@@ -180,21 +193,30 @@ private fun ScreenContentToCapture() {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
+            .graphicsLayer {
+                scaleX = 0.8f
+            }
             .background(
                 Brush.linearGradient(
                     listOf(
-                        Color(0xFFF5D5C0),
-                        Color(0xFFF8E8E3)
+                        Color(0xFFC8E6C9),
+                        Color(0xFFDDB6AA)
                     )
                 )
             )
     ) {
+        ProgressIndicatorExamples()
         Image(
             painterResource(id = R.drawable.sunset),
             contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f)
-                .padding(32.dp),
+                .padding(32.dp)
+                .graphicsLayer {
+                    rotationY = 20f
+                    compositingStrategy = CompositingStrategy.Offscreen
+                }
+            ,
             contentScale = ContentScale.Crop
         )
         Text(
