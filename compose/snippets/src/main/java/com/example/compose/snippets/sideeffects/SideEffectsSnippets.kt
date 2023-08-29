@@ -17,12 +17,12 @@
 package com.example.compose.snippets.sideeffects
 
 import android.media.Image
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -35,11 +35,12 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -47,6 +48,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.compose.snippets.interop.FirebaseAnalytics
 import com.example.compose.snippets.interop.User
+import com.example.compose.snippets.kotlin.Message
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -236,28 +238,47 @@ sealed class Result<out T> {
 
 // [START android_compose_side_effects_derivedstateof]
 @Composable
-fun TodoList(highPriorityKeywords: List<String> = listOf("Review", "Unblock", "Compose")) {
+// When the messages parameter changes, the MessageList
+// composable recomposes. derivedStateOf does not
+// affect this recomposition.
+fun MessageList(messages: List<Message>) {
+    Box {
+        val listState = rememberLazyListState()
 
-    val todoTasks = remember { mutableStateListOf<String>() }
+        LazyColumn(state = listState) {
+            // ...
+        }
 
-    // Calculate high priority tasks only when the todoTasks or highPriorityKeywords
-    // change, not on every recomposition
-    val highPriorityTasks by remember(highPriorityKeywords) {
-        derivedStateOf {
-            todoTasks.filter { task ->
-                highPriorityKeywords.any { keyword ->
-                    task.contains(keyword)
-                }
+        // Show the button if the first visible item is past
+        // the first item. We use a remembered derived state to
+        // minimize unnecessary compositions
+        val showButton by remember {
+            derivedStateOf {
+                listState.firstVisibleItemIndex > 0
             }
         }
-    }
 
-    Box(Modifier.fillMaxSize()) {
-        LazyColumn {
-            items(highPriorityTasks) { /* ... */ }
-            items(todoTasks) { /* ... */ }
+        AnimatedVisibility(visible = showButton) {
+            ScrollToTopButton()
         }
-        /* Rest of the UI where users can add elements to the list */
     }
 }
 // [END android_compose_side_effects_derivedstateof]
+
+@Composable
+fun ScrollToTopButton() {
+    // Button to scroll to the top of list.
+}
+
+@Suppress("CanBeVal")
+@Composable
+fun DerivedStateOfWrongUsage() {
+    // [START android_compose_side_effects_derivedstateof_wrong]
+    // DO NOT USE. Incorrect usage of derivedStateOf.
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+
+    val fullNameBad by remember { derivedStateOf { "$firstName $lastName" } } // This is bad!!!
+    val fullNameCorrect = "$firstName $lastName" // This is correct
+    // [END android_compose_side_effects_derivedstateof_wrong]
+}
