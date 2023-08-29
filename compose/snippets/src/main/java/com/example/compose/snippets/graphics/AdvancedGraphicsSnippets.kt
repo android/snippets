@@ -190,21 +190,13 @@ private fun ScreenContentToCapture() {
                     )
                 )
             )
-            .graphicsLayer {
-                scaleX = 0.8f
-            }
     ) {
         Image(
             painterResource(id = R.drawable.sunset),
             contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f)
-                .padding(32.dp)
-                // TODO REMOVE
-                .graphicsLayer {
-                    rotationY = 20f
-                    compositingStrategy = CompositingStrategy.Offscreen
-                },
+                .padding(32.dp),
             contentScale = ContentScale.Crop
         )
         Text(
