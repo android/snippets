@@ -59,11 +59,9 @@ import com.example.compose.snippets.R
 // [START android_compose_components_dialogparent]
 @Composable
 fun DialogExamples() {
-    // [START_EXCLUDE]
     val openMinimalDialog = remember { mutableStateOf(false) }
     val openDialogWithImage = remember { mutableStateOf(false) }
     val openFullScreenDialog = remember { mutableStateOf(false) }
-    // [END_EXCLUDE]
     val openAlertDialog = remember { mutableStateOf(false) }
 
     // [START_EXCLUDE]
