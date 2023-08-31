@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -165,6 +166,7 @@ fun BitmapFromComposableSnippet() {
                         drawIntoCanvas { canvas -> canvas.nativeCanvas.drawPicture(picture) }
                     }
                 }
+
         ) {
             ScreenContentToCapture()
         }
@@ -205,15 +207,19 @@ private fun ScreenContentToCapture() {
 
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
     // [START android_compose_draw_into_bitmap_convert_picture]
-    val bitmap = Bitmap.createBitmap(
-        picture.width,
-        picture.height,
-        Bitmap.Config.ARGB_8888
-    )
-
-    val canvas = android.graphics.Canvas(bitmap)
-    canvas.drawColor(android.graphics.Color.WHITE)
-    canvas.drawPicture(picture)
+    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        Bitmap.createBitmap(picture)
+    } else {
+        val bitmap = Bitmap.createBitmap(
+            picture.width,
+            picture.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = android.graphics.Canvas(bitmap)
+        canvas.drawColor(android.graphics.Color.WHITE)
+        canvas.drawPicture(picture)
+        bitmap
+    }
     // [END android_compose_draw_into_bitmap_convert_picture]
     return bitmap
 }
