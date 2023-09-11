@@ -28,6 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,8 +46,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -108,7 +114,7 @@ fun BitmapFromComposableSnippet() {
     // and shares it with the default share sheet.
     fun shareBitmapFromComposable() {
         if (writeStorageAccessState.allPermissionsGranted) {
-            coroutineScope.launch(Dispatchers.IO) {
+            coroutineScope.launch {
                 val bitmap = createBitmapFromPicture(picture)
                 val uri = bitmap.saveToDisk(context)
                 shareBitmap(context, uri)
@@ -169,6 +175,7 @@ fun BitmapFromComposableSnippet() {
 
         ) {
             ScreenContentToCapture()
+
         }
         // [END android_compose_draw_into_bitmap]
     }
@@ -176,6 +183,13 @@ fun BitmapFromComposableSnippet() {
 
 @Composable
 private fun ScreenContentToCapture() {
+    val time by produceState(0f) {
+        while (true) {
+            withInfiniteAnimationFrameMillis {
+                value = it / 1000f
+            }
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -202,14 +216,15 @@ private fun ScreenContentToCapture() {
             "Into the Ocean depths",
             fontSize = 18.sp
         )
+        Text(time.toString())
     }
 }
 
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
     // [START android_compose_draw_into_bitmap_convert_picture]
-    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+   /* val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         Bitmap.createBitmap(picture)
-    } else {
+    } else {*/
         val bitmap = Bitmap.createBitmap(
             picture.width,
             picture.height,
@@ -218,8 +233,8 @@ private fun createBitmapFromPicture(picture: Picture): Bitmap {
         val canvas = android.graphics.Canvas(bitmap)
         canvas.drawColor(android.graphics.Color.WHITE)
         canvas.drawPicture(picture)
-        bitmap
-    }
+     /*   bitmap
+    }*/
     // [END android_compose_draw_into_bitmap_convert_picture]
     return bitmap
 }
