@@ -179,13 +179,6 @@ fun BitmapFromComposableSnippet() {
 
 @Composable
 private fun ScreenContentToCapture() {
-    val time by produceState(0f) {
-        while (true) {
-            withInfiniteAnimationFrameMillis {
-                value = it / 1000f
-            }
-        }
-    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -212,7 +205,6 @@ private fun ScreenContentToCapture() {
             "Into the Ocean depths",
             fontSize = 18.sp
         )
-        Text(time.toString())
     }
 }
 
