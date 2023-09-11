@@ -47,8 +47,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -73,7 +71,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
 import kotlin.coroutines.resume
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -175,7 +172,6 @@ fun BitmapFromComposableSnippet() {
 
         ) {
             ScreenContentToCapture()
-
         }
         // [END android_compose_draw_into_bitmap]
     }
@@ -225,14 +221,14 @@ private fun createBitmapFromPicture(picture: Picture): Bitmap {
    /* val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         Bitmap.createBitmap(picture)
     } else {*/
-        val bitmap = Bitmap.createBitmap(
-            picture.width,
-            picture.height,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = android.graphics.Canvas(bitmap)
-        canvas.drawColor(android.graphics.Color.WHITE)
-        canvas.drawPicture(picture)
+    val bitmap = Bitmap.createBitmap(
+        picture.width,
+        picture.height,
+        Bitmap.Config.ARGB_8888
+    )
+    val canvas = android.graphics.Canvas(bitmap)
+    canvas.drawColor(android.graphics.Color.WHITE)
+    canvas.drawPicture(picture)
      /*   bitmap
     }*/
     // [END android_compose_draw_into_bitmap_convert_picture]
