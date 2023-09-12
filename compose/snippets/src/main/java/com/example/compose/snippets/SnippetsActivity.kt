@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -38,7 +39,6 @@ import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
-import com.example.compose.snippets.graphics.BitmapFromComposableSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
@@ -69,7 +69,7 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
                                     Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
-                                    Destination.ScreenshotExample -> BitmapFromComposableSnippet()
+                                    Destination.ScreenshotExample -> Box(modifier = Modifier.fillMaxSize())/*BitmapFromComposableSnippet()*/
                                     Destination.ComponentsExamples -> ComponentsScreen {
                                         navController.navigate(
                                             it.route

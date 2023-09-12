@@ -22,6 +22,11 @@ plugins {
 }
 
 android {
+    configurations.all {
+        resolutionStrategy {
+            failOnNonReproducibleResolution()
+        }
+    }
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
 

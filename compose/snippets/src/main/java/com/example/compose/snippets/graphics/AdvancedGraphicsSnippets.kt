@@ -54,7 +54,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
@@ -87,6 +86,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+/*
 @OptIn(ExperimentalPermissionsApi::class)
 @Preview
 @Composable
@@ -159,6 +159,7 @@ fun BitmapFromComposableSnippet() {
                                     height
                                 )
                             )
+                        // requires at least 1.6.0-alpha01+
                         draw(this, this.layoutDirection, pictureCanvas, this.size) {
                             this@onDrawWithContent.drawContent()
                         }
@@ -271,3 +272,4 @@ private fun shareBitmap(context: Context, uri: Uri) {
     }
     startActivity(context, createChooser(intent, "Share your image"), null)
 }
+*/
