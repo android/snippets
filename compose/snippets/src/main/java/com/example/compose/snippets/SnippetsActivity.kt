@@ -39,6 +39,7 @@ import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
+import com.example.compose.snippets.graphics.BitmapFromComposableSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
@@ -69,7 +70,7 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
                                     Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
-                                    Destination.ScreenshotExample -> Box(modifier = Modifier.fillMaxSize())/*BitmapFromComposableSnippet()*/
+                                    Destination.ScreenshotExample -> BitmapFromComposableSnippet()
                                     Destination.ComponentsExamples -> ComponentsScreen {
                                         navController.navigate(
                                             it.route
