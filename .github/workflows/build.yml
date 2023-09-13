@@ -30,7 +30,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
+      with:
+        token: ${{ secrets.PAT}}
     - name: set up Java 17
       uses: actions/setup-java@v2
       with:
@@ -47,6 +48,3 @@ jobs:
       run: ./gradlew :compose:recomposehighlighter:build
     - name: Build kotlin snippets
       run: ./gradlew :kotlin:build
-   # TODO fix bluetoothle snippets (lint is failing) - name: Build bluetoothle snippets
-   #   run: ./gradlew :bluetoothle:build
-
