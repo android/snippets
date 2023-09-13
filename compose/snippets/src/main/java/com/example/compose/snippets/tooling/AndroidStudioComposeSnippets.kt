@@ -16,8 +16,6 @@
 
 package com.example.compose.snippets.tooling
 
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme

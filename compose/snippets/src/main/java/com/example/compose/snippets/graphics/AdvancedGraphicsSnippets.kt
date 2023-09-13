@@ -45,7 +45,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -273,4 +272,3 @@ private fun shareBitmap(context: Context, uri: Uri) {
     }
     startActivity(context, createChooser(intent, "Share your image"), null)
 }
-
