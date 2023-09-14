@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -45,8 +44,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -67,7 +68,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import java.io.File
 import kotlin.coroutines.resume
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -86,6 +86,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Preview
 @Composable
@@ -108,7 +109,7 @@ fun BitmapFromComposableSnippet() {
     // and shares it with the default share sheet.
     fun shareBitmapFromComposable() {
         if (writeStorageAccessState.allPermissionsGranted) {
-            coroutineScope.launch(Dispatchers.IO) {
+            coroutineScope.launch {
                 val bitmap = createBitmapFromPicture(picture)
                 val uri = bitmap.saveToDisk(context)
                 shareBitmap(context, uri)
@@ -158,6 +159,7 @@ fun BitmapFromComposableSnippet() {
                                     height
                                 )
                             )
+                        // requires at least 1.6.0-alpha01+
                         draw(this, this.layoutDirection, pictureCanvas, this.size) {
                             this@onDrawWithContent.drawContent()
                         }

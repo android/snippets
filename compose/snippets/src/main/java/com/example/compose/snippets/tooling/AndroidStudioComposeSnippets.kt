@@ -16,8 +16,6 @@
 
 package com.example.compose.snippets.tooling
 
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
@@ -28,14 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Device
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.tooling.preview.UiMode
-import androidx.compose.ui.tooling.preview.Wallpaper
-import androidx.compose.ui.tooling.preview.Wallpapers
 import com.example.compose.snippets.R
 import com.example.compose.snippets.interop.User
 
@@ -174,7 +167,7 @@ fun UserProfilePreview2(
     UserProfile(user)
 }
 // [END android_compose_tooling_preview_parameter_provider_composable2]
-
+/*
 private object PreviewAnnotationEx {
     // [START android_compose_tooling_preview_annotation]
     annotation class Preview(
@@ -194,3 +187,4 @@ private object PreviewAnnotationEx {
     )
 // [END android_compose_tooling_preview_annotation]
 }
+ */

@@ -29,5 +29,5 @@ jobs:
           branch: bot-update-deps
           delete-branch: true
           title: '🤖 Update Dependencies'
-          body: Updated depedencies
+          body: Updated dependencies
           reviewers: ${{ github.actor }}
