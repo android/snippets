@@ -43,7 +43,7 @@ private fun Demo1() {
     Box(containerModifier, contentAlignment = Alignment.Center) {
         // [START android_compose_layout_constraints_modifiers_1]
         Image(
-            painterResource(R.drawable.frag),
+            painterResource(R.drawable.hero),
             contentDescription = null,
             Modifier
                 .fillMaxSize()
@@ -59,7 +59,7 @@ private fun Demo2() {
     Box(containerModifier, contentAlignment = Alignment.Center) {
         // [START android_compose_layout_constraints_modifiers_2]
         Image(
-            painterResource(R.drawable.frag),
+            painterResource(R.drawable.hero),
             contentDescription = null,
             Modifier
                 .fillMaxSize()
@@ -76,7 +76,7 @@ private fun Demo3() {
     Box(containerModifier, contentAlignment = Alignment.Center) {
         // [START android_compose_layout_constraints_modifiers_3]
         Image(
-            painterResource(R.drawable.frag),
+            painterResource(R.drawable.hero),
             contentDescription = null,
             Modifier
                 .clip(CircleShape)
