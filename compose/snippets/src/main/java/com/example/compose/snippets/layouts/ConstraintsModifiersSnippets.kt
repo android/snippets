@@ -53,7 +53,7 @@ private fun Demo1() {
     }
 }
 
-@Preview(widthDp = 300, heightDp = 200, backgroundColor = 0xFFD1F1FE)
+@Preview
 @Composable
 private fun Demo2() {
     Box(containerModifier, contentAlignment = Alignment.Center) {
@@ -70,7 +70,7 @@ private fun Demo2() {
     }
 }
 
-@Preview(widthDp = 300, heightDp = 200, backgroundColor = 0xFFD1F1FE)
+@Preview
 @Composable
 private fun Demo3() {
     Box(containerModifier, contentAlignment = Alignment.Center) {
