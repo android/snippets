@@ -363,7 +363,7 @@ fun PagerWithTabs() {
 fun PagerIndicator() {
     Box {
         // [START android_compose_pager_indicator]
-        val pageCount = 10
+        val pageCount = 4
         val pagerState = rememberPagerState(pageCount = {
             4
         })
@@ -371,18 +371,20 @@ fun PagerIndicator() {
             state = pagerState
         ) { page ->
             // Our page content
-            Text(
-                text = "Page: $page",
-                modifier = Modifier
-                    .fillMaxSize()
-            )
+                Box(
+                    modifier = Modifier.background(Color.Cyan).size(400.dp)
+                ){
+                Text(
+                    text = "Page: $page",
+                )
+            }
         }
         Row(
             Modifier
                 .height(50.dp)
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter),
-            horizontalArrangement = Arrangement.Center
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
         ) {
             repeat(pageCount) { iteration ->
                 val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
