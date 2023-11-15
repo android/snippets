@@ -56,7 +56,6 @@ fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
     ListDetailPaneScaffold(
         scaffoldState = state,
-        /* ... */
         // [START_EXCLUDE]
         listPane = {},
         detailPane = {},
@@ -77,7 +76,6 @@ fun SampleListDetailPaneScaffoldParts() {
                 }
             )
         },
-        /* ... */
         // [START_EXCLUDE]
         detailPane = {},
         // [END_EXCLUDE]
@@ -87,7 +85,7 @@ fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part05]
     ListDetailPaneScaffold(
         scaffoldState = state,
-        listPane = /* ... */
+        listPane =
         // [START_EXCLUDE]
         {},
         // [END_EXCLUDE]
