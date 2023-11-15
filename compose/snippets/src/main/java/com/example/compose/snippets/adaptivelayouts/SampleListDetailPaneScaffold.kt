@@ -47,11 +47,11 @@ import androidx.compose.ui.unit.sp
 fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
     val state = rememberListDetailPaneScaffoldState()
-    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
     var selectedItem: MyItem? by rememberSaveable { mutableStateOf(null) }
-    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
     ListDetailPaneScaffold(
