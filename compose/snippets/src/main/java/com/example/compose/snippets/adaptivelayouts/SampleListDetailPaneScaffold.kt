@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.compose.snippets.adaptivelayouts
 
 import androidx.compose.foundation.background
@@ -40,7 +41,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -89,9 +89,8 @@ fun SampleListDetailPaneScaffoldParts() {
         scaffoldState = state,
         listPane = /* ... */
         // [START_EXCLUDE]
-        {}
+        {},
         // [END_EXCLUDE]
-        ,
         detailPane = {
             selectedItem?.let { item ->
                 MyDetails(item)
@@ -134,7 +133,6 @@ fun SampleListDetailPaneScaffoldFull() {
 // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_full]
 }
 
-
 @Composable
 fun MyList(
     onItemClick: (MyItem) -> Unit,
@@ -162,13 +160,14 @@ fun MyList(
 }
 
 @Composable
-fun MyDetails(item: MyItem){
+fun MyDetails(item: MyItem) {
     val text = shortStrings[item.id]
     Card {
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(16.dp)) {
+                .padding(16.dp)
+        ) {
             Text(
                 text = "Details page for $text",
                 fontSize = 24.sp,
