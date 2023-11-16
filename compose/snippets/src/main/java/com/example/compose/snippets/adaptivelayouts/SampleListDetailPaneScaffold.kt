@@ -71,7 +71,7 @@ fun SampleListDetailPaneScaffoldParts() {
                 onItemClick = { id ->
                     // Set current item
                     selectedItem = id
-                    // Switch focus to details pane
+                    // Switch focus to detail pane
                     state.navigateTo(ListDetailPaneScaffoldRole.Detail)
                 }
             )
@@ -116,13 +116,13 @@ fun SampleListDetailPaneScaffoldFull() {
                 onItemClick = { id ->
                     // Set current item
                     selectedItem = id
-                    // Display the details pane
+                    // Display the detail pane
                     state.navigateTo(ListDetailPaneScaffoldRole.Detail)
                 },
             )
         },
         detailPane = {
-            // Show the details pane content if selected item is available
+            // Show the detail pane content if selected item is available
             selectedItem?.let { item ->
                 MyDetails(item)
             }
