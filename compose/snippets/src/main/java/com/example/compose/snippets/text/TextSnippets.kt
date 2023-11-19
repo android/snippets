@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.SpanStyle
@@ -263,7 +262,6 @@ private object TextOverflowSnippet {
 }
 
 private object TextBrushSnippet1 {
-    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet(text: String) {
         // [START android_compose_text_brush]
@@ -282,7 +280,6 @@ private object TextBrushSnippet1 {
 }
 
 private object TextBrushSnippet2 {
-    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -301,7 +298,6 @@ private object TextBrushSnippet2 {
 }
 
 private object TextBrushSnippet3 {
-    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -326,7 +322,6 @@ private object TextBrushSnippet3 {
 }
 
 private object TextBrushSnippet4 {
-    @OptIn(ExperimentalTextApi::class)
     @Composable
     fun TextStyledBrushSnippet() {
         val rainbowColors: List<Color> = listOf()
@@ -585,4 +580,4 @@ private object TextEffectiveStateManagement2 {
 private val firaSansFamily = FontFamily()
 
 val LightBlue = Color(0xFF0066FF)
-val Purple = Color(0xFF0066FF)
+val Purple = Color(0xFF800080)
