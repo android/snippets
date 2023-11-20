@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.modifiers
 
 import android.annotation.SuppressLint
@@ -74,7 +90,6 @@ fun Modifier.fadedBackground(): Modifier {
 }
 // [END android_compose_custom_modifiers_4]
 
-
 private object CustomModifierSnippets5 {
     // [START android_compose_custom_modifiers_5]
     @Composable
@@ -99,7 +114,6 @@ private object CustomModifierSnippets5 {
     }
     // [END android_compose_custom_modifiers_5]
 }
-
 
 // [START android_compose_custom_modifiers_6]
 val extractedModifier = Modifier.background(Color.Red) // Hoisted to save allocations
@@ -141,7 +155,6 @@ private data class CircleElement(val color: Color) : ModifierNodeElement<CircleN
 fun Modifier.circle(color: Color) = this then CircleElement(color)
 // [END android_compose_custom_modifiers_9]
 
-
 private object CustomModifierSnippets10 {
     // [START android_compose_custom_modifiers_10]
     // Modifier factory
@@ -168,7 +181,7 @@ private object CustomModifierSnippets10 {
 // [START android_compose_custom_modifiers_11]
 fun Modifier.fixedPadding() = this then FixedPaddingElement
 
-data object FixedPaddingElement: ModifierNodeElement<FixedPaddingNode>() {
+data object FixedPaddingElement : ModifierNodeElement<FixedPaddingNode>() {
     override fun create() = FixedPaddingNode()
     override fun update(node: FixedPaddingNode) {}
 }
@@ -196,7 +209,9 @@ class FixedPaddingNode : LayoutModifierNode, Modifier.Node() {
 // [END android_compose_custom_modifiers_11]
 
 // [START android_compose_custom_modifiers_12]
-class BackgroundColorConsumerNode : Modifier.Node(), DrawModifierNode,
+class BackgroundColorConsumerNode :
+    Modifier.Node(),
+    DrawModifierNode,
     CompositionLocalConsumerModifierNode {
     override fun ContentDrawScope.draw() {
         val currentColor = currentValueOf(LocalContentColor)
@@ -206,7 +221,7 @@ class BackgroundColorConsumerNode : Modifier.Node(), DrawModifierNode,
 }
 // [END android_compose_custom_modifiers_12]
 
-private object UnityDensity: Density {
+private object UnityDensity : Density {
     override val density: Float
         get() = 1f
     override val fontScale: Float
@@ -214,8 +229,10 @@ private object UnityDensity: Density {
 }
 data class DefaultFlingBehavior(var flingDecay: DecayAnimationSpec<Density>)
 // [START android_compose_custom_modifiers_13]
-class ScrollableNode : Modifier.Node(),
-    ObserverModifierNode, CompositionLocalConsumerModifierNode {
+class ScrollableNode :
+    Modifier.Node(),
+    ObserverModifierNode,
+    CompositionLocalConsumerModifierNode {
 
     // Place holder fling behavior, we'll initialize it when the density is available.
     val defaultFlingBehavior = DefaultFlingBehavior(splineBasedDecay(UnityDensity))
@@ -239,7 +256,7 @@ class ScrollableNode : Modifier.Node(),
 
 object CustomModifierSnippets14 {
     // [START android_compose_custom_modifiers_14]
-    class CircleNode(var color: Color): Modifier.Node(), DrawModifierNode {
+    class CircleNode(var color: Color) : Modifier.Node(), DrawModifierNode {
         private val alpha = Animatable(1f)
 
         override fun ContentDrawScope.draw() {
@@ -249,8 +266,10 @@ object CustomModifierSnippets14 {
 
         override fun onAttach() {
             coroutineScope.launch {
-                alpha.animateTo(0f,
-                    infiniteRepeatable(tween(1000), RepeatMode.Reverse)) {
+                alpha.animateTo(
+                    0f,
+                    infiniteRepeatable(tween(1000), RepeatMode.Reverse)
+                ) {
                 }
             }
         }
@@ -259,16 +278,16 @@ object CustomModifierSnippets14 {
 }
 
 class InteractionData
-class FocusableNode(val interactionData: InteractionData): DelegatableNode {
+class FocusableNode(val interactionData: InteractionData) : DelegatableNode {
     override val node: Modifier.Node
         get() = TODO("Not yet implemented")
 }
-class IndicationNode(val interactionData: InteractionData): DelegatableNode {
+class IndicationNode(val interactionData: InteractionData) : DelegatableNode {
     override val node: Modifier.Node
         get() = TODO("Not yet implemented")
 }
 // [START android_compose_custom_modifiers_15]
-class ClickableNode: DelegatingNode() {
+class ClickableNode : DelegatingNode() {
     val interactionData = InteractionData()
     val focusableNode = delegate(
         FocusableNode(interactionData)
@@ -279,7 +298,7 @@ class ClickableNode: DelegatingNode() {
 }
 // [END android_compose_custom_modifiers_15]
 
-class ClickablePointerInputNode(var onClick: () -> Unit): Modifier.Node(), DelegatableNode {
+class ClickablePointerInputNode(var onClick: () -> Unit) : Modifier.Node(), DelegatableNode {
     fun update(onClick: () -> Unit) {
         this.onClick = onClick
     }
@@ -289,7 +308,7 @@ class SampleInvalidatingNode(
     var color: Color,
     var size: IntSize,
     var onClick: () -> Unit
-): DelegatingNode(), LayoutModifierNode, DrawModifierNode {
+) : DelegatingNode(), LayoutModifierNode, DrawModifierNode {
     override val shouldAutoInvalidate: Boolean
         get() = false
 
