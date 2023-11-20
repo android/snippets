@@ -88,8 +88,8 @@ fun LinearDeterminateIndicator() {
 
         if (loading) {
             LinearProgressIndicator(
+                progress = { currentProgress },
                 modifier = Modifier.fillMaxWidth(),
-                progress = currentProgress
             )
         }
     }
@@ -130,8 +130,8 @@ fun CircularDeterminateIndicator() {
 
         if (loading) {
             CircularProgressIndicator(
+                progress = { currentProgress },
                 modifier = Modifier.width(64.dp),
-                progress = currentProgress
             )
         }
     }
@@ -150,8 +150,8 @@ fun IndeterminateLinearIndicator() {
 
     LinearProgressIndicator(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        trackColor = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.secondary,
+        trackColor = MaterialTheme.colorScheme.surfaceVariant,
     )
 }
 
@@ -169,8 +169,8 @@ fun IndeterminateCircularIndicator() {
 
     CircularProgressIndicator(
         modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        trackColor = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.secondary,
+        trackColor = MaterialTheme.colorScheme.surfaceVariant,
     )
 }
 // [END android_compose_components_indeterminateindicator]
