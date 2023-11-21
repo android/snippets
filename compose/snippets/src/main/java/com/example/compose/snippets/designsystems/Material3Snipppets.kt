@@ -1,5 +1,20 @@
-package com.example.compose.snippets.designsystems
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.example.compose.snippets.designsystems
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -64,9 +79,7 @@ private object Material3Snippets {
     }
 
     // [END android_compose_material3_experimental_annotation]
-
 }
-
 
 @Composable
 private fun Material3ThemeStart() {
@@ -95,7 +108,6 @@ private object ColorScheme {
     // ..
     // ..
     // [END android_compose_material3_theme_colors]
-
 
     // [START android_compose_material3_theme_color_setup]
     private val LightColorScheme = lightColorScheme(
@@ -164,15 +176,16 @@ private object ColorScheme {
                 containerColor =
                 if (isSelected) MaterialTheme.colorScheme.primaryContainer
                 else
-                    MaterialTheme.colorScheme.surfaceVariant)
+                    MaterialTheme.colorScheme.surfaceVariant
+            )
         ) {
             Text(
                 text = "Dinner club",
                 style = MaterialTheme.typography.bodyLarge,
                 color =
-                    if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-                    else MaterialTheme.colorScheme.onSurface,
-                )
+                if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
+                else MaterialTheme.colorScheme.onSurface,
+            )
         }
 
         // [END android_compose_material3_use_color_theme_2]
@@ -196,7 +209,7 @@ private object TypographySnippets {
         ),
         // ..
     )
-    //..
+    // ..
     // [END android_compose_material3_typography_definition]
 
     val replyTypography2 = Typography(
@@ -265,11 +278,12 @@ private object Material3ShapesSetup {
     private fun ShapeUsage() {
         // [START android_compose_material3_shape_usage]
         Card(shape = MaterialTheme.shapes.medium) { /* card content */ }
-        FloatingActionButton(shape = MaterialTheme.shapes.large,
+        FloatingActionButton(
+            shape = MaterialTheme.shapes.large,
             onClick = {
-
-        }) {
-        /* fab content */
+            }
+        ) {
+            /* fab content */
         }
         // [END android_compose_material3_shape_usage]
     }
@@ -366,8 +380,8 @@ private object MaterialComponentsExamples {
             Destinations.entries.forEach { replyDestination ->
                 NavigationBarItem(
                     selected = selectedDestination == replyDestination,
-                    onClick = {  },
-                    icon = {  }
+                    onClick = { },
+                    icon = { }
                 )
             }
         }
@@ -398,17 +412,16 @@ private object MaterialComponentsExamples {
             mutableStateOf(Destinations.Home)
         }
         // [START android_compose_material3_permanent_nav_drawer]
-        PermanentNavigationDrawer(modifier = Modifier.fillMaxHeight(), drawerContent =  {
+        PermanentNavigationDrawer(modifier = Modifier.fillMaxHeight(), drawerContent = {
             Destinations.entries.forEach { replyDestination ->
                 NavigationRailItem(
                     selected = selectedDestination == replyDestination,
                     onClick = { },
                     icon = { },
-                    label = {  }
+                    label = { }
                 )
             }
         }) {
-
         }
         // [END android_compose_material3_permanent_nav_drawer]
     }
@@ -449,7 +462,6 @@ private object MaterialAccessibilityExamples {
                 contentColor = MaterialTheme.colorScheme.onPrimary
             )
         ) {
-
         }
 
         // ❌ Button with poor contrast ratio
@@ -460,7 +472,6 @@ private object MaterialAccessibilityExamples {
                 contentColor = MaterialTheme.colorScheme.primaryContainer
             )
         ) {
-
         }
         // [END android_compose_material3_button_contrast_example]
     }
