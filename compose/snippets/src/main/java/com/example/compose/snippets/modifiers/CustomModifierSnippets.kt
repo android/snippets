@@ -68,8 +68,7 @@ fun Modifier.clip(shape: Shape) = graphicsLayer(shape = shape, clip = true)
 // [END android_compose_custom_modifiers_1]
 
 // [START android_compose_custom_modifiers_2]
-fun Modifier.myBackground(color: Color) = this then Modifier
-    .padding(16.dp)
+fun Modifier.myBackground(color: Color) = padding(16.dp)
     .clip(RoundedCornerShape(8.dp))
     .background(color)
 // [END android_compose_custom_modifiers_2]
