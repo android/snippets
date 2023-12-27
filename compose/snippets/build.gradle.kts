@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.viewbinding)
     implementation(libs.androidx.paging.compose)
