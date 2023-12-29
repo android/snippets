@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -235,6 +236,7 @@ fun List<Cubic>.toPath(path: Path = Path()): Path {
 class MorphPolygonShape(
     private val morph: Morph,
     private val percentage: Float) : Shape {
+
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
@@ -246,7 +248,10 @@ class MorphPolygonShape(
         shapeB.transform(matrixB)
         val morph = Morph(shapeA, shapeB)
         morph.progress = percentage*/
-        return Outline.Generic(morph.toComposePath(percentage))
+        // todo figure out how to scale and offset the shapes here
+        val path = morph.toComposePath(progress = percentage, scale = size.width)
+
+        return Outline.Generic(path)
     }
 }
 @Preview
@@ -272,6 +277,7 @@ private fun MorphOnClick() {
         label = "progress", animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
     )
     Box(modifier = Modifier
+        .fillMaxSize()
         .padding(8.dp)
         .clip(MorphPolygonShape(morph, animatedProgress.value))
         .background(Color(0xFF80DEEA))
@@ -279,6 +285,7 @@ private fun MorphOnClick() {
         .clickable(interactionSource = interactionSource, indication = null) {
         }
     ) {
+        Text("Hello")
     }
     // [END android_compose_graphics_morph_on_click]
 }
