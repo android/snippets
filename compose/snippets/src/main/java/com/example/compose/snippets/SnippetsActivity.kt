@@ -38,7 +38,6 @@ import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
-import com.example.compose.snippets.graphics.ApplyPolygonAsClipBasic
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen

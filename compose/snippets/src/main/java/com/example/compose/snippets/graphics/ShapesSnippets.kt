@@ -337,20 +337,20 @@ private fun MorphOnClick() {
         label = "progress",
         animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
     )
-    Box(modifier = Modifier
-        .size(200.dp)
-        .padding(8.dp)
-        .clip(MorphPolygonShape(morph, animatedProgress.value))
-        .background(Color(0xFF80DEEA))
-        .size(200.dp)
-        .clickable(interactionSource = interactionSource, indication = null) {
-        }
+    Box(
+        modifier = Modifier
+            .size(200.dp)
+            .padding(8.dp)
+            .clip(MorphPolygonShape(morph, animatedProgress.value))
+            .background(Color(0xFF80DEEA))
+            .size(200.dp)
+            .clickable(interactionSource = interactionSource, indication = null) {
+            }
     ) {
         Text("Hello", modifier = Modifier.align(Alignment.Center))
     }
     // [END android_compose_graphics_morph_on_click]
 }
-
 
 // [START android_compose_shapes_polygon_compose_shape]
 class RoundedPolygonShape(
