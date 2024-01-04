@@ -637,7 +637,6 @@ private fun CartesianPoints() {
                             drawPath(roundedPolygonPath, color = Color(0xFFF15087))
                         }
                     }
-
                 }
             }
             .size(400.dp)
@@ -654,7 +653,6 @@ internal fun radialToCartesian(
     angleRadians: Float,
     center: PointF = PointZero
 ) = directionVectorPointF(angleRadians) * radius + center
-
 
 internal fun directionVectorPointF(angleRadians: Float) =
     PointF(cos(angleRadians), sin(angleRadians))
