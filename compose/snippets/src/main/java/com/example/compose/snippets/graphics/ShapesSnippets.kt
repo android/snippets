@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.graphics
 
 import androidx.compose.animation.core.LinearEasing
@@ -48,26 +64,27 @@ import androidx.graphics.shapes.star
 import com.example.compose.snippets.R
 import kotlin.math.min
 
-
 @Preview
 @Composable
 fun BasicShapeCanvas() {
     // [START android_compose_graphics_basic_polygon]
-    Box(modifier = Modifier
-        .drawWithCache {
-            val roundedPolygon = RoundedPolygon(
-                numVertices = 6,
-                radius = size.width / 2,
-                centerX = size.width / 2,
-                centerY = size.height / 2
-            )
-            val roundedPolygonPath = roundedPolygon.cubics
-                .toPath()
-            onDrawBehind {
-                drawPath(roundedPolygonPath, color = Color.Blue)
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val roundedPolygon = RoundedPolygon(
+                    numVertices = 6,
+                    radius = size.width / 2,
+                    centerX = size.width / 2,
+                    centerY = size.height / 2
+                )
+                val roundedPolygonPath = roundedPolygon.cubics
+                    .toPath()
+                onDrawBehind {
+                    drawPath(roundedPolygonPath, color = Color.Blue)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_basic_polygon]
 }
 
@@ -75,25 +92,27 @@ fun BasicShapeCanvas() {
 @Composable
 private fun RoundedShapeExample() {
     // [START android_compose_graphics_polygon_rounding]
-    Box(modifier = Modifier
-        .drawWithCache {
-            val roundedPolygon = RoundedPolygon(
-                numVertices = 3,
-                radius = size.width / 2,
-                centerX = size.width / 2,
-                centerY = size.height / 2,
-                rounding = CornerRounding(
-                    size.width / 10f,
-                    smoothing = 1f
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val roundedPolygon = RoundedPolygon(
+                    numVertices = 3,
+                    radius = size.width / 2,
+                    centerX = size.width / 2,
+                    centerY = size.height / 2,
+                    rounding = CornerRounding(
+                        size.width / 10f,
+                        smoothing = 1f
+                    )
                 )
-            )
-            val roundedPolygonPath = roundedPolygon.cubics
-                .toPath()
-            onDrawBehind {
-                drawPath(roundedPolygonPath, color = Color.Black)
+                val roundedPolygonPath = roundedPolygon.cubics
+                    .toPath()
+                onDrawBehind {
+                    drawPath(roundedPolygonPath, color = Color.Black)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_polygon_rounding]
 }
 
@@ -101,25 +120,27 @@ private fun RoundedShapeExample() {
 @Composable
 private fun RoundedShapeSmoothnessExample() {
     // [START android_compose_graphics_polygon_rounding_smooth]
-    Box(modifier = Modifier
-        .drawWithCache {
-            val roundedPolygon = RoundedPolygon(
-                numVertices = 3,
-                radius = size.width / 2,
-                centerX = size.width / 2,
-                centerY = size.height / 2,
-                rounding = CornerRounding(
-                    size.width / 10f,
-                    smoothing = 0.1f
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val roundedPolygon = RoundedPolygon(
+                    numVertices = 3,
+                    radius = size.width / 2,
+                    centerX = size.width / 2,
+                    centerY = size.height / 2,
+                    rounding = CornerRounding(
+                        size.width / 10f,
+                        smoothing = 0.1f
+                    )
                 )
-            )
-            val roundedPolygonPath = roundedPolygon.cubics
-                .toPath()
-            onDrawBehind {
-                drawPath(roundedPolygonPath, color = Color.Black)
+                val roundedPolygonPath = roundedPolygon.cubics
+                    .toPath()
+                onDrawBehind {
+                    drawPath(roundedPolygonPath, color = Color.Black)
+                }
             }
-        }
-        .size(100.dp))
+            .size(100.dp)
+    )
 
     // [END android_compose_graphics_polygon_rounding_smooth]
 }
@@ -128,34 +149,36 @@ private fun RoundedShapeSmoothnessExample() {
 @Composable
 private fun MorphExample() {
     // [START android_compose_graphics_polygon_morph]
-    Box(modifier = Modifier
-        .drawWithCache {
-            val triangle = RoundedPolygon(
-                numVertices = 3,
-                radius = size.width / 2f,
-                centerX = size.width / 2f,
-                centerY = size.height / 2f,
-                rounding = CornerRounding(
-                    size.width / 10f,
-                    smoothing = 0.1f
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val triangle = RoundedPolygon(
+                    numVertices = 3,
+                    radius = size.width / 2f,
+                    centerX = size.width / 2f,
+                    centerY = size.height / 2f,
+                    rounding = CornerRounding(
+                        size.width / 10f,
+                        smoothing = 0.1f
+                    )
                 )
-            )
-            val square = RoundedPolygon(
-                numVertices = 4,
-                radius = size.width / 2f,
-                centerX = size.width / 2f,
-                centerY = size.height / 2f
-            )
+                val square = RoundedPolygon(
+                    numVertices = 4,
+                    radius = size.width / 2f,
+                    centerX = size.width / 2f,
+                    centerY = size.height / 2f
+                )
 
-            val morph = Morph(start = triangle, end = square)
-            val morphPath = morph
-                .toComposePath(progress = 0.5f)
+                val morph = Morph(start = triangle, end = square)
+                val morphPath = morph
+                    .toComposePath(progress = 0.5f)
 
-            onDrawBehind {
-                drawPath(morphPath, color = Color.Black)
+                onDrawBehind {
+                    drawPath(morphPath, color = Color.Black)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_polygon_morph]
 }
 
@@ -173,35 +196,37 @@ private fun MorphExampleAnimation() {
         ),
         label = "morph"
     )
-    Box(modifier = Modifier
-        .drawWithCache {
-            val triangle = RoundedPolygon(
-                numVertices = 3,
-                radius = size.width / 2f,
-                centerX = size.width / 2f,
-                centerY = size.height / 2f,
-                rounding = CornerRounding(
-                    size.width / 10f,
-                    smoothing = 0.1f
+    Box(
+        modifier = Modifier
+            .drawWithCache {
+                val triangle = RoundedPolygon(
+                    numVertices = 3,
+                    radius = size.width / 2f,
+                    centerX = size.width / 2f,
+                    centerY = size.height / 2f,
+                    rounding = CornerRounding(
+                        size.width / 10f,
+                        smoothing = 0.1f
+                    )
                 )
-            )
-            val square = RoundedPolygon(
-                numVertices = 4,
-                radius = size.width / 2f,
-                centerX = size.width / 2f,
-                centerY = size.height / 2f
-            )
+                val square = RoundedPolygon(
+                    numVertices = 4,
+                    radius = size.width / 2f,
+                    centerX = size.width / 2f,
+                    centerY = size.height / 2f
+                )
 
-            val morph = Morph(start = triangle, end = square)
-            // todo ensure proper caching here.
-            val morphPath = morph
-                .toComposePath(progress = morphProgress.value)
+                val morph = Morph(start = triangle, end = square)
+                // todo ensure proper caching here.
+                val morphPath = morph
+                    .toComposePath(progress = morphProgress.value)
 
-            onDrawBehind {
-                drawPath(morphPath, color = Color.Black)
+                onDrawBehind {
+                    drawPath(morphPath, color = Color.Black)
+                }
             }
-        }
-        .fillMaxSize())
+            .fillMaxSize()
+    )
     // [END android_compose_graphics_polygon_morph_animation]
 }
 
