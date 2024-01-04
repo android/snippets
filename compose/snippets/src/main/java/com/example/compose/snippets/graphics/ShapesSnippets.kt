@@ -62,7 +62,6 @@ import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
 import com.example.compose.snippets.R
-import kotlin.math.min
 
 @Preview
 @Composable
@@ -321,20 +320,20 @@ private fun MorphOnClick() {
         label = "progress",
         animationSpec = spring(dampingRatio = 0.4f, stiffness = Spring.StiffnessMedium)
     )
-    Box(modifier = Modifier
-        .size(200.dp)
-        .padding(8.dp)
-        .clip(MorphPolygonShape(morph, animatedProgress.value))
-        .background(Color(0xFF80DEEA))
-        .size(200.dp)
-        .clickable(interactionSource = interactionSource, indication = null) {
-        }
+    Box(
+        modifier = Modifier
+            .size(200.dp)
+            .padding(8.dp)
+            .clip(MorphPolygonShape(morph, animatedProgress.value))
+            .background(Color(0xFF80DEEA))
+            .size(200.dp)
+            .clickable(interactionSource = interactionSource, indication = null) {
+            }
     ) {
         Text("Hello", modifier = Modifier.align(Alignment.Center))
     }
     // [END android_compose_graphics_morph_on_click]
 }
-
 
 // [START android_compose_shapes_polygon_compose_shape]
 class RoundedPolygonShape(
@@ -399,8 +398,10 @@ fun ApplyPolygonAsClipImage() {
     val clip = remember(hexagon) {
         RoundedPolygonShape(polygon = hexagon)
     }
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         Image(
             painter = painterResource(id = R.drawable.dog),
             contentDescription = "Dog",
@@ -476,8 +477,10 @@ private fun RotatingScallopedProfilePic() {
         animationSpec = infiniteRepeatable(tween(6000, easing = LinearEasing), repeatMode = RepeatMode.Reverse),
         label = "animatedMorphProgress"
     )
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         Image(
             painter = painterResource(id = R.drawable.dog),
             contentDescription = "Dog",
