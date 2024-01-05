@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
@@ -75,6 +76,7 @@ import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
 import com.example.compose.snippets.R
 import kotlin.math.PI
+import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -87,7 +89,7 @@ fun BasicShapeCanvas() {
             .drawWithCache {
                 val roundedPolygon = RoundedPolygon(
                     numVertices = 6,
-                    radius = size.width / 2,
+                    radius = size.minDimension / 2,
                     centerX = size.width / 2,
                     centerY = size.height / 2
                 )
@@ -111,11 +113,11 @@ private fun RoundedShapeExample() {
             .drawWithCache {
                 val roundedPolygon = RoundedPolygon(
                     numVertices = 3,
-                    radius = size.width / 2,
+                    radius = size.minDimension / 2,
                     centerX = size.width / 2,
                     centerY = size.height / 2,
                     rounding = CornerRounding(
-                        size.width / 10f,
+                        size.minDimension / 10f,
                         smoothing = 1f
                     )
                 )
@@ -139,11 +141,11 @@ private fun RoundedShapeSmoothnessExample() {
             .drawWithCache {
                 val roundedPolygon = RoundedPolygon(
                     numVertices = 3,
-                    radius = size.width / 2,
+                    radius = size.minDimension / 2,
                     centerX = size.width / 2,
                     centerY = size.height / 2,
                     rounding = CornerRounding(
-                        size.width / 10f,
+                        size.minDimension / 10f,
                         smoothing = 0.1f
                     )
                 )
@@ -168,17 +170,17 @@ private fun MorphExample() {
             .drawWithCache {
                 val triangle = RoundedPolygon(
                     numVertices = 3,
-                    radius = size.width / 2f,
+                    radius = size.minDimension / 2f,
                     centerX = size.width / 2f,
                     centerY = size.height / 2f,
                     rounding = CornerRounding(
-                        size.width / 10f,
+                        size.minDimension / 10f,
                         smoothing = 0.1f
                     )
                 )
                 val square = RoundedPolygon(
                     numVertices = 4,
-                    radius = size.width / 2f,
+                    radius = size.minDimension / 2f,
                     centerX = size.width / 2f,
                     centerY = size.height / 2f
                 )
@@ -215,17 +217,17 @@ private fun MorphExampleAnimation() {
             .drawWithCache {
                 val triangle = RoundedPolygon(
                     numVertices = 3,
-                    radius = size.width / 2f,
+                    radius = size.minDimension / 2f,
                     centerX = size.width / 2f,
                     centerY = size.height / 2f,
                     rounding = CornerRounding(
-                        size.width / 10f,
+                        size.minDimension / 10f,
                         smoothing = 0.1f
                     )
                 )
                 val square = RoundedPolygon(
                     numVertices = 4,
-                    radius = size.width / 2f,
+                    radius = size.minDimension / 2f,
                     centerX = size.width / 2f,
                     centerY = size.height / 2f
                 )
@@ -523,6 +525,8 @@ private fun RotatingScallopedProfilePic() {
 }
 // [END android_compose_shapes_custom_rotating_morph_shape]
 
+private val Blue = Color(0xFF0756D0)
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
@@ -532,8 +536,20 @@ fun ShapeAsLoader() {
     val progress = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(400), repeatMode = RepeatMode.Reverse),
+        animationSpec = infiniteRepeatable(
+            tween(4000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
         label = "progress"
+    )
+    val rotation = infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            tween(4000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
     )
     val pathMeasurer = remember {
         PathMeasure()
@@ -542,12 +558,15 @@ fun ShapeAsLoader() {
         modifier = Modifier
             .padding(16.dp)
             .drawWithCache {
-                val roundedPolygon = RoundedPolygon(
-                    numVertices = 6,
-                    radius = size.width / 2,
+                val roundedPolygon = RoundedPolygon.star(
+                    numVerticesPerRadius = 12,
+                    innerRadius = size.minDimension / 4f,
+                    rounding = CornerRounding(size.minDimension / 5f),
+                    radius = size.minDimension / 2,
                     centerX = size.width / 2,
                     centerY = size.height / 2,
-                )
+
+                    )
                 val roundedPolygonPath = roundedPolygon.cubics
                     .toPath()
                 val androidPath = roundedPolygonPath
@@ -557,28 +576,62 @@ fun ShapeAsLoader() {
                 val totalLength = pathMeasurer.length
 
                 onDrawBehind {
-                    val currentLength = totalLength * progress.value
-                    flattenedPath.forEach { line ->
-                        if (line.startFraction * totalLength < currentLength) {
-                            drawLine(
-                                color = Color.Black,
-                                start = Offset(line.start.x, line.start.y),
-                                end = Offset(line.end.x, line.end.y),
-                                strokeWidth = 30f,
-                                cap = StrokeCap.Round
-                            )
+                    rotate(rotation.value) {
+                        val currentLength = totalLength * progress.value
+                        flattenedPath.forEach { line ->
+                            if (line.startFraction * totalLength < currentLength) {
+                                if (progress.value > line.endFraction) {
+                                    drawLine(
+                                        color = Blue,
+                                        start = Offset(line.start.x, line.start.y),
+                                        end = Offset(line.end.x, line.end.y),
+                                        strokeWidth = 16.dp.toPx(),
+                                        cap = StrokeCap.Round
+                                    )
+                                } else {
+                                    val endX = mapValue(
+                                        progress.value,
+                                        line.startFraction,
+                                        line.endFraction,
+                                        line.start.x,
+                                        line.end.x
+                                    )
+                                    val endY = mapValue(
+                                        progress.value,
+                                        line.startFraction,
+                                        line.endFraction,
+                                        line.start.y,
+                                        line.end.y
+                                    )
+                                    drawLine(
+                                        color = Blue,
+                                        start = Offset(line.start.x, line.start.y),
+                                        end = Offset(endX.absoluteValue, endY.absoluteValue),
+                                        strokeWidth = 16.dp.toPx(),
+                                        cap = StrokeCap.Round
+                                    )
+                                }
+                            }
                         }
                     }
-                    /*drawPath(
-                        roundedPolygonPath,
-                        color = Color.Blue,
-                        style = Stroke(width = 2.dp.toPx())
-                    )*/
+
                 }
             }
             .fillMaxSize()
     )
     // [END android_compose_graphics_basic_polygon]
+}
+
+private fun mapValue(
+    value: Float,
+    fromRangeStart: Float,
+    fromRangeEnd: Float,
+    toRangeStart: Float,
+    toRangeEnd: Float
+): Float {
+    val ratio =
+        (value - fromRangeStart) / (fromRangeEnd - fromRangeStart)
+    return toRangeStart + ratio * (toRangeEnd - toRangeStart)
 }
 
 @Preview
