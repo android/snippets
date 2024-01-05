@@ -565,7 +565,7 @@ fun ShapeAsLoader() {
                     centerX = size.width / 2,
                     centerY = size.height / 2,
 
-                    )
+                )
                 val roundedPolygonPath = roundedPolygon.cubics
                     .toPath()
                 val androidPath = roundedPolygonPath
@@ -613,7 +613,6 @@ fun ShapeAsLoader() {
                             }
                         }
                     }
-
                 }
             }
             .fillMaxSize()
