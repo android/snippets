@@ -233,7 +233,6 @@ private fun MorphExampleAnimation() {
                 )
 
                 val morph = Morph(start = triangle, end = square)
-                // todo ensure proper caching here.
                 val morphPath = morph
                     .toComposePath(progress = morphProgress.value)
 
