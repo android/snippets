@@ -515,7 +515,6 @@ private fun RotatingScallopedProfilePic() {
 }
 // [END android_compose_shapes_custom_rotating_morph_shape]
 
-
 @Preview
 @Composable
 private fun CartesianPoints() {
