@@ -111,13 +111,13 @@ fun SampleListDetailPaneScaffoldParts() {
 @Composable
 fun SampleListDetailPaneScaffoldFull() {
 // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_full]
-    // Create the ListDetailPaneScaffoldState
-    val navigator = rememberListDetailPaneScaffoldNavigator()
-
     // Currently selected item
     var selectedItem: MyItem? by rememberSaveable(stateSaver = MyItem.Saver) {
         mutableStateOf(null)
     }
+
+    // Create the ListDetailPaneScaffoldState
+    val navigator = rememberListDetailPaneScaffoldNavigator()
 
     ListDetailPaneScaffold(
         scaffoldState = navigator.scaffoldState,
