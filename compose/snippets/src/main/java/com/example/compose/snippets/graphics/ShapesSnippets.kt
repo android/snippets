@@ -17,8 +17,6 @@
 package com.example.compose.snippets.graphics
 
 import android.graphics.PointF
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -46,17 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.asAndroidPath
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
@@ -66,7 +59,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.flatten
 import androidx.core.graphics.plus
 import androidx.core.graphics.times
 import androidx.graphics.shapes.CornerRounding
@@ -76,7 +68,6 @@ import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
 import com.example.compose.snippets.R
 import kotlin.math.PI
-import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -524,114 +515,6 @@ private fun RotatingScallopedProfilePic() {
 }
 // [END android_compose_shapes_custom_rotating_morph_shape]
 
-private val Blue = Color(0xFF0756D0)
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
-@Composable
-fun ShapeAsLoader() {
-    // [START android_compose_graphics_basic_polygon]
-    val infiniteTransition = rememberInfiniteTransition(label = "infinite")
-    val progress = infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            tween(4000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "progress"
-    )
-    val rotation = infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            tween(4000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "rotation"
-    )
-    val pathMeasurer = remember {
-        PathMeasure()
-    }
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-            .drawWithCache {
-                val roundedPolygon = RoundedPolygon.star(
-                    numVerticesPerRadius = 12,
-                    innerRadius = size.minDimension / 4f,
-                    rounding = CornerRounding(size.minDimension / 5f),
-                    radius = size.minDimension / 2,
-                    centerX = size.width / 2,
-                    centerY = size.height / 2,
-
-                    )
-                val roundedPolygonPath = roundedPolygon.cubics
-                    .toPath()
-                val androidPath = roundedPolygonPath
-                    .asAndroidPath()
-                val flattenedPath = androidPath.flatten()
-                pathMeasurer.setPath(roundedPolygonPath, false)
-                val totalLength = pathMeasurer.length
-
-                onDrawBehind {
-                    rotate(rotation.value) {
-                        val currentLength = totalLength * progress.value
-                        flattenedPath.forEach { line ->
-                            if (line.startFraction * totalLength < currentLength) {
-                                if (progress.value > line.endFraction) {
-                                    drawLine(
-                                        color = Blue,
-                                        start = Offset(line.start.x, line.start.y),
-                                        end = Offset(line.end.x, line.end.y),
-                                        strokeWidth = 16.dp.toPx(),
-                                        cap = StrokeCap.Round
-                                    )
-                                } else {
-                                    val endX = mapValue(
-                                        progress.value,
-                                        line.startFraction,
-                                        line.endFraction,
-                                        line.start.x,
-                                        line.end.x
-                                    )
-                                    val endY = mapValue(
-                                        progress.value,
-                                        line.startFraction,
-                                        line.endFraction,
-                                        line.start.y,
-                                        line.end.y
-                                    )
-                                    drawLine(
-                                        color = Blue,
-                                        start = Offset(line.start.x, line.start.y),
-                                        end = Offset(endX.absoluteValue, endY.absoluteValue),
-                                        strokeWidth = 16.dp.toPx(),
-                                        cap = StrokeCap.Round
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-            .fillMaxSize()
-    )
-    // [END android_compose_graphics_basic_polygon]
-}
-
-private fun mapValue(
-    value: Float,
-    fromRangeStart: Float,
-    fromRangeEnd: Float,
-    toRangeStart: Float,
-    toRangeEnd: Float
-): Float {
-    val ratio =
-        (value - fromRangeStart) / (fromRangeEnd - fromRangeStart)
-    return toRangeStart + ratio * (toRangeEnd - toRangeStart)
-}
 
 @Preview
 @Composable
