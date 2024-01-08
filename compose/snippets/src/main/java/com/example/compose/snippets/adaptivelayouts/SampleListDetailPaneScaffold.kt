@@ -192,6 +192,7 @@ fun MyDetails(item: MyItem) {
     }
 }
 
+// [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
 class MyItem(val id: Int) {
     companion object {
         val Saver: Saver<MyItem?, Int> = Saver(
@@ -200,6 +201,7 @@ class MyItem(val id: Int) {
         )
     }
 }
+// [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
 
 val shortStrings = listOf(
     "Android",
