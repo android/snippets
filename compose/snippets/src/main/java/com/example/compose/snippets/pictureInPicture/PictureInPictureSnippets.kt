@@ -129,8 +129,7 @@ internal fun Context.findActivity(): ComponentActivity {
 // [END region_tag_3]
 
 @Composable
-fun VideoPlayerScreen(
-) {
+fun VideoPlayerScreen() {
     // [START region_tag_3]
     val context = LocalContext.current
     Button(onClick = {
@@ -149,7 +148,7 @@ fun VideoPlayerScreen(
 // [START region_tag_5]
 @Composable
 fun isInPipMode(): Boolean {
-    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val activity = LocalContext.current.findActivity()
         var pipMode by remember { mutableStateOf(activity.isInPictureInPictureMode) }
         DisposableEffect(activity) {
@@ -161,7 +160,6 @@ fun isInPipMode(): Boolean {
             )
             onDispose { activity.removeOnPictureInPictureModeChangedListener(observer) }
         }
-
 
         return pipMode
     } else {
@@ -229,7 +227,6 @@ fun VideoPlayer(
     }
     // [END region_tag_9]
 }
-
 
 @Composable
 fun VideoPlayer1(
@@ -354,7 +351,7 @@ fun VideoPlayer4(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 
-    ) {
+) {
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
