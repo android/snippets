@@ -162,6 +162,7 @@ fun ClickableExample() {
         interactionSource = interactionSource,
 
         // Also show a ripple effect
+        // Or use ripple() if using version 1.7.0+
         indication = rememberRipple()
       ),
     contentAlignment = Alignment.Center

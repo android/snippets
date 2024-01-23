@@ -13,6 +13,7 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -90,6 +91,21 @@ private fun RememberRippleExample() {
   }
   // [END android_compose_userinteractions_material_remember_ripple]
 }
+
+// [START android_compose_userinteractions_material_ripple]
+@Composable
+private fun RippleExample() {
+  Box(
+    Modifier.clickable(
+      onClick = {},
+      interactionSource = remember { MutableInteractionSource() },
+      indication = ripple()
+    )
+  ) {
+    // ...
+  }
+}
+// [END android_compose_userinteractions_material_ripple]
 
 // [START android_compose_userinteractions_disabled_ripple_theme]
 private object DisabledRippleTheme : RippleTheme {
@@ -196,15 +212,30 @@ private class ScaleIndicationNode(
 // [END android_compose_userinteractions_scale_indication_node]
 
 @Composable
+fun App() {
+
+}
+
+@Composable
 private fun LocalUseFallbackRippleImplementationExample() {
 // [START android_compose_userinteractions_localusefallbackrippleimplementation]
   CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
-    Button {
-      // ...
+    MaterialTheme {
+      App()
     }
   }
 // [END android_compose_userinteractions_localusefallbackrippleimplementation]
+
 }
+
+// [START android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
+@Composable
+fun MyAppTheme(content: @Composable () -> Unit) {
+  CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
+    MaterialTheme(content = content)
+  }
+}
+// [END android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 
 // [START android_compose_userinteractions_disabled_ripple_configuration]
 private val DisabledRippleConfiguration =
