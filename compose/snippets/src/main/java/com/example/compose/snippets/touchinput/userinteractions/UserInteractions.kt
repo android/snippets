@@ -22,8 +22,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.node.DrawModifierNode
 import com.example.compose.snippets.architecture.Button
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 // [START android_compose_userinteractions_scale_indication]
 // [START android_compose_userinteractions_scale_indication_object]
@@ -116,7 +118,7 @@ private fun MyComposable() {
 private val MyRippleAlpha = RippleAlpha(0.5f, 0.5f, 0.5f, 0.5f)
 
 // [START android_compose_userinteractions_disabled_ripple_theme_color_alpha]
-private object DisabledRippleThemeColorAndAlpha : RippleTheme {
+private object MyRippleTheme : RippleTheme {
 
 
   @Composable
@@ -130,7 +132,7 @@ private object DisabledRippleThemeColorAndAlpha : RippleTheme {
 @Composable
 private fun MyComposable2() {
 // [END_EXCLUDE]
-  CompositionLocalProvider(LocalRippleTheme provides DisabledRippleThemeColorAndAlpha) {
+  CompositionLocalProvider(LocalRippleTheme provides MyRippleTheme) {
     Button {
       // ...
     }
@@ -139,3 +141,103 @@ private fun MyComposable2() {
 }
 // [END_EXCLUDE]
 // [END android_compose_userinteractions_disabled_ripple_theme_color_alpha]
+
+// Snippets for new ripple API
+
+// [START android_compose_userinteractions_scale_indication_node_factory]
+object ScaleIndicationNodeFactory : IndicationNodeFactory {
+  override fun create(interactionSource: InteractionSource): DelegatableNode {
+    return ScaleIndicationNode(interactionSource)
+  }
+
+  override fun hashCode(): Int = -1
+
+  override fun equals(other: Any?) = other === this
+}
+// [END android_compose_userinteractions_scale_indication_node_factory]
+
+// [START android_compose_userinteractions_scale_indication_node]
+private class ScaleIndicationNode(
+  private val interactionSource: InteractionSource
+) : Modifier.Node(), DrawModifierNode {
+  var currentPressPosition: Offset = Offset.Zero
+  val animatedScalePercent = Animatable(1f)
+
+  private suspend fun animateToPressed(pressPosition: Offset) {
+    currentPressPosition = pressPosition
+    animatedScalePercent.animateTo(0.9f, spring())
+  }
+
+  private suspend fun animateToResting() {
+    animatedScalePercent.animateTo(1f, spring())
+  }
+
+  override fun onAttach() {
+    coroutineScope.launch {
+      interactionSource.interactions.collectLatest { interaction ->
+        when (interaction) {
+          is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
+          is PressInteraction.Release -> animateToResting()
+          is PressInteraction.Cancel -> animateToResting()
+        }
+      }
+    }
+  }
+
+  override fun ContentDrawScope.draw() {
+    scale(
+      scale = animatedScalePercent.value,
+      pivot = currentPressPosition
+    ) {
+      this@draw.drawContent()
+    }
+  }
+}
+// [END android_compose_userinteractions_scale_indication_node]
+
+@Composable
+private fun LocalUseFallbackRippleImplementationExample() {
+// [START android_compose_userinteractions_localusefallbackrippleimplementation]
+  CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
+    Button {
+      // ...
+    }
+  }
+// [END android_compose_userinteractions_localusefallbackrippleimplementation]
+}
+
+// [START android_compose_userinteractions_disabled_ripple_configuration]
+private val DisabledRippleConfiguration =
+  RippleConfiguration(isEnabled = false)
+
+// [START_EXCLUDE]
+@Composable
+private fun MyComposableDisabledRippleConfig() {
+// [END_EXCLUDE]
+  CompositionLocalProvider(LocalRippleConfiguration provides DisabledRippleConfiguration) {
+    Button {
+      // ...
+    }
+  }
+// [START_EXCLUDE silent]
+}
+// [END_EXCLUDE]
+// [END android_compose_userinteractions_disabled_ripple_configuration]
+
+// [START android_compose_userinteractions_my_ripple_configuration]
+private val MyRippleConfiguration =
+  RippleConfiguration(color = Color.Red, rippleAlpha = MyRippleAlpha)
+
+// [START_EXCLUDE]
+@Composable
+private fun MyComposableMyRippleConfig() {
+// [END_EXCLUDE]
+  CompositionLocalProvider(LocalRippleConfiguration provides MyRippleConfiguration) {
+    Button {
+      // ...
+    }
+  }
+// [START_EXCLUDE silent]
+}
+// [END_EXCLUDE]
+// [END android_compose_userinteractions_my_ripple_configuration]
