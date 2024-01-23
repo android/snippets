@@ -31,7 +31,7 @@ junit = "4.13.2"
 kotlin = "1.9.20"
 ksp = "1.8.0-1.0.9"
 maps-compose = "3.1.1"
-material = "1.11.0-beta01"
+material = "1.11.0"
 material3-adaptive = "1.0.0-alpha04"
 material3-adaptive-navigation-suite = "1.0.0-alpha02"
 # @keep
@@ -55,6 +55,7 @@ androidx-compose-foundation = { module = "androidx.compose.foundation:foundation
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material3-adaptive = { module = "androidx.compose.material3:material3-adaptive", version.ref = "material3-adaptive" }
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
