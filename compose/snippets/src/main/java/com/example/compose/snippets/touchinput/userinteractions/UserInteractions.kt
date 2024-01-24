@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// This file is intended to show snippets for deprecated API usages
 @file:Suppress("DEPRECATION_ERROR")
 
 package com.example.compose.snippets.touchinput.userinteractions
@@ -53,8 +52,6 @@ import androidx.compose.ui.node.DrawModifierNode
 import com.example.compose.snippets.architecture.Button
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.compose.snippets.architecture.Button
-import kotlinx.coroutines.flow.collectLatest
 
 // [START android_compose_userinteractions_scale_indication]
 // [START android_compose_userinteractions_scale_indication_object]
@@ -107,42 +104,42 @@ private class ScaleIndicationInstance : IndicationInstance {
 
 @Composable
 private fun RememberRippleExample() {
-  // [START android_compose_userinteractions_material_remember_ripple]
-  Box(
-    Modifier.clickable(
-      onClick = {},
-      interactionSource = remember { MutableInteractionSource() },
-      indication = rememberRipple()
-    )
-  ) {
-    // ...
-  }
-  // [END android_compose_userinteractions_material_remember_ripple]
+    // [START android_compose_userinteractions_material_remember_ripple]
+    Box(
+        Modifier.clickable(
+            onClick = {},
+            interactionSource = remember { MutableInteractionSource() },
+            indication = rememberRipple()
+        )
+    ) {
+        // ...
+    }
+    // [END android_compose_userinteractions_material_remember_ripple]
 }
 
 // [START android_compose_userinteractions_material_ripple]
 @Composable
 private fun RippleExample() {
-  Box(
-    Modifier.clickable(
-      onClick = {},
-      interactionSource = remember { MutableInteractionSource() },
-      indication = ripple()
-    )
-  ) {
-    // ...
-  }
+    Box(
+        Modifier.clickable(
+            onClick = {},
+            interactionSource = remember { MutableInteractionSource() },
+            indication = ripple()
+        )
+    ) {
+        // ...
+    }
 }
 // [END android_compose_userinteractions_material_ripple]
 
 // [START android_compose_userinteractions_disabled_ripple_theme]
 private object DisabledRippleTheme : RippleTheme {
 
-  @Composable
-  override fun defaultColor(): Color = Color.Transparent
+    @Composable
+    override fun defaultColor(): Color = Color.Transparent
 
-  @Composable
-  override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
 }
 
 // [START_EXCLUDE]
@@ -189,98 +186,96 @@ private fun MyComposable2() {
 
 // [START android_compose_userinteractions_scale_indication_node_factory]
 object ScaleIndicationNodeFactory : IndicationNodeFactory {
-  override fun create(interactionSource: InteractionSource): DelegatableNode {
-    return ScaleIndicationNode(interactionSource)
-  }
+    override fun create(interactionSource: InteractionSource): DelegatableNode {
+        return ScaleIndicationNode(interactionSource)
+    }
 
-  override fun hashCode(): Int = -1
+    override fun hashCode(): Int = -1
 
-  override fun equals(other: Any?) = other === this
+    override fun equals(other: Any?) = other === this
 }
 // [END android_compose_userinteractions_scale_indication_node_factory]
 
 // [START android_compose_userinteractions_scale_indication_node]
 private class ScaleIndicationNode(
-  private val interactionSource: InteractionSource
+    private val interactionSource: InteractionSource
 ) : Modifier.Node(), DrawModifierNode {
-  var currentPressPosition: Offset = Offset.Zero
-  val animatedScalePercent = Animatable(1f)
+    var currentPressPosition: Offset = Offset.Zero
+    val animatedScalePercent = Animatable(1f)
 
-  private suspend fun animateToPressed(pressPosition: Offset) {
-    currentPressPosition = pressPosition
-    animatedScalePercent.animateTo(0.9f, spring())
-  }
+    private suspend fun animateToPressed(pressPosition: Offset) {
+        currentPressPosition = pressPosition
+        animatedScalePercent.animateTo(0.9f, spring())
+    }
 
-  private suspend fun animateToResting() {
-    animatedScalePercent.animateTo(1f, spring())
-  }
+    private suspend fun animateToResting() {
+        animatedScalePercent.animateTo(1f, spring())
+    }
 
-  override fun onAttach() {
-    coroutineScope.launch {
-      interactionSource.interactions.collectLatest { interaction ->
-        when (interaction) {
-          is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
-          is PressInteraction.Release -> animateToResting()
-          is PressInteraction.Cancel -> animateToResting()
+    override fun onAttach() {
+        coroutineScope.launch {
+            interactionSource.interactions.collectLatest { interaction ->
+                when (interaction) {
+                    is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
+                    is PressInteraction.Release -> animateToResting()
+                    is PressInteraction.Cancel -> animateToResting()
+                }
+            }
         }
-      }
     }
-  }
 
-  override fun ContentDrawScope.draw() {
-    scale(
-      scale = animatedScalePercent.value,
-      pivot = currentPressPosition
-    ) {
-      this@draw.drawContent()
+    override fun ContentDrawScope.draw() {
+        scale(
+            scale = animatedScalePercent.value,
+            pivot = currentPressPosition
+        ) {
+            this@draw.drawContent()
+        }
     }
-  }
 }
 // [END android_compose_userinteractions_scale_indication_node]
 
 @Composable
 fun App() {
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun LocalUseFallbackRippleImplementationExample() {
 // [START android_compose_userinteractions_localusefallbackrippleimplementation]
-  CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
-    MaterialTheme {
-      App()
+    CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
+        MaterialTheme {
+            App()
+        }
     }
-  }
 // [END android_compose_userinteractions_localusefallbackrippleimplementation]
-
 }
 
 // [START android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
-  CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
-    MaterialTheme(content = content)
-  }
+    CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
+        MaterialTheme(content = content)
+    }
 }
 // [END android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 
 // [START android_compose_userinteractions_disabled_ripple_configuration]
 @OptIn(ExperimentalMaterialApi::class)
 private val DisabledRippleConfiguration =
-  RippleConfiguration(isEnabled = false)
+    RippleConfiguration(isEnabled = false)
 
 // [START_EXCLUDE]
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableDisabledRippleConfig() {
 // [END_EXCLUDE]
-  CompositionLocalProvider(LocalRippleConfiguration provides DisabledRippleConfiguration) {
-    Button {
-      // ...
+    CompositionLocalProvider(LocalRippleConfiguration provides DisabledRippleConfiguration) {
+        Button {
+            // ...
+        }
     }
-  }
 // [START_EXCLUDE silent]
 }
 // [END_EXCLUDE]
@@ -289,18 +284,18 @@ private fun MyComposableDisabledRippleConfig() {
 // [START android_compose_userinteractions_my_ripple_configuration]
 @OptIn(ExperimentalMaterialApi::class)
 private val MyRippleConfiguration =
-  RippleConfiguration(color = Color.Red, rippleAlpha = MyRippleAlpha)
+    RippleConfiguration(color = Color.Red, rippleAlpha = MyRippleAlpha)
 
 // [START_EXCLUDE]
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableMyRippleConfig() {
 // [END_EXCLUDE]
-  CompositionLocalProvider(LocalRippleConfiguration provides MyRippleConfiguration) {
-    Button {
-      // ...
+    CompositionLocalProvider(LocalRippleConfiguration provides MyRippleConfiguration) {
+        Button {
+            // ...
+        }
     }
-  }
 // [START_EXCLUDE silent]
 }
 // [END_EXCLUDE]
