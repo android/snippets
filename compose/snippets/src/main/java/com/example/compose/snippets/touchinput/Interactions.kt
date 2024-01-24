@@ -6,6 +6,9 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.IndicationNodeFactory
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.hoverable
@@ -27,7 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -162,8 +165,7 @@ fun ClickableExample() {
         interactionSource = interactionSource,
 
         // Also show a ripple effect
-        // Or use ripple() if using version 1.7.0+
-        indication = rememberRipple()
+        indication = ripple()
       ),
     contentAlignment = Alignment.Center
   ) {
@@ -257,12 +259,14 @@ fun PressIconButton(
   icon: @Composable () -> Unit,
   text: @Composable () -> Unit,
   modifier: Modifier = Modifier,
-  interactionSource: MutableInteractionSource =
-    remember { MutableInteractionSource() },
+  interactionSource: MutableInteractionSource? = null
 ) {
-  val isPressed by interactionSource.collectIsPressedAsState()
-  Button(onClick = onClick, modifier = modifier,
-         interactionSource = interactionSource) {
+  val isPressed = interactionSource?.collectIsPressedAsState()?.value ?: false
+
+  Button(onClick = onClick,
+         modifier = modifier,
+         interactionSource = interactionSource
+  ) {
     AnimatedVisibility(visible = isPressed) {
       if (isPressed) {
         Row {

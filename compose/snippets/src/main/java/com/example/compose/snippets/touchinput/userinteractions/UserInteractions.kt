@@ -1,14 +1,23 @@
+// This file is intended to show snippets for deprecated API usages
+@file:Suppress("DEPRECATION_ERROR")
+
 package com.example.compose.snippets.touchinput.userinteractions
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
+import androidx.compose.foundation.IndicationNodeFactory
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.LocalRippleConfiguration
+import androidx.compose.material.LocalUseFallbackRippleImplementation
+import androidx.compose.material.RippleConfiguration
+import androidx.compose.material.ripple
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -23,10 +32,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.node.DelegatableNode
 import androidx.compose.ui.node.DrawModifierNode
 import com.example.compose.snippets.architecture.Button
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 // [START android_compose_userinteractions_scale_indication]
 // [START android_compose_userinteractions_scale_indication_object]
@@ -216,6 +227,7 @@ fun App() {
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun LocalUseFallbackRippleImplementationExample() {
 // [START android_compose_userinteractions_localusefallbackrippleimplementation]
@@ -229,6 +241,7 @@ private fun LocalUseFallbackRippleImplementationExample() {
 }
 
 // [START android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
   CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
@@ -238,10 +251,12 @@ fun MyAppTheme(content: @Composable () -> Unit) {
 // [END android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 
 // [START android_compose_userinteractions_disabled_ripple_configuration]
+@OptIn(ExperimentalMaterialApi::class)
 private val DisabledRippleConfiguration =
   RippleConfiguration(isEnabled = false)
 
 // [START_EXCLUDE]
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableDisabledRippleConfig() {
 // [END_EXCLUDE]
@@ -256,10 +271,12 @@ private fun MyComposableDisabledRippleConfig() {
 // [END android_compose_userinteractions_disabled_ripple_configuration]
 
 // [START android_compose_userinteractions_my_ripple_configuration]
+@OptIn(ExperimentalMaterialApi::class)
 private val MyRippleConfiguration =
   RippleConfiguration(color = Color.Red, rippleAlpha = MyRippleAlpha)
 
 // [START_EXCLUDE]
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableMyRippleConfig() {
 // [END_EXCLUDE]
