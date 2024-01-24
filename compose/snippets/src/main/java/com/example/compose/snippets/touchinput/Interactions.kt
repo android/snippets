@@ -416,7 +416,7 @@ fun ScaleButtonExample() {
 // [END android_compose_interactions_scale_button_example]
 }
 
-// [END android_compose_interactions_neon_node]
+// [START android_compose_interactions_neon_node]
 private class NeonNode(
   private val shape: Shape,
   private val borderWidth: Dp,
