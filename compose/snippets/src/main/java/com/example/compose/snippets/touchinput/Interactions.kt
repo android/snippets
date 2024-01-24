@@ -629,7 +629,7 @@ private class NeonNode(
 // [END android_compose_interactions_neon_node]
 
 // [START android_compose_interactions_neon_indication]
-class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : IndicationNodeFactory {
+data class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : IndicationNodeFactory {
 
     override fun create(interactionSource: InteractionSource): DelegatableNode {
         return NeonNode(
@@ -638,24 +638,6 @@ class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : In
             borderWidth * 2,
             interactionSource
         )
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as NeonIndication
-
-        if (shape != other.shape) return false
-        if (borderWidth != other.borderWidth) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = shape.hashCode()
-        result = 31 * result + borderWidth.hashCode()
-        return result
     }
 }
 // [END android_compose_interactions_neon_indication]
