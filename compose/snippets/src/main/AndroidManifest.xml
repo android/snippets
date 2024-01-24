@@ -31,6 +31,8 @@
         <activity
             android:name=".SnippetsActivity"
             android:exported="true"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
             android:theme="@style/Theme.Snippets">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
