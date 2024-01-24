@@ -68,8 +68,8 @@ const val REQUEST_PAUSE = 6
 // [END android_broadcast_receiver_constants]
 
 // TODO: update this snippet
-//@Composable
-//fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
+// @Composable
+// fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
 //    // [START android_pip_pre12_listener]
 //    // [START region_tag_10]
 //    val currentShouldEnterPipMode = true
@@ -95,7 +95,7 @@ const val REQUEST_PAUSE = 6
 //        }
 //    }
 //    // [END android_pip_pre12_listener]
-//}
+// }
 
 @Composable
 fun VideoPlayer(
@@ -129,8 +129,7 @@ internal fun Context.findActivity(): ComponentActivity {
 // [END android_find_activity]
 
 @Composable
-fun VideoPlayerScreen(
-) {
+fun VideoPlayerScreen() {
     // [START android_pip_button_click]
     val context = LocalContext.current
     Button(onClick = {
@@ -149,7 +148,7 @@ fun VideoPlayerScreen(
 // [START android_is_in_pip_mode]
 @Composable
 fun isInPipMode(): Boolean {
-    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val activity = LocalContext.current.findActivity()
         var pipMode by remember { mutableStateOf(activity.isInPictureInPictureMode) }
         DisposableEffect(activity) {
@@ -161,7 +160,6 @@ fun isInPipMode(): Boolean {
             )
             onDispose { activity.removeOnPictureInPictureModeChangedListener(observer) }
         }
-
 
         return pipMode
     } else {
@@ -253,7 +251,6 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
         // [END android_pip_pre12_should_enter_pip]
     }
 }
-
 
 @Composable
 fun VideoPlayer1(
@@ -372,13 +369,12 @@ fun listOfRemoteActions(isPlaying: Boolean, context: Context): List<RemoteAction
     return listOf()
 }
 
-
 @Composable
 fun VideoPlayer4(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 
-    ) {
+) {
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
