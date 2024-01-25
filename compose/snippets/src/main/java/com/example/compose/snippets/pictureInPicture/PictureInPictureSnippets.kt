@@ -67,8 +67,8 @@ const val REQUEST_PLAY = 5
 const val REQUEST_PAUSE = 6
 // [END android_broadcast_receiver_constants]
 
- @Composable
- fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
+@Composable
+fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
     // [START android_pip_pre12_listener]
     val currentShouldEnterPipMode = true
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
@@ -76,7 +76,7 @@ const val REQUEST_PAUSE = 6
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior : () -> Unit = {
+            val onUserLeaveBehavior: () -> Unit = {
                 context.findActivity()
                     .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
             }
@@ -91,7 +91,7 @@ const val REQUEST_PAUSE = 6
         }
     }
     // [END android_pip_pre12_listener]
- }
+}
 
 @Composable
 fun VideoPlayer(
@@ -233,7 +233,7 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit= {
+            val onUserLeaveBehavior: () -> Unit = {
                 if (currentShouldEnterPipMode) {
                     context.findActivity()
                         .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
@@ -242,10 +242,8 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
 
             // [END android_pip_pre12_should_enter_pip]
             onDispose {
-
             }
         }
-
     }
 }
 
