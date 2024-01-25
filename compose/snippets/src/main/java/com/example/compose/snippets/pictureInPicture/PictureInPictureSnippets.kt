@@ -67,35 +67,31 @@ const val REQUEST_PLAY = 5
 const val REQUEST_PAUSE = 6
 // [END android_broadcast_receiver_constants]
 
-// TODO: update this snippet
-// @Composable
-// fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
-//    // [START android_pip_pre12_listener]
-//    // [START region_tag_10]
-//    val currentShouldEnterPipMode = true
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-//        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
-//    ) {
-//        val context = LocalContext.current
-//        DisposableEffect(context) {
-//            val onUserLeaveBehavior = {
-//                //if (currentShouldEnterPipMode) {
-//                    context.findActivity()
-//                        .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
-//                //}
-//            }
-//            context.findActivity().addOnUserLeaveHintListener(
-//                onUserLeaveBehavior
-//            )
-//            onDispose {
-//                context.findActivity().removeOnUserLeaveHintListener(
-//                    onUserLeaveBehavior
-//                )
-//            }
-//        }
-//    }
-//    // [END android_pip_pre12_listener]
-// }
+ @Composable
+ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
+    // [START android_pip_pre12_listener]
+    val currentShouldEnterPipMode = true
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+    ) {
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            val onUserLeaveBehavior : () -> Unit = {
+                context.findActivity()
+                    .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+            }
+            context.findActivity().addOnUserLeaveHintListener(
+                onUserLeaveBehavior
+            )
+            onDispose {
+                context.findActivity().removeOnUserLeaveHintListener(
+                    onUserLeaveBehavior
+                )
+            }
+        }
+    }
+    // [END android_pip_pre12_listener]
+ }
 
 @Composable
 fun VideoPlayer(
@@ -237,18 +233,19 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior = {
+            val onUserLeaveBehavior: () -> Unit= {
                 if (currentShouldEnterPipMode) {
                     context.findActivity()
                         .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
                 }
             }
 
+            // [END android_pip_pre12_should_enter_pip]
             onDispose {
-                // This will be filled in later in the documentation
+
             }
         }
-        // [END android_pip_pre12_should_enter_pip]
+
     }
 }
 
