@@ -74,7 +74,7 @@ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior : () -> Unit = {
+            val onUserLeaveBehavior: () -> Unit = {
                 context.findActivity()
                     .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
             }
@@ -231,7 +231,7 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit= {
+            val onUserLeaveBehavior: () -> Unit = {
                 if (currentShouldEnterPipMode) {
                     context.findActivity()
                         .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
@@ -240,10 +240,8 @@ fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
 
             // [END android_compose_pip_pre12_should_enter_pip]
             onDispose {
-
             }
         }
-
     }
 }
 
@@ -369,7 +367,7 @@ fun VideoPlayer4(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 
-    ) {
+) {
     // [START android_compose_pip_add_remote_actions]
     val context = LocalContext.current
 
