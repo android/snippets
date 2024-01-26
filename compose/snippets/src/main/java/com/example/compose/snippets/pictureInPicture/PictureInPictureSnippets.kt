@@ -55,28 +55,26 @@ import androidx.media3.exoplayer.ExoPlayer
 
 var shouldEnterPipMode by mutableStateOf(false)
 
-// [START android_broadcast_receiver_constants]
-// Constants for broadcast receiver
+// [START android_compose_pip_broadcast_receiver_constants]
+// Constant for broadcast receiver
 const val ACTION_BROADCAST_CONTROL = "broadcast_control"
 
-// Intent extra for broadcast controls from Picture-in-Picture mode.
+// Intent extras for broadcast controls from Picture-in-Picture mode.
 const val EXTRA_CONTROL_TYPE = "control_type"
 const val EXTRA_CONTROL_PLAY = 1
 const val EXTRA_CONTROL_PAUSE = 2
-const val REQUEST_PLAY = 5
-const val REQUEST_PAUSE = 6
-// [END android_broadcast_receiver_constants]
+// [END android_compose_pip_broadcast_receiver_constants]
 
 @Composable
 fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
-    // [START android_pip_pre12_listener]
+    // [START android_compose_pip_pre12_listener]
     val currentShouldEnterPipMode = true
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
         Build.VERSION.SDK_INT < Build.VERSION_CODES.S
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
+            val onUserLeaveBehavior : () -> Unit = {
                 context.findActivity()
                     .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
             }
@@ -90,14 +88,14 @@ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
             }
         }
     }
-    // [END android_pip_pre12_listener]
+    // [END android_compose_pip_pre12_listener]
 }
 
 @Composable
 fun VideoPlayer(
     modifier: Modifier = Modifier
 ) {
-    // [START android_pip_builder_auto_enter]
+    // [START android_compose_pip_builder_auto_enter]
     val context = LocalContext.current
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
@@ -110,10 +108,10 @@ fun VideoPlayer(
             context.findActivity().setPictureInPictureParams(builder.build())
         }
     }
-    // [END android_pip_builder_auto_enter]
+    // [END android_compose_pip_builder_auto_enter]
 }
 
-// [START android_find_activity]
+// [START android_compose_pip_find_activity]
 internal fun Context.findActivity(): ComponentActivity {
     var context = this
     while (context is ContextWrapper) {
@@ -122,11 +120,11 @@ internal fun Context.findActivity(): ComponentActivity {
     }
     throw IllegalStateException("Picture in picture should be called in the context of an Activity")
 }
-// [END android_find_activity]
+// [END android_compose_pip_find_activity]
 
 @Composable
 fun VideoPlayerScreen() {
-    // [START android_pip_button_click]
+    // [START android_compose_pip_button_click]
     val context = LocalContext.current
     Button(onClick = {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -138,10 +136,10 @@ fun VideoPlayerScreen() {
     }) {
         Text(text = "Enter PiP mode!")
     }
-    // [END android_pip_button_click]
+    // [END android_compose_pip_button_click]
 }
 
-// [START android_is_in_pip_mode]
+// [START android_compose_pip_is_in_pip_mode]
 @Composable
 fun isInPipMode(): Boolean {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -162,13 +160,13 @@ fun isInPipMode(): Boolean {
         return false
     }
 }
-// [END android_is_in_pip_mode]
+// [END android_compose_pip_is_in_pip_mode]
 
 @Composable
 fun VideoPlayerScreen(
     modifier: Modifier = Modifier,
 ) {
-    // [START android_pip_ui_toggle]
+    // [START android_compose_pip_ui_toggle]
     val inPipMode = isInPipMode()
 
     Column(modifier = modifier) {
@@ -180,34 +178,34 @@ fun VideoPlayerScreen(
         }
         VideoPlayer()
     }
-    // [END android_pip_ui_toggle]
+    // [END android_compose_pip_ui_toggle]
 }
 
 fun initializePlayer(context: Context) {
     val player = ExoPlayer.Builder(context.applicationContext)
         .build().apply {}
 
-    // [START android_toggle_pip_on_if_video_is_playing]
+    // [START android_compose_pip_toggle_pip_on_if_video_is_playing]
     player.addListener(object : Player.Listener {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             shouldEnterPipMode = isPlaying
         }
     })
-    // [END android_toggle_pip_on_if_video_is_playing]
+    // [END android_compose_pip_toggle_pip_on_if_video_is_playing]
 }
 
-// [START android_release_player]
+// [START android_compose_pip_release_player]
 fun releasePlayer() {
     shouldEnterPipMode = false
 }
-// [END android_release_player]
+// [END android_compose_pip_release_player]
 
 @Composable
 fun VideoPlayer(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    // [START android_post_12_should_enter_pip]
+    // [START android_compose_pip_post_12_should_enter_pip]
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -221,29 +219,31 @@ fun VideoPlayer(
             context.findActivity().setPictureInPictureParams(builder.build())
         }
     }
-    // [END android_post_12_should_enter_pip]
+    // [END android_compose_pip_post_12_should_enter_pip]
 }
 
 @Composable
 fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
-    // [START android_pip_pre12_should_enter_pip]
+    // [START android_compose_pip_pre12_should_enter_pip]
     val currentShouldEnterPipMode by rememberUpdatedState(newValue = shouldEnterPipMode)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
         Build.VERSION.SDK_INT < Build.VERSION_CODES.S
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
+            val onUserLeaveBehavior: () -> Unit= {
                 if (currentShouldEnterPipMode) {
                     context.findActivity()
                         .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
                 }
             }
 
-            // [END android_pip_pre12_should_enter_pip]
+            // [END android_compose_pip_pre12_should_enter_pip]
             onDispose {
+
             }
         }
+
     }
 }
 
@@ -252,7 +252,7 @@ fun VideoPlayer1(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    // [START android_pip_set_source_rect]
+    // [START android_compose_pip_set_source_rect]
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -269,7 +269,7 @@ fun VideoPlayer1(
             context.findActivity().setPictureInPictureParams(builder.build())
         }
     }
-    // [END android_pip_set_source_rect]
+    // [END android_compose_pip_set_source_rect]
 }
 
 @Composable
@@ -277,10 +277,10 @@ fun VideoPlayer2(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    // [START android_compose_pip_set_aspect_ratio]
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_pip_set_aspect_ratio]
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
 
@@ -297,11 +297,11 @@ fun VideoPlayer2(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
-        // [END android_pip_set_aspect_ratio]
     }
+    // [END android_compose_pip_set_aspect_ratio]
 }
 
-// [START android_build_remote_action]
+// [START android_compose_pip_build_remote_action]
 @RequiresApi(Build.VERSION_CODES.O)
 private fun buildRemoteAction(
     @DrawableRes iconResId: Int,
@@ -323,9 +323,9 @@ private fun buildRemoteAction(
         )
     )
 }
-// [END android_build_remote_action]
+// [END android_compose_pip_build_remote_action]
 
-// [START android_broadcast_receiver]
+// [START android_compose_pip_broadcast_receiver]
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BroadcastReceiver(player: Player?) {
@@ -357,7 +357,7 @@ fun BroadcastReceiver(player: Player?) {
         }
     }
 }
-// [END android_broadcast_receiver]
+// [END android_compose_pip_broadcast_receiver]
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun listOfRemoteActions(isPlaying: Boolean, context: Context): List<RemoteAction> {
@@ -369,11 +369,11 @@ fun VideoPlayer4(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 
-) {
+    ) {
+    // [START android_compose_pip_add_remote_actions]
     val context = LocalContext.current
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_pip_add_remote_actions]
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
             builder.setActions(
@@ -381,6 +381,6 @@ fun VideoPlayer4(
             )
             context.findActivity().setPictureInPictureParams(builder.build())
         }
-        // [END android_pip_add_remote_actions]
     }
+    // [END android_compose_pip_add_remote_actions]
 }
