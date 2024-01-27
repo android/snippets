@@ -1,0 +1,20 @@
+name: Sync main and latest
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-branches:
+    runs-on: ubuntu-latest
+    name: Syncing branches
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Opening pull request
+        id: pull
+        uses: tretuna/sync-branches@1.4.0
+        with:
+          GITHUB_TOKEN: ${{secrets.PAT}}
+          FROM_BRANCH: "main"
+          TO_BRANCH: "latest"
