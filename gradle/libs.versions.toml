@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.32.0"
 androidGradlePlugin = "8.1.2"
-androidx-activity-compose = "1.9.0-alpha01"
+androidx-activity-compose = "1.8.0-rc01"
 androidx-appcompat = "1.6.1"
 androidx-compose-bom = "2023.10.01"
 androidx-constraintlayout = "2.1.4"

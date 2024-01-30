@@ -39,7 +39,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toAndroidRectF
@@ -66,33 +65,7 @@ const val EXTRA_CONTROL_PAUSE = 2
 // [END android_compose_pip_broadcast_receiver_constants]
 
 @Composable
-fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
-    // [START android_compose_pip_pre12_listener]
-    val currentShouldEnterPipMode = true
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
-    ) {
-        val context = LocalContext.current
-        DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
-                context.findActivity()
-                    .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
-            }
-            context.findActivity().addOnUserLeaveHintListener(
-                onUserLeaveBehavior
-            )
-            onDispose {
-                context.findActivity().removeOnUserLeaveHintListener(
-                    onUserLeaveBehavior
-                )
-            }
-        }
-    }
-    // [END android_compose_pip_pre12_listener]
-}
-
-@Composable
-fun VideoPlayer(
+fun PiPBuilderSetAutoEnterEnabled(
     modifier: Modifier = Modifier
 ) {
     // [START android_compose_pip_builder_auto_enter]
@@ -101,7 +74,6 @@ fun VideoPlayer(
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
 
-            // Add autoEnterEnabled for versions S and up
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 builder.setAutoEnterEnabled(true)
             }
@@ -123,7 +95,7 @@ internal fun Context.findActivity(): ComponentActivity {
 // [END android_compose_pip_find_activity]
 
 @Composable
-fun VideoPlayerScreen() {
+fun EnterPiPThroughButton() {
     // [START android_compose_pip_button_click]
     val context = LocalContext.current
     Button(onClick = {
@@ -163,7 +135,12 @@ fun isInPipMode(): Boolean {
 // [END android_compose_pip_is_in_pip_mode]
 
 @Composable
-fun VideoPlayerScreen(
+fun VideoPlayer() {
+
+}
+
+@Composable
+fun ToggleUIBasedOnPiP(
     modifier: Modifier = Modifier,
 ) {
     // [START android_compose_pip_ui_toggle]
@@ -201,7 +178,7 @@ fun releasePlayer() {
 // [END android_compose_pip_release_player]
 
 @Composable
-fun VideoPlayer(
+fun PiPBuilderSetAutoEnterEnabledUsingState(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -223,30 +200,7 @@ fun VideoPlayer(
 }
 
 @Composable
-fun PipListenerPreAPI12_1(shouldEnterPipMode: Boolean) {
-    // [START android_compose_pip_pre12_should_enter_pip]
-    val currentShouldEnterPipMode by rememberUpdatedState(newValue = shouldEnterPipMode)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
-    ) {
-        val context = LocalContext.current
-        DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
-                if (currentShouldEnterPipMode) {
-                    context.findActivity()
-                        .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
-                }
-            }
-
-            // [END android_compose_pip_pre12_should_enter_pip]
-            onDispose {
-            }
-        }
-    }
-}
-
-@Composable
-fun VideoPlayer1(
+fun PiPBuilderSetSourceRect(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -271,7 +225,7 @@ fun VideoPlayer1(
 }
 
 @Composable
-fun VideoPlayer2(
+fun PiPBuilderSetAspectRatio(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -326,7 +280,7 @@ private fun buildRemoteAction(
 // [START android_compose_pip_broadcast_receiver]
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BroadcastReceiver(player: Player?) {
+fun PlayerBroadcastReceiver(player: Player?) {
     if (isInPipMode() && player != null) {
         val context = LocalContext.current
 
@@ -358,12 +312,12 @@ fun BroadcastReceiver(player: Player?) {
 // [END android_compose_pip_broadcast_receiver]
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun listOfRemoteActions(isPlaying: Boolean, context: Context): List<RemoteAction> {
+fun listOfRemoteActions(): List<RemoteAction> {
     return listOf()
 }
 
 @Composable
-fun VideoPlayer4(
+fun PiPBuilderAddRemoteActions(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 
@@ -375,8 +329,20 @@ fun VideoPlayer4(
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
             builder.setActions(
-                listOfRemoteActions(shouldEnterPipMode, context)
+                listOfRemoteActions()
             )
+
+            if (shouldEnterPipMode) {
+                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+                builder.setSourceRectHint(sourceRect)
+                builder.setAspectRatio(
+                    Rational(sourceRect.width(), sourceRect.height())
+                )
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                builder.setAutoEnterEnabled(shouldEnterPipMode)
+            }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
     }
