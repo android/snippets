@@ -280,7 +280,7 @@ private fun buildRemoteAction(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlayerBroadcastReceiver(player: Player?) {
-    if(!isInPipMode() || player == null) {
+    if (!isInPipMode() || player == null) {
         // Broadcast receiver is only used if app is in PiP mode and player is non null
         return
     }
