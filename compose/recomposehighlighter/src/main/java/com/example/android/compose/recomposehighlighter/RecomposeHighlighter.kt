@@ -16,100 +16,143 @@
 
 package com.example.android.compose.recomposehighlighter
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.node.DrawModifierNode
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.invalidateDraw
+import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
-import kotlin.math.min
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.Objects
+import kotlin.math.min
 
 /**
  * A [Modifier] that draws a border around elements that are recomposing. The border increases in
  * size and interpolates from red to green as more recompositions occur before a timeout.
  */
 @Stable
-fun Modifier.recomposeHighlighter(): Modifier = this.then(recomposeModifier)
+fun Modifier.recomposeHighlighter(): Modifier = this.then(RecomposeHighlighterElement())
 
-// Use a single instance + @Stable to ensure that recompositions can enable skipping optimizations
-// Modifier.composed will still remember unique data per call site.
-private val recomposeModifier =
-    Modifier.composed(inspectorInfo = debugInspectorInfo { name = "recomposeHighlighter" }) {
-        // The total number of compositions that have occurred. We're not using a State<> here be
-        // able to read/write the value without invalidating (which would cause infinite
-        // recomposition).
-        val totalCompositions = remember { arrayOf(0L) }
-        totalCompositions[0]++
+class RecomposeHighlighterElement : ModifierNodeElement<RecomposeHighlighterModifier>() {
 
-        // The value of totalCompositions at the last timeout.
-        val totalCompositionsAtLastTimeout = remember { mutableStateOf(0L) }
+    override fun InspectorInfo.inspectableProperties() {
+        debugInspectorInfo { name = "recomposeHighlighter" }
+    }
 
-        // Start the timeout, and reset everytime there's a recomposition. (Using totalCompositions
-        // as the key is really just to cause the timer to restart every composition).
-        LaunchedEffect(totalCompositions[0]) {
-            delay(3000)
-            totalCompositionsAtLastTimeout.value = totalCompositions[0]
+    override fun create(): RecomposeHighlighterModifier = RecomposeHighlighterModifier()
+
+    override fun update(node: RecomposeHighlighterModifier) {
+        node.incrementCompositions()
+    }
+
+    // It's never equal, so that every recomposition triggers the update function.
+    override fun equals(other: Any?): Boolean = false
+
+    override fun hashCode(): Int = Objects.hash(this)
+}
+
+class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
+
+    private var timerJob: Job? = null
+
+    /**
+     * The total number of compositions that have occurred.
+     */
+    private var totalCompositions: Long = 0
+        set(value) {
+            if (field == value) return
+            restartTimer()
+            field = value
+            invalidateDraw()
         }
 
-        Modifier.drawWithCache {
-            onDrawWithContent {
-                // Draw actual content.
-                drawContent()
+    /**
+     * The value of totalCompositions at the last timeout.
+     */
+    private var totalCompositionsAtLastTimeout = 0L
 
-                // Below is to draw the highlight, if necessary. A lot of the logic is copied from
-                // Modifier.border
-                val numCompositionsSinceTimeout =
-                    totalCompositions[0] - totalCompositionsAtLastTimeout.value
+    fun incrementCompositions() {
+        totalCompositions++
+    }
 
-                val hasValidBorderParams = size.minDimension > 0f
-                if (!hasValidBorderParams || numCompositionsSinceTimeout <= 0) {
-                    return@onDrawWithContent
-                }
+    override fun onAttach() {
+        super.onAttach()
+        restartTimer()
+    }
 
-                val (color, strokeWidthPx) =
-                    when (numCompositionsSinceTimeout) {
-                        // We need at least one composition to draw, so draw the smallest border
-                        // color in blue.
-                        1L -> Color.Blue to 1f
-                        // 2 compositions is _probably_ okay.
-                        2L -> Color.Green to 2.dp.toPx()
-                        // 3 or more compositions before timeout may indicate an issue. lerp the
-                        // color from yellow to red, and continually increase the border size.
-                        else -> {
-                            lerp(
-                                Color.Yellow.copy(alpha = 0.8f),
-                                Color.Red.copy(alpha = 0.5f),
-                                min(1f, (numCompositionsSinceTimeout - 1).toFloat() / 100f)
-                            ) to numCompositionsSinceTimeout.toInt().dp.toPx()
-                        }
-                    }
+    /**
+     * Start the timeout, and reset everytime there's a recomposition.
+     */
+    private fun restartTimer() {
+        if (!isAttached) return
 
-                val halfStroke = strokeWidthPx / 2
-                val topLeft = Offset(halfStroke, halfStroke)
-                val borderSize = Size(size.width - strokeWidthPx, size.height - strokeWidthPx)
-
-                val fillArea = (strokeWidthPx * 2) > size.minDimension
-                val rectTopLeft = if (fillArea) Offset.Zero else topLeft
-                val size = if (fillArea) size else borderSize
-                val style = if (fillArea) Fill else Stroke(strokeWidthPx)
-
-                drawRect(
-                    brush = SolidColor(color),
-                    topLeft = rectTopLeft,
-                    size = size,
-                    style = style
-                )
-            }
+        timerJob?.cancel()
+        timerJob = coroutineScope.launch {
+            delay(3000)
+            totalCompositionsAtLastTimeout = totalCompositions
+            invalidateDraw()
         }
     }
+
+    override val shouldAutoInvalidate: Boolean = false
+
+    override fun ContentDrawScope.draw() {
+        // Draw actual content.
+        drawContent()
+
+        // Below is to draw the highlight, if necessary. A lot of the logic is copied from
+        // Modifier.border
+        val numCompositionsSinceTimeout = totalCompositions - totalCompositionsAtLastTimeout
+
+        val hasValidBorderParams = size.minDimension > 0f
+        if (!hasValidBorderParams || numCompositionsSinceTimeout <= 0) {
+            return
+        }
+
+        val (color, strokeWidthPx) =
+            when (numCompositionsSinceTimeout) {
+                // We need at least one composition to draw, so draw the smallest border
+                // color in blue.
+                1L -> Color.Blue to 1f
+                // 2 compositions is _probably_ okay.
+                2L -> Color.Green to 2.dp.toPx()
+                // 3 or more compositions before timeout may indicate an issue. lerp the
+                // color from yellow to red, and continually increase the border size.
+                else -> {
+                    lerp(
+                        Color.Yellow.copy(alpha = 0.8f),
+                        Color.Red.copy(alpha = 0.5f),
+                        min(1f, (numCompositionsSinceTimeout - 1).toFloat() / 100f),
+                    ) to numCompositionsSinceTimeout.toInt().dp.toPx()
+                }
+            }
+
+        val halfStroke = strokeWidthPx / 2
+        val topLeft = Offset(halfStroke, halfStroke)
+        val borderSize = Size(size.width - strokeWidthPx, size.height - strokeWidthPx)
+
+        val fillArea = (strokeWidthPx * 2) > size.minDimension
+        val rectTopLeft = if (fillArea) Offset.Zero else topLeft
+        val size = if (fillArea) size else borderSize
+        val style = if (fillArea) Fill else Stroke(strokeWidthPx)
+
+        drawRect(
+            brush = SolidColor(color),
+            topLeft = rectTopLeft,
+            size = size,
+            style = style,
+        )
+    }
+}
