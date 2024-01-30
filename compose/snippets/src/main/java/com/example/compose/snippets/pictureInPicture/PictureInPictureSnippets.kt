@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.pictureInPicture
 
-import android.app.PendingIntent
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
 import android.content.BroadcastReceiver
@@ -24,14 +23,11 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.Icon
 import android.os.Build
 import android.util.Log
 import android.util.Rational
 import androidx.activity.ComponentActivity
-import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
