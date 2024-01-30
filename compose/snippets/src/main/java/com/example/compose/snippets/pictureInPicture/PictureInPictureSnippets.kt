@@ -280,31 +280,33 @@ private fun buildRemoteAction(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlayerBroadcastReceiver(player: Player?) {
-    if (isInPipMode() && player != null) {
-        val context = LocalContext.current
+    if(!isInPipMode() || player == null) {
+        // Broadcast receiver is only used if app is in PiP mode and player is non null
+        return
+    }
+    val context = LocalContext.current
 
-        DisposableEffect(key1 = player) {
-            val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    if ((intent == null) || (intent.action != ACTION_BROADCAST_CONTROL)) {
-                        return
-                    }
+    DisposableEffect(key1 = player) {
+        val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if ((intent == null) || (intent.action != ACTION_BROADCAST_CONTROL)) {
+                    return
+                }
 
-                    when (intent.getIntExtra(EXTRA_CONTROL_TYPE, 0)) {
-                        EXTRA_CONTROL_PAUSE -> player.pause()
-                        EXTRA_CONTROL_PLAY -> player.play()
-                    }
+                when (intent.getIntExtra(EXTRA_CONTROL_TYPE, 0)) {
+                    EXTRA_CONTROL_PAUSE -> player.pause()
+                    EXTRA_CONTROL_PLAY -> player.play()
                 }
             }
-            ContextCompat.registerReceiver(
-                context,
-                broadcastReceiver,
-                IntentFilter(ACTION_BROADCAST_CONTROL),
-                ContextCompat.RECEIVER_NOT_EXPORTED
-            )
-            onDispose {
-                context.unregisterReceiver(broadcastReceiver)
-            }
+        }
+        ContextCompat.registerReceiver(
+            context,
+            broadcastReceiver,
+            IntentFilter(ACTION_BROADCAST_CONTROL),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        onDispose {
+            context.unregisterReceiver(broadcastReceiver)
         }
     }
 }
@@ -319,7 +321,6 @@ fun listOfRemoteActions(): List<RemoteAction> {
 fun PiPBuilderAddRemoteActions(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
-
 ) {
     // [START android_compose_pip_add_remote_actions]
     val context = LocalContext.current
