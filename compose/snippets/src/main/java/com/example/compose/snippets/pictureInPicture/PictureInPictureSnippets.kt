@@ -136,7 +136,6 @@ fun isInPipMode(): Boolean {
 
 @Composable
 fun VideoPlayer() {
-
 }
 
 @Composable
