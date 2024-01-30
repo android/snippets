@@ -20,6 +20,7 @@ import android.app.PictureInPictureParams
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -48,6 +49,8 @@ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
                 )
             }
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_pre12_listener]
 }
@@ -76,6 +79,8 @@ fun EnterPiPPre12(shouldEnterPipMode: Boolean) {
                 )
             }
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_pre12_should_enter_pip]
 }
