@@ -114,7 +114,7 @@ fun EnterPiPThroughButton() {
 
 // [START android_compose_pip_is_in_pip_mode]
 @Composable
-fun isInPipMode(): Boolean {
+fun rememberIsInPipMode(): Boolean {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val activity = LocalContext.current.findActivity()
         var pipMode by remember { mutableStateOf(activity.isInPictureInPictureMode) }
@@ -143,7 +143,7 @@ fun ToggleUIBasedOnPiP(
     modifier: Modifier = Modifier,
 ) {
     // [START android_compose_pip_ui_toggle]
-    val inPipMode = isInPipMode()
+    val inPipMode = rememberIsInPipMode()
 
     Column(modifier = modifier) {
         // This text will only show up when the app is in PiP mode
@@ -262,7 +262,8 @@ fun PiPBuilderSetAspectRatio(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlayerBroadcastReceiver(player: Player?) {
-    if (!isInPipMode() || player == null) {
+    val isInPipMode = rememberIsInPipMode()
+    if (!isInPipMode || player == null) {
         // Broadcast receiver is only used if app is in PiP mode and player is non null
         return
     }
