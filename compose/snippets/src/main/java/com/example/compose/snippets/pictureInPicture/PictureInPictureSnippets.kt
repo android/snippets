@@ -26,6 +26,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.util.Log
 import android.util.Rational
 import androidx.activity.ComponentActivity
 import androidx.annotation.DrawableRes
@@ -79,6 +80,8 @@ fun PiPBuilderSetAutoEnterEnabled(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_builder_auto_enter]
 }
@@ -104,6 +107,8 @@ fun EnterPiPThroughButton() {
                 // the parameters have been set by previous calls
                 PictureInPictureParams.Builder().build()
             )
+        } else {
+            Log.i("PiP info", "API does not support PiP")
         }
     }) {
         Text(text = "Enter PiP mode!")
@@ -126,7 +131,6 @@ fun isInPipMode(): Boolean {
             )
             onDispose { activity.removeOnPictureInPictureModeChangedListener(observer) }
         }
-
         return pipMode
     } else {
         return false
@@ -194,6 +198,8 @@ fun PiPBuilderSetAutoEnterEnabledUsingState(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_post_12_should_enter_pip]
 }
@@ -219,6 +225,8 @@ fun PiPBuilderSetSourceRect(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_set_source_rect]
 }
@@ -248,33 +256,11 @@ fun PiPBuilderSetAspectRatio(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_set_aspect_ratio]
 }
-
-// [START android_compose_pip_build_remote_action]
-@RequiresApi(Build.VERSION_CODES.O)
-private fun buildRemoteAction(
-    @DrawableRes iconResId: Int,
-    @StringRes titleResId: Int,
-    requestCode: Int,
-    controlType: Int,
-    context: Context
-): RemoteAction {
-    return RemoteAction(
-        Icon.createWithResource(context, iconResId),
-        context.getString(titleResId),
-        context.getString(titleResId),
-        PendingIntent.getBroadcast(
-            context,
-            requestCode,
-            Intent(ACTION_BROADCAST_CONTROL)
-                .putExtra(EXTRA_CONTROL_TYPE, controlType),
-            PendingIntent.FLAG_IMMUTABLE
-        )
-    )
-}
-// [END android_compose_pip_build_remote_action]
 
 // [START android_compose_pip_broadcast_receiver]
 @RequiresApi(Build.VERSION_CODES.O)
@@ -345,6 +331,8 @@ fun PiPBuilderAddRemoteActions(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
     }
     // [END android_compose_pip_add_remote_actions]
 }
