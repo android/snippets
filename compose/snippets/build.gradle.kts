@@ -127,6 +127,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer)
+
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
