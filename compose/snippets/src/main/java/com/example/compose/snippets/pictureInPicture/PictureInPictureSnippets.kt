@@ -77,8 +77,8 @@ fun PiPBuilderSetAutoEnterEnabled(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
-        // [END android_compose_pip_builder_auto_enter]
         VideoPlayer(pipModifier)
+        // [END android_compose_pip_builder_auto_enter]
     } else {
         Log.i(PIP_TAG, "API does not support PiP")
     }
@@ -102,7 +102,6 @@ fun EnterPiPThroughButton() {
     Button(onClick = {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.findActivity().enterPictureInPictureMode(
-                // the parameters have been set by previous calls
                 PictureInPictureParams.Builder().build()
             )
         } else {
@@ -339,6 +338,7 @@ fun PiPBuilderAddRemoteActions(
             }
             context.findActivity().setPictureInPictureParams(builder.build())
         }
+        VideoPlayer(modifier = pipModifier)
         // [END android_compose_pip_add_remote_actions]
     } else {
         Log.i(PIP_TAG, "API does not support PiP")
