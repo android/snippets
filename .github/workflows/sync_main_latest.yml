@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - chris/sync_main_to_latest
 
 jobs:
   sync-branches:
