@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
@@ -62,10 +63,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import kotlinx.coroutines.launch
 
-@SuppressLint("ModifierFactoryUnreferencedReceiver") // graphics layer does the reference
-// [START android_compose_custom_modifiers_1]
-fun Modifier.clip(shape: Shape) = graphicsLayer(shape = shape, clip = true)
-// [END android_compose_custom_modifiers_1]
+private object ClipModifierExample {
+    @SuppressLint("ModifierFactoryUnreferencedReceiver") // graphics layer does the reference
+    // [START android_compose_custom_modifiers_1]
+    fun Modifier.clip(shape: Shape) = graphicsLayer(shape = shape, clip = true)
+    // [END android_compose_custom_modifiers_1]
+}
 
 // [START android_compose_custom_modifiers_2]
 fun Modifier.myBackground(color: Color) = padding(16.dp)
