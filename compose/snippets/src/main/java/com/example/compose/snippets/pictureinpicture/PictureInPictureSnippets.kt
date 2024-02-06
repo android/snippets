@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.pictureInPicture
+package com.example.compose.snippets.pictureinpicture
 
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
@@ -150,7 +150,7 @@ fun ToggleUIBasedOnPiP(
     val inPipMode = rememberIsInPipMode()
 
     Column(modifier = modifier) {
-        // This text will only show up when the app is in PiP mode
+        // This text will only show up when the app is not in PiP mode
         if (!inPipMode) {
             Text(
                 text = "Picture in Picture",
