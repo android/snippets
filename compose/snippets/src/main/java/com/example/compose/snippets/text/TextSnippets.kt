@@ -623,39 +623,41 @@ private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
 
 private const val SAMPLE_LONG_TEXT =
     "Jetpack Compose is Android’s modern toolkit for building native UI. " +
-            "It simplifies and accelerates UI development on Android bringing your apps " +
-            "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
-            "It makes building Android UI faster and easier."
+        "It simplifies and accelerates UI development on Android bringing your apps " +
+        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+        "It makes building Android UI faster and easier."
 @Composable
 @Preview
 fun LineBreakSample() {
     // [START android_compose_text_line_break]
-    TextSample(samples = mapOf(
-        "Simple" to {
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(130.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default.copy(
-                    lineBreak = LineBreak.Simple
+    TextSample(
+        samples = mapOf(
+            "Simple" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Simple
+                    )
                 )
-            )
-        },
-        "Paragraph" to {
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(130.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default.copy(
-                    lineBreak = LineBreak.Paragraph
+            },
+            "Paragraph" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph
+                    )
                 )
-            )
-        }
-    ))
+            }
+        )
+    )
     // [END android_compose_text_line_break]
 }
 
@@ -663,32 +665,34 @@ fun LineBreakSample() {
 @Composable
 fun SmallScreenTextSnippet() {
     // [START android_compose_text_paragraph]
-    TextSample(samples = mapOf(
-        "Balanced" to {
-            val smallScreenAdaptedParagraph =
-                LineBreak.Paragraph.copy(strategy = LineBreak.Strategy.Balanced)
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(200.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default.copy(
-                    lineBreak = smallScreenAdaptedParagraph
+    TextSample(
+        samples = mapOf(
+            "Balanced" to {
+                val smallScreenAdaptedParagraph =
+                    LineBreak.Paragraph.copy(strategy = LineBreak.Strategy.Balanced)
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(200.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = smallScreenAdaptedParagraph
+                    )
                 )
-            )
-        },
-        "Default" to {
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(200.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default
-            )
-        }
-    ))
+            },
+            "Default" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(200.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default
+                )
+            }
+        )
+    )
     // [END android_compose_text_paragraph]
 }
 
@@ -717,34 +721,36 @@ private object CJKTextSnippet {
 @Composable
 fun HyphenateTextSnippet() {
     // [START android_compose_text_hyphen]
-    TextSample(samples = mapOf(
-        "Hyphens - None" to {
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(130.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default.copy(
-                    lineBreak = LineBreak.Paragraph,
-                    hyphens = Hyphens.None
+    TextSample(
+        samples = mapOf(
+            "Hyphens - None" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph,
+                        hyphens = Hyphens.None
+                    )
                 )
-            )
-        },
-        "Hyphens - Auto" to {
-            Text(
-                text = SAMPLE_LONG_TEXT,
-                modifier = Modifier
-                    .width(130.dp)
-                    .border(BorderStroke(1.dp, Color.Gray)),
-                fontSize = 14.sp,
-                style = TextStyle.Default.copy(
-                    lineBreak = LineBreak.Paragraph,
-                    hyphens = Hyphens.Auto
+            },
+            "Hyphens - Auto" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph,
+                        hyphens = Hyphens.Auto
+                    )
                 )
-            )
-        }
-    ))
+            }
+        )
+    )
     // [START android_compose_text_hyphen]
 }
 
@@ -755,7 +761,8 @@ fun HyphenateTextSnippet() {
 fun BasicMarqueeSample() {
     // Marquee only animates when the content doesn't fit in the max width.
     Column(Modifier.width(400.dp)) {
-        Text("Learn about why it's great to use Jetpack Compose",
+        Text(
+            "Learn about why it's great to use Jetpack Compose",
             modifier = Modifier.basicMarquee(),
             fontSize = 50.sp
         )
