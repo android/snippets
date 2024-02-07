@@ -27,13 +27,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
@@ -595,99 +591,111 @@ private object TextEffectiveStateManagement2 {
     // [END android_compose_text_state_management]
 }
 
-private const val SAMPLE_LONG_TEXT =
-    "Jetpack Compose is Android’s modern toolkit for building native UI. " +
-        "It simplifies and accelerates UI development on Android bringing your apps " +
-        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
-        "It makes building Android UI faster and easier."
 @Composable
-@Preview
-fun LineBreakSample() {
-    MaterialTheme {
-        Box(
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .width(600.dp)) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Text(
-                    text = SAMPLE_LONG_TEXT,
-                    modifier = Modifier.width(130.dp),
-                    fontSize = 14.sp,
-                    style = TextStyle.Default.copy(
-                        lineBreak = LineBreak.Simple
-                    )
-                )
-                Text(
-                    text = SAMPLE_LONG_TEXT,
-                    modifier = Modifier.width(130.dp),
-                    fontSize = 14.sp,
-                    style = TextStyle.Default.copy(
-                        lineBreak = LineBreak.Paragraph
-                    )
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun SmallScreenTextSnippet() {
+private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
     MaterialTheme {
         Box(
             Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .fillMaxWidth()
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(10.dp)) {
-                Row(Modifier.fillMaxWidth()) {
-                    val smallScreenAdaptedParagraph =
-                        LineBreak.Paragraph.copy(strategy = LineBreak.Strategy.Balanced)
-                    Text(
-                        text = SAMPLE_LONG_TEXT,
-                        modifier = Modifier
-                            .width(200.dp)
-                            .border(BorderStroke(1.dp, Color.Gray)),
-                        fontSize = 14.sp,
-                        style = TextStyle.Default.copy(
-                            lineBreak = smallScreenAdaptedParagraph
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(10.dp)
+            ) {
+                samples.forEach { (title, content) ->
+                    Row(Modifier.fillMaxWidth()) {
+                        content()
+                        Text(
+                            text = title,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
                         )
-                    )
-                    Text(
-                        text = "Balanced",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically)
-                    )
-                }
-                Row(Modifier.fillMaxWidth()) {
-                    Text(
-                        text = SAMPLE_LONG_TEXT,
-                        modifier = Modifier
-                            .width(200.dp)
-                            .border(BorderStroke(1.dp, Color.Gray)),
-                        fontSize = 14.sp,
-                        style = TextStyle.Default
-                    )
-                    Text(
-                        text = "Default",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically)
-                    )
+                    }
                 }
             }
         }
     }
 }
 
+private const val SAMPLE_LONG_TEXT =
+    "Jetpack Compose is Android’s modern toolkit for building native UI. " +
+            "It simplifies and accelerates UI development on Android bringing your apps " +
+            "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+            "It makes building Android UI faster and easier."
+@Composable
+@Preview
+fun LineBreakSample() {
+    // [START android_compose_text_line_break]
+    TextSample(samples = mapOf(
+        "Simple" to {
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(130.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default.copy(
+                    lineBreak = LineBreak.Simple
+                )
+            )
+        },
+        "Paragraph" to {
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(130.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default.copy(
+                    lineBreak = LineBreak.Paragraph
+                )
+            )
+        }
+    ))
+    // [END android_compose_text_line_break]
+}
+
+@Preview
+@Composable
+fun SmallScreenTextSnippet() {
+    // [START android_compose_text_paragraph]
+    TextSample(samples = mapOf(
+        "Balanced" to {
+            val smallScreenAdaptedParagraph =
+                LineBreak.Paragraph.copy(strategy = LineBreak.Strategy.Balanced)
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(200.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default.copy(
+                    lineBreak = smallScreenAdaptedParagraph
+                )
+            )
+        },
+        "Default" to {
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(200.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default
+            )
+        }
+    ))
+    // [END android_compose_text_paragraph]
+}
+
 private object CJKTextSnippet {
     @Composable
     fun CJKSample() {
+        // [START android_compose_text_cjk]
         val customTitleLineBreak = LineBreak(
             strategy = LineBreak.Strategy.HighQuality,
             strictness = LineBreak.Strictness.Strict,
@@ -701,80 +709,62 @@ private object CJKTextSnippet {
                 lineBreak = customTitleLineBreak
             )
         )
+        // [START android_compose_text_cjk]
     }
 }
 
 @Preview
 @Composable
 fun HyphenateTextSnippet() {
-    MaterialTheme {
-        Box(
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxWidth()
-        ) {
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(10.dp)) {
-                Row(Modifier.fillMaxWidth()) {
-                    Text(
-                        text = SAMPLE_LONG_TEXT,
-                        modifier = Modifier
-                            .width(130.dp)
-                            .border(BorderStroke(1.dp, Color.Gray)),
-                        fontSize = 14.sp,
-                        style = TextStyle.Default.copy(
-                            lineBreak = LineBreak.Paragraph,
-                            hyphens = Hyphens.None
-                        )
-                    )
-                    Text(
-                        text = "Hyphens - None",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically)
-                    )
-                }
-                Row(Modifier.fillMaxWidth()) {
-                    Text(
-                        text = SAMPLE_LONG_TEXT,
-                        modifier = Modifier
-                            .width(130.dp)
-                            .border(BorderStroke(1.dp, Color.Gray)),
-                        fontSize = 14.sp,
-                        style = TextStyle.Default.copy(
-                            lineBreak = LineBreak.Paragraph,
-                            hyphens = Hyphens.Auto
-                        )
-                    )
-                    Text(
-                        text = "Hyphens - Auto",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically)
-                    )
-                }
-            }
-        }
-    }
-}
-
-//object MarqueeSample {
-    @OptIn(ExperimentalFoundationApi::class)
-    @Preview(showBackground = true)
-    @Composable
-    fun BasicMarqueeSample() {
-        // Marquee only animates when the content doesn't fit in the max width.
-        Column(Modifier.width(400.dp)) {
-            Text("Learn about why it's great to use Jetpack Compose",
-                modifier = Modifier.basicMarquee(),
-                fontSize = 50.sp
+    // [START android_compose_text_hyphen]
+    TextSample(samples = mapOf(
+        "Hyphens - None" to {
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(130.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default.copy(
+                    lineBreak = LineBreak.Paragraph,
+                    hyphens = Hyphens.None
+                )
+            )
+        },
+        "Hyphens - Auto" to {
+            Text(
+                text = SAMPLE_LONG_TEXT,
+                modifier = Modifier
+                    .width(130.dp)
+                    .border(BorderStroke(1.dp, Color.Gray)),
+                fontSize = 14.sp,
+                style = TextStyle.Default.copy(
+                    lineBreak = LineBreak.Paragraph,
+                    hyphens = Hyphens.Auto
+                )
             )
         }
+    ))
+    // [START android_compose_text_hyphen]
+}
+
+@Preview(showBackground = true)
+// [START android_compose_text_marquee]
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun BasicMarqueeSample() {
+    // Marquee only animates when the content doesn't fit in the max width.
+    Column(Modifier.width(400.dp)) {
+        Text("Learn about why it's great to use Jetpack Compose",
+            modifier = Modifier.basicMarquee(),
+            fontSize = 50.sp
+        )
     }
-//}
+}
+// [END android_compose_text_marquee]
 
 // Using null just sets the font family to default, which is easier than supplying
-// the actual font file in the snippets repo
+// the actual font file in the snippets repo. This fixes a build warning.
 private val firaSansFamily = null
 
 val LightBlue = Color(0xFF0066FF)
