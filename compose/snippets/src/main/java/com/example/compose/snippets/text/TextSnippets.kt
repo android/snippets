@@ -713,7 +713,7 @@ private object CJKTextSnippet {
                 lineBreak = customTitleLineBreak
             )
         )
-        // [START android_compose_text_cjk]
+        // [END android_compose_text_cjk]
     }
 }
 
@@ -751,7 +751,7 @@ fun HyphenateTextSnippet() {
             }
         )
     )
-    // [START android_compose_text_hyphen]
+    // [END android_compose_text_hyphen]
 }
 
 @Preview(showBackground = true)
