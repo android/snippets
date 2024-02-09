@@ -1,5 +1,6 @@
 name: Sync main and latest
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -10,11 +11,22 @@ jobs:
     name: Syncing branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Opening pull request
-        id: pull
-        uses: tretuna/sync-branches@1.4.0
+        uses: actions/checkout@v3
+
+      - name: Merge main into latest
+        run: git fetch && git switch latest && git merge origin/main
+
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
         with:
-          GITHUB_TOKEN: ${{secrets.PAT}}
-          FROM_BRANCH: "main"
-          TO_BRANCH: "latest"
+          token: ${{ secrets.PAT }}
+          commit-message: 🤖 Sync main to latest
+          committer: compose-devrel-github-bot <compose-devrel-github-bot@google.com>
+          author: compose-devrel-github-bot <compose-devrel-github-bot@google.com>
+          signoff: false
+          branch: bot-sync-main
+          delete-branch: true
+          title: '🤖 Sync main to latest'
+          body: Updated dependencies
+          reviewers: ${{ github.actor }}

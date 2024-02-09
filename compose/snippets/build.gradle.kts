@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.viewbinding)
     implementation(libs.androidx.paging.compose)
@@ -126,6 +127,9 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)
+
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
