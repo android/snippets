@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Merge main into latest
-        run: git fetch && git switch latest && git merge origin/main
+        run: git fetch && git switch latest && git merge -s ours origin/main --allow-unrelated-histories
 
       - name: Create pull request
         id: cpr
