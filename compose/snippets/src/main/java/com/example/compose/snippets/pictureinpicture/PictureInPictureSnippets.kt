@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 
+private const val PIP_TAG = "PiP info"
 @Composable
 fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
     // [START android_compose_pip_pre12_listener]
@@ -50,7 +51,7 @@ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
             }
         }
     } else {
-        Log.i("PiP info", "API does not support PiP")
+        Log.i(PIP_TAG, "API does not support PiP")
     }
     // [END android_compose_pip_pre12_listener]
 }
@@ -80,7 +81,7 @@ fun EnterPiPPre12(shouldEnterPipMode: Boolean) {
             }
         }
     } else {
-        Log.i("PiP info", "API does not support PiP")
+        Log.i(PIP_TAG, "API does not support PiP")
     }
     // [END android_compose_pip_pre12_should_enter_pip]
 }
