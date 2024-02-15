@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.adaptivelayouts
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -48,7 +49,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
-    val navigator = rememberListDetailPaneScaffoldNavigator()
+    val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
     // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
@@ -117,7 +118,11 @@ fun SampleListDetailPaneScaffoldFull() {
     }
 
     // Create the ListDetailPaneScaffoldState
-    val navigator = rememberListDetailPaneScaffoldNavigator()
+    val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
+    }
 
     ListDetailPaneScaffold(
         scaffoldState = navigator.scaffoldState,
