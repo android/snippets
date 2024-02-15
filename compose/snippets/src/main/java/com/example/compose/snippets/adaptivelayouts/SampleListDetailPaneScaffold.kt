@@ -50,6 +50,10 @@ import androidx.compose.ui.unit.sp
 fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
     val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
+    }
     // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
