@@ -11,7 +11,7 @@ jobs:
     name: Syncing branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Merge main into latest
         run: git fetch && git switch latest && git merge origin/main
