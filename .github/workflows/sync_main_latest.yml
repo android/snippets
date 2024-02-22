@@ -1,33 +1,32 @@
-name: Update Versions / Dependencies
-
+name: Sync main and latest
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  sync-branches:
     runs-on: ubuntu-latest
+    name: Syncing branches
     steps:
-      - uses: actions/checkout@v4
-      - name: set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu'
-          cache: gradle
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Update dependencies
-        run: ./gradlew versionCatalogUpdate
+      - name: Merge main into latest
+        run: git fetch && git switch latest && git merge origin/main
+
       - name: Create pull request
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.PAT }}
-          commit-message: 🤖 Update Dependencies
+          commit-message: 🤖 Sync main to latest
           committer: compose-devrel-github-bot <compose-devrel-github-bot@google.com>
           author: compose-devrel-github-bot <compose-devrel-github-bot@google.com>
           signoff: false
-          branch: bot-update-deps
+          branch: bot-sync-main
           delete-branch: true
-          title: '🤖 Update Dependencies'
+          title: '🤖 Sync main to latest'
           body: Updated dependencies
           reviewers: ${{ github.actor }}

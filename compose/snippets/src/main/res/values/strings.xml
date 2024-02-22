@@ -44,4 +44,8 @@
     <string name="hello_world">Hello world</string>
     <string name="feathertop_content_description">A view of sunrise from Mount Feathertop, Victoria.</string>
     <string name="glance_title">Example String for Glance</string>
+    <string name="edit">Edit</string>
+    <string name="add_entry">Add</string>
+    <string name="view_entry">View entry</string>
+    <string name="replated_articles">Related Articles</string>
 </resources>

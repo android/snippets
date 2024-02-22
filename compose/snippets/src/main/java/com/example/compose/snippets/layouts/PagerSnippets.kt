@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -361,38 +362,36 @@ fun PagerWithTabs() {
 @Preview
 @Composable
 fun PagerIndicator() {
-    Box {
+    Box(modifier = Modifier.fillMaxSize()) {
         // [START android_compose_pager_indicator]
-        val pageCount = 10
         val pagerState = rememberPagerState(pageCount = {
             4
         })
         HorizontalPager(
-            state = pagerState
+            state = pagerState,
+            modifier = Modifier.fillMaxSize()
         ) { page ->
             // Our page content
             Text(
                 text = "Page: $page",
-                modifier = Modifier
-                    .fillMaxSize()
             )
         }
         Row(
             Modifier
-                .height(50.dp)
+                .wrapContentHeight()
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter),
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            repeat(pageCount) { iteration ->
+            repeat(pagerState.pageCount) { iteration ->
                 val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
                         .clip(CircleShape)
                         .background(color)
-                        .size(20.dp)
-
+                        .size(16.dp)
                 )
             }
         }
