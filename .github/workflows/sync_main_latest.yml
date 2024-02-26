@@ -1,5 +1,6 @@
 name: Sync main and latest
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -16,7 +17,7 @@ jobs:
         run: git config user.email "compose-devrel-github-bot@google.com" && git config user.name "compose-devrel-github-bot"
 
       - name: Merge main into latest
-        run: git checkout latest && git merge main
+        run: git fetch && git switch latest && git merge -s ours origin/main --allow-unrelated-histories
 
       - name: Create pull request
         id: cpr
