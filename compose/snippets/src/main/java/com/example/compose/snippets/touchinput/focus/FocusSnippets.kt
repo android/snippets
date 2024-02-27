@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION_ERROR")
+
 package com.example.compose.snippets.touchinput.focus
 
 import androidx.compose.foundation.ExperimentalFoundationApi
