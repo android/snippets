@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set git config user
+        run: git config user.email "compose-devrel-github-bot@google.com" && git config user.name "compose-devrel-github-bot"
+
       - name: Merge main into latest
         run: git fetch && git switch latest && git merge -s ours origin/main --allow-unrelated-histories
 
