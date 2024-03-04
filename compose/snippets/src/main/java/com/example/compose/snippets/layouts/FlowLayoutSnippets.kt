@@ -16,12 +16,27 @@
 
 package com.example.compose.snippets.layouts
 
+import android.graphics.Color
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScopeInstance.matchParentSize
+import androidx.compose.foundation.layout.ContextualFlowColumn
+import androidx.compose.foundation.layout.ContextualFlowColumnOverflow
+import androidx.compose.foundation.layout.ContextualFlowColumnOverflowScope
+import androidx.compose.foundation.layout.ContextualFlowRow
+import androidx.compose.foundation.layout.ContextualFlowRowOverflow
+import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,17 +45,31 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.util.MaterialColors
+import org.w3c.dom.Text
+import kotlin.random.Random
 
 @Preview
 @OptIn(ExperimentalLayoutApi::class)
@@ -262,10 +291,10 @@ private fun FlowItems() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ChipItem(text: String) {
+fun ChipItem(text: String, onClick: ()  -> Unit = {}) {
     Chip(
         modifier = Modifier.padding(end = 4.dp),
-        onClick = {},
+        onClick = onClick,
         leadingIcon = {},
         border = BorderStroke(1.dp, Color(0xFF3B3A3C))
     ) {
@@ -426,9 +455,136 @@ fun FlowLayout_FractionalSizing() {
     ) {
         val itemModifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-        Box(modifier = itemModifier.height(200.dp).width(60.dp).background(Color.Red))
-        Box(modifier = itemModifier.height(200.dp).fillMaxWidth(0.7f).background(Color.Blue))
-        Box(modifier = itemModifier.height(200.dp).weight(1f).background(Color.Magenta))
+        Box(modifier = itemModifier
+            .height(200.dp)
+            .width(60.dp)
+            .background(Color.Red))
+        Box(modifier = itemModifier
+            .height(200.dp)
+            .fillMaxWidth(0.7f)
+            .background(Color.Blue))
+        Box(modifier = itemModifier
+            .height(200.dp)
+            .weight(1f)
+            .background(Color.Magenta))
     }
     // [END android_compose_flow_layout_fractional_sizing]
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun ContextualFlowLayoutExample() {
+    // [START android_compose_layouts_contextual_flow]
+    val totalCount = 40
+    var maxLines by remember {
+        mutableStateOf(2)
+    }
+
+    val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
+        val remainingItems = totalCount - scope.shownItemCount
+        ChipItem(if (remainingItems == 0) "Less" else "+$remainingItems", onClick = {
+            if (remainingItems == 0) {
+                maxLines = 2
+            } else {
+                maxLines += 5
+            }
+        })
+    }
+    ContextualFlowRow(
+        modifier = Modifier
+            .fillMaxWidth(1f)
+            .padding(8.dp)
+            .wrapContentHeight(align = Alignment.Top)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        maxLines = maxLines,
+        overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
+            minRowsToShowCollapse = 4,
+            expandIndicator = moreOrCollapseIndicator,
+            collapseIndicator = moreOrCollapseIndicator
+        ),
+        itemCount = totalCount
+    ) { index ->
+        ChipItem("Item $index")
+    }
+    // [END android_compose_layouts_contextual_flow]
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun ContextualFlowRow_ItemPosition() {
+ /*   Text("Ln: Line No\nPs: Position No. in Line", modifier = Modifier.padding(20.dp))
+    ContextualFlowRow(
+        modifier = Modifier
+            .fillMaxWidth(1f)
+            .height(210.dp)
+            .padding(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        maxItemsInEachRow = 4,
+        itemCount = 12
+    ) {
+        val width = Random.nextInt(80, 100).dp.coerceAtMost(maxWidthInLine)
+        val height = 50.dp.coerceAtMost(100.dp)
+        Box(
+            Modifier
+                .width(width)
+                .height(height)
+                .background(MatchingColors.getByIndex(indexInLine)!!.color)
+        ) {
+            Text(
+                text = "Ln: ${this@ContextualFlowRow.lineIndex}" +
+                        "\nPs: ${this@ContextualFlowRow.indexInLine}",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(3.dp)
+            )
+        }
+    }*/
+}
+
+enum class MatchingColors(val index: Int, val color: Color) {
+    ZERO(0, Color.Green),
+    ONE(1, Color.Yellow),
+    TWO(2, Color.Blue),
+    THREE(3, Color.Cyan);
+
+    companion object {
+        fun getByIndex(index: Int): MatchingColors? {
+            return values().firstOrNull { it.index == index }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun FillMaxColumnWidth() {
+    FlowColumn(
+        Modifier
+            .padding(20.dp)
+            .wrapContentHeight(align = Alignment.Top)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        maxItemsInEachColumn = 3,
+    ) {
+        repeat(9) {
+            Box(
+                Modifier
+                    .height(100.dp)
+                    .fillMaxColumnWidth(1f)
+                    .background(Color.Green)
+            ) {
+
+                Text(
+                    text = "hi $it",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(3.dp)
+                )
+            }
+        }
+    }
 }
