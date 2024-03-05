@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
@@ -66,9 +67,11 @@ import androidx.graphics.shapes.Cubic
 import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
+import androidx.graphics.shapes.toPath
 import com.example.compose.snippets.R
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 @Preview
@@ -348,22 +351,50 @@ private fun MorphOnClick() {
 }
 
 // [START android_compose_shapes_polygon_compose_shape]
+@JvmOverloads
+fun RoundedPolygon.toPath(path: Path = Path()): Path {
+    pathFromCubics(path, cubics)
+    return path
+}
+private fun pathFromCubics(
+    path: Path,
+    cubics: List<Cubic>
+) {
+    var first = true
+    path.rewind()
+    for (element in cubics) {
+        if (first) {
+            path.moveTo(element.anchor0X, element.anchor0Y)
+            first = false
+        }
+        path.cubicTo(
+            element.control0X, element.control0Y, element.control1X, element.control1Y,
+            element.anchor1X, element.anchor1Y
+        )
+    }
+    path.close()
+}
+fun RoundedPolygon.getBounds() = calculateBounds().let { Rect(it[0], it[1], it[2], it[3]) }
 class RoundedPolygonShape(
-    private val polygon: RoundedPolygon
+    private val polygon: RoundedPolygon,
+    private var matrix: Matrix? = null
 ) : Shape {
-    private val matrix = Matrix()
+    private val path = Path()
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val path = polygon.cubics.toPath()
-        // below assumes that you haven't changed the default radius of 1f, nor the centerX and centerY of 0f
-        // By default this stretches the path to the size of the container, if you don't want stretching, use the same size.width for both x and y.
-        matrix.scale(size.width / 2f, size.height / 2f)
-        matrix.translate(1f, 1f)
-        path.transform(matrix)
-
+        path.rewind()
+        polygon.toPath(path)
+        if (matrix == null) {
+            matrix = Matrix()
+            val bounds = polygon.getBounds()
+            val maxDimension = max(bounds.width, bounds.height)
+            matrix!!.scale(size.width / maxDimension, size.height / maxDimension)
+            matrix!!.translate(-bounds.left, -bounds.top)
+        }
+        path.transform(matrix!!)
         return Outline.Generic(path)
     }
 }
