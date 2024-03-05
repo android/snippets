@@ -377,7 +377,7 @@ private fun pathFromCubics(
 fun RoundedPolygon.getBounds() = calculateBounds().let { Rect(it[0], it[1], it[2], it[3]) }
 class RoundedPolygonShape(
     private val polygon: RoundedPolygon,
-    private var matrix: Matrix? = null
+    private var matrix: Matrix = Matrix()
 ) : Shape {
     private val path = Path()
     override fun createOutline(
@@ -387,14 +387,13 @@ class RoundedPolygonShape(
     ): Outline {
         path.rewind()
         polygon.toPath(path)
-        if (matrix == null) {
-            matrix = Matrix()
-            val bounds = polygon.getBounds()
-            val maxDimension = max(bounds.width, bounds.height)
-            matrix!!.scale(size.width / maxDimension, size.height / maxDimension)
-            matrix!!.translate(-bounds.left, -bounds.top)
-        }
-        path.transform(matrix!!)
+        matrix.reset()
+        val bounds = polygon.getBounds()
+        val maxDimension = max(bounds.width, bounds.height)
+        matrix.scale(size.width / maxDimension, size.height / maxDimension)
+        matrix.translate(-bounds.left, -bounds.top)
+
+        path.transform(matrix)
         return Outline.Generic(path)
     }
 }
