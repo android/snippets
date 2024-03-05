@@ -17,21 +17,11 @@
 package com.example.compose.snippets.layouts
 
 import android.graphics.Color
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScopeInstance.matchParentSize
-import androidx.compose.foundation.layout.ContextualFlowColumn
-import androidx.compose.foundation.layout.ContextualFlowColumnOverflow
-import androidx.compose.foundation.layout.ContextualFlowColumnOverflowScope
 import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
@@ -46,11 +36,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -63,13 +51,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.util.MaterialColors
 import org.w3c.dom.Text
-import kotlin.random.Random
 
 @Preview
 @OptIn(ExperimentalLayoutApi::class)
@@ -291,7 +277,7 @@ private fun FlowItems() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ChipItem(text: String, onClick: ()  -> Unit = {}) {
+fun ChipItem(text: String, onClick: () -> Unit = {}) {
     Chip(
         modifier = Modifier.padding(end = 4.dp),
         onClick = onClick,
@@ -455,18 +441,24 @@ fun FlowLayout_FractionalSizing() {
     ) {
         val itemModifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-        Box(modifier = itemModifier
-            .height(200.dp)
-            .width(60.dp)
-            .background(Color.Red))
-        Box(modifier = itemModifier
-            .height(200.dp)
-            .fillMaxWidth(0.7f)
-            .background(Color.Blue))
-        Box(modifier = itemModifier
-            .height(200.dp)
-            .weight(1f)
-            .background(Color.Magenta))
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .width(60.dp)
+                .background(Color.Red)
+        )
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .fillMaxWidth(0.7f)
+                .background(Color.Blue)
+        )
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .weight(1f)
+                .background(Color.Magenta)
+        )
     }
     // [END android_compose_flow_layout_fractional_sizing]
 }
