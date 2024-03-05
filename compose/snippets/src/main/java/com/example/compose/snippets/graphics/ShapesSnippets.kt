@@ -236,7 +236,6 @@ private fun MorphExampleAnimation() {
     // [END android_compose_graphics_polygon_morph_animation]
 }
 
-// [START android_compose_morph_to_path]
 /**
  * Transforms the morph at a given progress into a [Path].
  * It can optionally be scaled, using the origin (0,0) as pivot point.
@@ -258,11 +257,10 @@ fun Morph.toComposePath(progress: Float, scale: Float = 1f, path: Path = Path())
     path.close()
     return path
 }
-// [END android_compose_morph_to_path]
+
 /**
  * Function used to create a Path from a list of Cubics.
  */
-// [START android_compose_list_cubics_to_path]
 fun List<Cubic>.toPath(path: Path = Path(), scale: Float = 1f): Path {
     path.rewind()
     firstOrNull()?.let { first ->
@@ -278,7 +276,6 @@ fun List<Cubic>.toPath(path: Path = Path(), scale: Float = 1f): Path {
     path.close()
     return path
 }
-// [END android_compose_list_cubics_to_path]
 
 // [START android_compose_morph_clip_shape]
 class MorphPolygonShape(
