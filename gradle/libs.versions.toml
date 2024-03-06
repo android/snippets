@@ -1,9 +1,10 @@
 [versions]
 accompanist = "0.32.0"
 androidGradlePlugin = "8.2.2"
-androidx-activity-compose = "1.9.0-alpha02"
+androidx-activity-compose = "1.9.0-alpha03"
 androidx-appcompat = "1.6.1"
-androidx-compose-bom = "2024.01.00"
+androidx-compose-bom = "2024.02.01"
+androidx-compose-ui-test = "1.7.0-alpha03" # TODO: Remove once 1.7 is stable
 androidx-constraintlayout = "2.1.4"
 androidx-constraintlayout-compose = "1.0.1"
 androidx-coordinator-layout = "1.2.0"
@@ -13,11 +14,11 @@ androidx-fragment-ktx = "1.6.2"
 androidx-glance-appwidget = "1.0.0"
 androidx-lifecycle-compose = "2.7.0"
 androidx-lifecycle-runtime-compose = "2.7.0"
-androidx-navigation = "2.7.6"
+androidx-navigation = "2.7.7"
 androidx-paging = "3.2.1"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
-androidxHiltNavigationCompose = "1.1.0"
+androidxHiltNavigationCompose = "1.2.0"
 coil = "2.5.0"
 # @keep
 compileSdk = "34"
@@ -32,8 +33,9 @@ kotlin = "1.9.20"
 ksp = "1.8.0-1.0.9"
 maps-compose = "4.3.2"
 material = "1.11.0"
-material3-adaptive = "1.0.0-alpha05"
-material3-adaptive-navigation-suite = "1.0.0-alpha02"
+material3-adaptive = "1.0.0-alpha07"
+material3-adaptive-navigation-suite = "1.0.0-alpha04"
+media3 = "1.2.1"
 # @keep
 minSdk = "21"
 recyclerview = "1.3.2"
@@ -57,7 +59,9 @@ androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
-androidx-compose-material3-adaptive = { module = "androidx.compose.material3:material3-adaptive", version.ref = "material3-adaptive" }
+androidx-compose-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "material3-adaptive" }
+androidx-compose-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3-adaptive" }
+androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3-adaptive" }
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
 androidx-compose-materialWindow = { module = "androidx.compose.material3:material3-window-size-class" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
@@ -65,7 +69,7 @@ androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
+androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "androidx-compose-ui-test" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
@@ -80,11 +84,14 @@ androidx-emoji2-views = { module = "androidx.emoji2:emoji2-views", version.ref =
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance-appwidget" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance-appwidget" }
+androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.0-alpha05"
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
 androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
+androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }

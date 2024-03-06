@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.viewbinding)
     implementation(libs.androidx.paging.compose)
@@ -92,7 +93,8 @@ dependencies {
 
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive)
-    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.compose.material3.adaptive.layout)
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
     implementation(libs.androidx.compose.material)
 
     implementation(libs.androidx.compose.runtime)
@@ -126,6 +128,9 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)
+
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
