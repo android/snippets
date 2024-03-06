@@ -32,11 +32,11 @@ import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
-import java.util.Objects
-import kotlin.math.min
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Objects
+import kotlin.math.min
 
 /**
  * A [Modifier] that draws a border around elements that are recomposing. The border increases in
@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 @Stable
 fun Modifier.recomposeHighlighter(): Modifier = this.then(RecomposeHighlighterElement())
 
-class RecomposeHighlighterElement : ModifierNodeElement<RecomposeHighlighterModifier>() {
+private class RecomposeHighlighterElement : ModifierNodeElement<RecomposeHighlighterModifier>() {
 
     override fun InspectorInfo.inspectableProperties() {
         debugInspectorInfo { name = "recomposeHighlighter" }
@@ -63,7 +63,7 @@ class RecomposeHighlighterElement : ModifierNodeElement<RecomposeHighlighterModi
     override fun hashCode(): Int = Objects.hash(this)
 }
 
-class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
+private class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
 
     private var timerJob: Job? = null
 
@@ -78,11 +78,6 @@ class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
             invalidateDraw()
         }
 
-    /**
-     * The value of totalCompositions at the last timeout.
-     */
-    private var totalCompositionsAtLastTimeout = 0L
-
     fun incrementCompositions() {
         totalCompositions++
     }
@@ -90,6 +85,12 @@ class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
     override fun onAttach() {
         super.onAttach()
         restartTimer()
+    }
+
+    override val shouldAutoInvalidate: Boolean = false
+
+    override fun onDetach() {
+        timerJob?.cancel()
     }
 
     /**
@@ -101,28 +102,24 @@ class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
         timerJob?.cancel()
         timerJob = coroutineScope.launch {
             delay(3000)
-            totalCompositionsAtLastTimeout = totalCompositions
+            totalCompositions = 0
             invalidateDraw()
         }
     }
-
-    override val shouldAutoInvalidate: Boolean = false
 
     override fun ContentDrawScope.draw() {
         // Draw actual content.
         drawContent()
 
-        // Below is to draw the highlight, if necessary. A lot of the logic is copied from
-        // Modifier.border
-        val numCompositionsSinceTimeout = totalCompositions - totalCompositionsAtLastTimeout
+        // Below is to draw the highlight, if necessary. A lot of the logic is copied from Modifier.border
 
         val hasValidBorderParams = size.minDimension > 0f
-        if (!hasValidBorderParams || numCompositionsSinceTimeout <= 0) {
+        if (!hasValidBorderParams || totalCompositions <= 0) {
             return
         }
 
         val (color, strokeWidthPx) =
-            when (numCompositionsSinceTimeout) {
+            when (totalCompositions) {
                 // We need at least one composition to draw, so draw the smallest border
                 // color in blue.
                 1L -> Color.Blue to 1f
@@ -134,8 +131,8 @@ class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
                     lerp(
                         Color.Yellow.copy(alpha = 0.8f),
                         Color.Red.copy(alpha = 0.5f),
-                        min(1f, (numCompositionsSinceTimeout - 1).toFloat() / 100f),
-                    ) to numCompositionsSinceTimeout.toInt().dp.toPx()
+                        min(1f, (totalCompositions - 1).toFloat() / 100f),
+                    ) to totalCompositions.toInt().dp.toPx()
                 }
             }
 
