@@ -238,6 +238,49 @@ private fun MorphExampleAnimation() {
     // [END android_compose_graphics_polygon_morph_animation]
 }
 
+// [START android_compose_morph_to_path]
+/**
+ * Transforms the morph at a given progress into a [Path].
+ * It can optionally be scaled, using the origin (0,0) as pivot point.
+ */
+fun Morph.toComposePath(progress: Float, scale: Float = 1f, path: Path = Path()): Path {
+    var first = true
+    path.rewind()
+    forEachCubic(progress) { bezier ->
+        if (first) {
+            path.moveTo(bezier.anchor0X * scale, bezier.anchor0Y * scale)
+            first = false
+        }
+        path.cubicTo(
+            bezier.control0X * scale, bezier.control0Y * scale,
+            bezier.control1X * scale, bezier.control1Y * scale,
+            bezier.anchor1X * scale, bezier.anchor1Y * scale
+        )
+    }
+    path.close()
+    return path
+}
+// [END android_compose_morph_to_path]
+/**
+ * Function used to create a Path from a list of Cubics.
+ */
+// [START android_compose_list_cubics_to_path]
+fun List<Cubic>.toPath(path: Path = Path(), scale: Float = 1f): Path {
+    path.rewind()
+    firstOrNull()?.let { first ->
+        path.moveTo(first.anchor0X * scale, first.anchor0Y * scale)
+    }
+    for (bezier in this) {
+        path.cubicTo(
+            bezier.control0X * scale, bezier.control0Y * scale,
+            bezier.control1X * scale, bezier.control1Y * scale,
+            bezier.anchor1X * scale, bezier.anchor1Y * scale
+        )
+    }
+    path.close()
+    return path
+}
+// [END android_compose_list_cubics_to_path]
 
 // [START android_compose_morph_clip_shape]
 class MorphPolygonShape(
