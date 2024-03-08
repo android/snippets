@@ -64,7 +64,8 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
     ListDetailPaneScaffold(
-        scaffoldState = navigator.scaffoldState,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
         // [START_EXCLUDE]
         listPane = {},
         detailPane = {},
@@ -74,7 +75,8 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part04]
     ListDetailPaneScaffold(
-        scaffoldState = navigator.scaffoldState,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
         listPane = {
             AnimatedPane(Modifier) {
                 MyList(
@@ -95,7 +97,8 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part05]
     ListDetailPaneScaffold(
-        scaffoldState = navigator.scaffoldState,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
         listPane =
         // [START_EXCLUDE]
         {},
@@ -129,7 +132,8 @@ fun SampleListDetailPaneScaffoldFull() {
     }
 
     ListDetailPaneScaffold(
-        scaffoldState = navigator.scaffoldState,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
         listPane = {
             AnimatedPane(Modifier) {
                 MyList(
