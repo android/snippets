@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.layouts
 
-import android.graphics.Color
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,10 +28,12 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -41,7 +42,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.util.MaterialColors
-import org.w3c.dom.Text
 
 @Preview
 @OptIn(ExperimentalLayoutApi::class)
@@ -485,11 +485,12 @@ fun ContextualFlowLayoutExample() {
     }
     ContextualFlowRow(
         modifier = Modifier
+            .safeDrawingPadding()
             .fillMaxWidth(1f)
-            .padding(8.dp)
+            .padding(16.dp)
             .wrapContentHeight(align = Alignment.Top)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         maxLines = maxLines,
         overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
@@ -507,76 +508,48 @@ fun ContextualFlowLayoutExample() {
 @OptIn(ExperimentalLayoutApi::class)
 @Preview
 @Composable
-fun ContextualFlowRow_ItemPosition() {
- /*   Text("Ln: Line No\nPs: Position No. in Line", modifier = Modifier.padding(20.dp))
-    ContextualFlowRow(
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .height(210.dp)
-            .padding(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        maxItemsInEachRow = 4,
-        itemCount = 12
-    ) {
-        val width = Random.nextInt(80, 100).dp.coerceAtMost(maxWidthInLine)
-        val height = 50.dp.coerceAtMost(100.dp)
-        Box(
-            Modifier
-                .width(width)
-                .height(height)
-                .background(MatchingColors.getByIndex(indexInLine)!!.color)
-        ) {
-            Text(
-                text = "Ln: ${this@ContextualFlowRow.lineIndex}" +
-                        "\nPs: ${this@ContextualFlowRow.indexInLine}",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(3.dp)
-            )
-        }
-    }*/
-}
-
-enum class MatchingColors(val index: Int, val color: Color) {
-    ZERO(0, Color.Green),
-    ONE(1, Color.Yellow),
-    TWO(2, Color.Blue),
-    THREE(3, Color.Cyan);
-
-    companion object {
-        fun getByIndex(index: Int): MatchingColors? {
-            return values().firstOrNull { it.index == index }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Preview
-@Composable
 fun FillMaxColumnWidth() {
+    //[START android_compose_flow_layouts_fill_max_column_width]
     FlowColumn(
         Modifier
             .padding(20.dp)
-            .wrapContentHeight(align = Alignment.Top)
+            .fillMaxHeight()
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        maxItemsInEachColumn = 3,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        maxItemsInEachColumn = 5,
     ) {
-        repeat(9) {
+        repeat(listDesserts.size) {
             Box(
                 Modifier
-                    .height(100.dp)
-                    .fillMaxColumnWidth(1f)
-                    .background(Color.Green)
+                    .fillMaxColumnWidth()
+                    .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
+                    .padding(8.dp)
             ) {
 
                 Text(
-                    text = "hi $it",
+                    text = listDesserts[it],
                     fontSize = 18.sp,
                     modifier = Modifier.padding(3.dp)
                 )
             }
         }
     }
+    //[END android_compose_flow_layouts_fill_max_column_width]
 }
+private val listDesserts = listOf(
+    "Apple",
+    "Banana",
+    "Cupcake",
+    "Donut",
+    "Eclair",
+    "Froyo",
+    "Gingerbread",
+    "Honeycomb",
+    "Ice Cream Sandwich",
+    "Jellybean",
+    "KitKat",
+    "Lollipop",
+    "Marshmallow",
+    "Nougat",
+)
