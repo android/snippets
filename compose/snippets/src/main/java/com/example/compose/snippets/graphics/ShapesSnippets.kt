@@ -44,12 +44,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
@@ -66,9 +68,11 @@ import androidx.graphics.shapes.Cubic
 import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
+import androidx.graphics.shapes.toPath
 import com.example.compose.snippets.R
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.max
 import kotlin.math.sin
 
 @Preview
@@ -84,8 +88,7 @@ fun BasicShapeCanvas() {
                     centerX = size.width / 2,
                     centerY = size.height / 2
                 )
-                val roundedPolygonPath = roundedPolygon.cubics
-                    .toPath()
+                val roundedPolygonPath = roundedPolygon.toPath().asComposePath()
                 onDrawBehind {
                     drawPath(roundedPolygonPath, color = Color.Blue)
                 }
@@ -112,8 +115,7 @@ private fun RoundedShapeExample() {
                         smoothing = 1f
                     )
                 )
-                val roundedPolygonPath = roundedPolygon.cubics
-                    .toPath()
+                val roundedPolygonPath = roundedPolygon.toPath().asComposePath()
                 onDrawBehind {
                     drawPath(roundedPolygonPath, color = Color.Black)
                 }
@@ -140,8 +142,7 @@ private fun RoundedShapeSmoothnessExample() {
                         smoothing = 0.1f
                     )
                 )
-                val roundedPolygonPath = roundedPolygon.cubics
-                    .toPath()
+                val roundedPolygonPath = roundedPolygon.toPath().asComposePath()
                 onDrawBehind {
                     drawPath(roundedPolygonPath, color = Color.Black)
                 }
@@ -178,7 +179,7 @@ private fun MorphExample() {
 
                 val morph = Morph(start = triangle, end = square)
                 val morphPath = morph
-                    .toComposePath(progress = 0.5f)
+                    .toPath(progress = 0.5f).asComposePath()
 
                 onDrawBehind {
                     drawPath(morphPath, color = Color.Black)
@@ -225,7 +226,8 @@ private fun MorphExampleAnimation() {
 
                 val morph = Morph(start = triangle, end = square)
                 val morphPath = morph
-                    .toComposePath(progress = morphProgress.value)
+                    .toPath(progress = morphProgress.value)
+                    .asComposePath()
 
                 onDrawBehind {
                     drawPath(morphPath, color = Color.Black)
@@ -297,7 +299,7 @@ class MorphPolygonShape(
         matrix.scale(size.width / 2f, size.height / 2f)
         matrix.translate(1f, 1f)
 
-        val path = morph.toComposePath(progress = percentage)
+        val path = morph.toPath(progress = percentage).asComposePath()
         path.transform(matrix)
         return Outline.Generic(path)
     }
@@ -348,22 +350,26 @@ private fun MorphOnClick() {
 }
 
 // [START android_compose_shapes_polygon_compose_shape]
+fun RoundedPolygon.getBounds() = calculateBounds().let { Rect(it[0], it[1], it[2], it[3]) }
 class RoundedPolygonShape(
-    private val polygon: RoundedPolygon
+    private val polygon: RoundedPolygon,
+    private var matrix: Matrix = Matrix()
 ) : Shape {
-    private val matrix = Matrix()
+    private var path = Path()
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val path = polygon.cubics.toPath()
-        // below assumes that you haven't changed the default radius of 1f, nor the centerX and centerY of 0f
-        // By default this stretches the path to the size of the container, if you don't want stretching, use the same size.width for both x and y.
-        matrix.scale(size.width / 2f, size.height / 2f)
-        matrix.translate(1f, 1f)
-        path.transform(matrix)
+        path.rewind()
+        path = polygon.toPath().asComposePath()
+        matrix.reset()
+        val bounds = polygon.getBounds()
+        val maxDimension = max(bounds.width, bounds.height)
+        matrix.scale(size.width / maxDimension, size.height / maxDimension)
+        matrix.translate(-bounds.left, -bounds.top)
 
+        path.transform(matrix)
         return Outline.Generic(path)
     }
 }
@@ -452,7 +458,7 @@ class CustomRotatingMorphShape(
         matrix.translate(1f, 1f)
         matrix.rotateZ(rotation)
 
-        val path = morph.toComposePath(progress = percentage)
+        val path = morph.toPath(progress = percentage).asComposePath()
         path.transform(matrix)
 
         return Outline.Generic(path)
@@ -566,8 +572,7 @@ private fun CartesianPoints() {
     Box(
         modifier = Modifier
             .drawWithCache {
-                val roundedPolygonPath = polygon.cubics
-                    .toPath()
+                val roundedPolygonPath = polygon.toPath().asComposePath()
                 onDrawBehind {
                     scale(size.width * 0.5f, size.width * 0.5f) {
                         translate(size.width * 0.5f, size.height * 0.5f) {

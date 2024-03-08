@@ -3,7 +3,8 @@ accompanist = "0.32.0"
 androidGradlePlugin = "8.2.2"
 androidx-activity-compose = "1.9.0-alpha03"
 androidx-appcompat = "1.6.1"
-androidx-compose-bom = "2024.02.01"
+androidx-compose-bom = "2024.02.02"
+androidx-compose-ui-test = "1.7.0-alpha03" # TODO: Remove once 1.7 is stable
 androidx-constraintlayout = "2.1.4"
 androidx-constraintlayout-compose = "1.0.1"
 androidx-coordinator-layout = "1.2.0"
@@ -32,8 +33,8 @@ kotlin = "1.9.20"
 ksp = "1.8.0-1.0.9"
 maps-compose = "4.3.2"
 material = "1.11.0"
-material3-adaptive = "1.0.0-alpha07"
-material3-adaptive-navigation-suite = "1.0.0-alpha04"
+material3-adaptive = "1.0.0-alpha08"
+material3-adaptive-navigation-suite = "1.0.0-alpha05"
 media3 = "1.2.1"
 # @keep
 minSdk = "21"
@@ -68,7 +69,7 @@ androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
+androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "androidx-compose-ui-test" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
