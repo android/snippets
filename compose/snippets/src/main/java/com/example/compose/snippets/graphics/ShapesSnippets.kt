@@ -64,7 +64,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.plus
 import androidx.core.graphics.times
 import androidx.graphics.shapes.CornerRounding
-import androidx.graphics.shapes.Cubic
 import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
@@ -237,7 +236,6 @@ private fun MorphExampleAnimation() {
     )
     // [END android_compose_graphics_polygon_morph_animation]
 }
-
 
 // [START android_compose_morph_clip_shape]
 class MorphPolygonShape(
