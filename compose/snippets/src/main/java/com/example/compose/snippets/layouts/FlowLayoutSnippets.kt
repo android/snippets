@@ -509,7 +509,7 @@ fun ContextualFlowLayoutExample() {
 @Preview
 @Composable
 fun FillMaxColumnWidth() {
-    //[START android_compose_flow_layouts_fill_max_column_width]
+    // [START android_compose_flow_layouts_fill_max_column_width]
     FlowColumn(
         Modifier
             .padding(20.dp)
@@ -535,7 +535,7 @@ fun FillMaxColumnWidth() {
             }
         }
     }
-    //[END android_compose_flow_layouts_fill_max_column_width]
+    // [END android_compose_flow_layouts_fill_max_column_width]
 }
 private val listDesserts = listOf(
     "Apple",
