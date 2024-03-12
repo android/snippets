@@ -73,7 +73,9 @@ fun GreetingScreen(
 }
 
 class GreetingViewModel(private val userId: String) : ViewModel() {
-    private val _message = MutableLiveData("Hi $userId")
+    private val _message = MutableLiveData(
+           "Hi $userId"
+      )
     val message: LiveData<String> = _message
 }
 
