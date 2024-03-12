@@ -21,25 +21,40 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ContextualFlowRow
+import androidx.compose.foundation.layout.ContextualFlowRowOverflow
+import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.util.MaterialColors
 
 @Preview
@@ -262,10 +277,10 @@ private fun FlowItems() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ChipItem(text: String) {
+fun ChipItem(text: String, onClick: () -> Unit = {}) {
     Chip(
         modifier = Modifier.padding(end = 4.dp),
-        onClick = {},
+        onClick = onClick,
         leadingIcon = {},
         border = BorderStroke(1.dp, Color(0xFF3B3A3C))
     ) {
@@ -426,9 +441,115 @@ fun FlowLayout_FractionalSizing() {
     ) {
         val itemModifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-        Box(modifier = itemModifier.height(200.dp).width(60.dp).background(Color.Red))
-        Box(modifier = itemModifier.height(200.dp).fillMaxWidth(0.7f).background(Color.Blue))
-        Box(modifier = itemModifier.height(200.dp).weight(1f).background(Color.Magenta))
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .width(60.dp)
+                .background(Color.Red)
+        )
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .fillMaxWidth(0.7f)
+                .background(Color.Blue)
+        )
+        Box(
+            modifier = itemModifier
+                .height(200.dp)
+                .weight(1f)
+                .background(Color.Magenta)
+        )
     }
     // [END android_compose_flow_layout_fractional_sizing]
 }
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun ContextualFlowLayoutExample() {
+    // [START android_compose_layouts_contextual_flow]
+    val totalCount = 40
+    var maxLines by remember {
+        mutableStateOf(2)
+    }
+
+    val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
+        val remainingItems = totalCount - scope.shownItemCount
+        ChipItem(if (remainingItems == 0) "Less" else "+$remainingItems", onClick = {
+            if (remainingItems == 0) {
+                maxLines = 2
+            } else {
+                maxLines += 5
+            }
+        })
+    }
+    ContextualFlowRow(
+        modifier = Modifier
+            .safeDrawingPadding()
+            .fillMaxWidth(1f)
+            .padding(16.dp)
+            .wrapContentHeight(align = Alignment.Top)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        maxLines = maxLines,
+        overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
+            minRowsToShowCollapse = 4,
+            expandIndicator = moreOrCollapseIndicator,
+            collapseIndicator = moreOrCollapseIndicator
+        ),
+        itemCount = totalCount
+    ) { index ->
+        ChipItem("Item $index")
+    }
+    // [END android_compose_layouts_contextual_flow]
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+fun FillMaxColumnWidth() {
+    // [START android_compose_flow_layouts_fill_max_column_width]
+    FlowColumn(
+        Modifier
+            .padding(20.dp)
+            .fillMaxHeight()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        maxItemsInEachColumn = 5,
+    ) {
+        repeat(listDesserts.size) {
+            Box(
+                Modifier
+                    .fillMaxColumnWidth()
+                    .border(1.dp, Color.DarkGray, RoundedCornerShape(8.dp))
+                    .padding(8.dp)
+            ) {
+
+                Text(
+                    text = listDesserts[it],
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(3.dp)
+                )
+            }
+        }
+    }
+    // [END android_compose_flow_layouts_fill_max_column_width]
+}
+private val listDesserts = listOf(
+    "Apple",
+    "Banana",
+    "Cupcake",
+    "Donut",
+    "Eclair",
+    "Froyo",
+    "Gingerbread",
+    "Honeycomb",
+    "Ice Cream Sandwich",
+    "Jellybean",
+    "KitKat",
+    "Lollipop",
+    "Marshmallow",
+    "Nougat",
+)
