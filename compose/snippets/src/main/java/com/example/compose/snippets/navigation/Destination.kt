@@ -23,6 +23,8 @@ enum class Destination(val route: String, val title: String) {
     ComponentsExamples("topComponents", "Top Compose Components"),
     ScreenshotExample("screenshotExample", "Screenshot Examples"),
     ShapesExamples("shapesExamples", "Shapes Examples"),
+    FlowLayoutExamples("flowLayoutExamples", "Flow examples"),
+    SharedElementExamples("sharedElementExamples", "Shared element examples")
 }
 
 // Enum class for compose components navigation screen.
