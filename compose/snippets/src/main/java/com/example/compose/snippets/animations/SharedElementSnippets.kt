@@ -18,6 +18,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -1183,7 +1184,6 @@ private fun SharedElement_AnimatedSize() {
                     Text(
                         animal.name, fontSize = 18.sp, modifier =
                         Modifier
-
                             .sharedElement(
                                 rememberSharedContentState(key = "text-$animalId"),
                                 animatedVisibilityScope = this@composable,
@@ -1196,4 +1196,57 @@ private fun SharedElement_AnimatedSize() {
         }
     }
     // [END android_compose_shared_element_placeholder_size]
+}
+
+@Preview
+@Composable
+private fun UnmatchedBoundsExample() {
+    // [START android_compose_animation_shared_element_bounds_unmatched]
+    var selectFirst by remember { mutableStateOf(true) }
+    val key = remember { Any() }
+    SharedTransitionLayout(
+        Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+            .clickable {
+                selectFirst = !selectFirst
+            }
+    ) {
+        AnimatedContent(targetState = selectFirst) { targetState ->
+            if (targetState){
+                Box(
+                    Modifier
+                        .padding(12.dp)
+                        .sharedBounds(
+                            rememberSharedContentState(key = key),
+                            animatedVisibilityScope = this@AnimatedContent
+                        )
+                        .border(2.dp, Color.Red)
+                ) {
+                    Text("Hello",
+                        fontSize = 20.sp)
+                }
+
+            } else {
+                Box(
+                    Modifier
+                        .offset(180.dp, 180.dp)
+                        .sharedBounds(
+                            rememberSharedContentState(
+                                key = key,
+                            ),
+                            animatedVisibilityScope = this@AnimatedContent
+                        )
+                        .padding(12.dp)
+                        .border(2.dp, Color.Red)
+
+                ) {
+                    Text("Hello",
+                        fontSize = 36.sp)
+                }
+            }
+        }
+
+    }
+    // [END android_compose_animation_shared_element_bounds_unmatched]
 }
