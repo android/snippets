@@ -73,7 +73,6 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.compose.snippets.R
-import kotlinx.coroutines.delay
 
 @Preview
 @Composable
@@ -1091,5 +1090,110 @@ private fun SharedElementTypicalUseText() {
             // [END android_compose_shared_element_text_tip]
         }
     }
+}
 
+@Preview
+@Composable
+private fun SharedElement_AnimatedSize() {
+    // This demo shows how other items in a layout can respond to shared elements changing in size.
+    // [START android_compose_shared_element_placeholder_size]
+    SharedTransitionLayout {
+        val listAnimals = remember {
+            listOf(
+                Animal("Lion", "", R.drawable.lion),
+                Animal("Lizard", "", R.drawable.lizard),
+                Animal("Elephant", "", R.drawable.elephant),
+                Animal("Penguin", "", R.drawable.penguin)
+            )
+        }
+        val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1400) }
+
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = "home"
+        ) {
+
+            composable("home") {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    itemsIndexed(listAnimals) { index, item ->
+                        Row(Modifier.clickable {
+                            navController.navigate("details/$index")
+                        }) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Image(
+                                painterResource(id = item.image),
+                                contentDescription = item.description,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .sharedElement(
+                                        rememberSharedContentState(key = "image-$index"),
+                                        animatedVisibilityScope = this@composable,
+                                        boundsTransform = boundsTransform,
+                                    )
+                                    .size(100.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                item.name, fontSize = 18.sp,
+                                modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                                    .sharedElement(
+                                        rememberSharedContentState(key = "text-$index"),
+                                        animatedVisibilityScope = this@composable,
+                                        boundsTransform = boundsTransform,
+                                    )
+                            )
+                        }
+                    }
+
+                }
+            }
+            composable(
+                "details/{animal}",
+                arguments = listOf(navArgument("animal") { type = NavType.IntType })
+            )
+            { backStackEntry ->
+                val animalId = backStackEntry.arguments?.getInt("animal")
+                val animal = listAnimals[animalId!!]
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            navController.navigate("home")
+                        }) {
+                    Image(
+                        painterResource(id = animal.image),
+                        contentDescription = animal.description,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .sharedElement(
+                                rememberSharedContentState(key = "image-$animalId"),
+                                animatedVisibilityScope = this@composable,
+                                boundsTransform = boundsTransform,
+                            )
+                            .aspectRatio(1f)
+                            .fillMaxWidth()
+                    )
+                    Text(
+                        animal.name, fontSize = 18.sp, modifier =
+                        Modifier
+
+                            .sharedElement(
+                                rememberSharedContentState(key = "text-$animalId"),
+                                animatedVisibilityScope = this@composable,
+                                boundsTransform = boundsTransform,
+                            )
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+    // [END android_compose_shared_element_placeholder_size]
 }
