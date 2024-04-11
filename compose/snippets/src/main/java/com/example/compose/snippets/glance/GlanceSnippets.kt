@@ -150,7 +150,7 @@ private object CreateUI {
             provideContent {
                 // create your AppWidget here
                 GlanceTheme {
-                  MyContent()
+                    MyContent()
                 }
             }
         }
@@ -159,8 +159,8 @@ private object CreateUI {
         private fun MyContent() {
             Column(
                 modifier = GlanceModifier.fillMaxSize()
-                                         .appWidgetBackground()
-                                         .background(GlanceTheme.colors.background),
+                    .appWidgetBackground()
+                    .background(GlanceTheme.colors.background),
                 verticalAlignment = Alignment.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
