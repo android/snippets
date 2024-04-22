@@ -426,7 +426,7 @@ private fun CustomSnapDistance() {
         HorizontalPager(
             state = pagerState,
             pageSize = PageSize.Fixed(200.dp),
-            outOfBoundsPageCount = 10,
+            beyondViewportPageCount = 10,
             flingBehavior = fling
         ) {
             PagerSampleItem(page = it)
