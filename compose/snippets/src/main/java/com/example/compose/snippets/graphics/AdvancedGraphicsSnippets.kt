@@ -93,23 +93,25 @@ private fun CreateBitmapFromGraphicsLayer() {
     // [START android_compose_graphics_layer_bitmap_basics]
     val coroutineScope = rememberCoroutineScope()
     val graphicsLayer = rememberGraphicsLayer()
-    Box(modifier = Modifier
-        .drawWithContent {
-            // call record to capture the content in the graphics layer
-            graphicsLayer.record {
-                // draw the contents of the composable into the graphics layer
-                this@drawWithContent.drawContent()
+    Box(
+        modifier = Modifier
+            .drawWithContent {
+                // call record to capture the content in the graphics layer
+                graphicsLayer.record {
+                    // draw the contents of the composable into the graphics layer
+                    this@drawWithContent.drawContent()
+                }
+                // draw the graphics layer on the visible canvas
+                drawLayer(graphicsLayer)
             }
-            // draw the graphics layer on the visible canvas
-            drawLayer(graphicsLayer)
-        }
-        .clickable {
-            coroutineScope.launch {
-                val bitmap = graphicsLayer.toImageBitmap()
-                // do something with the newly acquired bitmap
+            .clickable {
+                coroutineScope.launch {
+                    val bitmap = graphicsLayer.toImageBitmap()
+                    // do something with the newly acquired bitmap
+                }
             }
-        }
-        .background(Color.White)) {
+            .background(Color.White)
+    ) {
         Text("Hello Android", fontSize = 26.sp)
     }
     // [END android_compose_graphics_layer_bitmap_basics]
