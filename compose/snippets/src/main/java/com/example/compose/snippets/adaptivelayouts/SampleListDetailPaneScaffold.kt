@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.adaptivelayouts
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,11 +27,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.AnimatedPane
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,11 +48,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SampleListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
-    val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
-
-    BackHandler(navigator.canNavigateBack()) {
-        navigator.navigateBack()
-    }
+    val navigator = rememberListDetailPaneScaffoldNavigator()
     // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part01]
@@ -64,8 +59,7 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
     ListDetailPaneScaffold(
-        directive = navigator.scaffoldDirective,
-        value = navigator.scaffoldValue,
+        scaffoldState = navigator.scaffoldState,
         // [START_EXCLUDE]
         listPane = {},
         detailPane = {},
@@ -75,8 +69,7 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part04]
     ListDetailPaneScaffold(
-        directive = navigator.scaffoldDirective,
-        value = navigator.scaffoldValue,
+        scaffoldState = navigator.scaffoldState,
         listPane = {
             AnimatedPane(Modifier) {
                 MyList(
@@ -97,8 +90,7 @@ fun SampleListDetailPaneScaffoldParts() {
 
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part05]
     ListDetailPaneScaffold(
-        directive = navigator.scaffoldDirective,
-        value = navigator.scaffoldValue,
+        scaffoldState = navigator.scaffoldState,
         listPane =
         // [START_EXCLUDE]
         {},
@@ -125,15 +117,10 @@ fun SampleListDetailPaneScaffoldFull() {
     }
 
     // Create the ListDetailPaneScaffoldState
-    val navigator = rememberListDetailPaneScaffoldNavigator<Nothing>()
-
-    BackHandler(navigator.canNavigateBack()) {
-        navigator.navigateBack()
-    }
+    val navigator = rememberListDetailPaneScaffoldNavigator()
 
     ListDetailPaneScaffold(
-        directive = navigator.scaffoldDirective,
-        value = navigator.scaffoldValue,
+        scaffoldState = navigator.scaffoldState,
         listPane = {
             AnimatedPane(Modifier) {
                 MyList(

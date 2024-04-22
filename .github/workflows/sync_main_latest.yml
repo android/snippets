@@ -1,6 +1,5 @@
 name: Sync main and latest
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,17 +10,14 @@ jobs:
     name: Syncing branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set git config user
-        run: git config user.email "compose-devrel-github-bot@google.com" && git config user.name "compose-devrel-github-bot"
+        uses: actions/checkout@v3
 
       - name: Merge main into latest
-        run: git fetch && git switch latest && git merge -s ours origin/main --allow-unrelated-histories
+        run: git checkout latest && git merge main
 
       - name: Create pull request
         id: cpr
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
           commit-message: 🤖 Sync main to latest
@@ -31,5 +27,5 @@ jobs:
           branch: bot-sync-main
           delete-branch: true
           title: '🤖 Sync main to latest'
-          body: 'Update `latest` with `main`'
+          body: Updated dependencies
           reviewers: ${{ github.actor }}

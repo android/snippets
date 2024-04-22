@@ -149,17 +149,14 @@ private object CreateUI {
 
             provideContent {
                 // create your AppWidget here
-                GlanceTheme {
-                    MyContent()
-                }
+                MyContent()
             }
         }
 
         @Composable
         private fun MyContent() {
             Column(
-                modifier = GlanceModifier.fillMaxSize()
-                    .background(GlanceTheme.colors.background),
+                modifier = GlanceModifier.fillMaxSize(),
                 verticalAlignment = Alignment.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
