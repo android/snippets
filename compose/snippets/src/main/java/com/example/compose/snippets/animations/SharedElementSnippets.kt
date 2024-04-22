@@ -10,6 +10,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.spring
@@ -37,16 +38,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -74,6 +78,8 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.compose.snippets.R
+import com.example.compose.snippets.ui.theme.LavenderLight
+import com.example.compose.snippets.ui.theme.RoseLight
 
 @Preview
 @Composable
@@ -88,34 +94,43 @@ private fun BasicExample_SharedElement_No_Shared_Element() {
     ) { targetState ->
         if (!targetState) {
             Row(modifier = Modifier
-                .background(Color.Green.copy(alpha = 0.5f))
                 .padding(8.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(LavenderLight, RoundedCornerShape(8.dp))
                 .clickable(remember { MutableInteractionSource() }, indication = null) {
                     showDetails = true
                 }
+                .padding(8.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.lizard),
-                    contentDescription = "Lizard",
-                    modifier = Modifier.size(100.dp),
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
-                Text("Lorem ipsum dolor sit amet.", fontSize = 21.sp)
+                Text("Cupcake", fontSize = 21.sp)
             }
         } else {
             Column(modifier = Modifier
-                .background(Color.Green.copy(alpha = 0.7f))
                 .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(RoseLight, RoundedCornerShape(8.dp))
                 .clickable(remember { MutableInteractionSource() }, indication = null) {
                     showDetails = false
-                }) {
+                }
+                .padding(8.dp)
+            ) {
                 Image(
-                    painter = painterResource(id = R.drawable.lizard),
-                    contentDescription = "Lizard",
-                    modifier = Modifier.size(200.dp),
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
-                Text("Lorem ipsum dolor sit amet.", fontSize = 21.sp)
+                Text("Cupcake", fontSize = 28.sp)
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
@@ -129,6 +144,7 @@ private fun BasicExample_SharedElement_No_Shared_Element() {
     // [END android_compose_animations_shared_element_start]
 }
 
+@Suppress("CanBeVal")
 @Preview
 @Composable
 private fun BasicExample_SharedElement_Step1() {
@@ -174,26 +190,29 @@ private fun BasicExample_SharedElement_Step2() {
         ) { targetState ->
             if (!targetState) {
                 Row(modifier = Modifier
-                    .background(Color.Green.copy(alpha = 0.5f))
                     .padding(8.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(LavenderLight, RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = true
                     }
+                    .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(100.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
-                            ),
+                            )
+                            .size(100.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 21.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -201,25 +220,29 @@ private fun BasicExample_SharedElement_Step2() {
                 }
             } else {
                 Column(modifier = Modifier
-                    .background(Color.Green.copy(alpha = 0.7f))
                     .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(RoseLight, RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = false
-                    }) {
+                    }
+                    .padding(8.dp)
+                ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(200.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
-                            ),
+                            )
+                            .size(200.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 28.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -241,17 +264,8 @@ private fun BasicExample_SharedElement_Step2() {
 @Preview
 @Composable
 private fun SharedElement_CustomizeBoundsTransform() {
-    // To customize shared element transform
-    // [START android_compose_animations_shared_element_bounds_transform]
     var showDetails by remember {
         mutableStateOf(false)
-    }
-    val imageBoundsTransform = BoundsTransform { initial, target ->
-        keyframes {
-            durationMillis = 500
-            initial at 0
-            Rect(target.left + 100, target.top, target.right + 100, target.bottom) at 300
-        }
     }
     SharedTransitionLayout {
         AnimatedContent(
@@ -260,17 +274,22 @@ private fun SharedElement_CustomizeBoundsTransform() {
         ) { targetState ->
             if (!targetState) {
                 Row(modifier = Modifier
-                    .background(Color.Green.copy(alpha = 0.5f))
                     .padding(8.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(LavenderLight, RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = true
                     }
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = this@AnimatedContent
+                    )
+                    .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(100.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent,
@@ -280,12 +299,14 @@ private fun SharedElement_CustomizeBoundsTransform() {
                                         dampingRatio = Spring.DampingRatioMediumBouncy
                                     )
                                 }
-                            ),
+                            )
+                            .size(100.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 21.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -293,26 +314,43 @@ private fun SharedElement_CustomizeBoundsTransform() {
                 }
             } else {
                 Column(modifier = Modifier
-                    .background(Color.Green.copy(alpha = 0.7f))
                     .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(RoseLight, RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = false
-                    }) {
+                    }
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = this@AnimatedContent
+                    )
+                    .padding(8.dp)
+                ) {
+                    // [START android_compose_shared_element_image_bounds_transform]
+                    val imageBoundsTransform = BoundsTransform { initial, target ->
+                        keyframes {
+                            durationMillis = 500
+                            initial at 0
+                            Rect(target.left + 100, target.top, target.right + 100, target.bottom) at 300
+                        }
+                    }
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(200.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent,
                                 boundsTransform = imageBoundsTransform
-                            ),
+                            )
+                            .size(200.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
+                    // [END android_compose_shared_element_image_bounds_transform]
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 28.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -328,7 +366,6 @@ private fun SharedElement_CustomizeBoundsTransform() {
             }
         }
     }
-    // [END android_compose_animations_shared_element_bounds_transform]
 }
 
 @Preview
@@ -338,7 +375,6 @@ fun SharedElement_SharedBounds() {
     var showDetails by remember {
         mutableStateOf(false)
     }
-
     SharedTransitionLayout {
         AnimatedContent(
             showDetails,
@@ -346,30 +382,33 @@ fun SharedElement_SharedBounds() {
         ) { targetState ->
             if (!targetState) {
                 Row(modifier = Modifier
+                    .padding(8.dp)
                     .sharedBounds(
                         rememberSharedContentState(key = "bounds"),
                         animatedVisibilityScope = this@AnimatedContent
                     )
-                    .background(Color.Green.copy(alpha = 0.5f))
-                    .padding(8.dp)
+                    .background(LavenderLight, RoundedCornerShape(8.dp))
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = true
                     }
+                    .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(100.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
-                            ),
+                            )
+                            .size(100.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 21.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -377,31 +416,33 @@ fun SharedElement_SharedBounds() {
                 }
             } else {
                 Column(modifier = Modifier
+                    .padding(top = 200.dp, start = 16.dp, end = 16.dp)
                     .sharedBounds(
                         rememberSharedContentState(key = "bounds"),
                         animatedVisibilityScope = this@AnimatedContent
                     )
-                    .background(Color.Green.copy(alpha = 0.7f))
-                    .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                    .background(RoseLight, RoundedCornerShape(8.dp))
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .clickable(remember { MutableInteractionSource() }, indication = null) {
                         showDetails = false
                     }
-
+                    .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
-                            .size(200.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
-                            ),
+                            )
+                            .size(200.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
-                        modifier = Modifier.sharedElement(
+                        "Cupcake", fontSize = 28.sp,
+                        modifier = Modifier.sharedBounds(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent
                         )
@@ -446,8 +487,8 @@ private fun SharedElement_Clipping() {
                     }
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
                             .size(100.dp)
                             .sharedElement(
@@ -480,8 +521,8 @@ private fun SharedElement_Clipping() {
 
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.lizard),
-                        contentDescription = "Lizard",
+                        painter = painterResource(id = R.drawable.cupcake),
+                        contentDescription = "Cupcake",
                         modifier = Modifier
                             .size(200.dp)
                             .sharedElement(
@@ -699,99 +740,12 @@ private val boundsTransform = BoundsTransform { initial, target ->
     }
 }
 
-
-@Preview
-@Composable
-fun SharedElementWithFABInOverlaySample() {
-    // [START android_compose_shared_element_render_in_shared_scope_overlay]
-    // Create an Image that will be shared between the two shared elements.
-    @Composable
-    fun Lizard(modifier: Modifier = Modifier) {
-        Image(
-            painterResource(id = R.drawable.lizard),
-            contentDescription = "cute lizard",
-            contentScale = ContentScale.FillHeight,
-            modifier = modifier
-                .clip(shape = RoundedCornerShape(10))
-        )
-    }
-
-    var showThumbnail by remember {
-        mutableStateOf(true)
-    }
-    SharedTransitionLayout(
-        Modifier
-            .clickable { showThumbnail = !showThumbnail }
-            .fillMaxSize()
-            .padding(10.dp)) {
-        Column(Modifier.padding(10.dp)) {
-            // Create an AnimatedVisibility for the shared element, so that the layout siblings
-            // (i.e. the two boxes below) will move in to fill the space during the exit transition.
-            AnimatedVisibility(visible = showThumbnail) {
-                Lizard(
-                    Modifier
-                        .size(100.dp)
-                        // Create a shared element, using string as the key
-                        .sharedElement(
-                            rememberSharedContentState(key = "lizard"),
-                            this@AnimatedVisibility,
-                        )
-                )
-            }
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Color(0xffffcc5c), RoundedCornerShape(5.dp))
-            )
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Color(0xff2a9d84), RoundedCornerShape(5.dp))
-            )
-        }
-        Box(modifier = Modifier.fillMaxSize()) {
-            AnimatedVisibility(!showThumbnail) {
-                Lizard(
-                    Modifier
-                        .fillMaxSize()
-                        // Create another shared element, and make sure the string key matches
-                        // the other shared element.
-                        .sharedElement(
-                            rememberSharedContentState(key = "lizard"),
-                            this@AnimatedVisibility,
-                        )
-                )
-            }
-            FloatingActionButton(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .align(Alignment.BottomEnd)
-                    // During shared element transition, shared elements will be rendered in
-                    // overlay to escape any clipping or layer transform from parents. It also
-                    // means they will render over on top of UI elements such as Floating Action
-                    // Button. Once the transition is finished, they will be dropped from the
-                    // overlay to their own DrawScopes. To help support keeping specific UI
-                    // elements always on top, Modifier.renderInSharedTransitionScopeOverlay
-                    // will temporarily elevate them into the overlay as well. By default,
-                    // this modifier keeps content in overlay during the time when the
-                    // shared transition is active (i.e. SharedTransitionScope#isTransitionActive).
-                    // The duration can be customize via `renderInOverlay` parameter.
-                    .renderInSharedTransitionScopeOverlay(
-                        // zIndexInOverlay by default is 0f for this modifier and for shared
-                        // elements. By overwriting zIndexInOverlay to 1f, we can ensure this
-                        // FAB is rendered on top of the shared elements.
-                        zIndexInOverlay = 1f
-                    ),
-                onClick = {}
-            ) {
-                Icon(Icons.Default.Favorite, contentDescription = "favorite")
-            }
-        }
-    }
-    // [END android_compose_shared_element_render_in_shared_scope_overlay]
-}
+val listSnacks = listOf(
+    Snack("Cupcake", "", R.drawable.cupcake),
+    Snack("Donut", "", R.drawable.donut),
+    Snack("Eclair", "", R.drawable.eclair),
+    Snack("Froyo", "", R.drawable.froyo)
+)
 
 
 @Preview
@@ -799,14 +753,6 @@ fun SharedElementWithFABInOverlaySample() {
 fun SharedElement_PredictiveBack() {
     // [START android_compose_shared_element_predictive_back]
     SharedTransitionLayout {
-        val listAnimals = remember {
-            listOf(
-                Animal("Lion", "", R.drawable.lion),
-                Animal("Lizard", "", R.drawable.lizard),
-                Animal("Elephant", "", R.drawable.elephant),
-                Animal("Penguin", "", R.drawable.penguin)
-            )
-        }
         val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1400) }
 
         val navController = rememberNavController()
@@ -822,7 +768,7 @@ fun SharedElement_PredictiveBack() {
                         .padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    itemsIndexed(listAnimals) { index, item ->
+                    itemsIndexed(listSnacks) { index, item ->
                         Row(Modifier.clickable {
                             navController.navigate("details/$index")
                         }) {
@@ -832,12 +778,12 @@ fun SharedElement_PredictiveBack() {
                                 contentDescription = item.description,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .size(100.dp)
                                     .sharedElement(
                                         rememberSharedContentState(key = "image-$index"),
                                         animatedVisibilityScope = this@composable,
                                         boundsTransform = boundsTransform
                                     )
+                                    .size(100.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
@@ -856,12 +802,12 @@ fun SharedElement_PredictiveBack() {
                 }
             }
             composable(
-                "details/{animal}",
-                arguments = listOf(navArgument("animal") { type = NavType.IntType })
+                "details/{item}",
+                arguments = listOf(navArgument("item") { type = NavType.IntType })
             )
             { backStackEntry ->
-                val animalId = backStackEntry.arguments?.getInt("animal")
-                val animal = listAnimals[animalId!!]
+                val id = backStackEntry.arguments?.getInt("item")
+                val snack = listSnacks[id!!]
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -869,27 +815,27 @@ fun SharedElement_PredictiveBack() {
                             navController.navigate("home")
                         }) {
                     Image(
-                        painterResource(id = animal.image),
-                        contentDescription = animal.description,
+                        painterResource(id = snack.image),
+                        contentDescription = snack.description,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
+                            .sharedElement(
+                                rememberSharedContentState(key = "image-$id"),
+                                animatedVisibilityScope = this@composable,
+                                boundsTransform = boundsTransform
+                            )
                             .aspectRatio(1f)
                             .fillMaxWidth()
-                            .sharedElement(
-                                rememberSharedContentState(key = "image-$animalId"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform
-                            )
                     )
                     Text(
-                        animal.name, fontSize = 18.sp, modifier =
+                        snack.name, fontSize = 18.sp, modifier =
                         Modifier
-                            .fillMaxWidth()
                             .sharedElement(
-                                rememberSharedContentState(key = "text-$animalId"),
+                                rememberSharedContentState(key = "text-$id"),
                                 animatedVisibilityScope = this@composable,
                                 boundsTransform = boundsTransform
                             )
+                            .fillMaxWidth()
                     )
                 }
             }
@@ -898,7 +844,7 @@ fun SharedElement_PredictiveBack() {
 // [END android_compose_shared_element_predictive_back]
 }
 
-data class Animal(
+data class Snack(
     val name: String,
     val description: String,
     @DrawableRes val image: Int
@@ -1099,14 +1045,6 @@ private fun SharedElement_AnimatedSize() {
     // This demo shows how other items in a layout can respond to shared elements changing in size.
     // [START android_compose_shared_element_placeholder_size]
     SharedTransitionLayout {
-        val listAnimals = remember {
-            listOf(
-                Animal("Lion", "", R.drawable.lion),
-                Animal("Lizard", "", R.drawable.lizard),
-                Animal("Elephant", "", R.drawable.elephant),
-                Animal("Penguin", "", R.drawable.penguin)
-            )
-        }
         val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1400) }
 
         val navController = rememberNavController()
@@ -1122,7 +1060,7 @@ private fun SharedElement_AnimatedSize() {
                         .padding(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    itemsIndexed(listAnimals) { index, item ->
+                    itemsIndexed(listSnacks) { index, item ->
                         Row(Modifier.clickable {
                             navController.navigate("details/$index")
                         }) {
@@ -1132,7 +1070,7 @@ private fun SharedElement_AnimatedSize() {
                                 contentDescription = item.description,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .sharedElement(
+                                    .sharedBounds(
                                         rememberSharedContentState(key = "image-$index"),
                                         animatedVisibilityScope = this@composable,
                                         boundsTransform = boundsTransform,
@@ -1144,10 +1082,12 @@ private fun SharedElement_AnimatedSize() {
                                 item.name, fontSize = 18.sp,
                                 modifier = Modifier
                                     .align(Alignment.CenterVertically)
-                                    .sharedElement(
+                                    .sharedBounds(
                                         rememberSharedContentState(key = "text-$index"),
                                         animatedVisibilityScope = this@composable,
                                         boundsTransform = boundsTransform,
+                                        enter = scaleInSharedContentToBounds() + fadeIn(),
+                                        exit = scaleOutSharedContentToBounds() + fadeOut()
                                     )
                             )
                         }
@@ -1161,7 +1101,7 @@ private fun SharedElement_AnimatedSize() {
             )
             { backStackEntry ->
                 val animalId = backStackEntry.arguments?.getInt("animal")
-                val animal = listAnimals[animalId!!]
+                val animal = listSnacks[animalId!!]
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -1173,7 +1113,7 @@ private fun SharedElement_AnimatedSize() {
                         contentDescription = animal.description,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .sharedElement(
+                            .sharedBounds(
                                 rememberSharedContentState(key = "image-$animalId"),
                                 animatedVisibilityScope = this@composable,
                                 boundsTransform = boundsTransform,
@@ -1184,10 +1124,12 @@ private fun SharedElement_AnimatedSize() {
                     Text(
                         animal.name, fontSize = 18.sp, modifier =
                         Modifier
-                            .sharedElement(
+                            .sharedBounds(
                                 rememberSharedContentState(key = "text-$animalId"),
                                 animatedVisibilityScope = this@composable,
                                 boundsTransform = boundsTransform,
+                                enter = scaleInSharedContentToBounds() + fadeIn(),
+                                exit = scaleOutSharedContentToBounds() + fadeOut()
                             )
                             .fillMaxWidth()
                     )
@@ -1212,8 +1154,8 @@ private fun UnmatchedBoundsExample() {
                 selectFirst = !selectFirst
             }
     ) {
-        AnimatedContent(targetState = selectFirst) { targetState ->
-            if (targetState){
+        AnimatedContent(targetState = selectFirst, label = "AnimatedContent") { targetState ->
+            if (targetState) {
                 Box(
                     Modifier
                         .padding(12.dp)
@@ -1223,8 +1165,10 @@ private fun UnmatchedBoundsExample() {
                         )
                         .border(2.dp, Color.Red)
                 ) {
-                    Text("Hello",
-                        fontSize = 20.sp)
+                    Text(
+                        "Hello",
+                        fontSize = 20.sp
+                    )
                 }
 
             } else {
@@ -1237,16 +1181,147 @@ private fun UnmatchedBoundsExample() {
                             ),
                             animatedVisibilityScope = this@AnimatedContent
                         )
-                        .padding(12.dp)
                         .border(2.dp, Color.Red)
+                        .padding(12.dp)
+
 
                 ) {
-                    Text("Hello",
-                        fontSize = 36.sp)
+                    Text(
+                        "Hello",
+                        fontSize = 36.sp
+                    )
                 }
             }
         }
 
     }
     // [END android_compose_animation_shared_element_bounds_unmatched]
+}
+
+@Preview
+@Composable
+private fun TestNavHost() {
+    // This demo shows how other items in a layout can respond to shared elements changing in size.
+    // [START android_compose_shared_element_placeholder_size]
+    SharedTransitionLayout {
+        val boundsTransform = { _: Rect, _: Rect -> spring<Rect>() }
+
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = "home"
+        ) {
+
+            composable("home", enterTransition = { fadeIn() }, exitTransition = { fadeOut() }) {
+                LazyColumn {
+                    item {
+                        LazyRow(modifier = Modifier) {
+                            itemsIndexed(listSnacks) { index, item ->
+                                Image(
+                                    painterResource(id = item.image),
+                                    contentDescription = item.description,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .sharedBounds(
+                                            rememberSharedContentState(key = "image-$index-row"),
+                                            animatedVisibilityScope = this@composable,
+                                            boundsTransform = boundsTransform,
+                                        )
+                                        .size(200.dp)
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                        ) {
+                            itemsIndexed(listSnacks) { index, item ->
+                                Row(Modifier.clickable {
+                                    navController.navigate("details/$index")
+                                }) {
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Image(
+                                        painterResource(id = item.image),
+                                        contentDescription = item.description,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .sharedBounds(
+                                                rememberSharedContentState(key = "image-$index"),
+                                                animatedVisibilityScope = this@composable,
+                                                boundsTransform = boundsTransform,
+                                            )
+                                            .size(100.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        item.name, fontSize = 18.sp,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .sharedBounds(
+                                                rememberSharedContentState(key = "text-$index"),
+                                                animatedVisibilityScope = this@composable,
+                                                boundsTransform = boundsTransform,
+                                                enter = scaleInSharedContentToBounds() + fadeIn(),
+                                                exit = scaleOutSharedContentToBounds() + fadeOut()
+                                            )
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+            composable(
+                "details/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                enterTransition = { fadeIn() }, exitTransition = { fadeOut() }
+            )
+            { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id")
+                val snack = listSnacks[id!!]
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                ) {
+                    Button(onClick = {
+                        navController.navigateUp()
+                    }) {
+
+                    }
+                    Image(
+                        painterResource(id = snack.image),
+                        contentDescription = snack.description,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .sharedBounds(
+                                rememberSharedContentState(key = "image-$snack"),
+                                animatedVisibilityScope = this@composable,
+                                boundsTransform = boundsTransform,
+                            )
+                            .aspectRatio(1f)
+                            .fillMaxWidth()
+                    )
+                    Text(
+                        snack.name, fontSize = 18.sp, modifier =
+                        Modifier
+                            .sharedBounds(
+                                rememberSharedContentState(key = "text-$snack"),
+                                animatedVisibilityScope = this@composable,
+                                boundsTransform = boundsTransform,
+                                enter = scaleInSharedContentToBounds() + fadeIn(),
+                                exit = scaleOutSharedContentToBounds() + fadeOut()
+                            )
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+    // [END android_compose_shared_element_placeholder_size]
 }
