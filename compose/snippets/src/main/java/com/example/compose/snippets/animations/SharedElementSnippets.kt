@@ -111,7 +111,7 @@ private fun BasicExample_SharedElement_No_Shared_Element() {
                     .padding(8.dp)
                     .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .background(LavenderLight, RoundedCornerShape(8.dp))
-                    .clickable(remember { MutableInteractionSource() }, indication = null) {
+                    .clickable {
                         showDetails = true
                     }
                     .padding(8.dp)
@@ -132,7 +132,7 @@ private fun BasicExample_SharedElement_No_Shared_Element() {
                     .padding(top = 200.dp, start = 16.dp, end = 16.dp)
                     .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                     .background(RoseLight, RoundedCornerShape(8.dp))
-                    .clickable(remember { MutableInteractionSource() }, indication = null) {
+                    .clickable {
                         showDetails = false
                     }
                     .padding(8.dp)
@@ -209,7 +209,7 @@ private fun BasicExample_SharedElement_Step2() {
                         .padding(8.dp)
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .background(LavenderLight, RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = true
                         }
                         .padding(8.dp)
@@ -240,7 +240,7 @@ private fun BasicExample_SharedElement_Step2() {
                         .padding(top = 200.dp, start = 16.dp, end = 16.dp)
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .background(RoseLight, RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = false
                         }
                         .padding(8.dp)
@@ -295,7 +295,7 @@ private fun SharedElement_CustomizeBoundsTransform() {
                         .padding(8.dp)
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .background(LavenderLight, RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = true
                         }
                         .sharedBounds(
@@ -336,7 +336,7 @@ private fun SharedElement_CustomizeBoundsTransform() {
                         .padding(top = 200.dp, start = 16.dp, end = 16.dp)
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .background(RoseLight, RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = false
                         }
                         .sharedBounds(
@@ -409,7 +409,7 @@ fun SharedElement_SharedBounds() {
                         )
                         .background(LavenderLight, RoundedCornerShape(8.dp))
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = true
                         }
                         .padding(8.dp)
@@ -444,7 +444,7 @@ fun SharedElement_SharedBounds() {
                         )
                         .background(RoseLight, RoundedCornerShape(8.dp))
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = false
                         }
                         .padding(8.dp)
@@ -503,7 +503,7 @@ private fun SharedElement_Clipping() {
                         )
                         .background(Color.Green.copy(alpha = 0.5f))
                         .padding(8.dp)
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = true
                         }
                 ) {
@@ -537,7 +537,7 @@ private fun SharedElement_Clipping() {
                         )
                         .background(Color.Green.copy(alpha = 0.7f))
                         .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                        .clickable(remember { MutableInteractionSource() }, indication = null) {
+                        .clickable {
                             showDetails = false
                         }
 
