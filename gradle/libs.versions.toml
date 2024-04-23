@@ -3,7 +3,8 @@ accompanist = "0.32.0"
 androidGradlePlugin = "8.2.2"
 androidx-activity-compose = "1.9.0-alpha03"
 androidx-appcompat = "1.6.1"
-androidx-compose-bom = "2024.01.00"
+androidx-compose-bom = "2024.04.01"
+androidx-compose-ui-test = "1.7.0-alpha03"
 androidx-constraintlayout = "2.1.4"
 androidx-constraintlayout-compose = "1.0.1"
 androidx-coordinator-layout = "1.2.0"
@@ -13,16 +14,16 @@ androidx-fragment-ktx = "1.6.2"
 androidx-glance-appwidget = "1.0.0"
 androidx-lifecycle-compose = "2.7.0"
 androidx-lifecycle-runtime-compose = "2.7.0"
-androidx-navigation = "2.7.6"
+androidx-navigation = "2.7.7"
 androidx-paging = "3.2.1"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
-androidxHiltNavigationCompose = "1.1.0"
+androidxHiltNavigationCompose = "1.2.0"
 coil = "2.5.0"
 # @keep
 compileSdk = "34"
 compose-compiler = "1.5.4"
-compose-latest = "1.7.0-alpha03"
+compose-latest = "1.7.0-alpha07"
 coroutines = "1.7.3"
 google-maps = "18.2.0"
 gradle-versions = "0.51.0"
@@ -66,7 +67,7 @@ androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
-androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.0-alpha04"
+androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.0-alpha05"
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
