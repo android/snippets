@@ -405,7 +405,9 @@ fun SharedElement_SharedBounds() {
                         .padding(8.dp)
                         .sharedBounds(
                             rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent
+                            animatedVisibilityScope = this@AnimatedContent,
+                            enter = fadeIn(),
+                            exit = fadeOut()
                         )
                         .background(LavenderLight, RoundedCornerShape(8.dp))
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
@@ -440,7 +442,9 @@ fun SharedElement_SharedBounds() {
                         .padding(top = 200.dp, start = 16.dp, end = 16.dp)
                         .sharedBounds(
                             rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent
+                            animatedVisibilityScope = this@AnimatedContent,
+                            enter = fadeIn(),
+                            exit = fadeOut()
                         )
                         .background(RoseLight, RoundedCornerShape(8.dp))
                         .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
