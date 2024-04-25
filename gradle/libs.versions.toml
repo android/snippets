@@ -33,7 +33,7 @@ kotlin = "1.9.20"
 ksp = "1.8.0-1.0.9"
 maps-compose = "4.3.2"
 material = "1.11.0"
-material3-adaptive = "1.0.0-alpha08"
+material3-adaptive = "1.0.0-alpha11"
 material3-adaptive-navigation-suite = "1.0.0-alpha05"
 media3 = "1.2.1"
 # @keep
