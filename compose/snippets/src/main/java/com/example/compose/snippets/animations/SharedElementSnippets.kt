@@ -18,7 +18,6 @@
 
 package com.example.compose.snippets.animations
 
-import android.content.DialogInterface.OnShowListener
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -45,11 +44,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -60,18 +57,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -180,10 +174,10 @@ private class SharedElementBasicUsage1 {
             // [START_EXCLUDE]
             Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
             )
             // [END_EXCLUDE]
         }
@@ -287,10 +281,10 @@ private class SharedElementBasicUsage2 {
             // [START_EXCLUDE]
             Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
             )
             // [END_EXCLUDE]
         }
@@ -329,7 +323,6 @@ private class SharedElementBasicUsage3 {
                 }
             }
         }
-
     }
 
     // [START android_compose_animations_shared_element_step2]
@@ -418,14 +411,13 @@ private class SharedElementBasicUsage3 {
                 // [START_EXCLUDE]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                 )
                 // [END_EXCLUDE]
             }
-
         }
     }
     // [END android_compose_animations_shared_element_step2]
@@ -463,7 +455,6 @@ private class SharedElementBasicUsage4 {
                 }
             }
         }
-
     }
 
     // [START android_compose_animations_shared_element_shared_bounds]
@@ -491,7 +482,7 @@ private class SharedElementBasicUsage4 {
                         onShowDetails()
                     }
                     .padding(8.dp)
-                    // [END_EXCLUDE]
+                // [END_EXCLUDE]
             ) {
                 // [START_EXCLUDE]
                 Image(
@@ -542,7 +533,7 @@ private class SharedElementBasicUsage4 {
                         onBack()
                     }
                     .padding(8.dp)
-                    // [END_EXCLUDE]
+                // [END_EXCLUDE]
 
             ) {
                 // [START_EXCLUDE]
@@ -567,10 +558,10 @@ private class SharedElementBasicUsage4 {
                 )
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                 )
                 // [END_EXCLUDE]
             }
@@ -610,7 +601,6 @@ private class SharedElement_BoundsTransform {
                 }
             }
         }
-
     }
 
     @Composable
@@ -733,15 +723,14 @@ private class SharedElement_BoundsTransform {
                 )
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                 )
             }
         }
     }
-
 }
 
 @Preview
@@ -788,7 +777,7 @@ private fun SharedElement_Clipping() {
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                            )
+                        )
                     )
                 }
             } else {
@@ -826,10 +815,10 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
