@@ -18,14 +18,17 @@
 
 package com.example.compose.snippets.animations
 
+import android.content.DialogInterface.OnShowListener
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.spring
@@ -36,15 +39,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
@@ -54,8 +62,10 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Create
@@ -94,402 +104,649 @@ import com.example.compose.snippets.R
 import com.example.compose.snippets.ui.theme.LavenderLight
 import com.example.compose.snippets.ui.theme.RoseLight
 
-@Preview
-@Composable
-private fun BasicExample_SharedElement_No_Shared_Element() {
+private class SharedElementBasicUsage1 {
+    @Preview
     // [START android_compose_animations_shared_element_start]
-    var showDetails by remember {
-        mutableStateOf(false)
-    }
-    AnimatedContent(
-        showDetails,
-        label = "basic_transition"
-    ) { targetState ->
-        if (!targetState) {
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                    .background(LavenderLight, RoundedCornerShape(8.dp))
-                    .clickable {
-                        showDetails = true
-                    }
-                    .padding(8.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.cupcake),
-                    contentDescription = "Cupcake",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-                Text("Cupcake", fontSize = 21.sp)
+    @Composable
+    private fun SharedElementApp() {
+        var showDetails by remember {
+            mutableStateOf(false)
+        }
+        AnimatedContent(
+            showDetails,
+            label = "basic_transition"
+        ) { targetState ->
+            if (!targetState) {
+                MainContent(onShowDetails = {
+                    showDetails = true
+                })
+            } else {
+                DetailsContent(onBack = {
+                    showDetails = false
+                })
             }
-        } else {
-            Column(
+        }
+    }
+
+    @Composable
+    private fun MainContent(onShowDetails: () -> Unit) {
+        Row(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(8.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(LavenderLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onShowDetails()
+                }
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.cupcake),
+                contentDescription = "Cupcake",
                 modifier = Modifier
-                    .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                    .background(RoseLight, RoundedCornerShape(8.dp))
-                    .clickable {
-                        showDetails = false
-                    }
-                    .padding(8.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.cupcake),
-                    contentDescription = "Cupcake",
-                    modifier = Modifier
-                        .size(200.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-                Text("Cupcake", fontSize = 28.sp)
-                Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                    .size(100.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Text("Cupcake", fontSize = 21.sp)
+        }
+    }
+
+    @Composable
+    private fun DetailsContent(modifier: Modifier = Modifier, onBack: () -> Unit) {
+        Column(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(RoseLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onBack()
+                }
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.cupcake),
+                contentDescription = "Cupcake",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Text("Cupcake", fontSize = 28.sp)
+            // [START_EXCLUDE]
+            Text(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                         " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
                         "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
                         "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
-                )
-            }
+            )
+            // [END_EXCLUDE]
         }
     }
     // [END android_compose_animations_shared_element_start]
 }
 
-@Suppress("CanBeVal")
-@Preview
-@Composable
-private fun BasicExample_SharedElement_Step1() {
-    // To make it shared element, we first surround the content either with the SharedTransitionLayout composable,
-    // or SharedTransitionScope.
-    // [START android_compose_animations_shared_element_step1]
-    var showDetails by remember {
-        mutableStateOf(false)
+private class SharedElementBasicUsage2 {
+    @Preview
+    @Composable
+    private fun SharedElementApp() {
+        // [START android_compose_animations_shared_element_step1]
+        var showDetails by remember {
+            mutableStateOf(false)
+        }
+        SharedTransitionLayout {
+            AnimatedContent(
+                showDetails,
+                label = "basic_transition"
+            ) { targetState ->
+                if (!targetState) {
+                    MainContent(
+                        onShowDetails = {
+                            showDetails = true
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                } else {
+                    DetailsContent(
+                        onBack = {
+                            showDetails = false
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                }
+            }
+        }
+        // [END android_compose_animations_shared_element_step1]
     }
-    SharedTransitionLayout {
-        AnimatedContent(
-            showDetails,
-            label = "basic_transition"
-        ) { targetState ->
-            if (!targetState) {
-                Row {
-                    // ..
+
+    @Composable
+    private fun MainContent(
+        onShowDetails: () -> Unit,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        Row(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(8.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(LavenderLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onShowDetails()
                 }
-            } else {
-                Column {
-                    // ..
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.cupcake),
+                contentDescription = "Cupcake",
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Text("Cupcake", fontSize = 21.sp)
+        }
+    }
+
+    @Composable
+    private fun DetailsContent(
+        modifier: Modifier = Modifier,
+        onBack: () -> Unit,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        Column(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(RoseLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onBack()
                 }
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.cupcake),
+                contentDescription = "Cupcake",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Text("Cupcake", fontSize = 28.sp)
+            // [START_EXCLUDE]
+            Text(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+            )
+            // [END_EXCLUDE]
+        }
+    }
+}
+
+private class SharedElementBasicUsage3 {
+
+    @Preview
+    @Composable
+    private fun SharedElementApp() {
+        var showDetails by remember {
+            mutableStateOf(false)
+        }
+        SharedTransitionLayout {
+            AnimatedContent(
+                showDetails,
+                label = "basic_transition"
+            ) { targetState ->
+                if (!targetState) {
+                    MainContent(
+                        onShowDetails = {
+                            showDetails = true
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                } else {
+                    DetailsContent(
+                        onBack = {
+                            showDetails = false
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                }
+            }
+        }
+
+    }
+
+    // [START android_compose_animations_shared_element_step2]
+    @Composable
+    private fun MainContent(
+        onShowDetails: () -> Unit,
+        modifier: Modifier = Modifier,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        Row(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(8.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(LavenderLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onShowDetails()
+                }
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            with(sharedTransitionScope) {
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
+                    modifier = Modifier
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
+                        .size(100.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    "Cupcake", fontSize = 21.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+                )
             }
         }
     }
 
-    // [END android_compose_animations_shared_element_step1]
-}
-
-@Preview
-@Composable
-private fun BasicExample_SharedElement_Step2() {
-    // To make it shared element, we first surround the content either with the SharedTransitionLayout composable,
-    // or SharedTransitionScope, making
-    // [START android_compose_animations_shared_element_step2]
-    var showDetails by remember {
-        mutableStateOf(false)
-    }
-    SharedTransitionLayout {
-        AnimatedContent(
-            showDetails,
-            label = "basic_transition"
-        ) { targetState ->
-            if (!targetState) {
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .background(LavenderLight, RoundedCornerShape(8.dp))
-                        .clickable {
-                            showDetails = true
-                        }
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent
-                            )
-                            .size(100.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    Text(
-                        "Cupcake", fontSize = 21.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                    )
+    @Composable
+    private fun DetailsContent(
+        modifier: Modifier = Modifier,
+        onBack: () -> Unit,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        Column(
+            // [START_EXCLUDE]
+            modifier = Modifier
+                .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(RoseLight, RoundedCornerShape(8.dp))
+                .clickable {
+                    onBack()
                 }
-            } else {
-                Column(
+                .padding(8.dp)
+            // [END_EXCLUDE]
+        ) {
+            with(sharedTransitionScope) {
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
                     modifier = Modifier
-                        .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .background(RoseLight, RoundedCornerShape(8.dp))
-                        .clickable {
-                            showDetails = false
-                        }
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent
-                            )
-                            .size(200.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    Text(
-                        "Cupcake", fontSize = 28.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope
                         )
+                        .size(200.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    "Cupcake", fontSize = 28.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
                     )
-                    Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                )
+                // [START_EXCLUDE]
+                Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                             " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
                             "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
                             "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
-                    )
-                }
+                )
+                // [END_EXCLUDE]
             }
+
         }
     }
     // [END android_compose_animations_shared_element_step2]
 }
 
-@Preview
-@Composable
-private fun SharedElement_CustomizeBoundsTransform() {
-    var showDetails by remember {
-        mutableStateOf(false)
-    }
-    SharedTransitionLayout {
-        AnimatedContent(
-            showDetails,
-            label = "basic_transition"
-        ) { targetState ->
-            if (!targetState) {
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .background(LavenderLight, RoundedCornerShape(8.dp))
-                        .clickable {
+private class SharedElementBasicUsage4 {
+
+    @Preview
+    @Composable
+    private fun SharedElementApp() {
+        var showDetails by remember {
+            mutableStateOf(false)
+        }
+        SharedTransitionLayout {
+            AnimatedContent(
+                showDetails,
+                label = "basic_transition"
+            ) { targetState ->
+                if (!targetState) {
+                    MainContent(
+                        onShowDetails = {
                             showDetails = true
-                        }
-                        .sharedBounds(
-                            rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent,
-                                boundsTransform = { _, _ ->
-                                    spring(
-                                        stiffness = Spring.StiffnessMediumLow,
-                                        dampingRatio = Spring.DampingRatioMediumBouncy
-                                    )
-                                }
-                            )
-                            .size(100.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
                     )
-                    Text(
-                        "Cupcake", fontSize = 21.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                    )
-                }
-            } else {
-                Column(
-                    modifier = Modifier
-                        .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .background(RoseLight, RoundedCornerShape(8.dp))
-                        .clickable {
+                } else {
+                    DetailsContent(
+                        onBack = {
                             showDetails = false
-                        }
-                        .sharedBounds(
-                            rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                        .padding(8.dp)
-                ) {
-                    // [START android_compose_shared_element_image_bounds_transform]
-                    val imageBoundsTransform = BoundsTransform { initial, target ->
-                        keyframes {
-                            durationMillis = 500
-                            initial at 0
-                            Rect(target.left + 100, target.top, target.right + 100, target.bottom) at 300
-                        }
-                    }
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent,
-                                boundsTransform = imageBoundsTransform
-                            )
-                            .size(200.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    // [END android_compose_shared_element_image_bounds_transform]
-                    Text(
-                        "Cupcake", fontSize = 28.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                    )
-                    Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
                     )
                 }
             }
         }
-    }
-}
 
-@Preview
-@Composable
-fun SharedElement_SharedBounds() {
-    // [START android_compose_animations_shared_element_shared_bounds]
-    var showDetails by remember {
-        mutableStateOf(false)
     }
-    SharedTransitionLayout {
-        AnimatedContent(
-            showDetails,
-            label = "basic_transition"
-        ) { targetState ->
-            if (!targetState) {
-                Row(
+
+    // [START android_compose_animations_shared_element_shared_bounds]
+    @Composable
+    private fun MainContent(
+        onShowDetails: () -> Unit,
+        modifier: Modifier = Modifier,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        with(sharedTransitionScope) {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    )
+                    // [START_EXCLUDE]
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(LavenderLight, RoundedCornerShape(8.dp))
+                    .clickable {
+                        onShowDetails()
+                    }
+                    .padding(8.dp)
+                    // [END_EXCLUDE]
+            ) {
+                // [START_EXCLUDE]
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
                     modifier = Modifier
-                        .padding(8.dp)
-                        .sharedBounds(
-                            rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent,
-                            enter = fadeIn(),
-                            exit = fadeOut()
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope
                         )
-                        .background(LavenderLight, RoundedCornerShape(8.dp))
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            showDetails = true
-                        }
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent
-                            )
-                            .size(100.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
+                        .size(100.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    "Cupcake", fontSize = 21.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
                     )
-                    Text(
-                        "Cupcake", fontSize = 21.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
+                )
+                // [END_EXCLUDE]
+            }
+        }
+    }
+
+    @Composable
+    private fun DetailsContent(
+        modifier: Modifier = Modifier,
+        onBack: () -> Unit,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        with(sharedTransitionScope) {
+            Column(
+                modifier = Modifier
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enter = fadeIn(),
+                        exit = fadeOut()
                     )
-                }
-            } else {
-                Column(
+                    // [START_EXCLUDE]
+                    .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(RoseLight, RoundedCornerShape(8.dp))
+                    .clickable {
+                        onBack()
+                    }
+                    .padding(8.dp)
+                    // [END_EXCLUDE]
+
+            ) {
+                // [START_EXCLUDE]
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
                     modifier = Modifier
-                        .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                        .sharedBounds(
-                            rememberSharedContentState(key = "bounds"),
-                            animatedVisibilityScope = this@AnimatedContent,
-                            enter = fadeIn(),
-                            exit = fadeOut()
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope
                         )
-                        .background(RoseLight, RoundedCornerShape(8.dp))
-                        .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            showDetails = false
-                        }
-                        .padding(8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cupcake),
-                        contentDescription = "Cupcake",
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image"),
-                                animatedVisibilityScope = this@AnimatedContent
-                            )
-                            .size(200.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
+                        .size(200.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    "Cupcake", fontSize = 28.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
                     )
-                    Text(
-                        "Cupcake", fontSize = 28.sp,
-                        modifier = Modifier.sharedBounds(
-                            rememberSharedContentState(key = "title"),
-                            animatedVisibilityScope = this@AnimatedContent
-                        )
-                    )
-                    Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                )
+                Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                             " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
                             "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
                             "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
-                    )
-                }
+                )
+                // [END_EXCLUDE]
             }
         }
     }
     // [END android_compose_animations_shared_element_shared_bounds]
 }
 
+private class SharedElement_BoundsTransform {
+    @Preview
+    @Composable
+    private fun SharedElementApp() {
+        var showDetails by remember {
+            mutableStateOf(false)
+        }
+        SharedTransitionLayout {
+            AnimatedContent(
+                showDetails,
+                label = "basic_transition"
+            ) { targetState ->
+                if (!targetState) {
+                    MainContent(
+                        onShowDetails = {
+                            showDetails = true
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                } else {
+                    DetailsContent(
+                        onBack = {
+                            showDetails = false
+                        },
+                        animatedVisibilityScope = this@AnimatedContent,
+                        sharedTransitionScope = this@SharedTransitionLayout
+                    )
+                }
+            }
+        }
+
+    }
+
+    @Composable
+    private fun MainContent(
+        onShowDetails: () -> Unit,
+        modifier: Modifier = Modifier,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        with(sharedTransitionScope) {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    )
+                    // [START_EXCLUDE]
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(LavenderLight, RoundedCornerShape(8.dp))
+                    .clickable {
+                        onShowDetails()
+                    }
+                    .padding(8.dp)
+                // [END_EXCLUDE]
+            ) {
+                // [START_EXCLUDE]
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
+                    modifier = Modifier
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                spring(
+                                    stiffness = Spring.StiffnessMediumLow,
+                                    dampingRatio = Spring.DampingRatioMediumBouncy
+                                )
+                            }
+                        )
+                        .size(100.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Text(
+                    "Cupcake", fontSize = 21.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+                )
+                // [END_EXCLUDE]
+            }
+        }
+    }
+
+    @Composable
+    private fun DetailsContent(
+        modifier: Modifier = Modifier,
+        onBack: () -> Unit,
+        sharedTransitionScope: SharedTransitionScope,
+        animatedVisibilityScope: AnimatedVisibilityScope
+    ) {
+        with(sharedTransitionScope) {
+            Column(
+                modifier = Modifier
+                    .sharedBounds(
+                        rememberSharedContentState(key = "bounds"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    )
+                    // [START_EXCLUDE]
+                    .padding(top = 200.dp, start = 16.dp, end = 16.dp)
+                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .background(RoseLight, RoundedCornerShape(8.dp))
+                    .clickable {
+                        onBack()
+                    }
+                    .padding(8.dp)
+                // [END_EXCLUDE]
+
+            ) {
+                // [START android_compose_shared_element_image_bounds_transform]
+                val imageBoundsTransform = BoundsTransform { initial, target ->
+                    keyframes {
+                        durationMillis = 500
+                        initial at 0
+                        Rect(
+                            target.left + 100,
+                            target.top,
+                            target.right + 100,
+                            target.bottom
+                        ) at 300
+                    }
+                }
+                Image(
+                    painter = painterResource(id = R.drawable.cupcake),
+                    contentDescription = "Cupcake",
+                    modifier = Modifier
+                        .sharedElement(
+                            rememberSharedContentState(key = "image"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = imageBoundsTransform
+                        )
+                        .size(200.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                // [END android_compose_shared_element_image_bounds_transform]
+                Text(
+                    "Cupcake", fontSize = 28.sp,
+                    modifier = Modifier.sharedBounds(
+                        rememberSharedContentState(key = "title"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+                )
+                Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                )
+            }
+        }
+    }
+
+}
+
 @Preview
 @Composable
 private fun SharedElement_Clipping() {
-    // [START android_compose_animations_shared_element_clipping]
     var showDetails by remember {
         mutableStateOf(false)
     }
@@ -511,6 +768,7 @@ private fun SharedElement_Clipping() {
                             showDetails = true
                         }
                 ) {
+                    // [START android_compose_animations_shared_element_clipping]
                     Image(
                         painter = painterResource(id = R.drawable.cupcake),
                         contentDescription = "Cupcake",
@@ -523,13 +781,14 @@ private fun SharedElement_Clipping() {
                             .clip(RoundedCornerShape(16.dp)),
                         contentScale = ContentScale.Crop
                     )
+                    // [END android_compose_animations_shared_element_clipping]
                     Text(
                         "Lorem ipsum dolor sit amet.", fontSize = 21.sp,
                         modifier = Modifier.sharedElement(
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                        )
+                            )
                     )
                 }
             } else {
@@ -567,16 +826,15 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
         }
     }
-    // [END android_compose_animations_shared_element_clipping]
 }
 
 @Preview
@@ -769,7 +1027,9 @@ val listSnacks = listOf(
     Snack("Cupcake", "", R.drawable.cupcake),
     Snack("Donut", "", R.drawable.donut),
     Snack("Eclair", "", R.drawable.eclair),
-    Snack("Froyo", "", R.drawable.froyo)
+    Snack("Froyo", "", R.drawable.froyo),
+    Snack("Gingerbread", "", R.drawable.gingerbread),
+    Snack("Honeycomb", "", R.drawable.honeycomb),
 )
 
 @Preview
@@ -1066,109 +1326,6 @@ private fun SharedElementTypicalUseText() {
 
 @Preview
 @Composable
-private fun SharedElement_AnimatedSize() {
-    // This demo shows how other items in a layout can respond to shared elements changing in size.
-    // [START android_compose_shared_element_placeholder_size]
-    SharedTransitionLayout {
-        val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1400) }
-
-        val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = "home"
-        ) {
-
-            composable("home") {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    itemsIndexed(listSnacks) { index, item ->
-                        Row(
-                            Modifier.clickable {
-                                navController.navigate("details/$index")
-                            }
-                        ) {
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Image(
-                                painterResource(id = item.image),
-                                contentDescription = item.description,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .sharedBounds(
-                                        rememberSharedContentState(key = "image-$index"),
-                                        animatedVisibilityScope = this@composable,
-                                        boundsTransform = boundsTransform,
-                                    )
-                                    .size(100.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                item.name, fontSize = 18.sp,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically)
-                                    .sharedBounds(
-                                        rememberSharedContentState(key = "text-$index"),
-                                        animatedVisibilityScope = this@composable,
-                                        boundsTransform = boundsTransform,
-                                        enter = scaleInSharedContentToBounds() + fadeIn(),
-                                        exit = scaleOutSharedContentToBounds() + fadeOut()
-                                    )
-                            )
-                        }
-                    }
-                }
-            }
-            composable(
-                "details/{animal}",
-                arguments = listOf(navArgument("animal") { type = NavType.IntType })
-            ) { backStackEntry ->
-                val animalId = backStackEntry.arguments?.getInt("animal")
-                val animal = listSnacks[animalId!!]
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .clickable {
-                            navController.navigate("home")
-                        }
-                ) {
-                    Image(
-                        painterResource(id = animal.image),
-                        contentDescription = animal.description,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .sharedBounds(
-                                rememberSharedContentState(key = "image-$animalId"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform,
-                            )
-                            .aspectRatio(1f)
-                            .fillMaxWidth()
-                    )
-                    Text(
-                        animal.name, fontSize = 18.sp,
-                        modifier =
-                        Modifier
-                            .sharedBounds(
-                                rememberSharedContentState(key = "text-$animalId"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform,
-                                enter = scaleInSharedContentToBounds() + fadeIn(),
-                                exit = scaleOutSharedContentToBounds() + fadeOut()
-                            )
-                            .fillMaxWidth()
-                    )
-                }
-            }
-        }
-    }
-    // [END android_compose_shared_element_placeholder_size]
-}
-
-@Preview
-@Composable
 private fun UnmatchedBoundsExample() {
     // [START android_compose_animation_shared_element_bounds_unmatched]
     var selectFirst by remember { mutableStateOf(true) }
@@ -1222,80 +1379,58 @@ private fun UnmatchedBoundsExample() {
     // [END android_compose_animation_shared_element_bounds_unmatched]
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Preview
 @Composable
-private fun TestNavHost() {
+fun PlaceholderSizeAnimated_Demo() {
     // This demo shows how other items in a layout can respond to shared elements changing in size.
     // [START android_compose_shared_element_placeholder_size]
     SharedTransitionLayout {
-        val boundsTransform = { _: Rect, _: Rect -> spring<Rect>() }
+        val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1000) }
 
         val navController = rememberNavController()
         NavHost(
             navController = navController,
             startDestination = "home"
         ) {
-
             composable("home", enterTransition = { fadeIn() }, exitTransition = { fadeOut() }) {
-                LazyColumn {
-                    item {
-                        LazyRow(modifier = Modifier) {
-                            itemsIndexed(listSnacks) { index, item ->
-                                Image(
-                                    painterResource(id = item.image),
-                                    contentDescription = item.description,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .sharedBounds(
-                                            rememberSharedContentState(key = "image-$index-row"),
-                                            animatedVisibilityScope = this@composable,
-                                            boundsTransform = boundsTransform,
-                                        )
-                                        .size(200.dp)
-                                )
-                            }
-                        }
-                    }
-                    item {
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(8.dp),
-                        ) {
-                            itemsIndexed(listSnacks) { index, item ->
-                                Row(
-                                    Modifier.clickable {
+                Column {
+                    Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                        (listSnacks).forEachIndexed { index, snack ->
+                            Image(
+                                painterResource(id = snack.image),
+                                contentDescription = snack.description,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .sharedBounds(
+                                        rememberSharedContentState(key = "image-${snack.name}"),
+                                        animatedVisibilityScope = this@composable,
+                                        boundsTransform = boundsTransform,
+                                        placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
+                                    )
+                                    .clickable {
                                         navController.navigate("details/$index")
                                     }
-                                ) {
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Image(
-                                        painterResource(id = item.image),
-                                        contentDescription = item.description,
-                                        contentScale = ContentScale.Crop,
-                                        modifier = Modifier
-                                            .sharedBounds(
-                                                rememberSharedContentState(key = "image-$index"),
-                                                animatedVisibilityScope = this@composable,
-                                                boundsTransform = boundsTransform,
-                                            )
-                                            .size(100.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(
-                                        item.name, fontSize = 18.sp,
-                                        modifier = Modifier
-                                            .align(Alignment.CenterVertically)
-                                            .sharedBounds(
-                                                rememberSharedContentState(key = "text-$index"),
-                                                animatedVisibilityScope = this@composable,
-                                                boundsTransform = boundsTransform,
-                                                enter = scaleInSharedContentToBounds() + fadeIn(),
-                                                exit = scaleOutSharedContentToBounds() + fadeOut()
-                                            )
-                                    )
-                                }
-                            }
+                                    .height(180.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .aspectRatio(9f / 16f)
+
+                            )
+                        }
+                    }
+                    Text("Nearby snacks")
+                    Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                        (listSnacks).forEachIndexed { index, snack ->
+                            Image(
+                                painterResource(id = snack.image),
+                                contentDescription = snack.description,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .height(200.dp)
+                                    .aspectRatio(16f / 9f)
+                                    .padding(8.dp)
+                            )
                         }
                     }
                 }
@@ -1310,40 +1445,28 @@ private fun TestNavHost() {
                 Column(
                     Modifier
                         .fillMaxSize()
+                        .clickable {
+                            navController.navigateUp()
+                        }
                 ) {
-                    Button(onClick = {
-                        navController.navigateUp()
-                    }) {
-                    }
                     Image(
                         painterResource(id = snack.image),
                         contentDescription = snack.description,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .sharedBounds(
-                                rememberSharedContentState(key = "image-$snack"),
+                                rememberSharedContentState(key = "image-${snack.name}"),
                                 animatedVisibilityScope = this@composable,
                                 boundsTransform = boundsTransform,
+                                placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
                             )
-                            .aspectRatio(1f)
-                            .fillMaxWidth()
-                    )
-                    Text(
-                        snack.name, fontSize = 18.sp,
-                        modifier =
-                        Modifier
-                            .sharedBounds(
-                                rememberSharedContentState(key = "text-$snack"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform,
-                                enter = scaleInSharedContentToBounds() + fadeIn(),
-                                exit = scaleOutSharedContentToBounds() + fadeOut()
-                            )
+                            .clip(RoundedCornerShape(8.dp))
+                            .aspectRatio(9f / 16f)
                             .fillMaxWidth()
                     )
                 }
             }
         }
     }
-    // [END android_compose_shared_element_placeholder_size]
+// [END android_compose_shared_element_placeholder_size]
 }
