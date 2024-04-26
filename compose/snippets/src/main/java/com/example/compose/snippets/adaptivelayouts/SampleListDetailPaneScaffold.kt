@@ -94,7 +94,7 @@ fun SampleListDetailPaneScaffoldParts() {
         {},
         // [END_EXCLUDE]
         detailPane = {
-            AnimatedPane(Modifier) {
+            AnimatedPane {
                 navigator.currentDestination?.content?.let {
                     MyDetails(it)
                 }
