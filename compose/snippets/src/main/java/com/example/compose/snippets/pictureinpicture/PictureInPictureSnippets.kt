@@ -344,6 +344,6 @@ fun PiPBuilderAddRemoteActions(
     }
 }
 
-fun Player.isInitialized() : Boolean {
+fun Player.isInitialized(): Boolean {
     return (this.videoSize.width > 0 && this.videoSize.height > 0)
 }
