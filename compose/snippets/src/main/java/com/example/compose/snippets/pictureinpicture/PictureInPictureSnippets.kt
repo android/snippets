@@ -247,13 +247,11 @@ fun PiPBuilderSetAspectRatio(
 
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
-            if (shouldEnterPipMode && player != null) {
-                if (player.videoSize.width > 0 && player.videoSize.height > 0) {
-                    val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                    builder.setSourceRectHint(sourceRect)
-                    val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
-                    builder.setAspectRatio(aspectRatio)
-                }
+            if (shouldEnterPipMode && player != null && player.isInitialized()) {
+                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+                builder.setSourceRectHint(sourceRect)
+                val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
+                builder.setAspectRatio(aspectRatio)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
