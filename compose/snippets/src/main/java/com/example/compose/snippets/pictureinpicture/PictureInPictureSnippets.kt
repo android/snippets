@@ -327,13 +327,11 @@ fun PiPBuilderAddRemoteActions(
                 listOfRemoteActions()
             )
 
-            if (shouldEnterPipMode && player != null) {
-                if (player.videoSize.width > 0 && player.videoSize.height > 0) {
-                    val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                    builder.setSourceRectHint(sourceRect)
-                    val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
-                    builder.setAspectRatio(aspectRatio)
-                }
+            if (shouldEnterPipMode && player != null && player.isInitialized()) {
+                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+                builder.setSourceRectHint(sourceRect)
+                val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
+                builder.setAspectRatio(aspectRatio)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -346,4 +344,8 @@ fun PiPBuilderAddRemoteActions(
     } else {
         Log.i(PIP_TAG, "API does not support PiP")
     }
+}
+
+fun Player.isInitialized() : Boolean {
+    return (this.videoSize.width > 0 && this.videoSize.height > 0)
 }
