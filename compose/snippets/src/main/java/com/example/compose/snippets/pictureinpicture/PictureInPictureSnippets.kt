@@ -237,6 +237,7 @@ fun PiPBuilderSetSourceRect(
 
 @Composable
 fun PiPBuilderSetAspectRatio(
+    player: Player?,
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -246,13 +247,13 @@ fun PiPBuilderSetAspectRatio(
 
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
-
-            if (shouldEnterPipMode) {
-                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                builder.setSourceRectHint(sourceRect)
-                builder.setAspectRatio(
-                    Rational(sourceRect.width(), sourceRect.height())
-                )
+            if (shouldEnterPipMode && player != null) {
+                if (player.videoSize.width > 0 && player.videoSize.height > 0) {
+                    val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+                    builder.setSourceRectHint(sourceRect)
+                    val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
+                    builder.setAspectRatio(aspectRatio)
+                }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -312,6 +313,7 @@ fun listOfRemoteActions(): List<RemoteAction> {
 
 @Composable
 fun PiPBuilderAddRemoteActions(
+    player: Player?,
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -325,12 +327,13 @@ fun PiPBuilderAddRemoteActions(
                 listOfRemoteActions()
             )
 
-            if (shouldEnterPipMode) {
-                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                builder.setSourceRectHint(sourceRect)
-                builder.setAspectRatio(
-                    Rational(sourceRect.width(), sourceRect.height())
-                )
+            if (shouldEnterPipMode && player != null) {
+                if (player.videoSize.width > 0 && player.videoSize.height > 0) {
+                    val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+                    builder.setSourceRectHint(sourceRect)
+                    val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
+                    builder.setAspectRatio(aspectRatio)
+                }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
