@@ -250,8 +250,9 @@ fun PiPBuilderSetAspectRatio(
             if (shouldEnterPipMode && player != null && player.isInitialized()) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
-                val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
-                builder.setAspectRatio(aspectRatio)
+                builder.setAspectRatio(
+                    Rational(player.videoSize.width, player.videoSize.height)
+                )
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -328,8 +329,9 @@ fun PiPBuilderAddRemoteActions(
             if (shouldEnterPipMode && player != null && player.isInitialized()) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
-                val aspectRatio = Rational(player.videoSize.width, player.videoSize.height)
-                builder.setAspectRatio(aspectRatio)
+                builder.setAspectRatio(
+                    Rational(player.videoSize.width, player.videoSize.height)
+                )
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
