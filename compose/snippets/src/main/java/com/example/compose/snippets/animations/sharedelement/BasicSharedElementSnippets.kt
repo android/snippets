@@ -19,6 +19,7 @@
 package com.example.compose.snippets.animations.sharedelement
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
@@ -38,6 +39,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -394,4 +396,45 @@ private fun UnmatchedBoundsExample() {
         }
     }
     // [END android_compose_animation_shared_element_bounds_unmatched]
+}
+
+private object UniqueKeySnippet {
+    // [START android_compose_shared_elements_unique_key]
+    data class SnackSharedElementKey(
+        val snackId: Long,
+        val origin: String,
+        val type: SnackSharedElementType
+    )
+
+    enum class SnackSharedElementType {
+        Bounds,
+        Image,
+        Title,
+        Tagline,
+        Background
+    }
+
+    @Composable
+    fun SharedElementUniqueKey() {
+        // [START_EXCLUDE]
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                // [END_EXCLUDE]
+                Box(modifier = Modifier
+                    .sharedElement(
+                        rememberSharedContentState(
+                            key = SnackSharedElementKey(
+                                snackId = 1,
+                                origin = "latest",
+                                type = SnackSharedElementType.Image
+                            )
+                        ),
+                        animatedVisibilityScope = this@AnimatedVisibility
+                    ))
+                // [START_EXCLUDE]
+            }
+        }
+        // [END_EXCLUDE]
+    }
+    // [END android_compose_shared_elements_unique_key]
 }
