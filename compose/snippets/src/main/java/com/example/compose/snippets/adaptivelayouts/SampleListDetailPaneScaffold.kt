@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.adaptivelayouts
 
+import android.os.Parcelable
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.parcelize.Parcelize
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -188,14 +190,8 @@ fun MyDetails(item: MyItem) {
 }
 
 // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
-class MyItem(val id: Int) {
-    companion object {
-        val Saver: Saver<MyItem?, Int> = Saver(
-            { it?.id },
-            ::MyItem,
-        )
-    }
-}
+@Parcelize
+class MyItem(val id: Int) : Parcelable
 // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
 
 val shortStrings = listOf(
