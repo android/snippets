@@ -48,4 +48,8 @@
     <string name="add_entry">Add</string>
     <string name="view_entry">View entry</string>
     <string name="replated_articles">Related Articles</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="shopping">Shopping</string>
+    <string name="profile">Profile</string>
 </resources>
