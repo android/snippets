@@ -55,93 +55,6 @@ import com.example.compose.snippets.R
 import com.example.compose.snippets.ui.theme.LavenderLight
 import com.example.compose.snippets.ui.theme.RoseLight
 
-private class SharedElementBasicUsage1 {
-    @Preview
-    // [START android_compose_animations_shared_element_start]
-    @Composable
-    private fun SharedElementApp() {
-        var showDetails by remember {
-            mutableStateOf(false)
-        }
-        AnimatedContent(
-            showDetails,
-            label = "basic_transition"
-        ) { targetState ->
-            if (!targetState) {
-                MainContent(onShowDetails = {
-                    showDetails = true
-                })
-            } else {
-                DetailsContent(onBack = {
-                    showDetails = false
-                })
-            }
-        }
-    }
-
-    @Composable
-    private fun MainContent(onShowDetails: () -> Unit) {
-        Row(
-            // [START_EXCLUDE]
-            modifier = Modifier
-                .padding(8.dp)
-                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                .background(LavenderLight, RoundedCornerShape(8.dp))
-                .clickable {
-                    onShowDetails()
-                }
-                .padding(8.dp)
-            // [END_EXCLUDE]
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.cupcake),
-                contentDescription = "Cupcake",
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-            Text("Cupcake", fontSize = 21.sp)
-        }
-    }
-
-    @Composable
-    private fun DetailsContent(modifier: Modifier = Modifier, onBack: () -> Unit) {
-        Column(
-            // [START_EXCLUDE]
-            modifier = Modifier
-                .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                .background(RoseLight, RoundedCornerShape(8.dp))
-                .clickable {
-                    onBack()
-                }
-                .padding(8.dp)
-            // [END_EXCLUDE]
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.cupcake),
-                contentDescription = "Cupcake",
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-            Text("Cupcake", fontSize = 28.sp)
-            // [START_EXCLUDE]
-            Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
-            )
-            // [END_EXCLUDE]
-        }
-    }
-    // [END android_compose_animations_shared_element_start]
-}
-
 private class SharedElementBasicUsage2 {
     @Preview
     @Composable
@@ -203,7 +116,9 @@ private class SharedElementBasicUsage2 {
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
+            // [START_EXCLUDE]
             Text("Cupcake", fontSize = 21.sp)
+            // [END_EXCLUDE]
         }
     }
 
@@ -234,8 +149,8 @@ private class SharedElementBasicUsage2 {
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
-            Text("Cupcake", fontSize = 28.sp)
             // [START_EXCLUDE]
+            Text("Cupcake", fontSize = 28.sp)
             Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
@@ -315,6 +230,7 @@ private class SharedElementBasicUsage3 {
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
+                // [START_EXCLUDE]
                 Text(
                     "Cupcake", fontSize = 21.sp,
                     modifier = Modifier.sharedBounds(
@@ -322,6 +238,7 @@ private class SharedElementBasicUsage3 {
                         animatedVisibilityScope = animatedVisibilityScope
                     )
                 )
+                // [END_EXCLUDE]
             }
         }
     }
@@ -358,6 +275,7 @@ private class SharedElementBasicUsage3 {
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
+                // [START_EXCLUDE]
                 Text(
                     "Cupcake", fontSize = 28.sp,
                     modifier = Modifier.sharedBounds(
@@ -365,7 +283,6 @@ private class SharedElementBasicUsage3 {
                         animatedVisibilityScope = animatedVisibilityScope
                     )
                 )
-                // [START_EXCLUDE]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
