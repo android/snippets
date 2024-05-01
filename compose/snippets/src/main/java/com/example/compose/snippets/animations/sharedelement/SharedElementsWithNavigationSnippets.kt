@@ -64,11 +64,10 @@ val listSnacks = listOf(
     Snack("Gingerbread", "", R.drawable.gingerbread),
     Snack("Honeycomb", "", R.drawable.honeycomb),
 )
-
+// [START android_compose_shared_element_predictive_back]
 @Preview
 @Composable
 fun SharedElement_PredictiveBack() {
-    // [START android_compose_shared_element_predictive_back]
     SharedTransitionLayout {
         val navController = rememberNavController()
         NavHost(
@@ -98,7 +97,6 @@ fun SharedElement_PredictiveBack() {
             }
         }
     }
-    // [END android_compose_shared_element_predictive_back]
 }
 
 @Composable
@@ -196,3 +194,4 @@ data class Snack(
     val description: String,
     @DrawableRes val image: Int
 )
+// [END android_compose_shared_element_predictive_back]
