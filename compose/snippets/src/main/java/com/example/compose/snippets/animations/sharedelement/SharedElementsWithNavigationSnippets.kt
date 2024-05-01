@@ -19,9 +19,10 @@
 package com.example.compose.snippets.animations.sharedelement
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,12 +41,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -67,54 +68,17 @@ val listSnacks = listOf(
 fun SharedElement_PredictiveBack() {
     // [START android_compose_shared_element_predictive_back]
     SharedTransitionLayout {
-        val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1400) }
-
         val navController = rememberNavController()
         NavHost(
             navController = navController,
             startDestination = "home"
         ) {
-
             composable("home") {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    itemsIndexed(listSnacks) { index, item ->
-                        Row(
-                            Modifier.clickable {
-                                navController.navigate("details/$index")
-                            }
-                        ) {
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Image(
-                                painterResource(id = item.image),
-                                contentDescription = item.description,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .sharedElement(
-                                        rememberSharedContentState(key = "image-$index"),
-                                        animatedVisibilityScope = this@composable,
-                                        boundsTransform = boundsTransform
-                                    )
-                                    .size(100.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                item.name, fontSize = 18.sp,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically)
-                                    .sharedElement(
-                                        rememberSharedContentState(key = "text-$index"),
-                                        animatedVisibilityScope = this@composable,
-                                        boundsTransform = boundsTransform
-                                    )
-                            )
-                        }
-                    }
-                }
+                HomeScreen(
+                    navController,
+                    this@SharedTransitionLayout,
+                    this@composable
+                )
             }
             composable(
                 "details/{item}",
@@ -122,42 +86,106 @@ fun SharedElement_PredictiveBack() {
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("item")
                 val snack = listSnacks[id!!]
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .clickable {
-                            navController.navigate("home")
-                        }
-                ) {
-                    Image(
-                        painterResource(id = snack.image),
-                        contentDescription = snack.description,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .sharedElement(
-                                rememberSharedContentState(key = "image-$id"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform
-                            )
-                            .aspectRatio(1f)
-                            .fillMaxWidth()
+                DetailsScreen(
+                    navController,
+                    id,
+                    snack,
+                    this@SharedTransitionLayout,
+                    this@composable
+                )
+            }
+        }
+    }
+    // [END android_compose_shared_element_predictive_back]
+}
+
+@Composable
+private fun DetailsScreen(
+    navController: NavHostController,
+    id: Int,
+    snack: Snack,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
+) {
+    with(sharedTransitionScope) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .clickable {
+                    navController.navigate("home")
+                }
+        ) {
+            Image(
+                painterResource(id = snack.image),
+                contentDescription = snack.description,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.Companion
+                    .sharedElement(
+                        sharedTransitionScope.rememberSharedContentState(key = "image-$id"),
+                        animatedVisibilityScope = animatedContentScope
                     )
-                    Text(
-                        snack.name, fontSize = 18.sp,
-                        modifier =
-                        Modifier
+                    .aspectRatio(1f)
+                    .fillMaxWidth()
+            )
+            Text(
+                snack.name, fontSize = 18.sp,
+                modifier =
+                Modifier.Companion
+                    .sharedElement(
+                        sharedTransitionScope.rememberSharedContentState(key = "text-$id"),
+                        animatedVisibilityScope = animatedContentScope
+                    )
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+private fun HomeScreen(
+    navController: NavHostController,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedContentScope: AnimatedContentScope
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        itemsIndexed(listSnacks) { index, item ->
+            Row(
+                Modifier.clickable {
+                    navController.navigate("details/$index")
+                }
+            ) {
+                Spacer(modifier = Modifier.width(8.dp))
+                with(sharedTransitionScope) {
+                    Image(
+                        painterResource(id = item.image),
+                        contentDescription = item.description,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.Companion
                             .sharedElement(
-                                rememberSharedContentState(key = "text-$id"),
-                                animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform
+                                sharedTransitionScope.rememberSharedContentState(key = "image-$index"),
+                                animatedVisibilityScope = animatedContentScope
                             )
-                            .fillMaxWidth()
+                            .size(100.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        item.name, fontSize = 18.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .sharedElement(
+                                sharedTransitionScope.rememberSharedContentState(key = "text-$index"),
+                                animatedVisibilityScope = animatedContentScope,
+                            )
                     )
                 }
             }
         }
     }
-// [END android_compose_shared_element_predictive_back]
 }
 
 data class Snack(
