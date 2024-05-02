@@ -98,8 +98,9 @@ fun SampleSupportingPaneScaffoldFull() {
 fun ThreePaneScaffoldScope.MainPane(
     shouldShowSupportingPaneButton: Boolean,
     onNavigateToSupportingPane: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    AnimatedPane(modifier = Modifier.safeContentPadding()) {
+    AnimatedPane(modifier = modifier.safeContentPadding()) {
         // Main pane content
         if (shouldShowSupportingPaneButton) {
             Button(onClick = onNavigateToSupportingPane) {
@@ -112,8 +113,10 @@ fun ThreePaneScaffoldScope.MainPane(
 }
 
 @Composable
-fun ThreePaneScaffoldScope.SupportingPane() {
-    AnimatedPane(modifier = Modifier.safeContentPadding()) {
+fun ThreePaneScaffoldScope.SupportingPane(
+    modifier: Modifier = Modifier,
+) {
+    AnimatedPane(modifier = modifier.safeContentPadding()) {
         // Supporting pane content
         Text("This is the supporting pane")
     }
