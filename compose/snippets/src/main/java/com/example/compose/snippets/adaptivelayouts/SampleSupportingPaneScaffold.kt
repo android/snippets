@@ -69,7 +69,7 @@ fun SampleSupportingPaneScaffoldFull() {
         mainPane = {
             AnimatedPane(modifier = Modifier.safeContentPadding()) {
                 // Main pane content
-                if (navigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden) {
+                if (navigator.scaffoldValue[SupportingPaneScaffoldRole.Supporting] == PaneAdaptedValue.Hidden) {
                     Button(
                         modifier = Modifier.wrapContentSize(),
                         onClick = {
