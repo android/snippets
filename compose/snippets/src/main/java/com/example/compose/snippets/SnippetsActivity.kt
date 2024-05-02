@@ -28,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
+import com.example.compose.snippets.animations.sharedelement.PlaceholderSizeAnimated_Demo
 import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.ButtonExamples
 import com.example.compose.snippets.components.ChipExamples
@@ -77,6 +78,7 @@ class SnippetsActivity : ComponentActivity() {
                                         )
                                     }
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
+                                    Destination.SharedElementExamples ->PlaceholderSizeAnimated_Demo()
                                 }
                             }
                         }

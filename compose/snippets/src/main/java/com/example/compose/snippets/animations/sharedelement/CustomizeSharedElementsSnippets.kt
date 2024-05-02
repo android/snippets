@@ -542,7 +542,6 @@ fun PlaceholderSizeAnimated_Demo() {
     // This demo shows how other items in a layout can respond to shared elements changing in size.
     // [START android_compose_shared_element_placeholder_size]
     SharedTransitionLayout {
-        val boundsTransform = { _: Rect, _: Rect -> tween<Rect>(1000) }
 
         val navController = rememberNavController()
         NavHost(
@@ -550,7 +549,7 @@ fun PlaceholderSizeAnimated_Demo() {
             startDestination = "home"
         ) {
             composable("home", enterTransition = { fadeIn() }, exitTransition = { fadeOut() }) {
-                Column {
+                Column(modifier = Modifier.fillMaxSize()) {
                     Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                         (listSnacks).forEachIndexed { index, snack ->
                             Image(
@@ -562,7 +561,6 @@ fun PlaceholderSizeAnimated_Demo() {
                                     .sharedBounds(
                                         rememberSharedContentState(key = "image-${snack.name}"),
                                         animatedVisibilityScope = this@composable,
-                                        boundsTransform = boundsTransform,
                                         placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
                                     )
                                     .clickable {
@@ -613,12 +611,11 @@ fun PlaceholderSizeAnimated_Demo() {
                             .sharedBounds(
                                 rememberSharedContentState(key = "image-${snack.name}"),
                                 animatedVisibilityScope = this@composable,
-                                boundsTransform = boundsTransform,
                                 placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
                             )
                             .clip(RoundedCornerShape(8.dp))
-                            .aspectRatio(9f / 16f)
                             .fillMaxWidth()
+                            .aspectRatio(9f / 16f)
                     )
                 }
             }
