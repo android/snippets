@@ -48,6 +48,8 @@ private fun SharedAsyncImage() {
                 model = ImageRequest.Builder(LocalContext.current)
                     .data("your-image-url")
                     .crossfade(true)
+                    .placeholderMemoryCacheKey("image-key") //  same key as shared element key
+                    .memoryCacheKey("image-key") // same key as shared element key
                     .build(),
                 placeholder = null,
                 contentDescription = null,
@@ -57,8 +59,7 @@ private fun SharedAsyncImage() {
                         rememberSharedContentState(
                             key = "image-key"
                         ),
-                        animatedVisibilityScope = this,
-                        exit = ExitTransition.None
+                        animatedVisibilityScope = this
                     )
             )
             // [END android_compose_shared_element_async_image_tip]
