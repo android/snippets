@@ -4,7 +4,7 @@ androidGradlePlugin = "8.2.2"
 androidx-activity-compose = "1.9.0-alpha03"
 androidx-appcompat = "1.6.1"
 androidx-compose-bom = "2024.04.01"
-androidx-compose-ui-test = "1.7.0-alpha03"
+androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-constraintlayout = "2.1.4"
 androidx-constraintlayout-compose = "1.0.1"
 androidx-coordinator-layout = "1.2.0"
@@ -12,8 +12,8 @@ androidx-corektx = "1.9.0"
 androidx-emoji2-views = "1.4.0"
 androidx-fragment-ktx = "1.6.2"
 androidx-glance-appwidget = "1.0.0"
-androidx-lifecycle-compose = "2.7.0"
-androidx-lifecycle-runtime-compose = "2.7.0"
+androidx-lifecycle-compose = "2.8.0-rc01"
+androidx-lifecycle-runtime-compose = "2.8.0-rc01"
 androidx-navigation = "2.7.7"
 androidx-paging = "3.2.1"
 androidx-test = "1.5.0"
@@ -117,5 +117,5 @@ gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
