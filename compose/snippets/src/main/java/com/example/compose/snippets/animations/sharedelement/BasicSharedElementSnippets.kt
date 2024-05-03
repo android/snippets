@@ -384,6 +384,8 @@ private fun UnmatchedBoundsExample() {
                             animatedVisibilityScope = this@AnimatedContent
                         )
                         .border(2.dp, Color.Red)
+                        // This padding is placed after sharedBounds, but it doesn't match the
+                        // other shared elements modifier order, resulting in visual jumps
                         .padding(12.dp)
 
                 ) {
