@@ -101,7 +101,6 @@ dependencies {
 
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.runtime.livedata)
-    implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.material.ripple)
     implementation(libs.androidx.constraintlayout.compose)
@@ -116,6 +115,8 @@ dependencies {
 
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.material3)
+
+    implementation(libs.androidx.window.core)
 
     implementation(libs.accompanist.theme.adapter.appcompat)
     implementation(libs.accompanist.theme.adapter.material3)
