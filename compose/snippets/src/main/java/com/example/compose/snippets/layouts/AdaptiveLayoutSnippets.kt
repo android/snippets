@@ -53,12 +53,10 @@ import androidx.window.core.layout.WindowSizeClass
 fun MyApp(
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 ) {
-    // Perform logic on the size class to decide whether to show
-    // the top app bar.
+    // Perform logic on the size class to decide whether to show the top app bar.
     val showTopAppBar = windowSizeClass.windowHeightSizeClass != WindowHeightSizeClass.COMPACT
 
-    // MyScreen knows nothing about window sizes, and performs logic
-    // based on a Boolean flag.
+    // MyScreen knows nothing about window sizes, and performs logic based on a Boolean flag.
     MyScreen(
         showTopAppBar = showTopAppBar,
         /* ... */
