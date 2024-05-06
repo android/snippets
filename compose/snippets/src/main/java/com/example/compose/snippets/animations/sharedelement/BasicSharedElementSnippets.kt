@@ -39,7 +39,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -422,17 +421,19 @@ private object UniqueKeySnippet {
         SharedTransitionLayout {
             AnimatedVisibility(visible = true) {
                 // [END_EXCLUDE]
-                Box(modifier = Modifier
-                    .sharedElement(
-                        rememberSharedContentState(
-                            key = SnackSharedElementKey(
-                                snackId = 1,
-                                origin = "latest",
-                                type = SnackSharedElementType.Image
-                            )
-                        ),
-                        animatedVisibilityScope = this@AnimatedVisibility
-                    ))
+                Box(
+                    modifier = Modifier
+                        .sharedElement(
+                            rememberSharedContentState(
+                                key = SnackSharedElementKey(
+                                    snackId = 1,
+                                    origin = "latest",
+                                    type = SnackSharedElementType.Image
+                                )
+                            ),
+                            animatedVisibilityScope = this@AnimatedVisibility
+                        )
+                )
                 // [START_EXCLUDE]
             }
         }

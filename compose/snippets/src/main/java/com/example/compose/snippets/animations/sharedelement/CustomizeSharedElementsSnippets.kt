@@ -30,9 +30,7 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.ArcMode
 import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -266,10 +264,10 @@ private fun DetailsContent(
                 // [END android_compose_shared_element_text_bounds_transform]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
             }
@@ -326,7 +324,7 @@ private fun SharedElement_Clipping() {
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                            )
+                        )
                     )
                 }
             } else {
@@ -364,10 +362,10 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
@@ -377,7 +375,6 @@ private fun SharedElement_Clipping() {
 
 @Composable
 private fun JetsnackBottomBar(modifier: Modifier) {
-
 }
 
 @Composable
@@ -402,7 +399,6 @@ private fun EnterExitJetsnack() {
             // [END android_compose_shared_element_enter_exit]
         }
     }
-
 }
 
 @Preview

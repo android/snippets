@@ -78,7 +78,7 @@ class SnippetsActivity : ComponentActivity() {
                                         )
                                     }
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
-                                    Destination.SharedElementExamples ->PlaceholderSizeAnimated_Demo()
+                                    Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
                                 }
                             }
                         }
