@@ -47,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.toRect
 import androidx.core.util.Consumer
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.exoplayer.ExoPlayer
 
 var shouldEnterPipMode by mutableStateOf(false)
@@ -247,7 +248,7 @@ fun PiPBuilderSetAspectRatio(
 
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
-            if (shouldEnterPipMode && player != null && player.isInitialized()) {
+            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
                 builder.setAspectRatio(
@@ -326,7 +327,7 @@ fun PiPBuilderAddRemoteActions(
                 listOfRemoteActions()
             )
 
-            if (shouldEnterPipMode && player != null && player.isInitialized()) {
+            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
                 builder.setAspectRatio(
@@ -344,8 +345,4 @@ fun PiPBuilderAddRemoteActions(
     } else {
         Log.i(PIP_TAG, "API does not support PiP")
     }
-}
-
-fun Player.isInitialized(): Boolean {
-    return (this.videoSize.width > 0 && this.videoSize.height > 0)
 }
