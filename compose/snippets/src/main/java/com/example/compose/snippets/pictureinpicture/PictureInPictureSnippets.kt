@@ -47,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.toRect
 import androidx.core.util.Consumer
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.exoplayer.ExoPlayer
 
 var shouldEnterPipMode by mutableStateOf(false)
@@ -237,6 +238,7 @@ fun PiPBuilderSetSourceRect(
 
 @Composable
 fun PiPBuilderSetAspectRatio(
+    player: Player?,
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -246,12 +248,11 @@ fun PiPBuilderSetAspectRatio(
 
         val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
             val builder = PictureInPictureParams.Builder()
-
-            if (shouldEnterPipMode) {
+            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
                 builder.setAspectRatio(
-                    Rational(sourceRect.width(), sourceRect.height())
+                    Rational(player.videoSize.width, player.videoSize.height)
                 )
             }
 
@@ -312,6 +313,7 @@ fun listOfRemoteActions(): List<RemoteAction> {
 
 @Composable
 fun PiPBuilderAddRemoteActions(
+    player: Player?,
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -325,11 +327,11 @@ fun PiPBuilderAddRemoteActions(
                 listOfRemoteActions()
             )
 
-            if (shouldEnterPipMode) {
+            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
                 val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
                 builder.setSourceRectHint(sourceRect)
                 builder.setAspectRatio(
-                    Rational(sourceRect.width(), sourceRect.height())
+                    Rational(player.videoSize.width, player.videoSize.height)
                 )
             }
 
