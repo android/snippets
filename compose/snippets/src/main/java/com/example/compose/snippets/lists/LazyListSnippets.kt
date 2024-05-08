@@ -20,6 +20,8 @@ package com.example.compose.snippets.lists
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
@@ -434,7 +436,7 @@ private fun LazyItemAnimations() {
     // [START android_compose_layouts_lazy_column_item_animation]
     LazyColumn {
         items(books, key = { it.id }) {
-            Row(Modifier.animateItemPlacement()) {
+            Row(Modifier.animateItem()) {
                 // ...
             }
         }
@@ -452,8 +454,10 @@ private fun LazyItemAnimationWithSpec() {
     LazyColumn {
         items(books, key = { it.id }) {
             Row(
-                Modifier.animateItemPlacement(
-                    tween(durationMillis = 250)
+                Modifier.animateItem(
+                    fadeInSpec = tween(durationMillis = 250),
+                    fadeOutSpec = tween(durationMillis = 100),
+                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
                 )
             ) {
                 // ...
