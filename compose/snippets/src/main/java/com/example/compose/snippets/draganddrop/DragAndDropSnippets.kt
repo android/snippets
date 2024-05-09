@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.draganddrop
 
 import android.content.ClipData
@@ -45,7 +61,8 @@ fun DragAndDropSnippet() {
                 DragAndDropTransferData(
                     ClipData.newPlainText(
                         "image Url", url
-                    ), flags = View.DRAG_FLAG_GLOBAL
+                    ),
+                    flags = View.DRAG_FLAG_GLOBAL
                 )
             )
         })
@@ -74,19 +91,19 @@ fun DragAndDropSnippet() {
     // [START android_compose_drag_and_drop_5]
     object : DragAndDropTarget {
         override fun onStarted(event: DragAndDropEvent) {
-            //When the drag event starts
+            // When the drag event starts
         }
 
         override fun onEntered(event: DragAndDropEvent) {
-            //When the dragged object enters the target surface
+            // When the dragged object enters the target surface
         }
 
         override fun onEnded(event: DragAndDropEvent) {
-            //When the drag event stops
+            // When the drag event stops
         }
 
         override fun onExited(event: DragAndDropEvent) {
-            //When the dragged object exits the target surface
+            // When the dragged object exits the target surface
         }
 
         override fun onDrop(event: DragAndDropEvent): Boolean = true
