@@ -43,6 +43,14 @@ fun DragAndDropSnippet() {
     // [START android_compose_drag_and_drop_1]
     Modifier.dragAndDropSource {
         detectTapGestures(onLongPress = {
+            // Transfer data here.
+        })
+    }
+    // [END android_compose_drag_and_drop_1]
+
+    // [START android_compose_drag_and_drop_2]
+    Modifier.dragAndDropSource {
+        detectTapGestures(onLongPress = {
             startTransfer(
                 DragAndDropTransferData(
                     ClipData.newPlainText(
@@ -52,9 +60,9 @@ fun DragAndDropSnippet() {
             )
         })
     }
-    // [END android_compose_drag_and_drop_1]
+    // [END android_compose_drag_and_drop_2]
 
-    // [START android_compose_drag_and_drop_2]
+    // [START android_compose_drag_and_drop_3]
     Modifier.dragAndDropSource {
         detectTapGestures(onLongPress = {
             startTransfer(
@@ -67,9 +75,9 @@ fun DragAndDropSnippet() {
             )
         })
     }
-    // [END android_compose_drag_and_drop_2]
+    // [END android_compose_drag_and_drop_3]
 
-    // [START android_compose_drag_and_drop_3]
+    // [START android_compose_drag_and_drop_4]
     val callback = remember {
         object : DragAndDropTarget {
             override fun onDrop(event: DragAndDropEvent): Boolean {
@@ -78,17 +86,17 @@ fun DragAndDropSnippet() {
             }
         }
     }
-    // [END android_compose_drag_and_drop_3]
+    // [END android_compose_drag_and_drop_4]
 
-    // [START android_compose_drag_and_drop_4]
+    // [START android_compose_drag_and_drop_5]
     Modifier.dragAndDropTarget(
         shouldStartDragAndDrop = { event ->
             event.mimeTypes().contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
         }, target = callback
     )
-    // [END android_compose_drag_and_drop_4]
+    // [END android_compose_drag_and_drop_5]
 
-    // [START android_compose_drag_and_drop_5]
+    // [START android_compose_drag_and_drop_6]
     object : DragAndDropTarget {
         override fun onStarted(event: DragAndDropEvent) {
             // When the drag event starts
@@ -108,5 +116,5 @@ fun DragAndDropSnippet() {
 
         override fun onDrop(event: DragAndDropEvent): Boolean = true
     }
-    // [END android_compose_drag_and_drop_5]
+    // [END android_compose_drag_and_drop_6]
 }
