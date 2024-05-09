@@ -36,7 +36,7 @@ import androidx.compose.ui.draganddrop.mimeTypes
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DragAndDropSnippet() {
+private fun DragAndDropSnippet() {
 
     val url = ""
 
