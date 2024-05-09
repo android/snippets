@@ -21,14 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
@@ -97,7 +90,7 @@ fun CheckboxParentExample() {
 
     Column {
         // Parent TriStateCheckbox
-        Row{
+        Row {
             Text("Select all")
             TriStateCheckbox(
                 state = parentState,
@@ -111,7 +104,7 @@ fun CheckboxParentExample() {
 
         // Child Checkboxes
         childCheckedStates.forEachIndexed { index, checked ->
-            Row{
+            Row {
                 Text("Option ${index + 1}")
                 Checkbox(
                     checked = checked,
