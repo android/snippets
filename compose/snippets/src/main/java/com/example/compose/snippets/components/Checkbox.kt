@@ -42,13 +42,17 @@ fun CheckboxExamples() {
         modifier = Modifier
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Minimal checkbox example")
-        CheckboxMinimalExample()
-        Text("Checkbox ")
-        CheckboxParentExample()
+        Column{
+            Text("Minimal checkbox example")
+            CheckboxMinimalExample()
+        }
+        Column{
+            Text("Parent checkbox example")
+            CheckboxParentExample()
+        }
     }
 }
 
@@ -58,7 +62,9 @@ fun CheckboxExamples() {
 fun CheckboxMinimalExample() {
     var checked by remember { mutableStateOf(true) }
 
-    Row {
+    Row (
+        verticalAlignment = Alignment.CenterVertically,
+    ){
         Text(
             "Minimal checkbox"
         )
@@ -69,7 +75,7 @@ fun CheckboxMinimalExample() {
     }
 
     Text(
-        if (checked) "Checked is checked" else "Checkbox is unchecked"
+        if (checked) "Checkbox is checked" else "Checkbox is unchecked"
     )
 }
 // [END android_compose_components_checkbox_minimal]
@@ -90,7 +96,9 @@ fun CheckboxParentExample() {
 
     Column {
         // Parent TriStateCheckbox
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Text("Select all")
             TriStateCheckbox(
                 state = parentState,
@@ -104,7 +112,9 @@ fun CheckboxParentExample() {
 
         // Child Checkboxes
         childCheckedStates.forEachIndexed { index, checked ->
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text("Option ${index + 1}")
                 Checkbox(
                     checked = checked,
@@ -117,9 +127,10 @@ fun CheckboxParentExample() {
                 )
             }
         }
-        if (childCheckedStates.all { it }) {
-            Text("All options selected")
-        }
+    }
+
+    if (childCheckedStates.all { it }) {
+        Text("All options selected")
     }
 }
-// [END android_compose_components_checkbox_parent
+// [END android_compose_components_checkbox_parent]
