@@ -30,7 +30,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
@@ -47,11 +46,11 @@ fun CheckboxExamples() {
         verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column{
+        Column {
             Text("Minimal checkbox example")
             CheckboxMinimalExample()
         }
-        Column{
+        Column {
             Text("Parent checkbox example")
             CheckboxParentExample()
         }
@@ -64,9 +63,9 @@ fun CheckboxExamples() {
 fun CheckboxMinimalExample() {
     var checked by remember { mutableStateOf(true) }
 
-    Row (
+    Row(
         verticalAlignment = Alignment.CenterVertically,
-    ){
+    ) {
         Text(
             "Minimal checkbox"
         )
