@@ -26,9 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
@@ -85,7 +87,7 @@ fun CheckboxMinimalExample() {
 @Composable
 fun CheckboxParentExample() {
     // Initialize states for the child checkboxes
-    var childCheckedStates by remember { mutableStateOf(listOf(false, false, false)) }
+    val childCheckedStates = remember { mutableStateListOf(false, false, false) }
 
     // Compute the parent state based on children's states
     val parentState = when {
@@ -105,7 +107,9 @@ fun CheckboxParentExample() {
                 onClick = {
                     // Determine new state based on current state
                     val newState = parentState != ToggleableState.On
-                    childCheckedStates = childCheckedStates.map { newState }
+                    childCheckedStates.forEachIndexed { index, _ ->
+                        childCheckedStates[index] = newState
+                    }
                 }
             )
         }
@@ -120,9 +124,7 @@ fun CheckboxParentExample() {
                     checked = checked,
                     onCheckedChange = { isChecked ->
                         // Update the individual child state
-                        childCheckedStates = childCheckedStates.toMutableList().also {
-                            it[index] = isChecked
-                        }
+                        childCheckedStates[index] = isChecked
                     }
                 )
             }
