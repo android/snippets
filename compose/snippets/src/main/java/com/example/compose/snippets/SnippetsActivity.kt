@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
 import com.example.compose.snippets.components.DialogExamples
@@ -93,6 +94,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
                                     TopComponentsDestination.AppBarExamples -> AppBarExamples()
+                                    TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
                                 }
                             }
                         }
