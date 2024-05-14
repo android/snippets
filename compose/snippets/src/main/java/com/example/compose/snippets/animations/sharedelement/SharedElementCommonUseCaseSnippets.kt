@@ -22,6 +22,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.size
@@ -89,8 +90,9 @@ private fun SharedElementTypicalUseText() {
                             key = "shared Text"
                         ),
                         animatedVisibilityScope = this,
-                        enter = fadeIn() + scaleInSharedContentToBounds(),
-                        exit = fadeOut() + scaleOutSharedContentToBounds()
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        resizeMode = SharedTransitionScope.ResizeMode.ScaleToBounds()
                     )
             )
             // [END android_compose_shared_element_text_tip]
