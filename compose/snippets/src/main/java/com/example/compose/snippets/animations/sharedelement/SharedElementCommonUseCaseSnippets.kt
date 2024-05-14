@@ -90,7 +90,7 @@ private fun SharedElementTypicalUseText() {
                             key = "shared Text"
                         ),
                         animatedVisibilityScope = this,
-                        enter = fadeIn() ,
+                        enter = fadeIn(),
                         exit = fadeOut(),
                         resizeMode = SharedTransitionScope.ResizeMode.ScaleToBounds()
                     )
