@@ -273,7 +273,6 @@ private fun MyComposableDisabledRippleConfig() {
     // [END android_compose_userinteractions_disabled_ripple_configuration]
 }
 
-
 // [START android_compose_userinteractions_my_ripple_configuration]
 @OptIn(ExperimentalMaterialApi::class)
 private val MyRippleConfiguration =
