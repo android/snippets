@@ -261,25 +261,18 @@ fun MyAppTheme(content: @Composable () -> Unit) {
 }
 // [END android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 
-// [START android_compose_userinteractions_disabled_ripple_configuration]
-@OptIn(ExperimentalMaterialApi::class)
-private val DisabledRippleConfiguration =
-    RippleConfiguration(isEnabled = false)
-
-// [START_EXCLUDE]
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableDisabledRippleConfig() {
-// [END_EXCLUDE]
-    CompositionLocalProvider(LocalRippleConfiguration provides DisabledRippleConfiguration) {
+    // [START android_compose_userinteractions_disabled_ripple_configuration]
+    CompositionLocalProvider(LocalRippleConfiguration provides null) {
         Button {
             // ...
         }
     }
-// [START_EXCLUDE silent]
+    // [END android_compose_userinteractions_disabled_ripple_configuration]
 }
-// [END_EXCLUDE]
-// [END android_compose_userinteractions_disabled_ripple_configuration]
+
 
 // [START android_compose_userinteractions_my_ripple_configuration]
 @OptIn(ExperimentalMaterialApi::class)
