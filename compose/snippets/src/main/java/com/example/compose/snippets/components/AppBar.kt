@@ -74,12 +74,14 @@ fun AppBarExamples() {
             "topBarCenter" -> CenterAlignedTopAppBarExample()
             "topBarMedium" -> MediumTopAppBarExample()
             "topBarLarge" -> LargeTopAppBarExample()
+            "topBarNavigation" -> TopBarNavigationExample()
             else -> AppBarOptions(
                 toBottom = { selection = "bottomBar" },
                 toTopBarSmall = { selection = "topBar" },
                 toTopBarCenter = { selection = "topBarCenter" },
                 toTopBarMedium = { selection = "topBarMedium" },
                 toTopBarLarge = { selection = "topBarLarge" },
+                toTopBarNavigation = { selection = "topBarNavigation" },
             )
         }
     }
@@ -92,6 +94,7 @@ fun AppBarOptions(
     toTopBarCenter: () -> Unit,
     toTopBarMedium: () -> Unit,
     toTopBarLarge: () -> Unit,
+    toTopBarNavigation: () -> Unit,
 ) {
     Column() {
         Button({ toBottom() }) {
@@ -109,6 +112,10 @@ fun AppBarOptions(
         Button({ toTopBarLarge() }) {
             Text("Large top bar")
         }
+        Button({ toTopBarNavigation() }) {
+            Text("Top bar navigation example")
+        }
+
     }
 }
 
@@ -326,6 +333,13 @@ fun LargeTopAppBarExample() {
     }
 }
 // [END android_compose_components_largetopappbar]
+
+// [START android_compose_components_navigation]
+@Composable
+fun TopBarNavigationExample() {
+    Text("Foo")
+}
+// [END android_compose_components_navigation]
 
 @Composable
 fun ScrollContent(innerPadding: PaddingValues) {
