@@ -30,7 +30,9 @@ import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.navigation.TopComponentsDestination
 
 @Composable
-fun ComponentsScreen(navigate: (TopComponentsDestination) -> Unit) {
+fun ComponentsScreen(
+    navigate: (TopComponentsDestination) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -38,7 +40,7 @@ fun ComponentsScreen(navigate: (TopComponentsDestination) -> Unit) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        items(TopComponentsDestination.values().toList()) { destination ->
+        items(TopComponentsDestination.entries) { destination ->
             NavigationItem(destination) {
                 navigate(
                     destination
