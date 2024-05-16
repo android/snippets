@@ -66,7 +66,7 @@ class SnippetsActivity : ComponentActivity() {
                         composable("LandingScreen") {
                             LandingScreen { navController.navigate(it.route) }
                         }
-                        Destination.values().forEach { destination ->
+                        Destination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
@@ -82,7 +82,7 @@ class SnippetsActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        TopComponentsDestination.values().forEach { destination ->
+                        TopComponentsDestination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     TopComponentsDestination.CardExamples -> CardExamples()
@@ -94,7 +94,9 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ButtonExamples -> ButtonExamples()
                                     TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
-                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples {
+                                        navController.popBackStack()
+                                    }
                                     TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
                                     TopComponentsDestination.BadgeExamples -> BadgeExamples()
                                 }
