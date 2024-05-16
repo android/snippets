@@ -115,7 +115,6 @@ fun AppBarOptions(
         Button({ toTopBarNavigation() }) {
             Text("Top bar navigation example")
         }
-
     }
 }
 
