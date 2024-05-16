@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -59,9 +60,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
 @Composable
-fun AppBarExamples() {
+fun AppBarExamples(
+    navigateBack: () -> Unit
+) {
     var selection by remember { mutableStateOf("none") }
 
     Surface(
@@ -74,7 +76,7 @@ fun AppBarExamples() {
             "topBarCenter" -> CenterAlignedTopAppBarExample()
             "topBarMedium" -> MediumTopAppBarExample()
             "topBarLarge" -> LargeTopAppBarExample()
-            "topBarNavigation" -> TopBarNavigationExample()
+            "topBarNavigation" -> TopBarNavigationExample { navigateBack() }
             else -> AppBarOptions(
                 toBottom = { selection = "bottomBar" },
                 toTopBarSmall = { selection = "topBar" },
@@ -218,7 +220,7 @@ fun CenterAlignedTopAppBarExample() {
                 navigationIcon = {
                     IconButton(onClick = { /* do something */ }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Localized description"
                         )
                     }
@@ -265,7 +267,7 @@ fun MediumTopAppBarExample() {
                 navigationIcon = {
                     IconButton(onClick = { /* do something */ }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Localized description"
                         )
                     }
@@ -312,7 +314,7 @@ fun LargeTopAppBarExample() {
                 navigationIcon = {
                     IconButton(onClick = { /* do something */ }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Localized description"
                         )
                     }
@@ -334,10 +336,44 @@ fun LargeTopAppBarExample() {
 }
 // [END android_compose_components_largetopappbar]
 
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_navigation]
 @Composable
-fun TopBarNavigationExample() {
-    Text("Foo")
+fun TopBarNavigationExample(
+    navigateBack: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        "Navigation example",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navigateBack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+            )
+        },
+    ) { innerPadding ->
+        Text(
+            "Click the back button to pop from the back stack.",
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
 }
 // [END android_compose_components_navigation]
 
