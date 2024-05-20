@@ -39,6 +39,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -154,10 +156,10 @@ private class SharedElementBasicUsage2 {
             Text("Cupcake", fontSize = 28.sp)
             Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
             )
             // [END_EXCLUDE]
         }
@@ -286,10 +288,10 @@ private class SharedElementBasicUsage3 {
                 )
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                 )
                 // [END_EXCLUDE]
             }
@@ -440,4 +442,60 @@ private object UniqueKeySnippet {
         // [END_EXCLUDE]
     }
     // [END android_compose_shared_elements_unique_key]
+}
+
+// [START android_compose_shared_element_scope]
+val LocalNavAnimatedVisibilityScope = compositionLocalOf<AnimatedVisibilityScope?> { null }
+val LocalSharedTransitionScope = compositionLocalOf<SharedTransitionScope?> { null }
+
+@Composable
+private fun SharedElementScope_CompositionLocal() {
+    // An example of how to use composition locals to pass around the shared transition scope, far down your UI tree.
+    // [START_EXCLUDE]
+    val state = remember {
+        mutableStateOf(false)
+    }
+    // [END_EXCLUDE]
+    SharedTransitionLayout {
+        CompositionLocalProvider(
+            LocalSharedTransitionScope provides this
+        ) {
+            // This could also be your top-level NavHost as this provides an AnimatedContentScope
+            AnimatedContent(state, label = "Top level AnimatedContent") { targetState ->
+                CompositionLocalProvider(LocalNavAnimatedVisibilityScope provides this) {
+                    // Now we can access the scopes in any nested composables as follows:
+                    val sharedTransitionScope = LocalSharedTransitionScope.current
+                        ?: throw IllegalStateException("No SharedElementScope found")
+                    val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
+                        ?: throw IllegalStateException("No SharedElementScope found")
+                }
+                // [START_EXCLUDE]
+                if (targetState.value) {
+                    // do something
+                }
+                // [END_EXCLUDE]
+            }
+        }
+    }
+}
+// [END android_compose_shared_element_scope]
+
+private object SharedElementScope_Extensions {
+    // [START android_compose_shared_element_parameters]
+    @Composable
+    fun MainContent(
+        animatedVisibilityScope: AnimatedVisibilityScope,
+        sharedTransitionScope: SharedTransitionScope
+    ) {
+
+    }
+
+    @Composable
+    fun Details(
+        animatedVisibilityScope: AnimatedVisibilityScope,
+        sharedTransitionScope: SharedTransitionScope
+    ) {
+
+    }
+    // [END android_compose_shared_element_parameters]
 }

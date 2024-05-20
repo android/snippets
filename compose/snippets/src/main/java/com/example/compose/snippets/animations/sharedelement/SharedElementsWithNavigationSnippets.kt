@@ -54,7 +54,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.compose.snippets.R
 
-val listSnacks = listOf(
+private val listSnacks = listOf(
     Snack("Cupcake", "", R.drawable.cupcake),
     Snack("Donut", "", R.drawable.donut),
     Snack("Eclair", "", R.drawable.eclair),
@@ -62,6 +62,7 @@ val listSnacks = listOf(
     Snack("Gingerbread", "", R.drawable.gingerbread),
     Snack("Honeycomb", "", R.drawable.honeycomb),
 )
+
 // [START android_compose_shared_element_predictive_back]
 @Preview
 @Composable

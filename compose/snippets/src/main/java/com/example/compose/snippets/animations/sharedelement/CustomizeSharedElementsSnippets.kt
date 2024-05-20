@@ -264,10 +264,10 @@ private fun DetailsContent(
                 // [END android_compose_shared_element_text_bounds_transform]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
             }
@@ -324,7 +324,7 @@ private fun SharedElement_Clipping() {
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                        )
+                            )
                     )
                 }
             } else {
@@ -362,10 +362,10 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
@@ -531,6 +531,15 @@ private fun SharedElement_SkipLookaheadSize() {
         }
     }
 }
+
+private val listSnacks = listOf(
+    Snack("Cupcake", "", R.drawable.cupcake),
+    Snack("Donut", "", R.drawable.donut),
+    Snack("Eclair", "", R.drawable.eclair),
+    Snack("Froyo", "", R.drawable.froyo),
+    Snack("Gingerbread", "", R.drawable.gingerbread),
+    Snack("Honeycomb", "", R.drawable.honeycomb),
+)
 
 @Preview
 @Composable
