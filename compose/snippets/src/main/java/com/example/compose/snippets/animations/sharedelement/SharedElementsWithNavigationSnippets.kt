@@ -256,7 +256,7 @@ fun CustomPredictiveBackHandle() {
                     if (seekableTransitionState.currentState is Screen.Details){
                         seekableTransitionState.seekTo(it, Screen.Home)
                     } else {
-                        // seek to the second item with this slider as an example
+                        // seek to the previously navigated index
                         seekableTransitionState.seekTo(it, Screen.Details(lastNavigatedIndex))
                     }
                 }})
