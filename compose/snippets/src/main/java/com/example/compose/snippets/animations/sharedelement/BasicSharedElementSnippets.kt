@@ -156,10 +156,10 @@ private class SharedElementBasicUsage2 {
             Text("Cupcake", fontSize = 28.sp)
             Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
             )
             // [END_EXCLUDE]
         }
@@ -288,10 +288,10 @@ private class SharedElementBasicUsage3 {
                 )
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                 )
                 // [END_EXCLUDE]
             }
@@ -487,7 +487,6 @@ private object SharedElementScope_Extensions {
         animatedVisibilityScope: AnimatedVisibilityScope,
         sharedTransitionScope: SharedTransitionScope
     ) {
-
     }
 
     @Composable
@@ -495,7 +494,6 @@ private object SharedElementScope_Extensions {
         animatedVisibilityScope: AnimatedVisibilityScope,
         sharedTransitionScope: SharedTransitionScope
     ) {
-
     }
     // [END android_compose_shared_element_parameters]
 }

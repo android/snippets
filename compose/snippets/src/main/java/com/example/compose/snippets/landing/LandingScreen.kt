@@ -84,11 +84,13 @@ fun NavigationItems(navigate: (Destination) -> Unit) {
 
 @Composable
 fun NavigationItem(destination: Destination, onClick: () -> Unit) {
-    Box(modifier = Modifier
-        .heightIn(min = 48.dp)
-        .clickable {
-            onClick()
-        }) {
+    Box(
+        modifier = Modifier
+            .heightIn(min = 48.dp)
+            .clickable {
+                onClick()
+            }
+    ) {
         Text(destination.title)
         Divider(modifier = Modifier.align(Alignment.BottomCenter))
     }
