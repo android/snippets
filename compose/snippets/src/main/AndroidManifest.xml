@@ -33,6 +33,7 @@
             android:name=".SnippetsActivity"
             android:exported="true"
             android:supportsPictureInPicture="true"
+            android:enableOnBackInvokedCallback="true"
             android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
             android:theme="@style/Theme.Snippets">
             <!--    [END android_compose_pip_manifest_entry]-->
