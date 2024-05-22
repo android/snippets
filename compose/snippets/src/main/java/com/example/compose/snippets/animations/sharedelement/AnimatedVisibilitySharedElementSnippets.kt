@@ -343,7 +343,7 @@ fun SnackContents(
             painter = painterResource(id = snack.image),
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(20f/9f),
+                .aspectRatio(20f / 9f),
             contentScale = ContentScale.Crop,
             contentDescription = null
         )
