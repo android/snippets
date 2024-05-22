@@ -435,6 +435,7 @@ private fun LazyItemAnimations() {
     }
     // [START android_compose_layouts_lazy_column_item_animation]
     LazyColumn {
+        // It is important to provide a key to each item to ensure animateItem() works as expected.
         items(books, key = { it.id }) {
             Row(Modifier.animateItem()) {
                 // ...
@@ -747,3 +748,4 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
+

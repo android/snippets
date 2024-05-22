@@ -467,7 +467,7 @@ private fun SharedElementScope_CompositionLocal() {
                     val sharedTransitionScope = LocalSharedTransitionScope.current
                         ?: throw IllegalStateException("No SharedElementScope found")
                     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
-                        ?: throw IllegalStateException("No SharedElementScope found")
+                        ?: throw IllegalStateException("No AnimatedVisibility found")
                 }
                 // [START_EXCLUDE]
                 if (targetState.value) {

@@ -45,9 +45,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -112,23 +114,26 @@ private fun AnimatedVisibilitySharedElementFullExample() {
     )
 
     SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
-        LazyVerticalGrid(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray.copy(alpha = 0.5f))
                 .blurLayer(graphicsLayer, animateBlurRadius.value)
                 .padding(16.dp),
-            columns = GridCells.Adaptive(150.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            itemsIndexed(listSnacks) { index, snack ->
+            itemsIndexed(listSnacks, key = { index, snack -> snack.name }) { index, snack ->
                 SnackItem(
                     snack = snack,
                     onClick = {
                         selectedSnack = snack
                     },
-                    visible = selectedSnack != snack
+                    visible = selectedSnack != snack,
+                    modifier = Modifier.animateItem(
+                        placementSpec = animationSpec(),
+                        fadeOutSpec = animationSpec(),
+                        fadeInSpec = animationSpec()
+                    )
                 )
             }
         }
@@ -338,7 +343,7 @@ fun SnackContents(
             painter = painterResource(id = snack.image),
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f),
+                .aspectRatio(20f/9f),
             contentScale = ContentScale.Crop,
             contentDescription = null
         )
