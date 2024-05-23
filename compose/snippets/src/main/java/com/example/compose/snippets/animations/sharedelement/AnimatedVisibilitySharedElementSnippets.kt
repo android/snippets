@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class)
+@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalSharedTransitionApi::class)
 
 package com.example.compose.snippets.animations.sharedelement
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -38,7 +35,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,7 +45,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,13 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.layer.GraphicsLayer
-import androidx.compose.ui.graphics.layer.drawLayer
-import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,111 +74,9 @@ private val listSnacks = listOf(
     Snack("Honeycomb", "", R.drawable.honeycomb),
 )
 
-fun Modifier.blurLayer(layer: GraphicsLayer, radius: Float): Modifier {
-    return if (radius == 0f) this else this.drawWithContent {
-        layer.apply {
-            record {
-                this@drawWithContent.drawContent()
-            }
-            // will apply a blur on API 31+
-            this.renderEffect = BlurEffect(radius, radius, TileMode.Decal)
-        }
-        drawLayer(layer)
-    }
-}
-
-private fun <T> animationSpec() = tween<T>(durationMillis = 500)
-private val boundsTransition = BoundsTransform { _, _ -> animationSpec() }
 private val shapeForSharedElement = RoundedCornerShape(16.dp)
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@Preview
-@Composable
-private fun AnimatedVisibilitySharedElementFullExample() {
-    var selectedSnack by remember { mutableStateOf<Snack?>(null) }
-    val graphicsLayer = rememberGraphicsLayer()
-    val animateBlurRadius = animateFloatAsState(
-        targetValue = if (selectedSnack != null) 20f else 0f,
-        label = "blur radius",
-        animationSpec = animationSpec()
-    )
-
-    SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.LightGray.copy(alpha = 0.5f))
-                .blurLayer(graphicsLayer, animateBlurRadius.value)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            itemsIndexed(listSnacks, key = { index, snack -> snack.name }) { index, snack ->
-                SnackItem(
-                    snack = snack,
-                    onClick = {
-                        selectedSnack = snack
-                    },
-                    visible = selectedSnack != snack,
-                    modifier = Modifier.animateItem(
-                        placementSpec = animationSpec(),
-                        fadeOutSpec = animationSpec(),
-                        fadeInSpec = animationSpec()
-                    )
-                )
-            }
-        }
-
-        SnackEditDetails(
-            snack = selectedSnack,
-            onConfirmClick = {
-                selectedSnack = null
-            }
-        )
-    }
-}
-
-@Composable
-fun SharedTransitionScope.SnackItem(
-    snack: Snack,
-    visible: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    AnimatedVisibility(
-        modifier = modifier,
-        visible = visible,
-        enter = fadeIn(animationSpec = animationSpec()) + scaleIn(
-            animationSpec()
-        ),
-        exit = fadeOut(animationSpec = animationSpec()) + scaleOut(
-            animationSpec()
-        )
-    ) {
-        Box(
-            modifier = Modifier
-                .sharedBounds(
-                    sharedContentState = rememberSharedContentState(key = "${snack.name}-bounds"),
-                    animatedVisibilityScope = this,
-                    boundsTransform = boundsTransition,
-                    clipInOverlayDuringTransition = OverlayClip(shapeForSharedElement)
-                )
-                .background(Color.White, shapeForSharedElement)
-                .clip(shapeForSharedElement)
-        ) {
-            SnackContents(
-                snack = snack,
-                modifier = Modifier.sharedElement(
-                    state = rememberSharedContentState(key = snack.name),
-                    animatedVisibilityScope = this@AnimatedVisibility,
-                    boundsTransform = boundsTransition,
-                ),
-                onClick = onClick
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalLayoutApi::class)
 @Preview
 @Composable
 private fun AnimatedVisibilitySharedElementShortenedExample() {
@@ -196,33 +84,21 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
     var selectedSnack by remember { mutableStateOf<Snack?>(null) }
 
     SharedTransitionLayout(modifier = Modifier.fillMaxSize()) {
-        LazyVerticalGrid(
+        LazyColumn(
             // [START_EXCLUDE]
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray.copy(alpha = 0.5f))
                 .padding(16.dp),
-            columns = GridCells.Adaptive(150.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
             // [END_EXCLUDE]
         ) {
-            itemsIndexed(listSnacks) { index, snack ->
+            items(listSnacks) { snack ->
                 AnimatedVisibility(
                     visible = snack != selectedSnack,
-                    // [START_EXCLUDE]
-                    enter = fadeIn(animationSpec = animationSpec()) + scaleIn(
-                        animationSpec()
-                    ),
-                    exit = fadeOut(animationSpec = animationSpec()) + scaleOut(
-                        animationSpec()
-                    ),
-                    modifier = Modifier.animateItem(
-                            placementSpec = animationSpec(),
-                        fadeOutSpec = animationSpec(),
-                        fadeInSpec = animationSpec()
-                    )
-                    // [END_EXCLUDE]
+                    enter = fadeIn() + scaleIn(),
+                    exit = fadeOut() + scaleOut(),
+                    modifier = Modifier.animateItem()
                 ) {
                     Box(
                         modifier = Modifier
@@ -230,7 +106,6 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                                 sharedContentState = rememberSharedContentState(key = "${snack.name}-bounds"),
                                 // Using the scope provided by AnimatedVisibility
                                 animatedVisibilityScope = this,
-                                boundsTransform = boundsTransition,
                                 clipInOverlayDuringTransition = OverlayClip(shapeForSharedElement)
                             )
                             .background(Color.White, shapeForSharedElement)
@@ -240,8 +115,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                             snack = snack,
                             modifier = Modifier.sharedElement(
                                 state = rememberSharedContentState(key = snack.name),
-                                animatedVisibilityScope = this@AnimatedVisibility,
-                                boundsTransform = boundsTransition,
+                                animatedVisibilityScope = this@AnimatedVisibility
                             ),
                             onClick = {
                                 selectedSnack = snack
@@ -251,7 +125,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                 }
             }
         }
-
+        // Contains matching AnimatedContent with sharedBounds modifiers.
         SnackEditDetails(
             snack = selectedSnack,
             onConfirmClick = {
@@ -272,7 +146,7 @@ fun SharedTransitionScope.SnackEditDetails(
         modifier = modifier,
         targetState = snack,
         transitionSpec = {
-            fadeIn(animationSpec()) togetherWith fadeOut(animationSpec())
+            fadeIn() togetherWith fadeOut()
         },
         label = "SnackEditDetails"
     ) { targetSnack ->
@@ -295,7 +169,6 @@ fun SharedTransitionScope.SnackEditDetails(
                         .sharedBounds(
                             sharedContentState = rememberSharedContentState(key = "${targetSnack.name}-bounds"),
                             animatedVisibilityScope = this@AnimatedContent,
-                            boundsTransform = boundsTransition,
                             clipInOverlayDuringTransition = OverlayClip(shapeForSharedElement)
                         )
                         .background(Color.White, shapeForSharedElement)
@@ -307,7 +180,6 @@ fun SharedTransitionScope.SnackEditDetails(
                         modifier = Modifier.sharedElement(
                             state = rememberSharedContentState(key = targetSnack.name),
                             animatedVisibilityScope = this@AnimatedContent,
-                            boundsTransform = boundsTransition,
                         ),
                         onClick = {
                             onConfirmClick()
