@@ -216,6 +216,11 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                     ),
                     exit = fadeOut(animationSpec = animationSpec()) + scaleOut(
                         animationSpec()
+                    ),
+                    modifier = Modifier.animateItem(
+                            placementSpec = animationSpec(),
+                        fadeOutSpec = animationSpec(),
+                        fadeInSpec = animationSpec()
                     )
                     // [END_EXCLUDE]
                 ) {
