@@ -748,4 +748,3 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
-
