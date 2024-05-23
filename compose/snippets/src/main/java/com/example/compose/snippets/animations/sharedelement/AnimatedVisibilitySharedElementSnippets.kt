@@ -218,7 +218,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                         animationSpec()
                     ),
                     modifier = Modifier.animateItem(
-                            placementSpec = animationSpec(),
+                        placementSpec = animationSpec(),
                         fadeOutSpec = animationSpec(),
                         fadeInSpec = animationSpec()
                     )
