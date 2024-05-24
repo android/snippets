@@ -20,14 +20,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -83,7 +83,7 @@ fun BadgeInteractiveExample() {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (itemCount > 0){
+        if (itemCount > 0) {
             BadgedBox(
                 badge = {
                     Badge(
@@ -96,7 +96,7 @@ fun BadgeInteractiveExample() {
             ) {
                 ShoppingCart()
             }
-        }else{
+        } else {
             ShoppingCart()
         }
         Button(onClick = { itemCount++ }) { // Use the increment operator for brevity
@@ -106,7 +106,7 @@ fun BadgeInteractiveExample() {
 }
 
 @Composable
-fun ShoppingCart(){
+fun ShoppingCart() {
     Icon(
         imageVector = Icons.Filled.ShoppingCart,
         contentDescription = "Shopping cart",
