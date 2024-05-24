@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.components.AppBarExamples
+import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
 import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
@@ -95,6 +96,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
                                     TopComponentsDestination.AppBarExamples -> AppBarExamples()
                                     TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
+                                    TopComponentsDestination.BadgeExamples -> BadgeExamples()
                                 }
                             }
                         }
