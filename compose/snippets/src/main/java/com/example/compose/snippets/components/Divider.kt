@@ -37,6 +37,7 @@ fun DividerExamples() {
 }
 
 @Preview
+// [START android_compose_components_horizontaldivider]
 @Composable
 fun HorizontalDividerExample() {
     Column(
@@ -47,9 +48,11 @@ fun HorizontalDividerExample() {
         Text("Second item in list")
     }
 }
+// [END android_compose_components_horizontaldivider]
 
 
 @Preview
+// [START android_compose_components_verticaldivider]
 @Composable
 fun VerticalDividerExample() {
     Row(
@@ -63,3 +66,4 @@ fun VerticalDividerExample() {
         Text("Second item in row")
     }
 }
+// [END android_compose_components_verticaldivider]
