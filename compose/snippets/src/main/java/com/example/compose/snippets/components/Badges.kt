@@ -23,11 +23,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -41,34 +50,66 @@ fun BadgeExamples() {
         verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Minimal badge example")
+        Text("Minimal badge example", fontWeight = FontWeight.Bold)
         BadgeExample()
-        Text("Badge number example")
-        BadgeNumberExample()
+        Text("Badge number example", fontWeight = FontWeight.Bold)
+        BadgeInteractiveExample()
     }
 }
 
 @Preview
+// [START android_compose_components_badge]
 @Composable
 fun BadgeExample() {
     BadgedBox(
-        badge = {}
+        badge = {
+            Badge()
+        }
     ) {
         Icon(
-            imageVector = Icons.Filled.ShoppingCart,
-            contentDescription = "Shopping cart"
+            imageVector = Icons.Filled.Mail,
+            contentDescription = "Email"
         )
+    }
+}
+// [END android_compose_components_badge]
+
+@Preview
+// [START android_compose_components_badgeinteractive]
+@Composable
+fun BadgeInteractiveExample() {
+    var itemCount by remember { mutableStateOf(0) }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        if (itemCount > 0){
+            BadgedBox(
+                badge = {
+                    Badge(
+                        containerColor = Color.Red,
+                        contentColor = Color.White
+                    ) {
+                        Text("$itemCount")
+                    }
+                }
+            ) {
+                ShoppingCart()
+            }
+        }else{
+            ShoppingCart()
+        }
+        Button(onClick = { itemCount++ }) { // Use the increment operator for brevity
+            Text("Add item")
+        }
     }
 }
 
 @Composable
-fun BadgeNumberExample() {
-    BadgedBox(
-        badge = { Text("8") }
-    ) {
-        Icon(
-            imageVector = Icons.Filled.ShoppingCart,
-            contentDescription = "Shopping cart"
-        )
-    }
+fun ShoppingCart(){
+    Icon(
+        imageVector = Icons.Filled.ShoppingCart,
+        contentDescription = "Shopping cart",
+    )
 }
+// [END android_compose_components_badgeinteractive]
