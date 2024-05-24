@@ -39,4 +39,5 @@ enum class TopComponentsDestination(val route: String, val title: String) {
     AppBarExamples("appBarExamples", "App bars"),
     CheckboxExamples("checkboxExamples", "Checkbox"),
     DividerExamples("dividerExamples", "Dividers"),
+    BadgeExamples("badgeExamples", "Badges"),
 }
