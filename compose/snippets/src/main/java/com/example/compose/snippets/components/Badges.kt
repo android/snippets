@@ -99,7 +99,7 @@ fun BadgeInteractiveExample() {
         }else{
             ShoppingCart()
         }
-        Button(onClick = { itemCount++ }) { // Use the increment operator for brevity
+        Button(onClick = { itemCount++ }) {
             Text("Add item")
         }
     }
