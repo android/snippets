@@ -34,6 +34,7 @@ import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
 import com.example.compose.snippets.components.DialogExamples
+import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
@@ -65,7 +66,7 @@ class SnippetsActivity : ComponentActivity() {
                         composable("LandingScreen") {
                             LandingScreen { navController.navigate(it.route) }
                         }
-                        Destination.values().forEach { destination ->
+                        Destination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
@@ -81,7 +82,7 @@ class SnippetsActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        TopComponentsDestination.values().forEach { destination ->
+                        TopComponentsDestination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     TopComponentsDestination.CardExamples -> CardExamples()
@@ -95,6 +96,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
                                     TopComponentsDestination.AppBarExamples -> AppBarExamples()
                                     TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
+                                    TopComponentsDestination.DividerExamples -> DividerExamples()
                                 }
                             }
                         }
