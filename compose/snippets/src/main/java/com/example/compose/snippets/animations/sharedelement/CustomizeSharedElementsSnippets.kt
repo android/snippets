@@ -532,6 +532,15 @@ private fun SharedElement_SkipLookaheadSize() {
     }
 }
 
+private val listSnacks = listOf(
+    Snack("Cupcake", "", R.drawable.cupcake),
+    Snack("Donut", "", R.drawable.donut),
+    Snack("Eclair", "", R.drawable.eclair),
+    Snack("Froyo", "", R.drawable.froyo),
+    Snack("Gingerbread", "", R.drawable.gingerbread),
+    Snack("Honeycomb", "", R.drawable.honeycomb),
+)
+
 @Preview
 @Composable
 fun PlaceholderSizeAnimated_Demo() {

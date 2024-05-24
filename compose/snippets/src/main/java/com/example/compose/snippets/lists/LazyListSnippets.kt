@@ -435,6 +435,7 @@ private fun LazyItemAnimations() {
     }
     // [START android_compose_layouts_lazy_column_item_animation]
     LazyColumn {
+        // It is important to provide a key to each item to ensure animateItem() works as expected.
         items(books, key = { it.id }) {
             Row(Modifier.animateItem()) {
                 // ...
