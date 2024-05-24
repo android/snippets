@@ -83,9 +83,9 @@ fun BadgeInteractiveExample() {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (itemCount > 0){
-            BadgedBox(
-                badge = {
+        BadgedBox(
+            badge = {
+                if (itemCount > 0){
                     Badge(
                         containerColor = Color.Red,
                         contentColor = Color.White
@@ -93,23 +93,16 @@ fun BadgeInteractiveExample() {
                         Text("$itemCount")
                     }
                 }
-            ) {
-                ShoppingCart()
             }
-        }else{
-            ShoppingCart()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ShoppingCart,
+                contentDescription = "Shopping cart",
+            )
         }
         Button(onClick = { itemCount++ }) {
             Text("Add item")
         }
     }
-}
-
-@Composable
-fun ShoppingCart(){
-    Icon(
-        imageVector = Icons.Filled.ShoppingCart,
-        contentDescription = "Shopping cart",
-    )
 }
 // [END android_compose_components_badgeinteractive]
