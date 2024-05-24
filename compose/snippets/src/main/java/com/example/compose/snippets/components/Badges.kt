@@ -20,8 +20,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -87,7 +85,7 @@ fun BadgeInteractiveExample() {
     ) {
         BadgedBox(
             badge = {
-                if (itemCount > 0){
+                if (itemCount > 0) {
                     Badge(
                         containerColor = Color.Red,
                         contentColor = Color.White
