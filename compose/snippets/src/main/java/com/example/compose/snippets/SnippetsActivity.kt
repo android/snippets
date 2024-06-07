@@ -37,6 +37,7 @@ import com.example.compose.snippets.components.ComponentsScreen
 import com.example.compose.snippets.components.DialogExamples
 import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
+import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
@@ -101,6 +102,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
                                     TopComponentsDestination.DividerExamples -> DividerExamples()
                                     TopComponentsDestination.BadgeExamples -> BadgeExamples()
+                                    TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
                                 }
                             }
                         }
