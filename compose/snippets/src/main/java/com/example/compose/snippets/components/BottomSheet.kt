@@ -1,6 +1,7 @@
 package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,11 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
+// [START android_compose_components_partialbottomsheet]
 @Composable
 fun PartialBottomSheet() {
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false
+        skipPartiallyExpanded = false,
     )
 
     Column(
@@ -37,12 +39,13 @@ fun PartialBottomSheet() {
 
         if (showBottomSheet) {
             ModalBottomSheet(
+                modifier = Modifier.fillMaxHeight(),
                 sheetState = sheetState,
                 onDismissRequest = { showBottomSheet = false }
             ) {
                 Text("Swipe up to open sheet. Swipe down to dismiss.")
-                Text("Here is some placeholder content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut justo urna, facilisis vel aliquam pretium, mollis id ex. Nam sollicitudin, purus id mattis accumsan, justo eros imperdiet nisl, ac iaculis arcu nisi et ex. Praesent mi enim, luctus lobortis mauris eget, sollicitudin efficitur purus. Donec quis tellus aliquam, commodo mi feugiat, dapibus lectus.")
             }
         }
     }
 }
+// [END android_compose_components_partialbottomsheet]
