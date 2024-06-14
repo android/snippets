@@ -77,15 +77,19 @@ fun VoiceInputScreen() {
             }
         }
 
-    // [START_EXCLUDE android_wear_voice_input]
     val scrollState = rememberScrollState()
 
     ScreenScaffold(scrollState = scrollState) {
+        //rest of implementation here
+        // [START_EXCLUDE]
         val padding = ScalingLazyColumnDefaults.padding(
             first = ItemType.Text,
             last = ItemType.Chip
         )()
+        // [END_EXCLUDE]
         Column(
+            //rest of implementation here
+            // [START_EXCLUDE]
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
@@ -93,7 +97,8 @@ fun VoiceInputScreen() {
                 .padding(padding),
             verticalArrangement = Arrangement.Center
         ) {
-            // [END_EXCLUDE android_wear_voice_input]
+            // [END_EXCLUDE]
+
             // Create an intent that can start the Speech Recognizer activity
             val voiceIntent: Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(
@@ -114,9 +119,7 @@ fun VoiceInputScreen() {
                 label = stringResource(R.string.voice_input_label),
                 secondaryLabel = textForVoiceInput
             )
-            // [START_EXCLUDE android_wear_voice_input]
         }
     }
-    // [END_EXCLUDE android_wear_voice_input]
     // [END android_wear_voice_input]
 }
