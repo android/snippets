@@ -20,8 +20,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import com.example.wear.snippets.navigation.navigation
 import com.example.wear.snippets.voiceinput.VoiceInputScreen
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.AppScaffold
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,5 +41,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun WearApp() {
-    VoiceInputScreen()
+    AppScaffold {
+        navigation()
+    }
 }
