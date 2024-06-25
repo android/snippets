@@ -49,8 +49,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wear.R
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.ScreenScaffold
@@ -63,63 +66,72 @@ import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun VoiceInputScreen() {
-    // [START android_wear_voice_input]
-    var textForVoiceInput by remember { mutableStateOf("") }
+    AppScaffold {
+        // [START android_wear_voice_input]
+        var textForVoiceInput by remember { mutableStateOf("") }
 
-    val voiceLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { activityResult ->
-            // This is where you process the intent and extract the speech text from the intent.
-            activityResult.data?.let { data ->
-                val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                textForVoiceInput = results?.get(0) ?: "None"
+        val voiceLauncher =
+            rememberLauncherForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { activityResult ->
+                // This is where you process the intent and extract the speech text from the intent.
+                activityResult.data?.let { data ->
+                    val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    textForVoiceInput = results?.get(0) ?: "None"
+                }
             }
-        }
 
-    val scrollState = rememberScrollState()
+        val scrollState = rememberScrollState()
 
-    ScreenScaffold(scrollState = scrollState) {
-        //rest of implementation here
-        // [START_EXCLUDE]
-        val padding = ScalingLazyColumnDefaults.padding(
-            first = ItemType.Text,
-            last = ItemType.Chip
-        )()
-        // [END_EXCLUDE]
-        Column(
-            //rest of implementation here
+        ScreenScaffold(scrollState = scrollState) {
+            // rest of implementation here
             // [START_EXCLUDE]
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .rotaryWithScroll(scrollState)
-                .padding(padding),
-            verticalArrangement = Arrangement.Center
-        ) {
+            val padding = ScalingLazyColumnDefaults.padding(
+                first = ItemType.Text,
+                last = ItemType.Chip
+            )()
             // [END_EXCLUDE]
+            Column(
+                // rest of implementation here
+                // [START_EXCLUDE]
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .rotaryWithScroll(scrollState)
+                    .padding(padding),
+                verticalArrangement = Arrangement.Center
+            ) {
+                // [END_EXCLUDE]
 
-            // Create an intent that can start the Speech Recognizer activity
-            val voiceIntent: Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                )
+                // Create an intent that can start the Speech Recognizer activity
+                val voiceIntent: Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtra(
+                        RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    )
 
-                putExtra(
-                    RecognizerIntent.EXTRA_PROMPT,
-                    stringResource(R.string.voice_text_entry_label)
+                    putExtra(
+                        RecognizerIntent.EXTRA_PROMPT,
+                        stringResource(R.string.voice_text_entry_label)
+                    )
+                }
+                // Invoke the process from a chip
+                Chip(
+                    onClick = {
+                        voiceLauncher.launch(voiceIntent)
+                    },
+                    label = stringResource(R.string.voice_input_label),
+                    secondaryLabel = textForVoiceInput
                 )
             }
-            // Invoke the process from a chip
-            Chip(
-                onClick = {
-                    voiceLauncher.launch(voiceIntent)
-                },
-                label = stringResource(R.string.voice_input_label),
-                secondaryLabel = textForVoiceInput
-            )
         }
+        // [END android_wear_voice_input]
     }
-    // [END android_wear_voice_input]
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun VoiceInputScreenPreview() {
+    VoiceInputScreen()
 }

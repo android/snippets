@@ -34,6 +34,7 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wear.R
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
@@ -44,8 +45,9 @@ import com.google.android.horologist.compose.material.ListHeaderDefaults.firstIt
 import com.google.android.horologist.compose.material.ResponsiveListHeader
 import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 
-    @Composable
-    fun navigation() {
+@Composable
+fun navigation() {
+    AppScaffold {
         // [START android_wear_navigation]
         val navController = rememberSwipeDismissableNavController()
         SwipeDismissableNavHost(
@@ -63,10 +65,11 @@ import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
         }
         // [END android_wear_navigation]
     }
+}
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
-fun MessageDetail(id: String){
+fun MessageDetail(id: String) {
     val scrollState = rememberScrollState()
 
     ScreenScaffold(scrollState = scrollState) {
@@ -82,16 +85,18 @@ fun MessageDetail(id: String){
                 .padding(padding),
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text= id,
+            Text(
+                text = id,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxSize())
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
-fun MessageList(onMessageClick: (String) -> Unit){
+fun MessageList(onMessageClick: (String) -> Unit) {
     val columnState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ItemType.Text,
@@ -111,10 +116,10 @@ fun MessageList(onMessageClick: (String) -> Unit){
                 }
             }
             item {
-                Chip(label = "Message 1", onClick = { onMessageClick("message1")})
+                Chip(label = "Message 1", onClick = { onMessageClick("message1") })
             }
             item {
-                Chip(label = "Message 2", onClick = { onMessageClick("message2")})
+                Chip(label = "Message 2", onClick = { onMessageClick("message2") })
             }
         }
     }
@@ -133,4 +138,3 @@ fun MessageDetailPreview() {
 fun MessageListPreview() {
     MessageList(onMessageClick = {})
 }
-
