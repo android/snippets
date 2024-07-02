@@ -18,12 +18,13 @@ package com.example.compose.snippets.sideeffects
 
 import android.media.Image
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -50,53 +51,32 @@ import com.example.compose.snippets.interop.FirebaseAnalytics
 import com.example.compose.snippets.interop.User
 import com.example.compose.snippets.kotlin.Message
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-// [START android_compose_side_effects_launchedeffect]
 @Composable
-fun MyScreen(
-    state: UiState<List<Movie>>,
-    snackbarHostState: SnackbarHostState
-) {
-
-    // If the UI state contains an error, show snackbar
-    if (state.hasError) {
-
-        // `LaunchedEffect` will cancel and re-launch if
-        // `scaffoldState.snackbarHostState` changes
-        LaunchedEffect(snackbarHostState) {
-            // Show snackbar using a coroutine, when the coroutine is cancelled the
-            // snackbar will automatically dismiss. This coroutine will cancel whenever
-            // `state.hasError` is false, and only start when `state.hasError` is true
-            // (due to the above if-check), or if `scaffoldState.snackbarHostState` changes.
-            snackbarHostState.showSnackbar(
-                message = "Error message",
-                actionLabel = "Retry message"
-            )
+fun MyScreen() {
+// [START android_compose_side_effects_launchedeffect]
+    // Allow the pulse rate to be configured, so it can be sped up if the user is running
+    // out of time
+    var pulseRateMs by remember { mutableStateOf(3000L) }
+    val alpha = remember { Animatable(1f) }
+    LaunchedEffect(pulseRateMs) { // Restart the effect when the pulse rate changes
+        while (isActive) {
+            delay(pulseRateMs) // Pulse the alpha every pulseRateMs to alert the user
+            alpha.animateTo(0f)
+            alpha.animateTo(1f)
         }
     }
-
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        }
-    ) { contentPadding ->
-        // [START_EXCLUDE]
-        Box(Modifier.padding(contentPadding))
-        // [END_EXCLUDE]
-    }
+// [END android_compose_side_effects_launchedeffect]
 }
+
 // [START_EXCLUDE silent]
 class Movie {
     val url = ""
     val id = ""
 }
-class UiState<T> {
-    val hasError = true
-}
 // [END_EXCLUDE]
-// [END android_compose_side_effects_launchedeffect]
-
 // [START android_compose_side_effects_remembercoroutinescope]
 @Composable
 fun MoviesScreen(snackbarHostState: SnackbarHostState) {
