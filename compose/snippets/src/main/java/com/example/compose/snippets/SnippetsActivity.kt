@@ -42,6 +42,7 @@ import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
+import com.example.compose.snippets.components.TimePickerExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
@@ -103,6 +104,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.DividerExamples -> DividerExamples()
                                     TopComponentsDestination.BadgeExamples -> BadgeExamples()
                                     TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
+                                    TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
                                 }
                             }
                         }

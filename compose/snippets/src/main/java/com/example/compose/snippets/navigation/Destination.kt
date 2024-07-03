@@ -41,4 +41,5 @@ enum class TopComponentsDestination(val route: String, val title: String) {
     DividerExamples("dividerExamples", "Dividers"),
     BadgeExamples("badgeExamples", "Badges"),
     PartialBottomSheet("partialBottomSheets", "Partial Bottom Sheet"),
+    TimePickerExamples("timePickerExamples", "Time Pickers"),
 }
