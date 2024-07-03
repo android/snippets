@@ -92,7 +92,7 @@ fun DialExample(
         )
     }
 }
-// [START android_compose_components_dial]
+// [END android_compose_components_dial]
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_input]
