@@ -20,15 +20,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import com.example.wear.snippets.rotary.TimePicker
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.example.wear.snippets.list.ComposeList
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
-        setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
             WearApp()
@@ -36,9 +32,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun WearApp() {
     // insert here the snippet you want to test
-    TimePicker()
+    ComposeList()
 }

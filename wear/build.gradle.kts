@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
+    implementation(libs.androidx.material.icons.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
