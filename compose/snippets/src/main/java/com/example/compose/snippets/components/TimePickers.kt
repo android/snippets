@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -54,13 +70,13 @@ fun TimePickerExamples() {
         }) {
             Text("Input time picker")
         }
-        if (selectedTime != null){
+        if (selectedTime != null) {
             val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
             cal.set(Calendar.MINUTE, selectedTime!!.minute)
             cal.isLenient = false
             Text("Selected time = ${formatter.format(cal.time)}")
-        }else{
+        } else {
             Text("No time selected.")
         }
     }
@@ -69,14 +85,16 @@ fun TimePickerExamples() {
         showDialExample -> DialExample(
             onDismiss = { showDialExample = false },
             onConfirm = {
-                time -> selectedTime = time
+                time ->
+                selectedTime = time
                 showDialExample = false
             },
         )
         showInputExample -> InputExample(
             onDismiss = { showInputExample = false },
             onConfirm = {
-                time -> selectedTime = time
+                time ->
+                selectedTime = time
                 showInputExample = false
             },
         )
@@ -145,12 +163,12 @@ fun TimePickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         dismissButton = {
-            TextButton( onClick = { onDismiss() }) {
+            TextButton(onClick = { onDismiss() }) {
                 Text("Dismiss")
             }
         },
-        confirmButton =  {
-            TextButton( onClick = { onConfirm() }) {
+        confirmButton = {
+            TextButton(onClick = { onConfirm() }) {
                 Text("OK")
             }
         },
