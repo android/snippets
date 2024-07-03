@@ -31,13 +31,13 @@ fun TimePickerExamples() {
             showDialExample = true
             showInputExample = false
         }) {
-            Text("Dial")
+            Text("Dial time picker")
         }
         Button(onClick = {
             showDialExample = false
             showInputExample = true
         }) {
-            Text("Input")
+            Text("Input time picker")
         }
         if (selectedTime != null){
             val cal = Calendar.getInstance()
