@@ -118,7 +118,7 @@ fun TimePickerExamples() {
                 showInputExample = false
             },
         )
-        showAdvancedExample -> AdvancedExample(
+        showAdvancedExample -> AdvancedTimePickerExample(
             onDismiss = { showAdvancedExample = false },
             onConfirm = {
                 time ->
@@ -184,7 +184,7 @@ fun InputExample(
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_advanced]
 @Composable
-fun AdvancedExample(
+fun AdvancedTimePickerExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
