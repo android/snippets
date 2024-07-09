@@ -105,7 +105,7 @@ fun TimePickerExamples() {
         showDialExample -> DialExample(
             onDismiss = { showDialExample = false },
             onConfirm = {
-                    time ->
+                time ->
                 selectedTime = time
                 showDialExample = false
             },
@@ -113,7 +113,7 @@ fun TimePickerExamples() {
         showInputExample -> InputExample(
             onDismiss = { showInputExample = false },
             onConfirm = {
-                    time ->
+                time ->
                 selectedTime = time
                 showInputExample = false
             },
@@ -121,7 +121,7 @@ fun TimePickerExamples() {
         showAdvancedExample -> AdvancedExample(
             onDismiss = { showAdvancedExample = false },
             onConfirm = {
-                    time ->
+                time ->
                 selectedTime = time
                 showAdvancedExample = false
             },
@@ -203,7 +203,7 @@ fun AdvancedExample(
     /** The icon used for the icon button that switches from dial to input */
     val toggleIcon = if (showDial) {
         Icons.Filled.EditCalendar
-    }else{
+    } else {
         Icons.Filled.AccessTime
     }
 
@@ -223,7 +223,7 @@ fun AdvancedExample(
             TimePicker(
                 state = timePickerState,
             )
-        }else{
+        } else {
             TimeInput(
                 state = timePickerState,
             )
@@ -293,9 +293,11 @@ fun AdvancedTimePickerDialog(
                     style = MaterialTheme.typography.labelMedium
                 )
                 content()
-                Row(modifier = Modifier
-                    .height(40.dp)
-                    .fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .fillMaxWidth()
+                ) {
                     toggle()
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(onClick = onDismiss) { Text("Cancel") }
