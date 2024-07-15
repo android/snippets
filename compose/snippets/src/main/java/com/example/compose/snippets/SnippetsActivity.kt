@@ -30,15 +30,20 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.animations.sharedelement.PlaceholderSizeAnimated_Demo
 import com.example.compose.snippets.components.AppBarExamples
+import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
 import com.example.compose.snippets.components.DialogExamples
+import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
+import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
+import com.example.compose.snippets.components.TimePickerExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
@@ -65,7 +70,7 @@ class SnippetsActivity : ComponentActivity() {
                         composable("LandingScreen") {
                             LandingScreen { navController.navigate(it.route) }
                         }
-                        Destination.values().forEach { destination ->
+                        Destination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     Destination.BrushExamples -> BrushExamplesScreen()
@@ -82,7 +87,7 @@ class SnippetsActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        TopComponentsDestination.values().forEach { destination ->
+                        TopComponentsDestination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
                                     TopComponentsDestination.CardExamples -> CardExamples()
@@ -94,7 +99,14 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.ButtonExamples -> ButtonExamples()
                                     TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
                                     TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
-                                    TopComponentsDestination.AppBarExamples -> AppBarExamples()
+                                    TopComponentsDestination.AppBarExamples -> AppBarExamples {
+                                        navController.popBackStack()
+                                    }
+                                    TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
+                                    TopComponentsDestination.DividerExamples -> DividerExamples()
+                                    TopComponentsDestination.BadgeExamples -> BadgeExamples()
+                                    TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
+                                    TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
                                 }
                             }
                         }

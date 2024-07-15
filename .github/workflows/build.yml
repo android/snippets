@@ -43,3 +43,5 @@ jobs:
       run: ./gradlew :compose:recomposehighlighter:build
     - name: Build kotlin snippets
       run: ./gradlew :kotlin:build
+    - name: Build Wear snippets
+      run: ./gradlew :wear:build

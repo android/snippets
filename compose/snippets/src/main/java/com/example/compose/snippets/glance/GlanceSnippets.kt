@@ -85,8 +85,8 @@ import androidx.glance.material3.ColorProviders
 import androidx.glance.text.Text
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.compose.snippets.MyActivity
 import com.example.compose.snippets.R
-import com.example.compose.snippets.layouts.MainActivity
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -164,11 +164,11 @@ private object CreateUI {
                 Row(horizontalAlignment = Alignment.CenterHorizontally) {
                     Button(
                         text = "Home",
-                        onClick = actionStartActivity<MainActivity>()
+                        onClick = actionStartActivity<MyActivity>()
                     )
                     Button(
                         text = "Work",
-                        onClick = actionStartActivity<MainActivity>()
+                        onClick = actionStartActivity<MyActivity>()
                     )
                 }
             }
@@ -185,7 +185,7 @@ private object ActionLaunchActivity {
         // ..
         Button(
             text = "Go Home",
-            onClick = actionStartActivity<MainActivity>()
+            onClick = actionStartActivity<MyActivity>()
         )
     }
     // [END android_compose_glance_launchactivity]
