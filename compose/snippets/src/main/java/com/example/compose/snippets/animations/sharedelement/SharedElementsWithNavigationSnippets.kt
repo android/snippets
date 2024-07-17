@@ -18,6 +18,7 @@
 
 package com.example.compose.snippets.animations.sharedelement
 
+import android.util.Log
 import androidx.activity.BackEventCompat
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.PredictiveBackHandler
@@ -147,7 +148,10 @@ private fun DetailsScreen(
                 contentDescription = snack.description,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-
+                    .graphicsLayer {
+                        println("graphics layer ${touchYProvider.invoke()}")
+                        this.translationY = touchYProvider()
+                    }
                     .sharedElement(
                         sharedTransitionScope.rememberSharedContentState(key = "image-$id"),
                         animatedVisibilityScope = animatedContentScope
@@ -155,7 +159,6 @@ private fun DetailsScreen(
                     .aspectRatio(1f)
                     .fillMaxWidth()
                     .graphicsLayer {
-                        println("graphics layer ${touchYProvider.invoke()}")
                         this.translationY = touchYProvider()
                     }
             )
@@ -247,6 +250,9 @@ fun CustomPredictiveBackHandle() {
     var latestBackEvent by remember {
         mutableStateOf<BackEventCompat?>(null)
     }
+    var firstTouchEvent by remember {
+        mutableStateOf<BackEventCompat?>(null)
+    }
     var touchYDiff by remember {
         mutableStateOf<Float>(0f)
     }
@@ -256,21 +262,31 @@ fun CustomPredictiveBackHandle() {
             progress.collect { backEvent ->
                 // code for progress
                 try {
+                    if (firstTouchEvent == null) {
+                        firstTouchEvent = backEvent
+                    }
                     seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
-                    touchYDiff = backEvent.touchY - (latestBackEvent?.touchY ?: 0f)
+                    touchYDiff = backEvent.touchY - (firstTouchEvent?.touchY ?: 0f)
+                    Log.d("touch", "touchYDiff $touchYDiff, ${backEvent.touchY}, ${firstTouchEvent?.touchY}")
                     latestBackEvent = backEvent
                 } catch (e: CancellationException) {
                     // ignore
                     latestBackEvent = null
+                    firstTouchEvent = null
+                    touchYDiff = 0f
                 }
             }
             // code for completion
             seekableTransitionState.animateTo(seekableTransitionState.targetState)
             latestBackEvent = null
+            firstTouchEvent = null
+            touchYDiff = 0f
         } catch (e: CancellationException) {
             // code for cancellation
             seekableTransitionState.animateTo(seekableTransitionState.currentState)
             latestBackEvent = null
+            firstTouchEvent = null
+            touchYDiff = 0f
         }
     }
     val coroutineScope = rememberCoroutineScope()
