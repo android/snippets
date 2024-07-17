@@ -18,6 +18,7 @@
 
 package com.example.compose.snippets.animations.sharedelement
 
+import androidx.activity.BackEventCompat
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.annotation.DrawableRes
@@ -55,6 +56,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -111,6 +113,9 @@ fun SharedElement_PredictiveBack() {
                     snack,
                     this@SharedTransitionLayout,
                     this@composable,
+                    touchYProvider = {
+                        0f
+                    },
                     onBackPressed = {
                         navController.navigate("home")
                     }
@@ -126,6 +131,7 @@ private fun DetailsScreen(
     snack: Snack,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
+    touchYProvider: () -> Float,
     onBackPressed: () -> Unit
 ) {
     with(sharedTransitionScope) {
@@ -140,23 +146,31 @@ private fun DetailsScreen(
                 painterResource(id = snack.image),
                 contentDescription = snack.description,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.Companion
+                modifier = Modifier
+
                     .sharedElement(
                         sharedTransitionScope.rememberSharedContentState(key = "image-$id"),
                         animatedVisibilityScope = animatedContentScope
                     )
                     .aspectRatio(1f)
                     .fillMaxWidth()
+                    .graphicsLayer {
+                        println("graphics layer ${touchYProvider.invoke()}")
+                        this.translationY = touchYProvider()
+                    }
             )
             Text(
                 snack.name, fontSize = 18.sp,
-                modifier =
-                Modifier.Companion
+                modifier = Modifier
+
                     .sharedElement(
                         sharedTransitionScope.rememberSharedContentState(key = "text-$id"),
                         animatedVisibilityScope = animatedContentScope
                     )
                     .fillMaxWidth()
+                    .graphicsLayer {
+                        this.translationY = touchYProvider()
+                    }
             )
         }
     }
@@ -186,7 +200,7 @@ private fun HomeScreen(
                         painterResource(id = item.image),
                         contentDescription = item.description,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .sharedElement(
                                 sharedTransitionScope.rememberSharedContentState(key = "image-$index"),
                                 animatedVisibilityScope = animatedContentScope
@@ -230,18 +244,33 @@ fun CustomPredictiveBackHandle() {
         SeekableTransitionState<Screen>(Screen.Home)
     }
     val transition = rememberTransition(transitionState = seekableTransitionState)
+    var latestBackEvent by remember {
+        mutableStateOf<BackEventCompat?>(null)
+    }
+    var touchYDiff by remember {
+        mutableStateOf<Float>(0f)
+    }
 
     PredictiveBackHandler(seekableTransitionState.currentState is Screen.Details) { progress ->
         try {
             progress.collect { backEvent ->
                 // code for progress
-                seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
+                try {
+                    seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
+                    touchYDiff = backEvent.touchY - (latestBackEvent?.touchY ?: 0f)
+                    latestBackEvent = backEvent
+                } catch (e: CancellationException) {
+                    // ignore
+                    latestBackEvent = null
+                }
             }
             // code for completion
             seekableTransitionState.animateTo(seekableTransitionState.targetState)
+            latestBackEvent = null
         } catch (e: CancellationException) {
             // code for cancellation
             seekableTransitionState.animateTo(seekableTransitionState.currentState)
+            latestBackEvent = null
         }
     }
     val coroutineScope = rememberCoroutineScope()
@@ -283,6 +312,9 @@ fun CustomPredictiveBackHandle() {
                             snack,
                             this@SharedTransitionLayout,
                             this@AnimatedContent,
+                            touchYProvider = {
+                                touchYDiff
+                            },
                             onBackPressed = {
                                 coroutineScope.launch {
                                     seekableTransitionState.animateTo(Screen.Home)
