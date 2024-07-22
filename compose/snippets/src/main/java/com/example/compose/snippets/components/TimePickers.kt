@@ -144,6 +144,7 @@ fun DialExample(
         is24Hour = true,
     )
 
+    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
     TimePickerDialog(
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) }
@@ -170,6 +171,7 @@ fun InputExample(
         is24Hour = true,
     )
 
+    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
     TimePickerDialog(
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) }
@@ -207,6 +209,7 @@ fun AdvancedTimePickerExample(
         Icons.Filled.AccessTime
     }
 
+    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
     AdvancedTimePickerDialog(
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) },
