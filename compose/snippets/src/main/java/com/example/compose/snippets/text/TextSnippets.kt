@@ -42,11 +42,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -58,6 +61,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -576,6 +580,50 @@ private object TextEffectiveStateManagement2 {
     }
     // [END android_compose_text_state_management]
 }
+
+// [START android_compose_text_link_1]
+@Composable
+fun AnnotatedStringWithLinkSample() {
+    // Display a link in the text
+    Text(
+        buildAnnotatedString {
+            append("Build better apps faster with ")
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                )
+            ) {
+                append("Jetpack Compose")
+            }
+        }
+    )
+}
+// [END android_compose_text_link_1]
+
+// [START android_compose_text_link_2]
+@Composable
+fun AnnotatedStringWithListenerSample() {
+    // Display a link in the text and log metrics whenever user clicks on it. In that case we handle
+    // the link using openUri method of the LocalUriHandler
+    val uriHandler = LocalUriHandler.current
+    Text(
+        buildAnnotatedString {
+            append("Build better apps faster with ")
+            val link =
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(SpanStyle(color = Color.Blue))
+                ) {
+                    val url = (it as LinkAnnotation.Url).url
+                    // log some metrics
+                    uriHandler.openUri(url)
+                }
+            withLink(link) { append("Jetpack Compose") }
+        }
+    )
+}
+// [END android_compose_text_link_2]
 
 private val firaSansFamily = FontFamily()
 
