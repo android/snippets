@@ -32,6 +32,7 @@ import com.example.compose.snippets.animations.sharedelement.PlaceholderSizeAnim
 import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.CardExamples
 import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
@@ -52,7 +53,6 @@ import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-import com.example.compose.snippets.components.CardExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

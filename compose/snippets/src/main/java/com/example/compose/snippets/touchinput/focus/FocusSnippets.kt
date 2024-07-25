@@ -18,7 +18,6 @@
 
 package com.example.compose.snippets.touchinput.focus
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.background
