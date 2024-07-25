@@ -67,7 +67,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -192,7 +191,6 @@ private fun AnimatedVisibilityMutable() {
     // [END android_compose_animations_animated_visibility_mutable]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 @Preview
 private fun AnimatedVisibilityAnimateEnterExitChildren() {
@@ -224,7 +222,6 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
     // [END android_compose_animations_animated_visibility_animate_enter_exit_children]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedVisibilityTransition() {
@@ -261,7 +258,6 @@ private fun AnimateAsStateSimple() {
     // [END android_compose_animations_animate_as_state]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedContentSimple() {
@@ -279,7 +275,6 @@ private fun AnimatedContentSimple() {
     // [END android_compose_animations_animated_content_simple]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun AnimatedContentTransitionSpec(count: Int) {
     // [START android_compose_animations_animated_content_transition_spec]

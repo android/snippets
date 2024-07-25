@@ -53,7 +53,6 @@ import kotlin.random.Random
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
 fun Layout_Graph_Vertical() {
@@ -80,7 +79,6 @@ fun Layout_Graph_Vertical() {
     // [END android_compose_layout_vertical_graph]
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
 fun Layout_Graph_Horizontal() {

@@ -47,7 +47,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.example.compose.snippets.R
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Strings() {
     // [START android_compose_resources_strings]

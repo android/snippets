@@ -220,7 +220,6 @@ fun DialogWithImage(
 // [END android_compose_components_dialogwithimage]
 
 // [START android_compose_components_alertdialog]
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertDialogExample(
     onDismissRequest: () -> Unit,

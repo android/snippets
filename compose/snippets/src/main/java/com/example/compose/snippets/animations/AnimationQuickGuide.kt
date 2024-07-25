@@ -720,7 +720,6 @@ private fun LoadingScreen() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun AnimationLayout() {

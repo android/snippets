@@ -52,7 +52,7 @@ import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-import com.example.topcomponents.CardExamples
+import com.example.compose.snippets.components.CardExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

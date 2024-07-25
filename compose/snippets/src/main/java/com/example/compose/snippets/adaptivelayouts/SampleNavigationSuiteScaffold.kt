@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
-
 package com.example.compose.snippets.adaptivelayouts
 
 import androidx.annotation.StringRes

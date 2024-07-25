@@ -265,7 +265,6 @@ private object ListsSnippetsReactingScrollPosition1 {
 
 private object ListsSnippetsReactingScrollPosition2 {
     // [START android_compose_layouts_lazy_column_scroll_to_top]
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun MessageList(messages: List<Message>) {
         Box {
@@ -427,7 +426,6 @@ private fun LazyColumnRememberSaveable() {
     // [END android_compose_layouts_lazy_column_any_key_saveable]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LazyItemAnimations() {
     val books = remember {
@@ -445,7 +443,6 @@ private fun LazyItemAnimations() {
     // [END android_compose_layouts_lazy_column_item_animation]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LazyItemAnimationWithSpec() {
     val books = remember {
@@ -635,7 +632,6 @@ private fun ContentTypeExample() {
 }
 
 @Preview
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyStaggeredGridSnippet() {
     // [START android_compose_layouts_lazy_staggered_grid_adaptive]
@@ -658,7 +654,6 @@ fun LazyStaggeredGridSnippet() {
     // [END android_compose_layouts_lazy_staggered_grid_adaptive]
 }
 @Preview
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyStaggeredGridSnippetFixed() {
     // [START android_compose_layouts_lazy_staggered_grid_fixed]

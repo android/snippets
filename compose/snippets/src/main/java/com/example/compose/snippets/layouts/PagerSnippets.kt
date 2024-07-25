@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(
-    ExperimentalFoundationApi::class
-)
 @file:Suppress("unused")
 
 package com.example.compose.snippets.layouts
@@ -123,7 +120,6 @@ fun VerticalPagerSample() {
     // [END android_compose_layouts_pager_vertical_basic]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PagerScrollToItem() {
@@ -214,7 +210,6 @@ fun PageChangesSample() {
     // [END android_compose_layouts_pager_notify_page_changes]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun PagerWithTabsExample() {
@@ -358,7 +353,6 @@ fun PagerWithTabs() {
     }
     // [END android_compose_layouts_pager_with_tabs]
 }
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PagerIndicator() {
@@ -410,7 +404,6 @@ private val threePagesPerViewport = object : PageSize {
 }
 // [END android_compose_pager_custom_page_size]
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun CustomSnapDistance() {

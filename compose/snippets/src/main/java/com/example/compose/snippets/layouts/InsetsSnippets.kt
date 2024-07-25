@@ -115,7 +115,6 @@ fun ConsumedFromSiblingsSnippet() {
 @Composable
 fun ConsumedFromPaddingSnippet() {
     // [START android_compose_insets_consumed_from_padding]
-    @OptIn(ExperimentalLayoutApi::class)
     Column(Modifier.padding(16.dp).consumeWindowInsets(PaddingValues(16.dp))) {
         // content
         Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.ime))
@@ -123,7 +122,6 @@ fun ConsumedFromPaddingSnippet() {
     // [END android_compose_insets_consumed_from_padding]
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Preview
 @Composable
 fun M3SupportScaffoldSnippet() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused", "DEPRECATION_ERROR")
+@file:Suppress("unused", "DEPRECATION_ERROR", "UsingMaterialAndMaterial3Libraries")
 
 package com.example.compose.snippets.designsystems
 
@@ -39,7 +39,6 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.lightColors
 import androidx.compose.material.primarySurface
 import androidx.compose.material.ripple.LocalRippleTheme

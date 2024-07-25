@@ -48,7 +48,6 @@ import androidx.window.core.layout.WindowSizeClass
 * limitations under the License.
 */
 // [START android_compose_adaptive_layouts_basic]
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun MyApp(
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass

@@ -244,7 +244,6 @@ fun GraphicsBrushSizeRecreationExample() {
     // [END android_compose_graphics_brush_recreation]
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Preview
 @Composable
 fun GraphicsImageBrush() {

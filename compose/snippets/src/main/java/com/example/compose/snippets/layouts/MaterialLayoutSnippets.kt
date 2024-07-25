@@ -34,6 +34,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -291,7 +292,7 @@ fun DrawerDemo() {
         drawerContent = {
             ModalDrawerSheet {
                 Text("Drawer title", modifier = Modifier.padding(16.dp))
-                Divider()
+                HorizontalDivider()
                 NavigationDrawerItem(
                     label = { Text(text = "Drawer Item") },
                     selected = false,

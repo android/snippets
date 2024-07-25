@@ -38,7 +38,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.compose.snippets.designsystems.FullyCustomDesignSystem.CustomTheme.elevation
 
 /*
 * Copyright 2022 The Android Open Source Project

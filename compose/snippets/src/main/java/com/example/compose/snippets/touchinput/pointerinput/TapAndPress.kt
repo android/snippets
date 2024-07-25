@@ -291,7 +291,6 @@ private fun FullScreenImage(
 }
 
 // [START android_compose_touchinput_pointerinput_scrim]
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Scrim(onClose: () -> Unit, modifier: Modifier = Modifier) {
     val strClose = stringResource(R.string.close)

@@ -36,7 +36,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -261,7 +260,6 @@ class CoordinatorLayoutActivity : ComponentActivity() {
         // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_step2]
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     private fun step3() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step3]
         composeView.setContent {

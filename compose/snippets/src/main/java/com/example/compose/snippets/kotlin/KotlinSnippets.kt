@@ -220,7 +220,6 @@ fun destructuring() {
     // [END android_compose_kotlin_destructuring]
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DestructuringCompose() {
     // [START android_compose_kotlin_destructuring_compose]

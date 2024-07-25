@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.topcomponents
+package com.example.compose.snippets.components
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -27,7 +27,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -55,7 +54,6 @@ fun CardExamples() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_customcard]
 @Composable
 fun CustomCardExample(event: () -> Unit) {

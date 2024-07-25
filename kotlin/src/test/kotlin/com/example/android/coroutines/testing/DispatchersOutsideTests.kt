@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.android.coroutines.testing.repo
+package com.example.android.coroutines.testing
 
-import com.example.android.coroutines.testing.MainDispatcherRule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
