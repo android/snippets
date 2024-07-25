@@ -40,6 +40,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -104,13 +105,13 @@ class RVActivity : ComponentActivity() {
     }
 
     @Composable
-    fun commonUseCase2(data: List<MyData>) {
+    fun CommonUseCase2(data: List<MyData>) {
         // [START android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_2]
         LazyColumn(Modifier.fillMaxSize()) {
             itemsIndexed(data) { index, d ->
                 ListItem(d)
                 if (index != data.size - 1) {
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
@@ -315,7 +316,7 @@ class CoordinatorLayoutActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun commonUseCaseToolbars() {
+    private fun CommonUseCaseToolbars() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_toolbars]
         // 1. Create the TopAppBarScrollBehavior
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -344,13 +345,13 @@ class CoordinatorLayoutActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun commonUseCaseDrawers() {
+    private fun CommonUseCaseDrawers() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_drawers]
         ModalNavigationDrawer(
             drawerContent = {
                 ModalDrawerSheet {
                     Text("Drawer title", modifier = Modifier.padding(16.dp))
-                    Divider()
+                    HorizontalDivider()
                     NavigationDrawerItem(
                         label = { Text(text = "Drawer Item") },
                         selected = false,
@@ -371,7 +372,7 @@ class CoordinatorLayoutActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun commonUseCaseSnackbars() {
+    private fun CommonUseCaseSnackbars() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_snackbars]
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }

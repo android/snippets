@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -280,7 +281,7 @@ fun List<Cubic>.toPath(path: Path = Path(), scale: Float = 1f): Path {
 // [START android_compose_morph_clip_shape]
 class MorphPolygonShape(
     private val morph: Morph,
-    private val percentage: Float
+    private val percentage: State<Float>
 ) : Shape {
 
     private val matrix = Matrix()
@@ -294,7 +295,7 @@ class MorphPolygonShape(
         matrix.scale(size.width / 2f, size.height / 2f)
         matrix.translate(1f, 1f)
 
-        val path = morph.toComposePath(progress = percentage)
+        val path = morph.toComposePath(progress = percentage.value)
         path.transform(matrix)
         return Outline.Generic(path)
     }
@@ -333,7 +334,7 @@ private fun MorphOnClick() {
         modifier = Modifier
             .size(200.dp)
             .padding(8.dp)
-            .clip(MorphPolygonShape(morph, animatedProgress.value))
+            .clip(MorphPolygonShape(morph, animatedProgress))
             .background(Color(0xFF80DEEA))
             .size(200.dp)
             .clickable(interactionSource = interactionSource, indication = null) {
@@ -433,8 +434,8 @@ fun ApplyPolygonAsClipImage() {
 // [START android_compose_shapes_custom_rotating_morph_shape]
 class CustomRotatingMorphShape(
     private val morph: Morph,
-    private val percentage: Float,
-    private val rotation: Float
+    private val percentage: State<Float>,
+    private val rotation: State<Float>
 ) : Shape {
 
     private val matrix = Matrix()
@@ -447,9 +448,9 @@ class CustomRotatingMorphShape(
         // By default this stretches the path to the size of the container, if you don't want stretching, use the same size.width for both x and y.
         matrix.scale(size.width / 2f, size.height / 2f)
         matrix.translate(1f, 1f)
-        matrix.rotateZ(rotation)
+        matrix.rotateZ(rotation.value)
 
-        val path = morph.toComposePath(progress = percentage)
+        val path = morph.toComposePath(progress = percentage.value)
         path.transform(matrix)
 
         return Outline.Generic(path)
@@ -505,8 +506,8 @@ private fun RotatingScallopedProfilePic() {
                 .clip(
                     CustomRotatingMorphShape(
                         morph,
-                        animatedProgress.value,
-                        animatedRotation.value
+                        animatedProgress,
+                        animatedRotation
                     )
                 )
                 .size(200.dp)
