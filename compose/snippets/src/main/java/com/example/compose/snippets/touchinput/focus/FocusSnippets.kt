@@ -18,7 +18,6 @@
 
 package com.example.compose.snippets.touchinput.focus
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
 import androidx.compose.foundation.background
@@ -113,7 +112,6 @@ private fun BasicSample2() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun OverrideDefaultOrder() {
@@ -177,7 +175,6 @@ fun OverrideDefaultOrder() {
     // [END android_compose_touchinput_focus_override_use]
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun OverrideTwoDimensionalOrder() {
@@ -197,7 +194,6 @@ fun OverrideTwoDimensionalOrder() {
     // [END android_compose_touchinput_focus_override_2d]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun FocusGroup() {
 
@@ -319,7 +315,6 @@ private fun Capture() {
     // [END android_compose_touchinput_focus_capture]
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ModifierOrder() {
 
@@ -403,7 +398,6 @@ private fun RedirectFocus() {
     // [END android_compose_touchinput_focus_redirect]
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun FocusAdvancing() {
     // [START android_compose_touchinput_focus_advancing]

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.android.coroutines.testing.repo
+package com.example.android.coroutines.testing
 
-import com.example.android.coroutines.testing.MainDispatcherRule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -28,7 +27,6 @@ import org.junit.Test
 // Helper function to let code below compile
 private fun Repository(): Repository = Repository(Dispatchers.IO)
 
-private
 // [START coroutine_test_repo_with_rule_blank]
 class Repository(private val ioDispatcher: CoroutineDispatcher) { /* ... */ }
 

@@ -25,7 +25,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -115,7 +114,6 @@ fun ConsumedFromSiblingsSnippet() {
 @Composable
 fun ConsumedFromPaddingSnippet() {
     // [START android_compose_insets_consumed_from_padding]
-    @OptIn(ExperimentalLayoutApi::class)
     Column(Modifier.padding(16.dp).consumeWindowInsets(PaddingValues(16.dp))) {
         // content
         Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.ime))
@@ -123,7 +121,6 @@ fun ConsumedFromPaddingSnippet() {
     // [END android_compose_insets_consumed_from_padding]
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Preview
 @Composable
 fun M3SupportScaffoldSnippet() {

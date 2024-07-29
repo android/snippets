@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.graphics
 
-import android.graphics.Canvas
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import androidx.compose.animation.core.Animatable
@@ -48,7 +47,6 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -59,7 +57,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.compose.snippets.R
-import java.util.Collections.rotate
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -192,7 +189,6 @@ fun CanvasMultipleTransformations() {
     // [END android_compose_graphics_canvas_multiple_transforms]
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Preview
 @Composable
 fun CanvasDrawText() {
@@ -238,7 +234,6 @@ fun CanvasDrawPath() {
     // [END android_compose_graphics_canvas_draw_path]
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Preview
 @Composable
 fun CanvasMeasureText() {
@@ -268,7 +263,6 @@ fun CanvasMeasureText() {
     // [END android_compose_graphics_canvas_draw_text_measure]
 }
 
-@OptIn(ExperimentalTextApi::class)
 @Preview
 @Composable
 fun CanvasMeasureTextOverflow() {

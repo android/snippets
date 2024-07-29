@@ -118,7 +118,7 @@ private fun DetailsScreen(
                 painterResource(id = snack.image),
                 contentDescription = snack.description,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .sharedElement(
                         sharedTransitionScope.rememberSharedContentState(key = "image-$id"),
                         animatedVisibilityScope = animatedContentScope
@@ -129,7 +129,7 @@ private fun DetailsScreen(
             Text(
                 snack.name, fontSize = 18.sp,
                 modifier =
-                Modifier.Companion
+                Modifier
                     .sharedElement(
                         sharedTransitionScope.rememberSharedContentState(key = "text-$id"),
                         animatedVisibilityScope = animatedContentScope
@@ -164,7 +164,7 @@ private fun HomeScreen(
                         painterResource(id = item.image),
                         contentDescription = item.description,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.Companion
+                        modifier = Modifier
                             .sharedElement(
                                 sharedTransitionScope.rememberSharedContentState(key = "image-$index"),
                                 animatedVisibilityScope = animatedContentScope

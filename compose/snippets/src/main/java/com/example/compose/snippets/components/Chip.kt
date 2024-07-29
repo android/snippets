@@ -29,7 +29,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -86,7 +85,6 @@ fun AssistChipExample() {
 }
 // [END android_compose_components_assistchip]
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 // [START android_compose_components_filterchip]
 @Composable
@@ -116,7 +114,6 @@ fun FilterChipExample() {
 
 // You could set this up similarly to the filter chip above and have it toggleable, but this is
 // an example of a chip that can dismiss with a click.
-@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_inputchip]
 @Composable
 fun InputChipExample(

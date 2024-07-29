@@ -56,7 +56,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -208,7 +207,6 @@ private fun AutomaticNestedScroll() {
 private object NestedScrollInterop {
     // [START android_compose_touchinput_gestures_nested_scroll_interop_activity]
     open class MainActivity : ComponentActivity() {
-        @OptIn(ExperimentalComposeUiApi::class)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)

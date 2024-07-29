@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -40,9 +41,6 @@ android {
         viewBinding = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
 }
 dependencies {
     val composeBom = platform(libs.androidx.compose.bom)

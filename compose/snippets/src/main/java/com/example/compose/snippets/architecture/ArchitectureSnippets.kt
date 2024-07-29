@@ -18,13 +18,14 @@ package com.example.compose.snippets.architecture
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -70,7 +71,7 @@ private object ArchitectureSnippets2 {
 
 private object ArchitectureSnippets3 {
     val localizedString = ""
-
+    @OptIn(ExperimentalMaterial3Api::class)
     // [START android_compose_architecture_architecture3]
     @Composable
     fun MyAppTopAppBar(topAppBarText: String, onBackPressed: () -> Unit) {
@@ -87,7 +88,7 @@ private object ArchitectureSnippets3 {
             navigationIcon = {
                 IconButton(onClick = onBackPressed) {
                     Icon(
-                        Icons.Filled.ArrowBack,
+                        Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = localizedString
                     )
                 }
