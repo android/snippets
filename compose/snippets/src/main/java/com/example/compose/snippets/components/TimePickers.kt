@@ -339,7 +339,7 @@ fun TimePickerDialog(
 // [END android_compose_components_timepickerdialog]
 
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_advanced]
+// [START android_compose_components_advanceddialog]
 @Composable
 fun AdvancedTimePickerExample(
     onConfirm: (TimePickerState) -> Unit,
@@ -438,4 +438,4 @@ fun AdvancedTimePickerDialog(
         }
     }
 }
-// [END android_compose_components_advanced]
+// [END android_compose_components_advanceddialog]
