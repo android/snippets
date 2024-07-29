@@ -27,7 +27,6 @@ import org.junit.Test
 // Helper function to let code below compile
 private fun Repository(): Repository = Repository(Dispatchers.IO)
 
-private
 // [START coroutine_test_repo_with_rule_blank]
 class Repository(private val ioDispatcher: CoroutineDispatcher) { /* ... */ }
 
