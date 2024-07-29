@@ -75,7 +75,7 @@ fun TimePickerExamples() {
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         if (showMenu) {
             Column(
                 modifier = Modifier
@@ -127,7 +127,7 @@ fun TimePickerExamples() {
                     showMenu = true
                 },
                 onConfirm = {
-                        time ->
+                    time ->
                     selectedTime = time
                     showDialExample = false
                     showMenu = true
@@ -139,7 +139,7 @@ fun TimePickerExamples() {
                     showMenu = true
                 },
                 onConfirm = {
-                        time ->
+                    time ->
                     selectedTime = time
                     showInputExample = false
                     showMenu = true
@@ -151,7 +151,7 @@ fun TimePickerExamples() {
                     showMenu = true
                 },
                 onConfirm = {
-                        time ->
+                    time ->
                     selectedTime = time
                     showDialWithDialogExample = false
                     showMenu = true
@@ -163,7 +163,7 @@ fun TimePickerExamples() {
                     showMenu = true
                 },
                 onConfirm = {
-                        time ->
+                    time ->
                     selectedTime = time
                     showAdvancedExample = false
                     showMenu = true
@@ -251,10 +251,10 @@ fun DialUseStateExample(
         TimePicker(
             state = timePickerState,
         )
-        Button(onClick = onDismiss){
+        Button(onClick = onDismiss) {
             Text("Dismiss picker")
         }
-        Button(onClick = {onConfirm(timePickerState)}){
+        Button(onClick = { onConfirm(timePickerState) }) {
             Text("Confirm selection")
         }
     }
@@ -280,10 +280,10 @@ fun InputUseStateExample(
         TimeInput(
             state = timePickerState,
         )
-        Button(onClick = onDismiss){
+        Button(onClick = onDismiss) {
             Text("Dismiss picker")
         }
-        Button(onClick = {onConfirm(timePickerState)}){
+        Button(onClick = { onConfirm(timePickerState) }) {
             Text("Confirm selection")
         }
     }
