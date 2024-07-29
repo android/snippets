@@ -42,7 +42,7 @@ class DeviceConfigurationOverrideSnippetsTest {
             DeviceConfigurationOverride(
                 DeviceConfigurationOverride.ForcedSize(DpSize(1280.dp, 800.dp))
             ) {
-                MyScreen() // will be rendered in the space for 1280dp by 800dp without clipping
+                MyScreen() // Will be rendered in the space for 1280dp by 800dp without clipping.
             }
         }
         // [END android_compose_deviceconfigurationoverride_forcedsize]
