@@ -121,7 +121,7 @@ fun TimePickerExamples() {
         }
 
         when {
-            showDialExample -> DialExample(
+            showDialExample -> DialUseStateExample(
                 onDismiss = {
                     showDialExample = false
                     showMenu = true
@@ -133,7 +133,7 @@ fun TimePickerExamples() {
                     showMenu = true
                 },
             )
-            showInputExample -> InputExample(
+            showInputExample -> InputUseStateExample(
                 onDismiss = {
                     showInputExample = false
                     showMenu = true
@@ -177,6 +177,65 @@ fun TimePickerExamples() {
 // [START android_compose_components_dial]
 @Composable
 fun DialExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss){
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm){
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_dial]
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_input]
+@Composable
+fun InputExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss){
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm){
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_input]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_dial_usestate]
+@Composable
+fun DialUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -200,12 +259,12 @@ fun DialExample(
         }
     }
 }
-// [END android_compose_components_dial]
+// [END android_compose_components_dial_usestate]
 
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_input]
+// [START android_compose_components_input_usestate]
 @Composable
-fun InputExample(
+fun InputUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -229,7 +288,7 @@ fun InputExample(
         }
     }
 }
-// [END android_compose_components_input]
+// [END android_compose_components_input_usestate]
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_timepickerdialog]
