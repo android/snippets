@@ -18,6 +18,7 @@ package com.example.compose.snippets.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -60,72 +61,115 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerExamples() {
+    var showMenu by remember { mutableStateOf(true) }
+
     var showDialExample by remember { mutableStateOf(false) }
     var showInputExample by remember { mutableStateOf(false) }
+    var showDialWithDialogExample by remember { mutableStateOf(false) }
     var showAdvancedExample by remember { mutableStateOf(false) }
 
     var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
 
     val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+    Box(
+        Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Button(onClick = {
-            showDialExample = true
-        }) {
-            Text("Dial time picker")
+        if (showMenu) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
+                Button(onClick = {
+                    showDialExample = true
+                    showMenu = false
+                }) {
+                    Text("Dial time picker")
+                }
+                Button(onClick = {
+                    showInputExample = true
+                    showMenu = false
+                }) {
+                    Text("Input time picker")
+                }
+                Button(onClick = {
+                    showDialWithDialogExample = true
+                    showMenu = false
+                }) {
+                    Text("Time picker with dialog")
+                }
+                Button(onClick = {
+                    showAdvancedExample = true
+                    showMenu = false
+                }) {
+                    Text("Time picker with custom dialog")
+                }
+                if (selectedTime != null) {
+                    val cal = Calendar.getInstance()
+                    cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
+                    cal.set(Calendar.MINUTE, selectedTime!!.minute)
+                    cal.isLenient = false
+                    Text("Selected time = ${formatter.format(cal.time)}")
+                } else {
+                    Text("No time selected.")
+                }
+            }
         }
-        Button(onClick = {
-            showInputExample = true
-        }) {
-            Text("Input time picker")
-        }
-        Button(onClick = {
-            showAdvancedExample = true
-        }) {
-            Text("Time picker with custom dialog")
-        }
-        if (selectedTime != null) {
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
-            cal.set(Calendar.MINUTE, selectedTime!!.minute)
-            cal.isLenient = false
-            Text("Selected time = ${formatter.format(cal.time)}")
-        } else {
-            Text("No time selected.")
-        }
-    }
 
-    when {
-        showDialExample -> DialExample(
-            onDismiss = { showDialExample = false },
-            onConfirm = {
-                time ->
-                selectedTime = time
-                showDialExample = false
-            },
-        )
-        showInputExample -> InputExample(
-            onDismiss = { showInputExample = false },
-            onConfirm = {
-                time ->
-                selectedTime = time
-                showInputExample = false
-            },
-        )
-        showAdvancedExample -> AdvancedTimePickerExample(
-            onDismiss = { showAdvancedExample = false },
-            onConfirm = {
-                time ->
-                selectedTime = time
-                showAdvancedExample = false
-            },
-        )
+        when {
+            showDialExample -> DialUseStateExample(
+                onDismiss = {
+                    showDialExample = false
+                    showMenu = true
+                },
+                onConfirm = {
+                    time ->
+                    selectedTime = time
+                    showDialExample = false
+                    showMenu = true
+                },
+            )
+            showInputExample -> InputUseStateExample(
+                onDismiss = {
+                    showInputExample = false
+                    showMenu = true
+                },
+                onConfirm = {
+                    time ->
+                    selectedTime = time
+                    showInputExample = false
+                    showMenu = true
+                },
+            )
+            showDialWithDialogExample -> DialWithDialogExample(
+                onDismiss = {
+                    showDialWithDialogExample = false
+                    showMenu = true
+                },
+                onConfirm = {
+                    time ->
+                    selectedTime = time
+                    showDialWithDialogExample = false
+                    showMenu = true
+                },
+            )
+            showAdvancedExample -> AdvancedTimePickerExample(
+                onDismiss = {
+                    showAdvancedExample = false
+                    showMenu = true
+                },
+                onConfirm = {
+                    time ->
+                    selectedTime = time
+                    showAdvancedExample = false
+                    showMenu = true
+                },
+            )
+        }
     }
 }
 
@@ -133,6 +177,64 @@ fun TimePickerExamples() {
 // [START android_compose_components_dial]
 @Composable
 fun DialExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_dial]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_input]
+@Composable
+fun InputExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_input]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_dial_usestate]
+@Composable
+fun DialUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -144,7 +246,64 @@ fun DialExample(
         is24Hour = true,
     )
 
-    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = { onConfirm(timePickerState) }) {
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_dial_usestate]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_input_usestate]
+@Composable
+fun InputUseStateExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = { onConfirm(timePickerState) }) {
+            Text("Confirm selection")
+        }
+    }
+}
+// [END android_compose_components_input_usestate]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_timepickerdialog]
+@Composable
+fun DialWithDialogExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
     TimePickerDialog(
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) }
@@ -154,34 +313,29 @@ fun DialExample(
         )
     }
 }
-// [END android_compose_components_dial]
 
-@OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_input]
 @Composable
-fun InputExample(
-    onConfirm: (TimePickerState) -> Unit,
+fun TimePickerDialog(
     onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    content: @Composable () -> Unit
 ) {
-    val currentTime = Calendar.getInstance()
-
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        dismissButton = {
+            TextButton(onClick = { onDismiss() }) {
+                Text("Dismiss")
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm() }) {
+                Text("OK")
+            }
+        },
+        text = { content() }
     )
-
-    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
-    TimePickerDialog(
-        onDismiss = { onDismiss() },
-        onConfirm = { onConfirm(timePickerState) }
-    ) {
-        TimeInput(
-            state = timePickerState,
-        )
-    }
 }
-// [END android_compose_components_input]
+// [END android_compose_components_timepickerdialog]
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_advanced]
@@ -209,7 +363,6 @@ fun AdvancedTimePickerExample(
         Icons.Filled.AccessTime
     }
 
-    // For information on how to implement a time picker dialog, see the "Dialogs for time pickers" guide.
     AdvancedTimePickerDialog(
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) },
@@ -233,33 +386,7 @@ fun AdvancedTimePickerExample(
         }
     }
 }
-// [END android_compose_components_advanced]
 
-// [START android_compose_components_timepickerdialog]
-@Composable
-fun TimePickerDialog(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-    content: @Composable () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        dismissButton = {
-            TextButton(onClick = { onDismiss() }) {
-                Text("Dismiss")
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = { onConfirm() }) {
-                Text("OK")
-            }
-        },
-        text = { content() }
-    )
-}
-// [END android_compose_components_timepickerdialog]
-
-// [START android_compose_components_advanceddialog]
 @Composable
 fun AdvancedTimePickerDialog(
     title: String = "Select Time",
@@ -310,4 +437,4 @@ fun AdvancedTimePickerDialog(
         }
     }
 }
-// [END android_compose_components_advanceddialog]
+// [END android_compose_components_advanced]
