@@ -192,16 +192,15 @@ fun DialExample(
         TimePicker(
             state = timePickerState,
         )
-        Button(onClick = onDismiss){
+        Button(onClick = onDismiss) {
             Text("Dismiss picker")
         }
-        Button(onClick = onConfirm){
+        Button(onClick = onConfirm) {
             Text("Confirm selection")
         }
     }
 }
 // [END android_compose_components_dial]
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_input]
@@ -222,10 +221,10 @@ fun InputExample(
         TimeInput(
             state = timePickerState,
         )
-        Button(onClick = onDismiss){
+        Button(onClick = onDismiss) {
             Text("Dismiss picker")
         }
-        Button(onClick = onConfirm){
+        Button(onClick = onConfirm) {
             Text("Confirm selection")
         }
     }
