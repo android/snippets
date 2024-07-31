@@ -238,7 +238,7 @@ fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
-// [END android_compose_components_datepicker_end]
+// [END android_compose_components_datepicker_docked]
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_datepicker_range]
