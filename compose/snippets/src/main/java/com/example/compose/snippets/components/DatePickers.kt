@@ -55,12 +55,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// [START android_compose_components_datepicker_examples]
+// [START_EXCLUDE]
 @Composable
 fun DatePickerExamples() {
     var showModal by remember { mutableStateOf(false) }
     var showModalInput by remember { mutableStateOf(false) }
     var showRangeModal by remember { mutableStateOf(false) }
+// [END_EXCLUDE]
     var selectedDate by remember { mutableStateOf<Long?>(null) }
+// [START_EXCLUDE]
     var selectedDateRange by remember { mutableStateOf<Pair<Long?, Long?>>(null to null) }
 
     Column(
@@ -80,6 +84,7 @@ fun DatePickerExamples() {
         Button(onClick = { showModalInput = true }) {
             Text("Show Modal Input Date Picker")
         }
+// [END_EXCLUDE]
         if (selectedDate != null) {
             val date = Date(selectedDate!!)
             val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
@@ -87,6 +92,7 @@ fun DatePickerExamples() {
         } else {
             Text("No date selected")
         }
+// [START_EXCLUDE]
 
         Text("Date range pickers:")
 
@@ -106,6 +112,7 @@ fun DatePickerExamples() {
     }
 
     if (showModal) {
+// [END_EXCLUDE]
         DatePickerModal(
             onDateSelected = {
                 selectedDate = it
@@ -114,6 +121,7 @@ fun DatePickerExamples() {
             onDismiss = { showModal = false }
         )
     }
+// [START_EXCLUDE]
 
     if (showModalInput) {
         DatePickerModalInput(
@@ -135,6 +143,7 @@ fun DatePickerExamples() {
         )
     }
 }
+// [END android_compose_components_datepicker_examples]
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_datepicker_modal]
@@ -295,6 +304,7 @@ fun DateRangePickerModal(
                     text = "Select date range"
                 )
             },
+            showModeToggle = false,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp)
