@@ -15,6 +15,7 @@
  */
 
 package com.example.wear.snippets.list
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.Composable
@@ -107,7 +108,9 @@ fun SnapAndFlingComposeList() {
 const val LARGE_DISPLAY_BREAKPOINT = 225
 
 @Composable
-fun isLargeDisplay() = LocalConfiguration.current.screenWidthDp >= LARGE_DISPLAY_BREAKPOINT
+fun isLargeDisplay() =
+    LocalConfiguration.current.screenWidthDp >= LARGE_DISPLAY_BREAKPOINT
+
 // [START_EXCLUDE]
 @Composable
 fun breakpointDemo() {
