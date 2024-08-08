@@ -73,7 +73,7 @@ private class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
     private var totalCompositions: Long = 0
         set(value) {
             if (field == value) return
-            restartTimer()
+            if (value > 0) restartTimer()
             field = value
             invalidateDraw()
         }
@@ -103,7 +103,6 @@ private class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
         timerJob = coroutineScope.launch {
             delay(3000)
             totalCompositions = 0
-            invalidateDraw()
         }
     }
 
