@@ -14,7 +14,7 @@ androidx-fragment-ktx = "1.6.2"
 androidx-glance-appwidget = "1.0.0"
 androidx-lifecycle-compose = "2.8.0-rc01"
 androidx-lifecycle-runtime-compose = "2.8.0-rc01"
-androidx-navigation = "2.7.7"
+androidx-navigation = "2.8.0-beta07"
 androidx-paging = "3.2.1"
 androidx-test = "1.5.0"
 androidx-test-espresso = "3.5.1"
@@ -33,6 +33,7 @@ horologist = "0.5.24"
 junit = "4.13.2"
 # @pin Update in conjuction with Compose Compiler
 kotlin = "1.9.20"
+kotlinxSerializationJson = "1.7.1"
 ksp = "1.8.0-1.0.9"
 maps-compose = "4.3.2"
 material = "1.4.0-beta01"
@@ -121,6 +122,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 compose-ui-tooling = { group = "androidx.wear.compose", name = "compose-ui-tooling", version.ref = "composeUiTooling" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
@@ -133,4 +135,5 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
