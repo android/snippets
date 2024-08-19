@@ -33,7 +33,7 @@ horologist = "0.5.24"
 junit = "4.13.2"
 # @pin Update in conjuction with Compose Compiler
 kotlin = "1.9.20"
-kotlinxSerializationJson = "1.7.1"
+kotlinxSerializationJson = "1.6.3"
 ksp = "1.8.0-1.0.9"
 maps-compose = "4.3.2"
 material = "1.4.0-beta01"
