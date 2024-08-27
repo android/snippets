@@ -16,11 +16,12 @@
 
 package com.example.compose.snippets.designsystems
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
-import androidx.compose.material.Colors
-import androidx.compose.material.ContentAlpha
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ContentAlpha
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -57,8 +58,10 @@ import androidx.compose.ui.unit.sp
 private object CustomDesignSystemExtend {
     // [START android_compose_designsystems_custom_extend]
     // Use with MaterialTheme.colors.snackbarAction
-    val Colors.snackbarAction: Color
-        get() = if (isLight) Red300 else Red700
+
+    val ColorScheme.snackbarAction: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) Red300 else Red700
 
     // Use with MaterialTheme.typography.textFieldInput
     val Typography.textFieldInput: TextStyle
@@ -339,7 +342,7 @@ object FullyCustomDesignSystem {
                     .copy(alpha = 0.12f)
                     .compositeOver(CustomTheme.colors.component),
                 disabledContentColor = CustomTheme.colors.content
-                    .copy(alpha = ContentAlpha.disabled)
+                    .copy(alpha = 0.5f)
             ),
             shape = ButtonShape,
             elevation = ButtonDefaults.elevatedButtonElevation(
