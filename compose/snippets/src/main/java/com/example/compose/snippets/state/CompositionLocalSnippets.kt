@@ -21,14 +21,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Colors
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.lightColors
+import androidx.compose.material3.Button
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -67,7 +66,7 @@ object CompositionLocalSnippets2 {
     fun MyApp() {
         // Provides a Theme whose values are propagated down its `content`
         MaterialTheme {
-            // New values for colors, typography, and shapes are available
+            // New values for colorScheme, typography, and shapes are available
             // in MaterialTheme's content lambda.
 
             // ... content here ...
@@ -81,7 +80,7 @@ object CompositionLocalSnippets2 {
             text = labelText,
             // `primary` is obtained from MaterialTheme's
             // LocalColors CompositionLocal
-            color = MaterialTheme.colors.primary
+            color = MaterialTheme.colorScheme.primary
         )
     }
     // [END android_compose_state_compositionlocal2]
@@ -91,14 +90,19 @@ object CompositionLocalSnippets3 {
     // [START android_compose_state_compositionlocal3]
     @Composable
     fun CompositionLocalExample() {
-        MaterialTheme { // MaterialTheme sets ContentAlpha.high as default
-            Column {
-                Text("Uses MaterialTheme's provided alpha")
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text("Medium value provided for LocalContentAlpha")
-                    Text("This Text also uses the medium value")
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
-                        DescendantExample()
+        MaterialTheme {
+            // Surface provides contentColorFor(MaterialTheme.colorScheme.surface) by default
+            // This is to automatically make text and other content contrast to the background
+            // correctly.
+            Surface {
+                Column {
+                    Text("Uses Surface's provided content color")
+                    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.primary) {
+                        Text("Primary color provided by LocalContentColor")
+                        Text("This Text also uses primary as textColor")
+                        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.error) {
+                            DescendantExample()
+                        }
                     }
                 }
             }
@@ -108,7 +112,7 @@ object CompositionLocalSnippets3 {
     @Composable
     fun DescendantExample() {
         // CompositionLocalProviders also work across composable functions
-        Text("This Text uses the disabled alpha now")
+        Text("This Text uses the error color now")
     }
     // [END android_compose_state_compositionlocal3]
 }
@@ -169,11 +173,15 @@ object CompositionLocalSnippets5_6_7 {
     fun SomeComposable() {
         // Access the globally defined LocalElevations variable to get the
         // current Elevations in this part of the Composition
-        Card(elevation = LocalElevations.current.card) {
+        MyCard(elevation = LocalElevations.current.card) {
             // Content
         }
     }
     // [END android_compose_state_compositionlocal7]
+
+    @Composable
+    fun MyCard(elevation: Dp, content: @Composable () -> Unit) {
+    }
 }
 
 object CompositionLocalSnippets8 {
@@ -267,7 +275,7 @@ object CompositionLocalSnippets11 {
 /***
  * Fakes
  */
-fun colors(): Colors = lightColors()
+fun colors(): ColorScheme = lightColorScheme()
 
 data class DataToDisplay(val title: String)
 class MyViewModel : ViewModel() {
