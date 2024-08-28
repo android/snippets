@@ -5,10 +5,9 @@ package com.example.android.coroutines.testing
 import com.example.android.coroutines.testing.scope.FakeUserRepository
 import com.example.android.coroutines.testing.scope.UserState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 // [START android_coroutine_test_user_state_test]

@@ -50,6 +50,7 @@ import androidx.compose.animation.core.createChildTransition
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
@@ -65,7 +66,7 @@ import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -190,7 +191,6 @@ private fun AnimatedVisibilityMutable() {
     // [END android_compose_animations_animated_visibility_mutable]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 @Preview
 private fun AnimatedVisibilityAnimateEnterExitChildren() {
@@ -222,7 +222,6 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
     // [END android_compose_animations_animated_visibility_animate_enter_exit_children]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedVisibilityTransition() {
@@ -259,7 +258,6 @@ private fun AnimateAsStateSimple() {
     // [END android_compose_animations_animate_as_state]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedContentSimple() {
@@ -277,7 +275,6 @@ private fun AnimatedContentSimple() {
     // [END android_compose_animations_animated_content_simple]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun AnimatedContentTransitionSpec(count: Int) {
     // [START android_compose_animations_animated_content_transition_spec]
@@ -288,12 +285,12 @@ private fun AnimatedContentTransitionSpec(count: Int) {
             if (targetState > initialState) {
                 // If the target number is larger, it slides up and fades in
                 // while the initial (smaller) number slides up and fades out.
-                slideInVertically { height -> height } + fadeIn() with
+                slideInVertically { height -> height } + fadeIn() togetherWith
                     slideOutVertically { height -> -height } + fadeOut()
             } else {
                 // If the target number is smaller, it slides down and fades in
                 // while the initial number slides down and fades out.
-                slideInVertically { height -> -height } + fadeIn() with
+                slideInVertically { height -> -height } + fadeIn() togetherWith
                     slideOutVertically { height -> height } + fadeOut()
             }.using(
                 // Disable clipping since the faded slide-in/out should
@@ -318,7 +315,7 @@ private fun AnimatedContentSizeTransform() {
         AnimatedContent(
             targetState = expanded,
             transitionSpec = {
-                fadeIn(animationSpec = tween(150, 150)) with
+                fadeIn(animationSpec = tween(150, 150)) togetherWith
                     fadeOut(animationSpec = tween(150)) using
                     SizeTransform { initialSize, targetSize ->
                         if (targetState) {
@@ -431,7 +428,7 @@ private object UpdateTransitionEnumState {
         // Start in collapsed state and immediately animate to expanded
         var currentState = remember { MutableTransitionState(BoxState.Collapsed) }
         currentState.targetState = BoxState.Expanded
-        val transition = updateTransition(currentState, label = "box state")
+        val transition = rememberTransition(currentState, label = "box state")
         // ……
         // [END android_compose_animations_transitions_state]
     }
@@ -663,8 +660,8 @@ private fun AnimationSpecKeyframe() {
         targetValue = 1f,
         animationSpec = keyframes {
             durationMillis = 375
-            0.0f at 0 with LinearOutSlowInEasing // for 0-15 ms
-            0.2f at 15 with FastOutLinearInEasing // for 15-75 ms
+            0.0f at 0 using LinearOutSlowInEasing // for 0-15 ms
+            0.2f at 15 using FastOutLinearInEasing // for 15-75 ms
             0.4f at 75 // ms
             0.4f at 225 // ms
         }

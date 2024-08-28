@@ -16,6 +16,8 @@
 
 @file:Suppress("unused")
 
+package com.example.compose.snippets.state
+
 import android.content.res.Resources
 import android.graphics.BitmapShader
 import android.graphics.Shader
@@ -244,7 +246,7 @@ private fun RememberKeysSnippet3() {
 }
 
 /**
- * Add fake Parcelize and Parcelable to avoid adding dependency on
+ * Add fake com.example.compose.snippets.state.Parcelize and com.example.compose.snippets.state.Parcelable to avoid adding dependency on
  * kotlin-parcelize just for snippets
  */
 private annotation class Parcelize
