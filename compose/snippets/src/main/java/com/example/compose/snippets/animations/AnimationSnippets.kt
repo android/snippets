@@ -156,10 +156,12 @@ private fun AnimatedVisibilityWithEnterAndExit() {
         ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut()
     ) {
-        Text("Hello",
+        Text(
+            "Hello",
             Modifier
                 .fillMaxWidth()
-                .height(200.dp))
+                .height(200.dp)
+        )
     }
     // [END android_compose_animations_animated_visibility_enter_exit]
 }
@@ -209,7 +211,8 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
         Box(
             Modifier
                 .fillMaxSize()
-                .background(Color.DarkGray)) {
+                .background(Color.DarkGray)
+        ) {
             Box(
                 Modifier
                     .align(Alignment.Center)
@@ -244,9 +247,11 @@ private fun AnimatedVisibilityTransition() {
         val background by transition.animateColor(label = "color") { state ->
             if (state == EnterExitState.Visible) Color.Blue else Color.Gray
         }
-        Box(modifier = Modifier
-            .size(128.dp)
-            .background(background))
+        Box(
+            modifier = Modifier
+                .size(128.dp)
+                .background(background)
+        )
     }
     // [END android_compose_animations_animated_visibility_transition]
 }
@@ -328,22 +333,22 @@ private fun AnimatedContentSizeTransform() {
             targetState = expanded,
             transitionSpec = {
                 fadeIn(animationSpec = tween(150, 150)) togetherWith
-                        fadeOut(animationSpec = tween(150)) using
-                        SizeTransform { initialSize, targetSize ->
-                            if (targetState) {
-                                keyframes {
-                                    // Expand horizontally first.
-                                    IntSize(targetSize.width, initialSize.height) at 150
-                                    durationMillis = 300
-                                }
-                            } else {
-                                keyframes {
-                                    // Shrink vertically first.
-                                    IntSize(initialSize.width, targetSize.height) at 150
-                                    durationMillis = 300
-                                }
+                    fadeOut(animationSpec = tween(150)) using
+                    SizeTransform { initialSize, targetSize ->
+                        if (targetState) {
+                            keyframes {
+                                // Expand horizontally first.
+                                IntSize(targetSize.width, initialSize.height) at 150
+                                durationMillis = 300
+                            }
+                        } else {
+                            keyframes {
+                                // Shrink vertically first.
+                                IntSize(initialSize.width, targetSize.height) at 150
+                                durationMillis = 300
                             }
                         }
+                    }
             }, label = "size transform"
         ) { targetExpanded ->
             if (targetExpanded) {
@@ -509,9 +514,11 @@ private fun UpdateTransitionAnimatedVisibility() {
         border = BorderStroke(2.dp, borderColor),
         shadowElevation = elevation
     ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
             Text(text = "Hello, world!")
             // AnimatedVisibility as a part of the transition.
             transition.AnimatedVisibility(
@@ -589,13 +596,15 @@ private fun RememberInfiniteTransitionSimple() {
         animationSpec = infiniteRepeatable(
             animation = tween(1000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
-        ), label = "color"
+        ),
+        label = "color"
     )
 
     Box(
         Modifier
             .fillMaxSize()
-            .background(color))
+            .background(color)
+    )
     // [END android_compose_animations_infinite_transition_simple]
 }
 
@@ -610,7 +619,8 @@ private fun AnimatableSimple(ok: Boolean) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(color.value))
+            .background(color.value)
+    )
     // [END android_compose_animations_animatable_simple]
 }
 

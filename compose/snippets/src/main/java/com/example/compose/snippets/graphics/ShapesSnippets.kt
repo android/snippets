@@ -373,10 +373,12 @@ class RoundedPolygonShape(
 fun ApplyPolygonAsClipBasic() {
     // [START android_compose_shapes_apply_as_clip]
     val hexagon = remember {
-        mutableStateOf(RoundedPolygon(
-            6,
-            rounding = CornerRounding(0.2f)
-        ))
+        mutableStateOf(
+            RoundedPolygon(
+                6,
+                rounding = CornerRounding(0.2f)
+            )
+        )
     }
     val clip = remember {
         RoundedPolygonShape(polygon = hexagon)
@@ -401,10 +403,12 @@ fun ApplyPolygonAsClipBasic() {
 fun ApplyPolygonAsClipImage() {
     // [START android_compose_shapes_apply_as_clip_advanced]
     val hexagon = remember {
-        mutableStateOf(RoundedPolygon(
-            6,
-            rounding = CornerRounding(0.2f)
-        ))
+        mutableStateOf(
+            RoundedPolygon(
+                6,
+                rounding = CornerRounding(0.2f)
+            )
+        )
     }
     val clip = remember(hexagon) {
         RoundedPolygonShape(polygon = hexagon)
