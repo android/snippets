@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.example.android.coroutines.testing
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
+import org.junit.experimental.runners.Enclosed
+import org.junit.runner.RunWith
 
 // Helper function to let code below compile
-private fun Repository(): Repository = Repository(Dispatchers.IO)
+private fun ExampleRepository(): Repository = Repository(Dispatchers.IO)
+
 
 // [START coroutine_test_repo_with_rule_blank]
-class Repository(private val ioDispatcher: CoroutineDispatcher) { /* ... */ }
+class ExampleRepository(private val ioDispatcher: CoroutineDispatcher) { /* ... */ }
 
 class RepositoryTestWithRule {
-    private val repository = Repository(/* What TestDispatcher? */)
+    private val repository = ExampleRepository(/* What TestDispatcher? */)
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -46,13 +52,14 @@ class RepositoryTestWithRule {
 }
 // [END coroutine_test_repo_with_rule_blank]
 
+@RunWith(Enclosed::class)
 class DispatchersOutsideTests {
     // [START coroutine_test_repo_with_rule]
     class RepositoryTestWithRule {
         @get:Rule
         val mainDispatcherRule = MainDispatcherRule()
 
-        private val repository = Repository(mainDispatcherRule.testDispatcher)
+        private val repository = ExampleRepository(mainDispatcherRule.testDispatcher)
 
         @Test
         fun someRepositoryTest() = runTest { // Takes scheduler from Main
@@ -68,7 +75,7 @@ class DispatchersOutsideTests {
     class RepositoryTest {
         // Creates the single test scheduler
         private val testDispatcher = UnconfinedTestDispatcher()
-        private val repository = Repository(testDispatcher)
+        private val repository = ExampleRepository(testDispatcher)
 
         @Test
         fun someRepositoryTest() = runTest(testDispatcher.scheduler) {
@@ -82,3 +89,5 @@ class DispatchersOutsideTests {
     }
     // [END coroutine_test_repo_without_rule]
 }
+
+

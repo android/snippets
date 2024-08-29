@@ -15,9 +15,11 @@
  */
 
 package com.example.wear.snippets.list
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
@@ -102,9 +104,40 @@ fun SnapAndFlingComposeList() {
     // [END android_wear_snap]
 }
 
+// [START android_wear_list_breakpoint]
+const val LARGE_DISPLAY_BREAKPOINT = 225
+
+@Composable
+fun isLargeDisplay() =
+    LocalConfiguration.current.screenWidthDp >= LARGE_DISPLAY_BREAKPOINT
+
+// [START_EXCLUDE]
+@Composable
+fun breakpointDemo() {
+    // [END_EXCLUDE]
+// ... use in your Composables:
+    if (isLargeDisplay()) {
+        // Show additional content.
+    } else {
+        // Show content only for smaller displays.
+    }
+    // [START_EXCLUDE]
+}
+// [END_EXCLUDE]
+// [END android_wear_list_breakpoint]
+
+// [START android_wear_list_preview]
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun ComposeListPreview() {
     ComposeList()
+}
+// [END android_wear_list_preview]
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun SnapAndFlingComposeListPreview() {
+    SnapAndFlingComposeList()
 }

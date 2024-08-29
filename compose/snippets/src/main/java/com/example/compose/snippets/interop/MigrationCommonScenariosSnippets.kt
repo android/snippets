@@ -64,10 +64,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 class RVActivity : ComponentActivity() {
     private lateinit var composeView: ComposeView
@@ -141,6 +143,13 @@ class SampleActivity : ComponentActivity() {
 }
 // [END android_compose_interop_migration_common_scenarios_navigation_step_2]
 
+// [START android_compose_interop_migration_common_scenarios_navigation_step_2_1]
+@Serializable data object First
+@Serializable data class Second(val id: String)
+@Serializable data object Third
+
+// [END android_compose_interop_migration_common_scenarios_navigation_step_2_1]
+
 private object MigrationCommonScenariosNavigationStep3 {
     // [START android_compose_interop_migration_common_scenarios_navigation_step_3]
     @Composable
@@ -164,7 +173,7 @@ private object MigrationCommonScenariosNavigationStep4 {
     fun SampleNavHost(
         navController: NavHostController
     ) {
-        NavHost(navController = navController, startDestination = "first") {
+        NavHost(navController = navController, startDestination = First) {
             // ...
         }
     }
@@ -191,11 +200,11 @@ class FirstFragment : Fragment() {
 fun SampleNavHost(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = "first") {
-        composable("first") {
+    NavHost(navController = navController, startDestination = First) {
+        composable<First> {
             FirstScreen(/* ... */) // EXTRACT TO HERE
         }
-        composable("second") {
+        composable<Second> {
             SecondScreen(/* ... */)
         }
         // ...
@@ -220,20 +229,22 @@ private object MigrationCommonScenariosNavigationStep7 {
     fun SampleNavHost(
         navController: NavHostController
     ) {
-        NavHost(navController = navController, startDestination = "first") {
-            composable("first") {
+        NavHost(navController = navController, startDestination = First) {
+            composable<First> {
                 FirstScreen(
                     onButtonClick = {
                         // findNavController().navigate(firstScreenToSecondScreenAction)
-                        navController.navigate("second_screen_route")
+                        navController.navigate(Second(id = "ABC"))
                     }
                 )
             }
-            composable("second") {
+            composable<Second> { backStackEntry ->
+                val secondRoute = backStackEntry.toRoute<Second>()
                 SecondScreen(
+                    id = secondRoute.id,
                     onIconClick = {
                         // findNavController().navigate(secondScreenToThirdScreenAction)
-                        navController.navigate("third_screen_route")
+                        navController.navigate(Third)
                     }
                 )
             }
@@ -409,6 +420,7 @@ fun SampleApp() {
 
 @Composable
 fun SecondScreen(
+    id: String = "<no ID supplied>",
     onIconClick: () -> Unit = {},
 ) {
 }
