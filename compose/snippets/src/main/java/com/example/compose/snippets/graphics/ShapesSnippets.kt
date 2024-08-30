@@ -40,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -347,7 +348,7 @@ private fun MorphOnClick() {
 
 // [START android_compose_shapes_polygon_compose_shape]
 class RoundedPolygonShape(
-    private val polygon: RoundedPolygon
+    private val polygon: State<RoundedPolygon>
 ) : Shape {
     private val matrix = Matrix()
     override fun createOutline(
@@ -355,7 +356,7 @@ class RoundedPolygonShape(
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val path = polygon.cubics.toPath()
+        val path = polygon.value.cubics.toPath()
         // below assumes that you haven't changed the default radius of 1f, nor the centerX and centerY of 0f
         // By default this stretches the path to the size of the container, if you don't want stretching, use the same size.width for both x and y.
         matrix.scale(size.width / 2f, size.height / 2f)
@@ -372,12 +373,14 @@ class RoundedPolygonShape(
 fun ApplyPolygonAsClipBasic() {
     // [START android_compose_shapes_apply_as_clip]
     val hexagon = remember {
-        RoundedPolygon(
-            6,
-            rounding = CornerRounding(0.2f)
+        mutableStateOf(
+            RoundedPolygon(
+                6,
+                rounding = CornerRounding(0.2f)
+            )
         )
     }
-    val clip = remember(hexagon) {
+    val clip = remember {
         RoundedPolygonShape(polygon = hexagon)
     }
     Box(
@@ -400,9 +403,11 @@ fun ApplyPolygonAsClipBasic() {
 fun ApplyPolygonAsClipImage() {
     // [START android_compose_shapes_apply_as_clip_advanced]
     val hexagon = remember {
-        RoundedPolygon(
-            6,
-            rounding = CornerRounding(0.2f)
+        mutableStateOf(
+            RoundedPolygon(
+                6,
+                rounding = CornerRounding(0.2f)
+            )
         )
     }
     val clip = remember(hexagon) {
@@ -494,6 +499,13 @@ private fun RotatingScallopedProfilePic() {
         ),
         label = "animatedMorphProgress"
     )
+    val morphingShape = remember {
+        CustomRotatingMorphShape(
+            morph,
+            animatedProgress,
+            animatedRotation
+        )
+    }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -503,13 +515,7 @@ private fun RotatingScallopedProfilePic() {
             contentDescription = "Dog",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .clip(
-                    CustomRotatingMorphShape(
-                        morph,
-                        animatedProgress,
-                        animatedRotation
-                    )
-                )
+                .clip(morphingShape)
                 .size(200.dp)
         )
     }

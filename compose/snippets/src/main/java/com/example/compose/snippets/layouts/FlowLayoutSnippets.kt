@@ -40,8 +40,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -278,14 +278,16 @@ private fun FlowItems() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChipItem(text: String, onClick: () -> Unit = {}) {
-    Chip(
+    FilterChip(
         modifier = Modifier.padding(end = 4.dp),
         onClick = onClick,
         leadingIcon = {},
-        border = BorderStroke(1.dp, Color(0xFF3B3A3C))
-    ) {
-        Text(text)
-    }
+        border = BorderStroke(1.dp, Color(0xFF3B3A3C)),
+        label = {
+            Text(text)
+        },
+        selected = false
+    )
 }
 
 @Composable
