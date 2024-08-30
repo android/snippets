@@ -200,11 +200,6 @@ private object DownloadableFontsDebugSnippet {
     // [END android_compose_text_df_debug_apis_handler]
 }
 
-/**
- * <video width="320" height="240" controls>
- *   <source src="video.mov" type="video/mp4">
- * </video>
- */
 private object DownloadableFontsDebugSnippet2 {
     @Composable
     fun DownloadableFontsDebugSnippet() {
