@@ -39,25 +39,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/*
-* Copyright 2022 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
 private object CustomDesignSystemExtend {
     // [START android_compose_designsystems_custom_extend]
-    // Use with MaterialTheme.colors.snackbarAction
 
+    // Use with MaterialTheme.colorScheme.snackbarAction
     val ColorScheme.snackbarAction: Color
         @Composable
         get() = if (isSystemInDarkTheme()) Red300 else Red700
@@ -79,14 +64,14 @@ private object CustomDesignSystemExtendTheme {
     // [START android_compose_designsystems_custom_extend_theme]
     @Immutable
     data class ExtendedColors(
-        val tertiary: Color,
-        val onTertiary: Color
+        val caution: Color,
+        val onCaution: Color
     )
 
     val LocalExtendedColors = staticCompositionLocalOf {
         ExtendedColors(
-            tertiary = Color.Unspecified,
-            onTertiary = Color.Unspecified
+            caution = Color.Unspecified,
+            onCaution = Color.Unspecified
         )
     }
 
@@ -96,8 +81,8 @@ private object CustomDesignSystemExtendTheme {
         content: @Composable () -> Unit
     ) {
         val extendedColors = ExtendedColors(
-            tertiary = Color(0xFFA8EFF0),
-            onTertiary = Color(0xFF002021)
+            caution = Color(0xFFFFCC02),
+            onCaution = Color(0xFF2C2D30)
         )
         CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
             MaterialTheme(
@@ -107,7 +92,7 @@ private object CustomDesignSystemExtendTheme {
         }
     }
 
-    // Use with eg. ExtendedTheme.colors.tertiary
+    // Use with eg. ExtendedTheme.colors.caution
     object ExtendedTheme {
         val colors: ExtendedColors
             @Composable
@@ -124,8 +109,8 @@ private object CustomDesignSystemExtendTheme {
     ) {
         Button(
             colors = ButtonDefaults.buttonColors(
-                containerColor = ExtendedTheme.colors.tertiary,
-                contentColor = ExtendedTheme.colors.onTertiary
+                containerColor = ExtendedTheme.colors.caution,
+                contentColor = ExtendedTheme.colors.onCaution
                 /* Other colors use values from MaterialTheme */
             ),
             onClick = onClick,
@@ -341,7 +326,8 @@ object FullyCustomDesignSystem {
                     .copy(alpha = 0.12f)
                     .compositeOver(CustomTheme.colors.component),
                 disabledContentColor = CustomTheme.colors.content
-                    .copy(alpha = 0.5f)
+                    .copy(alpha = 0.38f)
+
             ),
             shape = ButtonShape,
             elevation = ButtonDefaults.elevatedButtonElevation(
