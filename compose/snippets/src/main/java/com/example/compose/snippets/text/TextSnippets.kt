@@ -18,15 +18,22 @@
 
 package com.example.compose.snippets.text
 
-import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -36,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -44,7 +52,6 @@ import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
@@ -58,11 +65,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -407,54 +417,6 @@ private object TextPartiallySelectableSnippet {
     // [END android_compose_text_partial_selection]
 }
 
-private object TextClickableSnippet {
-    // [START android_compose_text_clickable]
-    @Composable
-    fun SimpleClickableText() {
-        ClickableText(text = AnnotatedString("Click Me"), onClick = { offset ->
-            Log.d("ClickableText", "$offset -th character is clicked.")
-        })
-    }
-    // [END android_compose_text_clickable]
-}
-
-private object TextClickableAnnotatedSnippet {
-    // [START android_compose_text_clickable_annotated]
-    @Composable
-    fun AnnotatedClickableText() {
-        val annotatedText = buildAnnotatedString {
-            append("Click ")
-
-            // We attach this *URL* annotation to the following content
-            // until `pop()` is called
-            pushStringAnnotation(
-                tag = "URL", annotation = "https://developer.android.com"
-            )
-            withStyle(
-                style = SpanStyle(
-                    color = Color.Blue, fontWeight = FontWeight.Bold
-                )
-            ) {
-                append("here")
-            }
-
-            pop()
-        }
-
-        ClickableText(text = annotatedText, onClick = { offset ->
-            // We check if there is an *URL* annotation attached to the text
-            // at the clicked position
-            annotatedText.getStringAnnotations(
-                tag = "URL", start = offset, end = offset
-            ).firstOrNull()?.let { annotation ->
-                // If yes, we log its value
-                Log.d("Clicked URL", annotation.item)
-            }
-        })
-    }
-    // [END android_compose_text_clickable_annotated]
-}
-
 private object TextTextFieldSnippet {
     // [START android_compose_text_textfield_filled]
     @Composable
@@ -624,6 +586,184 @@ fun AnnotatedStringWithListenerSample() {
     )
 }
 // [END android_compose_text_link_2]
+
+@Composable
+private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
+    MaterialTheme {
+        Box(
+            Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxWidth()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(10.dp)
+            ) {
+                samples.forEach { (title, content) ->
+                    Row(Modifier.fillMaxWidth()) {
+                        content()
+                        Text(
+                            text = title,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+private const val SAMPLE_LONG_TEXT =
+    "Jetpack Compose is Android’s modern toolkit for building native UI. " +
+        "It simplifies and accelerates UI development on Android bringing your apps " +
+        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+        "It makes building Android UI faster and easier."
+@Composable
+@Preview
+fun LineBreakSample() {
+    // [START android_compose_text_line_break]
+    TextSample(
+        samples = mapOf(
+            "Simple" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Simple
+                    )
+                )
+            },
+            "Paragraph" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph
+                    )
+                )
+            }
+        )
+    )
+    // [END android_compose_text_line_break]
+}
+
+@Preview
+@Composable
+fun SmallScreenTextSnippet() {
+    // [START android_compose_text_paragraph]
+    TextSample(
+        samples = mapOf(
+            "Balanced" to {
+                val smallScreenAdaptedParagraph =
+                    LineBreak.Paragraph.copy(strategy = LineBreak.Strategy.Balanced)
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(200.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = smallScreenAdaptedParagraph
+                    )
+                )
+            },
+            "Default" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(200.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default
+                )
+            }
+        )
+    )
+    // [END android_compose_text_paragraph]
+}
+
+private object CJKTextSnippet {
+    @Composable
+    fun CJKSample() {
+        // [START android_compose_text_cjk]
+        val customTitleLineBreak = LineBreak(
+            strategy = LineBreak.Strategy.HighQuality,
+            strictness = LineBreak.Strictness.Strict,
+            wordBreak = LineBreak.WordBreak.Phrase
+        )
+        Text(
+            text = "あなたに寄り添う最先端のテクノロジー。",
+            modifier = Modifier.width(250.dp),
+            fontSize = 14.sp,
+            style = TextStyle.Default.copy(
+                lineBreak = customTitleLineBreak
+            )
+        )
+        // [END android_compose_text_cjk]
+    }
+}
+
+@Preview
+@Composable
+fun HyphenateTextSnippet() {
+    // [START android_compose_text_hyphen]
+    TextSample(
+        samples = mapOf(
+            "Hyphens - None" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph,
+                        hyphens = Hyphens.None
+                    )
+                )
+            },
+            "Hyphens - Auto" to {
+                Text(
+                    text = SAMPLE_LONG_TEXT,
+                    modifier = Modifier
+                        .width(130.dp)
+                        .border(BorderStroke(1.dp, Color.Gray)),
+                    fontSize = 14.sp,
+                    style = TextStyle.Default.copy(
+                        lineBreak = LineBreak.Paragraph,
+                        hyphens = Hyphens.Auto
+                    )
+                )
+            }
+        )
+    )
+    // [END android_compose_text_hyphen]
+}
+
+@Preview(showBackground = true)
+// [START android_compose_text_marquee]
+@Composable
+fun BasicMarqueeSample() {
+    // Marquee only animates when the content doesn't fit in the max width.
+    Column(Modifier.width(400.dp)) {
+        Text(
+            "Learn about why it's great to use Jetpack Compose",
+            modifier = Modifier.basicMarquee(),
+            fontSize = 50.sp
+        )
+    }
+}
+// [END android_compose_text_marquee]
 
 private val firaSansFamily = FontFamily()
 
