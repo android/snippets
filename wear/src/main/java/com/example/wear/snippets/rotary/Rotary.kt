@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -45,9 +46,12 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumnDefaults
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.ListHeader
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Picker
 import androidx.wear.compose.material.PositionIndicator
@@ -204,6 +208,47 @@ fun TimePicker() {
     // [END android_wear_rotary_input_picker]
 }
 
+@Composable
+fun SnapScrollableScreen() {
+    // This sample doesn't add a Time Text at the top of the screen.
+    // If using Time Text, add padding to ensure content does not overlap with Time Text.
+    // [START android_wear_rotary_input_snap_fling]
+    val listState = rememberScalingLazyListState()
+    Scaffold(
+        positionIndicator = {
+            PositionIndicator(scalingLazyListState = listState)
+        }
+    ) {
+
+        val state = rememberScalingLazyListState()
+        ScalingLazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            state = state,
+            flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = state)
+        ) {
+            // Content goes here
+            // [START_EXCLUDE]
+            item { ListHeader { Text(text = "List Header") } }
+            items(20) {
+                Chip(
+                    onClick = {},
+                    label = { Text("List item $it") },
+                    colors = ChipDefaults.secondaryChipColors()
+                )
+            }
+            // [END_EXCLUDE]
+        }
+    }
+    // [END android_wear_rotary_input_snap_fling]
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun TimePickerPreview() {
+    TimePicker()
+}
+
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
@@ -214,6 +259,6 @@ fun ScrollableScreenPreview() {
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
-fun TimePickerPreview() {
-    TimePicker()
+fun SnapScrollableScreenPreview() {
+    SnapScrollableScreen()
 }

@@ -47,8 +47,8 @@ recyclerview = "1.3.2"
 # @keep
 targetSdk = "34"
 version-catalog-update = "0.8.3"
-wearComposeFoundation = "1.3.1"
-wearComposeMaterial = "1.3.1"
+wearComposeFoundation = "1.4.0"
+wearComposeMaterial = "1.4.0"
 composeUiTooling = "1.4.0"
 
 [libraries]
