@@ -58,45 +58,10 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalWearFoundationApi::class)
 @Composable
 fun ScrollableScreen() {
     // This sample doesn't add a Time Text at the top of the screen.
     // If using Time Text, add padding to ensure content does not overlap with Time Text.
-    // [START android_wear_rotary_input]
-    val listState = rememberScalingLazyListState()
-    Scaffold(
-        positionIndicator = {
-            PositionIndicator(scalingLazyListState = listState)
-        }
-    ) {
-
-        val focusRequester = rememberActiveFocusRequester()
-        val coroutineScope = rememberCoroutineScope()
-
-        ScalingLazyColumn(
-            modifier = Modifier
-                .onRotaryScrollEvent {
-                    coroutineScope.launch {
-                        listState.scrollBy(it.verticalScrollPixels)
-                        listState.animateScrollBy(0f)
-                    }
-                    true
-                }
-                .focusRequester(focusRequester)
-                .focusable()
-                .fillMaxSize(),
-            state = listState
-        ) {
-            // Content goes here
-            // [START_EXCLUDE]
-            items(count = 5) {
-                Chip(onClick = { }, label = { Text("Item #$it") })
-            }
-            // [END_EXCLUDE]
-        }
-    }
-    // [END android_wear_rotary_input]
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
