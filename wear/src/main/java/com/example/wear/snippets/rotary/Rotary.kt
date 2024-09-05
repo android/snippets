@@ -245,6 +245,20 @@ fun SnapScrollableScreen() {
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
+fun TimePickerPreview() {
+    TimePicker()
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
 fun ScrollableScreenPreview() {
     ScrollableScreen()
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun SnapScrollableScreenPreview() {
+    SnapScrollableScreen()
 }
