@@ -18,9 +18,7 @@
 
 package com.example.compose.snippets.text
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
@@ -31,7 +29,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -53,11 +50,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -71,6 +70,7 @@ import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -417,54 +417,6 @@ private object TextPartiallySelectableSnippet {
     // [END android_compose_text_partial_selection]
 }
 
-private object TextClickableSnippet {
-    // [START android_compose_text_clickable]
-    @Composable
-    fun SimpleClickableText() {
-        ClickableText(text = AnnotatedString("Click Me"), onClick = { offset ->
-            Log.d("ClickableText", "$offset -th character is clicked.")
-        })
-    }
-    // [END android_compose_text_clickable]
-}
-
-private object TextClickableAnnotatedSnippet {
-    // [START android_compose_text_clickable_annotated]
-    @Composable
-    fun AnnotatedClickableText() {
-        val annotatedText = buildAnnotatedString {
-            append("Click ")
-
-            // We attach this *URL* annotation to the following content
-            // until `pop()` is called
-            pushStringAnnotation(
-                tag = "URL", annotation = "https://developer.android.com"
-            )
-            withStyle(
-                style = SpanStyle(
-                    color = Color.Blue, fontWeight = FontWeight.Bold
-                )
-            ) {
-                append("here")
-            }
-
-            pop()
-        }
-
-        ClickableText(text = annotatedText, onClick = { offset ->
-            // We check if there is an *URL* annotation attached to the text
-            // at the clicked position
-            annotatedText.getStringAnnotations(
-                tag = "URL", start = offset, end = offset
-            ).firstOrNull()?.let { annotation ->
-                // If yes, we log its value
-                Log.d("Clicked URL", annotation.item)
-            }
-        })
-    }
-    // [END android_compose_text_clickable_annotated]
-}
-
 private object TextTextFieldSnippet {
     // [START android_compose_text_textfield_filled]
     @Composable
@@ -590,6 +542,50 @@ private object TextEffectiveStateManagement2 {
     }
     // [END android_compose_text_state_management]
 }
+
+// [START android_compose_text_link_1]
+@Composable
+fun AnnotatedStringWithLinkSample() {
+    // Display a link in the text
+    Text(
+        buildAnnotatedString {
+            append("Build better apps faster with ")
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                )
+            ) {
+                append("Jetpack Compose")
+            }
+        }
+    )
+}
+// [END android_compose_text_link_1]
+
+// [START android_compose_text_link_2]
+@Composable
+fun AnnotatedStringWithListenerSample() {
+    // Display a link in the text and log metrics whenever user clicks on it. In that case we handle
+    // the link using openUri method of the LocalUriHandler
+    val uriHandler = LocalUriHandler.current
+    Text(
+        buildAnnotatedString {
+            append("Build better apps faster with ")
+            val link =
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(SpanStyle(color = Color.Blue))
+                ) {
+                    val url = (it as LinkAnnotation.Url).url
+                    // log some metrics
+                    uriHandler.openUri(url)
+                }
+            withLink(link) { append("Jetpack Compose") }
+        }
+    )
+}
+// [END android_compose_text_link_2]
 
 @Composable
 private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
@@ -756,7 +752,6 @@ fun HyphenateTextSnippet() {
 
 @Preview(showBackground = true)
 // [START android_compose_text_marquee]
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BasicMarqueeSample() {
     // Marquee only animates when the content doesn't fit in the max width.
@@ -770,9 +765,7 @@ fun BasicMarqueeSample() {
 }
 // [END android_compose_text_marquee]
 
-// Using null just sets the font family to default, which is easier than supplying
-// the actual font file in the snippets repo. This fixes a build warning.
-private val firaSansFamily = null
+private val firaSansFamily = FontFamily()
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)

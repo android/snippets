@@ -19,7 +19,6 @@ package com.example.compose.snippets.layouts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -53,7 +52,6 @@ import kotlin.random.Random
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
 fun Layout_Graph_Vertical() {
@@ -80,7 +78,6 @@ fun Layout_Graph_Vertical() {
     // [END android_compose_layout_vertical_graph]
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
 fun Layout_Graph_Horizontal() {

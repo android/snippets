@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("unused")
+@file:Suppress("unused", "DEPRECATION_ERROR", "UsingMaterialAndMaterial3Libraries")
 
 package com.example.compose.snippets.designsystems
 
@@ -38,7 +38,7 @@ import androidx.compose.material.Typography
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.lightColors
 import androidx.compose.material.primarySurface
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -158,7 +158,7 @@ fun ColorUsage() {
     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
         Icon(
             // [START_EXCLUDE]
-            Icons.Filled.ArrowBack,
+            Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = null
             // [END_EXCLUDE]
         )

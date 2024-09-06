@@ -19,7 +19,8 @@
 package com.example.compose.snippets.lists
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
@@ -263,7 +264,6 @@ private object ListsSnippetsReactingScrollPosition1 {
 
 private object ListsSnippetsReactingScrollPosition2 {
     // [START android_compose_layouts_lazy_column_scroll_to_top]
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun MessageList(messages: List<Message>) {
         Box {
@@ -425,7 +425,6 @@ private fun LazyColumnRememberSaveable() {
     // [END android_compose_layouts_lazy_column_any_key_saveable]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LazyItemAnimations() {
     val books = remember {
@@ -433,8 +432,9 @@ private fun LazyItemAnimations() {
     }
     // [START android_compose_layouts_lazy_column_item_animation]
     LazyColumn {
+        // It is important to provide a key to each item to ensure animateItem() works as expected.
         items(books, key = { it.id }) {
-            Row(Modifier.animateItemPlacement()) {
+            Row(Modifier.animateItem()) {
                 // ...
             }
         }
@@ -442,7 +442,6 @@ private fun LazyItemAnimations() {
     // [END android_compose_layouts_lazy_column_item_animation]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LazyItemAnimationWithSpec() {
     val books = remember {
@@ -452,8 +451,10 @@ private fun LazyItemAnimationWithSpec() {
     LazyColumn {
         items(books, key = { it.id }) {
             Row(
-                Modifier.animateItemPlacement(
-                    tween(durationMillis = 250)
+                Modifier.animateItem(
+                    fadeInSpec = tween(durationMillis = 250),
+                    fadeOutSpec = tween(durationMillis = 100),
+                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
                 )
             ) {
                 // ...
@@ -630,7 +631,6 @@ private fun ContentTypeExample() {
 }
 
 @Preview
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyStaggeredGridSnippet() {
     // [START android_compose_layouts_lazy_staggered_grid_adaptive]
@@ -653,7 +653,6 @@ fun LazyStaggeredGridSnippet() {
     // [END android_compose_layouts_lazy_staggered_grid_adaptive]
 }
 @Preview
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyStaggeredGridSnippetFixed() {
     // [START android_compose_layouts_lazy_staggered_grid_fixed]

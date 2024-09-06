@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.kapt) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 apply("${project.rootDir}/buildscripts/toml-updater-config.gradle")

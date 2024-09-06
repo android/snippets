@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
-import android.graphics.Picture
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -29,7 +28,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,18 +45,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.draw
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -87,14 +87,44 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 * limitations under the License.
 */
 
+@Preview
+@Composable
+private fun CreateBitmapFromGraphicsLayer() {
+    // [START android_compose_graphics_layer_bitmap_basics]
+    val coroutineScope = rememberCoroutineScope()
+    val graphicsLayer = rememberGraphicsLayer()
+    Box(
+        modifier = Modifier
+            .drawWithContent {
+                // call record to capture the content in the graphics layer
+                graphicsLayer.record {
+                    // draw the contents of the composable into the graphics layer
+                    this@drawWithContent.drawContent()
+                }
+                // draw the graphics layer on the visible canvas
+                drawLayer(graphicsLayer)
+            }
+            .clickable {
+                coroutineScope.launch {
+                    val bitmap = graphicsLayer.toImageBitmap()
+                    // do something with the newly acquired bitmap
+                }
+            }
+            .background(Color.White)
+    ) {
+        Text("Hello Android", fontSize = 26.sp)
+    }
+    // [END android_compose_graphics_layer_bitmap_basics]
+}
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Preview
 @Composable
-fun BitmapFromComposableSnippet() {
+fun BitmapFromComposableFullSnippet() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val picture = remember { Picture() }
+    val graphicsLayer = rememberGraphicsLayer()
 
     val writeStorageAccessState = rememberMultiplePermissionsState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -104,14 +134,15 @@ fun BitmapFromComposableSnippet() {
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     )
+
     // This logic should live in your ViewModel - trigger a side effect to invoke URI sharing.
     // checks permissions granted, and then saves the bitmap from a Picture that is already capturing content
     // and shares it with the default share sheet.
     fun shareBitmapFromComposable() {
         if (writeStorageAccessState.allPermissionsGranted) {
             coroutineScope.launch {
-                val bitmap = createBitmapFromPicture(picture)
-                val uri = bitmap.saveToDisk(context)
+                val bitmap = graphicsLayer.toImageBitmap()
+                val uri = bitmap.asAndroidBitmap().saveToDisk(context)
                 shareBitmap(context, uri)
             }
         } else if (writeStorageAccessState.shouldShowRationale) {
@@ -140,39 +171,22 @@ fun BitmapFromComposableSnippet() {
             }
         }
     ) { padding ->
-        // [START android_compose_draw_into_bitmap]
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
                 .drawWithCache {
-                    // Example that shows how to redirect rendering to an Android Picture and then
-                    // draw the picture into the original destination
-                    val width = this.size.width.toInt()
-                    val height = this.size.height.toInt()
-
                     onDrawWithContent {
-                        val pictureCanvas =
-                            androidx.compose.ui.graphics.Canvas(
-                                picture.beginRecording(
-                                    width,
-                                    height
-                                )
-                            )
-                        // requires at least 1.6.0-alpha01+
-                        draw(this, this.layoutDirection, pictureCanvas, this.size) {
+                        graphicsLayer.record {
                             this@onDrawWithContent.drawContent()
                         }
-                        picture.endRecording()
-
-                        drawIntoCanvas { canvas -> canvas.nativeCanvas.drawPicture(picture) }
+                        drawLayer(graphicsLayer)
                     }
                 }
 
         ) {
             ScreenContentToCapture()
         }
-        // [END android_compose_draw_into_bitmap]
     }
 }
 
@@ -205,25 +219,6 @@ private fun ScreenContentToCapture() {
             fontSize = 18.sp
         )
     }
-}
-
-private fun createBitmapFromPicture(picture: Picture): Bitmap {
-    // [START android_compose_draw_into_bitmap_convert_picture]
-    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        Bitmap.createBitmap(picture)
-    } else {
-        val bitmap = Bitmap.createBitmap(
-            picture.width,
-            picture.height,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = android.graphics.Canvas(bitmap)
-        canvas.drawColor(android.graphics.Color.WHITE)
-        canvas.drawPicture(picture)
-        bitmap
-    }
-    // [END android_compose_draw_into_bitmap_convert_picture]
-    return bitmap
 }
 
 private suspend fun Bitmap.saveToDisk(context: Context): Uri {

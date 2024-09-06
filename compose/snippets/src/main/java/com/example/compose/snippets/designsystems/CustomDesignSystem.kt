@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 
 private object CustomDesignSystemExtend {
     // [START android_compose_designsystems_custom_extend]
+
     // Use with MaterialTheme.colorScheme.snackbarAction
     val ColorScheme.snackbarAction: Color
         @Composable
@@ -326,6 +327,7 @@ object FullyCustomDesignSystem {
                     .compositeOver(CustomTheme.colors.component),
                 disabledContentColor = CustomTheme.colors.content
                     .copy(alpha = 0.38f)
+
             ),
             shape = ButtonShape,
             elevation = ButtonDefaults.elevatedButtonElevation(

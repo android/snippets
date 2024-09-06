@@ -28,9 +28,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.snippets.animations.AnimationExamplesScreen
+import com.example.compose.snippets.animations.sharedelement.PlaceholderSizeAnimated_Demo
 import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
+import com.example.compose.snippets.components.CardExamples
 import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
@@ -45,14 +47,13 @@ import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.components.TimePickerExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
-import com.example.compose.snippets.graphics.BitmapFromComposableSnippet
+import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-import com.example.topcomponents.CardExamples
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,13 +77,14 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.BrushExamples -> BrushExamplesScreen()
                                     Destination.ImageExamples -> ImageExamplesScreen()
                                     Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
-                                    Destination.ScreenshotExample -> BitmapFromComposableSnippet()
+                                    Destination.ScreenshotExample -> BitmapFromComposableFullSnippet()
                                     Destination.ComponentsExamples -> ComponentsScreen {
                                         navController.navigate(
                                             it.route
                                         )
                                     }
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
+                                    Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
                                 }
                             }
                         }
