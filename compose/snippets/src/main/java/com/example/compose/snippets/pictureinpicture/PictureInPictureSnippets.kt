@@ -36,6 +36,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toAndroidRectF
@@ -345,4 +346,61 @@ fun PiPBuilderAddRemoteActions(
     } else {
         Log.i(PIP_TAG, "API does not support PiP")
     }
+}
+
+@Composable
+fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
+    // [START android_compose_pip_pre12_listener]
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+    ) {
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            val onUserLeaveBehavior: () -> Unit = {
+                context.findActivity()
+                    .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+            }
+            context.findActivity().addOnUserLeaveHintListener(
+                onUserLeaveBehavior
+            )
+            onDispose {
+                context.findActivity().removeOnUserLeaveHintListener(
+                    onUserLeaveBehavior
+                )
+            }
+        }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
+    }
+    // [END android_compose_pip_pre12_listener]
+}
+
+@Composable
+fun EnterPiPPre12(shouldEnterPipMode: Boolean) {
+    // [START android_compose_pip_pre12_should_enter_pip]
+    val currentShouldEnterPipMode by rememberUpdatedState(newValue = shouldEnterPipMode)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+    ) {
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            val onUserLeaveBehavior: () -> Unit = {
+                if (currentShouldEnterPipMode) {
+                    context.findActivity()
+                        .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+                }
+            }
+            context.findActivity().addOnUserLeaveHintListener(
+                onUserLeaveBehavior
+            )
+            onDispose {
+                context.findActivity().removeOnUserLeaveHintListener(
+                    onUserLeaveBehavior
+                )
+            }
+        }
+    } else {
+        Log.i("PiP info", "API does not support PiP")
+    }
+    // [END android_compose_pip_pre12_should_enter_pip]
 }
