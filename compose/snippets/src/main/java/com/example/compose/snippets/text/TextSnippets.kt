@@ -769,7 +769,7 @@ fun BasicMarqueeSample() {
 }
 // [END android_compose_text_marquee]
 
-// [START android_compose_text_auto_format_phone-number_textfieldconfig]
+// [START android_compose_text_auto_format_phone_number_textfieldconfig]
 @Composable
 fun PhoneNumber() {
     var phoneNumber by rememberSaveable { mutableStateOf("") }
@@ -790,7 +790,7 @@ fun PhoneNumber() {
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
-// [END android_compose_text_auto_format_phone-number_textfieldconfig]
+// [END android_compose_text_auto_format_phone_number_textfieldconfig]
 
 // [START android_compose_text_auto_format_phone-number_transformtext]
 class NanpVisualTransformation() : VisualTransformation {
@@ -834,7 +834,7 @@ class NanpVisualTransformation() : VisualTransformation {
 
     }
 }
-// [END android_compose_text_auto_format_phone_number_transformtext]
+// [END android_compose_text_auto_format_phone-number_transformtext]
 
 private val firaSansFamily = FontFamily()
 
