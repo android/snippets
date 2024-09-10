@@ -765,7 +765,6 @@ fun BasicMarqueeSample() {
 }
 // [END android_compose_text_marquee]
 
-
 // [START android_compose_text_auto_format_phone-number_textfieldconfig]
 @Composable
 fun PhoneNumber() {
@@ -809,7 +808,7 @@ class NanpVisualTransformation() : VisualTransformation {
 
         override fun originalToTransformed(offset: Int): Int =
             when (offset) {
-                0  -> offset
+                0 -> offset
                 // Add 1 for opening parenthesis.
                 in 1..3 -> offset + 1
                 // Add 3 for both parentheses and a space.
@@ -828,7 +827,6 @@ class NanpVisualTransformation() : VisualTransformation {
                 // Subtract 4 for both parentheses, space, and hyphen.
                 else -> offset - 4
             }
-
     }
 }
 // [END android_compose_text_auto_format_phone-number_transformtext]
