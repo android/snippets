@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
@@ -64,7 +65,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.Hyphens
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -764,6 +768,73 @@ fun BasicMarqueeSample() {
     }
 }
 // [END android_compose_text_marquee]
+
+// [START android_compose_text_auto_format_phone-number_textfieldconfig]
+@Composable
+fun PhoneNumber() {
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    val numericRegex = Regex("[^0-9]")
+    TextField(
+        value = phoneNumber,
+        onValueChange = {
+            // Remove non-numeric characters.
+            val stripped = numericRegex.replace(it, "")
+            phoneNumber = if (stripped.length >= 10) {
+                stripped.substring(0..9)
+            } else {
+                stripped
+            }
+        },
+        label = { Text("Enter Phone Number") },
+        visualTransformation = NanpVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
+}
+// [END android_compose_text_auto_format_phone-number_textfieldconfig]
+
+// [START android_compose_text_auto_format_phone-number_transformtext]
+class NanpVisualTransformation() : VisualTransformation {
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        val trimmed = if (text.text.length >= 10) text.text.substring(0..9) else text.text
+
+        var out = if (trimmed.isNotEmpty()) "(" else ""
+
+        for (i in trimmed.indices) {
+            if (i == 3) out += ") "
+            if (i == 6) out += "-"
+            out += trimmed[i]
+        }
+        return TransformedText(AnnotatedString(out), phoneNumberOffsetTranslator)
+    }
+
+    private val phoneNumberOffsetTranslator = object : OffsetMapping {
+
+        override fun originalToTransformed(offset: Int): Int =
+            when (offset) {
+                0  -> offset
+                // Add 1 for opening parenthesis.
+                in 1..3 -> offset + 1
+                // Add 3 for both parentheses and a space.
+                in 4..6 -> offset + 3
+                // Add 4 for both parentheses, space, and hyphen.
+                else -> offset + 4
+            }
+
+        override fun transformedToOriginal(offset: Int): Int =
+            when (offset) {
+                0 -> offset
+                // Subtract 1 for opening parenthesis.
+                in 1..5 -> offset - 1
+                // Subtract 3 for both parentheses and a space.
+                in 6..10 -> offset - 3
+                // Subtract 4 for both parentheses, space, and hyphen.
+                else -> offset - 4
+            }
+
+    }
+}
+// [START android_compose_text_auto_format_phone-number_transformtext]
 
 private val firaSansFamily = FontFamily()
 
