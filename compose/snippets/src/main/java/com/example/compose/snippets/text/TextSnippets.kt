@@ -833,7 +833,7 @@ class NanpVisualTransformation() : VisualTransformation {
             }
     }
 }
-// [END android_compose_text_auto_format_phone-number_transformtext]
+// [END android_compose_text_auto_format_phone_number_transformtext]
 
 private val firaSansFamily = FontFamily()
 
