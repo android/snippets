@@ -792,7 +792,7 @@ fun PhoneNumber() {
 }
 // [END android_compose_text_auto_format_phone_number_textfieldconfig]
 
-// [START android_compose_text_auto_format_phone-number_transformtext]
+// [START android_compose_text_auto_format_phone_number_transformtext]
 class NanpVisualTransformation() : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
