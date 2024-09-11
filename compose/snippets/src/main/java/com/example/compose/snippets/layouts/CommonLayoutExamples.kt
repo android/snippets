@@ -174,7 +174,6 @@ fun Layout_StretchMiddleItem() {
         item {
             Text("Single item", itemModifier)
         }
-
     }
     // [END android_compose_layout_scrollable_grid]
 }
