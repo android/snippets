@@ -75,4 +75,3 @@ fun LoadingImageFromInternetGlide() {
     )
     // [END android_compose_images_load_internet_glide]
 }
-
