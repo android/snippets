@@ -52,4 +52,5 @@
   <string name="favorites">Favoritos</string>
   <string name="shopping">Compras</string>
   <string name="profile">Perfil</string>
+  <string name="detail_placeholder">Esto es sólo un texto de marcador de posición.</string>
 </resources>
