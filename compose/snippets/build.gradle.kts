@@ -159,5 +159,6 @@ dependencies {
 
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 
 }
