@@ -50,6 +50,7 @@ version-catalog-update = "0.8.3"
 wearComposeFoundation = "1.4.0"
 wearComposeMaterial = "1.4.0"
 composeUiTooling = "1.4.0"
+glide= "1.0.0-beta01"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
@@ -126,6 +127,7 @@ androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplaye
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 compose-ui-tooling = { group = "androidx.wear.compose", name = "compose-ui-tooling", version.ref = "composeUiTooling" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+glide-compose = { module = "com.github.bumptech.glide:compose" , version.ref = "glide"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

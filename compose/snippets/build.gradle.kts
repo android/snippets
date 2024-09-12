@@ -144,6 +144,8 @@ dependencies {
     implementation(libs.googlemaps.maps)
 
     implementation(libs.hilt.android)
+    implementation(libs.glide.compose)
+
     kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
