@@ -149,4 +149,4 @@ fun Layout_StretchMiddleItem() {
         Spacer(modifier = itemModifier.background(MaterialColors.Pink200))
     }
 }
-    // [END android_compose_layout_stretch_middle]
+// [END android_compose_layout_stretch_middle]
