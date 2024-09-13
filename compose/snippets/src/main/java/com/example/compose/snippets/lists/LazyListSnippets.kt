@@ -67,11 +67,11 @@ import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.randomSampleImageUrl
+import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 private object ListsSnippetsColumn {
     // [START android_compose_layouts_list_column]
