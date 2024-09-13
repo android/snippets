@@ -39,12 +39,12 @@ fun ListWithMultipleItems(messages: List<Any>) {
 
 @Composable
 fun AudioMessage(message: MediaStore.Audio) {
-    TODO("Not yet implemented")
+    TODO("Not yet implemented.")
 }
 
 @Composable
 fun TextMessage(message: Text) {
-    TODO("Not yet implemented")
+    TODO("Not yet implemented.")
 }
 
 data class SampleMessage(val text: String, val content: Any)
