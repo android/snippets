@@ -6,31 +6,29 @@ import androidx.compose.runtime.Composable
 import org.w3c.dom.Text
 
 @Composable
-fun ListWithMultipleItems(numberOfMessages:Int) {
-    val messages = numberOfMessages // or any Int
-    val message = SampleMessage("Hi there", MediaStore.Audio())
-
+fun ListWithMultipleItems(messages: List<Any>) {
     LazyColumn {
         items(
-            messages,
+            messages.size,
             contentType = { it }
         ) {
-            when (message.content) {
-                // Content Types and Composables are defined elsewhere.
-                is MediaStore.Audio -> AudioMessage(message)
-                is Text -> TextMessage(message)
-            }
+            for (message in messages)
+                when (message) {
+                    // Content Types and Composables are defined elsewhere.
+                    is MediaStore.Audio -> AudioMessage(message)
+                    is Text -> TextMessage(message)
+                }
         }
     }
 }
 
 @Composable
-fun TextMessage(message: SampleMessage) {
+fun AudioMessage(message: MediaStore.Audio) {
     TODO("Not yet implemented")
 }
 
 @Composable
-fun AudioMessage(message: SampleMessage) {
+fun TextMessage(message: Text) {
     TODO("Not yet implemented")
 }
 
