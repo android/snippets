@@ -14,7 +14,6 @@ fun ListWithMultipleItems(messages: List<Any>) {
         ) {
             for (message in messages)
                 when (message) {
-                    // Content Types and Composables are defined elsewhere.
                     is MediaStore.Audio -> AudioMessage(message)
                     is Text -> TextMessage(message)
                 }
