@@ -843,7 +843,7 @@ val Purple = Color(0xFF800080)
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
 @Composable
-fun ValidateInput () {
+fun ValidateInput() {
     class EmailViewModel : ViewModel() {
         var email by mutableStateOf("")
             private set
@@ -883,7 +883,6 @@ fun ValidateInput () {
                 }
             }
         )
-
 
         ValidatingInputTextField(
             email = emailViewModel.email,
