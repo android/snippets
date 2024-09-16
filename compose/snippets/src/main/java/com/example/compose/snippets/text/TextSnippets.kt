@@ -38,6 +38,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -839,3 +840,56 @@ private val firaSansFamily = FontFamily()
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
+
+// [START android_compose_text_auto_format_phone_number_validatetext]
+@Composable
+fun ValidateInput () {
+    class EmailViewModel : ViewModel() {
+        var email by mutableStateOf("")
+            private set
+
+        val emailHasErrors by derivedStateOf {
+            if (email.isNotEmpty()) {
+                // Email is considered erroneous until it completely matches EMAIL_ADDRESS.
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            } else {
+                false
+            }
+        }
+
+        fun updateEmail(input: String) {
+            email = input
+        }
+    }
+
+    @Composable
+    fun ValidatingInputTextField(
+        email: String,
+        updateState: (String) -> Unit,
+        validatorHasErrors: Boolean
+    ) {
+        val viewModel = EmailViewModel()
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            value = email,
+            onValueChange = updateState,
+            label = { Text("Email") },
+            isError = validatorHasErrors,
+            supportingText = {
+                if (validatorHasErrors) {
+                    Text("Incorrect email format.")
+                }
+            }
+        )
+
+
+        ValidatingInputTextField(
+            email = viewModel.email,
+            updateState = { input -> viewModel.updateEmail(input) },
+            validatorHasErrors = viewModel.emailHasErrors
+        )
+    }
+}
+// [END android_compose_text_auto_format_phone_number_validatetext]
