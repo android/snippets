@@ -868,7 +868,7 @@ fun ValidateInput () {
         updateState: (String) -> Unit,
         validatorHasErrors: Boolean
     ) {
-        val viewModel = EmailViewModel()
+        val emailViewModel = EmailViewModel()
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -886,9 +886,9 @@ fun ValidateInput () {
 
 
         ValidatingInputTextField(
-            email = viewModel.email,
-            updateState = { input -> viewModel.updateEmail(input) },
-            validatorHasErrors = viewModel.emailHasErrors
+            email = emailViewModel.email,
+            updateState = { input -> emailViewModel.updateEmail(input) },
+            validatorHasErrors = emailViewModel.emailHasErrors
         )
     }
 }
