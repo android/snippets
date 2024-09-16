@@ -871,7 +871,8 @@ fun PasswordTextField() {
                     Icons.Filled.VisibilityOff
                 },
                 contentDescription = "Toggle password visibility",
-                modifier = Modifier.clickable { showPassword = !showPassword })
+                modifier = Modifier.clickable { showPassword = !showPassword }
+            )
         }
     )
 }
