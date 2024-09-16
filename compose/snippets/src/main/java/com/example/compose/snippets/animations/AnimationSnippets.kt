@@ -109,9 +109,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
-import kotlinx.coroutines.delay
 import java.text.BreakIterator
 import java.text.StringCharacterIterator
+import kotlinx.coroutines.delay
 
 /*
 * Copyright 2023 The Android Open Source Project
