@@ -752,7 +752,8 @@ private val randomSizedPhotos = listOf(
 )
 // [START android_compose_layouts_lazily_load_list]
 @Composable
-fun MessageList(pager: Pager<Int, Message>) {
+fun MessageList(modifier: Modifier,
+                pager: Pager<Int, Message>) {
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     LazyColumn {
@@ -770,7 +771,7 @@ fun MessageList(pager: Pager<Int, Message>) {
     }
 
     @Composable
-    fun MessagePlaceholder() {
+    fun MessagePlaceholder(modifier: Modifier) {
         Box(
             Modifier
                 .fillMaxWidth()
@@ -781,7 +782,8 @@ fun MessageList(pager: Pager<Int, Message>) {
     }
 
     @Composable
-    fun MessageRow(message: Text) {
+    fun MessageRow(modifier: Modifier,
+                   message: Text) {
         Card(modifier = Modifier.padding(8.dp)) {
             Column(
                 modifier = Modifier.padding(8.dp),
