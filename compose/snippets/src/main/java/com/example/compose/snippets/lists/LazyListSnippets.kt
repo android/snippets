@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +48,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,11 +70,12 @@ import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.randomSampleImageUrl
-import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
+import kotlin.random.Random
 
 private object ListsSnippetsColumn {
     // [START android_compose_layouts_list_column]
@@ -644,7 +648,9 @@ fun LazyStaggeredGridSnippet() {
                     model = photo,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 )
             }
         },
@@ -666,7 +672,9 @@ fun LazyStaggeredGridSnippetFixed() {
                     model = photo,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 )
             }
         },
@@ -674,7 +682,7 @@ fun LazyStaggeredGridSnippetFixed() {
     )
     // [END android_compose_layouts_lazy_staggered_grid_fixed]
 }
-private class Message(val id: Long)
+class Message(val id: Long)
 private class Item
 
 private data class Contact(val firstName: String)
@@ -742,3 +750,47 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
+// [START android_compose_layouts_lazily_load_list]
+@Composable
+fun MessageList(pager: Pager<Int, Message>) {
+    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
+
+    LazyColumn {
+        items(
+            lazyPagingItems.itemCount,
+            key = lazyPagingItems.itemKey { it.id }
+        ) { index ->
+            val message = lazyPagingItems[index]
+            if (message != null) {
+                MessageRow(message)
+            } else {
+                MessagePlaceholder()
+            }
+        }
+    }
+
+    @Composable
+    fun MessagePlaceholder() {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+
+    @Composable
+    fun MessageRow(message: Text) {
+        Card(modifier = Modifier.padding(8.dp)) {
+            Column(
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                // Text(message.sender), where "message" is an object with a sender property
+                // Text(message.text), where "text" is an object with a text property
+            }
+        }
+    }
+}
+// [END android_compose_layouts_lazily_load_list]
