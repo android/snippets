@@ -550,17 +550,29 @@ private object TextEffectiveStateManagement2 {
 // [START android_compose_text_link_1]
 @Composable
 fun AnnotatedStringWithLinkSample() {
-    // Display a link in the text
+    // Display multiple links in the text
     Text(
         buildAnnotatedString {
-            append("Build better apps faster with ")
+            append("Go to the ")
             withLink(
                 LinkAnnotation.Url(
                     "https://developer.android.com/jetpack/compose",
                     TextLinkStyles(style = SpanStyle(color = Color.Blue))
                 )
             ) {
-                append("Jetpack Compose")
+                append("Android Developers ")
+                pop()
+                append("website, and check out the")
+            }
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Green))
+                )
+            ) {
+                append("Compose guidance")
+                pop()
+                append(".")
             }
         }
     )
