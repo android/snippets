@@ -573,6 +573,7 @@ fun AnnotatedStringWithLinkSample() {
                 append("Compose guidance")
                 pop()
                 append(".")
+                pop()
             }
         }
     )
