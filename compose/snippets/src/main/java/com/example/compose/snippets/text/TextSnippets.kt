@@ -556,7 +556,7 @@ fun AnnotatedStringWithLinkSample() {
             append("Go to the ")
             withLink(
                 LinkAnnotation.Url(
-                    "https://developer.android.com/jetpack/compose",
+                    "https://developer.android.com/",
                     TextLinkStyles(style = SpanStyle(color = Color.Blue))
                 )
             ) {
