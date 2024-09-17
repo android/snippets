@@ -47,6 +47,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,11 +68,11 @@ import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.randomSampleImageUrl
-import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 private object ListsSnippetsColumn {
     // [START android_compose_layouts_list_column]
@@ -742,3 +743,28 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
+
+// [START android_compose_lists_snap_scroll_button]
+@Composable
+fun MessageList(modifier: Modifier = Modifier) {
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LazyColumn(state = listState, modifier = Modifier.height(120.dp)) {
+        items(10) { index ->
+            Text(
+                modifier = Modifier.height(40.dp),
+                text = "Item $index"
+            )
+        }
+    }
+
+    Button(onClick = {
+        coroutineScope.launch {
+            listState.animateScrollToItem(index = 0)
+        }
+    }) {
+        Text(text = "Go top")
+    }
+}
+// [END android_compose_lists_snap_scroll_button]
