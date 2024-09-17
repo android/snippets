@@ -562,7 +562,7 @@ fun AnnotatedStringWithLinkSample() {
             ) {
                 append("Android Developers ")
                 pop()
-                append("website, and check out the")
+                append("website, and check out the" )
             }
             withLink(
                 LinkAnnotation.Url(
