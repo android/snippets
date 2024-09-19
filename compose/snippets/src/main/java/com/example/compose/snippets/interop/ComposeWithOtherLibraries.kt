@@ -162,7 +162,7 @@ private object StreamData {
     }
 }
 
-private object HiltExample3 {
+object HiltExample3 {
     // [START android_compose_libraries_hilt_3]
     @HiltViewModel
     class MyViewModel @Inject constructor(
@@ -180,7 +180,7 @@ private object HiltExample3 {
     interface ExampleRepository
 }
 
-private object HiltViewModel {
+object HiltViewModel {
     @HiltViewModel
     class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
     // [START android_compose_libraries_hilt_viewmodel]
@@ -207,7 +207,7 @@ private object HiltViewModel {
     }
 }
 
-private object HiltViewModelBackStack {
+object HiltViewModelBackStack {
     @HiltViewModel
     class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
 
