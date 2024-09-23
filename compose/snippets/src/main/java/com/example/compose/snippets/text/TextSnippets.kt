@@ -561,9 +561,8 @@ fun AnnotatedStringWithLinkSample() {
                 )
             ) {
                 append("Android Developers ")
-                pop()
-                append("website, and check out the" )
             }
+                append("website, and check out the" )
             withLink(
                 LinkAnnotation.Url(
                     "https://developer.android.com/jetpack/compose",
@@ -571,10 +570,8 @@ fun AnnotatedStringWithLinkSample() {
                 )
             ) {
                 append("Compose guidance")
-                pop()
-                append(".")
-                pop()
             }
+                append(".")
         }
     )
 }
