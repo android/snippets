@@ -22,6 +22,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -839,3 +844,36 @@ private val firaSansFamily = FontFamily()
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
+
+// [START android_compose_text_auto_format_phone_number_showhidepassword]
+@Composable
+fun PasswordTextField() {
+    var password by rememberSaveable { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }
+    val passwordVisualTransformation = remember { PasswordVisualTransformation() }
+
+    TextField(
+        value = password,
+        onValueChange = { password = it },
+        label = { Text("Enter password") },
+        visualTransformation = if (showPassword) {
+            VisualTransformation.None
+        } else {
+            passwordVisualTransformation
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        modifier = Modifier.fillMaxWidth(),
+        trailingIcon = {
+            Icon(
+                if (showPassword) {
+                    Icons.Filled.Visibility
+                } else {
+                    Icons.Filled.VisibilityOff
+                },
+                contentDescription = "Toggle password visibility",
+                modifier = Modifier.clickable { showPassword = !showPassword }
+            )
+        }
+    )
+}
+// [END android_compose_text_auto_format_phone_number_showhidepassword]
