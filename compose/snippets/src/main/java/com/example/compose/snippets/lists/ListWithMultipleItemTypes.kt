@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import org.w3c.dom.Text
 
+// [START android_compose_lists_multiple_item_types]
 @Composable
 fun ListWithMultipleItems(messages: List<Any>) {
     LazyColumn {
@@ -48,3 +49,4 @@ fun TextMessage(message: Text) {
 }
 
 data class SampleMessage(val text: String, val content: Any)
+// [END android_compose_lists_multiple_item_types]
