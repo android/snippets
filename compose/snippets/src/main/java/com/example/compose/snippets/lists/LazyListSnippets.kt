@@ -750,7 +750,7 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
-// [START android_compose_lists_lazily_load_list]
+// [START android_compose_layouts_lazily_load_list]
 @Composable
 fun MessageList(modifier: Modifier,
                 pager: Pager<Int, Message>) {
@@ -795,4 +795,4 @@ fun MessageList(modifier: Modifier,
         }
     }
 }
-// [END android_compose_lists_lazily_load_list]
+// [END android_compose_layouts_lazily_load_list]
