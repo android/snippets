@@ -562,7 +562,7 @@ fun AnnotatedStringWithLinkSample() {
             ) {
                 append("Android Developers ")
             }
-                append("website, and check out the" )
+            append("website, and check out the")
             withLink(
                 LinkAnnotation.Url(
                     "https://developer.android.com/jetpack/compose",
@@ -571,7 +571,7 @@ fun AnnotatedStringWithLinkSample() {
             ) {
                 append("Compose guidance")
             }
-                append(".")
+            append(".")
         }
     )
 }
@@ -602,7 +602,7 @@ fun AnnotatedStringWithListenerSample() {
 // [END android_compose_text_link_2]
 
 @Composable
-private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
+private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
     MaterialTheme {
         Box(
             Modifier
@@ -633,9 +633,10 @@ private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
 
 private const val SAMPLE_LONG_TEXT =
     "Jetpack Compose is Android’s modern toolkit for building native UI. " +
-        "It simplifies and accelerates UI development on Android bringing your apps " +
-        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
-        "It makes building Android UI faster and easier."
+            "It simplifies and accelerates UI development on Android bringing your apps " +
+            "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+            "It makes building Android UI faster and easier."
+
 @Composable
 @Preview
 fun LineBreakSample() {
