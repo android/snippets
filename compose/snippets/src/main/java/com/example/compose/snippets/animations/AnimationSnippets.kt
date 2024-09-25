@@ -109,9 +109,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import kotlinx.coroutines.delay
 import java.text.BreakIterator
 import java.text.StringCharacterIterator
-import kotlinx.coroutines.delay
 
 /*
 * Copyright 2023 The Android Open Source Project
@@ -824,7 +824,7 @@ private fun Expanded() {
 private fun ContentIcon() {
 }
 
-// [START android_compose_animations_vector_char_by_char]
+// [START android_compose_animations_char_by_char]
 @Composable
 private fun AnimatedText() {
     val text = "This text animates as though it is being typed \uD83E\uDDDE\u200D♀\uFE0F \uD83D\uDD10  \uD83D\uDC69\u200D❤\uFE0F\u200D\uD83D\uDC68 \uD83D\uDC74\uD83C\uDFFD"
@@ -857,5 +857,5 @@ private fun AnimatedText() {
         }
     }
     Text(substringText)
-// [END android_compose_animations_animate_char_by_char]
+// [END android_compose_animations_char_by_char]
 }
