@@ -555,18 +555,28 @@ private object TextEffectiveStateManagement2 {
 // [START android_compose_text_link_1]
 @Composable
 fun AnnotatedStringWithLinkSample() {
-    // Display a link in the text
+    // Display multiple links in the text
     Text(
         buildAnnotatedString {
-            append("Build better apps faster with ")
+            append("Go to the ")
             withLink(
                 LinkAnnotation.Url(
-                    "https://developer.android.com/jetpack/compose",
+                    "https://developer.android.com/",
                     TextLinkStyles(style = SpanStyle(color = Color.Blue))
                 )
             ) {
-                append("Jetpack Compose")
+                append("Android Developers ")
             }
+            append("website, and check out the")
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Green))
+                )
+            ) {
+                append("Compose guidance")
+            }
+            append(".")
         }
     )
 }
@@ -597,7 +607,7 @@ fun AnnotatedStringWithListenerSample() {
 // [END android_compose_text_link_2]
 
 @Composable
-private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
+private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
     MaterialTheme {
         Box(
             Modifier
@@ -631,6 +641,7 @@ private const val SAMPLE_LONG_TEXT =
         "It simplifies and accelerates UI development on Android bringing your apps " +
         "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
         "It makes building Android UI faster and easier."
+
 @Composable
 @Preview
 fun LineBreakSample() {
