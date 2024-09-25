@@ -645,7 +645,9 @@ fun LazyStaggeredGridSnippet() {
                     model = photo,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 )
             }
         },
@@ -667,7 +669,9 @@ fun LazyStaggeredGridSnippetFixed() {
                     model = photo,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 )
             }
         },
