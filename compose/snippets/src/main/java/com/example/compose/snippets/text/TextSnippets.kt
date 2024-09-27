@@ -24,6 +24,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -554,18 +559,28 @@ private object TextEffectiveStateManagement2 {
 // [START android_compose_text_link_1]
 @Composable
 fun AnnotatedStringWithLinkSample() {
-    // Display a link in the text
+    // Display multiple links in the text
     Text(
         buildAnnotatedString {
-            append("Build better apps faster with ")
+            append("Go to the ")
             withLink(
                 LinkAnnotation.Url(
-                    "https://developer.android.com/jetpack/compose",
+                    "https://developer.android.com/",
                     TextLinkStyles(style = SpanStyle(color = Color.Blue))
                 )
             ) {
-                append("Jetpack Compose")
+                append("Android Developers ")
             }
+            append("website, and check out the")
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Green))
+                )
+            ) {
+                append("Compose guidance")
+            }
+            append(".")
         }
     )
 }
@@ -596,7 +611,7 @@ fun AnnotatedStringWithListenerSample() {
 // [END android_compose_text_link_2]
 
 @Composable
-private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
+private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
     MaterialTheme {
         Box(
             Modifier
@@ -630,6 +645,7 @@ private const val SAMPLE_LONG_TEXT =
         "It simplifies and accelerates UI development on Android bringing your apps " +
         "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
         "It makes building Android UI faster and easier."
+
 @Composable
 @Preview
 fun LineBreakSample() {
@@ -843,6 +859,41 @@ private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
+
+// [START android_compose_text_auto_format_phone_number_showhidepassword]
+@Composable
+fun PasswordTextField() {
+    var password by rememberSaveable { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }
+    val passwordVisualTransformation = remember { PasswordVisualTransformation() }
+
+    TextField(
+        value = password,
+        onValueChange = { password = it },
+        label = { Text("Enter password") },
+        visualTransformation = if (showPassword) {
+            VisualTransformation.None
+        } else {
+            passwordVisualTransformation
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        modifier = Modifier.fillMaxWidth(),
+        trailingIcon = {
+            Icon(
+                if (showPassword) {
+                    Icons.Filled.Visibility
+                } else {
+                    Icons.Filled.VisibilityOff
+                },
+                contentDescription = "Toggle password visibility",
+                modifier = Modifier.clickable { showPassword = !showPassword }
+            )
+        }
+    )
+}
+// [END android_compose_text_auto_format_phone_number_showhidepassword]
+
+
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
 class EmailViewModel : ViewModel() {
