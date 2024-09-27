@@ -76,12 +76,12 @@ import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.randomSampleImageUrl
+import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
-import kotlin.random.Random
 
 private object ListsSnippetsColumn {
     // [START android_compose_layouts_list_column]
@@ -758,8 +758,10 @@ private val randomSizedPhotos = listOf(
 )
 // [START android_compose_layouts_lazily_load_list]
 @Composable
-fun MessageList(modifier: Modifier,
-                pager: Pager<Int, Message>) {
+fun MessageList(
+    modifier: Modifier,
+    pager: Pager<Int, Message>
+) {
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     LazyColumn {
@@ -787,8 +789,10 @@ fun MessageList(modifier: Modifier,
     }
 
     @Composable
-    fun MessageRow(modifier: Modifier,
-                   message: Message) {
+    fun MessageRow(
+        modifier: Modifier,
+        message: Message
+    ) {
         Card(modifier = Modifier.padding(8.dp)) {
             Column(
                 modifier = Modifier.padding(8.dp),
