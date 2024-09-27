@@ -29,8 +29,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
@@ -648,9 +650,9 @@ private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
 
 private const val SAMPLE_LONG_TEXT =
     "Jetpack Compose is Android’s modern toolkit for building native UI. " +
-        "It simplifies and accelerates UI development on Android bringing your apps " +
-        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
-        "It makes building Android UI faster and easier."
+            "It simplifies and accelerates UI development on Android bringing your apps " +
+            "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+            "It makes building Android UI faster and easier."
 
 @Composable
 @Preview
@@ -819,7 +821,7 @@ fun PhoneNumber() {
 // [END android_compose_text_auto_format_phone_number_textfieldconfig]
 
 // [START android_compose_text_auto_format_phone_number_transformtext]
-class NanpVisualTransformation() : VisualTransformation {
+class NanpVisualTransformation : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
         val trimmed = if (text.text.length >= 10) text.text.substring(0..9) else text.text
@@ -880,25 +882,35 @@ fun PasswordTextField() {
         } else {
             TextObfuscationMode.RevealLastTyped
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(6.dp)
             .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
             .padding(6.dp),
-        decorator =  {
-            Icon(
-                if (showPassword) {
-                    Icons.Filled.Visibility
-                } else {
-                    Icons.Filled.VisibilityOff
-                },
-                contentDescription = "Toggle password visibility",
-                modifier = Modifier.clickable { showPassword = !showPassword }
-            )
+        decorator = { innerTextField ->
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 16.dp,end = 48.dp)) {
+                    innerTextField()
+                }
+                Icon(
+                    if (showPassword) {
+                        Icons.Filled.Visibility
+                    } else {
+                        Icons.Filled.VisibilityOff
+                    },
+                    contentDescription = "Toggle password visibility",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .requiredSize(48.dp).padding(16.dp)
+                        .clickable { showPassword = !showPassword }
+                )
+            }
         }
     )
 }
 // [END android_compose_text_auto_format_phone_number_showhidepassword]
-
 
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
@@ -945,7 +957,7 @@ fun ValidatingInputTextField(
 @Preview
 @Composable
 fun ValidateInput() {
-    val emailViewModel : EmailViewModel = viewModel<EmailViewModel>()
+    val emailViewModel: EmailViewModel = viewModel<EmailViewModel>()
     ValidatingInputTextField(
         email = emailViewModel.email,
         updateState = { input -> emailViewModel.updateEmail(input) },
