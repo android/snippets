@@ -180,18 +180,18 @@ fun rememberFirebaseAnalytics(user: User): FirebaseAnalytics {
 }
 // [END android_compose_side_effects_sideeffect]
 
+// b/368420773
+@Suppress("ProduceStateDoesNotAssignValue")
 // [START android_compose_side_effects_producestate]
 @Composable
 fun loadNetworkImage(
     url: String,
     imageRepository: ImageRepository = ImageRepository()
 ): State<Result<Image>> {
-
     // Creates a State<T> with Result.Loading as initial value
     // If either `url` or `imageRepository` changes, the running producer
     // will cancel and will be re-launched with the new inputs.
     return produceState<Result<Image>>(initialValue = Result.Loading, url, imageRepository) {
-
         // In a coroutine, can make suspend calls
         val image = imageRepository.load(url)
 

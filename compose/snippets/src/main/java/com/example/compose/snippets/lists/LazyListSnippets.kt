@@ -23,6 +23,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,11 +35,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -48,6 +52,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -60,6 +65,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
@@ -769,7 +775,6 @@ fun MessageList(modifier: Modifier,
             }
         }
     }
-
     @Composable
     fun MessagePlaceholder(modifier: Modifier) {
         Box(
@@ -796,3 +801,54 @@ fun MessageList(modifier: Modifier,
     }
 }
 // [END android_compose_layouts_lazily_load_list]
+
+// [START android_compose_lists_snap_scroll_button]
+@Composable
+fun MessageList(modifier: Modifier = Modifier) {
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LazyColumn(state = listState, modifier = Modifier.height(120.dp)) {
+        items(10) { index ->
+            Text(
+                modifier = Modifier.height(40.dp),
+                text = "Item $index"
+            )
+        }
+    }
+
+    Button(onClick = {
+        coroutineScope.launch {
+            listState.animateScrollToItem(index = 0)
+        }
+    }) {
+        Text(text = "Go top")
+    }
+}
+// [END android_compose_lists_snap_scroll_button]
+
+// [START android_compose_layout_scrollable_grid]
+@Composable
+fun ScrollingGrid() {
+    val itemsList = (0..15).toList()
+
+    val itemModifier = Modifier
+        .border(1.dp, Color.Blue)
+        .width(80.dp)
+        .wrapContentSize()
+
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(3),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(itemsList) {
+            Text("Item is $it", itemModifier)
+        }
+
+        item {
+            Text("Single item", itemModifier)
+        }
+    }
+}
+// [END android_compose_layout_scrollable_grid]
