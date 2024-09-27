@@ -19,7 +19,6 @@
 package com.example.compose.snippets.text
 
 import android.graphics.Typeface
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -893,8 +892,6 @@ fun PasswordTextField() {
 }
 // [END android_compose_text_auto_format_phone_number_showhidepassword]
 
-
-
 // [START android_compose_text_auto_format_phone_number_validatetext]
 class EmailViewModel : ViewModel() {
     var email by mutableStateOf("")
@@ -939,7 +936,7 @@ fun ValidatingInputTextField(
 @Preview
 @Composable
 fun ValidateInput() {
-    val emailViewModel : EmailViewModel = viewModel<EmailViewModel>()
+    val emailViewModel: EmailViewModel = viewModel<EmailViewModel>()
     ValidatingInputTextField(
         email = emailViewModel.email,
         updateState = { input -> emailViewModel.updateEmail(input) },
