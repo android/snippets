@@ -18,6 +18,8 @@
 
 package com.example.compose.snippets.text
 
+import android.graphics.Typeface
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -82,6 +84,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 /**
  * This file lets DevRel track changes to snippets present in
@@ -519,7 +522,7 @@ private object TextEffectiveStateManagement1 {
 private object TextEffectiveStateManagement2 {
     class UserRepository
 
-    val viewModel = SignUpViewModel(UserRepository())
+    private val viewModel = SignUpViewModel(UserRepository())
 
     // [START android_compose_text_state_management]
     // SignUpViewModel.kt
@@ -836,59 +839,60 @@ class NanpVisualTransformation() : VisualTransformation {
 }
 // [END android_compose_text_auto_format_phone_number_transformtext]
 
-private val firaSansFamily = FontFamily()
+private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
+class EmailViewModel : ViewModel() {
+    var email by mutableStateOf("")
+        private set
+
+    val emailHasErrors by derivedStateOf {
+        if (email.isNotEmpty()) {
+            // Email is considered erroneous until it completely matches EMAIL_ADDRESS.
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        } else {
+            false
+        }
+    }
+
+    fun updateEmail(input: String) {
+        email = input
+    }
+}
+
+@Composable
+fun ValidatingInputTextField(
+    email: String,
+    updateState: (String) -> Unit,
+    validatorHasErrors: Boolean
+) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        value = email,
+        onValueChange = updateState,
+        label = { Text("Email") },
+        isError = validatorHasErrors,
+        supportingText = {
+            if (validatorHasErrors) {
+                Text("Incorrect email format.")
+            }
+        }
+    )
+}
+
+@Preview
 @Composable
 fun ValidateInput() {
-    class EmailViewModel : ViewModel() {
-        var email by mutableStateOf("")
-            private set
-
-        val emailHasErrors by derivedStateOf {
-            if (email.isNotEmpty()) {
-                // Email is considered erroneous until it completely matches EMAIL_ADDRESS.
-                !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            } else {
-                false
-            }
-        }
-
-        fun updateEmail(input: String) {
-            email = input
-        }
-    }
-
-    @Composable
-    fun ValidatingInputTextField(
-        email: String,
-        updateState: (String) -> Unit,
-        validatorHasErrors: Boolean
-    ) {
-        val emailViewModel = EmailViewModel()
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            value = email,
-            onValueChange = updateState,
-            label = { Text("Email") },
-            isError = validatorHasErrors,
-            supportingText = {
-                if (validatorHasErrors) {
-                    Text("Incorrect email format.")
-                }
-            }
-        )
-
-        ValidatingInputTextField(
-            email = emailViewModel.email,
-            updateState = { input -> emailViewModel.updateEmail(input) },
-            validatorHasErrors = emailViewModel.emailHasErrors
-        )
-    }
+    val emailViewModel : EmailViewModel = viewModel<EmailViewModel>()
+    ValidatingInputTextField(
+        email = emailViewModel.email,
+        updateState = { input -> emailViewModel.updateEmail(input) },
+        validatorHasErrors = emailViewModel.emailHasErrors
+    )
 }
 // [END android_compose_text_auto_format_phone_number_validatetext]
