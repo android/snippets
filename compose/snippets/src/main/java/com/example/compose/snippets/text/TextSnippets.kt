@@ -32,7 +32,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldDecorator
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -43,6 +48,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -861,24 +867,24 @@ val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
 
 // [START android_compose_text_auto_format_phone_number_showhidepassword]
+@Preview
 @Composable
 fun PasswordTextField() {
-    var password by rememberSaveable { mutableStateOf("") }
+    val state = remember { TextFieldState() }
     var showPassword by remember { mutableStateOf(false) }
-    val passwordVisualTransformation = remember { PasswordVisualTransformation() }
-
-    TextField(
-        value = password,
-        onValueChange = { password = it },
-        label = { Text("Enter password") },
-        visualTransformation = if (showPassword) {
-            VisualTransformation.None
+    BasicSecureTextField(
+        state = state,
+        textObfuscationMode =
+        if (showPassword) {
+            TextObfuscationMode.Visible
         } else {
-            passwordVisualTransformation
+            TextObfuscationMode.RevealLastTyped
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        modifier = Modifier.fillMaxWidth(),
-        trailingIcon = {
+        modifier = Modifier.fillMaxWidth()
+            .padding(6.dp)
+            .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
+            .padding(6.dp),
+        decorator =  {
             Icon(
                 if (showPassword) {
                     Icons.Filled.Visibility
