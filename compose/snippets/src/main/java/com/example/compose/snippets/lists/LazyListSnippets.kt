@@ -682,7 +682,7 @@ fun LazyStaggeredGridSnippetFixed() {
     )
     // [END android_compose_layouts_lazy_staggered_grid_fixed]
 }
-class Message(val id: Long)
+class Message(val id: Long, val sender: String, val text: String)
 private class Item
 
 private data class Contact(val firstName: String)
@@ -783,14 +783,14 @@ fun MessageList(modifier: Modifier,
 
     @Composable
     fun MessageRow(modifier: Modifier,
-                   message: Text) {
+                   message: Message) {
         Card(modifier = Modifier.padding(8.dp)) {
             Column(
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-                // Text(message.sender), where "message" is an object with a sender property
-                // Text(message.text), where "text" is an object with a text property
+                Text(message.sender)
+                Text(message.text)
             }
         }
     }
