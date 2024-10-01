@@ -52,4 +52,5 @@
     <string name="favorites">Favorites</string>
     <string name="shopping">Shopping</string>
     <string name="profile">Profile</string>
+    <string name="detail_placeholder">This is just a placeholder.</string>
 </resources>

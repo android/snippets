@@ -242,6 +242,20 @@ fun SnapScrollableScreen() {
     // [END android_wear_rotary_input_snap_fling]
 }
 
+@Composable
+fun PositionScrollIndicator(){
+    // [START android_wear_rotary_position_indicator]
+    val listState = rememberScalingLazyListState()
+    Scaffold(
+        positionIndicator = {
+            PositionIndicator(scalingLazyListState = listState)
+        }
+    ) {
+        // ...
+    }
+    // [END android_wear_rotary_position_indicator]
+}
+
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
@@ -261,4 +275,11 @@ fun ScrollableScreenPreview() {
 @Composable
 fun SnapScrollableScreenPreview() {
     SnapScrollableScreen()
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun PositionScrollIndicatorPreview() {
+    PositionScrollIndicator()
 }

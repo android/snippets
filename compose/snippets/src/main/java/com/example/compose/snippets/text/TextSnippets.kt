@@ -18,26 +18,38 @@
 
 package com.example.compose.snippets.text
 
+import android.graphics.Typeface
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +64,7 @@ import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.PlatformTextStyle
@@ -64,7 +77,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.Hyphens
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -77,6 +93,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 /**
  * This file lets DevRel track changes to snippets present in
@@ -514,7 +531,7 @@ private object TextEffectiveStateManagement1 {
 private object TextEffectiveStateManagement2 {
     class UserRepository
 
-    val viewModel = SignUpViewModel(UserRepository())
+    private val viewModel = SignUpViewModel(UserRepository())
 
     // [START android_compose_text_state_management]
     // SignUpViewModel.kt
@@ -546,18 +563,28 @@ private object TextEffectiveStateManagement2 {
 // [START android_compose_text_link_1]
 @Composable
 fun AnnotatedStringWithLinkSample() {
-    // Display a link in the text
+    // Display multiple links in the text
     Text(
         buildAnnotatedString {
-            append("Build better apps faster with ")
+            append("Go to the ")
             withLink(
                 LinkAnnotation.Url(
-                    "https://developer.android.com/jetpack/compose",
+                    "https://developer.android.com/",
                     TextLinkStyles(style = SpanStyle(color = Color.Blue))
                 )
             ) {
-                append("Jetpack Compose")
+                append("Android Developers ")
             }
+            append("website, and check out the")
+            withLink(
+                LinkAnnotation.Url(
+                    "https://developer.android.com/jetpack/compose",
+                    TextLinkStyles(style = SpanStyle(color = Color.Green))
+                )
+            ) {
+                append("Compose guidance")
+            }
+            append(".")
         }
     )
 }
@@ -588,7 +615,7 @@ fun AnnotatedStringWithListenerSample() {
 // [END android_compose_text_link_2]
 
 @Composable
-private fun TextSample(samples: Map<String, @Composable ()->Unit>) {
+private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
     MaterialTheme {
         Box(
             Modifier
@@ -622,6 +649,7 @@ private const val SAMPLE_LONG_TEXT =
         "It simplifies and accelerates UI development on Android bringing your apps " +
         "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
         "It makes building Android UI faster and easier."
+
 @Composable
 @Preview
 fun LineBreakSample() {
@@ -765,7 +793,171 @@ fun BasicMarqueeSample() {
 }
 // [END android_compose_text_marquee]
 
-private val firaSansFamily = FontFamily()
+// [START android_compose_text_auto_format_phone_number_textfieldconfig]
+@Composable
+fun PhoneNumber() {
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    val numericRegex = Regex("[^0-9]")
+    TextField(
+        value = phoneNumber,
+        onValueChange = {
+            // Remove non-numeric characters.
+            val stripped = numericRegex.replace(it, "")
+            phoneNumber = if (stripped.length >= 10) {
+                stripped.substring(0..9)
+            } else {
+                stripped
+            }
+        },
+        label = { Text("Enter Phone Number") },
+        visualTransformation = NanpVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
+}
+// [END android_compose_text_auto_format_phone_number_textfieldconfig]
+
+// [START android_compose_text_auto_format_phone_number_transformtext]
+class NanpVisualTransformation : VisualTransformation {
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        val trimmed = if (text.text.length >= 10) text.text.substring(0..9) else text.text
+
+        var out = if (trimmed.isNotEmpty()) "(" else ""
+
+        for (i in trimmed.indices) {
+            if (i == 3) out += ") "
+            if (i == 6) out += "-"
+            out += trimmed[i]
+        }
+        return TransformedText(AnnotatedString(out), phoneNumberOffsetTranslator)
+    }
+
+    private val phoneNumberOffsetTranslator = object : OffsetMapping {
+
+        override fun originalToTransformed(offset: Int): Int =
+            when (offset) {
+                0 -> offset
+                // Add 1 for opening parenthesis.
+                in 1..3 -> offset + 1
+                // Add 3 for both parentheses and a space.
+                in 4..6 -> offset + 3
+                // Add 4 for both parentheses, space, and hyphen.
+                else -> offset + 4
+            }
+
+        override fun transformedToOriginal(offset: Int): Int =
+            when (offset) {
+                0 -> offset
+                // Subtract 1 for opening parenthesis.
+                in 1..5 -> offset - 1
+                // Subtract 3 for both parentheses and a space.
+                in 6..10 -> offset - 3
+                // Subtract 4 for both parentheses, space, and hyphen.
+                else -> offset - 4
+            }
+    }
+}
+// [END android_compose_text_auto_format_phone_number_transformtext]
+
+private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
 
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
+
+// [START android_compose_text_showhidepassword]
+@Composable
+fun PasswordTextField() {
+    val state = remember { TextFieldState() }
+    var showPassword by remember { mutableStateOf(false) }
+    BasicSecureTextField(
+        state = state,
+        textObfuscationMode =
+        if (showPassword) {
+            TextObfuscationMode.Visible
+        } else {
+            TextObfuscationMode.RevealLastTyped
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp)
+            .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
+            .padding(6.dp),
+        decorator = { innerTextField ->
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 16.dp, end = 48.dp)
+                ) {
+                    innerTextField()
+                }
+                Icon(
+                    if (showPassword) {
+                        Icons.Filled.Visibility
+                    } else {
+                        Icons.Filled.VisibilityOff
+                    },
+                    contentDescription = "Toggle password visibility",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .requiredSize(48.dp).padding(16.dp)
+                        .clickable { showPassword = !showPassword }
+                )
+            }
+        }
+    )
+}
+// [END android_compose_text_showhidepassword]
+
+// [START android_compose_text_auto_format_phone_number_validatetext]
+class EmailViewModel : ViewModel() {
+    var email by mutableStateOf("")
+        private set
+
+    val emailHasErrors by derivedStateOf {
+        if (email.isNotEmpty()) {
+            // Email is considered erroneous until it completely matches EMAIL_ADDRESS.
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        } else {
+            false
+        }
+    }
+
+    fun updateEmail(input: String) {
+        email = input
+    }
+}
+
+@Composable
+fun ValidatingInputTextField(
+    email: String,
+    updateState: (String) -> Unit,
+    validatorHasErrors: Boolean
+) {
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        value = email,
+        onValueChange = updateState,
+        label = { Text("Email") },
+        isError = validatorHasErrors,
+        supportingText = {
+            if (validatorHasErrors) {
+                Text("Incorrect email format.")
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+fun ValidateInput() {
+    val emailViewModel: EmailViewModel = viewModel<EmailViewModel>()
+    ValidatingInputTextField(
+        email = emailViewModel.email,
+        updateState = { input -> emailViewModel.updateEmail(input) },
+        validatorHasErrors = emailViewModel.emailHasErrors
+    )
+}
+// [END android_compose_text_auto_format_phone_number_validatetext]

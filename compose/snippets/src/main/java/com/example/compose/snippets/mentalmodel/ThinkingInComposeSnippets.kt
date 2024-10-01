@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -108,15 +109,16 @@ fun ListComposable(myList: List<String>) {
 
 // [START android_compose_thinking_in_compose_incorrect]
 @Composable
-@Deprecated("Example with bug")
 fun ListWithBug(myList: List<String>) {
     var items = 0
 
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
         Column {
             for (item in myList) {
-                Text("Item: $item")
-                items++ // Avoid! Side-effect of the column recomposing.
+                Card {
+                    Text("Item: $item")
+                    items++ // Avoid! Side-effect of the column recomposing.
+                }
             }
         }
         Text("Count: $items")
