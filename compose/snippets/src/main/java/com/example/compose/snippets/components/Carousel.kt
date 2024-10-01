@@ -2,6 +2,7 @@ package com.example.compose.snippets.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +26,7 @@ import com.example.compose.snippets.R
 @Preview
 // [START android_compose_carousel_multi_browse_basic]
 @Composable
-private fun CarouselExamples_MultiBrowse() {
+fun CarouselExamples_MultiBrowse() {
     data class CarouselItem(
         val id: Int,
         @DrawableRes val imageResId: Int,
@@ -69,7 +70,7 @@ private fun CarouselExamples_MultiBrowse() {
 @Preview
 // [START android_compose_carousel_uncontained_basic]
 @Composable
-private fun CarouselExamples() {
+fun CarouselExample() {
     data class CarouselItem(
         val id: Int,
         @DrawableRes val imageResId: Int,
@@ -108,3 +109,12 @@ private fun CarouselExamples() {
     }
 }
 // [END android_compose_carousel_uncontained_basic]
+
+@Preview
+@Composable
+fun CarouselExamples() {
+    Column {
+        CarouselExample()
+        CarouselExamples_MultiBrowse()
+    }
+}
