@@ -321,7 +321,8 @@ fun ModifierGraphicsLayerAlpha() {
 fun ModifierGraphicsLayerCompositingStrategy() {
     // [START android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
 
-    Image(painter = painterResource(id = R.drawable.dog),
+    Image(
+        painter = painterResource(id = R.drawable.dog),
         contentDescription = "Dog",
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -373,11 +374,9 @@ fun ModifierGraphicsLayerCompositingStrategy() {
                         )
                     )
                 }
-
             }
     )
     // [END android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
-
 }
 
 @Preview
@@ -390,8 +389,8 @@ fun CompositingStrategyExamples() {
             .wrapContentSize(Alignment.Center)
     ) {
         // Does not clip content even with a graphics layer usage here. By default, graphicsLayer
-        //does not allocate + rasterize content into a separate layer but instead is used
-        //for isolation. That is draw invalidations made outside of this graphicsLayer will not
+        // does not allocate + rasterize content into a separate layer but instead is used
+        // for isolation. That is draw invalidations made outside of this graphicsLayer will not
         // re-record the drawing instructions in this composable as they have not changed *
         Canvas(
             modifier = Modifier
@@ -441,22 +440,26 @@ fun CompositingStrategy_ModulateAlpha() {
         Spacer(modifier = Modifier.size(36.dp))
 
         // Alpha 0.5f applied to whole composable
-        Canvas(modifier = Modifier
-            .size(200.dp)
-            .graphicsLayer {
-                alpha = 0.5f
-            }) {
+        Canvas(
+            modifier = Modifier
+                .size(200.dp)
+                .graphicsLayer {
+                    alpha = 0.5f
+                }
+        ) {
             drawSquares()
         }
         Spacer(modifier = Modifier.size(36.dp))
 
         // 0.75f alpha applied to each draw call when using ModulateAlpha
-        Canvas(modifier = Modifier
-            .size(200.dp)
-            .graphicsLayer {
-                compositingStrategy = CompositingStrategy.ModulateAlpha
-                alpha = 0.75f
-            }) {
+        Canvas(
+            modifier = Modifier
+                .size(200.dp)
+                .graphicsLayer {
+                    compositingStrategy = CompositingStrategy.ModulateAlpha
+                    alpha = 0.75f
+                }
+        ) {
             drawSquares()
         }
     }
@@ -508,17 +511,19 @@ fun ModifierGraphicsFlippedUsage() {
 // [START android_compose_graphics_faded_edge_example]
 @Composable
 fun FadedEdgeBox(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier
-        .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-        .drawWithContent {
-            drawContent()
-            drawRect(
-                brush = Brush.verticalGradient(
-                    listOf(Color.Black, Color.Transparent)
-                ),
-                blendMode = BlendMode.DstIn
-            )
-        }) {
+    Box(
+        modifier = modifier
+            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+            .drawWithContent {
+                drawContent()
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        listOf(Color.Black, Color.Transparent)
+                    ),
+                    blendMode = BlendMode.DstIn
+                )
+            }
+    ) {
         content()
     }
 }
@@ -587,18 +592,19 @@ fun Avatar(
     val stroke = remember(strokeWidth) {
         Stroke(width = strokeWidth)
     }
-    Box(modifier = modifier
-        .drawWithContent {
-            drawContent()
-            drawCircle(
-                Color.Black,
-                size.minDimension / 2,
-                size.center,
-                style = stroke,
-                blendMode = BlendMode.Clear
-            )
-        }
-        .clip(CircleShape)
+    Box(
+        modifier = modifier
+            .drawWithContent {
+                drawContent()
+                drawCircle(
+                    Color.Black,
+                    size.minDimension / 2,
+                    size.center,
+                    style = stroke,
+                    blendMode = BlendMode.Clear
+                )
+            }
+            .clip(CircleShape)
     ) {
         content()
     }

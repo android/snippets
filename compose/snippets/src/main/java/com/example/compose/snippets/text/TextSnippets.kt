@@ -19,7 +19,6 @@
 package com.example.compose.snippets.text
 
 import android.graphics.Typeface
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -29,7 +28,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
@@ -37,7 +35,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.TextFieldDecorator
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.foundation.text.selection.DisableSelection
@@ -50,7 +47,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -650,9 +646,9 @@ private fun TextSample(samples: Map<String, @Composable () -> Unit>) {
 
 private const val SAMPLE_LONG_TEXT =
     "Jetpack Compose is Android’s modern toolkit for building native UI. " +
-            "It simplifies and accelerates UI development on Android bringing your apps " +
-            "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
-            "It makes building Android UI faster and easier."
+        "It simplifies and accelerates UI development on Android bringing your apps " +
+        "to life with less code, powerful tools, and intuitive Kotlin APIs. " +
+        "It makes building Android UI faster and easier."
 
 @Composable
 @Preview
@@ -888,9 +884,11 @@ fun PasswordTextField() {
             .padding(6.dp),
         decorator = { innerTextField ->
             Box(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 16.dp,end = 48.dp)) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 16.dp, end = 48.dp)
+                ) {
                     innerTextField()
                 }
                 Icon(
@@ -910,7 +908,6 @@ fun PasswordTextField() {
     )
 }
 // [END android_compose_text_showhidepassword]
-
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
 class EmailViewModel : ViewModel() {
