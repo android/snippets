@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -52,6 +53,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -78,6 +81,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 private object ListsSnippetsColumn {
     // [START android_compose_layouts_list_column]
@@ -684,7 +688,7 @@ fun LazyStaggeredGridSnippetFixed() {
     )
     // [END android_compose_layouts_lazy_staggered_grid_fixed]
 }
-private class Message(val id: Long)
+class Message(val id: Long, val sender: String, val text: String)
 private class Item
 
 private data class Contact(val firstName: String)
@@ -752,6 +756,55 @@ private val randomSizedPhotos = listOf(
     randomSampleImageUrl(width = 1600, height = 900),
     randomSampleImageUrl(width = 500, height = 500),
 )
+// [START android_compose_layouts_lazily_load_list]
+@Composable
+fun MessageList(
+    modifier: Modifier,
+    pager: Pager<Int, Message>
+) {
+    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
+
+    LazyColumn {
+        items(
+            lazyPagingItems.itemCount,
+            key = lazyPagingItems.itemKey { it.id }
+        ) { index ->
+            val message = lazyPagingItems[index]
+            if (message != null) {
+                MessageRow(message)
+            } else {
+                MessagePlaceholder()
+            }
+        }
+    }
+    @Composable
+    fun MessagePlaceholder(modifier: Modifier) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+        ) {
+            CircularProgressIndicator()
+        }
+    }
+
+    @Composable
+    fun MessageRow(
+        modifier: Modifier,
+        message: Message
+    ) {
+        Card(modifier = Modifier.padding(8.dp)) {
+            Column(
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(message.sender)
+                Text(message.text)
+            }
+        }
+    }
+}
+// [END android_compose_layouts_lazily_load_list]
 
 // [START android_compose_lists_snap_scroll_button]
 @Composable
