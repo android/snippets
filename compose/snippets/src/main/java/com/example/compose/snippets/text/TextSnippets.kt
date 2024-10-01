@@ -864,8 +864,8 @@ private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
 
-// [START android_compose_text_auto_format_phone_number_showhidepassword]
-@Preview
+
+// [START android_compose_text_showhidepassword]
 @Composable
 fun PasswordTextField() {
     val state = remember { TextFieldState() }
@@ -908,7 +908,7 @@ fun PasswordTextField() {
         }
     )
 }
-// [END android_compose_text_auto_format_phone_number_showhidepassword]
+// [END android_compose_text_showhidepassword]
 
 // [START android_compose_text_auto_format_phone_number_validatetext]
 class EmailViewModel : ViewModel() {
