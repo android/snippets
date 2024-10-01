@@ -391,7 +391,7 @@ fun CompositingStrategyExamples() {
         // Does not clip content even with a graphics layer usage here. By default, graphicsLayer
         // does not allocate + rasterize content into a separate layer but instead is used
         // for isolation. That is draw invalidations made outside of this graphicsLayer will not
-        // re-record the drawing instructions in this composable as they have not changed *
+        // re-record the drawing instructions in this composable as they have not changed
         Canvas(
             modifier = Modifier
                 .graphicsLayer()
