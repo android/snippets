@@ -527,7 +527,7 @@ fun FadedEdgeBox(modifier: Modifier = Modifier, content: @Composable () -> Unit)
         content()
     }
 }
-
+// [END android_compose_graphics_faded_edge_example]
 @Preview
 @Composable
 private fun FadingLazyComments() {
@@ -539,24 +539,7 @@ private fun FadingLazyComments() {
     ) {
         LazyColumn {
             items(listComments, key = { it.key }) {
-                Row(modifier = Modifier.padding(bottom = 8.dp)) {
-                    val strokeWidthPx = with(LocalDensity.current) {
-                        2.dp.toPx()
-                    }
-                    Avatar(strokeWidth = strokeWidthPx, modifier = Modifier.size(48.dp)) {
-                        Image(
-                            painter = painterResource(id = it.avatar),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        it.text,
-                        fontSize = 20.sp,
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    )
-                }
+                ListCommentItem(it)
             }
             item {
                 Spacer(Modifier.height(100.dp))
@@ -565,7 +548,28 @@ private fun FadingLazyComments() {
     }
 }
 
-// [END android_compose_graphics_faded_edge_example]
+@Composable
+private fun ListCommentItem(it: Comment) {
+    Row(modifier = Modifier.padding(bottom = 8.dp)) {
+        val strokeWidthPx = with(LocalDensity.current) {
+            2.dp.toPx()
+        }
+        Avatar(strokeWidth = strokeWidthPx, modifier = Modifier.size(48.dp)) {
+            Image(
+                painter = painterResource(id = it.avatar),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+        }
+        Spacer(Modifier.width(6.dp))
+        Text(
+            it.text,
+            fontSize = 20.sp,
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+}
+
 data class Comment(
     val avatar: Int,
     val text: String,
