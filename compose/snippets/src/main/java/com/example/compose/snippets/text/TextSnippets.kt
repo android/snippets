@@ -864,7 +864,6 @@ private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
 val LightBlue = Color(0xFF0066FF)
 val Purple = Color(0xFF800080)
 
-
 // [START android_compose_text_showhidepassword]
 @Composable
 fun PasswordTextField() {
