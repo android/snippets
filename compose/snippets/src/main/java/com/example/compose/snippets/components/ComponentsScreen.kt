@@ -18,14 +18,11 @@ package com.example.compose.snippets.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -62,14 +59,13 @@ fun ComponentsScreen(
             }
         }
     })
-
 }
 
 @Composable
 fun NavigationItem(destination: TopComponentsDestination, onClick: () -> Unit) {
     ListItem(
         headlineContent = {
-           Text(destination.title)
+            Text(destination.title)
         },
         modifier = Modifier.clickable {
             onClick()
