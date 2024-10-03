@@ -42,7 +42,7 @@ import com.example.compose.snippets.R
 @Preview
 // [START android_compose_carousel_multi_browse_basic]
 @Composable
-fun CarouselExamples_MultiBrowse() {
+fun CarouselExample_MultiBrowse() {
     data class CarouselItem(
         val id: Int,
         @DrawableRes val imageResId: Int,
@@ -93,7 +93,7 @@ fun CarouselExample() {
         val contentDescription: String
     )
 
-    val items = remember {
+    val carouselItems = remember {
         listOf(
             CarouselItem(0, R.drawable.cupcake, "cupcake"),
             CarouselItem(1, R.drawable.donut, "donut"),
@@ -104,7 +104,7 @@ fun CarouselExample() {
     }
 
     HorizontalUncontainedCarousel(
-        state = rememberCarouselState { items.count() },
+        state = rememberCarouselState { carouselItems.count() },
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -113,7 +113,7 @@ fun CarouselExample() {
         itemSpacing = 8.dp,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) { i ->
-        val item = items[i]
+        val item = carouselItems[i]
         Image(
             modifier = Modifier
                 .height(205.dp)
@@ -131,6 +131,6 @@ fun CarouselExample() {
 fun CarouselExamples() {
     Column {
         CarouselExample()
-        CarouselExamples_MultiBrowse()
+        CarouselExample_MultiBrowse()
     }
 }
