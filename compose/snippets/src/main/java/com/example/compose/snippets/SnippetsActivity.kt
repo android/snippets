@@ -33,6 +33,7 @@ import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
 import com.example.compose.snippets.components.CardExamples
+import com.example.compose.snippets.components.CarouselExamples
 import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
@@ -109,6 +110,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
                                     TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
                                     TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
+                                    TopComponentsDestination.CarouselExamples -> CarouselExamples()
                                 }
                             }
                         }

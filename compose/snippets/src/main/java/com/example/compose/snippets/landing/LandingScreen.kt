@@ -18,56 +18,45 @@ package com.example.compose.snippets.landing
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.navigation.Destination
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LandingScreen(
     navigate: (Destination) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            style = TextStyle(
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-            ),
-            text = "Android snippets",
-        )
-        Text(
-            text = "Use the following buttons to view a selection of the snippets used in the Android documentation."
-        )
-        NavigationItems { navigate(it) }
+    Scaffold(
+        topBar = {
+            TopAppBar(title = {
+                Text(text = "Android snippets",)
+            })
+        }
+    ) { padding ->
+        NavigationItems(modifier = Modifier.padding(padding)) { navigate(it) }
     }
 }
 
 @Composable
-fun NavigationItems(navigate: (Destination) -> Unit) {
+fun NavigationItems(
+    modifier: Modifier = Modifier,
+    navigate: (Destination) -> Unit
+) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,14 +73,14 @@ fun NavigationItems(navigate: (Destination) -> Unit) {
 
 @Composable
 fun NavigationItem(destination: Destination, onClick: () -> Unit) {
-    Box(
+    ListItem(
+        headlineContent = {
+            Text(destination.title)
+        },
         modifier = Modifier
             .heightIn(min = 48.dp)
             .clickable {
                 onClick()
             }
-    ) {
-        Text(destination.title)
-        HorizontalDivider(modifier = Modifier.align(Alignment.BottomCenter))
-    }
+    )
 }
