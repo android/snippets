@@ -88,8 +88,14 @@ fun BasicDropdownMenu() {
                 Icon(Icons.Default.MoreVert, "")
             }
             DropdownMenu(expanded = shouldDisplayMenu, onDismissRequest = { shouldDisplayMenu = false }) {
-                DropdownMenuItem(text = { Text("Refresh") }, onClick = { /* Handle refresh! */ })
-                DropdownMenuItem(text = { Text("Settings") }, onClick = { /* Handle settings! */ })
+                DropdownMenuItem(
+                    text = { Text("Refresh") },
+                    onClick = { /* Handle refresh! */ }
+                )
+                DropdownMenuItem(
+                    text = { Text("Settings") },
+                    onClick = { /* Handle settings! */ }
+                )
             }
         }
     )
