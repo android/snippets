@@ -87,7 +87,10 @@ fun BasicDropdownMenu() {
             IconButton(onClick = { shouldDisplayMenu = !shouldDisplayMenu }) {
                 Icon(Icons.Default.MoreVert, "Overflow menu button")
             }
-            DropdownMenu(expanded = shouldDisplayMenu, onDismissRequest = { shouldDisplayMenu = false }) {
+            DropdownMenu(
+                expanded = shouldDisplayMenu,
+                onDismissRequest = { shouldDisplayMenu = false })
+            {
                 DropdownMenuItem(
                     text = { Text("Refresh") },
                     onClick = { /* Handle refresh! */ }
