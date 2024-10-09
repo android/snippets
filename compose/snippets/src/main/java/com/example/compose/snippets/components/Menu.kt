@@ -89,8 +89,8 @@ fun BasicDropdownMenu() {
             }
             DropdownMenu(
                 expanded = shouldDisplayMenu,
-                onDismissRequest = { shouldDisplayMenu = false })
-            {
+                onDismissRequest = { shouldDisplayMenu = false }
+            ) {
                 DropdownMenuItem(
                     text = { Text("Refresh") },
                     onClick = { /* Handle refresh! */ }
