@@ -44,5 +44,6 @@ enum class TopComponentsDestination(val route: String, val title: String) {
     PartialBottomSheet("partialBottomSheets", "Partial Bottom Sheet"),
     TimePickerExamples("timePickerExamples", "Time Pickers"),
     DatePickerExamples("datePickerExamples", "Date Pickers"),
-    CarouselExamples("carouselExamples", "Carousel")
+    CarouselExamples("carouselExamples", "Carousel"),
+    MenusExamples("menusExamples", "Menus")
 }
