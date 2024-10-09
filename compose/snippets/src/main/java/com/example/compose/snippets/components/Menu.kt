@@ -85,7 +85,7 @@ fun BasicDropdownMenu() {
         title = { Text(text = "Basic menu example") },
         actions = {
             IconButton(onClick = { shouldDisplayMenu = !shouldDisplayMenu }) {
-                Icon(Icons.Default.MoreVert, "")
+                Icon(Icons.Default.MoreVert, "Overflow menu button")
             }
             DropdownMenu(expanded = shouldDisplayMenu, onDismissRequest = { shouldDisplayMenu = false }) {
                 DropdownMenuItem(
