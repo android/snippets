@@ -22,17 +22,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Help
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Feedback
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -172,12 +169,12 @@ fun DropdownMenuWithDetails() {
             // First section
             DropdownMenuItem(
                 text = { Text("Profile") },
-                leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
                 text = { Text("Settings") },
-                leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
 
@@ -186,7 +183,7 @@ fun DropdownMenuWithDetails() {
             // Second section
             DropdownMenuItem(
                 text = { Text("Send Feedback") },
-                leadingIcon = { Icon(Icons.Default.Feedback, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Outlined.Feedback, contentDescription = null) },
                 trailingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
@@ -196,7 +193,7 @@ fun DropdownMenuWithDetails() {
             // Third section
             DropdownMenuItem(
                 text = { Text("About") },
-                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Outlined.Info, contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
