@@ -237,9 +237,9 @@ fun DropdownFilter(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(Icons.Default.Tune, "Filters")
-        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time")})
+        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time") })
         DropdownFilterChip()
-        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible")})
+        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible") })
     }
 }
 
@@ -252,18 +252,20 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
         FilterChip(
             selected = selectedChipText != null,
             onClick = { isDropdownExpanded = !isDropdownExpanded },
-            label = { Text(if(selectedChipText == null) "Type" else "$selectedChipText") },
-            leadingIcon = { if(selectedChipText != null) Icon(Icons.Default.Check, null) },
+            label = { Text(if (selectedChipText == null) "Type" else "$selectedChipText") },
+            leadingIcon = { if (selectedChipText != null) Icon(Icons.Default.Check, null) },
             trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
         )
-        DropdownMenu(expanded = isDropdownExpanded,
-            onDismissRequest = { isDropdownExpanded = !isDropdownExpanded }) {
+        DropdownMenu(
+            expanded = isDropdownExpanded,
+            onDismissRequest = { isDropdownExpanded = !isDropdownExpanded }
+        ) {
             DropdownMenuItem(
                 text = { Text("Running") },
                 leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsRun, null) },
                 onClick = {
                     selectedChipText =
-                        if(selectedChipText == "Running") null else "Running"
+                        if (selectedChipText == "Running") null else "Running"
                 }
             )
             DropdownMenuItem(
@@ -271,7 +273,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
                 leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsWalk, null) },
                 onClick = {
                     selectedChipText =
-                        if(selectedChipText == "Walking") null else "Walking"
+                        if (selectedChipText == "Walking") null else "Walking"
                 }
             )
             DropdownMenuItem(
@@ -279,7 +281,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
                 leadingIcon = { Icon(Icons.Default.Hiking, null) },
                 onClick = {
                     selectedChipText =
-                        if(selectedChipText == "Hiking") null else "Hiking"
+                        if (selectedChipText == "Hiking") null else "Hiking"
                 }
             )
             DropdownMenuItem(
@@ -287,7 +289,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
                 leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsBike, null) },
                 onClick = {
                     selectedChipText =
-                        if(selectedChipText == "Cycling") null else "Cycling"
+                        if (selectedChipText == "Cycling") null else "Cycling"
                 }
             )
         }
