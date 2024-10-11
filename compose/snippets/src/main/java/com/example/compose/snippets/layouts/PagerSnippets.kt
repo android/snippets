@@ -72,9 +72,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.rememberRandomSampleImageUrl
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
 
 /*
 * Copyright 2023 The Android Open Source Project
@@ -93,7 +93,7 @@ import kotlin.math.absoluteValue
 */
 
 @Composable
-fun PagerExamples(){
+fun PagerExamples() {
     AutoAdvancePager(
         listOf(
             Color.Red,
@@ -277,9 +277,9 @@ fun PagerWithEffect() {
                     // scroll position. We use the absolute value which allows us to mirror
                     // any effects for both directions
                     val pageOffset = (
-                            (pagerState.currentPage - page) + pagerState
-                                .currentPageOffsetFraction
-                            ).absoluteValue
+                        (pagerState.currentPage - page) + pagerState
+                            .currentPageOffsetFraction
+                        ).absoluteValue
 
                     // We animate the alpha, between 50% and 100%
                     alpha = lerp(
