@@ -63,7 +63,7 @@ fun PlainTooltipExample(
         IconButton(onClick = { /* Icon button's click event */ }) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
-                contentDescription = "Localized Description"
+                contentDescription = "Add to favorites"
             )
         }
     }
@@ -100,7 +100,7 @@ fun RichTooltipExample(
         IconButton(onClick = { /* Icon button's click event */ }) {
             Icon(
                 imageVector = Icons.Filled.Info,
-                contentDescription = "Localized Description"
+                contentDescription = "Show more information"
             )
         }
     }
@@ -132,11 +132,8 @@ fun AdvancedRichTooltipExample(
                 title = { Text(richTooltipSubheadText) },
                 action = {
                     Row {
-                        TextButton(onClick = { /* Do something... */ }) {
+                        TextButton(onClick = { tooltipState.dismiss() }) {
                             Text(richTooltipActionText)
-                        }
-                        TextButton(onClick = { /* Do something... */ }) {
-                            Text("Learn more")
                         }
                     }
                 },
@@ -147,7 +144,7 @@ fun AdvancedRichTooltipExample(
         },
         state = tooltipState
     ) {
-        IconButton(onClick = { /* Icon button's click event */ }) {
+        IconButton(onClick = { tooltipState.dismiss() }) {
             Icon(imageVector = Icons.Filled.Camera, contentDescription = "Localized Description")
         }
     }
