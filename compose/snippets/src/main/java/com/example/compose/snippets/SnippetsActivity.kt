@@ -48,11 +48,13 @@ import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.components.TimePickerExamples
+import com.example.compose.snippets.components.TooltipExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
+import com.example.compose.snippets.layouts.PagerExamples
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
@@ -87,6 +89,7 @@ class SnippetsActivity : ComponentActivity() {
                                     }
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
                                     Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
+                                    Destination.PagerExamples -> PagerExamples()
                                 }
                             }
                         }
@@ -113,6 +116,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
                                     TopComponentsDestination.CarouselExamples -> CarouselExamples()
                                     TopComponentsDestination.MenusExample -> MenusExamples()
+                                    TopComponentsDestination.TooltipExamples -> TooltipExamples()
                                 }
                             }
                         }
