@@ -146,7 +146,7 @@ fun DropdownMenuWithDetails() {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        IconButton(onClick = { expanded = true }) {
+        IconButton(onClick = { expanded = !expanded }) {
             Icon(Icons.Default.MoreVert, contentDescription = "More options")
         }
         DropdownMenu(
