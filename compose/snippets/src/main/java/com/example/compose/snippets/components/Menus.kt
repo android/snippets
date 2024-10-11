@@ -16,16 +16,26 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsBike
+import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.automirrored.outlined.Send
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Person
@@ -33,6 +43,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -75,6 +86,9 @@ fun MenusExamples() {
             }
             Button(onClick = { currentExample = { DropdownMenuWithDetails() } }) {
                 Text("Dropdown menu with sections and icons")
+            }
+            Button(onClick = { currentExample = { DropdownFilter() } }) {
+                Text("Menu for applying a filter, attached to a filter chip")
             }
         }
     }
@@ -211,4 +225,80 @@ fun DropdownMenuWithDetails() {
 @Composable
 fun DropdownMenuWithDetailsPreview() {
     DropdownMenuWithDetails()
+}
+
+@Composable
+fun DropdownFilter(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .padding(16.dp)
+            .wrapContentSize(unbounded = true),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(Icons.Default.Tune, "Filters")
+        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time") })
+        DropdownFilterChip()
+        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible") })
+    }
+}
+
+// [START android_compose_components_dropdownfilterchip]
+@Composable
+fun DropdownFilterChip(modifier: Modifier = Modifier) {
+    var isDropdownExpanded by remember { mutableStateOf(false) }
+    var selectedChipText by remember { mutableStateOf<String?>(null) }
+    Box(modifier) {
+        FilterChip(
+            selected = selectedChipText != null,
+            onClick = { isDropdownExpanded = !isDropdownExpanded },
+            label = { Text(if (selectedChipText == null) "Type" else "$selectedChipText") },
+            leadingIcon = { if (selectedChipText != null) Icon(Icons.Default.Check, null) },
+            trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+        )
+        DropdownMenu(
+            expanded = isDropdownExpanded,
+            onDismissRequest = { isDropdownExpanded = !isDropdownExpanded }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Running") },
+                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsRun, null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Running") null else "Running"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Walking") },
+                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsWalk, null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Walking") null else "Walking"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Hiking") },
+                leadingIcon = { Icon(Icons.Default.Hiking, null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Hiking") null else "Hiking"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Cycling") },
+                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsBike, null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Cycling") null else "Cycling"
+                }
+            )
+        }
+    }
+}
+// [END android_compose_components_dropdownfilterchip]
+
+@Preview
+@Composable
+private fun DropdownFilterPreview() {
+    DropdownFilter()
 }
