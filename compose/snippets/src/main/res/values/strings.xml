@@ -14,7 +14,7 @@
   ~   limitations under the License.
   ~
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">snippets</string>
     <string name="dog_content_description">Golden Retriever in fall leaves</string>
     <string name="shopping_cart_content_desc">Shopping cart</string>
@@ -53,5 +53,5 @@
     <string name="shopping">Shopping</string>
     <string name="profile">Profile</string>
     <string name="detail_placeholder">This is just a placeholder.</string>
-    <string name="custom">Custom</string>
+    <string name="custom" tools:ignore="MissingTranslation">Custom</string>
 </resources>
