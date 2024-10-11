@@ -94,7 +94,7 @@ fun PlainTooltipExample(
         IconButton(onClick = { /* Do something... */ }) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
-                contentDescription = "Localized Description"
+                contentDescription = "Add to favorites"
             )
         }
     }
@@ -194,7 +194,7 @@ fun AdvancedRichTooltipExample(
         IconButton(onClick = { tooltipState.dismiss() }) {
             Icon(
                 imageVector = Icons.Filled.Camera,
-                contentDescription = "Localized Description"
+                contentDescription = "Open camera"
             )
         }
     }
