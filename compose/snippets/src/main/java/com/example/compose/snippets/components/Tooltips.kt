@@ -1,6 +1,7 @@
 package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,14 +19,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
+import androidx.compose.material3.TooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun TooltipExamples(){
@@ -45,6 +53,12 @@ fun TooltipExamples(){
     }
 }
 
+@Preview
+@Composable
+private fun TooltipExamplesPreview() {
+    TooltipExamples()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_plaintooltipexample]
 @Composable
@@ -52,22 +66,31 @@ fun PlainTooltipExample(
     modifier: Modifier = Modifier,
     plainTooltipText: String = "Add to favorites"
 ) {
+    var tooltipState by remember { mutableStateOf(TooltipState()) }
     TooltipBox(
         modifier = modifier,
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = {
             PlainTooltip { Text(plainTooltipText) }
         },
-        state = rememberTooltipState()
+        state = tooltipState
     ) {
-        IconButton(onClick = { /* Icon button's click event */ }) {
+        IconButton(onClick = { /* Do something... */ }) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
-                contentDescription = "Add to favorites"
+                contentDescription = "Localized Description"
             )
         }
     }
+
+    // Reset tooltipState after closing the tooltip.
+    LaunchedEffect(tooltipState.isVisible) {
+        if (!tooltipState.isVisible) {
+            tooltipState = TooltipState()
+        }
+    }
 }
+
 // [END android_compose_components_plaintooltipexample]
 
 @Preview
@@ -82,9 +105,9 @@ private fun PlainTooltipSamplePreview() {
 fun RichTooltipExample(
     modifier: Modifier = Modifier,
     richTooltipSubheadText: String = "Rich Tooltip",
-    richTooltipText: String = "Rich tooltips supports multiple lines of informational text."
+    richTooltipText: String = "Rich tooltips support multiple lines of informational text."
 ) {
-    val tooltipState = rememberTooltipState(isPersistent = true)
+    var tooltipState by remember { mutableStateOf(TooltipState(isPersistent = true)) }
 
     TooltipBox(
         modifier = modifier,
@@ -95,13 +118,21 @@ fun RichTooltipExample(
             ) {
                 Text(richTooltipText)
             }
-        }, state = tooltipState
+        },
+        state = tooltipState
     ) {
         IconButton(onClick = { /* Icon button's click event */ }) {
             Icon(
                 imageVector = Icons.Filled.Info,
                 contentDescription = "Show more information"
             )
+        }
+    }
+
+    // Reset tooltipState after closing the tooltip.
+    LaunchedEffect(tooltipState.isVisible) {
+        if (!tooltipState.isVisible) {
+            tooltipState = TooltipState(isPersistent = true)
         }
     }
 }
@@ -119,10 +150,10 @@ private fun RichTooltipSamplePreview() {
 fun AdvancedRichTooltipExample(
     modifier: Modifier = Modifier,
     richTooltipSubheadText: String = "Custom Rich Tooltip",
-    richTooltipText: String = "Rich tooltips supports multiple lines of informational text.",
+    richTooltipText: String = "Rich tooltips support multiple lines of informational text.",
     richTooltipActionText: String = "Dismiss"
 ) {
-    val tooltipState = rememberTooltipState(isPersistent = true)
+    var tooltipState by remember { mutableStateOf(TooltipState(isPersistent = true)) }
 
     TooltipBox(
         modifier = modifier,
@@ -145,7 +176,17 @@ fun AdvancedRichTooltipExample(
         state = tooltipState
     ) {
         IconButton(onClick = { tooltipState.dismiss() }) {
-            Icon(imageVector = Icons.Filled.Camera, contentDescription = "Localized Description")
+            Icon(
+                imageVector = Icons.Filled.Camera,
+                contentDescription = "Localized Description"
+            )
+        }
+    }
+
+    // Reset tooltipState after closing the tooltip.
+    LaunchedEffect(tooltipState.isVisible) {
+        if (!tooltipState.isVisible) {
+            tooltipState = TooltipState(isPersistent = true)
         }
     }
 }
