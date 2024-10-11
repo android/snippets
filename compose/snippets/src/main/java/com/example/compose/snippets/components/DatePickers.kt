@@ -306,7 +306,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
             }
     )
 
-    if(showModal) {
+    if (showModal) {
         DatePickerModal(
             onDateSelected = { selectedDate = it },
             onDismiss = { showModal = false }
