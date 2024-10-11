@@ -48,6 +48,7 @@ import com.example.compose.snippets.components.ScaffoldExample
 import com.example.compose.snippets.components.SliderExamples
 import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.components.TimePickerExamples
+import com.example.compose.snippets.components.TooltipExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
@@ -113,6 +114,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
                                     TopComponentsDestination.CarouselExamples -> CarouselExamples()
                                     TopComponentsDestination.MenusExample -> MenusExamples()
+                                    TopComponentsDestination.TooltipExamples -> TooltipExamples()
                                 }
                             }
                         }
