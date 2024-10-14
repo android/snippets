@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.components
 
 import androidx.compose.animation.AnimatedVisibility
@@ -27,17 +43,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-enum class ExampleStrings(val description: String){
+enum class ExampleStrings(val description: String) {
     SIMPLE("simple navigation drawer example"),
     NESTED("navigation drawer with nested items")
 }
 
 @Composable
-fun NavigationDrawerExamples(){
+fun NavigationDrawerExamples() {
     var currentExample by remember { mutableStateOf<ExampleStrings?>(null) }
 
-    if (currentExample == null){
-        Column(){
+    if (currentExample == null) {
+        Column() {
             Text(
                 text = "Select which example you'd like to see.",
                 textAlign = TextAlign.Center,
@@ -46,10 +62,10 @@ fun NavigationDrawerExamples(){
                     .padding(16.dp)
             )
 
-            Button(onClick = {currentExample = ExampleStrings.SIMPLE}){
+            Button(onClick = { currentExample = ExampleStrings.SIMPLE }) {
                 Text("Simple navigation drawer.")
             }
-            Button(onClick = {currentExample = ExampleStrings.NESTED}){
+            Button(onClick = { currentExample = ExampleStrings.NESTED }) {
                 Text("Navigation drawer with nested items.")
             }
         }
@@ -57,7 +73,7 @@ fun NavigationDrawerExamples(){
         return
     }
 
-    Column(modifier = Modifier.fillMaxSize()){
+    Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "Swipe from left to open the ${currentExample!!.description}.",
             textAlign = TextAlign.Center,
@@ -67,7 +83,7 @@ fun NavigationDrawerExamples(){
         )
     }
 
-    when (currentExample){
+    when (currentExample) {
         null,
         ExampleStrings.SIMPLE -> SimpleNavigationDrawerExample()
         ExampleStrings.NESTED -> NestedNavigationDrawerExample()
@@ -76,7 +92,7 @@ fun NavigationDrawerExamples(){
 
 @Preview
 @Composable
-private fun NavigationDrawerExamplesPreview(){
+private fun NavigationDrawerExamplesPreview() {
     NavigationDrawerExamples()
 }
 
@@ -133,7 +149,7 @@ fun SimpleNavigationDrawerExample() {
 
 @Preview
 @Composable
-private fun SimpleNavigationDrawerExamplePreview(){
+private fun SimpleNavigationDrawerExamplePreview() {
     SimpleNavigationDrawerExample()
 }
 
@@ -190,6 +206,6 @@ fun NestedNavigationDrawerExample() {
 
 @Preview
 @Composable
-private fun NestedNavigationDrawerExamplePreview(){
+private fun NestedNavigationDrawerExamplePreview() {
     NestedNavigationDrawerExample()
 }
