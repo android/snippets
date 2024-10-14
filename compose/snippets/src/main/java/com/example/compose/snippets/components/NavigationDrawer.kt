@@ -29,7 +29,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawerExamples() {
-    DismissibleDrawerExample { innerPadding ->
+    // Add more examples here in future if necessary.
+
+    DetailedDrawerExample { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             Text(
                 "Swipe from left edge or use menu icon to open the dismissible drawer",
@@ -40,9 +42,9 @@ fun NavigationDrawerExamples() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_drawerexample]
+// [START android_compose_components_detaileddrawerexample]
 @Composable
-fun DismissibleDrawerExample(
+fun DetailedDrawerExample(
     content: @Composable (PaddingValues) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -110,10 +112,10 @@ fun DismissibleDrawerExample(
         }
     }
 }
-// [END android_compose_components_drawerexample]
+// [END android_compose_components_detaileddrawerexample]
 
 @Preview
 @Composable
-fun DismissibleDrawerExamplePreview() {
+fun DetailedDrawerExamplePreview() {
     NavigationDrawerExamples()
 }
