@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets
 
+import NavigationDrawerExamples
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.activity.ComponentActivity
@@ -117,6 +118,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.CarouselExamples -> CarouselExamples()
                                     TopComponentsDestination.MenusExample -> MenusExamples()
                                     TopComponentsDestination.TooltipExamples -> TooltipExamples()
+                                    TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
                                 }
                             }
                         }
