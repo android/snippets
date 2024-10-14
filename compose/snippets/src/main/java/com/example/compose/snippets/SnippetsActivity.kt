@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets
 
+import NavigationDrawerExamples
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.activity.ComponentActivity
@@ -42,7 +43,6 @@ import com.example.compose.snippets.components.DialogExamples
 import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
 import com.example.compose.snippets.components.MenusExamples
-import com.example.compose.snippets.components.NavigationDrawerExamples
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
