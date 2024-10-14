@@ -131,6 +131,12 @@ fun SimpleNavigationDrawerExample() {
 }
 // [END android_compose_components_simplenavigationdrawerexample]
 
+@Preview
+@Composable
+private fun SimpleNavigationDrawerExamplePreview(){
+    SimpleNavigationDrawerExample()
+}
+
 // [START android_compose_components_nestednavigationdrawerexample]
 @Composable
 fun NestedNavigationDrawerExample() {
@@ -182,3 +188,8 @@ fun NestedNavigationDrawerExample() {
 }
 // [END android_compose_components_nestednavigationdrawerexample]
 
+@Preview
+@Composable
+private fun NestedNavigationDrawerExamplePreview(){
+    NestedNavigationDrawerExample()
+}
