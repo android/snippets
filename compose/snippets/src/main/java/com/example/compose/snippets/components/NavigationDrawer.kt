@@ -1,16 +1,20 @@
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.DismissibleDrawerSheet
-import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,20 +29,18 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawerExamples() {
-    MaterialTheme {
-        DismissibleDrawerExample { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
-                Text(
-                    "Swipe from left edge or use menu icon to open the dismissible drawer",
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+    DismissibleDrawerExample { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Text(
+                "Swipe from left edge or use menu icon to open the dismissible drawer",
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_dismissibledrawerexample]
+// [START android_compose_components_drawerexample]
 @Composable
 fun DismissibleDrawerExample(
     content: @Composable (PaddingValues) -> Unit
@@ -46,9 +48,9 @@ fun DismissibleDrawerExample(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    DismissibleNavigationDrawer (
+    ModalNavigationDrawer (
         drawerContent = {
-            DismissibleDrawerSheet {
+            ModalDrawerSheet {
                 Spacer(Modifier.height(12.dp))
                 Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
                 HorizontalDivider()
@@ -108,7 +110,7 @@ fun DismissibleDrawerExample(
         }
     }
 }
-// [END android_compose_components_dismissibledrawerexample]
+// [END android_compose_components_drawerexample]
 
 @Preview
 @Composable
