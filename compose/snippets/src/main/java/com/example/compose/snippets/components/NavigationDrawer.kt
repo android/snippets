@@ -58,8 +58,6 @@ fun NavigationDrawerExamples() {
     }
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_detaileddrawerexample]
 @Composable
@@ -75,7 +73,7 @@ fun DetailedDrawerExample(
                 Spacer(Modifier.height(12.dp))
                 Column(
                     modifier = Modifier.padding(horizontal = 16.dp)
-                ){
+                ) {
                     Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
                     HorizontalDivider()
 
@@ -108,7 +106,6 @@ fun DetailedDrawerExample(
                         onClick = { /* Handle click */ },
                     )
                 }
-
             }
         },
         drawerState = drawerState
