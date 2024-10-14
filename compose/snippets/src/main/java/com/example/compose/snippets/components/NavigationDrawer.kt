@@ -25,6 +25,7 @@ fun NavigationDrawerExamples() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_dismissibledrawerexample]
 @Composable
 fun DismissibleDrawerExample(
     content: @Composable (PaddingValues) -> Unit
@@ -90,6 +91,7 @@ fun DismissibleDrawerExample(
         }
     }
 }
+// [END android_compose_components_dismissibledrawerexample]
 
 @Preview
 @Composable
