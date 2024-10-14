@@ -53,8 +53,6 @@ fun NavigationDrawerExamples(){
                 Text("Navigation drawer with nested items.")
             }
         }
-
-        return
     }
 
     Column(modifier = Modifier.fillMaxSize()){
@@ -79,33 +77,6 @@ fun NavigationDrawerExamples(){
 private fun NavigationDrawerExamplesPreview(){
     NavigationDrawerExamples()
 }
-
-// [START android_compose_components_navigationdrawergroupitem]
-@Composable
-fun NavigationDrawerGroupItem(
-    label: @Composable () -> Unit,
-    content: @Composable ColumnScope.() -> Unit,
-) {
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
-
-    NavigationDrawerItem(
-        label = label,
-        selected = isExpanded,
-        onClick = { isExpanded = !isExpanded },
-        icon = {
-            Icon(
-                imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                contentDescription = if (isExpanded) "Collapse" else "Expand"
-            )
-        }
-    )
-    AnimatedVisibility(visible = isExpanded) {
-        Column(modifier = Modifier.padding(start = 16.dp)) {
-            content()
-        }
-    }
-}
-// [END android_compose_components_navigationdrawergroupitem]
 
 // [START android_compose_components_simplenavigationdrawerexample]
 @Composable
@@ -136,6 +107,33 @@ fun SimpleNavigationDrawerExample() {
 private fun SimpleNavigationDrawerExamplePreview(){
     SimpleNavigationDrawerExample()
 }
+
+// [START android_compose_components_navigationdrawergroupitem]
+@Composable
+fun NavigationDrawerGroupItem(
+    label: @Composable () -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
+    NavigationDrawerItem(
+        label = label,
+        selected = isExpanded,
+        onClick = { isExpanded = !isExpanded },
+        icon = {
+            Icon(
+                imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                contentDescription = if (isExpanded) "Collapse" else "Expand"
+            )
+        }
+    )
+    AnimatedVisibility(visible = isExpanded) {
+        Column(modifier = Modifier.padding(start = 16.dp)) {
+            content()
+        }
+    }
+}
+// [END android_compose_components_navigationdrawergroupitem]
 
 // [START android_compose_components_nestednavigationdrawerexample]
 @Composable
