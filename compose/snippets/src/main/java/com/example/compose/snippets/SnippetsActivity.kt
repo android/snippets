@@ -42,6 +42,7 @@ import com.example.compose.snippets.components.DialogExamples
 import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
 import com.example.compose.snippets.components.MenusExamples
+import com.example.compose.snippets.components.NavigationDrawerExamples
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
@@ -113,6 +114,7 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
                                     TopComponentsDestination.CarouselExamples -> CarouselExamples()
                                     TopComponentsDestination.MenusExample -> MenusExamples()
+                                    TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
                                 }
                             }
                         }
