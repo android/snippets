@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.filled.Menu
@@ -70,10 +72,11 @@ fun DetailedDrawerExample(
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-                Spacer(Modifier.height(12.dp))
                 Column(
                     modifier = Modifier.padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
+                    Spacer(Modifier.height(12.dp))
                     Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
                     HorizontalDivider()
 
@@ -105,6 +108,7 @@ fun DetailedDrawerExample(
                         icon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
                         onClick = { /* Handle click */ },
                     )
+                    Spacer(Modifier.height(12.dp))
                 }
             }
         },
