@@ -150,7 +150,7 @@ fun AdvancedRichTooltipExample(
     richTooltipText: String = "Rich tooltips support multiple lines of informational text.",
     richTooltipActionText: String = "Dismiss"
 ) {
-    var tooltipState = rememberTooltipState()
+    val tooltipState = rememberTooltipState()
 
     TooltipBox(
         modifier = modifier,
