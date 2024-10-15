@@ -66,9 +66,13 @@ class AnotherActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 // [START android_compose_keyboard_shortcuts_helper_request]
-                val activity = LocalContext.current as Activity
+                val activity = LocalContext.current as? Activity
 
-                Button(onClick = { activity.requestShowKeyboardShortcuts() }) {
+                Button(
+                    onClick = {
+                        activity?.requestShowKeyboardShortcuts()
+                    }
+                ) {
                     Text(text = "Show keyboard shortcuts")
                 }
                 // [END android_compose_keyboard_shortcuts_helper_request]
@@ -97,7 +101,11 @@ class AnotherActivity : ComponentActivity() {
             "Message editing",
             listOf(
                 KeyboardShortcutInfo("Select All", KeyEvent.KEYCODE_A, KeyEvent.META_CTRL_ON),
-                KeyboardShortcutInfo("Send a message", KeyEvent.KEYCODE_ENTER, KeyEvent.META_SHIFT_ON)
+                KeyboardShortcutInfo(
+                    "Send a message",
+                    KeyEvent.KEYCODE_ENTER,
+                    KeyEvent.META_SHIFT_ON
+                )
             )
         )
 
