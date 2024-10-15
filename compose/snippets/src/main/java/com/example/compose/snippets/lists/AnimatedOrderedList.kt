@@ -109,8 +109,7 @@ private fun AddRemoveButtons(
         Button(
             enabled = displayedItems.value.isNotEmpty(),
             onClick = {
-                displayedItems.value =
-                    displayedItems.value.toMutableList().dropLast(1).toList()
+                displayedItems.value = displayedItems.value.dropLast(1)
             },
         ) {
             Text("Delete Item")
