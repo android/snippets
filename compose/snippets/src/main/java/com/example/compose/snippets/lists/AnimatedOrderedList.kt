@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.lists
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,15 +34,63 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
+class AnimatedOrderedListViewModel : ViewModel() {
+    private val _data = listOf("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten")
+    private val _displayedItems: MutableStateFlow<List<String>> = MutableStateFlow(_data)
+    val displayedItems: StateFlow<List<String>> = _displayedItems
+
+    fun resetOrder() {
+        _displayedItems.value = _data.filter { it in _displayedItems.value }
+    }
+
+    fun sortAlphabetically() {
+        _displayedItems.value = _displayedItems.value.sortedBy { it }
+    }
+
+    fun sortByLength() {
+        _displayedItems.value = _displayedItems.value.sortedBy { it.length }
+    }
+
+    fun addItem() {
+        // Avoid duplicate items
+        val remainingItems = _data.filter { it !in _displayedItems.value }
+        if (remainingItems.isNotEmpty()) _displayedItems.value += remainingItems.first()
+    }
+
+    fun removeItem() {
+        _displayedItems.value = _displayedItems.value.dropLast(1)
+    }
+}
+
+@Composable
+fun AnimatedOrderedListScreen(
+    viewModel: AnimatedOrderedListViewModel,
+    modifier: Modifier = Modifier,
+) {
+    val displayedItems by viewModel.displayedItems.collectAsStateWithLifecycle()
+
+    ListAnimatedItemsExample(
+        displayedItems,
+        onAddItem = viewModel::addItem,
+        onRemoveItem = viewModel::removeItem,
+        resetOrder = viewModel::resetOrder,
+        onSortAlphabetically = viewModel::sortAlphabetically,
+        onSortByLength = viewModel::sortByLength,
+        modifier = modifier
+    )
+}
 
 // [START android_compose_layouts_list_listanimateditems]
 @Composable
@@ -49,12 +98,15 @@ fun ListAnimatedItems(
     items: List<String>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn {
+    LazyColumn(modifier) {
+        // Use a unique key per item, so that animations work as expected.
         items(items, key = { it }) {
             ListItem(
                 headlineContent = { Text(it) },
                 modifier = Modifier
-                    .animateItem()
+                    .animateItem(
+                        // Optionally add custom animation specs
+                    )
                     .fillParentMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 0.dp),
             )
@@ -65,21 +117,30 @@ fun ListAnimatedItems(
 
 // [START android_compose_layouts_list_listanimateditemsexample]
 @Composable
-private fun ListAnimatedItemsExample(data: List<String>) {
-    Scaffold { paddingValues ->
+private fun ListAnimatedItemsExample(
+    data: List<String>,
+    modifier: Modifier = Modifier,
+    onAddItem: () -> Unit = {},
+    onRemoveItem: () -> Unit = {},
+    resetOrder: () -> Unit = {},
+    onSortAlphabetically: () -> Unit = {},
+    onSortByLength: () -> Unit = {},
+) {
+    val canAddItem = data.size < 10
+    val canRemoveItem = data.isNotEmpty()
+
+    Scaffold(modifier) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            val displayedItems = remember { mutableStateOf(data) }
-
             // Buttons that change the value of displayedItems.
-            AddRemoveButtons(data, displayedItems)
-            OrderButtons(data, displayedItems)
+            AddRemoveButtons(canAddItem, canRemoveItem, onAddItem, onRemoveItem)
+            OrderButtons(resetOrder, onSortAlphabetically, onSortByLength)
 
             // List that displays the values of displayedItems.
-            ListAnimatedItems(displayedItems.value)
+            ListAnimatedItems(data)
         }
     }
 }
@@ -88,30 +149,20 @@ private fun ListAnimatedItemsExample(data: List<String>) {
 // [START android_compose_layouts_list_addremovebuttons]
 @Composable
 private fun AddRemoveButtons(
-    data: List<String>,
-    displayedItems: MutableState<List<String>>
+    canAddItem: Boolean,
+    canRemoveItem: Boolean,
+    onAddItem: () -> Unit,
+    onRemoveItem: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        Button(
-            enabled = displayedItems.value.size < data.size,
-            onClick = {
-                // Avoid duplicate items
-                val remainingItems = data.filter { it !in displayedItems.value }
-                if (remainingItems.isNotEmpty()) displayedItems.value += remainingItems.first()
-            },
-        ) {
+        Button(enabled = canAddItem, onClick = onAddItem) {
             Text("Add Item")
         }
         Spacer(modifier = Modifier.padding(25.dp))
-        Button(
-            enabled = displayedItems.value.isNotEmpty(),
-            onClick = {
-                displayedItems.value = displayedItems.value.dropLast(1)
-            },
-        ) {
+        Button(enabled = canRemoveItem, onClick = onRemoveItem) {
             Text("Delete Item")
         }
     }
@@ -121,12 +172,10 @@ private fun AddRemoveButtons(
 // [START android_compose_layouts_list_orderbuttons]
 @Composable
 private fun OrderButtons(
-    data: List<String>,
-    displayedItems: MutableState<List<String>>
+    resetOrder: () -> Unit,
+    orderAlphabetically: () -> Unit,
+    orderByLength: () -> Unit
 ) {
-    val sortAlpha = Comparator { str: String, str2: String -> str.compareTo(str2) }
-    val sortLength = Comparator { str1: String, str2: String -> str1.length - str2.length }
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -142,15 +191,12 @@ private fun OrderButtons(
                         count = options.size
                     ),
                     onClick = {
+                        Log.d("AnimatedOrderedList", "selectedIndex: $selectedIndex")
                         selectedIndex = index
                         when (options[selectedIndex]) {
-                            "Reset" -> displayedItems.value = data
-                            "Alphabetical" ->
-                                displayedItems.value =
-                                    displayedItems.value.sortedWith(sortAlpha)
-                            "Length" ->
-                                displayedItems.value =
-                                    displayedItems.value.sortedWith(sortLength)
+                            "Reset" -> resetOrder()
+                            "Alphabetical" -> orderAlphabetically()
+                            "Length" -> orderByLength()
                         }
                     },
                     selected = index == selectedIndex
@@ -165,7 +211,7 @@ private fun OrderButtons(
 
 @Preview
 @Composable
-fun ListAnimatingItemsExamplePreview() {
-    val list = listOf("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten")
-    ListAnimatedItemsExample(list)
+fun AnimatedOrderedListScreenPreview() {
+    val viewModel = remember { AnimatedOrderedListViewModel() }
+    AnimatedOrderedListScreen(viewModel)
 }
