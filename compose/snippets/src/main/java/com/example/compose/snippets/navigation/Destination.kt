@@ -48,5 +48,6 @@ enum class TopComponentsDestination(val route: String, val title: String) {
     CarouselExamples("carouselExamples", "Carousel"),
     MenusExample("menusExamples", "Menus"),
     TooltipExamples("tooltipExamples", "Tooltips"),
-    NavigationDrawerExamples("navigationDrawerExamples", "Navigation drawer")
+    NavigationDrawerExamples("navigationDrawerExamples", "Navigation drawer"),
+    SegmentedButtonExamples("segmentedButtonExamples", "Segmented button")
 }
