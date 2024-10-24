@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -63,13 +79,11 @@ fun SingleChoiceSegmentedButton(modifier: Modifier = Modifier) {
     }
 }
 
-
 @Preview
 @Composable
 private fun SingleChoiceSegmentedButtonPreview() {
     SingleChoiceSegmentedButton()
 }
-
 
 @Composable
 fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
@@ -89,7 +103,7 @@ fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
                 onCheckedChange = {
                     selectedOptions[index] = !selectedOptions[index]
                 },
-                icon = { SegmentedButtonDefaults.Icon(selectedOptions[index])},
+                icon = { SegmentedButtonDefaults.Icon(selectedOptions[index]) },
                 label = {
                     when (label) {
                         "Walk" -> Icon(
@@ -99,11 +113,13 @@ fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
                         )
                         "Ride" -> Icon(
                             imageVector =
-                            Icons.Default.DirectionsBus, contentDescription = "Directions Bus"
+                            Icons.Default.DirectionsBus,
+                            contentDescription = "Directions Bus"
                         )
                         "Drive" -> Icon(
                             imageVector =
-                            Icons.Default.DirectionsCar, contentDescription = "Directions Car"
+                            Icons.Default.DirectionsCar,
+                            contentDescription = "Directions Car"
                         )
                     }
                 }
@@ -111,7 +127,6 @@ fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
         }
     }
 }
-
 
 @Preview
 @Composable
