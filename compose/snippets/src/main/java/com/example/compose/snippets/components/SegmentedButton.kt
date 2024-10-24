@@ -59,6 +59,7 @@ fun SegmentedButtonExamples() {
     }
 }
 
+// [START android_compose_components_singlechoicesegmentedbutton]
 @Composable
 fun SingleChoiceSegmentedButton(modifier: Modifier = Modifier) {
     var selectedIndex by remember { mutableIntStateOf(0) }
@@ -78,6 +79,7 @@ fun SingleChoiceSegmentedButton(modifier: Modifier = Modifier) {
         }
     }
 }
+// [END android_compose_components_singlechoicesegmentedbutton]
 
 @Preview
 @Composable
@@ -85,6 +87,7 @@ private fun SingleChoiceSegmentedButtonPreview() {
     SingleChoiceSegmentedButton()
 }
 
+// [START android_compose_components_multichoicesegmentedbutton]
 @Composable
 fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
     val selectedOptions = remember {
@@ -127,6 +130,7 @@ fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
         }
     }
 }
+// [END android_compose_components_multichoicesegmentedbutton]
 
 @Preview
 @Composable
