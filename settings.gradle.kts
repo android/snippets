@@ -28,3 +28,4 @@ include(
         ":compose:snippets",
         ":wear",
 )
+include(":views")
