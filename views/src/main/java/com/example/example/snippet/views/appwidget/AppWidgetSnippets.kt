@@ -39,7 +39,7 @@ private object GeneratedPreviewWithoutGlance {
     lateinit var appContext: Context
 
     fun MyWidgetPreview() {
-        // [START android_view_appwidget_generated_preview01]
+        // [START android_view_appwidget_generatedpreview_with_remoteview]
         AppWidgetManager.getInstance(appContext).setWidgetPreview(
             ComponentName(
                 appContext,
@@ -48,11 +48,11 @@ private object GeneratedPreviewWithoutGlance {
             AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN,
             RemoteViews("com.example", R.layout.widget_preview)
         )
-        // [END android_view_appwidget_generated_preview01]
+        // [END android_view_appwidget_generatedpreview_with_remoteview]
     }
 
      suspend fun MyGlanceWidgetPreview() {
-        // [START android_view_appwidget_generated_preview02]
+        // [START android_view_appwidget_generatedpreview_with_glance]
         AppWidgetManager.getInstance(appContext).setWidgetPreview(
             ComponentName(
                 appContext,
@@ -64,7 +64,7 @@ private object GeneratedPreviewWithoutGlance {
             ),
         )
 
-        // [END android_view_appwidget_generated_preview02]
+        // [END android_view_appwidget_generatedpreview_with_glance]
     }
 }
 

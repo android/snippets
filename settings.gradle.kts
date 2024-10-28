@@ -27,5 +27,6 @@ include(
         ":kotlin",
         ":compose:snippets",
         ":wear",
+        ":views",
 )
-include(":views")
+
