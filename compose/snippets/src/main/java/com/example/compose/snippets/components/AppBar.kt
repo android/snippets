@@ -515,7 +515,7 @@ fun LazyListMultiSelection(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    var selectedItems by rememberSaveable { mutableStateOf( setOf<Int>()) }
+    var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
 
     LazyColumn(contentPadding = contentPadding) {
         itemsIndexed(listItems) { _, index ->
@@ -549,4 +549,3 @@ private fun LazyListMultiSelectionPreview() {
         modifier = Modifier
     )
 }
-
