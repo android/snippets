@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,6 +30,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+// [START android_media_camera_preview_viewmodel]
 class CameraPreviewViewModel(private val appContext: Context): ViewModel() {
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
     val surfaceRequest: StateFlow<SurfaceRequest?> = _surfaceRequest
@@ -74,13 +74,18 @@ class CameraPreviewViewModel(private val appContext: Context): ViewModel() {
         }
     }
 }
+// [END android_media_camera_preview_viewmodel]
 
+// [START android_media_camera_preview_screen]
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraPreviewScreen(modifier: Modifier = Modifier) {
+fun CameraPreviewScreen(
+    viewModel: CameraPreviewViewModel,
+    modifier: Modifier = Modifier
+) {
     val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
     if (cameraPermissionState.status.isGranted) {
-        CameraPreviewContent(modifier)
+        CameraPreviewContent(viewModel, modifier)
     } else {
         Column(modifier) {
             val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
@@ -101,10 +106,14 @@ fun CameraPreviewScreen(modifier: Modifier = Modifier) {
         }
     }
 }
+// [END android_media_camera_preview_screen]
 
+// [START android_media_camera_preview_content]
 @Composable
-fun CameraPreviewContent(modifier: Modifier = Modifier) {
-    val viewModel = CameraPreviewViewModel(LocalContext.current.applicationContext)
+fun CameraPreviewContent(
+    viewModel: CameraPreviewViewModel,
+    modifier: Modifier = Modifier
+) {
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
 
     LifecycleStartEffect(Unit) {
@@ -114,13 +123,6 @@ fun CameraPreviewContent(modifier: Modifier = Modifier) {
         }
     }
 
-    surfaceRequest?.let { CameraPreview(modifier, it) }
+    surfaceRequest?.let { CameraXViewfinder(it, modifier) }
 }
-
-@Composable
-private fun CameraPreview(
-    modifier: Modifier = Modifier,
-    surfaceRequest: SurfaceRequest
-) {
-    CameraXViewfinder(surfaceRequest, modifier)
-}
+// [END android_media_camera_preview_content]
