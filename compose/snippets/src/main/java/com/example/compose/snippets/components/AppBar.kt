@@ -450,7 +450,7 @@ private fun AppBarSelectionActionsPreview() {
 private fun AppBarMultiSelectionExample(
     modifier: Modifier = Modifier,
 ) {
-    val listItems = listOf(1, 2, 3, 4, 5, 6)
+    val listItems by remember { mutableStateOf(listOf(1, 2, 3, 4, 5, 6)) }
     var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
 
     Scaffold(
