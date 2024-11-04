@@ -2,24 +2,23 @@ package com.example.compose.snippets.predictiveback
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.animation.scaleOut
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.animation.EnterTransition
 import android.os.SystemClock
 import androidx.activity.compose.PredictiveBackHandler
+import androidx.navigation.compose.NavHost
 import androidx.compose.animation.core.Animatable
+import androidx.navigation.compose.composable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Surface
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
@@ -66,7 +65,19 @@ fun MainNavigation(
 }
 
 @Composable
-fun HomeScreenDrawer(windowSizeClass: WindowSizeClass) {
+fun HomeScreen(
+    modifier: Modifier = Modifier, navController: NavHostController
+) {
+
+}
+
+@Composable
+fun SettingsScreen(
+    modifier: Modifier = Modifier, navController: NavHostController
+) {
+
+@Composable
+fun HomeScreenDrawer() {
 
     Surface(
         modifier = Modifier.fillMaxSize()
