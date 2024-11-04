@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,6 +27,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -35,7 +37,6 @@ class CameraPreviewViewModel(private val appContext: Context): ViewModel() {
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
     val surfaceRequest: StateFlow<SurfaceRequest?> = _surfaceRequest
 
-    private lateinit var processCameraProvider: ProcessCameraProvider
     private val previewUseCase = Preview.Builder().build().apply {
         setSurfaceProvider { newSurfaceRequest ->
             _surfaceRequest.value = newSurfaceRequest
@@ -49,22 +50,26 @@ class CameraPreviewViewModel(private val appContext: Context): ViewModel() {
 
     private var runningCameraJob: Job? = null
 
-    fun startCamera() {
-        stopCamera()
-        runningCameraJob = viewModelScope.launch {
-            processCameraProvider = ProcessCameraProvider.awaitInstance(appContext)
-            processCameraProvider.runWith(CameraSelector.DEFAULT_BACK_CAMERA, useCaseGroup) {
+    fun startCamera(lifecycleOwner: LifecycleOwner) {
+        viewModelScope.launch {
+            runningCameraJob?.cancelAndJoin()
+            val processCameraProvider = ProcessCameraProvider.awaitInstance(appContext)
+            processCameraProvider.bindToLifecycle(
+                lifecycleOwner,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                useCaseGroup
+            )
+
+            try {
                 awaitCancellation()
+            } finally {
+                processCameraProvider.unbindAll()
             }
-        }
+        }.also { runningCameraJob = it }
     }
 
     fun stopCamera() {
-        runningCameraJob?.apply {
-            if (isActive) {
-                cancel()
-            }
-        }
+        runningCameraJob?.cancel()
     }
 
     fun takePicture() {
@@ -117,7 +122,7 @@ fun CameraPreviewContent(
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
 
     LifecycleStartEffect(Unit) {
-        viewModel.startCamera()
+        viewModel.startCamera(this)
         onStopOrDispose {
             viewModel.stopCamera()
         }
