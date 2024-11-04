@@ -60,6 +60,7 @@ fun MainNavigation(
             SettingsScreen(
                 modifier = modifier,
                 navController = navController,
+            )
         }
     }
 }
