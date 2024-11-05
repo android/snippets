@@ -76,6 +76,8 @@ fun SettingsScreen(
     modifier: Modifier = Modifier, navController: NavHostController
 ) {
 
+}
+
 @Composable
 fun HomeScreenDrawer() {
 
@@ -147,3 +149,4 @@ private enum class DrawerState {
     Open,
     Closed
 }
+
