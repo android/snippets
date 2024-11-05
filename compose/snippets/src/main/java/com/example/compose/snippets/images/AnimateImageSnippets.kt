@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 
+// [START android_compose_images_imageresizeonscrollexample]
 @Composable
 fun ImageResizeOnScrollExample(
     modifier: Modifier = Modifier,
@@ -92,7 +93,7 @@ fun ImageResizeOnScrollExample(
         )
     }
 }
-
+// [END android_compose_images_imageresizeonscrollexample]
 
 @Preview(showBackground = true)
 @Composable
