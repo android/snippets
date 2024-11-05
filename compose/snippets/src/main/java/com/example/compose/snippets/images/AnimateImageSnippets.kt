@@ -32,26 +32,26 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ImageResizeOnScrollExample(
     modifier: Modifier = Modifier,
-    maxImgSize: Dp = 300.dp,
-    minImgSize: Dp = 100.dp
+    maxImageSize: Dp = 300.dp,
+    minImageSize: Dp = 100.dp
 ) {
-    var currentImgSize by remember { mutableStateOf(maxImgSize) }
-    var scale by remember { mutableFloatStateOf(1f) }
+    var currentImageSize by remember { mutableStateOf(maxImageSize) }
+    var imageScale by remember { mutableFloatStateOf(1f) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 // Calculate the change in image size based on scroll delta
                 val delta = available.y
-                val newImgSize = currentImgSize + delta.dp
-                val previousImgSize = currentImgSize
+                val newImageSize = currentImageSize + delta.dp
+                val previousImageSize = currentImageSize
 
                 // Constrain the image size within the allowed bounds
-                currentImgSize = newImgSize.coerceIn(minImgSize, maxImgSize)
-                val consumed = currentImgSize - previousImgSize
+                currentImageSize = newImageSize.coerceIn(minImageSize, maxImageSize)
+                val consumed = currentImageSize - previousImageSize
 
                 // Calculate the scale for the image
-                scale = currentImgSize / maxImgSize
+                imageScale = currentImageSize / maxImageSize
 
                 // Return the consumed scroll amount
                 return Offset(0f, consumed.value)
@@ -65,7 +65,7 @@ fun ImageResizeOnScrollExample(
                 .fillMaxWidth()
                 .padding(15.dp)
                 .offset {
-                    IntOffset(0, currentImgSize.roundToPx())
+                    IntOffset(0, currentImageSize.roundToPx())
                 }
         ) {
             // Placeholder list items
@@ -81,12 +81,13 @@ fun ImageResizeOnScrollExample(
             painter = ColorPainter(Color.Red),
             contentDescription = "Red color image",
             Modifier
-                .size(maxImgSize)
+                .size(maxImageSize)
                 .align(Alignment.TopCenter)
                 .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                    translationY = -(maxImgSize.toPx() - currentImgSize.toPx()) / 2f
+                    scaleX = imageScale
+                    scaleY = imageScale
+                    // Center the image vertically as it scales
+                    translationY = -(maxImageSize.toPx() - currentImageSize.toPx()) / 2f
                 }
         )
     }
