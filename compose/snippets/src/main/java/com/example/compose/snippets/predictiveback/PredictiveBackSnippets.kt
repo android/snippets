@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.animation.EnterTransition
 import android.os.SystemClock
 import androidx.activity.compose.PredictiveBackHandler
-import androidx.navigation.compose.NavHost
 import androidx.compose.animation.core.Animatable
 import androidx.navigation.compose.composable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,14 +63,14 @@ private fun PredictiveBackOverrideExit(
 }
 
 @Composable
-fun HomeScreen(
+private fun HomeScreen(
     modifier: Modifier = Modifier, navController: NavHostController
 ) {
 
 }
 
 @Composable
-fun SettingsScreen(
+private fun SettingsScreen(
     modifier: Modifier = Modifier, navController: NavHostController
 ) {
 
