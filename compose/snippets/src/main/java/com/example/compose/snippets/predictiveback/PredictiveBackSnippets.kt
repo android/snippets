@@ -2,6 +2,7 @@ package com.example.compose.snippets.predictiveback
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.animation.scaleOut
 import androidx.compose.ui.graphics.TransformOrigin
@@ -12,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.compose.animation.core.Animatable
 import androidx.navigation.compose.composable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,11 +23,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
 import kotlin.coroutines.cancellation.CancellationException
-import kotlinx.coroutines.launch
 
 
 @Composable
-fun MainNavigation(
+private fun PredictiveBackOverrideExit(
     modifier: Modifier,
 ) {
     val navController = rememberNavController()
@@ -79,16 +78,13 @@ fun SettingsScreen(
 }
 
 @Composable
-fun HomeScreenDrawer() {
+private fun PredictiveBackHandlerManualProgress() {
 
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         var drawerState by remember {
             mutableStateOf(DrawerState.Closed)
-        }
-        var screenState by remember {
-            mutableStateOf(Screen.Home)
         }
 
         val translationX = remember {
@@ -110,15 +106,7 @@ fun HomeScreenDrawer() {
             translationX.animateTo(targetValue = drawerWidth, initialVelocity = velocity)
             drawerState = DrawerState.Open
         }
-        fun toggleDrawerState() {
-            coroutineScope.launch {
-                if (drawerState == DrawerState.Open) {
-                    closeDrawer()
-                } else {
-                    openDrawer()
-                }
-            }
-        }
+
         val velocityTracker = remember {
             VelocityTracker()
         }
