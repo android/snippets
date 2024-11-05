@@ -28,6 +28,7 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 
+// [START android_compose_text_annotatedhtmlstringwithlink]
 @Composable
 fun AnnotatedHtmlStringWithLink(
     modifier: Modifier = Modifier,
@@ -52,6 +53,7 @@ fun AnnotatedHtmlStringWithLink(
         modifier
     )
 }
+// [END android_compose_text_annotatedhtmlstringwithlink]
 
 @Preview(showBackground = true)
 @Composable
