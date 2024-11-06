@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import androidx.compose.animation.scaleOut
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.animation.EnterTransition
 import android.os.SystemClock
 import androidx.activity.compose.PredictiveBackHandler
+import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.Animatable
 import androidx.navigation.compose.composable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -136,4 +138,6 @@ private enum class DrawerState {
     Open,
     Closed
 }
+
+private val DrawerWidth = 300.dp
 
