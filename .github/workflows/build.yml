@@ -45,3 +45,5 @@ jobs:
       run: ./gradlew :kotlin:build
     - name: Build Wear snippets
       run: ./gradlew :wear:build
+    - name: Build misc snippets
+      run: ./gradlew :misc:build
