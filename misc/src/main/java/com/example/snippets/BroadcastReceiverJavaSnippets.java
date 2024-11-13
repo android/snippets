@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 
+import androidx.activity.ComponentActivity;
 import androidx.core.content.ContextCompat;
 
 import java.util.Objects;
@@ -94,5 +96,25 @@ public class BroadcastReceiverJavaSnippets {
             }
         }
     }
-}
 
+    /** @noinspection InnerClassMayBeStatic*/
+    // [START android_broadcast_receiver_13_activity_java]
+    class MyActivity extends ComponentActivity {
+        MyBroadcastReceiver myBroadcastReceiver;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            // [START_EXCLUDE]
+            IntentFilter filter = new IntentFilter("com.example.snippets.ACTION_UPDATE_DATA");
+            boolean listenToBroadcastsFromOtherApps = false;
+            int receiverFlags = listenToBroadcastsFromOtherApps
+                    ? ContextCompat.RECEIVER_EXPORTED
+                    : ContextCompat.RECEIVER_NOT_EXPORTED;
+            // [END_EXCLUDE]
+            ContextCompat.registerReceiver(this, myBroadcastReceiver, filter, receiverFlags);
+            // Set content
+        }
+    }
+    // [END android_broadcast_receiver_13_activity_java]
+}

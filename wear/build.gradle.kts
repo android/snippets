@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.wear"

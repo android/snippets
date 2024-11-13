@@ -15,12 +15,9 @@ import com.example.snippets.navigation.Destination
 import com.example.snippets.navigation.LandingScreen
 import com.example.snippets.ui.theme.SnippetsTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var dataRepository: DataRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

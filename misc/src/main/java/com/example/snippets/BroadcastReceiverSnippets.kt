@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -189,4 +193,63 @@ class MyBroadcastReceiverWithPermission : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         // no-op, only used to demonstrate manifest registration of receiver with permission
     }
+}
+
+// Ignore following code - it's only used to demonstrate best practices, not part of the sample
+@Suppress("unused")
+// [START android_broadcast_receiver_13_activity]
+class MyActivity : ComponentActivity() {
+    private val myBroadcastReceiver = MyBroadcastReceiver()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // [START_EXCLUDE]
+        val filter = IntentFilter("com.example.snippets.ACTION_UPDATE_DATA")
+        val listenToBroadcastsFromOtherApps = false
+        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+            ContextCompat.RECEIVER_EXPORTED
+        } else {
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        }
+        // [END_EXCLUDE]
+        ContextCompat.registerReceiver(this, myBroadcastReceiver, filter, receiverFlags)
+        setContent { MyApp() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // When you forget to unregister your receiver here, you're causing a leak!
+        this.unregisterReceiver(myBroadcastReceiver)
+    }
+}
+// [END android_broadcast_receiver_13_activity]
+
+@Composable
+fun MyApp() {}
+
+@Suppress("unused")
+// [START android_broadcast_receiver_14_stateless]
+@Composable
+fun MyStatefulScreen() {
+    val myBroadcastReceiver = remember { MyBroadcastReceiver()}
+    val context = LocalContext.current
+    LifecycleStartEffect(true) {
+        // [START_EXCLUDE]
+        val filter = IntentFilter("com.example.snippets.ACTION_UPDATE_DATA")
+        val listenToBroadcastsFromOtherApps = false
+        val flags = if (listenToBroadcastsFromOtherApps) {
+            ContextCompat.RECEIVER_EXPORTED
+        } else {
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        }
+        // [END_EXCLUDE]
+        ContextCompat.registerReceiver(context, myBroadcastReceiver, filter, flags)
+        onStopOrDispose { context.unregisterReceiver(myBroadcastReceiver) }
+    }
+    MyStatelessScreen()
+}
+
+@Composable
+fun MyStatelessScreen() {
+    // Implement your screen
 }
