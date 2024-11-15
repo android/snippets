@@ -9,20 +9,26 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.animation.EnterTransition
 import android.os.SystemClock
+import androidx.activity.BackEventCompat
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.navigation.compose.composable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
+import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -79,6 +85,36 @@ private fun SettingsScreen(
 }
 
 @Composable
+private fun PredictiveBackHandlerBasicExample() {
+
+    var boxScale by remember { mutableFloatStateOf(1F) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize(boxScale)
+            .background(Color.Blue)
+    )
+
+    // [START android_compose_predictivebackhandler_basic]
+    PredictiveBackHandler(true) {progress: Flow<BackEventCompat> ->
+        // code for gesture back started
+        try {
+            progress.collect { backEvent ->
+                // code for progress
+                boxScale = 1F - (1F * backEvent.progress)
+            }
+            // code for completion
+
+        } catch (e: CancellationException) {
+            // code for cancellation
+            boxScale = 1F
+        }
+    }
+    // [END android_compose_predictivebackhandler_basic]
+}
+
+
+@Composable
 private fun PredictiveBackHandlerManualProgress() {
 
     Surface(
@@ -112,7 +148,7 @@ private fun PredictiveBackHandlerManualProgress() {
             VelocityTracker()
         }
 
-        // [START android_compose_predictivebackhandler]
+        // [START android_compose_predictivebackhandler_manualprogress]
         PredictiveBackHandler(drawerState == DrawerState.Open) { progress ->
             try {
                 progress.collect { backEvent ->
@@ -129,7 +165,7 @@ private fun PredictiveBackHandlerManualProgress() {
             }
             velocityTracker.resetTracking()
         }
-        // [END android_compose_predictivebackhandler]
+        // [END android_compose_predictivebackhandler_manualprogress]
 
     }
 }
