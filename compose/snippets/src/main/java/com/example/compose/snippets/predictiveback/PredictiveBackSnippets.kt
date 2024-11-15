@@ -21,10 +21,9 @@ import androidx.activity.BackEventCompat
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.navigation.compose.composable
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -37,9 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.util.VelocityTracker
-import androidx.compose.ui.platform.LocalDensity
-import kotlinx.coroutines.flow.Flow
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
@@ -49,6 +45,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 private fun PredictiveBackOverrideExit(
@@ -114,7 +111,7 @@ private fun PredictiveBackHandlerBasicExample() {
     )
 
     // [START android_compose_predictivebackhandler_basic]
-    PredictiveBackHandler(true) {progress: Flow<BackEventCompat> ->
+    PredictiveBackHandler(true) { progress: Flow<BackEventCompat> ->
         // code for gesture back started
         try {
             progress.collect { backEvent ->
@@ -122,7 +119,6 @@ private fun PredictiveBackHandlerBasicExample() {
                 boxScale = 1F - (1F * backEvent.progress)
             }
             // code for completion
-
         } catch (e: CancellationException) {
             // code for cancellation
             boxScale = 1F
@@ -130,7 +126,6 @@ private fun PredictiveBackHandlerBasicExample() {
     }
     // [END android_compose_predictivebackhandler_basic]
 }
-
 
 @Composable
 private fun PredictiveBackHandlerManualProgress() {
