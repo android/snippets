@@ -10,12 +10,24 @@ import androidx.camera.core.UseCaseGroup
 import androidx.camera.core.takePicture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.LifecycleStartEffect
@@ -33,7 +45,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 // [START android_media_camera_preview_viewmodel]
-class CameraPreviewViewModel(private val appContext: Context): ViewModel() {
+class CameraPreviewViewModel(private val appContext: Context) : ViewModel() {
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
     val surfaceRequest: StateFlow<SurfaceRequest?> = _surfaceRequest
 
@@ -128,6 +140,19 @@ fun CameraPreviewContent(
         }
     }
 
-    surfaceRequest?.let { CameraXViewfinder(it, modifier) }
+    surfaceRequest?.let {
+        Box(modifier) {
+            CameraXViewfinder(it, Modifier.fillMaxSize())
+            Spacer(
+                Modifier
+                    .padding(bottom = 16.dp)
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .clickable { viewModel.takePicture() }
+                    .background(Color.White)
+                    .align(Alignment.BottomCenter)
+            )
+        }
+    }
 }
 // [END android_media_camera_preview_content]
