@@ -253,3 +253,4 @@ fun MyStatefulScreen() {
 fun MyStatelessScreen() {
     // Implement your screen
 }
+// [END android_broadcast_receiver_14_stateless]
