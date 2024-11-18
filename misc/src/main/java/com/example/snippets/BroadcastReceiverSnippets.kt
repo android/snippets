@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.snippets
 
 import android.content.BroadcastReceiver
@@ -106,7 +122,7 @@ class BroadcastReceiverViewModel @Inject constructor(
     }
 
     fun sendBroadcast(newData: String, usePermission: Boolean = false) {
-        if(!usePermission) {
+        if (!usePermission) {
             // [START android_broadcast_receiver_8_send]
             val intent = Intent("com.example.snippets.ACTION_UPDATE_DATA").apply {
                 putExtra("com.example.snippets.DATA", newData)
@@ -122,7 +138,6 @@ class BroadcastReceiverViewModel @Inject constructor(
             // [START android_broadcast_receiver_9_send_with_permission]
             context.sendBroadcast(intent, android.Manifest.permission.ACCESS_COARSE_LOCATION)
             // [END android_broadcast_receiver_9_send_with_permission]
-
         }
     }
 }
@@ -231,7 +246,7 @@ fun MyApp() {}
 // [START android_broadcast_receiver_14_stateless]
 @Composable
 fun MyStatefulScreen() {
-    val myBroadcastReceiver = remember { MyBroadcastReceiver()}
+    val myBroadcastReceiver = remember { MyBroadcastReceiver() }
     val context = LocalContext.current
     LifecycleStartEffect(true) {
         // [START_EXCLUDE]
