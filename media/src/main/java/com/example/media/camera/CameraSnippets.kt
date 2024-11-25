@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -104,7 +105,7 @@ fun CameraPreviewScreen(
     if (cameraPermissionState.status.isGranted) {
         CameraPreviewContent(viewModel, modifier)
     } else {
-        Column(modifier) {
+        Column(modifier.safeContentPadding()) {
             val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
                 // If the user has denied the permission but the rationale can be shown,
                 // then gently explain why the app requires this permission
@@ -145,6 +146,7 @@ fun CameraPreviewContent(
             CameraXViewfinder(it, Modifier.fillMaxSize())
             Spacer(
                 Modifier
+                    .safeContentPadding()
                     .padding(bottom = 16.dp)
                     .size(64.dp)
                     .clip(CircleShape)
