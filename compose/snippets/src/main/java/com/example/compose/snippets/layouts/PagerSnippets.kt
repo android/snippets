@@ -413,6 +413,7 @@ fun PagerIndicator() {
     }
 }
 
+// [START android_compose_autoadvancepager]
 @Composable
 fun AutoAdvancePager(pageItems: List<Color>, modifier: Modifier = Modifier) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -457,6 +458,7 @@ fun AutoAdvancePager(pageItems: List<Color>, modifier: Modifier = Modifier) {
         PagerIndicator(pageItems.size, pagerState.currentPage)
     }
 }
+// [END android_compose_autoadvancepager]
 
 @Preview
 @Composable
@@ -470,6 +472,7 @@ private fun AutoAdvancePagerPreview() {
     AutoAdvancePager(pageItems = pageItems)
 }
 
+// [START android_compose_pagerindicator]
 @Composable
 fun PagerIndicator(pageCount: Int, currentPageIndex: Int, modifier: Modifier = Modifier) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -494,6 +497,7 @@ fun PagerIndicator(pageCount: Int, currentPageIndex: Int, modifier: Modifier = M
         }
     }
 }
+// [END android_compose_pagerindicator]
 
 @Preview
 @Composable
