@@ -29,6 +29,7 @@ import com.google.common.util.concurrent.Futures
 
 private const val RESOURCES_VERSION = "1"
 
+// [START android_wear_tile_mytileservice]
 class MyTileService : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
@@ -49,3 +50,4 @@ class MyTileService : TileService() {
         )
 
 }
+// [END android_wear_tile_mytileservice]
