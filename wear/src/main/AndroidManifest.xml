@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
 
+        <!-- [START android_wear_manifest] -->
         <service
             android:name=".snippets.tile.MyTileService"
             android:label="@string/tile_label"
@@ -49,6 +50,7 @@
             <meta-data android:name="androidx.wear.tiles.PREVIEW"
                 android:resource="@drawable/tile_preview" />
         </service>
+        <!-- [END android_wear_manifest] -->
 
     </application>
 
