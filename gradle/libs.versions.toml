@@ -30,6 +30,7 @@ coroutines = "1.9.0"
 glide = "1.0.0-beta01"
 google-maps = "19.0.0"
 gradle-versions = "0.51.0"
+guava = "33.2.1-android"
 hilt = "2.52"
 horologist = "0.6.20"
 junit = "4.13.2"
@@ -44,12 +45,22 @@ media3 = "1.4.1"
 # @keep
 minSdk = "21"
 playServicesWearable = "18.2.0"
+protolayout = "1.3.0-alpha04"
+protolayoutExpression = "1.3.0-alpha04"
+protolayoutMaterial = "1.3.0-alpha04"
 recyclerview = "1.3.2"
 # @keep
 targetSdk = "34"
+tiles = "1.5.0-alpha04"
+tilesRenderer = "1.5.0-alpha04"
+tilesTesting = "1.5.0-alpha04"
+tilesTooling = "1.5.0-alpha04"
+tilesToolingPreview = "1.5.0-alpha04"
 version-catalog-update = "0.8.5"
+wear = "1.3.0"
 wearComposeFoundation = "1.4.0"
 wearComposeMaterial = "1.4.0"
+wearToolingPreview = "1.0.0"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
@@ -103,10 +114,20 @@ androidx-media3-common = { module = "androidx.media3:media3-common", version.ref
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
+androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
+androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayoutExpression" }
+androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayoutMaterial" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-test-runner = "androidx.test:runner:1.6.2"
+androidx-tiles = { module = "androidx.wear.tiles:tiles", version.ref = "tiles" }
+androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tilesRenderer" }
+androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tilesTesting" }
+androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tilesTooling" }
+androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tilesToolingPreview" }
+androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
+androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.0"
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -117,6 +138,7 @@ glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "g
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
