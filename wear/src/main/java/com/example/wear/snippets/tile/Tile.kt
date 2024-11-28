@@ -33,21 +33,25 @@ private const val RESOURCES_VERSION = "1"
 class MyTileService : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
-        Futures.immediateFuture(Tile.Builder()
-            .setResourcesVersion(RESOURCES_VERSION)
-            .setTileTimeline(
-                Timeline.fromLayoutElement(
-                    Text.Builder(this, "Hello World!")
-                        .setTypography(Typography.TYPOGRAPHY_BODY1)
-                        .setColor(argb(0xFFFFFFFF.toInt()))
-                        .build()))
-            .build())
-
-    override fun onTileResourcesRequest(requestParams: ResourcesRequest) =
-        Futures.immediateFuture(Resources.Builder()
-            .setVersion(RESOURCES_VERSION)
-            .build()
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(
+                    Timeline.fromLayoutElement(
+                        Text.Builder(this, "Hello World!")
+                            .setTypography(Typography.TYPOGRAPHY_BODY1)
+                            .setColor(argb(0xFFFFFFFF.toInt()))
+                            .build()
+                    )
+                )
+                .build()
         )
 
+    override fun onTileResourcesRequest(requestParams: ResourcesRequest) =
+        Futures.immediateFuture(
+            Resources.Builder()
+                .setVersion(RESOURCES_VERSION)
+                .build()
+        )
 }
 // [END android_wear_tile_mytileservice]
