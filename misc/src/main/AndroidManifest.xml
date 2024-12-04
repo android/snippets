@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="com.example.snippets.CUSTOM_PERMISSION"/>
+
+    <!--[START android_broadcast_receiver_10_manifest_permission]-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--[END android_broadcast_receiver_10_manifest_permission]-->
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Snippets">
+
+<!--    [START android_broadcast_receiver_1_receiver_manifest]-->
+        <!-- If this receiver listens for broadcasts sent from the system or from
+             other apps, even other apps that you own, set android:exported to "true". -->
+        <receiver android:name=".MyBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_UPDATE_DATA" />
+            </intent-filter>
+        </receiver>
+<!--    [END android_broadcast_receiver_1_receiver_manifest]-->
+<!--    [START android_broadcast_receiver_11_receiver_manifest_with_permission]-->
+        <!-- If this receiver listens for broadcasts sent from the system or from
+             other apps, even other apps that you own, set android:exported to "true". -->
+        <receiver
+            android:name=".MyBroadcastReceiverWithPermission"
+            android:permission="android.permission.ACCESS_COARSE_LOCATION"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_UPDATE_DATA" />
+            </intent-filter>
+        </receiver>
+<!--    [END android_broadcast_receiver_11_receiver_manifest_with_permission]-->
+        <activity
+            android:name="com.example.snippets.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Snippets">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
