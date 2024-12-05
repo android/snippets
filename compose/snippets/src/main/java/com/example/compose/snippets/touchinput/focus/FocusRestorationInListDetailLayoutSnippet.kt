@@ -136,7 +136,7 @@ fun FocusRestorationInListDetail(catalogData: List<CatalogItem>, modifier: Modif
         detailPane = {
             AnimatedPane {
                 val catalogItem = threePaneScaffoldNavigator.currentDestination?.content
-                if(catalogItem !=null){
+                if (catalogItem != null) {
                     DetailsPane(catalogItem)
                 }
             }
@@ -147,7 +147,7 @@ fun FocusRestorationInListDetail(catalogData: List<CatalogItem>, modifier: Modif
     LaunchedEffect(isListPaneVisible) {
         if (isListPaneVisible) {
             val catalogItemIndex = catalogData.indexOf(lastSelectedCatalogItem)
-            if(catalogItemIndex >= 0) {
+            if (catalogItemIndex >= 0) {
                 // Ensure the ListItem for the last selected item is visible
                 listState.animateScrollToItem(catalogItemIndex)
             }
@@ -156,7 +156,6 @@ fun FocusRestorationInListDetail(catalogData: List<CatalogItem>, modifier: Modif
     }
 }
 // [END android_compose_touchinput_focus_restoration_listdetail]
-
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -213,7 +212,6 @@ private fun DetailsPane(
             Text("Click me")
         }
     }
-
 }
 
 fun FocusRequester.tryRequestFocus(): Result<Unit> {
@@ -227,7 +225,7 @@ fun FocusRequester.tryRequestFocus(): Result<Unit> {
 
 @Composable
 fun Modifier.initialFocus(focusRequester: FocusRequester = remember { FocusRequester() }): Modifier {
-    var isSafe by remember{ mutableStateOf(false) }
+    var isSafe by remember { mutableStateOf(false) }
 
     LaunchedEffect(isSafe) {
         if (isSafe) {
