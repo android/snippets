@@ -24,9 +24,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -47,7 +52,9 @@ enum class FocusExample(
     InitialFocusEnablingContentReload(
         "initialFocusEnablingContentReload",
         "Initial Focus Enabling Content Reload"
-    )
+    ),
+    FocusRestoration("focusRestoration", "Focus Restoration"),
+    FocusInListDetailLayout("focusInListDetailLayout", "Focus In List-Detail Layout"),
 }
 
 @Composable
@@ -60,7 +67,9 @@ fun FocusExample(
                 listOf(
                     FocusExample.InitialFocus,
                     FocusExample.InitialFocusWithScrollableContainer,
-                    FocusExample.InitialFocusEnablingContentReload
+                    FocusExample.InitialFocusEnablingContentReload,
+                    FocusExample.FocusRestoration,
+                    FocusExample.FocusInListDetailLayout,
                 )
             }
             FocusExampleScreen(entries) {
@@ -78,26 +87,61 @@ fun FocusExample(
         composable(FocusExample.InitialFocusEnablingContentReload.route) {
             InitialFocusWithContentReloadScreen()
         }
+        composable(FocusExample.FocusRestoration.route) {
+            FocusRestorationScreen()
+        }
+        composable(FocusExample.FocusInListDetailLayout.route) {
+            FocusRestorationInListDetailScreen()
+        }
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun FocusExampleScreen(
     examples: List<FocusExample>,
-    onExampleClick: (FocusExample) -> Unit = {}
+    navigateToDetails: (FocusExample) -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
     Box(contentAlignment = Alignment.TopCenter) {
-        LazyColumn(
-            modifier = Modifier.widthIn(
-                max = 600.dp
+        ExampleList(
+            examples = examples,
+            showDetails = {
+                // Save the focused child before navigating to the detail pane
+                focusRequester.saveFocusedChild()
+                navigateToDetails(it)
+            },
+            modifier = Modifier
+                .widthIn(max = 600.dp)
+                .focusRequester(focusRequester)
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun ExampleList(
+    examples: List<FocusExample>,
+    showDetails: (FocusExample) -> Unit = {},
+    modifier: Modifier = Modifier,
+) {
+    // [START android_compose_touchinput_focus_restoration]
+    LazyColumn(
+        modifier = modifier.focusRestorer()
+    ) {
+        items(examples) {
+            ListItem(
+                headlineContent = { Text(it.title) },
+                modifier = Modifier.clickable {
+                    showDetails(it)
+                }
             )
-        ) {
-            items(examples) {
-                ListItem(
-                    headlineContent = { Text(it.title) },
-                    modifier = Modifier.clickable { onExampleClick(it) }
-                )
-            }
         }
     }
+    // [END android_compose_touchinput_focus_restoration]
 }
