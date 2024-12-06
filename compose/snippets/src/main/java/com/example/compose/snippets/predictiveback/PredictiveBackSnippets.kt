@@ -46,6 +46,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.Serializable
+
+@Serializable data object Home
+@Serializable data object Settings
 
 @Composable
 private fun PredictiveBackOverrideExit(
@@ -56,7 +60,7 @@ private fun PredictiveBackOverrideExit(
     // [START android_compose_predictiveback_navhost]
     NavHost(
         navController = navController,
-        startDestination = "home",
+        startDestination = Home,
         popExitTransition = {
             scaleOut(
                 targetScale = 0.9f,
@@ -70,13 +74,13 @@ private fun PredictiveBackOverrideExit(
     )
     // [END android_compose_predictiveback_navhost]
     {
-        composable("home") {
+        composable<Home> {
             HomeScreen(
                 modifier = modifier,
                 navController = navController,
             )
         }
-        composable("settings") {
+        composable<Settings> {
             SettingsScreen(
                 modifier = modifier,
                 navController = navController,
@@ -119,6 +123,7 @@ private fun PredictiveBackHandlerBasicExample() {
                 boxScale = 1F - (1F * backEvent.progress)
             }
             // code for completion
+            boxScale = 0F
         } catch (e: CancellationException) {
             // code for cancellation
             boxScale = 1F
