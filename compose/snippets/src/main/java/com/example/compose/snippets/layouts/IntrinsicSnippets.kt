@@ -39,10 +39,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,7 +71,7 @@ private object IntrinsicsSnippet1 {
                     .wrapContentWidth(Alignment.Start),
                 text = text1
             )
-            HorizontalDivider(
+            VerticalDivider(
                 color = Color.Black,
                 modifier = Modifier.fillMaxHeight().width(1.dp)
             )
@@ -111,7 +111,7 @@ private object IntrinsicsSnippet2 {
                     .wrapContentWidth(Alignment.Start),
                 text = text1
             )
-            HorizontalDivider(
+            VerticalDivider(
                 color = Color.Black,
                 modifier = Modifier.fillMaxHeight().width(1.dp)
             )
