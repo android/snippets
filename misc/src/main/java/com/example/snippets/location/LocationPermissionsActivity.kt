@@ -25,7 +25,7 @@ import androidx.annotation.RequiresApi
 // Assuming this function is inside a ComponentActivity or a subclass of it
 class LocationPermissionsActivity : ComponentActivity() {
 
-    // [START misc_location_requestpermissions_kotlin]
+    // [START android_location_requestpermissions_kotlin]
     @RequiresApi(Build.VERSION_CODES.N)
     fun requestPermissions() {
         val locationPermissionRequest = registerForActivityResult(
@@ -55,5 +55,5 @@ class LocationPermissionsActivity : ComponentActivity() {
             )
         )
     }
-    // [END misc_location_requestpermissions_kotlin]
+    // [END android_location_requestpermissions_kotlin]
 }

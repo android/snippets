@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class LocationPermissionsActivityJava extends ComponentActivity {
 
-    // [START misc_location_requestpermissions_java]
+    // [START android_location_requestpermissions_java]
     private void requestPermissions() {
 
         ActivityResultLauncher<String[]> locationPermissionRequest =
@@ -47,5 +47,5 @@ public class LocationPermissionsActivityJava extends ComponentActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
     }
-    // [END misc_location_requestpermissions_java]
+    // [END android_location_requestpermissions_java]
 }
