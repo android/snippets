@@ -23,7 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 
 // Assuming this function is inside a ComponentActivity or a subclass of it
-class LocationActivity : ComponentActivity() {
+class LocationPermissionsActivity : ComponentActivity() {
 
     // [START misc_location_requestpermissions_kotlin]
     @RequiresApi(Build.VERSION_CODES.N)

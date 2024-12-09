@@ -8,7 +8,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import java.util.Map;
 
-public class LocationPermissionsActivity extends ComponentActivity {
+public class LocationPermissionsActivityJava extends ComponentActivity {
 
     // [START misc_location_requestpermissions_java]
     private void requestPermissions() {
