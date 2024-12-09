@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2024 The Android Open Source Project
+ * Copyright 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -139,19 +139,19 @@ private fun <T : Comparable<T>> SharedYAxis(
                 ContentTransform(
                     // Outgoing elements fade out and slide up to the top.
                     initialContentExit = fadeOut(exitSpec()) +
-                            slideOutVertically(exitSpec()) { -slideDistance },
+                        slideOutVertically(exitSpec()) { -slideDistance },
                     // Incoming elements fade in and slide up from the bottom.
                     targetContentEnter = fadeIn(enterSpec()) +
-                            slideInVertically(enterSpec()) { slideDistance }
+                        slideInVertically(enterSpec()) { slideDistance }
                 )
             } else { // Move up
                 ContentTransform(
                     // Outgoing elements fade out and slide down to the bottom.
                     initialContentExit = fadeOut(exitSpec()) +
-                            slideOutVertically(exitSpec()) { slideDistance },
+                        slideOutVertically(exitSpec()) { slideDistance },
                     // Outgoing elements fade in and slide down from the top.
                     targetContentEnter = fadeIn(enterSpec()) +
-                            slideInVertically(enterSpec()) { -slideDistance }
+                        slideInVertically(enterSpec()) { -slideDistance }
                 )
             }
         },
