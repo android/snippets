@@ -272,10 +272,10 @@ private fun DetailsContent(
                 // [END android_compose_shared_element_text_bounds_transform]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
             }
@@ -332,7 +332,7 @@ private fun SharedElement_Clipping() {
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                        )
+                            )
                     )
                 }
             } else {
@@ -370,10 +370,10 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
@@ -673,17 +673,19 @@ fun CustomPredictiveBackHandle() {
         mutableIntStateOf(0)
     }
     Column {
-        Slider(modifier = Modifier.height(48.dp),
+        Slider(
+            modifier = Modifier.height(48.dp),
             value = seekableTransitionState.fraction,
             onValueChange = {
                 coroutineScope.launch {
-                    if (seekableTransitionState.currentState is Screen.Details){
+                    if (seekableTransitionState.currentState is Screen.Details) {
                         seekableTransitionState.seekTo(it, Screen.Home)
                     } else {
                         // seek to the previously navigated index
                         seekableTransitionState.seekTo(it, Screen.Details(lastNavigatedIndex))
                     }
-                }})
+                }
+            })
         SharedTransitionLayout(modifier = Modifier.weight(1f)) {
             transition.AnimatedContent { targetState ->
                 when (targetState) {
