@@ -18,7 +18,6 @@
 
 package com.example.compose.snippets.animations.sharedelement
 
-import android.util.Log
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
