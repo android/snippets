@@ -18,6 +18,7 @@
 
 package com.example.compose.snippets.animations.sharedelement
 
+import android.util.Log
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -653,19 +654,24 @@ fun CustomPredictiveBackHandle() {
 
     PredictiveBackHandler(seekableTransitionState.currentState is Screen.Details) { progress ->
         try {
+            // Whilst a back gesture is in progress, backEvents will be fired for each progress
+            // update.
             progress.collect { backEvent ->
-                // code for progress
+                // For each backEvent that comes in, we manually seekTo the reported back progress
                 try {
                     seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
                 } catch (e: CancellationException) {
-                    // ignore the cancellation
+                    // seekTo may be cancelled as expected, if animateTo or subsequent seekTo calls
+                    // before the current seekTo finishes, in this case, we ignore the cancellation.
                 }
             }
-            // code for completion
+            // Once collection has completed, we are either fully in the target state, or need
+            // to progress towards the end.
             seekableTransitionState.animateTo(seekableTransitionState.targetState)
         } catch (e: CancellationException) {
-            // code for cancellation
-            seekableTransitionState.animateTo(seekableTransitionState.currentState)
+            // When the predictive back gesture is cancelled, we snap to the end state to ensure
+            // it completes its seeking animation back to the currentState
+            seekableTransitionState.snapTo(seekableTransitionState.currentState)
         }
     }
     val coroutineScope = rememberCoroutineScope()
