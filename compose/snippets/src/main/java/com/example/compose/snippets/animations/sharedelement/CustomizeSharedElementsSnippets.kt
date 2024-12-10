@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class)
+@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalSharedTransitionApi::class,
+    ExperimentalSharedTransitionApi::class
+)
 
 package com.example.compose.snippets.animations.sharedelement
 
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -30,7 +33,9 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.ArcMode
 import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -60,12 +65,15 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -85,6 +93,8 @@ import androidx.navigation.navArgument
 import com.example.compose.snippets.R
 import com.example.compose.snippets.ui.theme.LavenderLight
 import com.example.compose.snippets.ui.theme.RoseLight
+import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 @Preview
 @Composable
@@ -627,4 +637,89 @@ fun PlaceholderSizeAnimated_Demo() {
         }
     }
 // [END android_compose_shared_element_placeholder_size]
+}
+
+private sealed class Screen {
+    data object Home : Screen()
+    data class Details(val id: Int) : Screen()
+}
+
+@Preview
+@Composable
+fun CustomPredictiveBackHandle() {
+    // [START android_compose_shared_element_custom_seeking]
+    val seekableTransitionState = remember {
+        SeekableTransitionState<Screen>(Screen.Home)
+    }
+    val transition = rememberTransition(transitionState = seekableTransitionState)
+
+    PredictiveBackHandler(seekableTransitionState.currentState is Screen.Details) { progress ->
+        try {
+            progress.collect { backEvent ->
+                // code for progress
+                try {
+                    seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
+                } catch (e: CancellationException) {
+                    // ignore the cancellation
+                }
+            }
+            // code for completion
+            seekableTransitionState.animateTo(seekableTransitionState.targetState)
+        } catch (e: CancellationException) {
+            // code for cancellation
+            seekableTransitionState.animateTo(seekableTransitionState.currentState)
+        }
+    }
+    val coroutineScope = rememberCoroutineScope()
+    var lastNavigatedIndex by remember {
+        mutableIntStateOf(0)
+    }
+    Column {
+        Slider(modifier = Modifier.height(48.dp),
+            value = seekableTransitionState.fraction,
+            onValueChange = {
+                coroutineScope.launch {
+                    if (seekableTransitionState.currentState is Screen.Details){
+                        seekableTransitionState.seekTo(it, Screen.Home)
+                    } else {
+                        // seek to the previously navigated index
+                        seekableTransitionState.seekTo(it, Screen.Details(lastNavigatedIndex))
+                    }
+                }})
+        SharedTransitionLayout(modifier = Modifier.weight(1f)) {
+            transition.AnimatedContent { targetState ->
+                when (targetState) {
+                    Screen.Home -> {
+                        HomeScreen(
+                            this@SharedTransitionLayout,
+                            this@AnimatedContent,
+                            onItemClick = {
+                                coroutineScope.launch {
+                                    lastNavigatedIndex = it
+                                    seekableTransitionState.animateTo(Screen.Details(it))
+                                }
+                            }
+                        )
+                    }
+
+                    is Screen.Details -> {
+                        val snack = listSnacks[targetState.id]
+                        DetailsScreen(
+                            targetState.id,
+                            snack,
+                            this@SharedTransitionLayout,
+                            this@AnimatedContent,
+                            onBackPressed = {
+                                coroutineScope.launch {
+                                    seekableTransitionState.animateTo(Screen.Home)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    // [END android_compose_shared_element_custom_seeking]
 }

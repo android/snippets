@@ -75,9 +75,9 @@ fun SharedElement_PredictiveBack() {
         ) {
             composable("home") {
                 HomeScreen(
-                    navController,
                     this@SharedTransitionLayout,
-                    this@composable
+                    this@composable,
+                    {   navController.navigate("details/$it") }
                 )
             }
             composable(
@@ -87,11 +87,13 @@ fun SharedElement_PredictiveBack() {
                 val id = backStackEntry.arguments?.getInt("item")
                 val snack = listSnacks[id!!]
                 DetailsScreen(
-                    navController,
                     id,
                     snack,
                     this@SharedTransitionLayout,
-                    this@composable
+                    this@composable,
+                    {
+                        navController.navigate("home")
+                    }
                 )
             }
         }
@@ -99,19 +101,19 @@ fun SharedElement_PredictiveBack() {
 }
 
 @Composable
-private fun DetailsScreen(
-    navController: NavHostController,
+fun DetailsScreen(
     id: Int,
     snack: Snack,
     sharedTransitionScope: SharedTransitionScope,
-    animatedContentScope: AnimatedContentScope
+    animatedContentScope: AnimatedContentScope,
+    onBackPressed: () -> Unit
 ) {
     with(sharedTransitionScope) {
         Column(
             Modifier
                 .fillMaxSize()
                 .clickable {
-                    navController.navigate("home")
+                    onBackPressed()
                 }
         ) {
             Image(
@@ -141,10 +143,10 @@ private fun DetailsScreen(
 }
 
 @Composable
-private fun HomeScreen(
-    navController: NavHostController,
+fun HomeScreen(
     sharedTransitionScope: SharedTransitionScope,
-    animatedContentScope: AnimatedContentScope
+    animatedContentScope: AnimatedContentScope,
+    onItemClick: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -155,7 +157,7 @@ private fun HomeScreen(
         itemsIndexed(listSnacks) { index, item ->
             Row(
                 Modifier.clickable {
-                    navController.navigate("details/$index")
+                    onItemClick(index)
                 }
             ) {
                 Spacer(modifier = Modifier.width(8.dp))
