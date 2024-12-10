@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalSharedTransitionApi::class,
-    ExperimentalSharedTransitionApi::class
-)
+@file:OptIn(ExperimentalSharedTransitionApi::class)
 
 package com.example.compose.snippets.animations.sharedelement
 
