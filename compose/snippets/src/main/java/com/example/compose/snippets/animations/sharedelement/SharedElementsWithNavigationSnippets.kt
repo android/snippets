@@ -46,7 +46,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -77,7 +76,7 @@ fun SharedElement_PredictiveBack() {
                 HomeScreen(
                     this@SharedTransitionLayout,
                     this@composable,
-                    {   navController.navigate("details/$it") }
+                    { navController.navigate("details/$it") }
                 )
             }
             composable(
