@@ -28,7 +28,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
-import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowSizeClass
 
 /*
@@ -51,10 +50,10 @@ import androidx.window.core.layout.WindowSizeClass
 fun MyApp(
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 ) {
-    // Perform logic on the size class to decide whether to show the top app bar.
-    val showTopAppBar = windowSizeClass.windowHeightSizeClass != WindowHeightSizeClass.COMPACT
+    // Decide whether to show the top app bar based on window size class.
+    val showTopAppBar = windowSizeClass.isHeightAtLeastBreakpoint(WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND)
 
-    // MyScreen knows nothing about window sizes, and performs logic based on a Boolean flag.
+    // MyScreen logic is based on the showTopAppBar boolean flag.
     MyScreen(
         showTopAppBar = showTopAppBar,
         /* ... */
