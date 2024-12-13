@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -38,8 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.ui.text.font.FontWeight
 
 @Preview
 @Composable
@@ -77,8 +76,8 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
     Box(
         modifier
             .fillMaxSize()
-            .semantics { isTraversalGroup = true })
-    {
+            .semantics { isTraversalGroup = true }
+    ) {
         SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -122,9 +121,8 @@ private fun SearchBarBasicFilterListPreview() {
     SearchBarBasicFilterList()
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_searchbarfilterlist]
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarFilterList(
     list: List<String>,
@@ -141,7 +139,8 @@ fun SearchBarFilterList(
     Box(
         modifier
             .fillMaxSize()
-            .semantics { isTraversalGroup = true }) {
+            .semantics { isTraversalGroup = true }
+    ) {
         SearchBar(
             modifier = Modifier
                 .align(Alignment.TopCenter)
