@@ -37,6 +37,36 @@ import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Button
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.text.font.FontWeight
+
+@Preview
+@Composable
+fun SearchBarExamples() {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        var currentExample by remember { mutableStateOf<String?>(null) }
+
+        when (currentExample) {
+            "basic" -> SearchBarBasicFilterList()
+            "advanced" -> AppSearchBar()
+            else -> {
+                Button(onClick = { currentExample = "basic" }){
+                    Text("Basic search bar with filter")
+                }
+                Button(onClick = { currentExample = "advanced" }){
+                    Text("Advanced search bar with filter")
+                }
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_searchbarbasicfilterlist]
@@ -92,8 +122,9 @@ private fun SearchBarBasicFilterListPreview() {
     SearchBarBasicFilterList()
 }
 
-// [START android_compose_components_searchbarfilterlist]
+
 @OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_searchbarfilterlist]
 @Composable
 fun SearchBarFilterList(
     list: List<String>,
