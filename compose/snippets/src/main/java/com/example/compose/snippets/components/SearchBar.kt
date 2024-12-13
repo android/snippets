@@ -154,8 +154,8 @@ fun SearchBarFilterList(
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
                     placeholder = { Text("Hinted search text") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
                 )
             },
             expanded = expanded,
@@ -170,7 +170,7 @@ fun SearchBarFilterList(
                         leadingContent = {
                             Icon(
                                 Icons.Filled.Star,
-                                contentDescription = null
+                                contentDescription = "Starred item"
                             )
                         },
                         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
