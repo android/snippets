@@ -3,6 +3,7 @@ package com.example.compose.snippets.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,8 +30,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+
+@Preview
+@Composable
+fun SwipeToDismissBoxExamples() {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("Swipe to dismiss with change of background", fontWeight = FontWeight.Bold)
+        SwipeItemExample()
+        Text("Swipe to dismiss with a cross-fade animation", fontWeight = FontWeight.Bold)
+        SwipeCardItemExample()
+    }
+}
 
 // [START android_compose_components_todoitem]
 data class TodoItem(
