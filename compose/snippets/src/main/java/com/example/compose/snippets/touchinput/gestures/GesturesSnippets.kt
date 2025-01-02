@@ -56,12 +56,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
@@ -206,7 +207,6 @@ private fun AutomaticNestedScroll() {
 private object NestedScrollInterop {
     // [START android_compose_touchinput_gestures_nested_scroll_interop_activity]
     open class MainActivity : ComponentActivity() {
-        @OptIn(ExperimentalComposeUiApi::class)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
@@ -351,3 +351,43 @@ private fun TransformableSample() {
     )
 }
 // [END android_compose_touchinput_gestures_transformable]
+
+@Composable
+fun NestedScrollSample() {
+
+    // [START android_compose_touchinput_gestures_nestedscrollconnection]
+    val nestedScrollConnection = object : NestedScrollConnection {
+        override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+            println("Received onPreScroll callback.")
+            return Offset.Zero
+        }
+
+        override fun onPostScroll(
+            consumed: Offset,
+            available: Offset,
+            source: NestedScrollSource
+        ): Offset {
+            println("Received onPostScroll callback.")
+            return Offset.Zero
+        }
+    }
+    // [END android_compose_touchinput_gestures_nestedscrollconnection]
+
+    // [START android_compose_touchinput_gestures_nestedscrolldisabled]
+    val disabledNestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                return if (source == NestedScrollSource.SideEffect) {
+                    available
+                } else {
+                    Offset.Zero
+                }
+            }
+        }
+    }
+    // [END android_compose_touchinput_gestures_nestedscrolldisabled]
+}

@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-@file:OptIn(
-    ExperimentalFoundationApi::class
-)
 @file:Suppress("unused")
 
 package com.example.compose.snippets.layouts
 
 import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -53,6 +55,8 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -61,6 +65,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -68,6 +73,7 @@ import androidx.compose.ui.util.lerp
 import coil.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.rememberRandomSampleImageUrl
 import kotlin.math.absoluteValue
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /*
@@ -85,6 +91,18 @@ import kotlinx.coroutines.launch
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+@Composable
+fun PagerExamples() {
+    AutoAdvancePager(
+        listOf(
+            Color.Red,
+            Color.Gray,
+            Color.Green,
+            Color.White
+        )
+    )
+}
 
 @Preview
 @Composable
@@ -122,7 +140,6 @@ fun VerticalPagerSample() {
     // [END android_compose_layouts_pager_vertical_basic]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PagerScrollToItem() {
@@ -213,7 +230,6 @@ fun PageChangesSample() {
     // [END android_compose_layouts_pager_notify_page_changes]
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun PagerWithTabsExample() {
@@ -357,18 +373,19 @@ fun PagerWithTabs() {
     }
     // [END android_compose_layouts_pager_with_tabs]
 }
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun PagerIndicator() {
-    Box {
+    Box(modifier = Modifier.fillMaxSize()) {
         // [START android_compose_pager_indicator]
+
         val pageCount = 4
         val pagerState = rememberPagerState(pageCount = {
             4
         })
         HorizontalPager(
-            state = pagerState
+            state = pagerState,
+            modifier = Modifier.fillMaxSize()
         ) { page ->
             // Our page content
                 Box(
@@ -385,21 +402,113 @@ fun PagerIndicator() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
+
         ) {
-            repeat(pageCount) { iteration ->
+            repeat(pagerState.pageCount) { iteration ->
                 val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
                         .clip(CircleShape)
                         .background(color)
-                        .size(20.dp)
-
+                        .size(16.dp)
                 )
             }
         }
         // [END android_compose_pager_indicator]
     }
+}
+
+// [START android_compose_autoadvancepager]
+@Composable
+fun AutoAdvancePager(pageItems: List<Color>, modifier: Modifier = Modifier) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        val pagerState = rememberPagerState(pageCount = { pageItems.size })
+        val pagerIsDragged by pagerState.interactionSource.collectIsDraggedAsState()
+
+        val pageInteractionSource = remember { MutableInteractionSource() }
+        val pageIsPressed by pageInteractionSource.collectIsPressedAsState()
+
+        // Stop auto-advancing when pager is dragged or one of the pages is pressed
+        val autoAdvance = !pagerIsDragged && !pageIsPressed
+
+        if (autoAdvance) {
+            LaunchedEffect(pagerState, pageInteractionSource) {
+                while (true) {
+                    delay(2000)
+                    val nextPage = (pagerState.currentPage + 1) % pageItems.size
+                    pagerState.animateScrollToPage(nextPage)
+                }
+            }
+        }
+
+        HorizontalPager(
+            state = pagerState
+        ) { page ->
+            Text(
+                text = "Page: $page",
+                textAlign = TextAlign.Center,
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(pageItems[page])
+                    .clickable(
+                        interactionSource = pageInteractionSource,
+                        indication = LocalIndication.current
+                    ) {
+                        // Handle page click
+                    }
+                    .wrapContentSize(align = Alignment.Center)
+            )
+        }
+
+        PagerIndicator(pageItems.size, pagerState.currentPage)
+    }
+}
+// [END android_compose_autoadvancepager]
+
+@Preview
+@Composable
+private fun AutoAdvancePagerPreview() {
+    val pageItems: List<Color> = listOf(
+        Color.Red,
+        Color.Gray,
+        Color.Green,
+        Color.White
+    )
+    AutoAdvancePager(pageItems = pageItems)
+}
+
+// [START android_compose_pagerindicator]
+@Composable
+fun PagerIndicator(pageCount: Int, currentPageIndex: Int, modifier: Modifier = Modifier) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(pageCount) { iteration ->
+                val color = if (currentPageIndex == iteration) Color.DarkGray else Color.LightGray
+                Box(
+                    modifier = modifier
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(16.dp)
+                )
+            }
+        }
+    }
+}
+// [END android_compose_pagerindicator]
+
+@Preview
+@Composable
+private fun PagerIndicatorPreview() {
+    PagerIndicator(pageCount = 4, currentPageIndex = 1)
 }
 
 // [START android_compose_pager_custom_page_size]
@@ -413,7 +522,6 @@ private val threePagesPerViewport = object : PageSize {
 }
 // [END android_compose_pager_custom_page_size]
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun CustomSnapDistance() {
@@ -429,7 +537,7 @@ private fun CustomSnapDistance() {
         HorizontalPager(
             state = pagerState,
             pageSize = PageSize.Fixed(200.dp),
-            beyondBoundsPageCount = 10,
+            beyondViewportPageCount = 10,
             flingBehavior = fling
         ) {
             PagerSampleItem(page = it)

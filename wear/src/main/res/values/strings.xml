@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Wear Snippets</string>
+    <string name="voice_text_entry_label">Voice Input</string>
+    <string name="voice_input_label">Voice Text Entry</string>
+    <string name="message_list">Message List</string>
+    <string name="tile_label">Hello Tile</string>
+    <string name="tile_description">Hello Tile Description</string>
+</resources>

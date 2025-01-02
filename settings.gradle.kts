@@ -21,9 +21,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "snippets"
 include(
-        ":shared",
-        ":bluetoothle",
+    ":bluetoothle",
         ":compose:recomposehighlighter",
         ":kotlin",
         ":compose:snippets",
+        ":wear",
+        ":views",
+        ":misc"
 )

@@ -22,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.compose.snippets.R
 
 /*
@@ -53,11 +55,23 @@ fun LoadingImageFromDisk() {
 
 @Preview
 @Composable
-fun LoadingImageFromInternet() {
+fun LoadingImageFromInternetCoil() {
     // [START android_compose_images_load_internet_coil]
     AsyncImage(
         model = "https://example.com/image.jpg",
         contentDescription = "Translated description of what the image contains"
     )
     // [END android_compose_images_load_internet_coil]
+}
+
+@OptIn(ExperimentalGlideComposeApi::class)
+@Preview
+@Composable
+fun LoadingImageFromInternetGlide() {
+    // [START android_compose_images_load_internet_glide]
+    GlideImage(
+        model = "https://example.com/image.jpg",
+        contentDescription = "Translated description of what the image contains"
+    )
+    // [END android_compose_images_load_internet_glide]
 }

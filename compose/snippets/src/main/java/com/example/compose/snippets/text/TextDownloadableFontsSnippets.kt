@@ -20,9 +20,9 @@ package com.example.compose.snippets.text
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
-import androidx.compose.material.Typography
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -118,16 +118,16 @@ fun DownloadableFontsText() {
 private object TextDownloadableFontsSnippet4 {
     // [START android_compose_text_typography_definition]
     val MyTypography = Typography(
-        body1 = TextStyle(
+        bodyMedium = TextStyle(
             fontFamily = fontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp/*...*/
         ),
-        body2 = TextStyle(
+        bodyLarge = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Bold,
             letterSpacing = 2.sp,
             /*...*/
         ),
-        h4 = TextStyle(
+        headlineMedium = TextStyle(
             fontFamily = fontFamily, fontWeight = FontWeight.SemiBold/*...*/
         ),
         /*...*/

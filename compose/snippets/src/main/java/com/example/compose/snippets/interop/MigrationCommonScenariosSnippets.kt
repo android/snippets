@@ -36,10 +36,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -64,10 +64,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 class RVActivity : ComponentActivity() {
     private lateinit var composeView: ComposeView
@@ -104,13 +106,13 @@ class RVActivity : ComponentActivity() {
     }
 
     @Composable
-    fun commonUseCase2(data: List<MyData>) {
+    fun CommonUseCase2(data: List<MyData>) {
         // [START android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_2]
         LazyColumn(Modifier.fillMaxSize()) {
             itemsIndexed(data) { index, d ->
                 ListItem(d)
                 if (index != data.size - 1) {
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
@@ -141,6 +143,13 @@ class SampleActivity : ComponentActivity() {
 }
 // [END android_compose_interop_migration_common_scenarios_navigation_step_2]
 
+// [START android_compose_interop_migration_common_scenarios_navigation_step_2_1]
+@Serializable data object First
+@Serializable data class Second(val id: String)
+@Serializable data object Third
+
+// [END android_compose_interop_migration_common_scenarios_navigation_step_2_1]
+
 private object MigrationCommonScenariosNavigationStep3 {
     // [START android_compose_interop_migration_common_scenarios_navigation_step_3]
     @Composable
@@ -164,7 +173,7 @@ private object MigrationCommonScenariosNavigationStep4 {
     fun SampleNavHost(
         navController: NavHostController
     ) {
-        NavHost(navController = navController, startDestination = "first") {
+        NavHost(navController = navController, startDestination = First) {
             // ...
         }
     }
@@ -191,11 +200,11 @@ class FirstFragment : Fragment() {
 fun SampleNavHost(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = "first") {
-        composable("first") {
+    NavHost(navController = navController, startDestination = First) {
+        composable<First> {
             FirstScreen(/* ... */) // EXTRACT TO HERE
         }
-        composable("second") {
+        composable<Second> {
             SecondScreen(/* ... */)
         }
         // ...
@@ -220,20 +229,22 @@ private object MigrationCommonScenariosNavigationStep7 {
     fun SampleNavHost(
         navController: NavHostController
     ) {
-        NavHost(navController = navController, startDestination = "first") {
-            composable("first") {
+        NavHost(navController = navController, startDestination = First) {
+            composable<First> {
                 FirstScreen(
                     onButtonClick = {
                         // findNavController().navigate(firstScreenToSecondScreenAction)
-                        navController.navigate("second_screen_route")
+                        navController.navigate(Second(id = "ABC"))
                     }
                 )
             }
-            composable("second") {
+            composable<Second> { backStackEntry ->
+                val secondRoute = backStackEntry.toRoute<Second>()
                 SecondScreen(
+                    id = secondRoute.id,
                     onIconClick = {
                         // findNavController().navigate(secondScreenToThirdScreenAction)
-                        navController.navigate("third_screen_route")
+                        navController.navigate(Third)
                     }
                 )
             }
@@ -260,7 +271,6 @@ class CoordinatorLayoutActivity : ComponentActivity() {
         // [END android_compose_interop_migration_common_scenarios_coordinatorlayout_step2]
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
     private fun step3() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_step3]
         composeView.setContent {
@@ -315,7 +325,7 @@ class CoordinatorLayoutActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun commonUseCaseToolbars() {
+    private fun CommonUseCaseToolbars() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_toolbars]
         // 1. Create the TopAppBarScrollBehavior
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -344,13 +354,13 @@ class CoordinatorLayoutActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun commonUseCaseDrawers() {
+    private fun CommonUseCaseDrawers() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_drawers]
         ModalNavigationDrawer(
             drawerContent = {
                 ModalDrawerSheet {
                     Text("Drawer title", modifier = Modifier.padding(16.dp))
-                    Divider()
+                    HorizontalDivider()
                     NavigationDrawerItem(
                         label = { Text(text = "Drawer Item") },
                         selected = false,
@@ -371,7 +381,7 @@ class CoordinatorLayoutActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun commonUseCaseSnackbars() {
+    private fun CommonUseCaseSnackbars() {
         // [START android_compose_interop_migration_common_scenarios_coordinatorlayout_snackbars]
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -410,6 +420,7 @@ fun SampleApp() {
 
 @Composable
 fun SecondScreen(
+    id: String = "<no ID supplied>",
     onIconClick: () -> Unit = {},
 ) {
 }

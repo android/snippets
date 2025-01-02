@@ -44,4 +44,13 @@
   <string name="hello_world">Hola mundo</string>
   <string name="feathertop_content_description">Una vista del amanecer desde Mount Feathertop, Victoria.</string>
   <string name="glance_title">Example String for Glance</string>
+  <string name="edit">Edit</string>
+  <string name="add_entry">Add</string>
+  <string name="view_entry">View entry</string>
+  <string name="replated_articles">Related Articles</string>
+  <string name="home">Inicio</string>
+  <string name="favorites">Favoritos</string>
+  <string name="shopping">Compras</string>
+  <string name="profile">Perfil</string>
+  <string name="detail_placeholder">Esto es sólo un texto de marcador de posición.</string>
 </resources>

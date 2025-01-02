@@ -75,6 +75,32 @@ fun Greeting(name: String) {
 }
 // [END android_compose_interop_apis_compose_in_views]
 
+// [START android_compose_interop_apis_compose_in_fragment_xml]
+class ExampleFragmentXml : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_example, container, false)
+        val composeView = view.findViewById<ComposeView>(R.id.compose_view)
+        composeView.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                // In Compose world
+                MaterialTheme {
+                    Text("Hello Compose!")
+                }
+            }
+        }
+        return view
+    }
+}
+// [END android_compose_interop_apis_compose_in_fragment_xml]
+
 // [START android_compose_interop_apis_compose_in_fragment_view_binding]
 class ExampleFragment : Fragment() {
 

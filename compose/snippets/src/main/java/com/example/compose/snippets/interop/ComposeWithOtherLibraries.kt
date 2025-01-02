@@ -26,8 +26,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -162,7 +162,7 @@ private object StreamData {
     }
 }
 
-private object HiltExample3 {
+object HiltExample3 {
     // [START android_compose_libraries_hilt_3]
     @HiltViewModel
     class MyViewModel @Inject constructor(
@@ -180,7 +180,7 @@ private object HiltExample3 {
     interface ExampleRepository
 }
 
-private object HiltViewModel {
+object HiltViewModel {
     @HiltViewModel
     class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
     // [START android_compose_libraries_hilt_viewmodel]
@@ -207,7 +207,7 @@ private object HiltViewModel {
     }
 }
 
-private object HiltViewModelBackStack {
+object HiltViewModelBackStack {
     @HiltViewModel
     class MyViewModel @Inject constructor() : ViewModel() { /* ... */ }
 
@@ -273,7 +273,7 @@ private object MapsExample {
             cameraPositionState = cameraPositionState
         ) {
             Marker(
-                state = MarkerState(position = singapore),
+                state = remember { MarkerState(position = singapore) },
                 title = "Singapore",
                 snippet = "Marker in Singapore"
             )

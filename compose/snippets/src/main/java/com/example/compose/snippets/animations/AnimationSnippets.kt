@@ -23,7 +23,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.EnterExitState
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateContentSize
@@ -50,6 +49,7 @@ import androidx.compose.animation.core.createChildTransition
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
@@ -65,7 +65,7 @@ import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -80,18 +80,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -108,6 +109,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import java.text.BreakIterator
+import java.text.StringCharacterIterator
+import kotlinx.coroutines.delay
 
 /*
 * Copyright 2023 The Android Open Source Project
@@ -155,7 +159,12 @@ private fun AnimatedVisibilityWithEnterAndExit() {
         ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut()
     ) {
-        Text("Hello", Modifier.fillMaxWidth().height(200.dp))
+        Text(
+            "Hello",
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+        )
     }
     // [END android_compose_animations_animated_visibility_enter_exit]
 }
@@ -190,7 +199,6 @@ private fun AnimatedVisibilityMutable() {
     // [END android_compose_animations_animated_visibility_mutable]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 @Preview
 private fun AnimatedVisibilityAnimateEnterExitChildren() {
@@ -203,7 +211,11 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
         exit = fadeOut()
     ) {
         // Fade in/out the background and the foreground.
-        Box(Modifier.fillMaxSize().background(Color.DarkGray)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color.DarkGray)
+        ) {
             Box(
                 Modifier
                     .align(Alignment.Center)
@@ -222,7 +234,6 @@ private fun AnimatedVisibilityAnimateEnterExitChildren() {
     // [END android_compose_animations_animated_visibility_animate_enter_exit_children]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedVisibilityTransition() {
@@ -239,7 +250,11 @@ private fun AnimatedVisibilityTransition() {
         val background by transition.animateColor(label = "color") { state ->
             if (state == EnterExitState.Visible) Color.Blue else Color.Gray
         }
-        Box(modifier = Modifier.size(128.dp).background(background))
+        Box(
+            modifier = Modifier
+                .size(128.dp)
+                .background(background)
+        )
     }
     // [END android_compose_animations_animated_visibility_transition]
 }
@@ -250,26 +265,29 @@ private fun AnimateAsStateSimple() {
     // [START android_compose_animations_animate_as_state]
     var enabled by remember { mutableStateOf(true) }
 
-    val alpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f)
+    val alpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f, label = "alpha")
     Box(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
             .graphicsLayer(alpha = alpha)
             .background(Color.Red)
     )
     // [END android_compose_animations_animate_as_state]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 private fun AnimatedContentSimple() {
     // [START android_compose_animations_animated_content_simple]
     Row {
-        var count by remember { mutableStateOf(0) }
+        var count by remember { mutableIntStateOf(0) }
         Button(onClick = { count++ }) {
             Text("Add")
         }
-        AnimatedContent(targetState = count) { targetCount ->
+        AnimatedContent(
+            targetState = count,
+            label = "animated content"
+        ) { targetCount ->
             // Make sure to use `targetCount`, not `count`.
             Text(text = "Count: $targetCount")
         }
@@ -277,7 +295,6 @@ private fun AnimatedContentSimple() {
     // [END android_compose_animations_animated_content_simple]
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun AnimatedContentTransitionSpec(count: Int) {
     // [START android_compose_animations_animated_content_transition_spec]
@@ -288,25 +305,25 @@ private fun AnimatedContentTransitionSpec(count: Int) {
             if (targetState > initialState) {
                 // If the target number is larger, it slides up and fades in
                 // while the initial (smaller) number slides up and fades out.
-                slideInVertically { height -> height } + fadeIn() with
+                slideInVertically { height -> height } + fadeIn() togetherWith
                     slideOutVertically { height -> -height } + fadeOut()
             } else {
                 // If the target number is smaller, it slides down and fades in
                 // while the initial number slides down and fades out.
-                slideInVertically { height -> -height } + fadeIn() with
+                slideInVertically { height -> -height } + fadeIn() togetherWith
                     slideOutVertically { height -> height } + fadeOut()
             }.using(
                 // Disable clipping since the faded slide-in/out should
                 // be displayed out of bounds.
                 SizeTransform(clip = false)
             )
-        }
+        }, label = "animated content"
     ) { targetCount ->
         Text(text = "$targetCount")
     }
     // [END android_compose_animations_animated_content_transition_spec]
 }
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
+
 @Composable
 private fun AnimatedContentSizeTransform() {
     // [START android_compose_animations_animated_content_size_transform]
@@ -318,7 +335,7 @@ private fun AnimatedContentSizeTransform() {
         AnimatedContent(
             targetState = expanded,
             transitionSpec = {
-                fadeIn(animationSpec = tween(150, 150)) with
+                fadeIn(animationSpec = tween(150, 150)) togetherWith
                     fadeOut(animationSpec = tween(150)) using
                     SizeTransform { initialSize, targetSize ->
                         if (targetState) {
@@ -335,7 +352,7 @@ private fun AnimatedContentSizeTransform() {
                             }
                         }
                     }
-            }
+            }, label = "size transform"
         ) { targetExpanded ->
             if (targetExpanded) {
                 Expanded()
@@ -352,7 +369,9 @@ private fun AnimateContentSizeSimple() {
     // [START android_compose_animations_animated_content_size_modifier_simple]
     var message by remember { mutableStateOf("Hello") }
     Box(
-        modifier = Modifier.background(Color.Blue).animateContentSize()
+        modifier = Modifier
+            .background(Color.Blue)
+            .animateContentSize()
     ) { Text(text = message) }
     // [END android_compose_animations_animated_content_size_modifier_simple]
 }
@@ -361,7 +380,7 @@ private fun AnimateContentSizeSimple() {
 private fun CrossfadeSimple() {
     // [START android_compose_animations_crossfade_simple]
     var currentPage by remember { mutableStateOf("A") }
-    Crossfade(targetState = currentPage) { screen ->
+    Crossfade(targetState = currentPage, label = "cross fade") { screen ->
         when (screen) {
             "A" -> Text("Page A")
             "B" -> Text("Page B")
@@ -412,6 +431,7 @@ private object UpdateTransitionEnumState {
                 when {
                     BoxState.Expanded isTransitioningTo BoxState.Collapsed ->
                         spring(stiffness = 50f)
+
                     else ->
                         tween(durationMillis = 500)
                 }
@@ -431,7 +451,7 @@ private object UpdateTransitionEnumState {
         // Start in collapsed state and immediately animate to expanded
         var currentState = remember { MutableTransitionState(BoxState.Collapsed) }
         currentState.targetState = BoxState.Expanded
-        val transition = updateTransition(currentState, label = "box state")
+        val transition = rememberTransition(currentState, label = "box state")
         // ……
         // [END android_compose_animations_transitions_state]
     }
@@ -479,7 +499,6 @@ private object UpdateTransitionCreateChildTransition {
     // [END android_compose_animations_transitions_dialer_example]
 }
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun UpdateTransitionAnimatedVisibility() {
     // [START android_compose_animations_transitions_animated_visibility]
@@ -496,9 +515,13 @@ private fun UpdateTransitionAnimatedVisibility() {
         onClick = { selected = !selected },
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(2.dp, borderColor),
-        elevation = elevation
+        shadowElevation = elevation
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
             Text(text = "Hello, world!")
             // AnimatedVisibility as a part of the transition.
             transition.AnimatedVisibility(
@@ -569,17 +592,22 @@ private object UpdateTransitionEncapsulating {
 @Composable
 private fun RememberInfiniteTransitionSimple() {
     // [START android_compose_animations_infinite_transition_simple]
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite")
     val color by infiniteTransition.animateColor(
         initialValue = Color.Red,
         targetValue = Color.Green,
         animationSpec = infiniteRepeatable(
             animation = tween(1000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "color"
     )
 
-    Box(Modifier.fillMaxSize().background(color))
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(color)
+    )
     // [END android_compose_animations_infinite_transition_simple]
 }
 
@@ -591,9 +619,14 @@ private fun AnimatableSimple(ok: Boolean) {
     LaunchedEffect(ok) {
         color.animateTo(if (ok) Color.Green else Color.Red)
     }
-    Box(Modifier.fillMaxSize().background(color.value))
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(color.value)
+    )
     // [END android_compose_animations_animatable_simple]
 }
+
 @Composable
 private fun TargetBasedAnimationSimple(someCustomCondition: () -> Boolean) {
     // [START android_compose_animations_target_based_animation_simple]
@@ -605,7 +638,7 @@ private fun TargetBasedAnimationSimple(someCustomCondition: () -> Boolean) {
             targetValue = 1000f
         )
     }
-    var playTime by remember { mutableStateOf(0L) }
+    var playTime by remember { mutableLongStateOf(0L) }
 
     LaunchedEffect(anim) {
         val startTime = withFrameNanos { it }
@@ -624,7 +657,8 @@ private fun AnimationSpecTween(enabled: Boolean) {
     val alpha: Float by animateFloatAsState(
         targetValue = if (enabled) 1f else 0.5f,
         // Configure the animation duration and easing.
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        label = "alpha"
     )
     // [END android_compose_animations_spec_tween]
 }
@@ -637,7 +671,8 @@ private fun AnimationSpecSpring() {
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioHighBouncy,
             stiffness = Spring.StiffnessMedium
-        )
+        ),
+        label = "spring spec"
     )
     // [END android_compose_animations_spec_spring]
 }
@@ -651,7 +686,8 @@ private fun AnimationSpecTween() {
             durationMillis = 300,
             delayMillis = 50,
             easing = LinearOutSlowInEasing
-        )
+        ),
+        label = "tween delay"
     )
     // [END android_compose_animations_spec_tween_delay]
 }
@@ -663,11 +699,12 @@ private fun AnimationSpecKeyframe() {
         targetValue = 1f,
         animationSpec = keyframes {
             durationMillis = 375
-            0.0f at 0 with LinearOutSlowInEasing // for 0-15 ms
-            0.2f at 15 with FastOutLinearInEasing // for 15-75 ms
+            0.0f at 0 using LinearOutSlowInEasing // for 0-15 ms
+            0.2f at 15 using FastOutLinearInEasing // for 15-75 ms
             0.4f at 75 // ms
             0.4f at 225 // ms
-        }
+        },
+        label = "keyframe"
     )
     // [END android_compose_animations_spec_keyframe]
 }
@@ -681,7 +718,8 @@ private fun AnimationSpecRepeatable() {
             iterations = 3,
             animation = tween(durationMillis = 300),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "repeatable spec"
     )
     // [END android_compose_animations_spec_repeatable]
 }
@@ -694,7 +732,8 @@ private fun AnimationSpecInfiniteRepeatable() {
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 300),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "infinite repeatable"
     )
     // [END android_compose_animations_spec_infinite_repeatable]
 }
@@ -704,7 +743,8 @@ private fun AnimationSpecSnap() {
     // [START android_compose_animations_spec_snap]
     val value by animateFloatAsState(
         targetValue = 1f,
-        animationSpec = snap(delayMillis = 50)
+        animationSpec = snap(delayMillis = 50),
+        label = "snap spec"
     )
     // [END android_compose_animations_spec_snap]
 }
@@ -720,7 +760,8 @@ private object Easing {
             animationSpec = tween(
                 durationMillis = 300,
                 easing = CustomEasing
-            )
+            ),
+            label = "custom easing"
         )
         // ……
     }
@@ -750,7 +791,8 @@ private object AnimationVectorCustomType {
                 convertFromVector = { vector: AnimationVector2D ->
                     MySize(vector.v1.dp, vector.v2.dp)
                 }
-            )
+            ),
+            label = "size"
         )
     }
     // [END android_compose_animations_vector_convertor_custom_type]
@@ -780,4 +822,40 @@ private fun Expanded() {
 
 @Composable
 private fun ContentIcon() {
+}
+
+// [START android_compose_animations_char_by_char]
+@Composable
+private fun AnimatedText() {
+    val text = "This text animates as though it is being typed \uD83E\uDDDE\u200D♀\uFE0F \uD83D\uDD10  \uD83D\uDC69\u200D❤\uFE0F\u200D\uD83D\uDC68 \uD83D\uDC74\uD83C\uDFFD"
+
+    // Use BreakIterator as it correctly iterates over characters regardless of how they are
+    // stored, for example, some emojis are made up of multiple characters.
+    // You don't want to break up an emoji as it animates, so using BreakIterator will ensure
+    // this is correctly handled!
+    val breakIterator = remember(text) { BreakIterator.getCharacterInstance() }
+
+    // Define how many milliseconds between each character should pause for. This will create the
+    // illusion of an animation, as we delay the job after each character is iterated on.
+    val typingDelayInMs = 50L
+
+    var substringText by remember {
+        mutableStateOf("")
+    }
+    LaunchedEffect(text) {
+        // Initial start delay of the typing animation
+        delay(1000)
+        breakIterator.text = StringCharacterIterator(text)
+
+        var nextIndex = breakIterator.next()
+        // Iterate over the string, by index boundary
+        while (nextIndex != BreakIterator.DONE) {
+            substringText = text.subSequence(0, nextIndex).toString()
+            // Go to the next logical character boundary
+            nextIndex = breakIterator.next()
+            delay(typingDelayInMs)
+        }
+    }
+    Text(substringText)
+// [END android_compose_animations_char_by_char]
 }

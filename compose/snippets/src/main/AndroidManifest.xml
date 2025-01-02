@@ -27,12 +27,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.Snippets">
+<!--    [START android_compose_pip_manifest_entry]-->
         <activity
             android:name=".SnippetsActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
             android:theme="@style/Theme.Snippets">
+            <!--    [END android_compose_pip_manifest_entry]-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,6 +48,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity android:name=".layouts.InsetSnippetActivity"
+            android:exported="false"/>
 
         <activity android:name="MyActivity"
             android:exported="false"/>
