@@ -29,6 +29,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.AnimationVector2D
 import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.ExperimentalTransitionApi
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -43,11 +44,13 @@ import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.animateRect
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.animation.core.createChildTransition
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.keyframesWithSpline
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.repeatable
@@ -71,11 +74,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -93,25 +98,34 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.round
 import com.example.compose.snippets.R
 import java.text.BreakIterator
 import java.text.StringCharacterIterator
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 /*
 * Copyright 2023 The Android Open Source Project
@@ -707,6 +721,104 @@ private fun AnimationSpecKeyframe() {
         label = "keyframe"
     )
     // [END android_compose_animations_spec_keyframe]
+}
+
+@OptIn(ExperimentalAnimationSpecApi::class)
+@Composable
+private fun AnimationSpecKeyframeWithSpline() {
+    // [START android_compose_animation_spec_keyframes_with_spline]
+    val offset by animateOffsetAsState(
+        targetValue = Offset(300f, 300f),
+        animationSpec =  keyframesWithSpline {
+                durationMillis = 6000
+                Offset(0f, 0f) at 0
+                Offset(150f, 200f) atFraction  0.5f
+                Offset(0f,100f) atFraction 0.7f
+            }
+    )
+    // [END android_compose_animation_spec_keyframes_with_spline]
+}
+
+@Suppress("PrimitiveInCollection")
+@OptIn(ExperimentalAnimationSpecApi::class)
+@Preview
+@Composable
+private fun OffsetKeyframeWithSplineDemo() {
+    val points = remember { mutableStateListOf<Offset>() }
+    val offsetAnim = remember {
+        androidx.compose.animation.core.Animatable(
+            Offset.Zero,
+            Offset.VectorConverter
+        )
+    }
+    val density = LocalDensity.current
+
+    BoxWithConstraints(
+        Modifier.fillMaxSize().drawBehind {
+            drawPoints(
+                points = points,
+                pointMode = PointMode.Lines,
+                color = Color.LightGray,
+                strokeWidth = 4f,
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(30f, 20f))
+            )
+        }
+    ) {
+        val minDimension = minOf(maxWidth, maxHeight)
+        val size = minDimension / 4
+
+        val sizePx = with(density) { size.toPx() }
+        val widthPx = with(density) { maxWidth.toPx() }
+        val heightPx = with(density) { maxHeight.toPx() }
+
+        val maxXOff = (widthPx - sizePx) / 2f
+        val maxYOff = heightPx - (sizePx / 2f)
+
+        Box(
+            Modifier.align(Alignment.TopCenter)
+                .offset { offsetAnim.value.round() }
+                .size(size)
+                .background(Color.Red, RoundedCornerShape(50))
+                .onPlaced { points.add(it.boundsInParent().center) }
+        )
+
+        LaunchedEffect(Unit) {
+            delay(1000)
+            while (isActive) {
+                offsetAnim.animateTo(
+                    targetValue = Offset.Zero,
+                    animationSpec =
+                        keyframesWithSpline {
+                            durationMillis = 4400
+
+                            // Increasingly approach the halfway point moving from side to side
+                            repeat(4) {
+                                val i = it + 1
+                                val sign = if (i % 2 == 0) 1 else -1
+                                Offset(
+                                    x = maxXOff * (i.toFloat() / 5f) * sign,
+                                    y = (maxYOff) * (i.toFloat() / 5f)
+                                ) atFraction (0.1f * i)
+                            }
+
+                            // Halfway point (at bottom of the screen)
+                            Offset(0f, maxYOff) atFraction 0.5f
+
+                            // Return with mirrored movement
+                            repeat(4) {
+                                val i = it + 1
+                                val sign = if (i % 2 == 0) 1 else -1
+                                Offset(
+                                    x = maxXOff * (1f - i.toFloat() / 5f) * sign,
+                                    y = (maxYOff) * (1f - i.toFloat() / 5f)
+                                ) atFraction ((0.1f * i) + 0.5f)
+                            }
+                        }
+                )
+                points.clear()
+            }
+        }
+    }
 }
 
 @Composable
