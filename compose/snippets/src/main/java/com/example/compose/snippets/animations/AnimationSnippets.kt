@@ -729,12 +729,12 @@ private fun AnimationSpecKeyframeWithSpline() {
     // [START android_compose_animation_spec_keyframes_with_spline]
     val offset by animateOffsetAsState(
         targetValue = Offset(300f, 300f),
-        animationSpec =  keyframesWithSpline {
-                durationMillis = 6000
-                Offset(0f, 0f) at 0
-                Offset(150f, 200f) atFraction  0.5f
-                Offset(0f,100f) atFraction 0.7f
-            }
+        animationSpec = keyframesWithSpline {
+            durationMillis = 6000
+            Offset(0f, 0f) at 0
+            Offset(150f, 200f) atFraction 0.5f
+            Offset(0f, 100f) atFraction 0.7f
+        }
     )
     // [END android_compose_animation_spec_keyframes_with_spline]
 }
@@ -788,32 +788,32 @@ private fun OffsetKeyframeWithSplineDemo() {
                 offsetAnim.animateTo(
                     targetValue = Offset.Zero,
                     animationSpec =
-                        keyframesWithSpline {
-                            durationMillis = 4400
+                    keyframesWithSpline {
+                        durationMillis = 4400
 
-                            // Increasingly approach the halfway point moving from side to side
-                            repeat(4) {
-                                val i = it + 1
-                                val sign = if (i % 2 == 0) 1 else -1
-                                Offset(
-                                    x = maxXOff * (i.toFloat() / 5f) * sign,
-                                    y = (maxYOff) * (i.toFloat() / 5f)
-                                ) atFraction (0.1f * i)
-                            }
-
-                            // Halfway point (at bottom of the screen)
-                            Offset(0f, maxYOff) atFraction 0.5f
-
-                            // Return with mirrored movement
-                            repeat(4) {
-                                val i = it + 1
-                                val sign = if (i % 2 == 0) 1 else -1
-                                Offset(
-                                    x = maxXOff * (1f - i.toFloat() / 5f) * sign,
-                                    y = (maxYOff) * (1f - i.toFloat() / 5f)
-                                ) atFraction ((0.1f * i) + 0.5f)
-                            }
+                        // Increasingly approach the halfway point moving from side to side
+                        repeat(4) {
+                            val i = it + 1
+                            val sign = if (i % 2 == 0) 1 else -1
+                            Offset(
+                                x = maxXOff * (i.toFloat() / 5f) * sign,
+                                y = (maxYOff) * (i.toFloat() / 5f)
+                            ) atFraction (0.1f * i)
                         }
+
+                        // Halfway point (at bottom of the screen)
+                        Offset(0f, maxYOff) atFraction 0.5f
+
+                        // Return with mirrored movement
+                        repeat(4) {
+                            val i = it + 1
+                            val sign = if (i % 2 == 0) 1 else -1
+                            Offset(
+                                x = maxXOff * (1f - i.toFloat() / 5f) * sign,
+                                y = (maxYOff) * (1f - i.toFloat() / 5f)
+                            ) atFraction ((0.1f * i) + 0.5f)
+                        }
+                    }
                 )
                 points.clear()
             }
