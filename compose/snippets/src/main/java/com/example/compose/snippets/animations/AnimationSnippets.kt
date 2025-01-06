@@ -19,7 +19,6 @@
 package com.example.compose.snippets.animations
 
 import androidx.compose.animation.Animatable
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -27,6 +26,7 @@ import androidx.compose.animation.EnterExitState
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.AnimationVector2D
 import androidx.compose.animation.core.Easing
@@ -804,7 +804,7 @@ private fun OffsetKeyframeWithSplineDemo() {
                         Offset(0f, maxYOff) atFraction 0.5f
 
                         // Return with mirrored movement
-                        for(i in 0..4) {
+                        for (i in 0..4) {
                             val sign = if (i % 2 == 0) 1 else -1
                             Offset(
                                 x = maxXOff * (1f - i.toFloat() / 5f) * sign,
