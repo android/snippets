@@ -746,7 +746,7 @@ private fun AnimationSpecKeyframeWithSpline() {
 private fun OffsetKeyframeWithSplineDemo() {
     val points = remember { mutableStateListOf<Offset>() }
     val offsetAnim = remember {
-        androidx.compose.animation.core.Animatable(
+        Animatable(
             Offset.Zero,
             Offset.VectorConverter
         )
