@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION_ERROR")
-
 package com.example.compose.snippets.touchinput.focus
 
-import androidx.compose.foundation.Indication
-import androidx.compose.foundation.IndicationInstance
+import androidx.compose.foundation.IndicationNodeFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,7 +39,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,9 +66,13 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.node.DelegatableNode
+import androidx.compose.ui.node.DrawModifierNode
+import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Preview
 @Composable
@@ -436,45 +436,64 @@ private fun ReactToFocus() {
 }
 
 // [START android_compose_touchinput_focus_advanced_cues]
-private class MyHighlightIndicationInstance(isEnabledState: State<Boolean>) :
-    IndicationInstance {
-    private val isEnabled by isEnabledState
-    override fun ContentDrawScope.drawIndication() {
+private class MyHighlightIndicationNode(private val interactionSource: InteractionSource) :
+    Modifier.Node(), DrawModifierNode {
+    private var isFocused = false
+
+    override fun onAttach() {
+        coroutineScope.launch {
+            var focusCount = 0
+            interactionSource.interactions.collect { interaction ->
+                when (interaction) {
+                    is FocusInteraction.Focus -> focusCount++
+                    is FocusInteraction.Unfocus -> focusCount--
+                }
+                val focused = focusCount > 0
+                if (isFocused != focused) {
+                    isFocused = focused
+                    invalidateDraw()
+                }
+            }
+        }
+    }
+
+    override fun ContentDrawScope.draw() {
         drawContent()
-        if (isEnabled) {
+        if (isFocused) {
             drawRect(size = size, color = Color.White, alpha = 0.2f)
         }
     }
 }
+
 // [END android_compose_touchinput_focus_advanced_cues]
 
 // [START android_compose_touchinput_focus_indication]
-class MyHighlightIndication : Indication {
-    @Composable
-    override fun rememberUpdatedInstance(interactionSource: InteractionSource):
-        IndicationInstance {
-        val isFocusedState = interactionSource.collectIsFocusedAsState()
-        return remember(interactionSource) {
-            MyHighlightIndicationInstance(isEnabledState = isFocusedState)
-        }
+object MyHighlightIndication : IndicationNodeFactory {
+    override fun create(interactionSource: InteractionSource): DelegatableNode {
+        return MyHighlightIndicationNode(interactionSource)
     }
+
+    override fun hashCode(): Int = -1
+
+    override fun equals(other: Any?) = other === this
 }
 // [END android_compose_touchinput_focus_indication]
 
 @Composable
 private fun ApplyIndication() {
     // [START android_compose_touchinput_focus_apply_indication]
-    val highlightIndication = remember { MyHighlightIndication() }
     var interactionSource = remember { MutableInteractionSource() }
 
     Card(
         modifier = Modifier
             .clickable(
                 interactionSource = interactionSource,
-                indication = highlightIndication,
+                indication = MyHighlightIndication,
                 enabled = true,
                 onClick = { }
             )
-    ) {}
+    ) {
+        Text("hello")
+    }
     // [END android_compose_touchinput_focus_apply_indication]
 }
