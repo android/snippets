@@ -55,6 +55,9 @@
             android:exported="false"/>
 
         <activity android:name="com.example.compose.snippets.touchinput.gestures.NestedScrollInterop$MainActivity" />
+        <activity android:name=".touchinput.keyboardinput.KeyboardShortcutsHelperRequestActivity" />
+        <activity android:name=".touchinput.keyboardinput.ShortcutCustomizableKeyboardShortcutsHelperActivity" />
+
 
         <!-- [START android_compose_glance_declare] -->
         <receiver android:name=".glance.MyReceiver"
