@@ -18,6 +18,7 @@ package com.example.compose.snippets.touchinput.focus
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -43,7 +45,7 @@ enum class FocusExample(
     val title: String
 ) {
     Home("home", "Home"),
-    FocusTraversal("focusTraversal", "Focus Traversal"),
+    FocusTraversalOrder("focusTraversal", "Focus Traversal Order"),
     InitialFocus("initialFocus", "Initial Focus"),
     InitialFocusWithScrollableContainer(
         "initialFocusWithScrollableContainer",
@@ -65,6 +67,7 @@ fun FocusExample(
         composable(FocusExample.Home.route) {
             val entries = remember {
                 listOf(
+                    FocusExample.FocusTraversalOrder,
                     FocusExample.InitialFocus,
                     FocusExample.InitialFocusWithScrollableContainer,
                     FocusExample.InitialFocusEnablingContentReload,
@@ -76,7 +79,8 @@ fun FocusExample(
                 navController.navigate(it.route)
             }
         }
-        composable(FocusExample.FocusTraversal.route) {
+        composable(FocusExample.FocusTraversalOrder.route) {
+            FocusTraversalScreen(modifier = Modifier.padding(16.dp))
         }
         composable(FocusExample.InitialFocus.route) {
             InitialFocusScreen()
@@ -129,7 +133,9 @@ private fun ExampleList(
     examples: List<FocusExample>,
     showDetails: (FocusExample) -> Unit = {},
     modifier: Modifier = Modifier,
-) {
+
+    ) {
+    val context = LocalContext.current
     // [START android_compose_touchinput_focus_restoration]
     LazyColumn(
         modifier = modifier.focusRestorer()
