@@ -25,14 +25,15 @@ import androidx.compose.ui.Modifier
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)
 fun DrawArea(modifier: Modifier = Modifier) {
-   Canvas(modifier = modifier
-       .clipToBounds()
-       .pointerInteropFilter {
-           viewModel.processMotionEvent(it)
-       }
+    Canvas(
+        modifier = modifier
+            .clipToBounds()
+            .pointerInteropFilter {
+                viewModel.processMotionEvent(it)
+            }
 
-   ) {
-       // Drawing code here.
-   }
+    ) {
+        // Drawing code here.
+    }
 }
 // [END android_compose_stylus_motion_event_access]
