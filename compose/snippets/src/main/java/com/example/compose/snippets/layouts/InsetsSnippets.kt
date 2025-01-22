@@ -124,7 +124,6 @@ fun ConsumedFromPaddingSnippet() {
 @Preview
 @Composable
 fun M3SupportScaffoldSnippet() {
-    val colors = listOf(Color.Red, Color.Blue, Color.Yellow)
     // [START android_compose_insets_m3_scaffold]
     Scaffold { innerPadding ->
         // innerPadding contains inset information for you to use and apply
@@ -133,14 +132,7 @@ fun M3SupportScaffoldSnippet() {
             modifier = Modifier.consumeWindowInsets(innerPadding),
             contentPadding = innerPadding
         ) {
-            items(count = 100) {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(colors[it % colors.size])
-                )
-            }
+            //..
         }
     }
     // [END android_compose_insets_m3_scaffold]
