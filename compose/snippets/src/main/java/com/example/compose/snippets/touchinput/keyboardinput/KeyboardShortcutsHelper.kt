@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.touchinput.keyboardinput
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -31,7 +30,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     // Activity codes such as overridden onStart method.
