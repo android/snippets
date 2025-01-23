@@ -24,6 +24,7 @@ import android.view.KeyboardShortcutGroup
 import android.view.KeyboardShortcutInfo
 import android.view.Menu
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -66,7 +67,7 @@ class AnotherActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 // [START android_compose_keyboard_shortcuts_helper_request]
-                val activity = LocalContext.current as? Activity
+                val activity = LocalActivity.current
 
                 Button(
                     onClick = {
