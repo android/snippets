@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.touchinput.keyboardinput
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -24,13 +23,13 @@ import android.view.KeyboardShortcutGroup
 import android.view.KeyboardShortcutInfo
 import android.view.Menu
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     // Activity codes such as overridden onStart method.
@@ -66,7 +65,7 @@ class AnotherActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 // [START android_compose_keyboard_shortcuts_helper_request]
-                val activity = LocalContext.current as? Activity
+                val activity = LocalActivity.current
 
                 Button(
                     onClick = {

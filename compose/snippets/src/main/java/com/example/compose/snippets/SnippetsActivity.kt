@@ -46,8 +46,10 @@ import com.example.compose.snippets.components.MenusExamples
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
+import com.example.compose.snippets.components.SearchBarExamples
 import com.example.compose.snippets.components.SegmentedButtonExamples
 import com.example.compose.snippets.components.SliderExamples
+import com.example.compose.snippets.components.SwipeToDismissBoxExamples
 import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.components.TimePickerExamples
 import com.example.compose.snippets.components.TooltipExamples
@@ -121,6 +123,8 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.TooltipExamples -> TooltipExamples()
                                     TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
                                     TopComponentsDestination.SegmentedButtonExamples -> SegmentedButtonExamples()
+                                    TopComponentsDestination.SwipeToDismissBoxExamples -> SwipeToDismissBoxExamples()
+                                    TopComponentsDestination.SearchBarExamples -> SearchBarExamples()
                                 }
                             }
                         }
