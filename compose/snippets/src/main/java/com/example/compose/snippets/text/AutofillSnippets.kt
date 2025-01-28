@@ -39,7 +39,7 @@ import com.example.compose.snippets.touchinput.Button
 fun AddAutofill() {
     // [START android_compose_autofill_1]
     BasicTextField(
-        state = remember { TextFieldState("Enter your username.") },
+        state = remember { TextFieldState() },
         modifier = Modifier.semantics { contentType = ContentType.Username }
     )
     // [END android_compose_autofill_1]
@@ -61,11 +61,16 @@ fun AddMultipleTypesOfAutofill() {
 }
 
 @Composable
-fun SaveDataWithAutofill() {
+fun AutofillManager() {
     // [START android_compose_autofill_3]
-    // [START android_compose_autofill_4]
     val autofillManager = LocalAutofillManager.current
     // [END android_compose_autofill_3]
+}
+
+@Composable
+fun SaveDataWithAutofill() {
+    // [START android_compose_autofill_4]
+    val autofillManager = LocalAutofillManager.current
 
     Column {
         BasicTextField(
@@ -122,12 +127,11 @@ fun SaveDataWithAutofillOnClick() {
 @Composable
 fun customizeAutofillHighlight() {
     val customHighlightColor = Color.Red
-    val usernameState = remember { TextFieldState() }
 
     CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
         Column {
             BasicTextField(
-                state = usernameState,
+                state = remember { TextFieldState() },
                 modifier = Modifier.semantics {
                     contentType = ContentType.Username
                 }
