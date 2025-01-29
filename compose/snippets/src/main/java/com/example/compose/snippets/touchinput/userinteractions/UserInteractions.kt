@@ -240,7 +240,7 @@ private class ScaleIndicationNode(
 fun App() {
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LocalUseFallbackRippleImplementationExample() {
 // [START android_compose_userinteractions_localusefallbackrippleimplementation]
@@ -253,7 +253,7 @@ private fun LocalUseFallbackRippleImplementationExample() {
 }
 
 // [START android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
