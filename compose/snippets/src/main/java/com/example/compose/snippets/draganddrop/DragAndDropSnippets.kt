@@ -42,7 +42,7 @@ private fun DragAndDropSnippet() {
     // [START android_compose_drag_and_drop_1]
     Modifier.dragAndDropSource { _ ->
         // Transfer data here.
-        null
+        TODO()
     }
     // [END android_compose_drag_and_drop_1]
 
