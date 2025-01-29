@@ -22,8 +22,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.LocalAutofillHighlightColor
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material.TextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -32,20 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalAutofillManager
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.SemanticsProperties.TestTag
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.touchinput.Button
 import org.junit.Rule
 import org.testng.annotations.Test
-
 
 @Composable
 fun AddAutofill() {
@@ -156,7 +147,7 @@ fun customizeAutofillHighlight() {
 @get:Rule
 val rule = createComposeRule()
 @Test
-fun autofillHintTest(): Unit {
+fun autofillHintTest() {
     val autofillHintString = "test autofill string"
     val TestTag = "semantics-test-tag"
 
