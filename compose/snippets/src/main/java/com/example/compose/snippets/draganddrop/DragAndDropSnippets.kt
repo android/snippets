@@ -41,39 +41,29 @@ private fun DragAndDropSnippet() {
     val url = ""
 
     // [START android_compose_drag_and_drop_1]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            // Transfer data here.
-        })
+    Modifier.dragAndDropSource { _ ->
+        // Transfer data here.
+        TODO()
     }
     // [END android_compose_drag_and_drop_1]
 
     // [START android_compose_drag_and_drop_2]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    )
-                )
-            )
-        })
+    Modifier.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url)
+        )
     }
     // [END android_compose_drag_and_drop_2]
 
     // [START android_compose_drag_and_drop_3]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    ),
-                    flags = View.DRAG_FLAG_GLOBAL
-                )
-            )
-        })
+    Modifier.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url
+            ),
+            flags = View.DRAG_FLAG_GLOBAL
+        )
     }
     // [END android_compose_drag_and_drop_3]
 
