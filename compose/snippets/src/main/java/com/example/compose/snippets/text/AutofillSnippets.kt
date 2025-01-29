@@ -35,7 +35,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.touchinput.Button
 
-
 @Composable
 fun AddAutofill() {
     // [START android_compose_autofill_1]
