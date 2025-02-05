@@ -26,12 +26,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
+import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -68,11 +71,15 @@ fun SearchBarExamples() {
         var currentExample by remember { mutableStateOf<String?>(null) }
 
         when (currentExample) {
-            "basic" -> SearchBarBasicFilterList()
-            "advanced" -> AppSearchBar()
+            "basic" -> SearchBarBasicExample()
+            "docked" -> DockedSearchBarExample()
+            "advanced" -> SearchBarFilterListPreview()
             else -> {
                 Button(onClick = { currentExample = "basic" }) {
                     Text("Basic search bar with filter")
+                }
+                Button(onClick = { currentExample = "docked" }) {
+                    Text("Basic docked search bar with filter")
                 }
                 Button(onClick = { currentExample = "advanced" }) {
                     Text("Advanced search bar with filter")
@@ -83,11 +90,12 @@ fun SearchBarExamples() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_searchbarbasicfilterlist]
+// [START android_compose_components_searchbarbasicexample]
 @Composable
-fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
+fun SearchBarBasicExample(modifier: Modifier = Modifier) {
     var text by rememberSaveable { mutableStateOf("") }
     var expanded by rememberSaveable { mutableStateOf(false) }
+
     Box(
         modifier
             .fillMaxSize()
@@ -104,12 +112,15 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
                     onSearch = { expanded = false },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") }
+                    placeholder = { Text("Hinted search text") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+            // Dummy suggestions
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 repeat(4) { index ->
                     val resultText = "Suggestion $index"
@@ -128,18 +139,18 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
         }
     }
 }
-// [END android_compose_components_searchbarbasicfilterlist]
+// [END android_compose_components_searchbarbasicexample]
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchBarBasicFilterListPreview() {
-    SearchBarBasicFilterList()
+private fun SearchBarBasicExamplePreview() {
+    SearchBarBasicExample()
 }
 
-// [START android_compose_components_searchbarfilterlist]
+// [START android_compose_components_searchbarfilterlistexample]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarFilterList(
+fun SearchBarFilterListExample(
     list: List<String>,
     modifier: Modifier = Modifier
 ) {
@@ -217,12 +228,72 @@ fun SearchBarFilterList(
         }
     }
 }
-// [END android_compose_components_searchbarfilterlist]
+// [END android_compose_components_searchbarfilterlistexample]
+
+@OptIn(ExperimentalMaterial3Api::class)
+// This example is the same as SearchBarExample, but with DockedSearchBar.
+// [START android_compose_components_dockedsearchbarexample]
+@Composable
+fun DockedSearchBarExample(modifier: Modifier = Modifier){
+    var text by rememberSaveable { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .semantics { isTraversalGroup = true }
+    ) {
+        DockedSearchBar(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = 0f },
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = text,
+                    onQueryChange = { text = it },
+                    onSearch = { expanded = false },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it },
+                    placeholder = { Text("Hinted search text") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
+                )
+            },
+            expanded = expanded,
+            onExpandedChange = { expanded = it },
+        ) {
+            // Dummy suggestions
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                repeat(4) { index ->
+                    val resultText = "Suggestion $index"
+                    ListItem(
+                        headlineContent = { Text(resultText) },
+                        supportingContent = { Text("Additional info") },
+                        modifier = Modifier
+                            .clickable {
+                                text = resultText
+                                expanded = false
+                            }
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+}
+// [END android_compose_components_dockedsearchbarexample]
 
 @Preview(showBackground = true)
 @Composable
-fun AppSearchBar(modifier: Modifier = Modifier) {
-    SearchBarFilterList(
+fun DockedSearchBarExamplePreview(modifier: Modifier = Modifier) {
+    DockedSearchBarExample()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SearchBarFilterListPreview(modifier: Modifier = Modifier) {
+    SearchBarFilterListExample(
         list = listOf(
             "Cupcake",
             "Donut",
