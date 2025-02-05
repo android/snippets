@@ -26,8 +26,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -234,7 +232,7 @@ fun SearchBarFilterListExample(
 // This example is the same as SearchBarExample, but with DockedSearchBar.
 // [START android_compose_components_dockedsearchbarexample]
 @Composable
-fun DockedSearchBarExample(modifier: Modifier = Modifier){
+fun DockedSearchBarExample(modifier: Modifier = Modifier) {
     var text by rememberSaveable { mutableStateOf("") }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -288,7 +286,6 @@ fun DockedSearchBarExample(modifier: Modifier = Modifier){
 fun DockedSearchBarExamplePreview(modifier: Modifier = Modifier) {
     DockedSearchBarExample()
 }
-
 
 @Preview(showBackground = true)
 @Composable
