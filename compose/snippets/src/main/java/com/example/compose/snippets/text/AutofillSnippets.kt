@@ -143,7 +143,6 @@ fun SaveDataWithAutofillOnClick() {
     // [END android_compose_autofill_5]
 }
 
-// [START android_compose_autofill_6]
 @Composable
 fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
     var textFieldValue = remember {
@@ -162,5 +161,3 @@ fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
     }
     // [END android_compose_autofill_6]
 }
-// [END android_compose_autofill_6]
-
