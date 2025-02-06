@@ -111,8 +111,7 @@ fun SaveDataWithAutofillOnClick() {
         TextField(
             value = textFieldValue.value,
             onValueChange = { textFieldValue.value = it },
-            modifier =
-            Modifier.semantics { contentType = ContentType.NewUsername },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -120,8 +119,7 @@ fun SaveDataWithAutofillOnClick() {
         TextField(
             value = textFieldValue.value,
             onValueChange = { textFieldValue.value = it },
-            modifier =
-            Modifier.semantics { contentType = ContentType.NewPassword },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword },
         )
 
         // Submit button
