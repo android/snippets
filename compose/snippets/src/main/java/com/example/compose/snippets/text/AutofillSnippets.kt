@@ -36,7 +36,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.touchinput.Button
 
-
 @Composable
 fun AddAutofill() {
     var textFieldValue = remember {
