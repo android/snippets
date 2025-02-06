@@ -112,9 +112,7 @@ fun SaveDataWithAutofillOnClick() {
             value = textFieldValue.value,
             onValueChange = { textFieldValue.value = it },
             modifier =
-            Modifier.semantics {
-                contentType = ContentType.NewUsername
-            },
+            Modifier.semantics { contentType = ContentType.NewUsername },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -123,9 +121,7 @@ fun SaveDataWithAutofillOnClick() {
             value = textFieldValue.value,
             onValueChange = { textFieldValue.value = it },
             modifier =
-            Modifier.semantics {
-                contentType = ContentType.NewPassword
-            },
+            Modifier.semantics { contentType = ContentType.NewPassword },
         )
 
         // Submit button
@@ -146,9 +142,7 @@ fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
         TextField(
             value = textFieldValue.value,
             onValueChange = { textFieldValue.value = it },
-            modifier = Modifier.semantics {
-                contentType = ContentType.Username
-            }
+            modifier = Modifier.semantics { contentType = ContentType.Username }
         )
     }
     // [END android_compose_autofill_6]
