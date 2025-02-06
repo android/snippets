@@ -56,16 +56,13 @@ fun AddMultipleTypesOfAutofill() {
         mutableStateOf(TextFieldValue(""))
     }
     // [START android_compose_autofill_2]
-    Column {
-        TextField(
-            value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
-            modifier =
-            Modifier.semantics {
-                contentType = ContentType.Username + ContentType.EmailAddress
-            },
-        )
-    }
+    TextField(
+        value = textFieldValue.value,
+        onValueChange = { textFieldValue.value = it },
+        modifier = Modifier.semantics {
+            contentType = ContentType.Username + ContentType.EmailAddress
+        }
+    )
     // [END android_compose_autofill_2]
 }
 
@@ -87,22 +84,16 @@ fun SaveDataWithAutofill() {
     Column {
         TextField(
             value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
-            modifier =
-            Modifier.semantics {
-                contentType = ContentType.NewUsername
-            },
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
-            modifier =
-            Modifier.semantics {
-                contentType = ContentType.NewPassword
-            },
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword }
         )
     }
     // [END android_compose_autofill_4]
@@ -119,7 +110,7 @@ fun SaveDataWithAutofillOnClick() {
     Column {
         TextField(
             value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
+            onValueChange = { textFieldValue.value = it },
             modifier =
             Modifier.semantics {
                 contentType = ContentType.NewUsername
@@ -130,7 +121,7 @@ fun SaveDataWithAutofillOnClick() {
 
         TextField(
             value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
+            onValueChange = { textFieldValue.value = it },
             modifier =
             Modifier.semantics {
                 contentType = ContentType.NewPassword
@@ -150,10 +141,11 @@ fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
     }
     // [START android_compose_autofill_6]
     val customHighlightColor = Color.Red
+
     CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
         TextField(
             value = textFieldValue.value,
-            onValueChange = {textFieldValue.value = it},
+            onValueChange = { textFieldValue.value = it },
             modifier = Modifier.semantics {
                 contentType = ContentType.Username
             }
