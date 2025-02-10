@@ -45,17 +45,11 @@ media3 = "1.5.1"
 # @keep
 minSdk = "21"
 playServicesWearable = "19.0.0"
-protolayout = "1.3.0-alpha07"
-protolayoutExpression = "1.3.0-alpha07"
-protolayoutMaterial = "1.3.0-alpha07"
+protolayout = "1.2.1"
 recyclerview = "1.4.0"
 # @keep
 targetSdk = "34"
-tiles = "1.5.0-alpha07"
-tilesRenderer = "1.5.0-alpha07"
-tilesTesting = "1.5.0-alpha07"
-tilesTooling = "1.5.0-alpha07"
-tilesToolingPreview = "1.5.0-alpha07"
+tiles = "1.4.1"
 version-catalog-update = "0.8.5"
 wear = "1.3.0"
 wearComposeFoundation = "1.4.0"
@@ -115,17 +109,17 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
-androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayoutExpression" }
-androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayoutMaterial" }
+androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
+androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-test-runner = "androidx.test:runner:1.6.2"
 androidx-tiles = { module = "androidx.wear.tiles:tiles", version.ref = "tiles" }
-androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tilesRenderer" }
-androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tilesTesting" }
-androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tilesTooling" }
-androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tilesToolingPreview" }
+androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tiles" }
+androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tiles" }
+androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles" }
+androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
 androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window" }
