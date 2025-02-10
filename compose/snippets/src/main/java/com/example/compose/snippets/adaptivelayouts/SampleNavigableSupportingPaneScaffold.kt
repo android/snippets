@@ -42,26 +42,26 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SampleNavigableSupportingPaneScaffoldParts() {
-    // [START android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_nav_and_back]
+    // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_nav_and_back]
     val scaffoldNavigator = rememberSupportingPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
 
-    // [END android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_nav_and_back]
+    // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_nav_and_back]
 
-    // [START android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_params]
+    // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_params]
     NavigableSupportingPaneScaffold(
         navigator = scaffoldNavigator,
         mainPane = { /*...*/ },
         supportingPane = { /*...*/ },
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_params]
+    // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_params]
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 @Preview
 fun SampleNavigableSupportingPaneScaffoldFull() {
-    // [START android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_full]
+    // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_full]
     val scaffoldNavigator = rememberSupportingPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
 
@@ -96,7 +96,7 @@ fun SampleNavigableSupportingPaneScaffoldFull() {
             }
         }
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_full]
+    // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_full]
 }
 
 // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_extracted_panes]
@@ -136,7 +136,7 @@ fun ThreePaneScaffoldPaneScope.SupportingPane(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SampleNavigableSupportingPaneScaffoldSimplified() {
-    // [START android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_simplified]
+    // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_simplified]
     val scaffoldNavigator = rememberSupportingPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
 
@@ -154,7 +154,7 @@ fun SampleNavigableSupportingPaneScaffoldSimplified() {
         },
         supportingPane = { SupportingPane() },
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_supporting_pane_scaffold_simplified]
+    // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_simplified]
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)

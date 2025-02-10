@@ -49,7 +49,7 @@ import kotlinx.parcelize.Parcelize
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SampleNavigableListDetailPaneScaffoldParts() {
-    // [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part02]
+    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<MyItem>()
     val scope = rememberCoroutineScope()
     // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part02]
@@ -62,9 +62,9 @@ fun SampleNavigableListDetailPaneScaffoldParts() {
         detailPane = {},
         // [END_EXCLUDE]
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part03]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
 
-    // [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part04]
+    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part04]
     NavigableListDetailPaneScaffold(
         navigator = scaffoldNavigator,
         listPane = {
@@ -87,9 +87,9 @@ fun SampleNavigableListDetailPaneScaffoldParts() {
         detailPane = {},
         // [END_EXCLUDE]
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part04]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part04]
 
-    // [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part05]
+    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part05]
     NavigableListDetailPaneScaffold(
         navigator = scaffoldNavigator,
         // [START_EXCLUDE]
@@ -103,14 +103,14 @@ fun SampleNavigableListDetailPaneScaffoldParts() {
             }
         },
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part05]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part05]
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Preview
 @Composable
 fun SampleNavigableListDetailPaneScaffoldFull() {
-    // [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_full]
+    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_full]
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<MyItem>()
     val scope = rememberCoroutineScope()
 
@@ -140,7 +140,7 @@ fun SampleNavigableListDetailPaneScaffoldFull() {
             }
         },
     )
-    // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_full]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_full]
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -232,10 +232,10 @@ fun MyDetails(item: MyItem) {
     }
 }
 
-// [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_myitem]
+// [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
 @Parcelize
 class MyItem(val id: Int) : Parcelable
-// [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_myitem]
+// [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_myitem]
 
 val shortStrings = listOf(
     "Cupcake",
