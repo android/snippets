@@ -157,7 +157,7 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
 
     ListDetailPaneScaffold(
         directive = scaffoldNavigator.scaffoldDirective,
-        scaffoldState  = scaffoldNavigator.scaffoldState,
+        scaffoldState = scaffoldNavigator.scaffoldState,
         listPane = {
             AnimatedPane {
                 MyList(
@@ -183,7 +183,6 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
         },
     )
     // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_with_pb_full]
-
 }
 
 @Composable
@@ -254,4 +253,3 @@ val shortStrings = listOf(
     "Oreo",
     "Pie",
 )
-
