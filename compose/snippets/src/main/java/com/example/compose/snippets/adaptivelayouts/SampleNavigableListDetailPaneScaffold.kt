@@ -52,9 +52,9 @@ fun SampleNavigableListDetailPaneScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<MyItem>()
     val scope = rememberCoroutineScope()
-    // [END android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part02]
+    // [END android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part02]
 
-    // [START android_compose_adaptivelayouts_sample_navigable_list_detail_pane_scaffold_part03]
+    // [START android_compose_adaptivelayouts_sample_list_detail_pane_scaffold_part03]
     NavigableListDetailPaneScaffold(
         navigator = scaffoldNavigator,
         // [START_EXCLUDE]
