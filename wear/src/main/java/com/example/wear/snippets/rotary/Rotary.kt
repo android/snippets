@@ -243,7 +243,7 @@ fun SnapScrollableScreen() {
 }
 
 @Composable
-fun PositionScrollIndicator(){
+fun PositionScrollIndicator() {
     // [START android_wear_rotary_position_indicator]
     val listState = rememberScalingLazyListState()
     Scaffold(

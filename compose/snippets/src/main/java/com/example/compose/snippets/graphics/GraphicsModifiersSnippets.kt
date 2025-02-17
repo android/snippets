@@ -16,15 +16,26 @@
 
 package com.example.compose.snippets.graphics
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -42,21 +53,33 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.R
+import kotlin.random.Random
 
 /*
 * Copyright 2022 The Android Open Source Project
@@ -296,171 +319,170 @@ fun ModifierGraphicsLayerAlpha() {
 @Preview
 @Composable
 fun ModifierGraphicsLayerCompositingStrategy() {
-    /* Commented out until compositing Strategy is rolled out to production
-        // [START android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
+    // [START android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
 
-        Image(painter = painterResource(id = R.drawable.dog),
-           contentDescription = "Dog",
-           contentScale = ContentScale.Crop,
-           modifier = Modifier
-               .size(120.dp)
-               .aspectRatio(1f)
-               .background(
-                   Brush.linearGradient(
-                       listOf(
-                           Color(0xFFC5E1A5),
-                           Color(0xFF80DEEA)
-                       )
-                   )
-               )
-               .padding(8.dp)
-               .graphicsLayer {
-                   compositingStrategy = CompositingStrategy.Offscreen
-               }
-               .drawWithCache {
-                   val path = Path()
-                   path.addOval(
-                       Rect(
-                           topLeft = Offset.Zero,
-                           bottomRight = Offset(size.width, size.height)
-                       )
-                   )
-                   onDrawWithContent {
-                       clipPath(path) {
-                           // this draws the actual image - if you don't call drawContent, it wont
-                           // render anything
-                           this@onDrawWithContent.drawContent()
-                       }
-                       val dotSize = size.width / 8f
-                       // Clip a white border for the content
-                       drawCircle(
-                           Color.Black,
-                           radius = dotSize,
-                           center = Offset(
-                               x = size.width - dotSize,
-                               y = size.height - dotSize
-                           ),
-                           blendMode = BlendMode.Clear
-                       )
-                       // draw the red circle indication
-                       drawCircle(
-                           Color(0xFFEF5350), radius = dotSize * 0.8f,
-                           center = Offset(
-                               x = size.width - dotSize,
-                               y = size.height - dotSize
-                           )
-                       )
-                   }
-
-               }
-        )
-        // [END android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
-    */
+    Image(
+        painter = painterResource(id = R.drawable.dog),
+        contentDescription = "Dog",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(120.dp)
+            .aspectRatio(1f)
+            .background(
+                Brush.linearGradient(
+                    listOf(
+                        Color(0xFFC5E1A5),
+                        Color(0xFF80DEEA)
+                    )
+                )
+            )
+            .padding(8.dp)
+            .graphicsLayer {
+                compositingStrategy = CompositingStrategy.Offscreen
+            }
+            .drawWithCache {
+                val path = Path()
+                path.addOval(
+                    Rect(
+                        topLeft = Offset.Zero,
+                        bottomRight = Offset(size.width, size.height)
+                    )
+                )
+                onDrawWithContent {
+                    clipPath(path) {
+                        // this draws the actual image - if you don't call drawContent, it wont
+                        // render anything
+                        this@onDrawWithContent.drawContent()
+                    }
+                    val dotSize = size.width / 8f
+                    // Clip a white border for the content
+                    drawCircle(
+                        Color.Black,
+                        radius = dotSize,
+                        center = Offset(
+                            x = size.width - dotSize,
+                            y = size.height - dotSize
+                        ),
+                        blendMode = BlendMode.Clear
+                    )
+                    // draw the red circle indication
+                    drawCircle(
+                        Color(0xFFEF5350), radius = dotSize * 0.8f,
+                        center = Offset(
+                            x = size.width - dotSize,
+                            y = size.height - dotSize
+                        )
+                    )
+                }
+            }
+    )
+    // [END android_compose_graphics_modifiers_graphicsLayer_compositing_strategy]
 }
-/* Commented out until compositing Strategy is rolled out to production
+
 @Preview
 // [START android_compose_graphics_modifier_compositing_strategy_differences]
 @Composable
 fun CompositingStrategyExamples() {
-   Column(
-       modifier = Modifier
-           .fillMaxSize()
-           .wrapContentSize(Alignment.Center)
-   ) {
-       /** Does not clip content even with a graphics layer usage here. By default, graphicsLayer
-       does not allocate + rasterize content into a separate layer but instead is used
-       for isolation. That is draw invalidations made outside of this graphicsLayer will not
-       re-record the drawing instructions in this composable as they have not changed **/
-       Canvas(
-           modifier = Modifier
-               .graphicsLayer()
-               .size(100.dp) // Note size of 100 dp here
-               .border(2.dp, color = Color.Blue)
-       ) {
-           // ... and drawing a size of 200 dp here outside the bounds
-           drawRect(color = Color.Magenta, size = Size(200.dp.toPx(), 200.dp.toPx()))
-       }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        // Does not clip content even with a graphics layer usage here. By default, graphicsLayer
+        // does not allocate + rasterize content into a separate layer but instead is used
+        // for isolation. That is draw invalidations made outside of this graphicsLayer will not
+        // re-record the drawing instructions in this composable as they have not changed
+        Canvas(
+            modifier = Modifier
+                .graphicsLayer()
+                .size(100.dp) // Note size of 100 dp here
+                .border(2.dp, color = Color.Blue)
+        ) {
+            // ... and drawing a size of 200 dp here outside the bounds
+            drawRect(color = Color.Magenta, size = Size(200.dp.toPx(), 200.dp.toPx()))
+        }
 
-       Spacer(modifier = Modifier.size(300.dp))
+        Spacer(modifier = Modifier.size(300.dp))
 
-       /** Clips content as alpha usage here creates an offscreen buffer to rasterize content
-       into first then draws to the original destination **/
-       Canvas(
-           modifier = Modifier
-               // force to an offscreen buffer
-               .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-               .size(100.dp) // Note size of 100 dp here
-               .border(2.dp, color = Color.Blue)
-       ) {
-           /** ... and drawing a size of 200 dp. However, because of the CompositingStrategy.Offscreen usage above, the
-           content gets clipped **/
-           drawRect(color = Color.Red, size = Size(200.dp.toPx(), 200.dp.toPx()))
-       }
-   }
+        /* Clips content as alpha usage here creates an offscreen buffer to rasterize content
+        into first then draws to the original destination */
+        Canvas(
+            modifier = Modifier
+                // force to an offscreen buffer
+                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                .size(100.dp) // Note size of 100 dp here
+                .border(2.dp, color = Color.Blue)
+        ) {
+            /* ... and drawing a size of 200 dp. However, because of the CompositingStrategy.Offscreen usage above, the
+            content gets clipped */
+            drawRect(color = Color.Red, size = Size(200.dp.toPx(), 200.dp.toPx()))
+        }
+    }
 }
 // [END android_compose_graphics_modifier_compositing_strategy_differences]
- */
 
-/* Commented out until compositing Strategy is rolled out to production
 // [START android_compose_graphics_modifier_compositing_strategy_modulate_alpha]
 @Preview
 @Composable
-fun CompositingStratgey_ModulateAlpha() {
-  Column(
-      modifier = Modifier
-          .fillMaxSize()
-          .padding(32.dp)
-  ) {
-      // Base drawing, no alpha applied
-      Canvas(
-          modifier = Modifier.size(200.dp)
-      ) {
-          drawSquares()
-      }
+fun CompositingStrategy_ModulateAlpha() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp)
+    ) {
+        // Base drawing, no alpha applied
+        Canvas(
+            modifier = Modifier.size(200.dp)
+        ) {
+            drawSquares()
+        }
 
-      Spacer(modifier = Modifier.size(36.dp))
+        Spacer(modifier = Modifier.size(36.dp))
 
-      // Alpha 0.5f applied to whole composable
-      Canvas(modifier = Modifier
-          .size(200.dp)
-          .graphicsLayer {
-              alpha = 0.5f
-          }) {
-          drawSquares()
-      }
-      Spacer(modifier = Modifier.size(36.dp))
+        // Alpha 0.5f applied to whole composable
+        Canvas(
+            modifier = Modifier
+                .size(200.dp)
+                .graphicsLayer {
+                    alpha = 0.5f
+                }
+        ) {
+            drawSquares()
+        }
+        Spacer(modifier = Modifier.size(36.dp))
 
-      // 0.75f alpha applied to each draw call when using ModulateAlpha
-      Canvas(modifier = Modifier
-          .size(200.dp)
-          .graphicsLayer {
-              compositingStrategy = CompositingStrategy.ModulateAlpha
-              alpha = 0.75f
-          }) {
-          drawSquares()
-      }
-  }
+        // 0.75f alpha applied to each draw call when using ModulateAlpha
+        Canvas(
+            modifier = Modifier
+                .size(200.dp)
+                .graphicsLayer {
+                    compositingStrategy = CompositingStrategy.ModulateAlpha
+                    alpha = 0.75f
+                }
+        ) {
+            drawSquares()
+        }
+    }
 }
 
 private fun DrawScope.drawSquares() {
 
-  val size = Size(100.dp.toPx(), 100.dp.toPx())
-  drawRect(color = Red, size = size)
-  drawRect(
-      color = Purple, size = size,
-      topLeft = Offset(size.width / 4f, size.height / 4f)
-  )
-  drawRect(
-      color = Yellow, size = size,
-      topLeft = Offset(size.width / 4f * 2f, size.height / 4f * 2f)
-  )
+    val size = Size(100.dp.toPx(), 100.dp.toPx())
+    drawRect(color = Red, size = size)
+    drawRect(
+        color = Purple, size = size,
+        topLeft = Offset(size.width / 4f, size.height / 4f)
+    )
+    drawRect(
+        color = Yellow, size = size,
+        topLeft = Offset(size.width / 4f * 2f, size.height / 4f * 2f)
+    )
 }
 
 val Purple = Color(0xFF7E57C2)
 val Yellow = Color(0xFFFFCA28)
 val Red = Color(0xFFEF5350)
 // [END android_compose_graphics_modifier_compositing_strategy_modulate_alpha]
-*/
 
 // [START android_compose_graphics_modifier_flipped]
 class FlippedModifier : DrawModifier {
@@ -485,3 +507,168 @@ fun ModifierGraphicsFlippedUsage() {
     )
     // [END android_compose_graphics_modifier_flipped_usage]
 }
+
+// [START android_compose_graphics_faded_edge_example]
+@Composable
+fun FadedEdgeBox(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Box(
+        modifier = modifier
+            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+            .drawWithContent {
+                drawContent()
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        listOf(Color.Black, Color.Transparent)
+                    ),
+                    blendMode = BlendMode.DstIn
+                )
+            }
+    ) {
+        content()
+    }
+}
+// [END android_compose_graphics_faded_edge_example]
+@Preview
+@Composable
+private fun FadingLazyComments() {
+    FadedEdgeBox(
+        modifier = Modifier
+            .padding(32.dp)
+            .height(300.dp)
+            .fillMaxWidth()
+    ) {
+        LazyColumn {
+            items(listComments, key = { it.key }) {
+                ListCommentItem(it)
+            }
+            item {
+                Spacer(Modifier.height(100.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun ListCommentItem(it: Comment) {
+    Row(modifier = Modifier.padding(bottom = 8.dp)) {
+        val strokeWidthPx = with(LocalDensity.current) {
+            2.dp.toPx()
+        }
+        Avatar(strokeWidth = strokeWidthPx, modifier = Modifier.size(48.dp)) {
+            Image(
+                painter = painterResource(id = it.avatar),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+        }
+        Spacer(Modifier.width(6.dp))
+        Text(
+            it.text,
+            fontSize = 20.sp,
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+}
+
+data class Comment(
+    val avatar: Int,
+    val text: String,
+    val key: Int = Random.nextInt()
+)
+
+val listComments = listOf(
+    Comment(R.drawable.dog, "Woof 🐶"),
+    Comment(R.drawable.froyo, "I love ice cream..."),
+    Comment(R.drawable.donut, "Mmmm delicious"),
+    Comment(R.drawable.cupcake, "I love cupcakes"),
+    Comment(R.drawable.gingerbread, "🍪🍪❤️"),
+    Comment(R.drawable.eclair, "Where do I get the recipe?"),
+    Comment(R.drawable.froyo, "🍦The ice cream is BEST"),
+)
+
+// [START android_compose_graphics_stacked_clipped_avatars]
+@Composable
+fun Avatar(
+    strokeWidth: Float,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    val stroke = remember(strokeWidth) {
+        Stroke(width = strokeWidth)
+    }
+    Box(
+        modifier = modifier
+            .drawWithContent {
+                drawContent()
+                drawCircle(
+                    Color.Black,
+                    size.minDimension / 2,
+                    size.center,
+                    style = stroke,
+                    blendMode = BlendMode.Clear
+                )
+            }
+            .clip(CircleShape)
+    ) {
+        content()
+    }
+}
+
+@Preview
+@Composable
+private fun StackedAvatars() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.linearGradient(
+                    colors = listOf(
+                        Color.Magenta.copy(alpha = 0.5f),
+                        Color.Blue.copy(alpha = 0.5f)
+                    )
+                )
+            )
+    ) {
+        val size = 80.dp
+        val strokeWidth = 2.dp
+        val strokeWidthPx = with(LocalDensity.current) {
+            strokeWidth.toPx()
+        }
+        val sizeModifier = Modifier.size(size)
+        val avatars = listOf(
+            R.drawable.cupcake,
+            R.drawable.donut,
+            R.drawable.eclair,
+            R.drawable.froyo,
+            R.drawable.gingerbread,
+            R.drawable.dog
+        )
+        val width = ((size / 2) + strokeWidth * 2) * (avatars.size + 1)
+        Box(
+            modifier = Modifier
+                .size(width, size)
+                .graphicsLayer {
+                    // Use an offscreen buffer as underdraw protection when
+                    // using blendmodes that clear destination pixels
+                    compositingStrategy = CompositingStrategy.Offscreen
+                }
+                .align(Alignment.Center),
+        ) {
+            var offset = 0.dp
+            for (avatar in avatars) {
+                Avatar(
+                    strokeWidth = strokeWidthPx,
+                    modifier = sizeModifier.offset(offset)
+                ) {
+                    Image(
+                        painter = painterResource(id = avatar),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null
+                    )
+                }
+                offset += size / 2
+            }
+        }
+    }
+}
+// [END android_compose_graphics_stacked_clipped_avatars]

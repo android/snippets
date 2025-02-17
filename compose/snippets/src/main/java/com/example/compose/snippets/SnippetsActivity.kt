@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets
 
+import NavigationDrawerExamples
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.activity.ComponentActivity
@@ -33,6 +34,7 @@ import com.example.compose.snippets.components.AppBarExamples
 import com.example.compose.snippets.components.BadgeExamples
 import com.example.compose.snippets.components.ButtonExamples
 import com.example.compose.snippets.components.CardExamples
+import com.example.compose.snippets.components.CarouselExamples
 import com.example.compose.snippets.components.CheckboxExamples
 import com.example.compose.snippets.components.ChipExamples
 import com.example.compose.snippets.components.ComponentsScreen
@@ -40,17 +42,23 @@ import com.example.compose.snippets.components.DatePickerExamples
 import com.example.compose.snippets.components.DialogExamples
 import com.example.compose.snippets.components.DividerExamples
 import com.example.compose.snippets.components.FloatingActionButtonExamples
+import com.example.compose.snippets.components.MenusExamples
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.ProgressIndicatorExamples
 import com.example.compose.snippets.components.ScaffoldExample
+import com.example.compose.snippets.components.SearchBarExamples
+import com.example.compose.snippets.components.SegmentedButtonExamples
 import com.example.compose.snippets.components.SliderExamples
+import com.example.compose.snippets.components.SwipeToDismissBoxExamples
 import com.example.compose.snippets.components.SwitchExamples
 import com.example.compose.snippets.components.TimePickerExamples
+import com.example.compose.snippets.components.TooltipExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
+import com.example.compose.snippets.layouts.PagerExamples
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
@@ -85,6 +93,7 @@ class SnippetsActivity : ComponentActivity() {
                                     }
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
                                     Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
+                                    Destination.PagerExamples -> PagerExamples()
                                 }
                             }
                         }
@@ -109,6 +118,13 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
                                     TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
                                     TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
+                                    TopComponentsDestination.CarouselExamples -> CarouselExamples()
+                                    TopComponentsDestination.MenusExample -> MenusExamples()
+                                    TopComponentsDestination.TooltipExamples -> TooltipExamples()
+                                    TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
+                                    TopComponentsDestination.SegmentedButtonExamples -> SegmentedButtonExamples()
+                                    TopComponentsDestination.SwipeToDismissBoxExamples -> SwipeToDismissBoxExamples()
+                                    TopComponentsDestination.SearchBarExamples -> SearchBarExamples()
                                 }
                             }
                         }

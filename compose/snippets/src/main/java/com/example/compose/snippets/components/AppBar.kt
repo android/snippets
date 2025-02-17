@@ -16,12 +16,17 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -30,6 +35,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
@@ -40,6 +46,7 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
@@ -52,6 +59,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -76,6 +84,7 @@ fun AppBarExamples(
             "topBarMedium" -> MediumTopAppBarExample()
             "topBarLarge" -> LargeTopAppBarExample()
             "topBarNavigation" -> TopBarNavigationExample { navigateBack() }
+            "multiSelection" -> AppBarMultiSelectionExample()
             else -> AppBarOptions(
                 toBottom = { selection = "bottomBar" },
                 toTopBarSmall = { selection = "topBar" },
@@ -83,6 +92,7 @@ fun AppBarExamples(
                 toTopBarMedium = { selection = "topBarMedium" },
                 toTopBarLarge = { selection = "topBarLarge" },
                 toTopBarNavigation = { selection = "topBarNavigation" },
+                toMultiSelection = { selection = "multiSelection" },
             )
         }
     }
@@ -96,6 +106,7 @@ fun AppBarOptions(
     toTopBarMedium: () -> Unit,
     toTopBarLarge: () -> Unit,
     toTopBarNavigation: () -> Unit,
+    toMultiSelection: () -> Unit,
 ) {
     Column() {
         Button({ toBottom() }) {
@@ -115,6 +126,9 @@ fun AppBarOptions(
         }
         Button({ toTopBarNavigation() }) {
             Text("Top bar navigation example")
+        }
+        Button({ toMultiSelection() }) {
+            Text("Top bar with multi selection list")
         }
     }
 }
@@ -381,4 +395,157 @@ fun ScrollContent(innerPadding: PaddingValues) {
             Text(text = "- List item number ${index + 1}")
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+// [START android_compose_components_appbarselectionactions]
+@Composable
+fun AppBarSelectionActions(
+    selectedItems: Set<Int>,
+    modifier: Modifier = Modifier,
+) {
+    val hasSelection = selectedItems.isNotEmpty()
+    val topBarText = if (hasSelection) {
+        "Selected ${selectedItems.size} items"
+    } else {
+        "List of items"
+    }
+
+    TopAppBar(
+        title = {
+            Text(topBarText)
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        actions = {
+            if (hasSelection) {
+                IconButton(onClick = {
+                    /* click action */
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Share,
+                        contentDescription = "Share items"
+                    )
+                }
+            }
+        },
+    )
+}
+// [END android_compose_components_appbarselectionactions]
+
+@Preview
+@Composable
+private fun AppBarSelectionActionsPreview() {
+    val selectedItems = setOf(1, 2, 3)
+
+    AppBarSelectionActions(selectedItems)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Preview
+// [START android_compose_components_appbarmultiselectionexample]
+@Composable
+private fun AppBarMultiSelectionExample(
+    modifier: Modifier = Modifier,
+) {
+    val listItems by remember { mutableStateOf(listOf(1, 2, 3, 4, 5, 6)) }
+    var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
+
+    Scaffold(
+        topBar = { AppBarSelectionActions(selectedItems) }
+    ) { innerPadding ->
+        LazyColumn(contentPadding = innerPadding) {
+            itemsIndexed(listItems) { _, index ->
+                val isItemSelected = selectedItems.contains(index)
+                ListItemSelectable(
+                    selected = isItemSelected,
+                    Modifier
+                        .combinedClickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                /* click action */
+                            },
+                            onLongClick = {
+                                if (isItemSelected) selectedItems -= index else selectedItems += index
+                            }
+                        )
+                )
+            }
+        }
+    }
+}
+// [END android_compose_components_appbarmultiselectionexample]
+
+// [START android_compose_components_listitemselectable]
+@Composable
+fun ListItemSelectable(
+    selected: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        ListItem(
+            headlineContent = { Text("Long press to select or deselect item") },
+            leadingContent = {
+                if (selected) {
+                    Icon(
+                        Icons.Filled.Check,
+                        contentDescription = "Localized description",
+                    )
+                }
+            }
+        )
+    }
+}
+// [END android_compose_components_listitemselectable]
+
+@Preview
+@Composable
+private fun ListItemSelectablePreview() {
+    ListItemSelectable(true)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+// [START android_compose_components_lazylistmultiselection
+@Composable
+fun LazyListMultiSelection(
+    listItems: List<Int>,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+) {
+    var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
+
+    LazyColumn(contentPadding = contentPadding) {
+        itemsIndexed(listItems) { _, index ->
+            val selected = selectedItems.contains(index)
+            ListItemSelectable(
+                selected = selected,
+                Modifier
+                    .combinedClickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {
+                            /* click action */
+                        },
+                        onLongClick = {
+                            if (selected) selectedItems -= index else selectedItems += index
+                        }
+                    )
+            )
+        }
+    }
+}
+// [END android_compose_components_lazylistmultiselection
+
+@Preview
+@Composable
+private fun LazyListMultiSelectionPreview() {
+    val listItems = listOf(1, 2, 3)
+
+    LazyListMultiSelection(
+        listItems,
+        modifier = Modifier
+    )
 }

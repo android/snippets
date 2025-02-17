@@ -47,8 +47,8 @@ import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 
 @Composable
 fun navigation() {
+    // [START android_wear_navigation]
     AppScaffold {
-        // [START android_wear_navigation]
         val navController = rememberSwipeDismissableNavController()
         SwipeDismissableNavHost(
             navController = navController,
@@ -63,16 +63,20 @@ fun navigation() {
                 MessageDetail(id = it.arguments?.getString("id")!!)
             }
         }
-        // [END android_wear_navigation]
     }
+    // [START_EXCLUDE]
 }
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun MessageDetail(id: String) {
+    // [END_EXCLUDE]
+    // .. Screen level content goes here
     val scrollState = rememberScrollState()
 
     ScreenScaffold(scrollState = scrollState) {
+        // Screen content goes here
+        // [END android_wear_navigation]
         val padding = ScalingLazyColumnDefaults.padding(
             first = ItemType.Text,
             last = ItemType.Text
