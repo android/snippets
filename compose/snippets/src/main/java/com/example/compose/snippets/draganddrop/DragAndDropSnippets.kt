@@ -51,11 +51,11 @@ private fun DragAndDropSnippet() {
 
 //        detectTapGestures(onLongPress = {
 //            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    )
-                )
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url
+            )
+        )
 //            )
 //        })
     }
@@ -65,12 +65,12 @@ private fun DragAndDropSnippet() {
     Modifier.dragAndDropSource { _ ->
 //        detectTapGestures(onLongPress = {
 //            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    ),
-                    flags = View.DRAG_FLAG_GLOBAL
-                )
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url
+            ),
+            flags = View.DRAG_FLAG_GLOBAL
+        )
 //            )
 //        })
     }
