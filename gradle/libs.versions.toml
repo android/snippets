@@ -18,13 +18,12 @@ androidx-navigation = "2.8.6"
 androidx-paging = "3.3.5"
 androidx-test = "1.6.1"
 androidx-test-espresso = "3.6.1"
-androidx-window = "1.4.0-beta01"
+androidx-window = "1.4.0-beta02"
 androidxHiltNavigationCompose = "1.2.0"
 coil = "2.7.0"
 # @keep
 compileSdk = "35"
-compose-latest = "1.7.7"
-composeUiTooling = "1.4.0"
+composeUiTooling = "1.4.1"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.1"
 glide = "1.0.0-beta01"
@@ -64,13 +63,13 @@ accompanist-theme-adapter-material = { module = "com.google.accompanist:accompan
 accompanist-theme-adapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
-androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-latest" }
-androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-latest" }
+androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom-beta", version.ref = "androidx-compose-bom" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
-androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-latest" }
+androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "material3-adaptive" }
 androidx-compose-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3-adaptive" }
@@ -78,7 +77,7 @@ androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.ma
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-latest" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
