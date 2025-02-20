@@ -47,3 +47,5 @@ jobs:
       run: ./gradlew :wear:build
     - name: Build misc snippets
       run: ./gradlew :misc:build
+    - name: Build XR snippets
+      run: ./gradlew :xr:build
