@@ -127,13 +127,13 @@ fun SwipeItem(
             ) {
                 when (swipeToDismissBoxState.dismissDirection) {
                     SwipeToDismissBoxValue.StartToEnd -> {
-                        val icon = if(todoItem.isItemDone) {
+                        val icon = if (todoItem.isItemDone) {
                             Icons.Default.CheckBox
                         } else {
                             Icons.Default.CheckBoxOutlineBlank
                         }
 
-                        val contentDescription = if(todoItem.isItemDone) "Done" else "Not done"
+                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
 
                         Icon(
                             icon,
@@ -257,13 +257,13 @@ fun SwipeCardItem(
             ) {
                 when (swipeToDismissState.dismissDirection) {
                     SwipeToDismissBoxValue.StartToEnd -> {
-                        val icon = if(todoItem.isItemDone) {
+                        val icon = if (todoItem.isItemDone) {
                             Icons.Default.CheckBox
                         } else {
                             Icons.Default.CheckBoxOutlineBlank
                         }
 
-                        val contentDescription = if(todoItem.isItemDone) "Done" else "Not done"
+                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
 
                         Icon(icon, contentDescription, Modifier.padding(12.dp), tint = Color.White)
                     }
