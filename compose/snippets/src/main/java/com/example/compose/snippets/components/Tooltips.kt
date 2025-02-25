@@ -36,14 +36,14 @@ import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun TooltipExamples() {
@@ -147,6 +147,7 @@ fun AdvancedRichTooltipExample(
     richTooltipActionText: String = "Dismiss"
 ) {
     val tooltipState = rememberTooltipState()
+    val coroutineScope = rememberCoroutineScope()
 
     TooltipBox(
         modifier = modifier,
@@ -156,7 +157,11 @@ fun AdvancedRichTooltipExample(
                 title = { Text(richTooltipSubheadText) },
                 action = {
                     Row {
-                        TextButton(onClick = { tooltipState.dismiss() }) {
+                        TextButton(onClick = {
+                            coroutineScope.launch {
+                                tooltipState.dismiss()
+                            }
+                        }) {
                             Text(richTooltipActionText)
                         }
                     }
@@ -168,7 +173,11 @@ fun AdvancedRichTooltipExample(
         },
         state = tooltipState
     ) {
-        IconButton(onClick = { tooltipState.dismiss() }) {
+        IconButton(onClick = {
+            coroutineScope.launch {
+                tooltipState.show()
+            }
+        }) {
             Icon(
                 imageVector = Icons.Filled.Camera,
                 contentDescription = "Open camera"
