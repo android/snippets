@@ -282,7 +282,7 @@ fun CustomizableSearchBarExample() {
         LazyColumn(
             contentPadding = PaddingValues(
                 start = 16.dp,
-                top = 72.dp,  // Provides space for the search bar
+                top = 72.dp, // Provides space for the search bar
                 end = 16.dp,
                 bottom = 16.dp
             ),
