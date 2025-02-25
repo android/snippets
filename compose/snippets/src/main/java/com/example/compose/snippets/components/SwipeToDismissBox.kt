@@ -77,7 +77,7 @@ data class TodoItem(
 // [START android_compose_components_swipeitem]
 @Composable
 fun SwipeItem(
-    value: TodoItem,
+    todoItem: TodoItem,
     startToEndAction: (TodoItem) -> Unit,
     endToStartAction: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
@@ -87,12 +87,12 @@ fun SwipeItem(
         confirmValueChange = {
             when (it) {
                 SwipeToDismissBoxValue.StartToEnd -> {
-                    startToEndAction(value)
+                    startToEndAction(todoItem)
                     // Do not dismiss this item.
                     false
                 }
                 SwipeToDismissBoxValue.EndToStart -> {
-                    endToStartAction(value)
+                    endToStartAction(todoItem)
                     true
                 }
                 SwipeToDismissBoxValue.Settled -> {
@@ -104,8 +104,7 @@ fun SwipeItem(
 
     SwipeToDismissBox(
         state = swipeToDismissBoxState,
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         backgroundContent = {
             Row(
                 modifier = Modifier
@@ -128,23 +127,20 @@ fun SwipeItem(
             ) {
                 when (swipeToDismissBoxState.dismissDirection) {
                     SwipeToDismissBoxValue.StartToEnd -> {
-                        if (value.isItemDone) {
-                            Icon(
-                                imageVector = Icons.Default.CheckBox,
-                                contentDescription = "Item done",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(12.dp)
-                            )
+                        val icon = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
                         } else {
-                            Icon(
-                                imageVector = Icons.Default.CheckBoxOutlineBlank,
-                                contentDescription = "Item not done",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(12.dp)
-                            )
+                            Icons.Default.CheckBoxOutlineBlank
                         }
+
+                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
+
+                        Icon(
+                            icon,
+                            contentDescription,
+                            Modifier.padding(12.dp),
+                            tint = Color.White
+                        )
                     }
 
                     SwipeToDismissBoxValue.EndToStart -> {
@@ -153,8 +149,7 @@ fun SwipeItem(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Remove item",
                             tint = Color.White,
-                            modifier = Modifier
-                                .padding(12.dp)
+                            modifier = Modifier.padding(12.dp)
                         )
                     }
 
@@ -163,7 +158,7 @@ fun SwipeItem(
             }
         }
     ) {
-        content(value)
+        content(todoItem)
     }
 }
 // [END android_compose_components_swipeitem]
@@ -187,7 +182,7 @@ private fun SwipeItemExample() {
             key = { it.itemDescription }
         ) { todoItem ->
             SwipeItem(
-                value = todoItem,
+                todoItem = todoItem,
                 startToEndAction = {
                     todoItem.isItemDone = !todoItem.isItemDone
                 },
@@ -208,23 +203,24 @@ private fun SwipeItemExample() {
 // [START android_compose_components_swipecarditem]
 @Composable
 fun SwipeCardItem(
-    value: TodoItem,
+    todoItem: TodoItem,
     startToEndAction: (TodoItem) -> Unit,
     endToStartAction: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable (TodoItem) -> Unit
 ) {
+    // [START_EXCLUDE]
     val swipeToDismissState = rememberSwipeToDismissBoxState(
         positionalThreshold = { totalDistance -> totalDistance * 0.25f },
         confirmValueChange = {
             when (it) {
                 SwipeToDismissBoxValue.StartToEnd -> {
-                    startToEndAction(value)
+                    startToEndAction(todoItem)
                     // Do not dismiss this item.
                     false
                 }
                 SwipeToDismissBoxValue.EndToStart -> {
-                    endToStartAction(value)
+                    endToStartAction(todoItem)
                     true
                 }
                 SwipeToDismissBoxValue.Settled -> {
@@ -234,6 +230,7 @@ fun SwipeCardItem(
         }
     )
 
+    // [END_EXCLUDE]
     SwipeToDismissBox(
         modifier = Modifier,
         state = swipeToDismissState,
@@ -250,6 +247,7 @@ fun SwipeCardItem(
                 },
                 label = "swipeable card item background color"
             )
+            // [START_EXCLUDE]
             Row(
                 modifier = Modifier
                     .background(color)
@@ -259,23 +257,15 @@ fun SwipeCardItem(
             ) {
                 when (swipeToDismissState.dismissDirection) {
                     SwipeToDismissBoxValue.StartToEnd -> {
-                        if (value.isItemDone) {
-                            Icon(
-                                imageVector = Icons.Default.CheckBox,
-                                contentDescription = "Item done",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(12.dp)
-                            )
+                        val icon = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
                         } else {
-                            Icon(
-                                imageVector = Icons.Default.CheckBoxOutlineBlank,
-                                contentDescription = "Item not done",
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .padding(12.dp)
-                            )
+                            Icons.Default.CheckBoxOutlineBlank
                         }
+
+                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
+
+                        Icon(icon, contentDescription, Modifier.padding(12.dp), tint = Color.White)
                     }
 
                     SwipeToDismissBoxValue.EndToStart -> {
@@ -284,8 +274,7 @@ fun SwipeCardItem(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Remove item",
                             tint = Color.White,
-                            modifier = Modifier
-                                .padding(12.dp)
+                            modifier = Modifier.padding(12.dp)
                         )
                     }
 
@@ -294,8 +283,9 @@ fun SwipeCardItem(
             }
         }
     ) {
-        content(value)
+        content(todoItem)
     }
+    // [END_EXCLUDE]
 }
 // [END android_compose_components_swipecarditem]
 
@@ -318,7 +308,7 @@ private fun SwipeCardItemExample() {
             key = { it.itemDescription }
         ) { todoItem ->
             SwipeCardItem(
-                value = todoItem,
+                todoItem = todoItem,
                 startToEndAction = {
                     todoItem.isItemDone = !todoItem.isItemDone
                 },
