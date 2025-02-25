@@ -68,26 +68,33 @@ fun SearchBarExamples() {
         var currentExample by remember { mutableStateOf<String?>(null) }
 
         when (currentExample) {
-            "basic" -> SearchBarBasicFilterList()
-            "advanced" -> AppSearchBar()
+            "simple" -> SimpleSearchBarExample()
+            "fancy" -> CustomizableSearchBarExample()
             else -> {
-                Button(onClick = { currentExample = "basic" }) {
-                    Text("Basic search bar with filter")
+                Button(onClick = { currentExample = "simple" }) {
+                    Text("Simple SearchBar")
                 }
-                Button(onClick = { currentExample = "advanced" }) {
-                    Text("Advanced search bar with filter")
+                Button(onClick = { currentExample = "fancy" }) {
+                    Text("Customizable SearchBar")
                 }
             }
         }
     }
 }
 
+// [START android_compose_components_simple_searchbar]
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_searchbarbasicfilterlist]
 @Composable
-fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
-    var text by rememberSaveable { mutableStateOf("") }
+fun SimpleSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    onResultClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var expanded by rememberSaveable { mutableStateOf(false) }
+
     Box(
         modifier
             .fillMaxSize()
@@ -99,26 +106,27 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
                 .semantics { traversalIndex = 0f },
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = text,
-                    onQueryChange = { text = it },
-                    onSearch = { expanded = false },
+                    query = query,
+                    onQueryChange = onQueryChange,
+                    onSearch = {
+                        onSearch(query)
+                        expanded = false
+                    },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") }
+                    placeholder = { Text("Search") }
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
             Column(Modifier.verticalScroll(rememberScrollState())) {
-                repeat(4) { index ->
-                    val resultText = "Suggestion $index"
+                searchResults.forEach { result ->
                     ListItem(
-                        headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
+                        headlineContent = { Text(result) },
                         modifier = Modifier
                             .clickable {
-                                text = resultText
+                                onResultClick(result)
                                 expanded = false
                             }
                             .fillMaxWidth()
@@ -128,27 +136,52 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
         }
     }
 }
-// [END android_compose_components_searchbarbasicfilterlist]
+// [END android_compose_components_simple_searchbar]
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchBarBasicFilterListPreview() {
-    SearchBarBasicFilterList()
-}
+private fun SimpleSearchBarExample() {
+    var query by rememberSaveable { mutableStateOf("") }
+    val items = listOf(
+        "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
+        "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"
+    )
 
-// [START android_compose_components_searchbarfilterlist]
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBarFilterList(
-    list: List<String>,
-    modifier: Modifier = Modifier
-) {
-    var text by rememberSaveable { mutableStateOf("") }
-    val filteredList by remember {
+    val filteredItems by remember {
         derivedStateOf {
-            list.filter { it.lowercase().contains(text.lowercase()) }
+            if (query.isEmpty()) {
+                emptyList()
+            } else {
+                items.filter { it.contains(query, ignoreCase = true) }
+            }
         }
     }
+
+    SimpleSearchBar(
+        query = query,
+        onQueryChange = { query = it },
+        onSearch = { /* Handle search submission */ },
+        searchResults = filteredItems,
+        onResultClick = { query = it }
+    )
+}
+
+// [START android_compose_components_customizable_searchbar]
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomizableSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    onResultClick: (String) -> Unit,
+    placeholder: @Composable () -> Unit = { Text("Search") },
+    leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
+    trailingIcon: @Composable (() -> Unit)? = null,
+    supportingContent: (@Composable (String) -> Unit)? = null,
+    leadingContent: (@Composable () -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(
@@ -162,35 +195,33 @@ fun SearchBarFilterList(
                 .semantics { traversalIndex = 0f },
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = text,
-                    onQueryChange = { text = it },
-                    onSearch = { expanded = false },
+                    query = query,
+                    onQueryChange = onQueryChange,
+                    onSearch = {
+                        onSearch(query)
+                        expanded = false
+                    },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
+                    placeholder = placeholder,
+                    leadingIcon = leadingIcon,
+                    trailingIcon = trailingIcon
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
             LazyColumn {
-                items(count = filteredList.size) { index ->
-                    val resultText = filteredList[index]
+                items(count = searchResults.size) { index ->
+                    val resultText = searchResults[index]
                     ListItem(
                         headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
-                        leadingContent = {
-                            Icon(
-                                Icons.Filled.Star,
-                                contentDescription = "Starred item"
-                            )
-                        },
+                        supportingContent = supportingContent?.let { { it(resultText) } },
+                        leadingContent = leadingContent,
                         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
                         modifier = Modifier
                             .clickable {
-                                text = resultText
+                                onResultClick(resultText)
                                 expanded = false
                             }
                             .fillMaxWidth()
@@ -199,6 +230,45 @@ fun SearchBarFilterList(
                 }
             }
         }
+    }
+}
+// [END android_compose_components_customizable_searchbar]
+
+@Preview(showBackground = true)
+@Composable
+fun CustomizableSearchBarExample() {
+    var query by rememberSaveable { mutableStateOf("") }
+    val items = listOf(
+        "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
+        "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow",
+        "Nougat", "Oreo", "Pie"
+    )
+
+    val filteredItems by remember {
+        derivedStateOf {
+            if (query.isEmpty()) {
+                items
+            } else {
+                items.filter { it.contains(query, ignoreCase = true) }
+            }
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        CustomizableSearchBar(
+            query = query,
+            onQueryChange = { query = it },
+            onSearch = { /* Handle search submission */ },
+            searchResults = filteredItems,
+            onResultClick = { query = it },
+            placeholder = { Text("Search desserts") },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
+            supportingContent = { Text("Android dessert") },
+            leadingContent = { Icon(Icons.Filled.Star, contentDescription = "Starred item") }
+        )
+
+        // Display the filtered list below the search bar
         LazyColumn(
             contentPadding = PaddingValues(
                 start = 16.dp,
@@ -211,34 +281,9 @@ fun SearchBarFilterList(
                 traversalIndex = 1f
             },
         ) {
-            items(count = filteredList.size) {
-                Text(text = filteredList[it])
+            items(count = filteredItems.size) {
+                Text(text = filteredItems[it])
             }
         }
     }
-}
-// [END android_compose_components_searchbarfilterlist]
-
-@Preview(showBackground = true)
-@Composable
-fun AppSearchBar(modifier: Modifier = Modifier) {
-    SearchBarFilterList(
-        list = listOf(
-            "Cupcake",
-            "Donut",
-            "Eclair",
-            "Froyo",
-            "Gingerbread",
-            "Honeycomb",
-            "Ice Cream Sandwich",
-            "Jelly Bean",
-            "KitKat",
-            "Lollipop",
-            "Marshmallow",
-            "Nougat",
-            "Oreo",
-            "Pie"
-        ),
-        modifier
-    )
 }
