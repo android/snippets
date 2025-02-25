@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -68,26 +70,32 @@ fun SearchBarExamples() {
         var currentExample by remember { mutableStateOf<String?>(null) }
 
         when (currentExample) {
-            "basic" -> SearchBarBasicFilterList()
-            "advanced" -> AppSearchBar()
+            "simple" -> SimpleSearchBarExample()
+            "fancy" -> CustomizableSearchBarExample()
             else -> {
-                Button(onClick = { currentExample = "basic" }) {
-                    Text("Basic search bar with filter")
+                Button(onClick = { currentExample = "simple" }) {
+                    Text("Simple SearchBar")
                 }
-                Button(onClick = { currentExample = "advanced" }) {
-                    Text("Advanced search bar with filter")
+                Button(onClick = { currentExample = "fancy" }) {
+                    Text("Customizable SearchBar")
                 }
             }
         }
     }
 }
 
+// [START android_compose_components_simple_searchbar]
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_searchbarbasicfilterlist]
 @Composable
-fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
-    var text by rememberSaveable { mutableStateOf("") }
+fun SimpleSearchBar(
+    textFieldState: TextFieldState,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    modifier: Modifier = Modifier
+) {
+    // Controls expansion state of the search bar
     var expanded by rememberSaveable { mutableStateOf(false) }
+
     Box(
         modifier
             .fillMaxSize()
@@ -99,26 +107,28 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
                 .semantics { traversalIndex = 0f },
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = text,
-                    onQueryChange = { text = it },
-                    onSearch = { expanded = false },
+                    query = textFieldState.text.toString(),
+                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
+                    onSearch = {
+                        onSearch(textFieldState.text.toString())
+                        expanded = false
+                    },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") }
+                    placeholder = { Text("Search") }
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+            // Display search results in a scrollable column
             Column(Modifier.verticalScroll(rememberScrollState())) {
-                repeat(4) { index ->
-                    val resultText = "Suggestion $index"
+                searchResults.forEach { result ->
                     ListItem(
-                        headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
+                        headlineContent = { Text(result) },
                         modifier = Modifier
                             .clickable {
-                                text = resultText
+                                textFieldState.edit { replace(0, length, result) }
                                 expanded = false
                             }
                             .fillMaxWidth()
@@ -128,27 +138,55 @@ fun SearchBarBasicFilterList(modifier: Modifier = Modifier) {
         }
     }
 }
-// [END android_compose_components_searchbarbasicfilterlist]
+// [END android_compose_components_simple_searchbar]
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchBarBasicFilterListPreview() {
-    SearchBarBasicFilterList()
-}
+private fun SimpleSearchBarExample() {
+    // Create and remember the text field state
+    val textFieldState = rememberTextFieldState()
+    val items = listOf(
+        "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
+        "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"
+    )
 
-// [START android_compose_components_searchbarfilterlist]
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBarFilterList(
-    list: List<String>,
-    modifier: Modifier = Modifier
-) {
-    var text by rememberSaveable { mutableStateOf("") }
-    val filteredList by remember {
+    // Filter items based on the current search text
+    val filteredItems by remember {
         derivedStateOf {
-            list.filter { it.lowercase().contains(text.lowercase()) }
+            val searchText = textFieldState.text.toString()
+            if (searchText.isEmpty()) {
+                emptyList()
+            } else {
+                items.filter { it.contains(searchText, ignoreCase = true) }
+            }
         }
     }
+
+    SimpleSearchBar(
+        textFieldState = textFieldState,
+        onSearch = { /* Handle search submission */ },
+        searchResults = filteredItems
+    )
+}
+
+// [START android_compose_components_customizable_searchbar]
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomizableSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    onResultClick: (String) -> Unit,
+    // Customization options
+    placeholder: @Composable () -> Unit = { Text("Search") },
+    leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
+    trailingIcon: @Composable (() -> Unit)? = null,
+    supportingContent: (@Composable (String) -> Unit)? = null,
+    leadingContent: (@Composable () -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
+    // Track expanded state of search bar
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(
@@ -161,36 +199,36 @@ fun SearchBarFilterList(
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = 0f },
             inputField = {
+                // Customizable input field implementation
                 SearchBarDefaults.InputField(
-                    query = text,
-                    onQueryChange = { text = it },
-                    onSearch = { expanded = false },
+                    query = query,
+                    onQueryChange = onQueryChange,
+                    onSearch = {
+                        onSearch(query)
+                        expanded = false
+                    },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-                    trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
+                    placeholder = placeholder,
+                    leadingIcon = leadingIcon,
+                    trailingIcon = trailingIcon
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+            // Show search results in a lazy column for better performance
             LazyColumn {
-                items(count = filteredList.size) { index ->
-                    val resultText = filteredList[index]
+                items(count = searchResults.size) { index ->
+                    val resultText = searchResults[index]
                     ListItem(
                         headlineContent = { Text(resultText) },
-                        supportingContent = { Text("Additional info") },
-                        leadingContent = {
-                            Icon(
-                                Icons.Filled.Star,
-                                contentDescription = "Starred item"
-                            )
-                        },
+                        supportingContent = supportingContent?.let { { it(resultText) } },
+                        leadingContent = leadingContent,
                         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
                         modifier = Modifier
                             .clickable {
-                                text = resultText
+                                onResultClick(resultText)
                                 expanded = false
                             }
                             .fillMaxWidth()
@@ -199,10 +237,52 @@ fun SearchBarFilterList(
                 }
             }
         }
+    }
+}
+// [END android_compose_components_customizable_searchbar]
+
+@Preview(showBackground = true)
+@Composable
+fun CustomizableSearchBarExample() {
+    // Manage query state
+    var query by rememberSaveable { mutableStateOf("") }
+    val items = listOf(
+        "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
+        "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow",
+        "Nougat", "Oreo", "Pie"
+    )
+
+    // Filter items based on query
+    val filteredItems by remember {
+        derivedStateOf {
+            if (query.isEmpty()) {
+                items
+            } else {
+                items.filter { it.contains(query, ignoreCase = true) }
+            }
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        CustomizableSearchBar(
+            query = query,
+            onQueryChange = { query = it },
+            onSearch = { /* Handle search submission */ },
+            searchResults = filteredItems,
+            onResultClick = { query = it },
+            // Customize appearance with optional parameters
+            placeholder = { Text("Search desserts") },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
+            supportingContent = { Text("Android dessert") },
+            leadingContent = { Icon(Icons.Filled.Star, contentDescription = "Starred item") }
+        )
+
+        // Display the filtered list below the search bar
         LazyColumn(
             contentPadding = PaddingValues(
                 start = 16.dp,
-                top = 72.dp,
+                top = 72.dp, // Provides space for the search bar
                 end = 16.dp,
                 bottom = 16.dp
             ),
@@ -211,34 +291,9 @@ fun SearchBarFilterList(
                 traversalIndex = 1f
             },
         ) {
-            items(count = filteredList.size) {
-                Text(text = filteredList[it])
+            items(count = filteredItems.size) {
+                Text(text = filteredItems[it])
             }
         }
     }
-}
-// [END android_compose_components_searchbarfilterlist]
-
-@Preview(showBackground = true)
-@Composable
-fun AppSearchBar(modifier: Modifier = Modifier) {
-    SearchBarFilterList(
-        list = listOf(
-            "Cupcake",
-            "Donut",
-            "Eclair",
-            "Froyo",
-            "Gingerbread",
-            "Honeycomb",
-            "Ice Cream Sandwich",
-            "Jelly Bean",
-            "KitKat",
-            "Lollipop",
-            "Marshmallow",
-            "Nougat",
-            "Oreo",
-            "Pie"
-        ),
-        modifier
-    )
 }
