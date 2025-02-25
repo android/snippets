@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -86,13 +88,12 @@ fun SearchBarExamples() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
+    textFieldState: TextFieldState,
     onSearch: (String) -> Unit,
     searchResults: List<String>,
-    onResultClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Controls expansion state of the search bar
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(
@@ -106,10 +107,10 @@ fun SimpleSearchBar(
                 .semantics { traversalIndex = 0f },
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = query,
-                    onQueryChange = onQueryChange,
+                    query = textFieldState.text.toString(),
+                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
                     onSearch = {
-                        onSearch(query)
+                        onSearch(textFieldState.text.toString())
                         expanded = false
                     },
                     expanded = expanded,
@@ -120,13 +121,14 @@ fun SimpleSearchBar(
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+            // Display search results in a scrollable column
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 searchResults.forEach { result ->
                     ListItem(
                         headlineContent = { Text(result) },
                         modifier = Modifier
                             .clickable {
-                                onResultClick(result)
+                                textFieldState.edit { replace(0, length, result) }
                                 expanded = false
                             }
                             .fillMaxWidth()
@@ -141,28 +143,29 @@ fun SimpleSearchBar(
 @Preview(showBackground = true)
 @Composable
 private fun SimpleSearchBarExample() {
-    var query by rememberSaveable { mutableStateOf("") }
+    // Create and remember the text field state
+    val textFieldState = rememberTextFieldState()
     val items = listOf(
         "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
         "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"
     )
 
+    // Filter items based on the current search text
     val filteredItems by remember {
         derivedStateOf {
-            if (query.isEmpty()) {
+            val searchText = textFieldState.text.toString()
+            if (searchText.isEmpty()) {
                 emptyList()
             } else {
-                items.filter { it.contains(query, ignoreCase = true) }
+                items.filter { it.contains(searchText, ignoreCase = true) }
             }
         }
     }
 
     SimpleSearchBar(
-        query = query,
-        onQueryChange = { query = it },
+        textFieldState = textFieldState,
         onSearch = { /* Handle search submission */ },
-        searchResults = filteredItems,
-        onResultClick = { query = it }
+        searchResults = filteredItems
     )
 }
 
@@ -175,6 +178,7 @@ fun CustomizableSearchBar(
     onSearch: (String) -> Unit,
     searchResults: List<String>,
     onResultClick: (String) -> Unit,
+    // Customization options
     placeholder: @Composable () -> Unit = { Text("Search") },
     leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -182,6 +186,7 @@ fun CustomizableSearchBar(
     leadingContent: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
+    // Track expanded state of search bar
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(
@@ -194,6 +199,7 @@ fun CustomizableSearchBar(
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = 0f },
             inputField = {
+                // Customizable input field implementation
                 SearchBarDefaults.InputField(
                     query = query,
                     onQueryChange = onQueryChange,
@@ -211,6 +217,7 @@ fun CustomizableSearchBar(
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
+            // Show search results in a lazy column for better performance
             LazyColumn {
                 items(count = searchResults.size) { index ->
                     val resultText = searchResults[index]
@@ -237,6 +244,7 @@ fun CustomizableSearchBar(
 @Preview(showBackground = true)
 @Composable
 fun CustomizableSearchBarExample() {
+    // Manage query state
     var query by rememberSaveable { mutableStateOf("") }
     val items = listOf(
         "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb",
@@ -244,6 +252,7 @@ fun CustomizableSearchBarExample() {
         "Nougat", "Oreo", "Pie"
     )
 
+    // Filter items based on query
     val filteredItems by remember {
         derivedStateOf {
             if (query.isEmpty()) {
@@ -261,6 +270,7 @@ fun CustomizableSearchBarExample() {
             onSearch = { /* Handle search submission */ },
             searchResults = filteredItems,
             onResultClick = { query = it },
+            // Customize appearance with optional parameters
             placeholder = { Text("Search desserts") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
             trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
@@ -272,7 +282,7 @@ fun CustomizableSearchBarExample() {
         LazyColumn(
             contentPadding = PaddingValues(
                 start = 16.dp,
-                top = 72.dp,
+                top = 72.dp,  // Provides space for the search bar
                 end = 16.dp,
                 bottom = 16.dp
             ),
