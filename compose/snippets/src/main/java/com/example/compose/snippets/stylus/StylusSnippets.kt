@@ -18,6 +18,7 @@
 
 package com.example.compose.snippets.stylus
 
+import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
