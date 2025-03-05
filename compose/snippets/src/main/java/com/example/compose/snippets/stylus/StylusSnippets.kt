@@ -20,6 +20,7 @@ package com.example.compose.snippets.stylus
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Composable
 
 // [START android_compose_stylus_motion_event_access]
 @Composable
