@@ -55,12 +55,10 @@ class SystemBarProtectionSnippets : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // Only impacts three-button navigation
-            window.isNavigationBarContrastEnforced = true
-        }
+        // enableEdgeToEdge sets window.isNavigationBarContrastEnforced = true
+        // which is used to add a translucent scrim to three-button navigation
+        enableEdgeToEdge()
 
         setContent {
             MyTheme {
