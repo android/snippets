@@ -43,13 +43,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
 
-// [START android_compose_layout_basics_1]
+// [START test_snippet]
 @Composable
 fun ArtistCard() {
     Text("Alfred Sisley")
     Text("3 minutes ago")
 }
-// [END android_compose_layout_basics_1]
+// [END test_snippet]
 
 // [START android_compose_layout_basics_2]
 @Composable
