@@ -101,8 +101,9 @@ private fun StatusBarProtection(
 
 @Composable
 fun calculateGradientHeight(): () -> Float {
-    val topInsets = WindowInsets.statusBars.getTop(LocalDensity.current).times(1.2F)
-    return { topInsets }
+    val statusBars = WindowInsets.statusBars
+    val density = LocalDensity.current
+    return { statusBars.getTop(density).times(1.2f) }
 }
 // [END android_compose_system_bar_protection]
 
