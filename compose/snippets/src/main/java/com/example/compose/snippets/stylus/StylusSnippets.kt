@@ -26,10 +26,10 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.lifecycle.ViewModel
 
-class UserViewModel: ViewModel() {
-  fun processMotionEvent(e: MotionEvent): Boolean {
-    return true
-  }
+class UserViewModel : ViewModel() {
+    fun processMotionEvent(e: MotionEvent): Boolean {
+        return true
+    }
 }
 
 val viewModel = UserViewModel()
