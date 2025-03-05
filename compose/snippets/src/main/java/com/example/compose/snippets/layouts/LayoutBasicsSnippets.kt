@@ -175,3 +175,11 @@ fun HomeScreen(/*...*/) {
     }
 }
 // [END android_compose_layout_basics_9]
+
+// [START test_snippet]
+@Composable
+fun MyCard() {
+    Text("Alfred Sisley")
+    Text("3 minutes ago")
+}
+// [END test_snippet]
