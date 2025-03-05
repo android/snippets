@@ -22,6 +22,17 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.lifecycle.ViewModel
+
+class UserViewModel: ViewModel() {
+  fun processMotionEvent(e: MotionEvent): Boolean {
+    return true
+  }
+}
+
+val viewModel = UserViewModel()
 
 // [START android_compose_stylus_motion_event_access]
 @Composable
