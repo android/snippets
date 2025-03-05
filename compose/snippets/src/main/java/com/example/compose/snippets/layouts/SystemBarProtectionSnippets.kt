@@ -80,9 +80,8 @@ private fun StatusBarProtection(
     heightProvider: () -> Float = calculateGradientHeight(),
 ) {
 
-    val calculatedHeight = heightProvider()
-
     Canvas(Modifier.fillMaxSize()) {
+        val calculatedHeight = heightProvider()
         val gradient = Brush.verticalGradient(
             colors = listOf(
                 color.copy(alpha = 1f),
