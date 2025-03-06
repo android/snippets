@@ -46,7 +46,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.window.core.layout.WindowWidthSizeClass
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_EXPANDED_LOWER_BOUND
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
@@ -190,12 +191,15 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
 }
 
 fun customPaneScaffoldDirective(currentWindowAdaptiveInfo: WindowAdaptiveInfo): PaneScaffoldDirective {
-    val horizontalPartitions =
-        when (currentWindowAdaptiveInfo.windowSizeClass.windowWidthSizeClass) {
-            WindowWidthSizeClass.COMPACT -> 1
-            WindowWidthSizeClass.MEDIUM -> 2
-            else -> 3
-        }
+    val horizontalPartitions = when {
+        currentWindowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+            WIDTH_DP_EXPANDED_LOWER_BOUND
+        ) -> 3
+        currentWindowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+            WIDTH_DP_MEDIUM_LOWER_BOUND
+        ) -> 2
+        else -> 1
+    }
 
     return PaneScaffoldDirective(
         maxHorizontalPartitions = horizontalPartitions,
