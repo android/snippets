@@ -27,5 +27,6 @@ include(
         ":compose:snippets",
         ":wear",
         ":views",
-        ":misc"
+        ":misc",
+        ":xr",
 )

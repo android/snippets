@@ -50,6 +50,9 @@ jobs:
     - name: Run spotlessApply for Misc
       run: ./gradlew :misc:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
 
+    - name: Run spotlessApply for XR
+      run: ./gradlew :xr:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
+
     - name: Auto-commit if spotlessApply has changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
