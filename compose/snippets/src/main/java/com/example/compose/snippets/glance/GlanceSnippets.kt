@@ -39,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.Button
@@ -69,6 +70,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.action.actionStartService
+import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.updateIf
@@ -866,6 +868,32 @@ object GlanceTheming {
         )
         // [END android_compose_glance_glancetheming05]
     }
+}
+
+object GlanceInnerPadding {
+
+    // [START android_compose_glance_innercornerradius]
+    /**
+     * Applies corner radius for views that are visually positioned [widgetPadding]dp inside of the
+     * widget background.
+     */
+    @Composable
+    fun GlanceModifier.appWidgetInnerCornerRadius(widgetPadding: Dp): GlanceModifier {
+
+        if (Build.VERSION.SDK_INT < 31) {
+            return this
+        }
+
+        val resources = LocalContext.current.resources
+        // get dimension in float (without rounding).
+        val px = resources.getDimension(android.R.dimen.system_app_widget_background_radius)
+        val widgetBackgroundRadiusDpValue = px / resources.displayMetrics.density
+        if (widgetBackgroundRadiusDpValue < widgetPadding.value) {
+            return this
+        }
+        return this.cornerRadius(Dp(widgetBackgroundRadiusDpValue - widgetPadding.value))
+    }
+    // [END android_compose_glance_innercornerradius]
 }
 
 object GlanceInteroperability {
