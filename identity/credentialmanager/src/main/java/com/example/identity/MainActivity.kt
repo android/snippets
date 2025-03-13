@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.sample.android.bluetoothle.kotlin
+package com.example.identity.credentialmanager
 
-import android.bluetooth.BluetoothClass
-import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.widget.ArrayAdapter
+import android.os.Bundle
+import androidx.activity.ComponentActivity
 
-class LeDeviceListAdapter(context: Context?, layout: Int) :
-    ArrayAdapter<BluetoothClass.Device?>(context!!, layout) {
-
-    fun addDevice(device: BluetoothDevice?) {
-        // This is where you can add devices to the adapter to
-        // show a list of discovered devices in the UI.
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 }

@@ -27,11 +27,10 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.compose
 import com.example.example.snippet.views.R
 
-class ExampleAppWidget:GlanceAppWidget() {
+class ExampleAppWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         TODO("Not yet implemented")
     }
-
 }
 
 private object GeneratedPreviewWithoutGlance {
@@ -51,7 +50,7 @@ private object GeneratedPreviewWithoutGlance {
         // [END android_view_appwidget_generatedpreview_with_remoteview]
     }
 
-     suspend fun MyGlanceWidgetPreview() {
+    suspend fun MyGlanceWidgetPreview() {
         // [START android_view_appwidget_generatedpreview_with_glance]
         AppWidgetManager.getInstance(appContext).setWidgetPreview(
             ComponentName(
@@ -68,6 +67,4 @@ private object GeneratedPreviewWithoutGlance {
     }
 }
 
-class ExampleAppWidgetReceiver: AppWidgetProvider() {
-
-}
+class ExampleAppWidgetReceiver : AppWidgetProvider()

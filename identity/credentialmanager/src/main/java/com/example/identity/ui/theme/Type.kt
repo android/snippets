@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.sample.android.bluetoothle.kotlin
+package com.example.identity.credentialmanager.ui.theme
 
-import android.bluetooth.BluetoothClass
-import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.widget.ArrayAdapter
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
-class LeDeviceListAdapter(context: Context?, layout: Int) :
-    ArrayAdapter<BluetoothClass.Device?>(context!!, layout) {
-
-    fun addDevice(device: BluetoothDevice?) {
-        // This is where you can add devices to the adapter to
-        // show a list of discovered devices in the UI.
-    }
-}
+// Set of Material typography styles to start with
+val Typography = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    )
+)
