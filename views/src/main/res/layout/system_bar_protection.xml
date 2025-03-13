@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- [START system-bar-protection_xml] -->
+    <!-- [START android-system-bar-protection_xml] -->
     <androidx.core.view.insets.ProtectionLayout
         android:id="@+id/list_protection"
         android:layout_width="match_parent"
@@ -39,6 +39,6 @@
         </ScrollView>
 
     </androidx.core.view.insets.ProtectionLayout>
-    <!-- [END system-bar-protection_xml] -->
+    <!-- [END android-system-bar-protection_xml] -->
 
 </LinearLayout>

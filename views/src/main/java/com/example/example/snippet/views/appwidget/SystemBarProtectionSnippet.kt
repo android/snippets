@@ -50,7 +50,7 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
             insets
         }
 
-        // [START system-bar-protection_kotlin]
+        // [START android-system-bar-protection_kotlin]
         findViewById<ProtectionLayout>(R.id.list_protection)
             .setProtections(
                 listOf(
@@ -59,6 +59,6 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
                     )
                 )
             )
-        // [END system-bar-protection_kotlin]
+        // [END android-system-bar-protection_kotlin]
     }
 }
