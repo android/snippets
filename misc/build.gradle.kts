@@ -64,6 +64,11 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.window)
+    implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.window.java)
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
