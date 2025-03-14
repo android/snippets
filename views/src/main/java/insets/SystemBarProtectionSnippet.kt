@@ -16,6 +16,7 @@
 
 package insets
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -51,11 +52,17 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
         }
 
         // [START android_system_bar_protection_kotlin]
+        val red = 52
+        val green = 168
+        val blue = 83
         findViewById<ProtectionLayout>(R.id.list_protection)
             .setProtections(
                 listOf(
                     GradientProtection(
-                        WindowInsetsCompat.Side.TOP
+                        WindowInsetsCompat.Side.TOP,
+                        // Ideally, this is the pane's background color
+                        // alpha = 204 for an 80% gradient
+                        Color.argb(204, red, green, blue)
                     )
                 )
             )
