@@ -133,7 +133,7 @@ androidx-window = { module = "androidx.window", name="window", version.ref = "an
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = {module = "androidx.window", name = "window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.0"
-appcompat = { module = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
