@@ -115,7 +115,7 @@ androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", versi
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-startup-runtime = {group = "androidx.startup", version.ref = "androidx-startup-runtime" }
+androidx-startup-runtime = {group = "androidx.startup", name="startup-runtime" version.ref = "androidx-startup-runtime" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-test-runner = "androidx.test:runner:1.6.2"
@@ -126,9 +126,9 @@ androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
 androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
-androidx-window = { group = "androidx.window", version.ref = "androidx-window" }
+androidx-window = { group = "androidx.window", name="window" version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
-androidx-window-java = {group = "androidx.window", version.ref = "androidx-window-java" }
+androidx-window-java = {group = "androidx.window", name = "window-java" version.ref = "androidx-window-java" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.0"
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
