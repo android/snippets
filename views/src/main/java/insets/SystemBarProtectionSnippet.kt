@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.example.snippet.views.appwidget
+package insets
 
 import android.os.Bundle
 import android.view.View

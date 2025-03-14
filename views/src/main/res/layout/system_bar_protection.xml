@@ -17,28 +17,22 @@
 
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- [START android_system_bar_protection_xml] -->
+<androidx.core.view.insets.ProtectionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_protection"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- [START android_system_bar_protection_xml] -->
-    <androidx.core.view.insets.ProtectionLayout
-        android:id="@+id/list_protection"
+    <ScrollView
+        android:id="@+id/item_list"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:id="@+id/item_list"
-            android:clipToPadding="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--items-->
 
-            <!--items-->
+    </ScrollView>
 
-        </ScrollView>
-
-    </androidx.core.view.insets.ProtectionLayout>
+</androidx.core.view.insets.ProtectionLayout>
     <!-- [END android_system_bar_protection_xml] -->
-
-</LinearLayout>
