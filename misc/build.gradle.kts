@@ -63,7 +63,12 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.window)
+    implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.window.java)
+    implementation(libs.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
