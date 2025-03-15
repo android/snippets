@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.window)
     implementation(libs.androidx.startup.runtime)
