@@ -6,7 +6,6 @@ androidx-appcompat = "1.7.0"
 androidx-compose-bom = "2025.02.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-constraintlayout = "2.2.1"
-androidx-constraintlayout-constraintlayout = "2.2.0"
 androidx-constraintlayout-compose = "1.1.0"
 androidx-coordinator-layout = "1.2.0"
 androidx-corektx = "1.15.0"
@@ -94,7 +93,6 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 androidx-constraintlayout = {module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
-androidx-constraintlayout-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-constraintlayout", version.ref = "androidx-constraintlayout-constraintlayout" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout-compose" }
 androidx-coordinator-layout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator-layout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
