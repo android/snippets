@@ -365,7 +365,7 @@ public class ActivityEmbeddingJavaSnippets {
 
 
     /**
-     * Used by snippets.
+     * Classes used by snippets.
      */
     static class ListActivity {}
     static class SubdetailActivity {}
