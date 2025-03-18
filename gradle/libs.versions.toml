@@ -9,6 +9,8 @@ androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.0"
 androidx-coordinator-layout = "1.2.0"
 androidx-corektx = "1.15.0"
+androidx-credentials = "1.5.0"
+androidx-credentials-play-services-auth = "1.5.0"
 androidx-emoji2-views = "1.5.0"
 androidx-fragment-ktx = "1.8.6"
 androidx-glance-appwidget = "1.1.1"
@@ -97,6 +99,8 @@ androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constr
 androidx-coordinator-layout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator-layout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials-play-services-auth" }
 androidx-emoji2-views = { module = "androidx.emoji2:emoji2-views", version.ref = "androidx-emoji2-views" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance-appwidget" }
