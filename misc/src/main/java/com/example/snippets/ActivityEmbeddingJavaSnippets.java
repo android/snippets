@@ -74,7 +74,7 @@ public class ActivityEmbeddingJavaSnippets {
             }
             // [END activity_embedding_split_attributes_calculator_java]
 
-            // [START activity_embedding_split_attributes_calculator_tabletop_java ]
+            // [START activity_embedding_split_attributes_calculator_tabletop_java]
             if (WindowSdkExtensions.getInstance().getExtensionVersion() >= 2) {
                 SplitController.getInstance(this).setSplitAttributesCalculator(params -> {
                     String tag = params.getSplitRuleTag();
@@ -111,7 +111,7 @@ public class ActivityEmbeddingJavaSnippets {
                     }
                 });
             }
-            // [END activity_embedding_split_attributes_calculator_tabletop_java ]
+            // [END activity_embedding_split_attributes_calculator_tabletop_java]
 
             // [START activity_embedding_splitPairFilter_java]
             SplitPairFilter splitPairFilter = new SplitPairFilter(
@@ -131,7 +131,7 @@ public class ActivityEmbeddingJavaSnippets {
                   .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
                   .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT)
                   .build();
-            // [START activity_embedding_splitAttributes_java]
+            // [END activity_embedding_splitAttributes_java]
 
             // [START activity_embedding_splitPairRule_java]
             SplitPairRule splitPairRule = new SplitPairRule.Builder(filterSet)
@@ -301,7 +301,7 @@ public class ActivityEmbeddingJavaSnippets {
                 .addRule(new SplitPairRule.Builder(filterSet).build());
             startActivity(new Intent(this, DetailActivity.class));
         }
-        // [START activity_embedding_onCreate_RuleController_java]
+        // [END activity_embedding_onCreate_RuleController_java]
 
     }
 
@@ -309,7 +309,7 @@ public class ActivityEmbeddingJavaSnippets {
     static class SnippetActivity3 extends AppCompatActivity {
 
         @OptIn(markerClass = ExperimentalWindowApi.class)
-        // [START activity_embedding_onCreate_SplitControllerCallbackAdapter_java'
+        // [START activity_embedding_onCreate_SplitControllerCallbackAdapter_java]
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -323,7 +323,7 @@ public class ActivityEmbeddingJavaSnippets {
                             splitInfoList.isEmpty() ? View.VISIBLE : View.GONE);
                     });
         }
-        // [END activity_embedding_onCreate_SplitControllerCallbackAdapter_java'
+        // [END activity_embedding_onCreate_SplitControllerCallbackAdapter_java]
 
     }
 
