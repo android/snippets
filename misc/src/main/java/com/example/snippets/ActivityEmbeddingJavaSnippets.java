@@ -49,7 +49,7 @@ public class ActivityEmbeddingJavaSnippets {
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            // [START android_activity_embeddingsplit_attributes_calculator_java]
+            // [START android_activity_embedding_split_attributes_calculator_java]
             if (WindowSdkExtensions.getInstance().getExtensionVersion() >= 2) {
                 SplitController.getInstance(this).setSplitAttributesCalculator(params -> {
                     Configuration parentConfiguration = params.getParentConfiguration();
@@ -72,9 +72,9 @@ public class ActivityEmbeddingJavaSnippets {
                     }
                 });
             }
-            // [END android_activity_embeddingsplit_attributes_calculator_java]
+            // [END android_activity_embedding_split_attributes_calculator_java]
 
-            // [START android_activity_embeddingsplit_attributes_calculator_tabletop_java]
+            // [START android_activity_embedding_split_attributes_calculator_tabletop_java]
             if (WindowSdkExtensions.getInstance().getExtensionVersion() >= 2) {
                 SplitController.getInstance(this).setSplitAttributesCalculator(params -> {
                     String tag = params.getSplitRuleTag();
@@ -111,29 +111,29 @@ public class ActivityEmbeddingJavaSnippets {
                     }
                 });
             }
-            // [END android_activity_embeddingsplit_attributes_calculator_tabletop_java]
+            // [END android_activity_embedding_split_attributes_calculator_tabletop_java]
 
-            // [START android_activity_embeddingsplitPairFilter_java]
+            // [START android_activity_embedding_splitPairFilter_java]
             SplitPairFilter splitPairFilter = new SplitPairFilter(
                new ComponentName(this, ListActivity.class),
                new ComponentName(this, DetailActivity.class),
                null
             );
-            // [END android_activity_embeddingsplitPairFilter_java]
+            // [END android_activity_embedding_splitPairFilter_java]
 
-            // [START android_activity_embeddingfilterSet_java]
+            // [START android_activity_embedding_filterSet_java]
             Set<SplitPairFilter> filterSet = new HashSet<>();
             filterSet.add(splitPairFilter);
-            // [END android_activity_embeddingfilterSet_java]
+            // [END android_activity_embedding_filterSet_java]
 
-            // [START android_activity_embeddingsplitAttributes_java]
+            // [START android_activity_embedding_splitAttributes_java]
             SplitAttributes splitAttributes = new SplitAttributes.Builder()
                   .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
                   .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT)
                   .build();
-            // [END android_activity_embeddingsplitAttributes_java]
+            // [END android_activity_embedding_splitAttributes_java]
 
-            // [START android_activity_embeddingsplitPairRule_java]
+            // [START android_activity_embedding_splitPairRule_java]
             SplitPairRule splitPairRule = new SplitPairRule.Builder(filterSet)
                 .setDefaultSplitAttributes(splitAttributes)
                 .setMinWidthDp(840)
@@ -143,26 +143,26 @@ public class ActivityEmbeddingJavaSnippets {
                 .setFinishSecondaryWithPrimary(SplitRule.FinishBehavior.ALWAYS)
                 .setClearTop(false)
                 .build();
-            // [END android_activity_embeddingsplitPairRule_java]
+            // [END android_activity_embedding_splitPairRule_java]
 
-            // [START android_activity_embeddingruleController_java]
+            // [START android_activity_embedding_ruleController_java]
             RuleController ruleController = RuleController.getInstance(this);
             ruleController.addRule(splitPairRule);
-            // [END android_activity_embeddingruleController_java]
+            // [END android_activity_embedding_ruleController_java]
 
-            // [START android_activity_embeddingplaceholderActivityFilter_java]
+            // [START android_activity_embedding_placeholderActivityFilter_java]
             ActivityFilter placeholderActivityFilter = new ActivityFilter(
                 new ComponentName(this, ListActivity.class),
                 null
             );
-            // [END android_activity_embeddingplaceholderActivityFilter_java]
+            // [END android_activity_embedding_placeholderActivityFilter_java]
 
-            // [START android_activity_embeddingplaceholderActivityFilterSet_java]
+            // [START android_activity_embedding_placeholderActivityFilterSet_java]
             Set<ActivityFilter> placeholderActivityFilterSet = new HashSet<>();
             placeholderActivityFilterSet.add(placeholderActivityFilter);
-            // [END android_activity_embeddingplaceholderActivityFilterSet_java]
+            // [END android_activity_embedding_placeholderActivityFilterSet_java]
 
-            // [START android_activity_embeddingsplitPlaceholderRule_java]
+            // [START android_activity_embedding_splitPlaceholderRule_java]
             SplitPlaceholderRule splitPlaceholderRule = new SplitPlaceholderRule.Builder(
                   placeholderActivityFilterSet,
                   new Intent(this, PlaceholderActivity.class)
@@ -173,36 +173,36 @@ public class ActivityEmbeddingJavaSnippets {
                  .setFinishPrimaryWithPlaceholder(SplitRule.FinishBehavior.ALWAYS)
                  .setSticky(false)
                  .build();
-            // [END android_activity_embeddingsplitPlaceholderRule_java]
+            // [END android_activity_embedding_splitPlaceholderRule_java]
 
-            // [START android_activity_embeddingaddRuleSplitPlaceholderRule_java]
+            // [START android_activity_embedding_addRuleSplitPlaceholderRule_java]
             ruleController.addRule(splitPlaceholderRule);
-            // [END android_activity_embeddingaddRuleSplitPlaceholderRule_java]
+            // [END android_activity_embedding_addRuleSplitPlaceholderRule_java]
 
-            // [START android_activity_embeddingexpandedActivityFilter_java]
+            // [START android_activity_embedding_expandedActivityFilter_java]
             ActivityFilter expandedActivityFilter = new ActivityFilter(
                 new ComponentName(this, ExpandedActivity.class),
                null
             );
-            // [END android_activity_embeddingexpandedActivityFilter_java]
+            // [END android_activity_embedding_expandedActivityFilter_java]
 
-            // [START android_activity_embeddingexpandedActivityFilterSet_java]
+            // [START android_activity_embedding_expandedActivityFilterSet_java]
             Set<ActivityFilter> expandedActivityFilterSet = new HashSet<>();
             expandedActivityFilterSet.add(expandedActivityFilter);
-            // [END android_activity_embeddingexpandedActivityFilterSet_java]
+            // [END android_activity_embedding_expandedActivityFilterSet_java]
 
-            // [START android_activity_embeddingactivityRule_java]
+            // [START android_activity_embedding_activityRule_java]
             ActivityRule activityRule = new ActivityRule.Builder(
                 expandedActivityFilterSet
             ).setAlwaysExpand(true)
              .build();
-            // [END android_activity_embeddingactivityRule_java]
+            // [END android_activity_embedding_activityRule_java]
 
-            // [START android_activity_embeddingaddRuleActivityRule_java]
+            // [START android_activity_embedding_addRuleActivityRule_java]
             ruleController.addRule(activityRule);
-            // [END android_activity_embeddingaddRuleActivityRule_java]
+            // [END android_activity_embedding_addRuleActivityRule_java]
 
-            // [START android_activity_embeddingsplitAttributesBuilder_java]
+            // [START android_activity_embedding_splitAttributesBuilder_java]
             SplitAttributes.Builder _splitAttributesBuilder = new SplitAttributes.Builder()
                 .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
                 .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT);
@@ -217,32 +217,32 @@ public class ActivityEmbeddingJavaSnippets {
                 );
             }
             SplitAttributes _splitAttributes = _splitAttributesBuilder.build();
-            // [END android_activity_embeddingsplitAttributesBuilder_java]
+            // [END android_activity_embedding_splitAttributesBuilder_java]
 
         }
 
 
-        // [START android_activity_embeddingisActivityEmbedded_java]
+        // [START android_activity_embedding_isActivityEmbedded_java]
         boolean isActivityEmbedded(Activity activity) {
             return ActivityEmbeddingController.getInstance(context).isActivityEmbedded(activity);
         }
-        // [END android_activity_embeddingisActivityEmbedded_java]
+        // [END android_activity_embedding_isActivityEmbedded_java]
 
     }
 
 
     /** @noinspection InnerClassMayBeStatic */
-    // [START android_activity_embeddingDetailActivity_class_java]
+    // [START android_activity_embedding_DetailActivity_class_java]
     public class DetailActivity  extends AppCompatActivity {
         void onOpenSubdetail() {
             startActivity(new Intent(this, SubdetailActivity.class));
         }
     }
-    // [END android_activity_embeddingDetailActivity_class_java]
+    // [END android_activity_embedding_DetailActivity_class_java]
 
 
     /** @noinspection InnerClassMayBeStatic */
-    // [START android_activity_embeddingSplitInitializer_class_java]
+    // [START android_activity_embedding_SplitInitializer_class_java]
     public class SplitInitializer implements Initializer<RuleController> {
 
         @NonNull
@@ -261,7 +261,7 @@ public class ActivityEmbeddingJavaSnippets {
              return Collections.emptyList();
          }
     }
-    // [END android_activity_embeddingSplitInitializer_class_java]
+    // [END android_activity_embedding_SplitInitializer_class_java]
 
 
     /**
@@ -270,30 +270,30 @@ public class ActivityEmbeddingJavaSnippets {
     private Class<?> classForItem(int item) { return Class.class; }
 
     /** @noinspection InnerClassMayBeStatic */
-    // [START android_activity_embeddingMenuActivity_class_java]
+    // [START android_activity_embedding_MenuActivity_class_java]
     public class MenuActivity extends AppCompatActivity{
         void onMenuItemSelected(int selectedMenuItem) {
             startActivity(new Intent(this, classForItem(selectedMenuItem)));
         }
     }
-    // [END android_activity_embeddingMenuActivity_class_java]
+    // [END android_activity_embedding_MenuActivity_class_java]
 
 
     /** @noinspection InnerClassMayBeStatic */
-    // [START android_activity_embeddingB_class_java]
+    // [START android_activity_embedding_B_class_java]
     public class B extends AppCompatActivity{
         void onOpenC() {
             startActivity(new Intent(this, C.class));
         }
     }
-    // [END android_activity_embeddingB_class_java]
+    // [END android_activity_embedding_B_class_java]
 
 
     static class SnippetActivity2 extends Activity {
 
         private Set<SplitPairFilter> filterSet = new HashSet<>();
 
-        // [START android_activity_embeddingonCreate_RuleController_java]
+        // [START android_activity_embedding_onCreate_RuleController_java]
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -301,7 +301,7 @@ public class ActivityEmbeddingJavaSnippets {
                 .addRule(new SplitPairRule.Builder(filterSet).build());
             startActivity(new Intent(this, DetailActivity.class));
         }
-        // [END android_activity_embeddingonCreate_RuleController_java]
+        // [END android_activity_embedding_onCreate_RuleController_java]
 
     }
 
@@ -309,7 +309,7 @@ public class ActivityEmbeddingJavaSnippets {
     static class SnippetActivity3 extends AppCompatActivity {
 
         @OptIn(markerClass = ExperimentalWindowApi.class)
-        // [START android_activity_embeddingonCreate_SplitControllerCallbackAdapter_java]
+        // [START android_activity_embedding_onCreate_SplitControllerCallbackAdapter_java]
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -323,7 +323,7 @@ public class ActivityEmbeddingJavaSnippets {
                             splitInfoList.isEmpty() ? View.VISIBLE : View.GONE);
                     });
         }
-        // [END android_activity_embeddingonCreate_SplitControllerCallbackAdapter_java]
+        // [END android_activity_embedding_onCreate_SplitControllerCallbackAdapter_java]
 
     }
 
@@ -334,7 +334,7 @@ public class ActivityEmbeddingJavaSnippets {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            // [START android_activity_embeddingpinButton_java]
+            // [START android_activity_embedding_pinButton_java]
             Button pinButton = findViewById(R.id.pinButton);
             pinButton.setOnClickListener( (view) -> {
                 SplitAttributes splitAttributes = new SplitAttributes.Builder()
@@ -351,14 +351,14 @@ public class ActivityEmbeddingJavaSnippets {
                     getApplicationContext()).pinTopActivityStack(getTaskId(),
                     pinSplitRule);
             });
-            // [END android_activity_embeddingpinButton_java]
+            // [END android_activity_embedding_pinButton_java]
 
-            // [START android_activity_embeddinggetSplitSupportStatus_java]
+            // [START android_activity_embedding_getSplitSupportStatus_java]
             if (SplitController.getInstance(this).getSplitSupportStatus() ==
                  SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
                  // Device supports split activity features.
             }
-            // [END android_activity_embeddinggetSplitSupportStatus_java]
+            // [END android_activity_embedding_getSplitSupportStatus_java]
 
         }
     }
