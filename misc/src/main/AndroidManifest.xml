@@ -49,7 +49,6 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false">
-          <!-- For activity embedding snippets. -->
           <meta-data
               android:name="${applicationId}.SplitInitializer"
               android:value="androidx.startup" />
