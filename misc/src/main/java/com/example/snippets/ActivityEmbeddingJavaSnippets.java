@@ -231,7 +231,7 @@ public class ActivityEmbeddingJavaSnippets {
     }
 
 
-    /** @noinspection InnerClassMayBeStatic*/
+    /** @noinspection InnerClassMayBeStatic */
     // [START android_activity_embeddingDetailActivity_class_java]
     public class DetailActivity  extends AppCompatActivity {
         void onOpenSubdetail() {
@@ -241,7 +241,7 @@ public class ActivityEmbeddingJavaSnippets {
     // [END android_activity_embeddingDetailActivity_class_java]
 
 
-    /** @noinspection InnerClassMayBeStatic*/
+    /** @noinspection InnerClassMayBeStatic */
     // [START android_activity_embeddingSplitInitializer_class_java]
     public class SplitInitializer implements Initializer<RuleController> {
 
@@ -269,7 +269,7 @@ public class ActivityEmbeddingJavaSnippets {
      */
     private Class<?> classForItem(int item) { return Class.class; }
 
-    /** @noinspection InnerClassMayBeStatic*/
+    /** @noinspection InnerClassMayBeStatic */
     // [START android_activity_embeddingMenuActivity_class_java]
     public class MenuActivity extends AppCompatActivity{
         void onMenuItemSelected(int selectedMenuItem) {
@@ -279,7 +279,7 @@ public class ActivityEmbeddingJavaSnippets {
     // [END android_activity_embeddingMenuActivity_class_java]
 
 
-    /** @noinspection InnerClassMayBeStatic*/
+    /** @noinspection InnerClassMayBeStatic */
     // [START android_activity_embeddingB_class_java]
     public class B extends AppCompatActivity{
         void onOpenC() {
