@@ -50,7 +50,7 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false">
           <meta-data
-              android:name="${applicationId}.SplitInitializer"
+              android:name="com.example.snippets.ActivityEmbeddingJavaSnippets$SplitInitializer"
               android:value="androidx.startup" />
         </provider>
     </application>
