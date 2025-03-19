@@ -47,10 +47,10 @@
         </activity>
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
+            android:authorities="com.example.snippets.androidx-startup"
             android:exported="false">
           <meta-data
-              android:name="${applicationId}.ActivityEmbeddingJavaSnippets.SplitInitializer"
+              android:name="com.example.snippets.ActivityEmbeddingJavaSnippets.SplitInitializer"
               android:value="androidx.startup" />
         </provider>
     </application>
