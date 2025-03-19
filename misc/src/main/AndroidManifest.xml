@@ -49,8 +49,8 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false">
-          <Make SplitInitializer discoverable by InitializationProvider.>
           <meta-data
+              <!-- For activity embedding snippets. -->
               android:name="${applicationId}.SplitInitializer"
               android:value="androidx.startup" />
         </provider>
