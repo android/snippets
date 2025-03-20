@@ -5,13 +5,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.startup.Initializer;
 import androidx.window.WindowSdkExtensions;
@@ -45,6 +46,7 @@ public class ActivityEmbeddingJavaSnippets {
 
         private Context context;
 
+        @RequiresApi(api=VERSION_CODES.N)
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -364,9 +366,7 @@ public class ActivityEmbeddingJavaSnippets {
     }
 
 
-    /**
-     * Classes used by snippets.
-     */
+    // Classes used by snippets.
     static class ListActivity {}
     static class SubdetailActivity {}
     static class PlaceholderActivity {}
