@@ -22,7 +22,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,8 +29,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.only
@@ -49,7 +46,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -124,7 +120,6 @@ fun ConsumedFromPaddingSnippet() {
 @Preview
 @Composable
 fun M3SupportScaffoldSnippet() {
-    val colors = listOf(Color.Red, Color.Blue, Color.Yellow)
     // [START android_compose_insets_m3_scaffold]
     Scaffold { innerPadding ->
         // innerPadding contains inset information for you to use and apply
@@ -133,14 +128,7 @@ fun M3SupportScaffoldSnippet() {
             modifier = Modifier.consumeWindowInsets(innerPadding),
             contentPadding = innerPadding
         ) {
-            items(count = 100) {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(colors[it % colors.size])
-                )
-            }
+            // ..
         }
     }
     // [END android_compose_insets_m3_scaffold]

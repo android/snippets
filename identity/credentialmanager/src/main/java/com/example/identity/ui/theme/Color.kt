@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.sample.android.bluetoothle.kotlin
+package com.example.identity.credentialmanager.ui.theme
 
-import android.bluetooth.BluetoothClass
-import android.bluetooth.BluetoothDevice
-import android.content.Context
-import android.widget.ArrayAdapter
+import androidx.compose.ui.graphics.Color
 
-class LeDeviceListAdapter(context: Context?, layout: Int) :
-    ArrayAdapter<BluetoothClass.Device?>(context!!, layout) {
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-    fun addDevice(device: BluetoothDevice?) {
-        // This is where you can add devices to the adapter to
-        // show a list of discovered devices in the UI.
-    }
-}
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
