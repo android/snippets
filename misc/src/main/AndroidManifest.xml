@@ -45,6 +45,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.example.snippets.androidx-startup"
+            android:exported="false">
+          <meta-data
+              android:name="com.example.snippets.ActivityEmbeddingKotlinSnippets.SplitInitializer"
+              android:value="androidx.startup" />
+          <meta-data
+              android:name="com.example.snippets.ActivityEmbeddingJavaSnippets.SplitInitializer"
+              android:value="androidx.startup" />
+        </provider>
     </application>
 
 </manifest>
