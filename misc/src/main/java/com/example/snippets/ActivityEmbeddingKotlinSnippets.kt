@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.snippets
 
 import android.app.Activity
@@ -36,11 +52,11 @@ import kotlinx.coroutines.launch
 
 class ActivityEmbeddingKotlinSnippets {
 
-    class SnippetActivity: Activity() {
+    class SnippetActivity : Activity() {
 
         private val context = this
 
-        @RequiresApi(api=VERSION_CODES.N)
+        @RequiresApi(api = VERSION_CODES.N)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -89,7 +105,8 @@ class ActivityEmbeddingKotlinSnippets {
                                     SplitAttributes.LayoutDirection.BOTTOM_TO_TOP
                                 } else {
                                     SplitAttributes.LayoutDirection.LOCALE
-                                })
+                                }
+                            )
                             .build()
                     } else if (parentConfiguration.screenWidthDp >= 840) {
                         // Side-by-side dual-pane layout for wide displays.
@@ -155,15 +172,15 @@ class ActivityEmbeddingKotlinSnippets {
 
             // [START android_activity_embedding_splitPlaceholderRule_kotlin]
             val splitPlaceholderRule = SplitPlaceholderRule.Builder(
-                  placeholderActivityFilterSet,
-                  Intent(context, PlaceholderActivity::class.java)
-                ).setDefaultSplitAttributes(splitAttributes)
-                 .setMinWidthDp(840)
-                 .setMinSmallestWidthDp(600)
-                 .setMaxAspectRatioInPortrait(EmbeddingAspectRatio.ratio(1.5f))
-                 .setFinishPrimaryWithPlaceholder(SplitRule.FinishBehavior.ALWAYS)
-                 .setSticky(false)
-                 .build()
+                placeholderActivityFilterSet,
+                Intent(context, PlaceholderActivity::class.java)
+            ).setDefaultSplitAttributes(splitAttributes)
+                .setMinWidthDp(840)
+                .setMinSmallestWidthDp(600)
+                .setMaxAspectRatioInPortrait(EmbeddingAspectRatio.ratio(1.5f))
+                .setFinishPrimaryWithPlaceholder(SplitRule.FinishBehavior.ALWAYS)
+                .setSticky(false)
+                .build()
             // [END android_activity_embedding_splitPlaceholderRule_kotlin]
 
             // [START android_activity_embedding_addRuleSplitPlaceholderRule_kotlin]
@@ -190,7 +207,6 @@ class ActivityEmbeddingKotlinSnippets {
             // [START android_activity_embedding_addRuleActivityRule_kotlin]
             ruleController.addRule(activityRule)
             // [END android_activity_embedding_addRuleActivityRule_kotlin]
-
         }
 
         // [START android_activity_embedding_isActivityEmbedded_kotlin]
@@ -198,18 +214,15 @@ class ActivityEmbeddingKotlinSnippets {
             return ActivityEmbeddingController.getInstance(this).isActivityEmbedded(activity)
         }
         // [END android_activity_embedding_isActivityEmbedded_kotlin]
-
     }
 
-
     // [START android_activity_embedding_DetailActivity_class_kotlin]
-    class DetailActivity: AppCompatActivity() {
+    class DetailActivity : AppCompatActivity() {
         fun onOpenSubdetail() {
             startActivity(Intent(this, SubdetailActivity::class.java))
         }
     }
     // [END android_activity_embedding_DetailActivity_class_kotlin]
-
 
     // [START android_activity_embedding_SplitInitializer_class_kotlin]
     class SplitInitializer : Initializer<RuleController> {
@@ -226,31 +239,28 @@ class ActivityEmbeddingKotlinSnippets {
     }
     // [END android_activity_embedding_SplitInitializer_class_kotlin]
 
-
     /**
      * Function used by snippet.
      */
     fun classForItem(item: Int): Class<*> { return Class::class.java }
 
     // [START android_activity_embedding_MenuActivity_class_kotlin]
-    inner class MenuActivity: AppCompatActivity() {
+    inner class MenuActivity : AppCompatActivity() {
         fun onMenuItemSelected(selectedMenuItem: Int) {
             startActivity(Intent(this, classForItem(selectedMenuItem)))
         }
     }
     // [END android_activity_embedding_MenuActivity_class_kotlin]
 
-
     // [START android_activity_embedding_B_class_kotlin]
-    class B: AppCompatActivity() {
+    class B : AppCompatActivity() {
         fun onOpenC() {
             startActivity(Intent(this, C::class.java))
         }
     }
     // [END android_activity_embedding_B_class_kotlin]
 
-
-    class SnippetActivity2: Activity() {
+    class SnippetActivity2 : Activity() {
 
         private val filterSet = HashSet<SplitPairFilter>()
 
@@ -264,8 +274,7 @@ class ActivityEmbeddingKotlinSnippets {
         // [END android_activity_embedding_onCreate_RuleController_kotlin]
     }
 
-
-    class SplitDeviceActivity: AppCompatActivity() {
+    class SplitDeviceActivity : AppCompatActivity() {
 
         @RequiresApi(VERSION_CODES.N)
         @OptIn(ExperimentalWindowApi::class)
@@ -279,11 +288,11 @@ class ActivityEmbeddingKotlinSnippets {
 
             if (WindowSdkExtensions.getInstance().extensionVersion >= 6) {
                 splitAttributesBuilder.setDividerAttributes(
-                  DividerAttributes.DraggableDividerAttributes.Builder()
-                    .setColor(getColor(R.color.divider_color))
-                    .setWidthDp(4)
-                    .setDragRange(DividerAttributes.DragRange.DRAG_RANGE_SYSTEM_DEFAULT)
-                    .build()
+                    DividerAttributes.DraggableDividerAttributes.Builder()
+                        .setColor(getColor(R.color.divider_color))
+                        .setWidthDp(4)
+                        .setDragRange(DividerAttributes.DragRange.DRAG_RANGE_SYSTEM_DEFAULT)
+                        .build()
                 )
             }
             val splitAttributes: SplitAttributes = splitAttributesBuilder.build()
@@ -305,8 +314,7 @@ class ActivityEmbeddingKotlinSnippets {
         }
     }
 
-
-    class SnippetActivity3: AppCompatActivity() {
+    class SnippetActivity3 : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
@@ -330,19 +338,18 @@ class ActivityEmbeddingKotlinSnippets {
 
             // [START android_activity_embedding_getSplitSupportStatus_kotlin]
             if (SplitController.getInstance(this).splitSupportStatus ==
-                SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
-                    // Device supports split activity features.
+                SplitController.SplitSupportStatus.SPLIT_AVAILABLE
+            ) {
+                // Device supports split activity features.
             }
             // [END android_activity_embedding_getSplitSupportStatus_kotlin]
         }
     }
 
-
     // Classes used by snippets.
-    class ListActivity {}
-    class SubdetailActivity {}
-    class PlaceholderActivity {}
-    class ExpandedActivity {}
-    class C {}
-
+    class ListActivity
+    class SubdetailActivity
+    class PlaceholderActivity
+    class ExpandedActivity
+    class C
 }
