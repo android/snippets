@@ -204,23 +204,6 @@ public class ActivityEmbeddingJavaSnippets {
             ruleController.addRule(activityRule);
             // [END android_activity_embedding_addRuleActivityRule_java]
 
-            // [START android_activity_embedding_splitAttributesBuilder_java]
-            SplitAttributes.Builder _splitAttributesBuilder = new SplitAttributes.Builder()
-                .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
-                .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT);
-
-            if (WindowSdkExtensions.getInstance().getExtensionVersion() >= 6) {
-                _splitAttributesBuilder.setDividerAttributes(
-                  new DividerAttributes.DraggableDividerAttributes.Builder()
-                    .setColor(ContextCompat.getColor(this, R.color.divider_color))
-                    .setWidthDp(4)
-                    .setDragRange(DividerAttributes.DragRange.DRAG_RANGE_SYSTEM_DEFAULT)
-                    .build()
-                );
-            }
-            SplitAttributes _splitAttributes = _splitAttributesBuilder.build();
-            // [END android_activity_embedding_splitAttributesBuilder_java]
-
         }
 
 
@@ -336,6 +319,23 @@ public class ActivityEmbeddingJavaSnippets {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
+            // [START android_activity_embedding_splitAttributesBuilder_java]
+            SplitAttributes.Builder splitAttributesBuilder = new SplitAttributes.Builder()
+                .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
+                .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT);
+
+            if (WindowSdkExtensions.getInstance().getExtensionVersion() >= 6) {
+                splitAttributesBuilder.setDividerAttributes(
+                  new DividerAttributes.DraggableDividerAttributes.Builder()
+                    .setColor(ContextCompat.getColor(this, R.color.divider_color))
+                    .setWidthDp(4)
+                    .setDragRange(DividerAttributes.DragRange.DRAG_RANGE_SYSTEM_DEFAULT)
+                    .build()
+                );
+            }
+            SplitAttributes _splitAttributes = splitAttributesBuilder.build();
+            // [END android_activity_embedding_splitAttributesBuilder_java]
+
             // [START android_activity_embedding_pinButton_java]
             Button pinButton = findViewById(R.id.pinButton);
             pinButton.setOnClickListener( (view) -> {
@@ -349,16 +349,15 @@ public class ActivityEmbeddingJavaSnippets {
                     .setDefaultSplitAttributes(splitAttributes)
                     .build();
 
-                SplitController.getInstance(
-                    getApplicationContext()).pinTopActivityStack(getTaskId(),
-                    pinSplitRule);
+                SplitController.getInstance(getApplicationContext())
+                    .pinTopActivityStack(getTaskId(), pinSplitRule);
             });
             // [END android_activity_embedding_pinButton_java]
 
             // [START android_activity_embedding_getSplitSupportStatus_java]
             if (SplitController.getInstance(this).getSplitSupportStatus() ==
-                 SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
-                 // Device supports split activity features.
+                SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
+                    // Device supports split activity features.
             }
             // [END android_activity_embedding_getSplitSupportStatus_java]
 
