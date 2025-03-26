@@ -31,7 +31,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.startup.Initializer
 import androidx.window.WindowSdkExtensions
-import androidx.window.core.ExperimentalWindowApi
 import androidx.window.embedding.ActivityEmbeddingController
 import androidx.window.embedding.ActivityFilter
 import androidx.window.embedding.ActivityRule
@@ -52,11 +51,8 @@ import kotlinx.coroutines.launch
 
 class ActivityEmbeddingKotlinSnippets {
 
-    class SnippetActivity : Activity() {
+    class SplitAttributesCalculatorSnippetsActivity : AppCompatActivity() {
 
-        private val context = this
-
-        @RequiresApi(api = VERSION_CODES.N)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -122,6 +118,16 @@ class ActivityEmbeddingKotlinSnippets {
                 }
             }
             // [END android_activity_embedding_split_attributes_calculator_tabletop_kotlin]
+        }
+    }
+
+    class SplitRuleSnippetsActivity : AppCompatActivity() {
+
+        private val context = this
+
+        @RequiresApi(api = VERSION_CODES.N)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
             // [START android_activity_embedding_splitPairFilter_kotlin]
             val splitPairFilter = SplitPairFilter(
@@ -207,14 +213,28 @@ class ActivityEmbeddingKotlinSnippets {
             // [START android_activity_embedding_addRuleActivityRule_kotlin]
             ruleController.addRule(activityRule)
             // [END android_activity_embedding_addRuleActivityRule_kotlin]
+        }
+
+        // [START android_activity_embedding_isActivityEmbedded_kotlin]
+        fun isActivityEmbedded(activity: Activity): Boolean {
+            return ActivityEmbeddingController.getInstance(this).isActivityEmbedded(activity)
+        }
+        // [END android_activity_embedding_isActivityEmbedded_kotlin]
+    }
+
+    class SplitAttributesBuilderSnippetsActivity : AppCompatActivity() {
+
+        @RequiresApi(VERSION_CODES.M)
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
             // [START android_activity_embedding_splitAttributesBuilder_kotlin]
-            val _splitAttributesBuilder: SplitAttributes.Builder = SplitAttributes.Builder()
+            val splitAttributesBuilder: SplitAttributes.Builder = SplitAttributes.Builder()
                 .setSplitType(SplitAttributes.SplitType.ratio(0.33f))
                 .setLayoutDirection(SplitAttributes.LayoutDirection.LEFT_TO_RIGHT)
 
             if (WindowSdkExtensions.getInstance().extensionVersion >= 6) {
-                _splitAttributesBuilder.setDividerAttributes(
+                splitAttributesBuilder.setDividerAttributes(
                     DividerAttributes.DraggableDividerAttributes.Builder()
                         .setColor(getColor(R.color.divider_color))
                         .setWidthDp(4)
@@ -222,14 +242,8 @@ class ActivityEmbeddingKotlinSnippets {
                         .build()
                 )
             }
-            val _splitAttributes: SplitAttributes = _splitAttributesBuilder.build()
+            val splitAttributes: SplitAttributes = splitAttributesBuilder.build()
             // [END android_activity_embedding_splitAttributesBuilder_kotlin]
-
-            // [START android_activity_embedding_isActivityEmbedded_kotlin]
-            fun isActivityEmbedded(activity: Activity): Boolean {
-                return ActivityEmbeddingController.getInstance(this).isActivityEmbedded(activity)
-            }
-            // [END android_activity_embedding_isActivityEmbedded_kotlin]
         }
     }
 
@@ -277,7 +291,7 @@ class ActivityEmbeddingKotlinSnippets {
     }
     // [END android_activity_embedding_B_class_kotlin]
 
-    class SnippetActivity2 : Activity() {
+    class RuleControllerSnippetsActivity : Activity() {
 
         private val filterSet = HashSet<SplitPairFilter>()
 
@@ -293,9 +307,9 @@ class ActivityEmbeddingKotlinSnippets {
 
     class SplitDeviceActivity : AppCompatActivity() {
 
-        @OptIn(ExperimentalWindowApi::class)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
+
             val splitController = SplitController.getInstance(this)
             // [START android_activity_embedding_onCreate_SplitControllerCallbackAdapter_kotlin]
             val layout = layoutInflater.inflate(R.layout.activity_main, null)
@@ -312,10 +326,11 @@ class ActivityEmbeddingKotlinSnippets {
         }
     }
 
-    class SnippetActivity3 : AppCompatActivity() {
+    class ActivityPinningSnippetsActivity : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
+
             // [START android_activity_embedding_pinButton_kotlin]
             val pinButton: Button = findViewById(R.id.pinButton)
             pinButton.setOnClickListener {
@@ -329,7 +344,8 @@ class ActivityEmbeddingKotlinSnippets {
                     .setDefaultSplitAttributes(splitAttributes)
                     .build()
 
-                SplitController.getInstance(applicationContext).pinTopActivityStack(taskId, pinSplitRule)
+                SplitController.getInstance(applicationContext)
+                    .pinTopActivityStack(taskId, pinSplitRule)
             }
             // [END android_activity_embedding_pinButton_kotlin]
 
