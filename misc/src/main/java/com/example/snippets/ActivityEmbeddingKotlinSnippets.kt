@@ -351,7 +351,8 @@ class ActivityEmbeddingKotlinSnippets {
 
             // [START android_activity_embedding_getSplitSupportStatus_kotlin]
             if (SplitController.getInstance(this).splitSupportStatus ==
-                SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
+                SplitController.SplitSupportStatus.SPLIT_AVAILABLE
+            ) {
                 // Device supports split activity features.
             }
             // [END android_activity_embedding_getSplitSupportStatus_kotlin]
