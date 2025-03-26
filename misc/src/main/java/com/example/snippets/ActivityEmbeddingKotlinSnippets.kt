@@ -178,15 +178,15 @@ class ActivityEmbeddingKotlinSnippets {
 
             // [START android_activity_embedding_splitPlaceholderRule_kotlin]
             val splitPlaceholderRule = SplitPlaceholderRule.Builder(
-                placeholderActivityFilterSet,
-                Intent(context, PlaceholderActivity::class.java)
-            ).setDefaultSplitAttributes(splitAttributes)
-                .setMinWidthDp(840)
-                .setMinSmallestWidthDp(600)
-                .setMaxAspectRatioInPortrait(EmbeddingAspectRatio.ratio(1.5f))
-                .setFinishPrimaryWithPlaceholder(SplitRule.FinishBehavior.ALWAYS)
-                .setSticky(false)
-                .build()
+                  placeholderActivityFilterSet,
+                  Intent(context, PlaceholderActivity::class.java)
+                ).setDefaultSplitAttributes(splitAttributes)
+                 .setMinWidthDp(840)
+                 .setMinSmallestWidthDp(600)
+                 .setMaxAspectRatioInPortrait(EmbeddingAspectRatio.ratio(1.5f))
+                 .setFinishPrimaryWithPlaceholder(SplitRule.FinishBehavior.ALWAYS)
+                 .setSticky(false)
+                 .build()
             // [END android_activity_embedding_splitPlaceholderRule_kotlin]
 
             // [START android_activity_embedding_addRuleSplitPlaceholderRule_kotlin]
