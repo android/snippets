@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">credentialmanager</string>
+    // [START android_identity_assetlinks_app_association]
+    <string name="asset_statements" translatable="false">
+        [{
+          \"include\": \"https://signin.example.com/.well-known/assetlinks.json\"
+        }]
+    </string>
+    // [END android_identity_assetlinks_app_association]
 </resources>
