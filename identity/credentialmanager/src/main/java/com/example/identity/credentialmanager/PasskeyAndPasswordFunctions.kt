@@ -35,7 +35,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 
-class CredentialManagerFunctions (
+class PasskeyAndPasswordFunctions (
   context: Context,
 ) {
   // [START android_identity_initialize_credman]
