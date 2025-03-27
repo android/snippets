@@ -193,7 +193,7 @@ public class ActivityEmbeddingJavaSnippets {
             // [START android_activity_embedding_expandedActivityFilter_java]
             ActivityFilter expandedActivityFilter = new ActivityFilter(
                 new ComponentName(this, ExpandedActivity.class),
-               null
+                null
             );
             // [END android_activity_embedding_expandedActivityFilter_java]
 
@@ -374,7 +374,7 @@ public class ActivityEmbeddingJavaSnippets {
             // [START android_activity_embedding_getSplitSupportStatus_java]
             if (SplitController.getInstance(this).getSplitSupportStatus() ==
                 SplitController.SplitSupportStatus.SPLIT_AVAILABLE) {
-                    // Device supports split activity features.
+                // Device supports split activity features.
             }
             // [END android_activity_embedding_getSplitSupportStatus_java]
 
