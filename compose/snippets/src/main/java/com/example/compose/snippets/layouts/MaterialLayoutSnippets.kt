@@ -260,6 +260,7 @@ fun ScaffoldSnackbarResultDemo() {
                             .showSnackbar(
                                 message = "Snackbar",
                                 actionLabel = "Action",
+                                withDismissAction = true,
                                 // Defaults to SnackbarDuration.Short
                                 duration = SnackbarDuration.Indefinite
                             )
