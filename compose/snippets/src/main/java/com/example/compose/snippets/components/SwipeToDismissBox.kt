@@ -209,9 +209,9 @@ fun SwipeCardItem(
     modifier: Modifier = Modifier,
     content: @Composable (TodoItem) -> Unit
 ) {
-    // [START_EXCLUDE]
     val swipeToDismissState = rememberSwipeToDismissBoxState(
         positionalThreshold = { totalDistance -> totalDistance * 0.25f },
+        // [START_EXCLUDE]
         confirmValueChange = {
             when (it) {
                 SwipeToDismissBoxValue.StartToEnd -> {
