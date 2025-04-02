@@ -84,8 +84,8 @@ fun TodoListItem(
 ) {
     val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            if(it == StartToEnd) onToggleDone(todoItem)
-            else if(it == EndToStart) onRemove(todoItem)
+            if (it == StartToEnd) onToggleDone(todoItem)
+            else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
         }
@@ -95,10 +95,10 @@ fun TodoListItem(
         state = swipeToDismissBoxState,
         modifier = modifier.fillMaxSize(),
         backgroundContent = {
-            when(swipeToDismissBoxState.dismissDirection) {
+            when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if(todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
@@ -173,8 +173,8 @@ fun TodoListItemWithAnimation(
 ) {
     val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            if(it == StartToEnd) onToggleDone(todoItem)
-            else if(it == EndToStart) onRemove(todoItem)
+            if (it == StartToEnd) onToggleDone(todoItem)
+            else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
         }
@@ -184,10 +184,10 @@ fun TodoListItemWithAnimation(
         state = swipeToDismissBoxState,
         modifier = modifier.fillMaxSize(),
         backgroundContent = {
-            when(swipeToDismissBoxState.dismissDirection) {
+            when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if(todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
