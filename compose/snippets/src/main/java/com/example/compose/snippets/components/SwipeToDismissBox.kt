@@ -16,14 +16,12 @@
 
 package com.example.compose.snippets.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -34,15 +32,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.SwipeToDismissBoxValue.EndToStart
+import androidx.compose.material3.SwipeToDismissBoxValue.Settled
+import androidx.compose.material3.SwipeToDismissBoxValue.StartToEnd
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.lerp
@@ -63,42 +63,31 @@ fun SwipeToDismissBoxExamples() {
         Text("Swipe to dismiss with change of background", fontWeight = FontWeight.Bold)
         SwipeItemExample()
         Text("Swipe to dismiss with a cross-fade animation", fontWeight = FontWeight.Bold)
-        SwipeCardItemExample()
+        SwipeItemWithAnimationExample()
     }
 }
 
 // [START android_compose_components_todoitem]
 data class TodoItem(
-    var isItemDone: Boolean,
-    var itemDescription: String
+    val itemDescription: String,
+    var isItemDone: Boolean = false
 )
 // [END android_compose_components_todoitem]
 
 // [START android_compose_components_swipeitem]
 @Composable
-fun SwipeItem(
+fun TodoListItem(
     todoItem: TodoItem,
-    startToEndAction: (TodoItem) -> Unit,
-    endToStartAction: (TodoItem) -> Unit,
+    onToggleDone: (TodoItem) -> Unit,
+    onRemove: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable (TodoItem) -> Unit
 ) {
     val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            when (it) {
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    startToEndAction(todoItem)
-                    // Do not dismiss this item.
-                    false
-                }
-                SwipeToDismissBoxValue.EndToStart -> {
-                    endToStartAction(todoItem)
-                    true
-                }
-                SwipeToDismissBoxValue.Settled -> {
-                    false
-                }
-            }
+            if(it == StartToEnd) onToggleDone(todoItem)
+            else if(it == EndToStart) onRemove(todoItem)
+            // Reset item when toggling done status
+            it != StartToEnd
         }
     )
 
@@ -106,59 +95,39 @@ fun SwipeItem(
         state = swipeToDismissBoxState,
         modifier = modifier.fillMaxSize(),
         backgroundContent = {
-            Row(
-                modifier = Modifier
-                    .background(
-                        when (swipeToDismissBoxState.dismissDirection) {
-                            SwipeToDismissBoxValue.StartToEnd -> {
-                                Color.Blue
-                            }
-                            SwipeToDismissBoxValue.EndToStart -> {
-                                Color.Red
-                            }
-                            SwipeToDismissBoxValue.Settled -> {
-                                Color.LightGray
-                            }
-                        }
+            when(swipeToDismissBoxState.dismissDirection) {
+                StartToEnd -> {
+                    Icon(
+                        if(todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Blue)
+                            .wrapContentSize(Alignment.CenterStart)
+                            .padding(12.dp),
+                        tint = Color.White
                     )
-                    .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                when (swipeToDismissBoxState.dismissDirection) {
-                    SwipeToDismissBoxValue.StartToEnd -> {
-                        val icon = if (todoItem.isItemDone) {
-                            Icons.Default.CheckBox
-                        } else {
-                            Icons.Default.CheckBoxOutlineBlank
-                        }
-
-                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
-
-                        Icon(
-                            icon,
-                            contentDescription,
-                            Modifier.padding(12.dp),
-                            tint = Color.White
-                        )
-                    }
-
-                    SwipeToDismissBoxValue.EndToStart -> {
-                        Spacer(modifier = Modifier)
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Remove item",
-                            tint = Color.White,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
-
-                    SwipeToDismissBoxValue.Settled -> {}
                 }
+                EndToStart -> {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Remove item",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Red)
+                            .wrapContentSize(Alignment.CenterEnd)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
+                }
+                Settled -> {}
             }
         }
     ) {
-        content(todoItem)
+        ListItem(
+            headlineContent = { Text(todoItem.itemDescription) },
+            supportingContent = { Text("swipe me to update or remove.") }
+        )
     }
 }
 // [END android_compose_components_swipeitem]
@@ -169,10 +138,8 @@ fun SwipeItem(
 private fun SwipeItemExample() {
     val todoItems = remember {
         mutableStateListOf(
-            TodoItem(isItemDone = false, itemDescription = "Pay bills"),
-            TodoItem(isItemDone = false, itemDescription = "Buy groceries"),
-            TodoItem(isItemDone = false, itemDescription = "Go to gym"),
-            TodoItem(isItemDone = false, itemDescription = "Get dinner")
+            TodoItem("Pay bills"), TodoItem("Buy groceries"),
+            TodoItem("Go to gym"), TodoItem("Get dinner")
         )
     }
 
@@ -181,20 +148,16 @@ private fun SwipeItemExample() {
             items = todoItems,
             key = { it.itemDescription }
         ) { todoItem ->
-            SwipeItem(
+            TodoListItem(
                 todoItem = todoItem,
-                startToEndAction = {
+                onToggleDone = { todoItem ->
                     todoItem.isItemDone = !todoItem.isItemDone
                 },
-                endToStartAction = {
+                onRemove = { todoItem ->
                     todoItems -= todoItem
-                }
-            ) {
-                ListItem(
-                    headlineContent = { Text(text = todoItem.itemDescription) },
-                    supportingContent = { Text(text = "swipe me to update or remove.") }
-                )
-            }
+                },
+                modifier = Modifier.animateItem()
+            )
         }
     }
 }
@@ -202,103 +165,74 @@ private fun SwipeItemExample() {
 
 // [START android_compose_components_swipecarditem]
 @Composable
-fun SwipeCardItem(
+fun TodoListItemWithAnimation(
     todoItem: TodoItem,
-    startToEndAction: (TodoItem) -> Unit,
-    endToStartAction: (TodoItem) -> Unit,
+    onToggleDone: (TodoItem) -> Unit,
+    onRemove: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable (TodoItem) -> Unit
 ) {
-    val swipeToDismissState = rememberSwipeToDismissBoxState(
-        positionalThreshold = { totalDistance -> totalDistance * 0.25f },
-        // [START_EXCLUDE]
+    val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            when (it) {
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    startToEndAction(todoItem)
-                    // Do not dismiss this item.
-                    false
-                }
-                SwipeToDismissBoxValue.EndToStart -> {
-                    endToStartAction(todoItem)
-                    true
-                }
-                SwipeToDismissBoxValue.Settled -> {
-                    false
-                }
-            }
+            if(it == StartToEnd) onToggleDone(todoItem)
+            else if(it == EndToStart) onRemove(todoItem)
+            // Reset item when toggling done status
+            it != StartToEnd
         }
     )
 
-    // [END_EXCLUDE]
     SwipeToDismissBox(
-        modifier = Modifier,
-        state = swipeToDismissState,
+        state = swipeToDismissBoxState,
+        modifier = modifier.fillMaxSize(),
         backgroundContent = {
-            // Cross-fade the background color as the drag gesture progresses.
-            val color by animateColorAsState(
-                when (swipeToDismissState.targetValue) {
-                    SwipeToDismissBoxValue.Settled -> Color.LightGray
-                    SwipeToDismissBoxValue.StartToEnd ->
-                        lerp(Color.LightGray, Color.Blue, swipeToDismissState.progress)
-
-                    SwipeToDismissBoxValue.EndToStart ->
-                        lerp(Color.LightGray, Color.Red, swipeToDismissState.progress)
-                },
-                label = "swipeable card item background color"
-            )
-            // [START_EXCLUDE]
-            Row(
-                modifier = Modifier
-                    .background(color)
-                    .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                when (swipeToDismissState.dismissDirection) {
-                    SwipeToDismissBoxValue.StartToEnd -> {
-                        val icon = if (todoItem.isItemDone) {
-                            Icons.Default.CheckBox
-                        } else {
-                            Icons.Default.CheckBoxOutlineBlank
-                        }
-
-                        val contentDescription = if (todoItem.isItemDone) "Done" else "Not done"
-
-                        Icon(icon, contentDescription, Modifier.padding(12.dp), tint = Color.White)
-                    }
-
-                    SwipeToDismissBoxValue.EndToStart -> {
-                        Spacer(modifier = Modifier)
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Remove item",
-                            tint = Color.White,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
-
-                    SwipeToDismissBoxValue.Settled -> {}
+            when(swipeToDismissBoxState.dismissDirection) {
+                StartToEnd -> {
+                    Icon(
+                        if(todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .drawBehind {
+                                drawRect(lerp(Color.LightGray, Color.Blue, swipeToDismissBoxState.progress))
+                            }
+                            .wrapContentSize(Alignment.CenterStart)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
                 }
+                EndToStart -> {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Remove item",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(lerp(Color.LightGray, Color.Red, swipeToDismissBoxState.progress))
+                            .wrapContentSize(Alignment.CenterEnd)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
+                }
+                Settled -> {}
             }
         }
     ) {
-        content(todoItem)
+        OutlinedCard(shape = RectangleShape) {
+            ListItem(
+                headlineContent = { Text(todoItem.itemDescription) },
+                supportingContent = { Text("swipe me to update or remove.") }
+            )
+        }
     }
-    // [END_EXCLUDE]
 }
 // [END android_compose_components_swipecarditem]
 
-// [START android_compose_components_swipecarditemexample]
 @Preview
+// [START android_compose_components_swipecarditemexample]
 @Composable
-private fun SwipeCardItemExample() {
+private fun SwipeItemWithAnimationExample() {
     val todoItems = remember {
         mutableStateListOf(
-            TodoItem(isItemDone = false, itemDescription = "Pay bills"),
-            TodoItem(isItemDone = false, itemDescription = "Buy groceries"),
-            TodoItem(isItemDone = false, itemDescription = "Go to gym"),
-            TodoItem(isItemDone = false, itemDescription = "Get dinner")
+            TodoItem("Pay bills"), TodoItem("Buy groceries"),
+            TodoItem("Go to gym"), TodoItem("Get dinner")
         )
     }
 
@@ -307,22 +241,16 @@ private fun SwipeCardItemExample() {
             items = todoItems,
             key = { it.itemDescription }
         ) { todoItem ->
-            SwipeCardItem(
+            TodoListItemWithAnimation(
                 todoItem = todoItem,
-                startToEndAction = {
+                onToggleDone = { todoItem ->
                     todoItem.isItemDone = !todoItem.isItemDone
                 },
-                endToStartAction = {
+                onRemove = { todoItem ->
                     todoItems -= todoItem
-                }
-            ) {
-                OutlinedCard(shape = RectangleShape) {
-                    ListItem(
-                        headlineContent = { Text(todoItem.itemDescription) },
-                        supportingContent = { Text("swipe me to update or remove.") }
-                    )
-                }
-            }
+                },
+                modifier = Modifier.animateItem()
+            )
         }
     }
 }
