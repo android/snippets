@@ -35,8 +35,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.TextObfuscationMode
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -328,6 +330,27 @@ private object TextBrushSnippet2 {
     }
 }
 
+private object TextBrushSnippet2StateBased {
+    @Composable
+    fun TextStyledBrushSnippet() {
+        val rainbowColors: List<Color> = listOf()
+        // [START android_compose_text_textfield_state_brush]
+        var text by remember { mutableStateOf("") }
+        val brush = remember {
+            Brush.linearGradient(
+                colors = rainbowColors
+            )
+        }
+
+        TextField(
+            state = rememberTextFieldState(),
+            placeholder = { Text("username") },
+            textStyle = TextStyle(brush = brush)
+        )
+        // [END android_compose_text_textfield_state_brush]
+    }
+}
+
 private object TextBrushSnippet3 {
     @Composable
     fun TextStyledBrushSnippet() {
@@ -449,6 +472,19 @@ private object TextTextFieldSnippet {
     // [END android_compose_text_textfield_filled]
 }
 
+private object TextTextFieldStateSnippet {
+    // [START android_compose_text_textfield_state_filled]
+    @Composable
+    fun SimpleFilledTextFieldSample() {
+
+        TextField(
+            state = TextFieldState(),
+            label = { Text("Label") }
+        )
+    }
+    // [END android_compose_text_textfield_state_filled]
+}
+
 private object TextOutlinedTextFieldSnippet {
     // [START android_compose_text_textfield_outlined]
     @Composable
@@ -462,6 +498,18 @@ private object TextOutlinedTextFieldSnippet {
         )
     }
     // [END android_compose_text_textfield_outlined]
+}
+
+private object TextOutlinedTextFieldStateSnippet {
+    // [START android_compose_text_textfield_state_outlined]
+    @Composable
+    fun SimpleOutlinedTextFieldSample() {
+        OutlinedTextField(
+            state = rememberTextFieldState(),
+            label = { Text("Label") }
+        )
+    }
+    // [END android_compose_text_textfield_state_outlined]
 }
 
 private object TextStylingTextFieldSnippet {
@@ -482,8 +530,44 @@ private object TextStylingTextFieldSnippet {
     // [END android_compose_text_textfield_styled]
 }
 
+private object TextStylingTextFieldStateSnippet {
+    // [START android_compose_text_textfield_state_styled]
+    @Composable
+    fun StyledTextField() {
+        var value by remember { mutableStateOf("Hello\nWorld\nInvisible") }
+
+        TextField(
+            state = rememberTextFieldState(),
+            label = { Text("Enter text") },
+            lineLimits = TextFieldLineLimits.MultiLine(2),
+            textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
+            modifier = Modifier.padding(20.dp)
+        )
+    }
+    // [END android_compose_text_textfield_state_styled]
+}
+
 private object TextFormattingTextFieldSnippet {
     // [START android_compose_text_textfield_visualtransformation]
+    @Composable
+    fun PasswordTextField() {
+        var password by rememberSaveable { mutableStateOf("") }
+
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Enter password") },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
+    }
+    // [END android_compose_text_textfield_visualtransformation]
+}
+
+private object TextFormattingTextFieldStateSnippet {
+    // [START android_compose_text_textfield_visualtransformation]
+
+    // TODO: update use a different transform
     @Composable
     fun PasswordTextField() {
         var password by rememberSaveable { mutableStateOf("") }
@@ -514,6 +598,22 @@ private object TextCleanInputSnippet {
     // [END android_compose_text_textfield_clean_input]
 }
 
+private object TextStateCleanInputSnippet {
+    // [START android_compose_text_textfield_clean_input]
+    @Composable
+    fun NoLeadingZeroes() {
+        // TODO: update this - use inputTransformation instead?
+        var input by rememberSaveable { mutableStateOf("") }
+        TextField(
+            value = input,
+            onValueChange = { newText ->
+                input = newText.trimStart { it == '0' }
+            }
+        )
+    }
+    // [END android_compose_text_textfield_clean_input]
+}
+
 /** Effective State management **/
 
 private object TextEffectiveStateManagement1 {
@@ -529,6 +629,39 @@ private object TextEffectiveStateManagement1 {
 }
 
 private object TextEffectiveStateManagement2 {
+    class UserRepository
+
+    private val viewModel = SignUpViewModel(UserRepository())
+
+    // [START android_compose_text_state_management]
+    // SignUpViewModel.kt
+
+    class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
+
+        var username by mutableStateOf("")
+            private set
+
+        fun updateUsername(input: String) {
+            username = input
+        }
+    }
+
+    // SignUpScreen.kt
+
+    @Composable
+    fun SignUpScreen(/*...*/) {
+
+        OutlinedTextField(
+            value = viewModel.username,
+            onValueChange = { username -> viewModel.updateUsername(username) }
+            /*...*/
+        )
+    }
+    // [END android_compose_text_state_management]
+}
+
+private object TextStateEffectiveStateManagement2 {
+    // TODO: update
     class UserRepository
 
     private val viewModel = SignUpViewModel(UserRepository())
@@ -816,6 +949,30 @@ fun PhoneNumber() {
 }
 // [END android_compose_text_auto_format_phone_number_textfieldconfig]
 
+// [START android_compose_text_auto_format_phone_number_textfieldconfig]
+@Composable
+fun PhoneNumberStateBased() {
+    // TODO: update to use output transformation
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    val numericRegex = Regex("[^0-9]")
+    TextField(
+        value = phoneNumber,
+        onValueChange = {
+            // Remove non-numeric characters.
+            val stripped = numericRegex.replace(it, "")
+            phoneNumber = if (stripped.length >= 10) {
+                stripped.substring(0..9)
+            } else {
+                stripped
+            }
+        },
+        label = { Text("Enter Phone Number") },
+        visualTransformation = NanpVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
+}
+// [END android_compose_text_auto_format_phone_number_textfieldconfig]
+
 // [START android_compose_text_auto_format_phone_number_transformtext]
 class NanpVisualTransformation : VisualTransformation {
 
@@ -909,6 +1066,52 @@ fun PasswordTextField() {
 }
 // [END android_compose_text_showhidepassword]
 
+// [START android_compose_text_showhidepassword]
+@Composable
+fun SecureTextField() {
+    // TODO: update to SecureTextField
+    val state = remember { TextFieldState() }
+    var showPassword by remember { mutableStateOf(false) }
+    BasicSecureTextField(
+        state = state,
+        textObfuscationMode =
+        if (showPassword) {
+            TextObfuscationMode.Visible
+        } else {
+            TextObfuscationMode.RevealLastTyped
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp)
+            .border(1.dp, Color.LightGray, RoundedCornerShape(6.dp))
+            .padding(6.dp),
+        decorator = { innerTextField ->
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 16.dp, end = 48.dp)
+                ) {
+                    innerTextField()
+                }
+                Icon(
+                    if (showPassword) {
+                        Icons.Filled.Visibility
+                    } else {
+                        Icons.Filled.VisibilityOff
+                    },
+                    contentDescription = "Toggle password visibility",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .requiredSize(48.dp).padding(16.dp)
+                        .clickable { showPassword = !showPassword }
+                )
+            }
+        }
+    )
+}
+// [END android_compose_text_showhidepassword]
+
 // [START android_compose_text_auto_format_phone_number_validatetext]
 class EmailViewModel : ViewModel() {
     var email by mutableStateOf("")
@@ -954,10 +1157,64 @@ fun ValidatingInputTextField(
 @Composable
 fun ValidateInput() {
     val emailViewModel: EmailViewModel = viewModel<EmailViewModel>()
-    ValidatingInputTextField(
+    ValidatingInputTextField1(
         email = emailViewModel.email,
         updateState = { input -> emailViewModel.updateEmail(input) },
         validatorHasErrors = emailViewModel.emailHasErrors
     )
 }
 // [END android_compose_text_auto_format_phone_number_validatetext]
+
+// [START android_compose_text_state_auto_format_phone_number_validatetext]
+class EmailViewModel1 : ViewModel() {
+    var email by mutableStateOf("")
+        private set
+
+    val emailHasErrors by derivedStateOf {
+        if (email.isNotEmpty()) {
+            // Email is considered erroneous until it completely matches EMAIL_ADDRESS.
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        } else {
+            false
+        }
+    }
+
+    fun updateEmail(input: String) {
+        email = input
+    }
+}
+
+@Composable
+fun ValidatingInputTextField1(
+    email: String,
+    updateState: (String) -> Unit,
+    validatorHasErrors: Boolean
+) {
+    // TODO: update
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        value = email,
+        onValueChange = updateState,
+        label = { Text("Email") },
+        isError = validatorHasErrors,
+        supportingText = {
+            if (validatorHasErrors) {
+                Text("Incorrect email format.")
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+fun ValidateInput1() {
+    val emailViewModel: EmailViewModel = viewModel<EmailViewModel>()
+    ValidatingInputTextField(
+        email = emailViewModel.email,
+        updateState = { input -> emailViewModel.updateEmail(input) },
+        validatorHasErrors = emailViewModel.emailHasErrors
+    )
+}
+// [END android_compose_text_state_auto_format_phone_number_validatetext]
