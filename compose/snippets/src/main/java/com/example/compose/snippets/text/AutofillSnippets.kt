@@ -20,31 +20,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.LocalAutofillHighlightColor
-import androidx.compose.material3.TextField
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.touchinput.Button
 
 @Composable
 fun AddAutofill() {
-    var textFieldValue = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     // [START android_compose_autofill_1]
     TextField(
-        value = textFieldValue.value,
-        onValueChange = {textFieldValue.value = it},
+        state = rememberTextFieldState(),
         modifier = Modifier.semantics { contentType = ContentType.Username }
     )
     // [END android_compose_autofill_1]
@@ -52,13 +46,9 @@ fun AddAutofill() {
 
 @Composable
 fun AddMultipleTypesOfAutofill() {
-    var textFieldValue = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     // [START android_compose_autofill_2]
     TextField(
-        value = textFieldValue.value,
-        onValueChange = { textFieldValue.value = it },
+        state = rememberTextFieldState(),
         modifier = Modifier.semantics {
             contentType = ContentType.Username + ContentType.EmailAddress
         }
@@ -75,24 +65,19 @@ fun AutofillManager() {
 
 @Composable
 fun SaveDataWithAutofill() {
-    var textFieldValue = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     // [START android_compose_autofill_4]
     val autofillManager = LocalAutofillManager.current
 
     Column {
         TextField(
-            value = textFieldValue.value,
-            onValueChange = { textFieldValue.value = it },
+            state = rememberTextFieldState(),
             modifier = Modifier.semantics { contentType = ContentType.NewUsername }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = textFieldValue.value,
-            onValueChange = { textFieldValue.value = it },
+            state = rememberTextFieldState(),
             modifier = Modifier.semantics { contentType = ContentType.NewPassword }
         )
     }
@@ -101,24 +86,19 @@ fun SaveDataWithAutofill() {
 
 @Composable
 fun SaveDataWithAutofillOnClick() {
-    var textFieldValue = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     // [START android_compose_autofill_5]
     val autofillManager = LocalAutofillManager.current
 
     Column {
         TextField(
-            value = textFieldValue.value,
-            onValueChange = { textFieldValue.value = it },
+            state = rememberTextFieldState(),
             modifier = Modifier.semantics { contentType = ContentType.NewUsername },
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = textFieldValue.value,
-            onValueChange = { textFieldValue.value = it },
+            state = rememberTextFieldState(),
             modifier = Modifier.semantics { contentType = ContentType.NewPassword },
         )
 
@@ -130,16 +110,12 @@ fun SaveDataWithAutofillOnClick() {
 
 @Composable
 fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
-    var textFieldValue = remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     // [START android_compose_autofill_6]
     val customHighlightColor = Color.Red
 
     CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
         TextField(
-            value = textFieldValue.value,
-            onValueChange = { textFieldValue.value = it },
+            state = rememberTextFieldState(),
             modifier = Modifier.semantics { contentType = ContentType.Username }
         )
     }
