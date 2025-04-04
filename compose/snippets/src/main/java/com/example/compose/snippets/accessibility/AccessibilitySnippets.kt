@@ -19,9 +19,11 @@
 package com.example.compose.snippets.accessibility
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,6 +36,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
@@ -44,10 +47,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,16 +64,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
@@ -155,7 +173,7 @@ private fun LargeBox() {
 
 // [START android_compose_accessibility_click_label]
 @Composable
-private fun ArticleListItem(openArticle: () -> Unit) {
+private fun ArticleListItem(openArticle: () -> Unit = {}) {
     Row(
         Modifier.clickable(
             // R.string.action_read_article = "read article"
@@ -417,6 +435,376 @@ fun FloatingBox() {
     }
 }
 // [END android_compose_accessibility_traversal_fab]
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun InteractiveElements(
+    openArticle: () -> Unit = {},
+    addToBookmarks: () -> Unit = {},
+) {
+// [START android_compose_accessibility_interactive_clickable]
+    Row(
+        // Uses `mergeDescendants = true` under the hood
+        modifier = Modifier.clickable { openArticle() }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_logo),
+            contentDescription = "Open",
+        )
+        Text("Accessibility in Compose")
+    }
+// [END android_compose_accessibility_interactive_clickable]
+
+// [START android_compose_accessibility_interactive_click_label]
+    Row(
+        modifier = Modifier
+            .clickable(onClickLabel = "Open this article") {
+                openArticle()
+            }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_logo),
+            contentDescription = "Open"
+        )
+        Text("Accessibility in Compose")
+    }
+// [END android_compose_accessibility_interactive_click_label]
+
+// [START android_compose_accessibility_interactive_long_click]
+    Row(
+        modifier = Modifier
+            .combinedClickable(
+                onLongClickLabel = "Bookmark this article",
+                onLongClick = { addToBookmarks() },
+                onClickLabel = "Open this article",
+                onClick = { openArticle() },
+            )
+    ) {}
+// [END android_compose_accessibility_interactive_long_click]
+}
+
+// [START android_compose_accessibility_interactive_nested_click]
+@Composable
+private fun ArticleList(openArticle: () -> Unit) {
+    NestedArticleListItem(
+        // Clickable is set separately, in a nested layer:
+        onClickAction = openArticle,
+        // Semantics are set here:
+        modifier = Modifier.semantics {
+            onClick(
+                label = "Open this article",
+                action = {
+                    // Not needed here: openArticle()
+                    true
+                }
+            )
+        }
+    )
+}
+// [END android_compose_accessibility_interactive_nested_click]
+
+@Composable
+private fun NestedArticleListItem(
+    onClickAction: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+private fun Semantics(
+    removeArticle: () -> Unit,
+    openArticle: () -> Unit,
+    addToBookmarks: () -> Unit,
+) {
+
+// [START android_compose_accessibility_semantics_alert_polite]
+    PopupAlert(
+        message = "You have a new message",
+        modifier = Modifier.semantics {
+            liveRegion = LiveRegionMode.Polite
+        }
+    )
+// [END android_compose_accessibility_semantics_alert_polite]
+
+// [START android_compose_accessibility_semantics_alert_assertive]
+    PopupAlert(
+        message = "Emergency alert incoming",
+        modifier = Modifier.semantics {
+            liveRegion = LiveRegionMode.Assertive
+        }
+    )
+// [END android_compose_accessibility_semantics_alert_assertive]
+
+    Box() {
+// [START android_compose_accessibility_semantics_window]
+        ShareSheet(
+            message = "Choose how to share this photo",
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .semantics { paneTitle = "New bottom sheet" }
+        )
+// [END android_compose_accessibility_semantics_window]
+    }
+
+// [START android_compose_accessibility_semantics_error]
+    Error(
+        errorText = "Fields cannot be empty",
+        modifier = Modifier
+            .semantics {
+                error("Please add both email and password")
+            }
+    )
+// [END android_compose_accessibility_semantics_error]
+
+    val progress by remember { mutableFloatStateOf(0F) }
+// [START android_compose_accessibility_semantics_progress]
+    ProgressInfoBar(
+        modifier = Modifier
+            .semantics {
+                progressBarRangeInfo =
+                    ProgressBarRangeInfo(
+                        current = progress,
+                        range = 0F..1F
+                    )
+            }
+    )
+// [END android_compose_accessibility_semantics_progress]
+
+    val milkyWay = List(10) { it.toString() }
+// [START android_compose_accessibility_semantics_long_list]
+    MilkyWayList(
+        modifier = Modifier
+            .semantics {
+                collectionInfo = CollectionInfo(
+                    rowCount = milkyWay.count(),
+                    columnCount = 1
+                )
+            }
+    ) {
+        milkyWay.forEachIndexed { index, text ->
+            Text(
+                text = text,
+                modifier = Modifier.semantics {
+                    collectionItemInfo =
+                        CollectionItemInfo(index, 0, 0, 0)
+                }
+            )
+        }
+    }
+// [END android_compose_accessibility_semantics_long_list]
+
+// [START android_compose_accessibility_semantics_custom_action_swipe]
+    SwipeToDismissBox(
+        modifier = Modifier.semantics {
+            // Represents the swipe to dismiss for accessibility
+            customActions = listOf(
+                CustomAccessibilityAction(
+                    label = "Remove article from list",
+                    action = {
+                        removeArticle()
+                        true
+                    }
+                )
+            )
+        },
+        state = rememberSwipeToDismissBoxState(),
+        backgroundContent = {}
+    ) {
+        ArticleListItem()
+    }
+// [END android_compose_accessibility_semantics_custom_action_swipe]
+
+// [START android_compose_accessibility_semantics_custom_action_long_list]
+    ArticleListItemRow(
+        modifier = Modifier
+            .semantics {
+                customActions = listOf(
+                    CustomAccessibilityAction(
+                        label = "Open article",
+                        action = {
+                            openArticle()
+                            true
+                        }
+                    ),
+                    CustomAccessibilityAction(
+                        label = "Add to bookmarks",
+                        action = {
+                            addToBookmarks()
+                            true
+                        }
+                    ),
+                )
+            }
+    ) {
+        Article(
+            modifier = Modifier.clearAndSetSemantics { },
+            onClick = openArticle,
+        )
+        BookmarkButton(
+            modifier = Modifier.clearAndSetSemantics { },
+            onClick = addToBookmarks,
+        )
+    }
+// [END android_compose_accessibility_semantics_custom_action_long_list]
+}
+
+@Composable
+private fun PopupAlert(
+    message: String,
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+fun ShareSheet(
+    message: String,
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+private fun Error(
+    errorText: String,
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+private fun ProgressInfoBar(
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+private fun MilkyWayList(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    content()
+}
+
+@Composable
+private fun ArticleListItemRow(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    content()
+}
+
+@Composable
+fun Article(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+}
+
+@Composable
+fun BookmarkButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+}
+
+// [START android_compose_accessibility_merging]
+@Composable
+private fun ArticleListItem(
+    openArticle: () -> Unit,
+    addToBookmarks: () -> Unit,
+) {
+
+    Row(modifier = Modifier.clickable { openArticle() }) {
+        // Merges with parent clickable:
+        Icon(
+            painter = painterResource(R.drawable.ic_logo),
+            contentDescription = "Article thumbnail"
+        )
+        ArticleDetails()
+
+        // Defies the merge due to its own clickable:
+        BookmarkButton(onClick = addToBookmarks)
+    }
+}
+// [END android_compose_accessibility_merging]
+
+@Composable
+fun ArticleDetails(
+    modifier: Modifier = Modifier,
+) {
+}
+
+// [START android_compose_accessibility_clearing]
+// Developer might intend this to be a toggleable.
+// Using `clearAndSetSemantics`, on the Row, a clickable modifier is applied,
+// a custom description is set, and a Role is applied.
+
+@Composable
+fun FavoriteToggle() {
+    val checked = remember { mutableStateOf(true) }
+    Row(
+        modifier = Modifier
+            .toggleable(
+                value = checked.value,
+                onValueChange = { checked.value = it }
+            )
+            .clearAndSetSemantics {
+                stateDescription = if (checked.value) "Favorited" else "Not favorited"
+                toggleableState = ToggleableState(checked.value)
+                role = Role.Switch
+            },
+    ) {
+        Icon(
+            imageVector = Icons.Default.Favorite,
+            contentDescription = null // not needed here
+
+        )
+        Text("Favorite?")
+    }
+}
+// [END android_compose_accessibility_clearing]
+
+// [START android_compose_accessibility_hiding]
+@Composable
+fun WatermarkExample(
+    watermarkText: String,
+    content: @Composable () -> Unit,
+) {
+    Box {
+        WatermarkedContent()
+        // Mark the watermark as hidden to accessibility services.
+        WatermarkText(
+            text = watermarkText,
+            color = Color.Gray.copy(alpha = 0.5f),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+//                .semantics { hideFromAccessibility() } TODO when we update Compose to 1.8
+        )
+    }
+}
+
+@Composable
+fun DecorativeExample() {
+    Text(
+        modifier =
+        Modifier.semantics {
+//            hideFromAccessibility() TODO when we update Compose to 1.8
+        },
+        text = "A dot character that is used to decoratively separate information, like •"
+    )
+}
+// [END android_compose_accessibility_hiding]
+
+@Composable
+private fun WatermarkedContent() {
+}
+
+@Composable
+private fun WatermarkText(
+    text: String,
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+}
 
 private object ColumnWithFab {
     // [START android_compose_accessibility_traversal_fab_scaffold]

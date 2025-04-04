@@ -31,25 +31,6 @@ import org.junit.Rule
 import org.junit.Test
 
 @Suppress("TestFunctionName")
-// [START android_compose_semantics_logging]
-class MyComposeTest {
-
-    @get:Rule
-    val composeTestRule = createComposeRule()
-
-    @Test
-    fun MyTest() {
-        // Start the app
-        composeTestRule.setContent {
-            MyTheme {
-                Text("Hello world!")
-            }
-        }
-        // Log the full semantics tree
-        composeTestRule.onRoot().printToLog("MY TAG")
-    }
-}
-// [END android_compose_semantics_logging]
 
 class Test2 {
     @get:Rule
