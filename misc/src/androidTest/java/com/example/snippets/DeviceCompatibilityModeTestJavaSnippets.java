@@ -8,7 +8,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
 import static org.junit.Assert.assertFalse;
 
-public class DeviceCompatibilityModeJavaSnippets extends AppCompatActivity {
+public class DeviceCompatibilityModeTestJavaSnippets extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
