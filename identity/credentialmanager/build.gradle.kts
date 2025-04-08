@@ -55,6 +55,11 @@ dependencies {
     // Android 13 and below.
     implementation(libs.androidx.credentials.play.services.auth)
     // [END android_identity_gradle_dependencies]
+    // [START android_identity_siwg_gradle_dependencies]
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.android.identity.googleid)
+    // [END android_identity_siwg_gradle_dependencies]
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
