@@ -61,6 +61,7 @@ wear = "1.3.0"
 wearComposeFoundation = "1.4.1"
 wearComposeMaterial = "1.4.1"
 wearToolingPreview = "1.0.0"
+junitVersion = "1.2.1"
 
 [libraries]
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
@@ -124,6 +125,7 @@ androidx-startup-runtime = {module = "androidx.startup:startup-runtime", version
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-test-runner = "androidx.test:runner:1.6.2"
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 androidx-tiles = { module = "androidx.wear.tiles:tiles", version.ref = "tiles" }
 androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tiles" }
 androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tiles" }
