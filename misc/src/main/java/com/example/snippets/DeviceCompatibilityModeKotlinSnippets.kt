@@ -22,15 +22,15 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.window.layout.WindowMetricsCalculator
 
-class DeviceCompatibilityModeKotlinSnippets: AppCompatActivity() {
+class DeviceCompatibilityModeKotlinSnippets : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?){
-      super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     // [START android_device_compatibility_mode_isLetterboxed_kotlin]
-    fun isLetterboxed(activity: AppCompatActivity) : Boolean {
+    fun isLetterboxed(activity: AppCompatActivity): Boolean {
         if (isInMultiWindowMode) return false
 
         val wmc = WindowMetricsCalculator.getOrCreate()
@@ -46,5 +46,4 @@ class DeviceCompatibilityModeKotlinSnippets: AppCompatActivity() {
         }
     }
     // [END android_device_compatibility_mode_isLetterboxed_kotlin]
-
 }

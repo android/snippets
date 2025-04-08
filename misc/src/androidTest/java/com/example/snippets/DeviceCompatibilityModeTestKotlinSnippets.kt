@@ -23,9 +23,9 @@ import org.junit.Assert.assertFalse
 import org.junit.Rule
 import org.junit.Test
 
-class DeviceCompatibilityModeTestKotlinSnippets: AppCompatActivity() {
+class DeviceCompatibilityModeTestKotlinSnippets : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
@@ -41,10 +41,9 @@ class DeviceCompatibilityModeTestKotlinSnippets: AppCompatActivity() {
     }
     // [END android_device_compatibility_mode_assert_isLetterboxed_kotlin]
 
-
     // Classes used by snippets.
 
-    class MainActivity: AppCompatActivity() {
+    class MainActivity : AppCompatActivity() {
 
         fun isLetterboxed(): Boolean {
             return true
