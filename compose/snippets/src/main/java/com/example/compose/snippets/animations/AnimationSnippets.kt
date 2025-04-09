@@ -280,14 +280,15 @@ private fun AnimateAsStateSimple() {
     // [START android_compose_animations_animate_as_state]
     var enabled by remember { mutableStateOf(true) }
 
-    val alpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f, label = "alpha")
+    val animatedAlpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f, label = "alpha")
     Box(
         Modifier
             .fillMaxSize()
-            .graphicsLayer(alpha = alpha)
+            .graphicsLayer { alpha = animatedAlpha }
             .background(Color.Red)
     )
     // [END android_compose_animations_animate_as_state]
+    { Button(onClick = { enabled = !enabled }) { Text("Animate me!") } }
 }
 
 @Preview

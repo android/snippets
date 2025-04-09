@@ -22,6 +22,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.credentials.CreatePasswordRequest
+import androidx.credentials.CreatePublicKeyCredentialRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -30,7 +32,14 @@ import androidx.credentials.GetPasswordOption
 import androidx.credentials.GetPublicKeyCredentialOption
 import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
+import androidx.credentials.exceptions.CreateCredentialCancellationException
+import androidx.credentials.exceptions.CreateCredentialCustomException
+import androidx.credentials.exceptions.CreateCredentialException
+import androidx.credentials.exceptions.CreateCredentialInterruptedException
+import androidx.credentials.exceptions.CreateCredentialProviderConfigurationException
+import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCredentialDomException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
@@ -43,6 +52,7 @@ class PasskeyAndPasswordFunctions (
   // CredentialManager.
   private val credentialManager = CredentialManager.create(context)
   // [END android_identity_initialize_credman]
+  private val activityContext = context
 
   // Placeholder for TAG log value.
   val TAG = ""
@@ -55,8 +65,7 @@ class PasskeyAndPasswordFunctions (
    */
   @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
   fun signInFlow(
-    creationResult: JSONObject,
-    activityContext: Context,
+    creationResult: JSONObject
   ) {
     val requestJson = creationResult.toString()
     // [START android_identity_get_password_passkey_options]
@@ -166,6 +175,93 @@ class PasskeyAndPasswordFunctions (
     }
   }
   // [END android_identity_launch_sign_in_flow_2]
+
+  // [START android_identity_create_passkey]
+  suspend fun createPasskey(requestJson: String, preferImmediatelyAvailableCredentials: Boolean) {
+    val createPublicKeyCredentialRequest = CreatePublicKeyCredentialRequest(
+      // Contains the request in JSON format. Uses the standard WebAuthn
+      // web JSON spec.
+      requestJson = requestJson,
+      // Defines whether you prefer to use only immediately available
+      // credentials, not hybrid credentials, to fulfill this request.
+      // This value is false by default.
+      preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials,
+    )
+
+    // Execute CreateCredentialRequest asynchronously to register credentials
+    // for a user account. Handle success and failure cases with the result and
+    // exceptions, respectively.
+    coroutineScope {
+      try {
+        val result = credentialManager.createCredential(
+          // Use an activity-based context to avoid undefined system
+          // UI launching behavior
+          context = activityContext,
+          request = createPublicKeyCredentialRequest,
+        )
+        //  Handle passkey creation result
+      } catch (e : CreateCredentialException){
+        handleFailure(e)
+      }
+    }
+  }
+  // [END android_identity_create_passkey]
+
+  // [START android_identity_handle_create_passkey_failure]
+  fun handleFailure(e: CreateCredentialException) {
+    when (e) {
+      is CreatePublicKeyCredentialDomException -> {
+        // Handle the passkey DOM errors thrown according to the
+        // WebAuthn spec.
+      }
+      is CreateCredentialCancellationException -> {
+        // The user intentionally canceled the operation and chose not
+        // to register the credential.
+      }
+      is CreateCredentialInterruptedException -> {
+        // Retry-able error. Consider retrying the call.
+      }
+      is CreateCredentialProviderConfigurationException -> {
+        // Your app is missing the provider configuration dependency.
+        // Most likely, you're missing the
+        // "credentials-play-services-auth" module.
+      }
+      is CreateCredentialCustomException -> {
+        // You have encountered an error from a 3rd-party SDK. If you
+        // make the API call with a request object that's a subclass of
+        // CreateCustomCredentialRequest using a 3rd-party SDK, then you
+        // should check for any custom exception type constants within
+        // that SDK to match with e.type. Otherwise, drop or log the
+        // exception.
+      }
+      else -> Log.w(TAG, "Unexpected exception type ${e::class.java.name}")
+    }
+  }
+  // [END android_identity_handle_create_passkey_failure]
+
+  // [START android_identity_register_password]
+  suspend fun registerPassword(username: String, password: String) {
+    // Initialize a CreatePasswordRequest object.
+    val createPasswordRequest =
+      CreatePasswordRequest(id = username, password = password)
+
+    // Create credential and handle result.
+    coroutineScope {
+      try {
+        val result =
+          credentialManager.createCredential(
+            // Use an activity based context to avoid undefined
+            // system UI launching behavior.
+            activityContext,
+            createPasswordRequest
+          )
+        // Handle register password result
+      } catch (e: CreateCredentialException) {
+        handleFailure(e)
+      }
+    }
+  }
+  // [END android_identity_register_password]
 }
 
 sealed class ExampleCustomCredential {
