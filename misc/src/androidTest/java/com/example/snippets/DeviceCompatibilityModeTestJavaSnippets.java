@@ -25,6 +25,7 @@ import static org.junit.Assert.assertFalse;
 public class DeviceCompatibilityModeTestJavaSnippets {
 
     // [START android_device_compatibility_mode_assert_isLetterboxed_java]
+    @Test
     @Rule
     public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
