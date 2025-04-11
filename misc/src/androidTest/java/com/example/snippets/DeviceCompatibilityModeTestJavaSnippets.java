@@ -29,6 +29,7 @@ public class DeviceCompatibilityModeTestJavaSnippets {
     @Rule
     public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
+    @Test
     public void activity_launched_notLetterBoxed() {
         try (ActivityScenario<MainActivity> scenario =
             ActivityScenario.launch(MainActivity.class)) {
@@ -41,7 +42,6 @@ public class DeviceCompatibilityModeTestJavaSnippets {
 
 
     // Method used by snippets.
-    @Test
     public boolean isLetterboxed(Activity activity) {
         return true;
     }
