@@ -17,8 +17,6 @@
 package com.example.snippets;
 
 import android.app.Activity;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
