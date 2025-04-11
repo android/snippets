@@ -17,7 +17,6 @@
 package com.example.snippets
 
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.window.layout.WindowMetricsCalculator
 
