@@ -23,11 +23,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Rule
 import org.junit.Test
 
-class DeviceCompatibilityModeTestKotlinSnippets : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+class DeviceCompatibilityModeTestKotlinSnippets {
 
     // [START android_device_compatibility_mode_assert_isLetterboxed_kotlin]
     @get:Rule
