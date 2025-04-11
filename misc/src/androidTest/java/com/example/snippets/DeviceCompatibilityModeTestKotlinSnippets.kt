@@ -16,7 +16,6 @@
 
 package com.example.snippets
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Assert.assertFalse
 import org.junit.Rule
