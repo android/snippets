@@ -22,11 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.window.layout.WindowMetricsCalculator
 
-class DeviceCompatibilityModeKotlinSnippets : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+class DeviceCompatibilityModeKotlinSnippets {
 
     @RequiresApi(Build.VERSION_CODES.N)
     // [START android_device_compatibility_mode_isLetterboxed_kotlin]
