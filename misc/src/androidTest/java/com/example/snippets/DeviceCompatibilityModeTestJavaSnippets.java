@@ -24,12 +24,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
 import static org.junit.Assert.assertFalse;
 
-public class DeviceCompatibilityModeTestJavaSnippets extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public class DeviceCompatibilityModeTestJavaSnippets {
 
     // [START android_device_compatibility_mode_assert_isLetterboxed_java]
     @Rule
