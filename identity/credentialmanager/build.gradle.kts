@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+    // [START android_identity_fido2_migration_dependency]
     alias(libs.plugins.kotlin.android)
+    // [END android_identity_fido2_migration_dependency]
     alias(libs.plugins.compose.compiler)
 }
 
@@ -60,6 +62,8 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.android.identity.googleid)
     // [END android_identity_siwg_gradle_dependencies]
+    implementation(libs.okhttp)
+    implementation(libs.kotlin.coroutines.okhttp)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
