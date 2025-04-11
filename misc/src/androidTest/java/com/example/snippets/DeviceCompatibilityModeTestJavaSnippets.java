@@ -20,12 +20,12 @@ import android.app.Activity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
+import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 
 public class DeviceCompatibilityModeTestJavaSnippets {
 
     // [START android_device_compatibility_mode_assert_isLetterboxed_java]
-    @Test
     @Rule
     public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
@@ -41,6 +41,7 @@ public class DeviceCompatibilityModeTestJavaSnippets {
 
 
     // Method used by snippets.
+    @Test
     public boolean isLetterboxed(Activity activity) {
         return true;
     }
