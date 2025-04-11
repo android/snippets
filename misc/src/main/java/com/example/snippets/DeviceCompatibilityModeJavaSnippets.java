@@ -24,12 +24,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.window.layout.WindowMetricsCalculator;
 
-public class DeviceCompatibilityModeJavaSnippets extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public class DeviceCompatibilityModeJavaSnippets {
 
     @RequiresApi(api=VERSION_CODES.N)
     // [START android_device_compatibility_mode_isLetterboxed_java]
