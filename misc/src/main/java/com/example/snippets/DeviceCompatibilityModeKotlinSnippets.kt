@@ -17,12 +17,17 @@
 package com.example.snippets
 
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.window.layout.WindowMetricsCalculator
 
-class DeviceCompatibilityModeKotlinSnippets {
+class DeviceCompatibilityModeKotlinSnippets : AppCompatActivity() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+    
     @RequiresApi(Build.VERSION_CODES.N)
     // [START android_device_compatibility_mode_isLetterboxed_kotlin]
     fun isLetterboxed(activity: AppCompatActivity): Boolean {
