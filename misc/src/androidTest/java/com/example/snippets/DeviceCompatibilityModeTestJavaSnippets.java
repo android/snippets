@@ -16,7 +16,7 @@
 
 package com.example.snippets;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
@@ -42,7 +42,7 @@ public class DeviceCompatibilityModeTestJavaSnippets {
 
 
     // Method used by snippets.
-    public boolean isLetterboxed(Activity activity) {
+    public boolean isLetterboxed(AppCompatActivity activity) {
         return true;
     }
 
