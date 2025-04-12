@@ -19,7 +19,7 @@ package com.example.snippets;
 import android.graphics.Rect;
 import android.os.Build.VERSION_CODES;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.window.layout.WindowMetricsCalculator;
 
 public class DeviceCompatibilityModeJavaSnippets {
