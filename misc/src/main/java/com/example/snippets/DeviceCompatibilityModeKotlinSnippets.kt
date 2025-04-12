@@ -18,6 +18,7 @@ package com.example.snippets
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.window.layout.WindowMetricsCalculator
 
 class DeviceCompatibilityModeKotlinSnippets {
