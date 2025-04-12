@@ -16,17 +16,17 @@
 
 package com.example.snippets;
 
-import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build.VERSION_CODES;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.window.layout.WindowMetricsCalculator;
 
 public class DeviceCompatibilityModeJavaSnippets {
 
     @RequiresApi(api=VERSION_CODES.N)
     // [START android_device_compatibility_mode_isLetterboxed_java]
-    public boolean isLetterboxed(Activity activity) {
+    public boolean isLetterboxed(AppCompatActivity activity) {
         if (activity.isInMultiWindowMode()) {
             return false;
         }
