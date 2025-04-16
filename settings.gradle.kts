@@ -28,5 +28,6 @@ include(
         ":wear",
         ":views",
         ":misc",
+        ":identity:credentialmanager",
         ":xr",
 )
