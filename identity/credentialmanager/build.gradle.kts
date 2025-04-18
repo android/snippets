@@ -50,6 +50,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+    // [START android_identity_credman_dependency]
+    implementation(libs.androidx.credentials)
+    // [END android_identity_credman_dependency]
+
     // [START android_identity_gradle_dependencies]
     implementation(libs.androidx.credentials)
 
