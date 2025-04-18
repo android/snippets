@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- // [START android_identity_credential_provider_settings] -->
+<credential-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsSubtitle="Example settings provider name"
+    android:settingsActivity="com.example.SettingsActivity">
+    <capabilities>
+        <capability name="android.credentials.TYPE_PUBLIC_KEY_CREDENTIAL" />
+    </capabilities>
+</credential-provider>
+<!-- // [END android_identity_credential_provider_settings] -->
