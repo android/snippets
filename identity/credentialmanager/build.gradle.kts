@@ -69,6 +69,7 @@ dependencies {
     // [END android_identity_siwg_gradle_dependencies]
     implementation(libs.okhttp)
     implementation(libs.kotlin.coroutines.okhttp)
+    implementation(libs.androidx.webkit)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
