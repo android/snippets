@@ -27,5 +27,7 @@ include(
         ":compose:snippets",
         ":wear",
         ":views",
-        ":misc"
+        ":misc",
+        ":identity:credentialmanager",
+        ":xr",
 )

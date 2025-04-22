@@ -1,0 +1,18 @@
+// [START android_identity_apk_key_hash]
+android:apk-key-hash:<sha256_hash-of-apk-signing-cert>
+// [END android_identity_apk_key_hash]
+
+// [START android_identity_keytool_sign]
+keytool -list -keystore <path-to-apk-signing-keystore>
+// [END android_identity_keytool_sign]
+
+// [START android_identity_fingerprint_decode_python]
+import binascii
+import base64
+fingerprint = '91:F7:CB:F9:D6:81:53:1B:C7:A5:8F:B8:33:CC:A1:4D:AB:ED:E5:09:C5'
+print("android:apk-key-hash:" + base64.urlsafe_b64encode(binascii.a2b_hex(fingerprint.replace(':', ''))).decode('utf8').replace('=', ''))
+// [END android_identity_fingerprint_decode_python]
+
+// [START android_identity_fingerprint_decoded]
+android:apk-key-hash:kffL-daBUxvHpY-4M8yhTavt5QnFEI2LsexohxrGPYU
+// [END android_identity_fingerprint_decoded]
