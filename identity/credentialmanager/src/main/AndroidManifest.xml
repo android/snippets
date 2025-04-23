@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -38,6 +39,24 @@
         <!-- // [START android_identity_assetlinks_manifest] -->
         <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
         <!-- // [END android_identity_assetlinks_manifest] -->
+
+        <!-- // [START android_identity_credential_provider_service_manifest] -->
+        <service android:name=".MyCredentialProviderService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="My Credential Provider"
+            android:icon="<any drawable icon>"
+            android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE"
+            tools:targetApi="upside_down_cake">
+            <intent-filter>
+                <action android:name="android.service.credentials.CredentialProviderService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.credentials.provider"
+                android:resource="@xml/provider"/>
+        </service>
+        <!-- // [END android_identity_credential_provider_service_manifest] -->
+
     </application>
 
 </manifest>
