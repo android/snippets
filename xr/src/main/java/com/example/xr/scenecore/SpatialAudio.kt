@@ -22,20 +22,20 @@ import android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION
 import android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION
 import android.media.MediaPlayer
 import android.media.SoundPool
+import androidx.xr.runtime.Session
 import androidx.xr.scenecore.Entity
-import androidx.xr.scenecore.PointSourceAttributes
-import androidx.xr.scenecore.Session
+import androidx.xr.scenecore.PointSourceParams
 import androidx.xr.scenecore.SoundFieldAttributes
 import androidx.xr.scenecore.SpatialCapabilities
 import androidx.xr.scenecore.SpatialMediaPlayer
 import androidx.xr.scenecore.SpatialSoundPool
 import androidx.xr.scenecore.SpatializerConstants
-import androidx.xr.scenecore.getSpatialCapabilities
+import androidx.xr.scenecore.scene
 
 private fun playSpatialAudioAtEntity(session: Session, appContext: Context, entity: Entity) {
     // [START androidxr_scenecore_playSpatialAudio]
     // Check spatial capabilities before using spatial audio
-    if (session.getSpatialCapabilities()
+    if (session.scene.spatialCapabilities
         .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)
     ) { // The session has spatial audio capabilities
         val maxVolume = 1F
@@ -52,7 +52,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
             )
             .build()
 
-        val pointSource = PointSourceAttributes(entity)
+        val pointSource = PointSourceParams(entity)
 
         val soundEffect = appContext.assets.openFd("sounds/tiger_16db.mp3")
         val pointSoundId = soundPool.load(soundEffect, lowPriority)
@@ -64,7 +64,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
                     session = session,
                     soundPool = soundPool,
                     soundID = pointSoundId,
-                    attributes = pointSource,
+                    params = pointSource,
                     volume = maxVolume,
                     priority = lowPriority,
                     loop = infiniteLoop,
@@ -81,10 +81,10 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
 private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioSurround]
     // Check spatial capabilities before using spatial audio
-    if (session.getSpatialCapabilities().hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
-        val pointSourceAttributes = PointSourceAttributes(session.mainPanelEntity)
+        val pointSourceAttributes = PointSourceParams(session.scene.mainPanelEntity)
 
         val mediaPlayer = MediaPlayer()
 
@@ -98,7 +98,7 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .build()
 
-        SpatialMediaPlayer.setPointSourceAttributes(
+        SpatialMediaPlayer.setPointSourceParams(
             session,
             mediaPlayer,
             pointSourceAttributes
@@ -116,7 +116,7 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
 private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioAmbionics]
     // Check spatial capabilities before using spatial audio
-    if (session.getSpatialCapabilities().hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
         val soundFieldAttributes =

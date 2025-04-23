@@ -16,6 +16,7 @@
 
 package com.example.xr.scenecore
 
+import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
@@ -28,7 +29,6 @@ import androidx.xr.scenecore.MovableComponent
 import androidx.xr.scenecore.PlaneSemantic
 import androidx.xr.scenecore.PlaneType
 import androidx.xr.scenecore.ResizableComponent
-import androidx.xr.scenecore.Session
 import java.util.concurrent.Executors
 
 private fun setPoseExample(entity: Entity) {

@@ -62,6 +62,10 @@ okHttp = "4.12.0"
 playServicesWearable = "19.0.0"
 protolayout = "1.2.1"
 recyclerview = "1.4.0"
+# @keep
+androidx-xr-arcore = "1.0.0-SNAPSHOT"
+androidx-xr-scenecore = "1.0.0-SNAPSHOT"
+androidx-xr-compose = "1.0.0-SNAPSHOT"
 targetSdk = "34"
 tiles = "1.4.1"
 version-catalog-update = "1.0.0"
@@ -149,9 +153,9 @@ androidx-window = { module = "androidx.window:window", version.ref = "androidx-w
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.1"
-androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr" }
-androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr" }
-androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr" }
+androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
+androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
+androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr-scenecore" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }

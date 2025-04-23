@@ -19,10 +19,30 @@ package com.example.xr.arcore
 import androidx.xr.arcore.Anchor
 import androidx.xr.arcore.AnchorCreateSuccess
 import androidx.xr.arcore.Trackable
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
+import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
+import androidx.xr.runtime.SessionConfigurePermissionsNotGranted
+import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.AnchorEntity
 import androidx.xr.scenecore.Entity
+import androidx.xr.scenecore.scene
+
+fun configureAnchoring(session: Session) {
+    // [START androidxr_arcore_anchoring_configure]
+    val newConfig = session.config.copy(
+        planeTracking = Config.PlaneTrackingMode.HorizontalAndVertical,
+    )
+    when (val result = session.configure(newConfig)) {
+        is SessionConfigureConfigurationNotSupported ->
+            TODO(/* Some combinations of configurations are not valid. Handle this failure case.*/)
+        is SessionConfigurePermissionsNotGranted ->
+            TODO(/* The required permissions in result.permissions have not been granted. */)
+        is SessionConfigureSuccess -> TODO(/* Success! */)
+    }
+    // [END androidxr_arcore_anchoring_configure]
+}
 
 private fun createAnchorAtPose(session: Session, pose: Pose) {
     val pose = Pose()
@@ -45,13 +65,13 @@ private fun createAnchorAtTrackable(trackable: Trackable<*>) {
 }
 
 private fun attachEntityToAnchor(
-    session: androidx.xr.scenecore.Session,
+    session: Session,
     entity: Entity,
     anchor: Anchor
 ) {
     // [START androidxr_arcore_entity_tracks_anchor]
     AnchorEntity.create(session, anchor).apply {
-        setParent(session.activitySpace)
+        setParent(session.scene.activitySpace)
         addChild(entity)
     }
     // [END androidxr_arcore_entity_tracks_anchor]

@@ -16,10 +16,11 @@
 
 package com.example.xr.scenecore
 
+import androidx.xr.runtime.Session
 import androidx.xr.scenecore.ExrImage
 import androidx.xr.scenecore.GltfModel
-import androidx.xr.scenecore.Session
 import androidx.xr.scenecore.SpatialEnvironment
+import androidx.xr.scenecore.scene
 import kotlinx.coroutines.guava.await
 
 private class Environments(val session: Session) {
@@ -41,7 +42,7 @@ private class Environments(val session: Session) {
         val spatialEnvironmentPreference =
             SpatialEnvironment.SpatialEnvironmentPreference(skybox, environmentGeometry)
         val preferenceResult =
-            session.spatialEnvironment.setSpatialEnvironmentPreference(spatialEnvironmentPreference)
+            session.scene.spatialEnvironment.setSpatialEnvironmentPreference(spatialEnvironmentPreference)
         if (preferenceResult == SpatialEnvironment.SetSpatialEnvironmentPreferenceChangeApplied()) {
             // The environment was successfully updated and is now visible, and any listeners
             // specified using addOnSpatialEnvironmentChangedListener will be notified.
@@ -54,7 +55,7 @@ private class Environments(val session: Session) {
 
     fun setPassthroughOpacityPreference() {
         // [START androidxr_scenecore_environment_setPassthroughOpacityPreference]
-        val preferenceResult = session.spatialEnvironment.setPassthroughOpacityPreference(1.0f)
+        val preferenceResult = session.scene.spatialEnvironment.setPassthroughOpacityPreference(1.0f)
         if (preferenceResult == SpatialEnvironment.SetPassthroughOpacityPreferenceChangeApplied()) {
             // The passthrough opacity request succeeded and should be visible now, and any listeners
             // specified using addOnPassthroughOpacityChangedListener will be notified
@@ -71,7 +72,7 @@ private class Environments(val session: Session) {
 
     fun getCurrentPassthroughOpacity() {
         // [START androidxr_scenecore_environment_getCurrentPassthroughOpacity]
-        val currentPassthroughOpacity = session.spatialEnvironment.getCurrentPassthroughOpacity()
+        val currentPassthroughOpacity = session.scene.spatialEnvironment.getCurrentPassthroughOpacity()
         // [END androidxr_scenecore_environment_getCurrentPassthroughOpacity]
     }
 }
