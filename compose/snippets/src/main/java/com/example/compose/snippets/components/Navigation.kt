@@ -105,6 +105,7 @@ fun NavigationBarExample(modifier: Modifier = Modifier) {
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
     Scaffold(
+        modifier = modifier,
         bottomBar = {
             NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                 Destination.entries.forEachIndexed { index, destination ->
@@ -139,7 +140,7 @@ fun NavigationRailExample(modifier: Modifier = Modifier) {
     val startDestination = Destination.SONGS
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
-    Scaffold { contentPadding ->
+    Scaffold (modifier = modifier) { contentPadding ->
         NavigationRail (modifier = Modifier.padding(contentPadding)) {
             Destination.entries.forEachIndexed { index, destination ->
                 NavigationRailItem(
@@ -172,7 +173,7 @@ fun NavigationTabExample(modifier: Modifier = Modifier) {
     val startDestination = Destination.SONGS
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
-    Scaffold{ contentPadding ->
+    Scaffold (modifier = modifier) { contentPadding ->
         PrimaryTabRow(selectedTabIndex = selectedDestination, modifier = Modifier.padding(contentPadding)) {
             Destination.entries.forEachIndexed { index, destination ->
                 Tab(
