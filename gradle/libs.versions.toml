@@ -27,6 +27,7 @@ androidx-window-java = "1.3.0"
 androidxHiltNavigationCompose = "1.2.0"
 appcompat = "1.7.0"
 coil = "2.7.0"
+android-googleid = "1.1.1"
 # @keep
 compileSdk = "35"
 compose-latest = "1.7.8"
@@ -135,6 +136,7 @@ androidx-window = { module = "androidx.window:window", version.ref = "androidx-w
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = {module = "androidx.window:window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.0"
+android-identity-googleid = {module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "android-googleid"}
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
