@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.xr.compose.spatial.SpatialDialog
 import androidx.xr.compose.spatial.SpatialDialogProperties
 import kotlinx.coroutines.delay
@@ -61,3 +62,25 @@ fun DelayedDialog() {
     }
 }
 // [END androidxr_compose_DelayedDialog]
+
+@Composable
+private fun MyDialogContent() {}
+@Composable
+private fun SpatialDialogComparison() {
+    val onDismissRequest: () -> Unit = {}
+    // [START androidxr_compose_spatialdialog_comparison]
+    // Previous approach
+    Dialog(
+        onDismissRequest = onDismissRequest
+    ) {
+        MyDialogContent()
+    }
+
+    // New XR differentiated approach
+    SpatialDialog(
+        onDismissRequest = onDismissRequest
+    ) {
+        MyDialogContent()
+    }
+    // [END androidxr_compose_spatialdialog_comparison]
+}

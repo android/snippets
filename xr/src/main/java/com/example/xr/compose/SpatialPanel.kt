@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
@@ -70,3 +71,25 @@ fun SpatialPanelContent() {
     }
 }
 // [END androidxr_compose_SpatialPanelContent]
+
+@Composable
+private fun AppContent() {}
+
+@Composable
+private fun ContentInSpatialPanel() {
+    // [START androidxr_compose_SpatialPanelAppContent]
+    if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
+        Subspace {
+            SpatialPanel(
+                SubspaceModifier
+                    .resizable(true)
+                    .movable(true)
+            ) {
+                AppContent()
+            }
+        }
+    } else {
+        AppContent()
+    }
+    // [END androidxr_compose_SpatialPanelAppContent]
+}

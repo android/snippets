@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.xr.compose.spatial.EdgeOffset
@@ -47,6 +48,7 @@ import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
+import com.example.xr.R
 
 @Composable
 private fun OrbiterExampleSubspace() {
@@ -135,4 +137,24 @@ fun OrbiterAnchoringExample() {
         }
     }
     // [END androidxr_compose_OrbiterAnchoringExample]
+}
+
+@Composable
+private fun NavigationRail() {}
+
+@Composable
+private fun Ui2DToOribiter() {
+    // [START androidxr_compose_orbiter_comparison]
+    // Previous approach
+    NavigationRail()
+
+    // New XR differentiated approach
+    Orbiter(
+        position = OrbiterEdge.Start,
+        offset = dimensionResource(R.dimen.start_orbiter_padding),
+        alignment = Alignment.Top
+    ) {
+        NavigationRail()
+    }
+    // [END androidxr_compose_orbiter_comparison]
 }
