@@ -31,4 +31,5 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.kotlinx.coroutines.guava)
 
+    implementation(libs.androidx.media3.exoplayer)
 }
