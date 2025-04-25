@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.androidx.window.java)
     implementation(libs.appcompat)
     testImplementation(libs.junit)
+    testImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
