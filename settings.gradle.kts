@@ -29,4 +29,5 @@ include(
         ":views",
         ":misc",
         ":identity:credentialmanager",
+        ":xr",
 )
