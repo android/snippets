@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.kotlinx.coroutines.guava)
 
+    implementation(libs.androidx.media3.exoplayer)
+
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
 
