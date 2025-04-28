@@ -24,10 +24,6 @@ import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.fillMaxHeight
 import androidx.xr.compose.subspace.layout.width
-import androidx.xr.scenecore.Session
-import androidx.xr.scenecore.SpatialCapabilities
-import androidx.xr.scenecore.addSpatialCapabilitiesChangedListener
-import androidx.xr.scenecore.getSpatialCapabilities
 
 @Composable
 private fun SupportingInfoPanel() {}
