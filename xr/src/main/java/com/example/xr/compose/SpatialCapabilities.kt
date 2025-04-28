@@ -17,7 +17,13 @@
 package com.example.xr.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import androidx.xr.compose.platform.LocalSpatialCapabilities
+import androidx.xr.compose.spatial.Subspace
+import androidx.xr.compose.subspace.SpatialPanel
+import androidx.xr.compose.subspace.layout.SubspaceModifier
+import androidx.xr.compose.subspace.layout.fillMaxHeight
+import androidx.xr.compose.subspace.layout.width
 
 @Composable
 private fun SupportingInfoPanel() {}
@@ -38,3 +44,25 @@ private fun SpatialCapabilitiesCheck() {
     val spatialAudioEnabled = LocalSpatialCapabilities.current.isSpatialAudioEnabled
     // [END androidxr_compose_checkSpatialCapabilities]
 }
+
+@Composable
+private fun checkSpatialUiEnabled() {
+    // [START androidxr_compose_checkSpatialUiEnabled]
+    if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
+        Subspace {
+            SpatialPanel(
+                modifier = SubspaceModifier
+                    .width(1488.dp)
+                    .fillMaxHeight()
+            ) {
+                AppContent()
+            }
+        }
+    } else {
+        AppContent()
+    }
+    // [END androidxr_compose_checkSpatialUiEnabled]
+}
+
+@Composable
+private fun AppContent() {}
