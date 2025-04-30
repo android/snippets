@@ -75,6 +75,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.onClick
@@ -777,7 +778,7 @@ fun WatermarkExample(
             color = Color.Gray.copy(alpha = 0.5f),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-//                .semantics { hideFromAccessibility() } TODO when we update Compose to 1.8
+                .semantics { hideFromAccessibility() }
         )
     }
 }
@@ -787,7 +788,7 @@ fun DecorativeExample() {
     Text(
         modifier =
         Modifier.semantics {
-//            hideFromAccessibility() TODO when we update Compose to 1.8
+            hideFromAccessibility()
         },
         text = "A dot character that is used to decoratively separate information, like •"
     )
