@@ -39,7 +39,7 @@ fun ComponentActivity.configureSession(session: Session) {
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureConfigurationNotSupported ->
-            TODO(/* Some combinations of configurations are not valid. Handle this failure case.*/)
+            TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
         is SessionConfigurePermissionsNotGranted ->
             TODO(/* The required permissions in result.permissions have not been granted. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
