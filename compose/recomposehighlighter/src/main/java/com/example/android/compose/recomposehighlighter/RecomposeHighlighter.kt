@@ -93,6 +93,7 @@ private class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
         totalCompositions = 0
         timerJob?.cancel()
     }
+
     override fun onDetach() {
         timerJob?.cancel()
     }
