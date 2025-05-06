@@ -33,14 +33,14 @@ private class Environments(val session: Session) {
 
     fun loadEnvironmentSkybox() {
         // [START androidxr_scenecore_environment_loadEnvironmentSkybox]
-        val skybox = ExrImage.create(session, "BlueSkybox.exr")
+        val lightingForSkybox = ExrImage.create(session, "BlueSkyboxLighting.zip")
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
-    fun setEnvironmentPreference(environmentGeometry: GltfModel, skybox: ExrImage) {
+    fun setEnvironmentPreference(environmentGeometry: GltfModel, lightingForSkybox: ExrImage) {
         // [START androidxr_scenecore_environment_setEnvironmentPreference]
         val spatialEnvironmentPreference =
-            SpatialEnvironment.SpatialEnvironmentPreference(skybox, environmentGeometry)
+            SpatialEnvironment.SpatialEnvironmentPreference(lightingForSkybox, environmentGeometry)
         val preferenceResult =
             session.scene.spatialEnvironment.setSpatialEnvironmentPreference(spatialEnvironmentPreference)
         if (preferenceResult == SpatialEnvironment.SetSpatialEnvironmentPreferenceChangeApplied()) {
