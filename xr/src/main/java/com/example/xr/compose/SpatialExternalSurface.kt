@@ -40,7 +40,7 @@ fun SpatialExternalSurfaceContent() {
             modifier = SubspaceModifier
                 .width(1200.dp)
                 .height(676.dp),
-            stereoMode = StereoMode.TopBottom,
+            stereoMode = StereoMode.SideBySide,
         ) {
             val exoPlayer = remember { ExoPlayer.Builder(context).build() }
             val videoUri = Uri.Builder()
