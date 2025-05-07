@@ -29,6 +29,7 @@ import androidx.xr.scenecore.AnchorEntity
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.scene
 
+@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun configureAnchoring(session: Session) {
     // [START androidxr_arcore_anchoring_configure]
     val newConfig = session.config.copy(

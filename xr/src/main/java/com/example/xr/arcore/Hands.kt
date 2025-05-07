@@ -25,13 +25,14 @@ import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
 import androidx.xr.runtime.SessionConfigurePermissionsNotGranted
 import androidx.xr.runtime.SessionConfigureSuccess
-import androidx.xr.runtime.internal.GltfEntity
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
+import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.scene
 import kotlinx.coroutines.launch
 
+@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun ComponentActivity.configureSession(session: Session) {
     // [START androidxr_arcore_hand_configure]
     val newConfig = session.config.copy(
@@ -66,7 +67,7 @@ fun ComponentActivity.collectHands(session: Session) {
 
 fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
     val session: Session = null!!
-    val palmEntity: GltfEntity = null!!
+    val palmEntity: GltfModelEntity = null!!
     // [START androidxr_arcore_hand_entityAtHandPalm]
     val palmPose = leftHandState.handJoints[HandJointType.PALM] ?: return
 
@@ -86,7 +87,7 @@ fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
 
 fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     val session: Session = null!!
-    val indexFingerEntity: GltfEntity = null!!
+    val indexFingerEntity: GltfModelEntity = null!!
 
     // [START androidxr_arcore_hand_entityAtIndexFingerTip]
     val tipPose = rightHandState.handJoints[HandJointType.INDEX_TIP] ?: return

@@ -26,6 +26,7 @@ import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Ray
 import androidx.xr.scenecore.scene
 
+@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun configurePlaneTracking(session: Session) {
     // [START androidxr_arcore_planetracking_configure]
     val newConfig = session.config.copy(
