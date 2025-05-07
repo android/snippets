@@ -29,6 +29,7 @@ import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
+import androidx.xr.runtime.math.toRadians
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.scene
 import kotlinx.coroutines.flow.Flow
@@ -117,4 +118,28 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     val rotation = Quaternion.fromLookTowards(transformedPose.up, Vector3.Up)
     indexFingerEntity.setPose(Pose(position, rotation))
     // [END androidxr_arcore_hand_entityAtIndexFingerTip]
+}
+
+private fun detectPinch(session: Session, handState: Hand.State): Boolean {
+    // [START androidxr_arcore_hand_pinch_gesture]
+    val thumbTip = handState.handJoints[HandJointType.THUMB_TIP] ?: return false
+    val thumbTipPose = session.scene.perceptionSpace.transformPoseTo(thumbTip, session.scene.activitySpace)
+    val indexTip = handState.handJoints[HandJointType.INDEX_TIP] ?: return false
+    val indexTipPose = session.scene.perceptionSpace.transformPoseTo(indexTip, session.scene.activitySpace)
+    return Vector3.distance(thumbTipPose.translation, indexTipPose.translation) < 0.05
+    // [END androidxr_arcore_hand_pinch_gesture]
+}
+
+private fun detectStop(session: Session, handState: Hand.State): Boolean {
+    // [START androidxr_arcore_hand_stop_gesture]
+    val threshold = toRadians(angleInDegrees = 30f)
+    fun pointingInSameDirection(joint1: HandJointType, joint2: HandJointType): Boolean {
+        val forward1 = handState.handJoints[joint1]?.forward ?: return false
+        val forward2 = handState.handJoints[joint2]?.forward ?: return false
+        return Vector3.angleBetween(forward1, forward2) < threshold
+    }
+    return pointingInSameDirection(HandJointType.INDEX_PROXIMAL, HandJointType.INDEX_TIP) &&
+        pointingInSameDirection(HandJointType.MIDDLE_PROXIMAL, HandJointType.MIDDLE_TIP) &&
+        pointingInSameDirection(HandJointType.RING_PROXIMAL, HandJointType.RING_TIP)
+    // [END androidxr_arcore_hand_stop_gesture]
 }
