@@ -32,7 +32,7 @@ import androidx.xr.scenecore.scene
 fun configureAnchoring(session: Session) {
     // [START androidxr_arcore_anchoring_configure]
     val newConfig = session.config.copy(
-        planeTracking = Config.PlaneTrackingMode.HorizontalAndVertical,
+        anchorPersistence = Config.AnchorPersistenceMode.Enabled,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureConfigurationNotSupported ->
