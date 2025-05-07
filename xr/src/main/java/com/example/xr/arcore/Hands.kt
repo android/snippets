@@ -16,6 +16,7 @@
 
 package com.example.xr.arcore
 
+import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.arcore.Hand
@@ -30,6 +31,7 @@ import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.scene
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
@@ -63,6 +65,16 @@ fun ComponentActivity.collectHands(session: Session) {
             renderPlanetAtFingerTip(rightHandState)
         }
     }
+}
+
+fun secondaryHandDetection(activity: Activity, session: Session) {
+    fun detectGesture(handState: Flow<Hand.State>) {}
+    // [START androidxr_arcore_hand_handedness]
+    val handedness = Hand.getHandedness(activity.contentResolver)
+    val secondaryHand = if (handedness == Hand.Handedness.LEFT) Hand.right(session) else Hand.left(session)
+    val handState = secondaryHand?.state ?: return
+    detectGesture(handState)
+    // [END androidxr_arcore_hand_handedness]
 }
 
 fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
