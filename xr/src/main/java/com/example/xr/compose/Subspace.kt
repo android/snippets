@@ -22,6 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.xr.compose.spatial.ApplicationSubspace
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 
@@ -32,7 +33,7 @@ private class SubspaceActivity : ComponentActivity() {
         // [START androidxr_compose_SubspaceSetContent]
         setContent {
             // This is a top-level subspace
-            Subspace {
+            ApplicationSubspace {
                 SpatialPanel {
                     MyComposable()
                 }

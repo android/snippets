@@ -33,9 +33,9 @@ import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.depth
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
-import androidx.xr.scenecore.Dimensions
+import androidx.xr.runtime.Session
 import androidx.xr.scenecore.PanelEntity
-import androidx.xr.scenecore.Session
+import androidx.xr.scenecore.PixelDimensions
 import com.example.xr.R
 
 private class MyCustomView(context: Context) : View(context)
@@ -46,9 +46,8 @@ private class ActivityWithSubspaceContent : ComponentActivity() {
         // [START androidxr_compose_ActivityWithSubspaceContent]
         setSubspaceContent {
             SpatialPanel(
-                view = MyCustomView(this),
                 modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
-            )
+            ) { MyCustomView(this) }
         }
         // [END androidxr_compose_ActivityWithSubspaceContent]
     }
@@ -84,8 +83,7 @@ fun ComponentActivity.PanelEntityWithView(xrSession: Session) {
     val panelEntity = PanelEntity.create(
         session = xrSession,
         view = panelContent,
-        surfaceDimensionsPx = Dimensions(500f, 500f),
-        dimensions = Dimensions(1f, 1f, 1f),
+        pixelDimensions = PixelDimensions(500, 500),
         name = "panel entity"
     )
     // [END androidxr_compose_PanelEntityWithView]
