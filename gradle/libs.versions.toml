@@ -29,7 +29,7 @@ androidx-window = "1.5.0-alpha02"
 androidx-window-core = "1.5.0-alpha02"
 androidx-window-java = "1.5.0-alpha02"
 # @keep
-androidx-xr = "1.0.0-alpha04"
+androidx-xr = "1.0.0-alpha03"
 androidxHiltNavigationCompose = "1.2.0"
 appcompat = "1.7.0"
 coil = "2.7.0"
