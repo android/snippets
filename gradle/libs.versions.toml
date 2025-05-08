@@ -2,12 +2,12 @@
 accompanist = "0.36.0"
 activityKtx = "1.10.1"
 android-googleid = "1.1.1"
-androidGradlePlugin = "8.9.2"
+androidGradlePlugin = "8.10.0"
 androidx-activity-compose = "1.10.1"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.04.01"
+androidx-compose-bom = "2025.05.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.8.0-rc02"
+androidx-compose-ui-test-junit4-accessibility = "1.9.0-alpha02"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
@@ -17,25 +17,25 @@ androidx-credentials-play-services-auth = "1.5.0"
 androidx-emoji2-views = "1.5.0"
 androidx-fragment-ktx = "1.8.6"
 androidx-glance-appwidget = "1.1.1"
-androidx-lifecycle-compose = "2.8.7"
-androidx-lifecycle-runtime-compose = "2.8.7"
-androidx-navigation = "2.8.9"
+androidx-lifecycle-compose = "2.9.0"
+androidx-lifecycle-runtime-compose = "2.9.0"
+androidx-navigation = "2.9.0"
 androidx-paging = "3.3.6"
 androidx-startup-runtime = "1.2.0"
 androidx-test = "1.6.1"
 androidx-test-espresso = "3.6.1"
 androidx-test-junit = "1.2.1"
-androidx-window = "1.5.0-alpha01"
-androidx-window-core = "1.5.0-alpha01"
-androidx-window-java = "1.5.0-alpha01"
+androidx-window = "1.5.0-alpha02"
+androidx-window-core = "1.5.0-alpha02"
+androidx-window-java = "1.5.0-alpha02"
 # @keep
-androidx-xr = "1.0.0-alpha03"
+androidx-xr = "1.0.0-alpha04"
 androidxHiltNavigationCompose = "1.2.0"
 appcompat = "1.7.0"
 coil = "2.7.0"
 # @keep
 compileSdk = "35"
-compose-latest = "1.8.0"
+compose-latest = "1.8.1"
 composeUiTooling = "1.4.1"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
@@ -50,7 +50,7 @@ kotlin = "2.1.20"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.10.2"
 kotlinxSerializationJson = "1.8.1"
-ksp = "2.1.20-2.0.0"
+ksp = "2.1.20-2.0.1"
 maps-compose = "6.6.0"
 material = "1.13.0-alpha13"
 material3-adaptive = "1.1.0"
@@ -72,8 +72,8 @@ wearToolingPreview = "1.0.0"
 webkit = "1.13.0"
 
 [libraries]
-accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
-accompanist-permissions = "com.google.accompanist:accompanist-permissions:0.37.2"
+accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
+accompanist-permissions = "com.google.accompanist:accompanist-permissions:0.37.3"
 accompanist-theme-adapter-appcompat = { module = "com.google.accompanist:accompanist-themeadapter-appcompat", version.ref = "accompanist" }
 accompanist-theme-adapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist" }
 accompanist-theme-adapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
@@ -98,9 +98,9 @@ androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-latest" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose-latest"  }
-androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-latest"  }
-androidx-compose-ui-test-junit4-accessibility = { group = "androidx.compose.ui", name = "ui-test-junit4-accessibility", version.ref = "androidx-compose-ui-test-junit4-accessibility" }
+androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose-latest" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-latest" }
+androidx-compose-ui-test-junit4-accessibility = { module = "androidx.compose.ui:ui-test-junit4-accessibility", version.ref = "androidx-compose-ui-test-junit4-accessibility" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
