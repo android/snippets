@@ -34,27 +34,27 @@ private const val RESOURCES_VERSION = "1"
 // [START android_wear_m3_tile_mytileservice]
 class MyTileService : TileService() {
 
-  override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
-    Futures.immediateFuture(
-      Tile.Builder()
-        .setResourcesVersion(RESOURCES_VERSION)
-        .setTileTimeline(
-          Timeline.fromLayoutElement(
-            materialScope(this, requestParams.deviceConfiguration) {
-              primaryLayout(
-                mainSlot = {
-                  text("Hello, World!".layoutString, typography = BODY_LARGE)
-                }
-              )
-            }
-          )
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest) =
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(
+                    Timeline.fromLayoutElement(
+                        materialScope(this, requestParams.deviceConfiguration) {
+                            primaryLayout(
+                                mainSlot = {
+                                    text("Hello, World!".layoutString, typography = BODY_LARGE)
+                                }
+                            )
+                        }
+                    )
+                )
+                .build()
         )
-        .build()
-    )
 
-  override fun onTileResourcesRequest(requestParams: ResourcesRequest) =
-    Futures.immediateFuture(
-      Resources.Builder().setVersion(RESOURCES_VERSION).build()
-    )
+    override fun onTileResourcesRequest(requestParams: ResourcesRequest) =
+        Futures.immediateFuture(
+            Resources.Builder().setVersion(RESOURCES_VERSION).build()
+        )
 }
 // [END android_wear_m3_tile_mytileservice]

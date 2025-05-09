@@ -47,10 +47,10 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyColumnDefaults
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Picker
-import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
@@ -118,7 +118,7 @@ fun TimePicker() {
                 // ...
                 // [START_EXCLUDE]
                 state = hourState,
-                contentDescription = {hourContentDescription},
+                contentDescription = { hourContentDescription },
                 option = { hour: Int -> Option(0, "%2d".format(hour + 1)) }
                 // [END_EXCLUDE]
             )
@@ -147,7 +147,7 @@ fun TimePicker() {
                 // ...
                 // [START_EXCLUDE]
                 state = minuteState,
-                contentDescription = {minuteContentDescription},
+                contentDescription = { minuteContentDescription },
                 option = { minute: Int -> Option(1, "%02d".format(minute)) }
                 // [END_EXCLUDE]
             )

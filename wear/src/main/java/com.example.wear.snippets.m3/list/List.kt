@@ -23,29 +23,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import androidx.wear.compose.material3.ListHeader
-import androidx.wear.compose.material3.ScreenScaffold
-import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
-import androidx.wear.compose.material3.Icon
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnState
 import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import com.google.android.horologist.compose.material.Button
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
-import androidx.wear.compose.material3.Button
-import androidx.wear.compose.material3.SurfaceTransformation
-import androidx.wear.compose.material3.lazy.rememberTransformationSpec
-import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.material3.Text
 
 @Composable
 fun ComposeList() {
@@ -56,21 +56,26 @@ fun ComposeList() {
         last = ColumnItemType.Button,
     )
     val transformationSpec = rememberTransformationSpec()
-    ScreenScaffold(scrollState = columnState,
-        contentPadding = contentPadding) { contentPadding ->
+    ScreenScaffold(
+        scrollState = columnState,
+        contentPadding = contentPadding
+    ) { contentPadding ->
         TransformingLazyColumn(
             state = columnState,
             contentPadding = contentPadding
         ) {
             item {
-                ListHeader(modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
-                    transformation = SurfaceTransformation(transformationSpec)){
+                ListHeader(
+                    modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ) {
                     Text(text = "Header")
                 }
             }
             // ... other items
             item {
-                Button(modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
+                Button(
+                    modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
                     transformation = SurfaceTransformation(transformationSpec),
                     onClick = { /* ... */ },
                     icon = {
@@ -79,14 +84,13 @@ fun ComposeList() {
                             contentDescription = "build",
                         )
                     },
-                ){
+                ) {
                     Text(
                         text = "Build",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
-
             }
         }
     }

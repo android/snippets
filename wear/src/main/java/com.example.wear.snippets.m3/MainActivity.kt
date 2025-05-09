@@ -35,5 +35,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WearApp() {
     // insert here the snippet you want to test
-   ComposeList()
+    ComposeList()
 }
