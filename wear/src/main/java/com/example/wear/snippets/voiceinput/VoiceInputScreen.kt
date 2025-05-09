@@ -49,6 +49,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.wear.compose.foundation.rememberActiveFocusRequester
+import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults.behavior
+import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wear.R
@@ -58,7 +61,6 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults.ItemType
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.google.android.horologist.compose.material.Chip
-import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 
 /**
  * Shows voice input option
@@ -90,6 +92,7 @@ fun VoiceInputScreen() {
                 first = ItemType.Text,
                 last = ItemType.Chip
             )()
+            val focusRequester = rememberActiveFocusRequester()
             // [END_EXCLUDE]
             Column(
                 // rest of implementation here
@@ -97,8 +100,11 @@ fun VoiceInputScreen() {
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
-                    .rotaryWithScroll(scrollState)
-                    .padding(padding),
+                    .padding(padding)
+                    .rotaryScrollable(
+                        behavior = behavior(scrollableState = scrollState),
+                        focusRequester = focusRequester,
+                    ),
                 verticalArrangement = Arrangement.Center
             ) {
                 // [END_EXCLUDE]

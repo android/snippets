@@ -24,7 +24,7 @@
             android:value="true" />
 
         <activity
-            android:name=".snippets.MainActivity"
+            android:name=".snippets.m3.MainActivity"
             android:exported="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault">
@@ -51,6 +51,23 @@
                 android:resource="@drawable/tile_preview" />
         </service>
         <!-- [END android_wear_tile_manifest] -->
+
+        <!-- [START android_wear_m3_tile_manifest] -->
+        <service
+            android:name=".snippets.m3.tile.MyTileService"
+            android:label="@string/tile_label"
+            android:description="@string/tile_description"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+        <!-- [END android_wear_m3_tile_manifest] -->
 
     </application>
 

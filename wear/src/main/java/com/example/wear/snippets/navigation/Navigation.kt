@@ -26,6 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.wear.compose.foundation.rememberActiveFocusRequester
+import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults.behavior
+import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
@@ -43,7 +46,6 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import com.google.android.horologist.compose.material.Chip
 import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
 import com.google.android.horologist.compose.material.ResponsiveListHeader
-import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 
 @Composable
 fun navigation() {
@@ -81,12 +83,16 @@ fun MessageDetail(id: String) {
             first = ItemType.Text,
             last = ItemType.Text
         )()
+        val focusRequester = rememberActiveFocusRequester()
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .rotaryWithScroll(scrollState)
-                .padding(padding),
+                .padding(padding)
+                .rotaryScrollable(
+                    behavior = behavior(scrollableState = scrollState),
+                    focusRequester = focusRequester,
+                ),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
