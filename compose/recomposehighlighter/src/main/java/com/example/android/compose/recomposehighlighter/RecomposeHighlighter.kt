@@ -89,6 +89,11 @@ private class RecomposeHighlighterModifier : Modifier.Node(), DrawModifierNode {
 
     override val shouldAutoInvalidate: Boolean = false
 
+    override fun onReset() {
+        totalCompositions = 0
+        timerJob?.cancel()
+    }
+
     override fun onDetach() {
         timerJob?.cancel()
     }
