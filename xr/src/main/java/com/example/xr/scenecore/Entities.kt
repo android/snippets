@@ -78,6 +78,21 @@ private fun resizableComponentExample(session: Session, entity: Entity) {
     val resizableComponent = ResizableComponent.create(session)
     resizableComponent.minimumSize = Dimensions(177f, 100f, 1f)
     resizableComponent.fixedAspectRatio = 16f / 9f // Specify a 16:9 aspect ratio
+
+    resizableComponent.addResizeListener(
+        context.mainExecutor,
+        object : ResizeListener {
+            override fun onResizeEnd(entity: Entity, finalSize: Dimensions){
+
+                //update the size in the component
+                resizableComponent.size = finalSize
+
+                //update the Entity to reflect the new size
+                (entity as SurfaceEntity).canvasShape = CanvasShape.Quad(finalSize.width,finalSize.height)
+            }
+        },
+    )
+
     entity.addComponent(resizableComponent)
     // [END androidxr_scenecore_resizableComponentExample]
 }
