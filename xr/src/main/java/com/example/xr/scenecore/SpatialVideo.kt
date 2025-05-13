@@ -32,7 +32,6 @@ private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     val stereoSurfaceEntity = SurfaceEntity.create(
         xrSession,
         SurfaceEntity.StereoMode.SIDE_BY_SIDE,
-        // Position 1.5 meters in front of user
         Pose(Vector3(0.0f, 0.0f, -1.5f)),
         SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
     )
@@ -82,4 +81,27 @@ private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
         )
     // ... and use the surface for playing the media.
     // [END androidxr_scenecore_surfaceEntityCreateTb]
+}
+
+private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
+    // [START androidxr_scenecore_surfaceEntityCreateMVHEVC]
+    // Create the SurfaceEntity with the StereoMode corresponding to the MV-HEVC content
+    val stereoSurfaceEntity = SurfaceEntity.create(
+        xrSession,
+        SurfaceEntity.StereoMode.MULTIVIEW_LEFT_PRIMARY,
+        Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
+    )
+    val videoUri = Uri.Builder()
+        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+        .path("mvhevc_video.mp4")
+        .build()
+    val mediaItem = MediaItem.fromUri(videoUri)
+
+    val exoPlayer = ExoPlayer.Builder(this).build()
+    exoPlayer.setVideoSurface(stereoSurfaceEntity.getSurface())
+    exoPlayer.setMediaItem(mediaItem)
+    exoPlayer.prepare()
+    exoPlayer.play()
+    // [END androidxr_scenecore_surfaceEntityCreateMVHEVC]
 }
