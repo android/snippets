@@ -16,6 +16,7 @@
 
 package com.example.snippets
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
@@ -53,6 +54,7 @@ class ActivityEmbeddingKotlinSnippets {
 
     class SplitAttributesCalculatorSnippetsActivity : AppCompatActivity() {
 
+        @SuppressLint("RequiresWindowSdk")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -224,6 +226,7 @@ class ActivityEmbeddingKotlinSnippets {
 
     class SplitAttributesBuilderSnippetsActivity : AppCompatActivity() {
 
+        @SuppressLint("RequiresWindowSdk")
         @RequiresApi(VERSION_CODES.M)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -327,6 +330,7 @@ class ActivityEmbeddingKotlinSnippets {
     }
 
     class ActivityPinningSnippetsActivity : AppCompatActivity() {
+        @SuppressLint("RequiresWindowSdk")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)

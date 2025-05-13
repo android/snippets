@@ -18,7 +18,8 @@ package com.example.xr.misc
 
 import androidx.compose.runtime.Composable
 import androidx.xr.compose.platform.LocalSpatialConfiguration
-import androidx.xr.scenecore.Session
+import androidx.xr.runtime.Session
+import androidx.xr.scenecore.scene
 
 @Composable
 fun modeTransitionCompose() {
@@ -31,6 +32,6 @@ fun modeTransitionCompose() {
 
 fun modeTransitionScenecore(xrSession: Session) {
     // [START androidxr_misc_modeTransitionScenecore]
-    xrSession.spatialEnvironment.requestHomeSpaceMode()
+    xrSession.scene.spatialEnvironment.requestHomeSpaceMode()
     // [END androidxr_misc_modeTransitionScenecore]
 }

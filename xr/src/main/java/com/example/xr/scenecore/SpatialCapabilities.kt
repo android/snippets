@@ -16,21 +16,21 @@
 
 package com.example.xr.scenecore
 
-import androidx.xr.scenecore.Session
+import androidx.xr.runtime.Session
 import androidx.xr.scenecore.SpatialCapabilities
-import androidx.xr.scenecore.getSpatialCapabilities
+import androidx.xr.scenecore.scene
 
 fun checkMultipleCapabilities(xrSession: Session) {
     // [START androidxr_compose_checkMultipleCapabilities]
     // Example 1: check if enabling passthrough mode is allowed
-    if (xrSession.getSpatialCapabilities().hasCapability(
+    if (xrSession.scene.spatialCapabilities.hasCapability(
             SpatialCapabilities.SPATIAL_CAPABILITY_PASSTHROUGH_CONTROL
         )
     ) {
-        xrSession.spatialEnvironment.setPassthroughOpacityPreference(0f)
+        xrSession.scene.spatialEnvironment.setPassthroughOpacityPreference(0f)
     }
     // Example 2: multiple capability flags can be checked simultaneously:
-    if (xrSession.getSpatialCapabilities().hasCapability(
+    if (xrSession.scene.spatialCapabilities.hasCapability(
             SpatialCapabilities.SPATIAL_CAPABILITY_PASSTHROUGH_CONTROL and
                 SpatialCapabilities.SPATIAL_CAPABILITY_3D_CONTENT
         )

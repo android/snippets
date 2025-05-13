@@ -1,5 +1,6 @@
 package com.example.snippets;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -348,6 +349,7 @@ public class ActivityEmbeddingJavaSnippets {
 
     static class ActivityPinningSnippetsActivity extends Activity {
 
+        @SuppressLint("RequiresWindowSdk")
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

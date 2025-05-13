@@ -21,19 +21,19 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Vector3
-import androidx.xr.scenecore.Session
-import androidx.xr.scenecore.StereoSurfaceEntity
+import androidx.xr.scenecore.SurfaceEntity
+import androidx.xr.scenecore.scene
 
 private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreate]
-    val stereoSurfaceEntity = StereoSurfaceEntity.create(
+    val stereoSurfaceEntity = SurfaceEntity.create(
         xrSession,
-        StereoSurfaceEntity.StereoMode.SIDE_BY_SIDE,
-        // Position 1.5 meters in front of user
+        SurfaceEntity.StereoMode.SIDE_BY_SIDE,
         Pose(Vector3(0.0f, 0.0f, -1.5f)),
-        StereoSurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
+        SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
     )
     val videoUri = Uri.Builder()
         .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -53,14 +53,14 @@ private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateSbs]
     // Set up the surface for playing a 180° video on a hemisphere.
     val hemisphereStereoSurfaceEntity =
-        StereoSurfaceEntity.create(
+        SurfaceEntity.create(
             xrSession,
-            StereoSurfaceEntity.StereoMode.SIDE_BY_SIDE,
-            xrSession.spatialUser.head?.transformPoseTo(
+            SurfaceEntity.StereoMode.SIDE_BY_SIDE,
+            xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
-                xrSession.activitySpace
+                xrSession.scene.activitySpace
             )!!,
-            StereoSurfaceEntity.CanvasShape.Vr180Hemisphere(1.0f),
+            SurfaceEntity.CanvasShape.Vr180Hemisphere(1.0f),
         )
     // ... and use the surface for playing the media.
     // [END androidxr_scenecore_surfaceEntityCreateSbs]
@@ -70,15 +70,38 @@ private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateTb]
     // Set up the surface for playing a 360° video on a sphere.
     val sphereStereoSurfaceEntity =
-        StereoSurfaceEntity.create(
+        SurfaceEntity.create(
             xrSession,
-            StereoSurfaceEntity.StereoMode.TOP_BOTTOM,
-            xrSession.spatialUser.head?.transformPoseTo(
+            SurfaceEntity.StereoMode.TOP_BOTTOM,
+            xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
-                xrSession.activitySpace
+                xrSession.scene.activitySpace
             )!!,
-            StereoSurfaceEntity.CanvasShape.Vr360Sphere(1.0f),
+            SurfaceEntity.CanvasShape.Vr360Sphere(1.0f),
         )
     // ... and use the surface for playing the media.
     // [END androidxr_scenecore_surfaceEntityCreateTb]
+}
+
+private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
+    // [START androidxr_scenecore_surfaceEntityCreateMVHEVC]
+    // Create the SurfaceEntity with the StereoMode corresponding to the MV-HEVC content
+    val stereoSurfaceEntity = SurfaceEntity.create(
+        xrSession,
+        SurfaceEntity.StereoMode.MULTIVIEW_LEFT_PRIMARY,
+        Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
+    )
+    val videoUri = Uri.Builder()
+        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+        .path("mvhevc_video.mp4")
+        .build()
+    val mediaItem = MediaItem.fromUri(videoUri)
+
+    val exoPlayer = ExoPlayer.Builder(this).build()
+    exoPlayer.setVideoSurface(stereoSurfaceEntity.getSurface())
+    exoPlayer.setMediaItem(mediaItem)
+    exoPlayer.prepare()
+    exoPlayer.play()
+    // [END androidxr_scenecore_surfaceEntityCreateMVHEVC]
 }

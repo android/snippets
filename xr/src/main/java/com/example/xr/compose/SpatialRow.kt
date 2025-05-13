@@ -27,7 +27,7 @@ import androidx.xr.compose.subspace.layout.width
 @Composable
 private fun SpatialRowExample() {
     // [START androidxr_compose_SpatialRowExample]
-    SpatialRow(curveRadius = 825.dp) {
+    SpatialRow {
         SpatialPanel(
             SubspaceModifier
                 .width(384.dp)
