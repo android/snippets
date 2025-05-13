@@ -57,12 +57,11 @@ fun navigation() {
             }
         }
     }
-    // [START_EXCLUDE]
 }
 
+// Implementation of one of the screens in the navigation
 @Composable
 fun MessageDetail(id: String) {
-    // [END_EXCLUDE]
     // .. Screen level content goes here
     val scrollState = rememberTransformingLazyColumnState()
 
