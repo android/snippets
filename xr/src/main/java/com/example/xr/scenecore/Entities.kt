@@ -29,6 +29,9 @@ import androidx.xr.scenecore.MovableComponent
 import androidx.xr.scenecore.PlaneSemantic
 import androidx.xr.scenecore.PlaneType
 import androidx.xr.scenecore.ResizableComponent
+import androidx.xr.scenecore.ResizeListener
+import androidx.xr.scenecore.SurfaceEntity
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 private fun setPoseExample(entity: Entity) {
@@ -73,14 +76,14 @@ private fun moveableComponentExample(session: Session, entity: Entity) {
     // [END androidxr_scenecore_moveableComponentExample]
 }
 
-private fun resizableComponentExample(session: Session, entity: Entity) {
+private fun resizableComponentExample(session: Session, entity: Entity, executor: Executor) {
     // [START androidxr_scenecore_resizableComponentExample]
     val resizableComponent = ResizableComponent.create(session)
     resizableComponent.minimumSize = Dimensions(177f, 100f, 1f)
     resizableComponent.fixedAspectRatio = 16f / 9f // Specify a 16:9 aspect ratio
 
     resizableComponent.addResizeListener(
-        context.mainExecutor,
+        executor,
         object : ResizeListener {
             override fun onResizeEnd(entity: Entity, finalSize: Dimensions){
 
@@ -88,7 +91,7 @@ private fun resizableComponentExample(session: Session, entity: Entity) {
                 resizableComponent.size = finalSize
 
                 //update the Entity to reflect the new size
-                (entity as SurfaceEntity).canvasShape = CanvasShape.Quad(finalSize.width,finalSize.height)
+                (entity as SurfaceEntity).canvasShape = SurfaceEntity.CanvasShape.Quad(finalSize.width,finalSize.height)
             }
         },
     )
