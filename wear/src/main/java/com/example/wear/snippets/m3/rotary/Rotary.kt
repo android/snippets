@@ -202,7 +202,8 @@ fun SnapScrollableScreen() {
 fun PositionScrollIndicator() {
     // [START android_wear_rotary_position_indicator]
     val listState = rememberTransformingLazyColumnState()
-    ScreenScaffold(scrollState = listState,
+    ScreenScaffold(
+        scrollState = listState,
         scrollIndicator = {
             ScrollIndicator(state = listState)
         }
