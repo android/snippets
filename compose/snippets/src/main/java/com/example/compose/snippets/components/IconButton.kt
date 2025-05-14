@@ -27,8 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.material.icons.filled.FastRewind
 import androidx.compose.material.icons.filled.FastForward
+import com.example.compose.snippets.R
+import androidx.compose.ui.res.painterResource
 
 @Preview
 @Composable
@@ -47,8 +48,8 @@ fun ToggleIconButtonExample() {
 }
 @Composable
 fun MomentaryIconButton(
-    unselectedImage: ImageVector,
-    selectedImage: ImageVector,
+    unselectedImage: Int,
+    selectedImage: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     stepDelay: Long = 100L, // Minimum value is 1L milliseconds.
@@ -71,7 +72,7 @@ fun MomentaryIconButton(
         interactionSource = interactionSource
     ) {
         Icon(
-            imageVector = if (isPressed) selectedImage else unselectedImage,
+            painter =  if (isPressed)  painterResource(id = selectedImage) else painterResource(id = unselectedImage) ,
             contentDescription = contentDescription,
         )
     }
@@ -87,8 +88,8 @@ fun MomentaryIconButtonExample() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         MomentaryIconButton(
-            unselectedImage = Icons.Outlined.FastRewind,
-            selectedImage = Icons.Filled.FastRewind,
+            unselectedImage = R.drawable.fast_rewind,
+            selectedImage = R.drawable.fast_rewind_filled,
             stepDelay = 100L,
             onClick = { pressedCount -= 1 },
             contentDescription = "Decrease count button"
@@ -97,8 +98,8 @@ fun MomentaryIconButtonExample() {
         Text("advanced by $pressedCount frames")
         Spacer(modifier = Modifier)
         MomentaryIconButton(
-            unselectedImage = Icons.Outlined.FastForward,
-            selectedImage = Icons.Filled.FastForward,
+            unselectedImage = R.drawable.fast_forward,
+            selectedImage = R.drawable.fast_forward_filled,
             contentDescription = "Increase count button",
             stepDelay = 100L,
             onClick = { pressedCount += 1 }
