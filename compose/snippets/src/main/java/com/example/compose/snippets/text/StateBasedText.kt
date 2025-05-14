@@ -1,0 +1,304 @@
+package com.example.compose.snippets.text
+
+import android.text.TextUtils
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.OutputTransformation
+import androidx.compose.foundation.text.input.TextFieldBuffer
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.insert
+import androidx.compose.foundation.text.input.maxLength
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.selectAll
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.foundation.text.input.then
+import androidx.compose.material.SecureTextField
+import androidx.compose.material.TextField
+
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+
+@Composable
+fun StateBasedTextSnippets() {
+    // [START android_compose_state_text_1]
+    BasicTextField(state = rememberTextFieldState())
+
+    TextField(state = rememberTextFieldState())
+    // [END android_compose_state_text_1]
+}
+
+@Composable
+fun StyleTextField() {
+    // [START android_compose_state_text_2]
+    TextField(
+        state = rememberTextFieldState(),
+        lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 2),
+        placeholder = { Text("") },
+        textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
+        modifier = Modifier.padding(20.dp)
+    )
+    // [END android_compose_state_text_2]
+}
+
+@Composable
+fun ConfigureLineLimits() {
+    // [START android_compose_state_text_3]
+    TextField(
+        state = rememberTextFieldState(),
+        lineLimits = TextFieldLineLimits.SingleLine
+    )
+    // [END android_compose_state_text_3]
+
+    // [START android_compose_state_text_4]
+    TextField(
+        state = rememberTextFieldState(),
+        lineLimits = TextFieldLineLimits.MultiLine(1, 4)
+    )
+    // [END android_compose_state_text_4]
+}
+
+@Composable
+fun StyleWithBrush() {
+    // [START android_compose_state_text_5]
+    val brush = remember {
+        Brush.linearGradient(
+            colors = listOf(Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta)
+        )
+    }
+    TextField(
+        state = rememberTextFieldState(), textStyle = TextStyle(brush = brush)
+    )
+    // [END android_compose_state_text_5]
+}
+
+// [START android_compose_state_text_6]
+// TODO fix this snippet
+//val usernameState = rememberTextFieldState()
+//TextField(
+//state = usernameState,
+//lineLimits = TextFieldLineLimits.SingleLine,
+//placeholder = { Text("Enter Username") }
+//)
+ val LoginRepository = "repository"
+
+class LoginViewModel(val loginRepository: Repository): ViewModel() {
+    val username = TextFieldState()
+    val password = TextFieldState()
+
+    val isLoginButtonEnabled: Boolean
+        get() = !isLoginButtonLoading && username.text.length > 6 && password.text.length > 6
+
+    var isLoginButtonLoading by mutableStateOf(false)
+        private set
+
+    fun loginButtonClick() {
+        viewModelScope.launch {
+            isLoginButtonLoading = true
+            val result = loginRepository.login(
+                username.text.toString(),
+                password.text.toString()
+            )
+            // process result
+            isLoginButtonLoading = false
+        }
+    }
+}
+
+@Composable
+fun LoginForm(
+    viewModel: LoginViewModel,
+    modifier: Modifier
+) {
+    Column(modifier) {
+        TextField(viewModel.username)
+        SecureTextField(viewModel.password)
+        Button(
+            onClick = viewModel::loginButtonClick,
+            enabled = viewModel.isLoginButtonEnabled
+        ) {
+            if (viewModel.isLoginButtonLoading) {
+                CircularProgressIndicator()
+            } else {
+                Text("Login")
+            }
+        }
+    }
+}
+// [END android_compose_state_text_6]
+
+class Repository {
+    fun login(username: String, password: String) {
+
+    }
+}
+
+@Composable
+fun TextFieldPlaceholder() {
+
+}
+
+@Preview
+@Composable
+fun TextFieldInitialState() {
+    // [START android_compose_state_text_7]
+    TextField(
+        state = rememberTextFieldState(initialText = "Username"),
+        lineLimits = TextFieldLineLimits.SingleLine,
+    )
+    // [END android_compose_state_text_7]
+}
+
+@Composable
+fun TextFieldBuffer() {
+    // [START android_compose_state_text_8]
+    // [END android_compose_state_text_8]
+    // [START android_compose_state_text_9]
+    // [END android_compose_state_text_9]
+}
+
+@Preview
+@Composable
+fun EditTextFieldState() {
+    // [START android_compose_state_text_10]
+    val usernameState = rememberTextFieldState("I love Android")
+    // textFieldState.text : I love Android
+    // textFieldState.selection: TextRange(14, 14)
+    usernameState.edit { insert(14, "!") }
+    // textFieldState.text : I love Android!
+    // textFieldState.selection: TextRange(15, 15)
+    usernameState.edit { replace(7, 14, "Compose") }
+    // textFieldState.text : I love Compose!
+    // textFieldState.selection: TextRange(15, 15)
+    usernameState.edit { append("!!!") }
+    // textFieldState.text : I love Compose!!!!
+    // textFieldState.selection: TextRange(18, 18)
+    usernameState.edit { selectAll() }
+    // textFieldState.text : I love Compose!!!!
+    // textFieldState.selection: TextRange(0, 18)
+    // [END android_compose_state_text_10]
+
+    // [END android_compose_state_text_11]
+    usernameState.setTextAndPlaceCursorAtEnd("I really love Android")
+    // textFieldState.text : I really love Android
+    // textFieldState.selection : TextRange(21, 21)
+    // [END android_compose_state_text_11]
+
+    // [END android_compose_state_text_12]
+    usernameState.clearText()
+    // textFieldState.text :
+    // textFieldState.selection : TextRange(0, 0)
+    // [END android_compose_state_text_12]
+}
+
+class TextFieldViewModel : ViewModel() {
+    fun validateUsername() {
+
+    }
+}
+val textFieldViewModel = TextFieldViewModel()
+@Composable
+fun TextFieldKeyboardOptions() {
+    // [START android_compose_state_text_13]
+    BasicTextField(
+        state = rememberTextFieldState(),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        onKeyboardAction = { performDefaultAction ->
+            textFieldViewModel.validateUsername()
+            performDefaultAction()
+        }
+    )
+    // [END android_compose_state_text_13]
+}
+
+
+
+@Composable
+fun TextFieldInputTransformation() {
+    // [START android_compose_state_text_14]
+    TextField(
+        state = rememberTextFieldState(),
+        lineLimits = TextFieldLineLimits.SingleLine,
+        inputTransformation = InputTransformation.maxLength(10)
+    )
+    // [END android_compose_state_text_14]
+
+    // [START android_compose_state_text_17]
+    TextField(
+        state = rememberTextFieldState(),
+        inputTransformation = InputTransformation.maxLength(6)
+            .then(CustomInputTransformation()),
+    )
+    // [END android_compose_state_text_17]
+
+}
+
+// [START android_compose_state_text_15]
+class CustomInputTransformation : InputTransformation {
+    override fun TextFieldBuffer.transformInput() {
+
+
+    }
+}
+// [END android_compose_state_text_15]
+
+// [START android_compose_state_text_16]
+class DigitOnlyInputTransformation : InputTransformation {
+    override fun TextFieldBuffer.transformInput() {
+        if (!TextUtils.isDigitsOnly(asCharSequence())) {
+            revertAllChanges()
+        }
+    }
+}
+// [END android_compose_state_text_16]
+
+// [START android_compose_state_text_17]
+class CustomOutputTransformation : OutputTransformation {
+    override fun TextFieldBuffer.transformOutput() {
+
+
+    }
+}
+// [END android_compose_state_text_17]
+
+// [START android_compose_state_text_18]
+class PhoneNumberOutputTransformation : OutputTransformation {
+    override fun TextFieldBuffer.transformOutput() {
+        if (length > 0) insert(0, "(")
+        if (length > 4) insert(4, ")")
+        if (length > 8) insert(8, "-")
+    }
+}
+// [END android_compose_state_text_18]
+
+
+@Composable
+fun TextFieldOutputTransformation() {
+    // [START android_compose_state_text_19]
+    TextField(
+        state = rememberTextFieldState(),
+        outputTransformation = PhoneNumberOutputTransformation()
+    )
+    // [END android_compose_state_text_19]
+}
