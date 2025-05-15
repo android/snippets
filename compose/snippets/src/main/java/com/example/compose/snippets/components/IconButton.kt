@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.components
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
