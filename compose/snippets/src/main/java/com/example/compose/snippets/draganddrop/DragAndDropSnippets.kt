@@ -24,7 +24,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,40 +39,24 @@ private fun DragAndDropSnippet() {
 
     val url = ""
 
-    // [START android_compose_drag_and_drop_1]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            // Transfer data here.
-        })
-    }
-    // [END android_compose_drag_and_drop_1]
-
     // [START android_compose_drag_and_drop_2]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    )
-                )
+    Modifier.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url
             )
-        })
+        )
     }
     // [END android_compose_drag_and_drop_2]
 
     // [START android_compose_drag_and_drop_3]
-    Modifier.dragAndDropSource {
-        detectTapGestures(onLongPress = {
-            startTransfer(
-                DragAndDropTransferData(
-                    ClipData.newPlainText(
-                        "image Url", url
-                    ),
-                    flags = View.DRAG_FLAG_GLOBAL
-                )
-            )
-        })
+    Modifier.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            ClipData.newPlainText(
+                "image Url", url
+            ),
+            flags = View.DRAG_FLAG_GLOBAL
+        )
     }
     // [END android_compose_drag_and_drop_3]
 

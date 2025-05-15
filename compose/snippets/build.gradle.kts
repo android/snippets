@@ -160,6 +160,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4.accessibility)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
 }
