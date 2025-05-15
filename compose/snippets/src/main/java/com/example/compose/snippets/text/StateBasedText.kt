@@ -181,13 +181,13 @@ fun EditTextFieldState() {
     // textFieldState.selection: TextRange(0, 18)
     // [END android_compose_state_text_10]
 
-    // [END android_compose_state_text_11]
+    // [START android_compose_state_text_11]
     usernameState.setTextAndPlaceCursorAtEnd("I really love Android")
     // textFieldState.text : I really love Android
     // textFieldState.selection : TextRange(21, 21)
     // [END android_compose_state_text_11]
 
-    // [END android_compose_state_text_12]
+    // [START android_compose_state_text_12]
     usernameState.clearText()
     // textFieldState.text :
     // textFieldState.selection : TextRange(0, 0)
