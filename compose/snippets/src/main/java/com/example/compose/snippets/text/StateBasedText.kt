@@ -249,7 +249,6 @@ fun ChainInputTransformation() {
 // [START android_compose_state_text_18]
 class CustomOutputTransformation : OutputTransformation {
     override fun TextFieldBuffer.transformOutput() {
-
     }
 }
 // [END android_compose_state_text_18]
