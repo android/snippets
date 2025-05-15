@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import com.example.compose.snippets.R
 import androidx.compose.ui.res.painterResource
 
+// [START android_compose_components_togglebuttonexample]
 @Preview
 @Composable
 fun ToggleIconButtonExample() {
@@ -44,6 +45,9 @@ fun ToggleIconButtonExample() {
         )
     }
 }
+// [END android_compose_components_togglebuttonexample]
+
+// [START android_compose_components_iconbutton]
 @Composable
 fun MomentaryIconButton(
     unselectedImage: Int,
@@ -75,7 +79,9 @@ fun MomentaryIconButton(
         )
     }
 }
+// [END android_compose_components_iconbutton]
 
+// [START android_compose_components_momentaryiconbuttons]
 @Preview()
 @Composable
 fun MomentaryIconButtonExample() {
@@ -104,3 +110,4 @@ fun MomentaryIconButtonExample() {
         )
     }
 }
+// [END android_compose_components_momentaryiconbuttons]
