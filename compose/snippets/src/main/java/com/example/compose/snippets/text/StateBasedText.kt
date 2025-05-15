@@ -24,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -93,60 +94,17 @@ fun StyleWithBrush() {
     // [END android_compose_state_text_5]
 }
 
-// [START android_compose_state_text_6]
-// TODO fix this snippet
-//val usernameState = rememberTextFieldState()
-//TextField(
-//state = usernameState,
-//lineLimits = TextFieldLineLimits.SingleLine,
-//placeholder = { Text("Enter Username") }
-//)
- val LoginRepository = "repository"
-
-class LoginViewModel(val loginRepository: Repository): ViewModel() {
-    val username = TextFieldState()
-    val password = TextFieldState()
-
-    val isLoginButtonEnabled: Boolean
-        get() = !isLoginButtonLoading && username.text.length > 6 && password.text.length > 6
-
-    var isLoginButtonLoading by mutableStateOf(false)
-        private set
-
-    fun loginButtonClick() {
-        viewModelScope.launch {
-            isLoginButtonLoading = true
-            val result = loginRepository.login(
-                username.text.toString(),
-                password.text.toString()
-            )
-            // process result
-            isLoginButtonLoading = false
-        }
-    }
-}
-
 @Composable
-fun LoginForm(
-    viewModel: LoginViewModel,
-    modifier: Modifier
-) {
-    Column(modifier) {
-        TextField(viewModel.username)
-        SecureTextField(viewModel.password)
-        Button(
-            onClick = viewModel::loginButtonClick,
-            enabled = viewModel.isLoginButtonEnabled
-        ) {
-            if (viewModel.isLoginButtonLoading) {
-                CircularProgressIndicator()
-            } else {
-                Text("Login")
-            }
-        }
-    }
+fun StateHoisting() {
+    // [START android_compose_state_text_6]
+    val usernameState = rememberTextFieldState()
+    TextField(
+        state = usernameState,
+        lineLimits = TextFieldLineLimits.SingleLine,
+        placeholder = { Text("Enter Username") }
+    )
+    // [END android_compose_state_text_6]
 }
-// [END android_compose_state_text_6]
 
 class Repository {
     fun login(username: String, password: String) {
@@ -159,7 +117,6 @@ fun TextFieldPlaceholder() {
 
 }
 
-@Preview
 @Composable
 fun TextFieldInitialState() {
     // [START android_compose_state_text_7]
@@ -173,9 +130,28 @@ fun TextFieldInitialState() {
 @Composable
 fun TextFieldBuffer() {
     // [START android_compose_state_text_8]
+    val phoneNumberState = rememberTextFieldState()
+
+    LaunchedEffect(phoneNumberState) {
+        phoneNumberState.edit { // TextFieldBuffer scope
+            append("123456789")
+        }
+    }
+
+    TextField(
+        state = phoneNumberState,
+        inputTransformation = InputTransformation { // TextFieldBuffer scope
+            if (TextUtils.isDigitsOnly(asCharSequence())) {
+                revertAllChanges()
+            }
+        },
+        outputTransformation = OutputTransformation {
+            if (length > 0) insert(0, "(")
+            if (length > 4) insert(4, ")")
+            if (length > 8) insert(8, "-")
+        }
+    )
     // [END android_compose_state_text_8]
-    // [START android_compose_state_text_9]
-    // [END android_compose_state_text_9]
 }
 
 @Preview
@@ -213,16 +189,18 @@ fun EditTextFieldState() {
 }
 
 class TextFieldViewModel : ViewModel() {
+    val usernameState = TextFieldState()
     fun validateUsername() {
 
     }
 }
 val textFieldViewModel = TextFieldViewModel()
+
 @Composable
 fun TextFieldKeyboardOptions() {
     // [START android_compose_state_text_13]
-    BasicTextField(
-        state = rememberTextFieldState(),
+    TextField(
+        state = textFieldViewModel.usernameState,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         onKeyboardAction = { performDefaultAction ->
             textFieldViewModel.validateUsername()
