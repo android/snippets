@@ -54,7 +54,7 @@ fun ToggleIconButtonExample() {
         onClick = { isToggled = !isToggled }
     ) {
         Icon(
-            imageVector = if (isToggled) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
             contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
         )
     }
