@@ -48,6 +48,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.core.text.isDigitsOnly
 
 @Composable
 fun StateBasedTextSnippets() {
@@ -114,15 +115,6 @@ fun StateHoisting() {
     // [END android_compose_state_text_6]
 }
 
-class Repository {
-    fun login(username: String, password: String) {
-    }
-}
-
-@Composable
-fun TextFieldPlaceholder() {
-}
-
 @Composable
 fun TextFieldInitialState() {
     // [START android_compose_state_text_7]
@@ -147,7 +139,7 @@ fun TextFieldBuffer() {
     TextField(
         state = phoneNumberState,
         inputTransformation = InputTransformation { // TextFieldBuffer scope
-            if (TextUtils.isDigitsOnly(asCharSequence())) {
+            if (asCharSequence().isDigitsOnly()) {
                 revertAllChanges()
             }
         },
@@ -163,7 +155,7 @@ fun TextFieldBuffer() {
 @Preview
 @Composable
 fun EditTextFieldState() {
-    // [START android_compose_state_text_10]
+    // [START android_compose_state_text_9]
     val usernameState = rememberTextFieldState("I love Android")
     // textFieldState.text : I love Android
     // textFieldState.selection: TextRange(14, 14)
@@ -179,19 +171,19 @@ fun EditTextFieldState() {
     usernameState.edit { selectAll() }
     // textFieldState.text : I love Compose!!!!
     // textFieldState.selection: TextRange(0, 18)
-    // [END android_compose_state_text_10]
+    // [END android_compose_state_text_9]
 
-    // [START android_compose_state_text_11]
+    // [START android_compose_state_text_10]
     usernameState.setTextAndPlaceCursorAtEnd("I really love Android")
     // textFieldState.text : I really love Android
     // textFieldState.selection : TextRange(21, 21)
-    // [END android_compose_state_text_11]
+    // [END android_compose_state_text_10]
 
-    // [START android_compose_state_text_12]
+    // [START android_compose_state_text_11]
     usernameState.clearText()
     // textFieldState.text :
     // textFieldState.selection : TextRange(0, 0)
-    // [END android_compose_state_text_12]
+    // [END android_compose_state_text_11]
 }
 
 class TextFieldViewModel : ViewModel() {
@@ -224,14 +216,6 @@ fun TextFieldInputTransformation() {
         inputTransformation = InputTransformation.maxLength(10)
     )
     // [END android_compose_state_text_14]
-
-    // [START android_compose_state_text_17]
-    TextField(
-        state = rememberTextFieldState(),
-        inputTransformation = InputTransformation.maxLength(6)
-            .then(CustomInputTransformation()),
-    )
-    // [END android_compose_state_text_17]
 }
 
 // [START android_compose_state_text_15]
@@ -251,14 +235,26 @@ class DigitOnlyInputTransformation : InputTransformation {
 }
 // [END android_compose_state_text_16]
 
-// [START android_compose_state_text_17]
-class CustomOutputTransformation : OutputTransformation {
-    override fun TextFieldBuffer.transformOutput() {
-    }
+@Composable
+fun ChainInputTransformation() {
+    // [START android_compose_state_text_17]
+    TextField(
+        state = rememberTextFieldState(),
+        inputTransformation = InputTransformation.maxLength(6)
+            .then(CustomInputTransformation()),
+    )
+    // [END android_compose_state_text_17]
 }
-// [END android_compose_state_text_17]
 
 // [START android_compose_state_text_18]
+class CustomOutputTransformation : OutputTransformation {
+    override fun TextFieldBuffer.transformOutput() {
+
+    }
+}
+// [END android_compose_state_text_18]
+
+// [START android_compose_state_text_19]
 class PhoneNumberOutputTransformation : OutputTransformation {
     override fun TextFieldBuffer.transformOutput() {
         if (length > 0) insert(0, "(")
@@ -266,14 +262,14 @@ class PhoneNumberOutputTransformation : OutputTransformation {
         if (length > 8) insert(8, "-")
     }
 }
-// [END android_compose_state_text_18]
+// [END android_compose_state_text_19]
 
 @Composable
 fun TextFieldOutputTransformation() {
-    // [START android_compose_state_text_19]
+    // [START android_compose_state_text_20]
     TextField(
         state = rememberTextFieldState(),
         outputTransformation = PhoneNumberOutputTransformation()
     )
-    // [END android_compose_state_text_19]
+    // [END android_compose_state_text_20]
 }
