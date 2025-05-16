@@ -85,13 +85,13 @@ private fun resizableComponentExample(session: Session, entity: Entity, executor
     resizableComponent.addResizeListener(
         executor,
         object : ResizeListener {
-            override fun onResizeEnd(entity: Entity, finalSize: Dimensions){
+            override fun onResizeEnd(entity: Entity, finalSize: Dimensions) {
 
-                //update the size in the component
+                // update the size in the component
                 resizableComponent.size = finalSize
 
-                //update the Entity to reflect the new size
-                (entity as SurfaceEntity).canvasShape = SurfaceEntity.CanvasShape.Quad(finalSize.width,finalSize.height)
+                // update the Entity to reflect the new size
+                (entity as SurfaceEntity).canvasShape = SurfaceEntity.CanvasShape.Quad(finalSize.width, finalSize.height)
             }
         },
     )
