@@ -68,7 +68,7 @@ fun ObjectInAVolume(show3DObject: Boolean) {
     val volumeXOffset = 0.dp
     val volumeYOffset = 0.dp
     val volumeZOffset = 0.dp
-    // [END_EXCLUDE silent]
+    // [END_EXCLUDE]
     val session = checkNotNull(LocalSession.current)
     val scope = rememberCoroutineScope()
     if (show3DObject) {
