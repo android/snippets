@@ -18,6 +18,8 @@ package com.example.compose.snippets.text
 
 import android.text.TextUtils
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
@@ -95,9 +97,16 @@ fun ConfigureLineLimits() {
     )
     // [END android_compose_state_text_3]
 
+
+}
+
+@Preview
+@Composable
+fun Multiline() {
+    Spacer(modifier = Modifier.height(15.dp))
     // [START android_compose_state_text_4]
     TextField(
-        state = rememberTextFieldState(),
+        state = rememberTextFieldState("Hello\nWorld\nHello\nWorld"),
         lineLimits = TextFieldLineLimits.MultiLine(1, 4)
     )
     // [END android_compose_state_text_4]
