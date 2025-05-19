@@ -96,8 +96,6 @@ fun ConfigureLineLimits() {
         lineLimits = TextFieldLineLimits.SingleLine
     )
     // [END android_compose_state_text_3]
-
-
 }
 
 @Preview
