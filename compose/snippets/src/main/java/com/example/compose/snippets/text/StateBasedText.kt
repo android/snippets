@@ -17,8 +17,8 @@
 package com.example.compose.snippets.text
 
 import android.text.TextUtils
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -32,6 +32,7 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.selectAll
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.text.input.then
+import androidx.compose.material.OutlinedTextField
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TextField
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -50,23 +51,36 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 
+@Preview
 @Composable
 fun StateBasedTextSnippets() {
-    // [START android_compose_state_text_1]
-    BasicTextField(state = rememberTextFieldState())
+    Column() {
+        // [START android_compose_state_text_0]
+        TextField(
+            state = rememberTextFieldState(initialText = "Hello"),
+            label = { Text("Label")}
+        )
+        // [END android_compose_state_text_0]
 
-    TextField(state = rememberTextFieldState())
-    // [END android_compose_state_text_1]
+        // [START android_compose_state_text_1]
+        OutlinedTextField(
+            state = rememberTextFieldState(),
+            label = { Text("Label") }
+        )
+        // [END android_compose_state_text_1]
+    }
 }
 
+@Preview
 @Composable
 fun StyleTextField() {
     // [START android_compose_state_text_2]
     TextField(
-        state = rememberTextFieldState(),
+        state = rememberTextFieldState("Hello\nWorld\nInvisible"),
         lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 2),
         placeholder = { Text("") },
         textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
+        label = { Text("Enter text")},
         modifier = Modifier.padding(20.dp)
     )
     // [END android_compose_state_text_2]
