@@ -58,7 +58,7 @@ fun StateBasedTextSnippets() {
         // [START android_compose_state_text_0]
         TextField(
             state = rememberTextFieldState(initialText = "Hello"),
-            label = { Text("Label")}
+            label = { Text("Label") }
         )
         // [END android_compose_state_text_0]
 
@@ -80,7 +80,7 @@ fun StyleTextField() {
         lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 2),
         placeholder = { Text("") },
         textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
-        label = { Text("Enter text")},
+        label = { Text("Enter text") },
         modifier = Modifier.padding(20.dp)
     )
     // [END android_compose_state_text_2]
