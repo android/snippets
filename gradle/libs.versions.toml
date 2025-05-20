@@ -75,6 +75,7 @@ wearComposeMaterial = "1.5.0-beta01"
 wearComposeMaterial3 = "1.5.0-beta01"
 wearToolingPreview = "1.0.0"
 webkit = "1.13.0"
+pdfViewerFragment = "1.0.0-alpha09"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -182,6 +183,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+androidx-pdf-viewer-fragment = {module = "androidx.pdf:pdf-viewer-fragment", version.ref = "pdfViewerFragment" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
