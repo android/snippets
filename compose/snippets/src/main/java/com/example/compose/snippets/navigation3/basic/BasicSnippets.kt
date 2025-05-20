@@ -25,6 +25,8 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.example.compose.snippets.navigation3.ContentBlue
+import com.example.compose.snippets.navigation3.ContentGreen
 import com.example.compose.snippets.navigation3.savingstate.Home
 
 // [START android_compose_navigation3_basic_1]
@@ -103,7 +105,7 @@ fun NavExample() {
         entryProvider = { key ->
             when (key) {
                 is Home -> NavEntry(key) {
-                    _root_ide_package_.com.example.compose.snippets.navigation3.ContentGreen("Welcome to Nav3") {
+                    ContentGreen("Welcome to Nav3") {
                         Button(onClick = {
                             backStack.add(Product("123"))
                         }) {
@@ -113,7 +115,7 @@ fun NavExample() {
                 }
 
                 is Product -> NavEntry(key) {
-                    _root_ide_package_.com.example.compose.snippets.navigation3.ContentBlue("Product ${key.id} ")
+                    ContentBlue("Product ${key.id} ")
                 }
 
                 else -> NavEntry(Unit) { Text("Unknown route") }
