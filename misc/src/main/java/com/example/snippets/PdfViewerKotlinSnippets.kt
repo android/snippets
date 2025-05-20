@@ -218,7 +218,6 @@ class PdfViewerKotlinSnippets {
             private const val PDF_VIEWER_FRAGMENT_TAG = "pdf_viewer_fragment_tag"
         }
 
-    }
 
 
     // [START android_pdf_viewer_style_fragment_constructor_kotlin]
