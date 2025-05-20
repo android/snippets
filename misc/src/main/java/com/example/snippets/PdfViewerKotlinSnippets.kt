@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package com.example.snippets
+package com.example.snippets
 
 import android.net.Uri
 import android.os.Build
@@ -41,10 +41,9 @@ class PdfViewerKotlinSnippets {
 
         // [START android_pdf_viewer_extension_version_kotlin]
         if (SdkExtensions.getExtensionVersion(Build.VERSION_CODES.S) >= 13) {
-           // Load the fragment and document.
+            // Load the fragment and document.
         }
         // [END android_pdf_viewer_extension_version_kotlin]
-
     }
 
     // [START android_pdf_viewer_create_compat_activity_kotlin]
@@ -55,14 +54,14 @@ class PdfViewerKotlinSnippets {
 
             val getContentButton: MaterialButton = findViewById(R.id.launch_button)
             val searchButton: MaterialButton = findViewById(R.id.search_button)
-      }
+        }
     }
     // [END android_pdf_viewer_create_compat_activity_kotlin]
 
     // [START android_pdf_viewer_extend_fragment_kotlin]
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 13)
     class PdfViewerFragmentExtended : PdfViewerFragment() {
-        private val myLogger : Logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
+        private val myLogger: Logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
 
         override fun onLoadDocumentSuccess() {
             myLogger.log(INFO, "// Log document success.")
@@ -89,9 +88,8 @@ class PdfViewerKotlinSnippets {
                 if (pdfViewerFragment == null) {
                     pdfViewerFragment =
                         supportFragmentManager
-                            .findFragmentByTag(PDF_VIEWER_FRAGMENT_TAG) as PdfViewerFragment?
+                        .findFragmentByTag(PDF_VIEWER_FRAGMENT_TAG) as PdfViewerFragment?
                 }
-
             }
 
             // Used to instantiate and commit the fragment.
@@ -122,7 +120,6 @@ class PdfViewerKotlinSnippets {
             }
         }
         // [END android_pdf_viewer_create_fragment_kotlin]
-
     }
 
     /** Enable nested classes. **/
@@ -145,7 +142,6 @@ class PdfViewerKotlinSnippets {
             }
         }
         // [END android_pdf_viewer_enable_document_search_kotlin]
-
     }
 
     /** Enable nested classes. **/
@@ -163,7 +159,6 @@ class PdfViewerKotlinSnippets {
                     supportFragmentManager
                     .findFragmentByTag(PDF_VIEWER_FRAGMENT_TAG) as PdfViewerFragment?
             }
-
         }
 
         // [START android_pdf_viewer_launch_file_picker_kotlin]
@@ -217,7 +212,6 @@ class PdfViewerKotlinSnippets {
         companion object {
             private const val PDF_VIEWER_FRAGMENT_TAG = "pdf_viewer_fragment_tag"
         }
-
     }
 
     // [START android_pdf_viewer_style_fragment_constructor_kotlin]
@@ -307,7 +301,5 @@ class PdfViewerKotlinSnippets {
         companion object {
             private const val PDF_VIEWER_FRAGMENT_TAG = "pdf_viewer_fragment_tag"
         }
-
     }
-
 }
