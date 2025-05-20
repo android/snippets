@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package com.example.snippets
+package com.example.snippets
 
 import android.net.Uri
 import android.os.Build
@@ -44,7 +44,6 @@ class PdfViewerKotlinSnippets {
             // Load the fragment and document.
         }
         // [END android_pdf_viewer_extension_version_kotlin]
-
     }
 
     // [START android_pdf_viewer_create_compat_activity_kotlin]
