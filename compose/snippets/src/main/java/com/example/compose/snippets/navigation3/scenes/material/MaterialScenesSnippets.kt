@@ -66,7 +66,7 @@ class MaterialListDetailActivity : ComponentActivity() {
                 NavDisplay(
                     backStack = backStack,
                     modifier = Modifier.padding(paddingValues),
-                    onBack = { keysToRemove -> repeat(keysToRemove){ backStack.removeLastOrNull() } },
+                    onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
                     sceneStrategy = listDetailStrategy,
                     entryProvider = entryProvider {
                         entry<ProductList>(
@@ -76,10 +76,10 @@ class MaterialListDetailActivity : ComponentActivity() {
                                 }
                             )
                         ) {
-                            ContentRed("Welcome to Nav3"){
+                            ContentRed("Welcome to Nav3") {
                                 Button(onClick = {
                                     backStack.add(ProductDetail("ABC"))
-                                } ) {
+                                }) {
                                     Text("View product")
                                 }
                             }

@@ -131,8 +131,8 @@ class TwoPaneSceneStrategy<T : Any> : SceneStrategy<T> {
 
         // Condition 2: Only return a Scene if there are two entries, and both have declared
         // they can be displayed in a two pane scene.
-        return if (lastTwoEntries.size == 2
-            && lastTwoEntries.all { it.metadata.containsKey(TwoPaneScene.TWO_PANE_KEY) }
+        return if (lastTwoEntries.size == 2 &&
+            lastTwoEntries.all { it.metadata.containsKey(TwoPaneScene.TWO_PANE_KEY) }
         ) {
             val firstEntry = lastTwoEntries.first()
             val secondEntry = lastTwoEntries.last()

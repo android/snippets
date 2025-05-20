@@ -39,7 +39,7 @@ fun MyApp() {
     val backStack = remember { mutableStateListOf<Any>(ProductList) }
 
     // Supply your back stack to a NavDisplay so it can reflect changes in the UI
-    //...more on this below...
+    // ...more on this below...
 
     // Push a key onto the back stack (navigate forward), the navigation library will reflect the change in state
     backStack.add(ProductDetail(id = "ABC"))

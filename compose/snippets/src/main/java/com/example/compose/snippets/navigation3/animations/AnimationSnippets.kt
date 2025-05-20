@@ -52,7 +52,6 @@ data object ScreenB : NavKey
 @Serializable
 data object ScreenC : NavKey
 
-
 class AnimatedNavDisplayActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,36 +90,36 @@ class AnimatedNavDisplayActivity : ComponentActivity() {
                             } + NavDisplay.popTransitionSpec {
                                 // Slide old content down, revealing the new content in place underneath
                                 EnterTransition.None togetherWith
-                                        slideOutVertically(
-                                            targetOffsetY = { it },
-                                            animationSpec = tween(1000)
-                                        )
+                                    slideOutVertically(
+                                        targetOffsetY = { it },
+                                        animationSpec = tween(1000)
+                                    )
                             } + NavDisplay.predictivePopTransitionSpec {
                                 // Slide old content down, revealing the new content in place underneath
                                 EnterTransition.None togetherWith
-                                        slideOutVertically(
-                                            targetOffsetY = { it },
-                                            animationSpec = tween(1000)
-                                        )
+                                    slideOutVertically(
+                                        targetOffsetY = { it },
+                                        animationSpec = tween(1000)
+                                    )
                             }
-                        ){
+                        ) {
                             ContentGreen("This is Screen C")
                         }
                     },
                     transitionSpec = {
                         // Slide in from right when navigating forward
                         slideInHorizontally(initialOffsetX = { it }) togetherWith
-                                slideOutHorizontally(targetOffsetX = { -it })
+                            slideOutHorizontally(targetOffsetX = { -it })
                     },
                     popTransitionSpec = {
                         // Slide in from left when navigating back
                         slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                                slideOutHorizontally(targetOffsetX = { it })
+                            slideOutHorizontally(targetOffsetX = { it })
                     },
                     predictivePopTransitionSpec = {
                         // Slide in from left when navigating back
                         slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                                slideOutHorizontally(targetOffsetX = { it })
+                            slideOutHorizontally(targetOffsetX = { it })
                     },
                     modifier = Modifier.padding(paddingValues)
                 )
