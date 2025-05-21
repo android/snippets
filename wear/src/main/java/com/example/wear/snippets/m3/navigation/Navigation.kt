@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.navDeepLink
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
@@ -47,13 +48,22 @@ fun navigation() {
             navController = navController,
             startDestination = "message_list"
         ) {
-            composable("message_list") {
+            composable(
+                route ="message_list",
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = "googleandroidsnippets://app/message_list"
+                })) {
                 MessageList(onMessageClick = { id ->
                     navController.navigate("message_detail/$id")
                 })
             }
-            composable("message_detail/{id}") {
-                MessageDetail(id = it.arguments?.getString("id")!!)
+            composable(
+                route = "message_detail/{id}",
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = "googleandroidsnippets://app/message_detail/{id}"
+                })) {
+                    val id = it.arguments?.getString("id") ?: 0
+                    MessageDetail(id = "message $id")
             }
         }
     }
@@ -81,7 +91,7 @@ fun MessageDetail(id: String) {
         ) {
             item {
                 Text(
-                    text = id,
+                    text = "Detail $id",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxSize()
                 )

@@ -17,15 +17,13 @@
 package com.example.wear.snippets.m3
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
 import androidx.wear.tiles.TileService
-import com.example.wear.snippets.m3.list.ComposeList
 import com.example.wear.snippets.m3.navigation.navigation
 
-// [START android_wear_m3_interactions_launchaction_activity]
-class MainActivity : ComponentActivity() {
+class TileActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
@@ -33,13 +31,6 @@ class MainActivity : ComponentActivity() {
     // clickableId will be "foo" when launched from the tile
     // InteractionLaunchAction
 
-    setContent { WearApp() }
+    setContent { navigation() }
   }
-}
-// [END android_wear_m3_interactions_launchaction_activity]
-
-@Composable
-fun WearApp() {
-  // insert here the snippet you want to test
-  navigation()
 }
