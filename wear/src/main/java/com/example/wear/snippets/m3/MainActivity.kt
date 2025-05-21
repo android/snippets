@@ -20,26 +20,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.wear.tiles.TileService
 import com.example.wear.snippets.m3.list.ComposeList
-import com.example.wear.snippets.m3.navigation.navigation
 
-// [START android_wear_m3_interactions_launchaction_activity]
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    val clickableId = intent.getStringExtra(TileService.EXTRA_CLICKABLE_ID)
-    // clickableId will be "foo" when launched from the tile
-    // InteractionLaunchAction
-
-    setContent { WearApp() }
-  }
+        setContent {
+            WearApp()
+        }
+    }
 }
-// [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
 fun WearApp() {
-  // insert here the snippet you want to test
-  ComposeList()
+    // insert here the snippet you want to test
+    ComposeList()
 }
