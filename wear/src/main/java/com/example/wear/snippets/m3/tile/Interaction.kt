@@ -16,10 +16,8 @@
 
 package com.example.wear.snippets.m3.tile
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import androidx.wear.protolayout.ActionBuilders.launchAction
@@ -39,8 +37,6 @@ import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
-import com.example.wear.snippets.m3.MainActivity
-import com.example.wear.snippets.m3.TileActivity
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlin.jvm.java
@@ -154,7 +150,7 @@ class InteractionLaunchAction : BaseTileService() {
                 launchAction(
                   ComponentName(
                     "com.example.wear",
-                    "com.example.wear.snippets.m3.TileActivity",
+                    "com.example.wear.snippets.m3.tile.TileActivity",
                   )
                 ),
             ),
