@@ -72,10 +72,13 @@ fun MessageDetail(id: String) {
     ScreenScaffold(
         scrollState = scrollState,
         contentPadding = padding
-    ) {
+    ) { scaffoldPaddingValues ->
         // Screen content goes here
         // [END android_wear_navigation]
-        TransformingLazyColumn(state = scrollState) {
+        TransformingLazyColumn(
+            state = scrollState,
+            contentPadding = scaffoldPaddingValues
+        ) {
             item {
                 Text(
                     text = id,
