@@ -16,6 +16,7 @@
 
 package com.example.xr.scenecore
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.ComponentActivity
