@@ -38,34 +38,37 @@ import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import androidx.wear.protolayout.types.layoutString
-import androidx.wear.tiles.TileService
 import com.example.wear.R
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 class TileActivity : ComponentActivity() {
-// [START android_wear_m3_interactions_launchaction_activity]
+  // [START android_wear_m3_interactions_launchaction_activity]
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    val clickableId = intent.getStringExtra(TileService.EXTRA_CLICKABLE_ID)
-    // clickableId will be "foo" when launched from the tile
-    // InteractionLaunchAction
+    // When this activity is launched from the tile InteractionLaunchAction,
+    // "name" will be "Bartholomew" and "age" will be 21
+    val name = intent.getStringExtra("name")
+    val age = intent.getStringExtra("age")
 
+    // [START_EXCLUDE]
     setContent { navigation() }
+    // [END_EXCLUDE]
   }
 }
 // [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
 fun navigation() {
+  // [START android_wear_m3_interaction_deeplink_activity]
   AppScaffold {
     val navController = rememberSwipeDismissableNavController()
     SwipeDismissableNavHost(
       navController = navController,
       startDestination = "message_list",
     ) {
+      // [START_EXCLUDE]
       composable(
         route = "message_list",
         deepLinks =
@@ -81,6 +84,7 @@ fun navigation() {
           }
         )
       }
+      // [END_EXCLUDE]
       composable(
         route = "message_detail/{id}",
         deepLinks =
@@ -95,6 +99,7 @@ fun navigation() {
       }
     }
   }
+  // [END android_wear_m3_interaction_deeplink_activity]
 }
 
 // Implementation of one of the screens in the navigation
@@ -111,7 +116,7 @@ fun MessageDetails(details: String) {
       contentPadding = scaffoldPaddingValues,
     ) {
       item {
-          ListHeader() { Text(text = stringResource(R.string.message_detail)) }
+        ListHeader() { Text(text = stringResource(R.string.message_detail)) }
       }
       item {
         Text(
