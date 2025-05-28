@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.snippets.ui.haptics
 
 import android.Manifest
@@ -5,7 +21,6 @@ import android.app.Activity
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
@@ -18,13 +33,18 @@ class CustomVibrationPatternsJava : Activity() {
     @RequiresPermission(Manifest.permission.VIBRATE)
     fun rampUpPattern() {
         val timings = longArrayOf(
-                50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200)
+            50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200
+        )
         val amplitudes = intArrayOf(
-                33, 51, 75, 113, 170, 255, 0, 38, 62, 100, 160, 255)
+            33, 51, 75, 113, 170, 255, 0, 38, 62, 100, 160, 255
+        )
         val repeatIndex = -1 // Don't repeat.
 
-        vibrator.vibrate(VibrationEffect.createWaveform(
-                timings, amplitudes, repeatIndex))
+        vibrator.vibrate(
+            VibrationEffect.createWaveform(
+                timings, amplitudes, repeatIndex
+            )
+        )
     }
     // [END android_ui_haptics_ramp_up]
 
@@ -36,8 +56,9 @@ class CustomVibrationPatternsJava : Activity() {
         val amplitudes = intArrayOf(64, 128, 255, 128, 64)
         val repeat = 1 // Repeat from the second entry, index = 1.
         val repeatingEffect = VibrationEffect.createWaveform(
-                timings, amplitudes, repeat)
-            // repeatingEffect can be used in multiple places.
+            timings, amplitudes, repeat
+        )
+        // repeatingEffect can be used in multiple places.
 
         vibrator.vibrate(repeatingEffect)
     }
@@ -50,7 +71,6 @@ class CustomVibrationPatternsJava : Activity() {
     }
     // [END android_ui_haptics_repeat]
 
-
     // [START android_ui_haptics_fallback]
     @RequiresApi(api = Build.VERSION_CODES.O)
     @RequiresPermission(Manifest.permission.VIBRATE)
@@ -61,11 +81,17 @@ class CustomVibrationPatternsJava : Activity() {
         val repeatIndex = -1 // Don't repeat.
 
         if (vibrator.hasAmplitudeControl()) {
-            vibrator.vibrate(VibrationEffect.createWaveform(
-                    smoothTimings, amplitudes, repeatIndex))
+            vibrator.vibrate(
+                VibrationEffect.createWaveform(
+                    smoothTimings, amplitudes, repeatIndex
+                )
+            )
         } else {
-            vibrator.vibrate(VibrationEffect.createWaveform(
-                    onOffTimings, repeatIndex))
+            vibrator.vibrate(
+                VibrationEffect.createWaveform(
+                    onOffTimings, repeatIndex
+                )
+            )
         }
     }
     // [END android_ui_haptics_fallback]
