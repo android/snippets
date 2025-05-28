@@ -24,75 +24,59 @@ import android.os.Vibrator
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
-@RequiresApi(api = Build.VERSION_CODES.M)
-class CustomVibrationPatternsJava : Activity() {
-    val vibrator = applicationContext.getSystemService(Vibrator::class.java) as Vibrator
+@RequiresApi(api = Build.VERSION_CODES.S)
+class CustomVibrationCompositions : Activity() {
+        var vibrator: Vibrator = getApplicationContext().getSystemService(Vibrator::class.java)
 
-    // [START android_ui_haptics_ramp_up]
-    @RequiresApi(Build.VERSION_CODES.O)
-    @RequiresPermission(Manifest.permission.VIBRATE)
-    fun rampUpPattern() {
-        val timings = longArrayOf(
-            50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200
-        )
-        val amplitudes = intArrayOf(
-            33, 51, 75, 113, 170, 255, 0, 38, 62, 100, 160, 255
-        )
-        val repeatIndex = -1 // Don't repeat.
-
-        vibrator.vibrate(
-            VibrationEffect.createWaveform(
-                timings, amplitudes, repeatIndex
-            )
-        )
-    }
-    // [END android_ui_haptics_ramp_up]
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @RequiresPermission(Manifest.permission.VIBRATE)
-    // [START android_ui_haptics_repeat]
-    fun startVibrating() {
-        val timings = longArrayOf(50, 50, 100, 50, 50)
-        val amplitudes = intArrayOf(64, 128, 255, 128, 64)
-        val repeat = 1 // Repeat from the second entry, index = 1.
-        val repeatingEffect = VibrationEffect.createWaveform(
-            timings, amplitudes, repeat
-        )
-        // repeatingEffect can be used in multiple places.
-
-        vibrator.vibrate(repeatingEffect)
-    }
-
-    // [START_EXCLUDE]
-    @RequiresPermission(Manifest.permission.VIBRATE)
-    // [END_EXCLUDE]
-    fun stopVibrating() {
-        vibrator.cancel()
-    }
-    // [END android_ui_haptics_repeat]
-
-    // [START android_ui_haptics_fallback]
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @RequiresPermission(Manifest.permission.VIBRATE)
-    fun patternWithFallback() {
-        val smoothTimings = longArrayOf(50, 50, 100, 50, 50)
-        val onOffTimings = longArrayOf(50, 100)
-        val amplitudes = intArrayOf(64, 128, 255, 128, 64)
-        val repeatIndex = -1 // Don't repeat.
-
-        if (vibrator.hasAmplitudeControl()) {
+        @RequiresPermission(Manifest.permission.VIBRATE)
+        // [START android_ui_haptics_composed_vibration_effect]
+        fun createComposedVibrationEffect() {
             vibrator.vibrate(
-                VibrationEffect.createWaveform(
-                    smoothTimings, amplitudes, repeatIndex
-                )
-            )
-        } else {
-            vibrator.vibrate(
-                VibrationEffect.createWaveform(
-                    onOffTimings, repeatIndex
-                )
+                VibrationEffect.startComposition()
+                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SLOW_RISE)
+                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK)
+                    .compose()
             )
         }
+        // [END android_ui_haptics_composed_vibration_effect]
+
+        @RequiresPermission(Manifest.permission.VIBRATE)
+        // [START android_ui_haptics_gap_between_primitives]
+        fun gapBetweenPrimitives() {
+            val delayMs: Int = 100
+            vibrator.vibrate(
+                VibrationEffect.startComposition()
+                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.8f)
+                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.6f)
+                    .addPrimitive(
+                        VibrationEffect.Composition.PRIMITIVE_THUD, 1.0f, delayMs
+                    )
+                    .compose()
+            )
+        }
+        // [END android_ui_haptics_gap_between_primitives]
+
+        @RequiresPermission(Manifest.permission.VIBRATE)
+        private fun checkPrimitivesSupport() {
+            // [START android_ui_haptics_check_single_primitive_support]
+            val primitive: Int = VibrationEffect.Composition.PRIMITIVE_LOW_TICK
+
+            if (vibrator.areAllPrimitivesSupported(primitive)) {
+                vibrator.vibrate(
+                    VibrationEffect.startComposition()
+                        .addPrimitive(primitive).compose()
+                )
+            } else {
+                // Play a predefined effect or custom pattern as a fallback.
+            }
+            // [END android_ui_haptics_check_single_primitive_support]
+
+            // [START android_ui_haptics_check_multiple_primitives_support]
+            val supported: BooleanArray = vibrator.arePrimitivesSupported(
+                VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
+                VibrationEffect.Composition.PRIMITIVE_TICK,
+                VibrationEffect.Composition.PRIMITIVE_CLICK
+            )
+            // [END android_ui_haptics_check_multiple_primitives_support]
+        }
     }
-    // [END android_ui_haptics_fallback]
-}
