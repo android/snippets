@@ -35,7 +35,7 @@ class CustomVibrationPatternsJava : Activity() {
         val timings = longArrayOf(50, 50, 100, 50, 50)
         val amplitudes = intArrayOf(64, 128, 255, 128, 64)
         val repeat = 1 // Repeat from the second entry, index = 1.
-        VibrationEffect repeatingEffect = VibrationEffect.createWaveform(
+        val repeatingEffect = VibrationEffect.createWaveform(
                 timings, amplitudes, repeat)
             // repeatingEffect can be used in multiple places.
 
