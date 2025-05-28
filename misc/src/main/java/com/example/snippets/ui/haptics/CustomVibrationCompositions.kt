@@ -26,57 +26,57 @@ import androidx.annotation.RequiresPermission
 
 @RequiresApi(api = Build.VERSION_CODES.S)
 class CustomVibrationCompositions : Activity() {
-        var vibrator: Vibrator = getApplicationContext().getSystemService(Vibrator::class.java)
+    var vibrator: Vibrator = getApplicationContext().getSystemService(Vibrator::class.java)
 
-        @RequiresPermission(Manifest.permission.VIBRATE)
-        // [START android_ui_haptics_composed_vibration_effect]
-        fun createComposedVibrationEffect() {
-            vibrator.vibrate(
-                VibrationEffect.startComposition()
-                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SLOW_RISE)
-                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK)
-                    .compose()
-            )
-        }
-        // [END android_ui_haptics_composed_vibration_effect]
-
-        @RequiresPermission(Manifest.permission.VIBRATE)
-        // [START android_ui_haptics_gap_between_primitives]
-        fun gapBetweenPrimitives() {
-            val delayMs: Int = 100
-            vibrator.vibrate(
-                VibrationEffect.startComposition()
-                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.8f)
-                    .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.6f)
-                    .addPrimitive(
-                        VibrationEffect.Composition.PRIMITIVE_THUD, 1.0f, delayMs
-                    )
-                    .compose()
-            )
-        }
-        // [END android_ui_haptics_gap_between_primitives]
-
-        @RequiresPermission(Manifest.permission.VIBRATE)
-        private fun checkPrimitivesSupport() {
-            // [START android_ui_haptics_check_single_primitive_support]
-            val primitive: Int = VibrationEffect.Composition.PRIMITIVE_LOW_TICK
-
-            if (vibrator.areAllPrimitivesSupported(primitive)) {
-                vibrator.vibrate(
-                    VibrationEffect.startComposition()
-                        .addPrimitive(primitive).compose()
-                )
-            } else {
-                // Play a predefined effect or custom pattern as a fallback.
-            }
-            // [END android_ui_haptics_check_single_primitive_support]
-
-            // [START android_ui_haptics_check_multiple_primitives_support]
-            val supported: BooleanArray = vibrator.arePrimitivesSupported(
-                VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
-                VibrationEffect.Composition.PRIMITIVE_TICK,
-                VibrationEffect.Composition.PRIMITIVE_CLICK
-            )
-            // [END android_ui_haptics_check_multiple_primitives_support]
-        }
+    @RequiresPermission(Manifest.permission.VIBRATE)
+    // [START android_ui_haptics_composed_vibration_effect]
+    fun createComposedVibrationEffect() {
+        vibrator.vibrate(
+            VibrationEffect.startComposition()
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SLOW_RISE)
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_CLICK)
+                .compose()
+        )
     }
+    // [END android_ui_haptics_composed_vibration_effect]
+
+    @RequiresPermission(Manifest.permission.VIBRATE)
+    // [START android_ui_haptics_gap_between_primitives]
+    fun gapBetweenPrimitives() {
+        val delayMs: Int = 100
+        vibrator.vibrate(
+            VibrationEffect.startComposition()
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.8f)
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_SPIN, 0.6f)
+                .addPrimitive(
+                    VibrationEffect.Composition.PRIMITIVE_THUD, 1.0f, delayMs
+                )
+                .compose()
+        )
+    }
+    // [END android_ui_haptics_gap_between_primitives]
+
+    @RequiresPermission(Manifest.permission.VIBRATE)
+    private fun checkPrimitivesSupport() {
+        // [START android_ui_haptics_check_single_primitive_support]
+        val primitive: Int = VibrationEffect.Composition.PRIMITIVE_LOW_TICK
+
+        if (vibrator.areAllPrimitivesSupported(primitive)) {
+            vibrator.vibrate(
+                VibrationEffect.startComposition()
+                    .addPrimitive(primitive).compose()
+            )
+        } else {
+            // Play a predefined effect or custom pattern as a fallback.
+        }
+        // [END android_ui_haptics_check_single_primitive_support]
+
+        // [START android_ui_haptics_check_multiple_primitives_support]
+        val supported: BooleanArray = vibrator.arePrimitivesSupported(
+            VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
+            VibrationEffect.Composition.PRIMITIVE_TICK,
+            VibrationEffect.Composition.PRIMITIVE_CLICK
+        )
+        // [END android_ui_haptics_check_multiple_primitives_support]
+    }
+}
