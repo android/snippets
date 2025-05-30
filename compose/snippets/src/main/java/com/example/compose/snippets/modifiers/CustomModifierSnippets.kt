@@ -18,6 +18,7 @@ package com.example.compose.snippets.modifiers
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.DecayAnimationSpec
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloatAsState
@@ -259,7 +260,7 @@ class ScrollableNode :
 object CustomModifierSnippets14 {
     // [START android_compose_custom_modifiers_14]
     class CircleNode(var color: Color) : Modifier.Node(), DrawModifierNode {
-        private val alpha = Animatable(1f)
+        private lateinit var alpha: Animatable<Float, AnimationVector1D>
 
         override fun ContentDrawScope.draw() {
             drawCircle(color = color, alpha = alpha.value)
@@ -267,6 +268,7 @@ object CustomModifierSnippets14 {
         }
 
         override fun onAttach() {
+            alpha = Animatable(1f)
             coroutineScope.launch {
                 alpha.animateTo(
                     0f,
