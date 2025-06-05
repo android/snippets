@@ -45,6 +45,7 @@ import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import java.util.Locale
 import kotlin.random.Random
 
 private const val RESOURCES_VERSION = "1"
@@ -93,7 +94,12 @@ class InteractionRefresh : BaseTileService() {
       // Output a debug code so we can see the layout changing
       titleSlot = {
         text(
-          String.format("Debug %06d", Random.nextInt(0, 1_000_000)).layoutString
+          String.format(
+              Locale.ENGLISH,
+              "Debug %06d",
+              Random.nextInt(0, 1_000_000),
+            )
+            .layoutString
         )
       },
       mainSlot = {
@@ -142,6 +148,7 @@ class InteractionDeepLink : TileService() {
     )
     // [END_EXCLUDE]
   }
+
   // [END android_wear_m3_interaction_deeplink_tile]
 
   override fun onTileResourcesRequest(
@@ -202,10 +209,15 @@ class InteractionLoadAction : BaseTileService() {
     requestParams: RequestBuilders.TileRequest
   ) =
     primaryLayout(
-      // Output a debug code so we can see the layout changing
+      // Output a debug code so we can verify that the reload happens
       titleSlot = {
         text(
-          String.format("Debug %06d", Random.nextInt(0, 1_000_000)).layoutString
+          String.format(
+              Locale.ENGLISH,
+              "Debug %06d",
+              Random.nextInt(0, 1_000_000),
+            )
+            .layoutString
         )
       },
       mainSlot = {

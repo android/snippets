@@ -53,14 +53,14 @@ class TileActivity : ComponentActivity() {
     val age = intent.getStringExtra("age")
 
     // [START_EXCLUDE]
-    setContent { navigation() }
+    setContent { MainContent() }
     // [END_EXCLUDE]
   }
 }
 // [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
-fun navigation() {
+fun MainContent() {
   // [START android_wear_m3_interaction_deeplink_activity]
   AppScaffold {
     val navController = rememberSwipeDismissableNavController()
