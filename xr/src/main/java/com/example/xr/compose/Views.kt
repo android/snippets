@@ -44,10 +44,12 @@ private class ActivityWithSubspaceContent : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // [START androidxr_compose_ActivityWithSubspaceContent]
-        setSubspaceContent {
-            SpatialPanel(
-                modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
-            ) { MyCustomView(this) }
+        setContent {
+            Subspace {
+                SpatialPanel(
+                    modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
+                ) { MyCustomView(this) }
+            }
         }
         // [END androidxr_compose_ActivityWithSubspaceContent]
     }
