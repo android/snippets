@@ -36,6 +36,7 @@ import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
 
+@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun SpatialPanelExample() {
     // [START androidxr_compose_SpatialPanel]
@@ -75,6 +76,7 @@ fun SpatialPanelContent() {
 @Composable
 private fun AppContent() {}
 
+@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun ContentInSpatialPanel() {
     // [START androidxr_compose_SpatialPanelAppContent]

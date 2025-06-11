@@ -19,6 +19,7 @@ package com.example.xr.compose
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,8 @@ import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
 
 // [START androidxr_compose_SpatialExternalSurfaceStereo]
+@OptIn(ExperimentalComposeApi::class)
+@Suppress("RestrictedApi") // b/416066566
 @Composable
 fun SpatialExternalSurfaceContent() {
     val context = LocalContext.current

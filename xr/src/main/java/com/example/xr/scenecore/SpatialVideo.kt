@@ -27,6 +27,7 @@ import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.SurfaceEntity
 import androidx.xr.scenecore.scene
 
+@Suppress("RestrictedApi") // b/416066566
 private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreate]
     val stereoSurfaceEntity = SurfaceEntity.create(
@@ -49,6 +50,7 @@ private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [END androidxr_scenecore_surfaceEntityCreate]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateSbs]
     // Set up the surface for playing a 180° video on a hemisphere.
@@ -66,6 +68,7 @@ private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     // [END androidxr_scenecore_surfaceEntityCreateSbs]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateTb]
     // Set up the surface for playing a 360° video on a sphere.
@@ -83,6 +86,7 @@ private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     // [END androidxr_scenecore_surfaceEntityCreateTb]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateMVHEVC]
     // Create the SurfaceEntity with the StereoMode corresponding to the MV-HEVC content

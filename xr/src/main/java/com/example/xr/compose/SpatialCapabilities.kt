@@ -45,6 +45,7 @@ private fun SpatialCapabilitiesCheck() {
     // [END androidxr_compose_checkSpatialCapabilities]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun checkSpatialUiEnabled() {
     // [START androidxr_compose_checkSpatialUiEnabled]

@@ -29,11 +29,10 @@ import androidx.xr.scenecore.AnchorEntity
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.scene
 
-@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun configureAnchoring(session: Session) {
     // [START androidxr_arcore_anchoring_configure]
     val newConfig = session.config.copy(
-        anchorPersistence = Config.AnchorPersistenceMode.Enabled,
+        anchorPersistence = Config.AnchorPersistenceMode.LOCAL,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureConfigurationNotSupported ->
@@ -41,6 +40,8 @@ fun configureAnchoring(session: Session) {
         is SessionConfigurePermissionsNotGranted ->
             TODO(/* The required permissions in result.permissions have not been granted. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
+        else ->
+            TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_arcore_anchoring_configure]
 }
@@ -65,6 +66,7 @@ private fun createAnchorAtTrackable(trackable: Trackable<*>) {
     // [END androidxr_arcore_anchor_create_trackable]
 }
 
+@Suppress("RestrictedApi") // b/422174724
 private fun attachEntityToAnchor(
     session: Session,
     entity: Entity,
@@ -72,7 +74,7 @@ private fun attachEntityToAnchor(
 ) {
     // [START androidxr_arcore_entity_tracks_anchor]
     AnchorEntity.create(session, anchor).apply {
-        setParent(session.scene.activitySpace)
+        parent = session.scene.activitySpace
         addChild(entity)
     }
     // [END androidxr_arcore_entity_tracks_anchor]

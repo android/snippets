@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.Subspace
+import androidx.xr.compose.subspace.ExperimentalSubspaceVolumeApi
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.Volume
 import androidx.xr.compose.subspace.layout.SubspaceModifier
@@ -38,6 +39,7 @@ import androidx.xr.compose.subspace.layout.scale
 import androidx.xr.compose.subspace.layout.width
 import kotlinx.coroutines.launch
 
+@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun VolumeExample() {
     // [START androidxr_compose_Volume]
@@ -62,6 +64,7 @@ private fun VolumeExample() {
 }
 
 // [START androidxr_compose_ObjectInAVolume]
+@OptIn(ExperimentalSubspaceVolumeApi::class)
 @Composable
 fun ObjectInAVolume(show3DObject: Boolean) {
     // [START_EXCLUDE silent]

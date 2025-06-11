@@ -35,11 +35,10 @@ import androidx.xr.scenecore.scene
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun ComponentActivity.configureSession(session: Session) {
     // [START androidxr_arcore_hand_configure]
     val newConfig = session.config.copy(
-        handTracking = Config.HandTrackingMode.Enabled
+        handTracking = Config.HandTrackingMode.BOTH
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureConfigurationNotSupported ->
@@ -47,6 +46,8 @@ fun ComponentActivity.configureSession(session: Session) {
         is SessionConfigurePermissionsNotGranted ->
             TODO(/* The required permissions in result.permissions have not been granted. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
+        else ->
+            TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_arcore_hand_configure]
 }
@@ -71,13 +72,14 @@ fun ComponentActivity.collectHands(session: Session) {
 fun secondaryHandDetection(activity: Activity, session: Session) {
     fun detectGesture(handState: Flow<Hand.State>) {}
     // [START androidxr_arcore_hand_handedness]
-    val handedness = Hand.getHandedness(activity.contentResolver)
-    val secondaryHand = if (handedness == Hand.Handedness.LEFT) Hand.right(session) else Hand.left(session)
+    val handedness = Hand.getPrimaryHandSide(activity.contentResolver)
+    val secondaryHand = if (handedness == Hand.HandSide.LEFT) Hand.right(session) else Hand.left(session)
     val handState = secondaryHand?.state ?: return
     detectGesture(handState)
     // [END androidxr_arcore_hand_handedness]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
     val session: Session = null!!
     val palmEntity: GltfModelEntity = null!!
@@ -86,7 +88,7 @@ fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
 
     // the down direction points in the same direction as the palm
     val angle = Vector3.angleBetween(palmPose.rotation * Vector3.Down, Vector3.Up)
-    palmEntity.setHidden(angle > Math.toRadians(40.0))
+    palmEntity.setEnabled(angle > Math.toRadians(40.0))
 
     val transformedPose =
         session.scene.perceptionSpace.transformPoseTo(
@@ -98,6 +100,7 @@ fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
     // [END androidxr_arcore_hand_entityAtHandPalm]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     val session: Session = null!!
     val indexFingerEntity: GltfModelEntity = null!!
@@ -107,7 +110,7 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
 
     // the forward direction points towards the finger tip.
     val angle = Vector3.angleBetween(tipPose.rotation * Vector3.Forward, Vector3.Up)
-    indexFingerEntity.setHidden(angle > Math.toRadians(40.0))
+    indexFingerEntity.setEnabled(angle > Math.toRadians(40.0))
 
     val transformedPose =
         session.scene.perceptionSpace.transformPoseTo(
@@ -120,6 +123,7 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     // [END androidxr_arcore_hand_entityAtIndexFingerTip]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun detectPinch(session: Session, handState: Hand.State): Boolean {
     // [START androidxr_arcore_hand_pinch_gesture]
     val thumbTip = handState.handJoints[HandJointType.THUMB_TIP] ?: return false

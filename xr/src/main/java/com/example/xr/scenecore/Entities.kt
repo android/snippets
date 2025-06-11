@@ -17,17 +17,17 @@
 package com.example.xr.scenecore
 
 import androidx.xr.runtime.Session
+import androidx.xr.runtime.math.FloatSize3d
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.AnchorPlacement
-import androidx.xr.scenecore.Dimensions
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.InputEvent
 import androidx.xr.scenecore.InteractableComponent
 import androidx.xr.scenecore.MovableComponent
-import androidx.xr.scenecore.PlaneSemantic
-import androidx.xr.scenecore.PlaneType
+import androidx.xr.scenecore.PlaneOrientation
+import androidx.xr.scenecore.PlaneSemanticType
 import androidx.xr.scenecore.ResizableComponent
 import androidx.xr.scenecore.ResizeListener
 import androidx.xr.scenecore.SurfaceEntity
@@ -45,11 +45,11 @@ private fun setPoseExample(entity: Entity) {
     // [END androidxr_scenecore_entity_setPoseExample]
 }
 
-private fun hideEntity(entity: Entity) {
-    // [START androidxr_scenecore_entity_hideEntity]
-    // Hide the entity
-    entity.setHidden(true)
-    // [END androidxr_scenecore_entity_hideEntity]
+private fun disableEntity(entity: Entity) {
+    // [START androidxr_scenecore_entity_setEnabled]
+    // Disable the entity.
+    entity.setEnabled(false)
+    // [END androidxr_scenecore_entity_setEnabled]
 }
 
 private fun entitySetScale(entity: Entity) {
@@ -59,11 +59,12 @@ private fun entitySetScale(entity: Entity) {
     // [END androidxr_scenecore_entity_entitySetScale]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun moveableComponentExample(session: Session, entity: Entity) {
     // [START androidxr_scenecore_moveableComponentExample]
     val anchorPlacement = AnchorPlacement.createForPlanes(
-        planeTypeFilter = setOf(PlaneSemantic.FLOOR, PlaneSemantic.TABLE),
-        planeSemanticFilter = setOf(PlaneType.VERTICAL)
+        planeTypeFilter = setOf(PlaneOrientation.VERTICAL),
+        planeSemanticFilter = setOf(PlaneSemanticType.FLOOR, PlaneSemanticType.TABLE)
     )
 
     val movableComponent = MovableComponent.create(
@@ -76,16 +77,17 @@ private fun moveableComponentExample(session: Session, entity: Entity) {
     // [END androidxr_scenecore_moveableComponentExample]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun resizableComponentExample(session: Session, entity: Entity, executor: Executor) {
     // [START androidxr_scenecore_resizableComponentExample]
     val resizableComponent = ResizableComponent.create(session)
-    resizableComponent.minimumSize = Dimensions(177f, 100f, 1f)
+    resizableComponent.minimumSize = FloatSize3d(177f, 100f, 1f)
     resizableComponent.fixedAspectRatio = 16f / 9f // Specify a 16:9 aspect ratio
 
     resizableComponent.addResizeListener(
         executor,
         object : ResizeListener {
-            override fun onResizeEnd(entity: Entity, finalSize: Dimensions) {
+            override fun onResizeEnd(entity: Entity, finalSize: FloatSize3d) {
 
                 // update the size in the component
                 resizableComponent.size = finalSize
@@ -100,6 +102,7 @@ private fun resizableComponentExample(session: Session, entity: Entity, executor
     // [END androidxr_scenecore_resizableComponentExample]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun interactableComponentExample(session: Session, entity: Entity) {
     // [START androidxr_scenecore_interactableComponentExample]
     val executor = Executors.newSingleThreadExecutor()

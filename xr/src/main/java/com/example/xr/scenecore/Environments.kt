@@ -16,27 +16,30 @@
 
 package com.example.xr.scenecore
 
+import android.content.Context
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.ExrImage
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.SpatialEnvironment
 import androidx.xr.scenecore.scene
+import java.nio.file.Paths
 import kotlinx.coroutines.guava.await
 
 private class Environments(val session: Session) {
-    suspend fun loadEnvironmentGeometry() {
+    suspend fun loadEnvironmentGeometry(context: Context) {
         // [START androidxr_scenecore_environment_loadEnvironmentGeometry]
-        val environmentGeometryFuture = GltfModel.create(session, "DayGeometry.glb")
+        val environmentGeometryFuture = GltfModel.createAsync(session, Paths.get("DayGeometry.glb"))
         val environmentGeometry = environmentGeometryFuture.await()
         // [END androidxr_scenecore_environment_loadEnvironmentGeometry]
     }
 
-    fun loadEnvironmentSkybox() {
+    suspend fun loadEnvironmentSkybox() {
         // [START androidxr_scenecore_environment_loadEnvironmentSkybox]
-        val lightingForSkybox = ExrImage.create(session, "BlueSkyboxLighting.zip")
+        val lightingForSkybox = ExrImage.createFromZipAsync(session, Paths.get("BlueSkyboxLighting.zip")).await()
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
+    @Suppress("RestrictedApi") // b/416066566
     fun setEnvironmentPreference(environmentGeometry: GltfModel, lightingForSkybox: ExrImage) {
         // [START androidxr_scenecore_environment_setEnvironmentPreference]
         val spatialEnvironmentPreference =
@@ -53,6 +56,7 @@ private class Environments(val session: Session) {
         // [END androidxr_scenecore_environment_setEnvironmentPreference]
     }
 
+    @Suppress("RestrictedApi") // b/416066566
     fun setPassthroughOpacityPreference() {
         // [START androidxr_scenecore_environment_setPassthroughOpacityPreference]
         val preferenceResult = session.scene.spatialEnvironment.setPassthroughOpacityPreference(1.0f)
@@ -70,6 +74,7 @@ private class Environments(val session: Session) {
         // [END androidxr_scenecore_environment_setPassthroughOpacityPreference]
     }
 
+    @Suppress("RestrictedApi") // b/416066566
     fun getCurrentPassthroughOpacity() {
         // [START androidxr_scenecore_environment_getCurrentPassthroughOpacity]
         val currentPassthroughOpacity = session.scene.spatialEnvironment.getCurrentPassthroughOpacity()

@@ -32,6 +32,7 @@ import androidx.xr.scenecore.SpatialSoundPool
 import androidx.xr.scenecore.SpatializerConstants
 import androidx.xr.scenecore.scene
 
+@Suppress("RestrictedApi") // b/416066566
 private fun playSpatialAudioAtEntity(session: Session, appContext: Context, entity: Entity) {
     // [START androidxr_scenecore_playSpatialAudio]
     // Check spatial capabilities before using spatial audio
@@ -78,6 +79,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
     // [END androidxr_scenecore_playSpatialAudio]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioSurround]
     // Check spatial capabilities before using spatial audio
@@ -113,6 +115,7 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
     // [END androidxr_scenecore_playSpatialAudioSurround]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioAmbionics]
     // Check spatial capabilities before using spatial audio

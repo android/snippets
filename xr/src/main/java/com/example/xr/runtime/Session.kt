@@ -41,6 +41,8 @@ fun Activity.createSession() {
         }
         is SessionCreatePermissionsNotGranted ->
             TODO(/* The required permissions in result.permissions have not been granted. */)
+        else ->
+            TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_session_create]
 }

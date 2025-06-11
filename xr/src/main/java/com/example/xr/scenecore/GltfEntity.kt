@@ -25,14 +25,16 @@ import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.SpatialCapabilities
 import androidx.xr.scenecore.scene
+import java.nio.file.Paths
 import kotlinx.coroutines.guava.await
 
 private suspend fun loadGltfFile(session: Session) {
     // [START androidxr_scenecore_gltfmodel_create]
-    val gltfModel = GltfModel.create(session, "models/saturn_rings.glb").await()
+    val gltfModel = GltfModel.createAsync(session, Paths.get("models", "saturn_rings.glb")).await()
     // [END androidxr_scenecore_gltfmodel_create]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [START androidxr_scenecore_gltfmodelentity_create]
     if (session.scene.spatialCapabilities
@@ -43,6 +45,7 @@ private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [END androidxr_scenecore_gltfmodelentity_create]
 }
 
+@Suppress("RestrictedApi") // b/416066566
 private fun animateEntity(gltfEntity: GltfModelEntity) {
     // [START androidxr_scenecore_gltfmodelentity_animation]
     gltfEntity.startAnimation(loop = true, animationName = "Walk")

@@ -20,6 +20,7 @@ import androidx.xr.runtime.Session
 import androidx.xr.scenecore.SpatialCapabilities
 import androidx.xr.scenecore.scene
 
+@Suppress("RestrictedApi") // b/416066566
 fun checkMultipleCapabilities(xrSession: Session) {
     // [START androidxr_compose_checkMultipleCapabilities]
     // Example 1: check if enabling passthrough mode is allowed
