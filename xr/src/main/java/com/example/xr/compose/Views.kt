@@ -22,12 +22,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.xr.compose.platform.setSubspaceContent
+import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.depth
@@ -44,10 +45,12 @@ private class ActivityWithSubspaceContent : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // [START androidxr_compose_ActivityWithSubspaceContent]
-        setSubspaceContent {
-            SpatialPanel(
-                modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
-            ) { MyCustomView(this) }
+        setContent {
+            Subspace {
+                SpatialPanel(
+                    modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
+                ) { MyCustomView(this) }
+            }
         }
         // [END androidxr_compose_ActivityWithSubspaceContent]
     }
