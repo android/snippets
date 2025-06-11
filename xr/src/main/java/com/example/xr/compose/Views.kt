@@ -49,7 +49,7 @@ private class ActivityWithSubspaceContent : ComponentActivity() {
             Subspace {
                 SpatialPanel(
                     modifier = SubspaceModifier.height(500.dp).width(500.dp).depth(25.dp)
-                ) { MyCustomView(this) }
+                ) { MyCustomView(this@ActivityWithSubspaceContent) }
             }
         }
         // [END androidxr_compose_ActivityWithSubspaceContent]
