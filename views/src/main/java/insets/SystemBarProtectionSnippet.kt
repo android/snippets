@@ -55,14 +55,14 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
         val red = 52
         val green = 168
         val blue = 83
+        val paneBackgroundColor = Color.argb(255, red, green, blue)
         findViewById<ProtectionLayout>(R.id.list_protection)
             .setProtections(
                 listOf(
                     GradientProtection(
                         WindowInsetsCompat.Side.TOP,
                         // Ideally, this is the pane's background color
-                        // alpha = 204 for an 80% gradient
-                        Color.argb(204, red, green, blue)
+                        paneBackgroundColor
                     )
                 )
             )
