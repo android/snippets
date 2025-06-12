@@ -51,11 +51,11 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
             insets
         }
 
-        // [START android_system_bar_protection_kotlin]
         val red = 52
         val green = 168
         val blue = 83
         val paneBackgroundColor = Color.argb(255, red, green, blue)
+        // [START android_system_bar_protection_kotlin]
         findViewById<ProtectionLayout>(R.id.list_protection)
             .setProtections(
                 listOf(
