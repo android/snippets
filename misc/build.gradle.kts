@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.google.android.material)
+    implementation(libs.androidx.pdf.viewer.fragment)
+
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.window)
