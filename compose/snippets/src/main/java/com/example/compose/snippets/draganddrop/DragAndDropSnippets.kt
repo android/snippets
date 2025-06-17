@@ -20,6 +20,7 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.os.Build
 import android.view.View
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.draganddrop.dragAndDropSource
@@ -31,6 +32,7 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
+import androidx.compose.ui.draganddrop.toAndroidDragEvent
 
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalFoundationApi::class)
@@ -71,15 +73,30 @@ private fun DragAndDropSnippet() {
     }
     // [END android_compose_drag_and_drop_4]
 
+    val activity = LocalActivity.current
+
     // [START android_compose_drag_and_drop_5]
+    val externalAppCallback = remember {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val permission = activity?.requestDragAndDropPermissions(event.toAndroidDragEvent())
+                // Parse received data
+                permission?.release()
+                return true
+            }
+        }
+    }
+    // [END android_compose_drag_and_drop_5]
+
+    // [START android_compose_drag_and_drop_6]
     Modifier.dragAndDropTarget(
         shouldStartDragAndDrop = { event ->
             event.mimeTypes().contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
         }, target = callback
     )
-    // [END android_compose_drag_and_drop_5]
+    // [END android_compose_drag_and_drop_6]
 
-    // [START android_compose_drag_and_drop_6]
+    // [START android_compose_drag_and_drop_7]
     object : DragAndDropTarget {
         override fun onStarted(event: DragAndDropEvent) {
             // When the drag event starts
@@ -99,5 +116,5 @@ private fun DragAndDropSnippet() {
 
         override fun onDrop(event: DragAndDropEvent): Boolean = true
     }
-    // [END android_compose_drag_and_drop_6]
+    // [END android_compose_drag_and_drop_7]
 }
