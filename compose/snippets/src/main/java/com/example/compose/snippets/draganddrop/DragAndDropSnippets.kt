@@ -73,20 +73,21 @@ private fun DragAndDropSnippet() {
     }
     // [END android_compose_drag_and_drop_4]
 
-    val activity = LocalActivity.current
-
-    // [START android_compose_drag_and_drop_7]
-    val externalAppCallback = remember {
-        object : DragAndDropTarget {
-            override fun onDrop(event: DragAndDropEvent): Boolean {
-                val permission = activity?.requestDragAndDropPermissions(event.toAndroidDragEvent())
-                // Parse received data
-                permission?.release()
-                return true
+    LocalActivity.current?.let { activity ->
+        // [START android_compose_drag_and_drop_7]
+        val externalAppCallback = remember {
+            object : DragAndDropTarget {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
+                    val permission =
+                        activity.requestDragAndDropPermissions(event.toAndroidDragEvent())
+                    // Parse received data
+                    permission?.release()
+                    return true
+                }
             }
         }
+        // [END android_compose_drag_and_drop_7]
     }
-    // [END android_compose_drag_and_drop_7]
 
     // [START android_compose_drag_and_drop_5]
     Modifier.dragAndDropTarget(
