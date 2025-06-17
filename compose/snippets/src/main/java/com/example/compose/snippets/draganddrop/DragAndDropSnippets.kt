@@ -75,7 +75,7 @@ private fun DragAndDropSnippet() {
 
     val activity = LocalActivity.current
 
-    // [START android_compose_drag_and_drop_5]
+    // [START android_compose_drag_and_drop_7]
     val externalAppCallback = remember {
         object : DragAndDropTarget {
             override fun onDrop(event: DragAndDropEvent): Boolean {
@@ -86,17 +86,17 @@ private fun DragAndDropSnippet() {
             }
         }
     }
-    // [END android_compose_drag_and_drop_5]
+    // [END android_compose_drag_and_drop_7]
 
-    // [START android_compose_drag_and_drop_6]
+    // [START android_compose_drag_and_drop_5]
     Modifier.dragAndDropTarget(
         shouldStartDragAndDrop = { event ->
             event.mimeTypes().contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
         }, target = callback
     )
-    // [END android_compose_drag_and_drop_6]
+    // [END android_compose_drag_and_drop_5]
 
-    // [START android_compose_drag_and_drop_7]
+    // [START android_compose_drag_and_drop_6]
     object : DragAndDropTarget {
         override fun onStarted(event: DragAndDropEvent) {
             // When the drag event starts
@@ -116,5 +116,5 @@ private fun DragAndDropSnippet() {
 
         override fun onDrop(event: DragAndDropEvent): Boolean = true
     }
-    // [END android_compose_drag_and_drop_7]
+    // [END android_compose_drag_and_drop_6]
 }
