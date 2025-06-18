@@ -52,10 +52,14 @@ android {
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
     }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit)
 }

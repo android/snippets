@@ -43,6 +43,9 @@ android {
         // Disable unused AGP features
         viewBinding = true
     }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 
 }
 dependencies {
