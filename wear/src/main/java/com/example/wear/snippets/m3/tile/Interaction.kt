@@ -52,224 +52,222 @@ private const val RESOURCES_VERSION = "1"
 
 abstract class BaseTileService : TileService() {
 
-  override fun onTileRequest(
-    requestParams: RequestBuilders.TileRequest
-  ): ListenableFuture<Tile> =
-    Futures.immediateFuture(
-      Tile.Builder()
-        .setResourcesVersion(RESOURCES_VERSION)
-        .setTileTimeline(
-          Timeline.fromLayoutElement(
-            materialScope(this, requestParams.deviceConfiguration) {
-              tileLayout(requestParams)
-            }
-          )
+    override fun onTileRequest(
+        requestParams: RequestBuilders.TileRequest
+    ): ListenableFuture<Tile> =
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(
+                    Timeline.fromLayoutElement(
+                        materialScope(this, requestParams.deviceConfiguration) {
+                            tileLayout(requestParams)
+                        }
+                    )
+                )
+                .build()
         )
-        .build()
-    )
 
-  override fun onTileResourcesRequest(
-    requestParams: ResourcesRequest
-  ): ListenableFuture<Resources> =
-    Futures.immediateFuture(
-      Resources.Builder().setVersion(requestParams.version).build()
-    )
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ): ListenableFuture<Resources> =
+        Futures.immediateFuture(
+            Resources.Builder().setVersion(requestParams.version).build()
+        )
 
-  abstract fun MaterialScope.tileLayout(
-    requestParams: RequestBuilders.TileRequest
-  ): LayoutElementBuilders.LayoutElement
+    abstract fun MaterialScope.tileLayout(
+        requestParams: RequestBuilders.TileRequest
+    ): LayoutElementBuilders.LayoutElement
 }
 
 class HelloTileService : BaseTileService() {
-  override fun MaterialScope.tileLayout(
-    requestParams: RequestBuilders.TileRequest
-  ) = primaryLayout(mainSlot = { text("Hello, World!".layoutString) })
+    override fun MaterialScope.tileLayout(
+        requestParams: RequestBuilders.TileRequest
+    ) = primaryLayout(mainSlot = { text("Hello, World!".layoutString) })
 }
 
 class InteractionRefresh : BaseTileService() {
-  override fun MaterialScope.tileLayout(
-    requestParams: RequestBuilders.TileRequest
-  ) =
-    primaryLayout(
-      // Output a debug code so we can see the layout changing
-      titleSlot = {
-        text(
-          String.format(
-              Locale.ENGLISH,
-              "Debug %06d",
-              Random.nextInt(0, 1_000_000),
-            )
-            .layoutString
+    override fun MaterialScope.tileLayout(
+        requestParams: RequestBuilders.TileRequest
+    ) =
+        primaryLayout(
+            // Output a debug code so we can see the layout changing
+            titleSlot = {
+                text(
+                    String.format(
+                        Locale.ENGLISH,
+                        "Debug %06d",
+                        Random.nextInt(0, 1_000_000),
+                    )
+                        .layoutString
+                )
+            },
+            mainSlot = {
+                // [START android_wear_m3_interaction_refresh]
+                textButton(
+                    onClick = clickable(loadAction()),
+                    labelContent = { text("Refresh".layoutString) },
+                )
+                // [END android_wear_m3_interaction_refresh]
+            },
         )
-      },
-      mainSlot = {
-        // [START android_wear_m3_interaction_refresh]
-        textButton(
-          onClick = clickable(loadAction()),
-          labelContent = { text("Refresh".layoutString) },
-        )
-        // [END android_wear_m3_interaction_refresh]
-      },
-    )
 }
 
 class InteractionDeepLink : TileService() {
 
-  // [START android_wear_m3_interaction_deeplink_tile]
-  override fun onTileRequest(
-    requestParams: RequestBuilders.TileRequest
-  ): ListenableFuture<Tile?> {
-    val lastClickableId = requestParams.currentState.lastClickableId
-    if (lastClickableId == "foo") {
-      TaskStackBuilder.create(this)
-        .addNextIntentWithParentStack(
-          Intent(
-            Intent.ACTION_VIEW,
-            "googleandroidsnippets://app/message_detail/1".toUri(),
-            this,
-            TileActivity::class.java,
-          )
+    // [START android_wear_m3_interaction_deeplink_tile]
+    override fun onTileRequest(
+        requestParams: RequestBuilders.TileRequest
+    ): ListenableFuture<Tile?> {
+        val lastClickableId = requestParams.currentState.lastClickableId
+        if (lastClickableId == "foo") {
+            TaskStackBuilder.create(this)
+                .addNextIntentWithParentStack(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        "googleandroidsnippets://app/message_detail/1".toUri(),
+                        this,
+                        TileActivity::class.java,
+                    )
+                )
+                .startActivities()
+        }
+        // ... User didn't tap a button (either first load or tapped somewhere else)
+        // [START_EXCLUDE]
+        return Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(
+                    Timeline.fromLayoutElement(
+                        materialScope(this, requestParams.deviceConfiguration) {
+                            tileLayout(requestParams)
+                        }
+                    )
+                )
+                .build()
         )
-        .startActivities()
+        // [END_EXCLUDE]
     }
-    // ... User didn't tap a button (either first load or tapped somewhere else)
-    // [START_EXCLUDE]
-    return Futures.immediateFuture(
-      Tile.Builder()
-        .setResourcesVersion(RESOURCES_VERSION)
-        .setTileTimeline(
-          Timeline.fromLayoutElement(
-            materialScope(this, requestParams.deviceConfiguration) {
-              tileLayout(requestParams)
+
+    // [END android_wear_m3_interaction_deeplink_tile]
+
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ): ListenableFuture<Resources?> =
+        Futures.immediateFuture(
+            Resources.Builder().setVersion(requestParams.version).build()
+        )
+
+    fun MaterialScope.tileLayout(requestParams: RequestBuilders.TileRequest) =
+        primaryLayout(
+            mainSlot = {
+                // [START android_wear_m3_interaction_deeplink_layout]
+                textButton(
+                    labelContent = {
+                        text("Deep Link me!".layoutString, typography = BODY_LARGE)
+                    },
+                    onClick = clickable(id = "foo", action = loadAction()),
+                )
+                // [END android_wear_m3_interaction_deeplink_layout]
             }
-          )
         )
-        .build()
-    )
-    // [END_EXCLUDE]
-  }
-
-  // [END android_wear_m3_interaction_deeplink_tile]
-
-  override fun onTileResourcesRequest(
-    requestParams: ResourcesRequest
-  ): ListenableFuture<Resources?> =
-    Futures.immediateFuture(
-      Resources.Builder().setVersion(requestParams.version).build()
-    )
-
-  fun MaterialScope.tileLayout(requestParams: RequestBuilders.TileRequest) =
-    primaryLayout(
-      mainSlot = {
-        // [START android_wear_m3_interaction_deeplink_layout]
-        textButton(
-          labelContent = {
-            text("Deep Link me!".layoutString, typography = BODY_LARGE)
-          },
-          onClick = clickable(id = "foo", action = loadAction()),
-        )
-        // [END android_wear_m3_interaction_deeplink_layout]
-      }
-    )
 }
 
 class InteractionLoadAction : BaseTileService() {
 
-  override fun onTileRequest(
-    requestParams: RequestBuilders.TileRequest
-  ): ListenableFuture<Tile> {
+    override fun onTileRequest(
+        requestParams: RequestBuilders.TileRequest
+    ): ListenableFuture<Tile> {
 
-    val name: String?
-    val age: Int?
+        val name: String?
+        val age: Int?
 
-    // When triggered by loadAction(), "name" will be "Javier", and "age" will
-    // be 37.
-    with(requestParams.currentState.stateMap) {
-      name = this[stringAppDataKey("name")]
-      age = this[intAppDataKey("age")]
+        // When triggered by loadAction(), "name" will be "Javier", and "age" will
+        // be 37.
+        with(requestParams.currentState.stateMap) {
+            name = this[stringAppDataKey("name")]
+            age = this[intAppDataKey("age")]
+        }
+
+        return Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(
+                    Timeline.fromLayoutElement(
+                        materialScope(this, requestParams.deviceConfiguration) {
+                            tileLayout(requestParams)
+                        }
+                    )
+                )
+                .build()
+        )
     }
 
-    Log.d("qqqqqq", "name = $name, age = $age")
-
-    return Futures.immediateFuture(
-      Tile.Builder()
-        .setResourcesVersion(RESOURCES_VERSION)
-        .setTileTimeline(
-          Timeline.fromLayoutElement(
-            materialScope(this, requestParams.deviceConfiguration) {
-              tileLayout(requestParams)
-            }
-          )
-        )
-        .build()
-    )
-  }
-
-  override fun MaterialScope.tileLayout(
-    requestParams: RequestBuilders.TileRequest
-  ) =
-    primaryLayout(
-      // Output a debug code so we can verify that the reload happens
-      titleSlot = {
-        text(
-          String.format(
-              Locale.ENGLISH,
-              "Debug %06d",
-              Random.nextInt(0, 1_000_000),
-            )
-            .layoutString
-        )
-      },
-      mainSlot = {
-        // [START android_wear_m3_interaction_loadaction_layout]
-        textButton(
-          labelContent = {
-            text("loadAction()".layoutString, typography = BODY_LARGE)
-          },
-          onClick =
-            clickable(
-              action =
-                loadAction(
-                  dynamicDataMapOf(
-                    stringAppDataKey("name") mapTo "Javier",
-                    intAppDataKey("age") mapTo 37,
-                  )
+    override fun MaterialScope.tileLayout(
+        requestParams: RequestBuilders.TileRequest
+    ) =
+        primaryLayout(
+            // Output a debug code so we can verify that the reload happens
+            titleSlot = {
+                text(
+                    String.format(
+                        Locale.ENGLISH,
+                        "Debug %06d",
+                        Random.nextInt(0, 1_000_000),
+                    )
+                        .layoutString
                 )
-            ),
+            },
+            mainSlot = {
+                // [START android_wear_m3_interaction_loadaction_layout]
+                textButton(
+                    labelContent = {
+                        text("loadAction()".layoutString, typography = BODY_LARGE)
+                    },
+                    onClick =
+                    clickable(
+                        action =
+                        loadAction(
+                            dynamicDataMapOf(
+                                stringAppDataKey("name") mapTo "Javier",
+                                intAppDataKey("age") mapTo 37,
+                            )
+                        )
+                    ),
+                )
+                // [END android_wear_m3_interaction_loadaction_layout]
+            },
         )
-        // [END android_wear_m3_interaction_loadaction_layout]
-      },
-    )
 }
 
 class InteractionLaunchAction : BaseTileService() {
 
-  override fun MaterialScope.tileLayout(
-    requestParams: RequestBuilders.TileRequest
-  ) =
-    primaryLayout(
-      mainSlot = {
-        // [START android_wear_m3_interactions_launchaction]
-        textButton(
-          labelContent = {
-            text("launchAction()".layoutString, typography = BODY_LARGE)
-          },
-          onClick =
-            clickable(
-              action =
-                launchAction(
-                  ComponentName(
-                    "com.example.wear",
-                    "com.example.wear.snippets.m3.tile.TileActivity",
-                  ),
-                  mapOf(
-                    "name" to ActionBuilders.stringExtra("Bartholomew"),
-                    "age" to ActionBuilders.intExtra(21),
-                  ),
+    override fun MaterialScope.tileLayout(
+        requestParams: RequestBuilders.TileRequest
+    ) =
+        primaryLayout(
+            mainSlot = {
+                // [START android_wear_m3_interactions_launchaction]
+                textButton(
+                    labelContent = {
+                        text("launchAction()".layoutString, typography = BODY_LARGE)
+                    },
+                    onClick =
+                    clickable(
+                        action =
+                        launchAction(
+                            ComponentName(
+                                "com.example.wear",
+                                "com.example.wear.snippets.m3.tile.TileActivity",
+                            ),
+                            mapOf(
+                                "name" to ActionBuilders.stringExtra("Bartholomew"),
+                                "age" to ActionBuilders.intExtra(21),
+                            ),
+                        )
+                    ),
                 )
-            ),
+                // [END android_wear_m3_interactions_launchaction]
+            }
         )
-        // [END android_wear_m3_interactions_launchaction]
-      }
-    )
 }

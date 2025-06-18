@@ -43,142 +43,142 @@ import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 class TileActivity : ComponentActivity() {
-  // [START android_wear_m3_interactions_launchaction_activity]
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    // [START android_wear_m3_interactions_launchaction_activity]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    // When this activity is launched from the tile InteractionLaunchAction,
-    // "name" will be "Bartholomew" and "age" will be 21
-    val name = intent.getStringExtra("name")
-    val age = intent.getStringExtra("age")
+        // When this activity is launched from the tile InteractionLaunchAction,
+        // "name" will be "Bartholomew" and "age" will be 21
+        val name = intent.getStringExtra("name")
+        val age = intent.getStringExtra("age")
 
-    // [START_EXCLUDE]
-    setContent { MainContent() }
-    // [END_EXCLUDE]
-  }
+        // [START_EXCLUDE]
+        setContent { MainContent() }
+        // [END_EXCLUDE]
+    }
 }
 
 // [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
 fun MainContent() {
-  // [START android_wear_m3_interaction_deeplink_activity]
-  AppScaffold {
-    val navController = rememberSwipeDismissableNavController()
-    SwipeDismissableNavHost(
-      navController = navController,
-      startDestination = "message_list",
-    ) {
-      // [START_EXCLUDE]
-      composable(
-        route = "message_list",
-        deepLinks =
-          listOf(
-            navDeepLink {
-              uriPattern = "googleandroidsnippets://app/message_list"
+    // [START android_wear_m3_interaction_deeplink_activity]
+    AppScaffold {
+        val navController = rememberSwipeDismissableNavController()
+        SwipeDismissableNavHost(
+            navController = navController,
+            startDestination = "message_list",
+        ) {
+            // [START_EXCLUDE]
+            composable(
+                route = "message_list",
+                deepLinks =
+                listOf(
+                    navDeepLink {
+                        uriPattern = "googleandroidsnippets://app/message_list"
+                    }
+                ),
+            ) {
+                MessageList(
+                    onMessageClick = { id ->
+                        navController.navigate("message_detail/$id")
+                    }
+                )
             }
-          ),
-      ) {
-        MessageList(
-          onMessageClick = { id ->
-            navController.navigate("message_detail/$id")
-          }
-        )
-      }
-      // [END_EXCLUDE]
-      composable(
-        route = "message_detail/{id}",
-        deepLinks =
-          listOf(
-            navDeepLink {
-              uriPattern = "googleandroidsnippets://app/message_detail/{id}"
+            // [END_EXCLUDE]
+            composable(
+                route = "message_detail/{id}",
+                deepLinks =
+                listOf(
+                    navDeepLink {
+                        uriPattern = "googleandroidsnippets://app/message_detail/{id}"
+                    }
+                ),
+            ) {
+                val id = it.arguments?.getString("id") ?: "0"
+                MessageDetails(details = "message $id")
             }
-          ),
-      ) {
-        val id = it.arguments?.getString("id") ?: "0"
-        MessageDetails(details = "message $id")
-      }
+        }
     }
-  }
-  // [END android_wear_m3_interaction_deeplink_activity]
+    // [END android_wear_m3_interaction_deeplink_activity]
 }
 
 // Implementation of one of the screens in the navigation
 @Composable
 fun MessageDetails(details: String) {
-  val scrollState = rememberTransformingLazyColumnState()
+    val scrollState = rememberTransformingLazyColumnState()
 
-  val padding = rememberResponsiveColumnPadding(first = ColumnItemType.BodyText)
+    val padding = rememberResponsiveColumnPadding(first = ColumnItemType.BodyText)
 
-  ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
-    scaffoldPaddingValues ->
-    TransformingLazyColumn(
-      state = scrollState,
-      contentPadding = scaffoldPaddingValues,
-    ) {
-      item {
-        ListHeader() { Text(text = stringResource(R.string.message_detail)) }
-      }
-      item {
-        Text(
-          text = details,
-          textAlign = TextAlign.Center,
-          modifier = Modifier.fillMaxSize(),
-        )
-      }
+    ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
+        scaffoldPaddingValues ->
+        TransformingLazyColumn(
+            state = scrollState,
+            contentPadding = scaffoldPaddingValues,
+        ) {
+            item {
+                ListHeader() { Text(text = stringResource(R.string.message_detail)) }
+            }
+            item {
+                Text(
+                    text = details,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
     }
-  }
 }
 
 @Composable
 fun MessageList(onMessageClick: (String) -> Unit) {
-  val scrollState = rememberTransformingLazyColumnState()
+    val scrollState = rememberTransformingLazyColumnState()
 
-  val padding =
-    rememberResponsiveColumnPadding(
-      first = ColumnItemType.ListHeader,
-      last = ColumnItemType.Button,
-    )
+    val padding =
+        rememberResponsiveColumnPadding(
+            first = ColumnItemType.ListHeader,
+            last = ColumnItemType.Button,
+        )
 
-  ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
-    contentPadding ->
-    TransformingLazyColumn(
-      state = scrollState,
-      contentPadding = contentPadding,
-    ) {
-      item {
-        ListHeader() { Text(text = stringResource(R.string.message_list)) }
-      }
-      item {
-        Button(
-          onClick = { onMessageClick("message1") },
-          modifier = Modifier.fillMaxWidth(),
+    ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
+        contentPadding ->
+        TransformingLazyColumn(
+            state = scrollState,
+            contentPadding = contentPadding,
         ) {
-          Text(text = "Message 1")
+            item {
+                ListHeader() { Text(text = stringResource(R.string.message_list)) }
+            }
+            item {
+                Button(
+                    onClick = { onMessageClick("message1") },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = "Message 1")
+                }
+            }
+            item {
+                Button(
+                    onClick = { onMessageClick("message2") },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = "Message 2")
+                }
+            }
         }
-      }
-      item {
-        Button(
-          onClick = { onMessageClick("message2") },
-          modifier = Modifier.fillMaxWidth(),
-        ) {
-          Text(text = "Message 2")
-        }
-      }
     }
-  }
 }
 
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun MessageDetailPreview() {
-  MessageDetails("message 7")
+    MessageDetails("message 7")
 }
 
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun MessageListPreview() {
-  MessageList(onMessageClick = {})
+    MessageList(onMessageClick = {})
 }
