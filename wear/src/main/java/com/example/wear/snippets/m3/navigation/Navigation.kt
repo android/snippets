@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.navDeepLink
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
@@ -48,22 +47,13 @@ fun navigation() {
             navController = navController,
             startDestination = "message_list"
         ) {
-            composable(
-                route ="message_list",
-                deepLinks = listOf(navDeepLink {
-                    uriPattern = "googleandroidsnippets://app/message_list"
-                })) {
+            composable("message_list") {
                 MessageList(onMessageClick = { id ->
                     navController.navigate("message_detail/$id")
                 })
             }
-            composable(
-                route = "message_detail/{id}",
-                deepLinks = listOf(navDeepLink {
-                    uriPattern = "googleandroidsnippets://app/message_detail/{id}"
-                })) {
-                    val id = it.arguments?.getString("id") ?: 0
-                    MessageDetail(id = "message $id")
+            composable("message_detail/{id}") {
+                MessageDetail(id = it.arguments?.getString("id")!!)
             }
         }
     }
@@ -82,16 +72,13 @@ fun MessageDetail(id: String) {
     ScreenScaffold(
         scrollState = scrollState,
         contentPadding = padding
-    ) { scaffoldPaddingValues ->
+    ) {
         // Screen content goes here
         // [END android_wear_navigation]
-        TransformingLazyColumn(
-            state = scrollState,
-            contentPadding = scaffoldPaddingValues
-        ) {
+        TransformingLazyColumn(state = scrollState) {
             item {
                 Text(
-                    text = "Detail $id",
+                    text = id,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxSize()
                 )
