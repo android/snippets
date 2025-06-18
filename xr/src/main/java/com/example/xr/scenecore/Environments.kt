@@ -22,8 +22,8 @@ import androidx.xr.scenecore.ExrImage
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.SpatialEnvironment
 import androidx.xr.scenecore.scene
-import java.nio.file.Paths
 import kotlinx.coroutines.guava.await
+import java.nio.file.Paths
 
 private class Environments(val session: Session) {
     suspend fun loadEnvironmentGeometry(context: Context) {

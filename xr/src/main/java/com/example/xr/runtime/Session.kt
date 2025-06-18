@@ -22,8 +22,6 @@ import androidx.xr.compose.platform.LocalSession
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionCreatePermissionsNotGranted
 import androidx.xr.runtime.SessionCreateSuccess
-import androidx.xr.runtime.SessionResumePermissionsNotGranted
-import androidx.xr.runtime.SessionResumeSuccess
 
 // [START androidxr_localsession]
 @Composable
@@ -45,19 +43,4 @@ fun Activity.createSession() {
             TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_session_create]
-}
-
-fun sessionResume(session: Session) {
-    // [START androidxr_session_resume]
-    when (val result = session.resume()) {
-        is SessionResumeSuccess -> {
-            // Session has been created successfully.
-            // Attach any successful handlers here.
-        }
-
-        is SessionResumePermissionsNotGranted -> {
-            // Request permissions in `result.permissions`.
-        }
-    }
-    // [END androidxr_session_resume]
 }
