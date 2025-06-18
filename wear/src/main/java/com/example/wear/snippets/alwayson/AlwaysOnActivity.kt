@@ -22,20 +22,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.dynamicColorScheme
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -71,18 +74,16 @@ fun ElapsedTime(ambientState: AmbientState) {
     val minutes = totalSeconds / 60
     val seconds = totalSeconds % 60
 
-    val timeText = if (ambientState.isAmbient) {
-        // Show "mm:--" format in ambient mode
-        "%02d:--".format(minutes)
-    } else {
-        // Show full "mm:ss" format in interactive mode
-        "%02d:%02d".format(minutes, seconds)
-    }
+    val timeText =
+        if (ambientState.isAmbient) {
+            // Show "mm:--" format in ambient mode
+            "%02d:--".format(minutes)
+        } else {
+            // Show full "mm:ss" format in interactive mode
+            "%02d:%02d".format(minutes, seconds)
+        }
 
-    Text(
-        text = timeText,
-        style = MaterialTheme.typography.numeralMedium,
-    )
+    Text(text = timeText, style = MaterialTheme.typography.numeralMedium)
 }
 
 @Preview(
@@ -94,6 +95,8 @@ fun ElapsedTime(ambientState: AmbientState) {
 )
 @Composable
 fun WearApp() {
+    var isOngoingActivity by rememberSaveable { mutableStateOf(false) }
+
     MaterialTheme(
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
     ) {
@@ -103,6 +106,17 @@ fun WearApp() {
                     Text(text = "Elapsed Time", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(8.dp))
                     ElapsedTime(ambientState = ambientState)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    SwitchButton(
+                        checked = isOngoingActivity,
+                        onCheckedChange = { isOngoingActivity = it },
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                    ) {
+                        Text(
+                            text = "Ongoing Activity",
+                            style = MaterialTheme.typography.bodyExtraSmall,
+                        )
+                    }
                 }
             }
         }
