@@ -174,6 +174,10 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
