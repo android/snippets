@@ -93,7 +93,7 @@ private fun DragAndDropSnippet() {
     Modifier.dragAndDropTarget(
         shouldStartDragAndDrop = { event ->
             event.mimeTypes().contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
-        }, target = callback //or externalAppCallback
+        }, target = callback // or externalAppCallback
     )
     // [END android_compose_drag_and_drop_5]
 
