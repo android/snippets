@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.play.services.wearable)
     implementation(libs.androidx.tiles)
     implementation(libs.androidx.wear)
+    implementation(libs.androidx.wear.ongoing)
+    implementation(libs.androidx.lifecycle.service)
     implementation(libs.androidx.protolayout)
     implementation(libs.androidx.protolayout.material)
     implementation(libs.androidx.protolayout.material3)

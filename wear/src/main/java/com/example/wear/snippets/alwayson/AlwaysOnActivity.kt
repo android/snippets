@@ -18,6 +18,7 @@ package com.example.wear.snippets.alwayson
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -47,8 +48,13 @@ import com.google.android.horologist.compose.ambient.AmbientState
 import kotlinx.coroutines.delay
 
 class AlwaysOnActivity : ComponentActivity() {
+    companion object {
+        private const val TAG = "AlwaysOnActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: Activity created")
 
         setTheme(android.R.style.Theme_DeviceDefault)
 
@@ -95,7 +101,8 @@ fun ElapsedTime(ambientState: AmbientState) {
 )
 @Composable
 fun WearApp() {
-    var isOngoingActivity by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    var isOngoingActivity by rememberSaveable { mutableStateOf(AlwaysOnService.isRunning) }
 
     MaterialTheme(
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
@@ -109,7 +116,18 @@ fun WearApp() {
                     Spacer(modifier = Modifier.height(8.dp))
                     SwitchButton(
                         checked = isOngoingActivity,
-                        onCheckedChange = { isOngoingActivity = it },
+                        onCheckedChange = { newState ->
+                            Log.d("AlwaysOnActivity", "Switch button changed: $newState")
+                            isOngoingActivity = newState
+
+                            if (newState) {
+                                Log.d("AlwaysOnActivity", "Starting AlwaysOnService")
+                                AlwaysOnService.startService(context)
+                            } else {
+                                Log.d("AlwaysOnActivity", "Stopping AlwaysOnService")
+                                AlwaysOnService.stopService(context)
+                            }
+                        },
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                     ) {
                         Text(
