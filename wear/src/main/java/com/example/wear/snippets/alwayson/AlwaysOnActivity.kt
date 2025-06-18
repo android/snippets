@@ -39,6 +39,8 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.dynamicColorScheme
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.google.android.horologist.compose.ambient.AmbientAware
+import com.google.android.horologist.compose.ambient.AmbientState
 import kotlinx.coroutines.delay
 
 class AlwaysOnActivity : ComponentActivity() {
@@ -52,14 +54,16 @@ class AlwaysOnActivity : ComponentActivity() {
 }
 
 @Composable
-fun ElapsedTime() {
+fun ElapsedTime(ambientState: AmbientState) {
     val startTimeMs = rememberSaveable { SystemClock.elapsedRealtime() }
 
     val elapsedMs by
         produceState(initialValue = 0L, key1 = startTimeMs) {
             while (true) {
                 value = SystemClock.elapsedRealtime() - startTimeMs
-                delay(1_000L - (value % 1_000L))
+                // In ambient mode, update every minute instead of every second
+                val updateInterval = if (ambientState.isAmbient) 60_000L else 1_000L
+                delay(updateInterval - (value % updateInterval))
             }
         }
 
@@ -67,8 +71,16 @@ fun ElapsedTime() {
     val minutes = totalSeconds / 60
     val seconds = totalSeconds % 60
 
+    val timeText = if (ambientState.isAmbient) {
+        // Show "mm:--" format in ambient mode
+        "%02d:--".format(minutes)
+    } else {
+        // Show full "mm:ss" format in interactive mode
+        "%02d:%02d".format(minutes, seconds)
+    }
+
     Text(
-        text = "%02d:%02d".format(minutes, seconds),
+        text = timeText,
         style = MaterialTheme.typography.numeralMedium,
     )
 }
@@ -85,11 +97,13 @@ fun WearApp() {
     MaterialTheme(
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
     ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Elapsed Time", style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.height(8.dp))
-                ElapsedTime()
+        AmbientAware { ambientState ->
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Elapsed Time", style = MaterialTheme.typography.titleLarge)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ElapsedTime(ambientState = ambientState)
+                }
             }
         }
     }
