@@ -18,7 +18,6 @@ package com.example.wear.snippets.m3.tile
 
 import android.content.ComponentName
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import androidx.wear.protolayout.ActionBuilders
