@@ -57,6 +57,7 @@ class TileActivity : ComponentActivity() {
     // [END_EXCLUDE]
   }
 }
+
 // [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
