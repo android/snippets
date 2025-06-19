@@ -24,12 +24,15 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.wear.ongoing.OngoingActivity
 import androidx.wear.ongoing.Status
 import com.example.wear.R
 
 class AlwaysOnService : LifecycleService() {
+
+    private val notificationManager by lazy { getSystemService<NotificationManager>() }
 
     companion object {
         private const val TAG = "AlwaysOnService"
@@ -60,6 +63,7 @@ class AlwaysOnService : LifecycleService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         Log.d(TAG, "onStartCommand: Service started with startId: $startId")
 
         // Create and start foreground notification
@@ -68,7 +72,7 @@ class AlwaysOnService : LifecycleService() {
 
         Log.d(TAG, "onStartCommand: Service is now running as foreground service")
 
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
     override fun onDestroy() {
@@ -85,22 +89,21 @@ class AlwaysOnService : LifecycleService() {
                     setShowBadge(false)
                 }
 
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+        notificationManager?.createNotificationChannel(channel)
         Log.d(TAG, "createNotificationChannel: Notification channel created")
     }
 
     private fun createNotification(): Notification {
-        val intent = Intent(this, AlwaysOnActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
+        val activityIntent =
+            Intent(this, AlwaysOnActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
 
         val pendingIntent =
             PendingIntent.getActivity(
                 this,
                 0,
-                intent,
+                activityIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
 
@@ -119,7 +122,7 @@ class AlwaysOnService : LifecycleService() {
 
         val ongoingActivity =
             OngoingActivity.Builder(applicationContext, NOTIFICATION_ID, notificationBuilder)
-                .setStaticIcon(R.drawable.animated_walk)
+                .setStaticIcon(R.drawable.ic_walk)
                 .setAnimatedIcon(R.drawable.animated_walk)
                 .setTouchIntent(pendingIntent)
                 .setStatus(ongoingActivityStatus)
