@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.wear"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
         vectorDrawables {
