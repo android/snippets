@@ -73,9 +73,6 @@ android {
     lint {
         lintConfig = file("lint.xml")
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {

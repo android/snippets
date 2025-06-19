@@ -33,15 +33,11 @@ android {
                     "proguard-rules.pro")
         }
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
