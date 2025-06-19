@@ -185,5 +185,4 @@ fun WearApp() {
         }
         // [END android_wear_ongoing_activity_ambientaware]
     }
-
 }
