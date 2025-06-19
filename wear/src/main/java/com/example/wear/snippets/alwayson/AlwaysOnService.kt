@@ -93,6 +93,7 @@ class AlwaysOnService : LifecycleService() {
         Log.d(TAG, "createNotificationChannel: Notification channel created")
     }
 
+    // [START android_wear_ongoing_activity_create_notification]
     private fun createNotification(): Notification {
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
@@ -109,28 +110,36 @@ class AlwaysOnService : LifecycleService() {
 
         val notificationBuilder =
             NotificationCompat.Builder(this, CHANNEL_ID)
+                // ...
+                // [START_EXCLUDE]
                 .setContentTitle("Always On Service")
                 .setContentText("Service is running in background")
                 .setSmallIcon(R.drawable.animated_walk)
                 .setContentIntent(pendingIntent)
-                .setOngoing(true)
                 .setCategory(NotificationCompat.CATEGORY_STOPWATCH)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                // [END_EXCLUDE]
+                .setOngoing(true)
 
+        // [START_EXCLUDE]
         // Create an Ongoing Activity
         val ongoingActivityStatus = Status.Builder().addTemplate("Stopwatch running").build()
+        // [END_EXCLUDE]
 
         val ongoingActivity =
             OngoingActivity.Builder(applicationContext, NOTIFICATION_ID, notificationBuilder)
+                // ...
+                // [START_EXCLUDE]
                 .setStaticIcon(R.drawable.ic_walk)
                 .setAnimatedIcon(R.drawable.animated_walk)
-                .setTouchIntent(pendingIntent)
                 .setStatus(ongoingActivityStatus)
+                // [END_EXCLUDE]
+                .setTouchIntent(pendingIntent)
                 .build()
 
-        // Apply the ongoing activity to the notification builder
         ongoingActivity.apply(applicationContext)
 
         return notificationBuilder.build()
     }
+    // [END android_wear_ongoing_activity_create_notification]
 }
