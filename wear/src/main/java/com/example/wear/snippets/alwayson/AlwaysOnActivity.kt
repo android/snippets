@@ -100,7 +100,9 @@ class AlwaysOnActivity : ComponentActivity() {
 }
 
 @Composable
+// [START android_wear_ongoing_activity_elapsedtime]
 fun ElapsedTime(ambientState: AmbientState) {
+    // [START_EXCLUDE]
     val startTimeMs = rememberSaveable { SystemClock.elapsedRealtime() }
 
     val elapsedMs by
@@ -117,6 +119,7 @@ fun ElapsedTime(ambientState: AmbientState) {
     val minutes = totalSeconds / 60
     val seconds = totalSeconds % 60
 
+    // [END_EXCLUDE]
     val timeText =
         if (ambientState.isAmbient) {
             // Show "mm:--" format in ambient mode
@@ -128,6 +131,7 @@ fun ElapsedTime(ambientState: AmbientState) {
 
     Text(text = timeText, style = MaterialTheme.typography.numeralMedium)
 }
+// [END android_wear_ongoing_activity_elapsedtime]
 
 @Preview(
     device = WearDevices.LARGE_ROUND,
@@ -140,16 +144,19 @@ fun ElapsedTime(ambientState: AmbientState) {
 fun WearApp() {
     val context = LocalContext.current
     var isOngoingActivity by rememberSaveable { mutableStateOf(AlwaysOnService.isRunning) }
-
     MaterialTheme(
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
     ) {
+        // [START android_wear_ongoing_activity_ambientaware]
         AmbientAware { ambientState ->
+            // [START_EXCLUDE]
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Elapsed Time", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(8.dp))
+                    // [END_EXCLUDE]
                     ElapsedTime(ambientState = ambientState)
+                    // [START_EXCLUDE]
                     Spacer(modifier = Modifier.height(8.dp))
                     SwitchButton(
                         checked = isOngoingActivity,
@@ -174,6 +181,9 @@ fun WearApp() {
                     }
                 }
             }
+            // [END_EXCLUDE]
         }
+        // [END android_wear_ongoing_activity_ambientaware]
     }
+
 }
