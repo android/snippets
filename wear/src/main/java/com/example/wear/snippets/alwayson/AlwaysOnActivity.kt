@@ -104,14 +104,14 @@ fun ElapsedTime(ambientState: AmbientState) {
     val startTimeMs = rememberSaveable { SystemClock.elapsedRealtime() }
 
     val elapsedMs by
-        produceState(initialValue = 0L, key1 = startTimeMs) {
-            while (true) {
-                value = SystemClock.elapsedRealtime() - startTimeMs
-                // In ambient mode, update every minute instead of every second
-                val updateInterval = if (ambientState.isAmbient) 60_000L else 1_000L
-                delay(updateInterval - (value % updateInterval))
-            }
+    produceState(initialValue = 0L, key1 = startTimeMs) {
+        while (true) {
+            value = SystemClock.elapsedRealtime() - startTimeMs
+            // In ambient mode, update every minute instead of every second
+            val updateInterval = if (ambientState.isAmbient) 60_000L else 1_000L
+            delay(updateInterval - (value % updateInterval))
         }
+    }
 
     val totalSeconds = elapsedMs / 1_000L
     val minutes = totalSeconds / 60
