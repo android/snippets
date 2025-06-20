@@ -174,20 +174,19 @@ class InteractionDeepLink : TileService() {
 
 class InteractionLoadAction : BaseTileService() {
 
+    // [START android_wear_m3_interaction_loadaction_request]
     override fun onTileRequest(
         requestParams: RequestBuilders.TileRequest
     ): ListenableFuture<Tile> {
 
-        val name: String?
-        val age: Int?
-
         // When triggered by loadAction(), "name" will be "Javier", and "age" will
         // be 37.
         with(requestParams.currentState.stateMap) {
-            name = this[stringAppDataKey("name")]
-            age = this[intAppDataKey("age")]
+            val name = this[stringAppDataKey("name")]
+            val age = this[intAppDataKey("age")]
         }
 
+        // [START_EXCLUDE]
         return Futures.immediateFuture(
             Tile.Builder()
                 .setResourcesVersion(RESOURCES_VERSION)
@@ -200,7 +199,9 @@ class InteractionLoadAction : BaseTileService() {
                 )
                 .build()
         )
+        // [END_EXCLUDE]
     }
+    // [START android_wear_m3_interaction_loadaction_request]
 
     override fun MaterialScope.tileLayout(
         requestParams: RequestBuilders.TileRequest
