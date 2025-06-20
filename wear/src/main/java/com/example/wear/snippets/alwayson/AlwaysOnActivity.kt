@@ -52,11 +52,9 @@ import com.google.android.horologist.compose.ambient.AmbientAware
 import com.google.android.horologist.compose.ambient.AmbientState
 import kotlinx.coroutines.delay
 
-class AlwaysOnActivity : ComponentActivity() {
-    companion object {
-        private const val TAG = "AlwaysOnActivity"
-    }
+private const val TAG = "AlwaysOnActivity"
 
+class AlwaysOnActivity : ComponentActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -161,14 +159,14 @@ fun WearApp() {
                     SwitchButton(
                         checked = isOngoingActivity,
                         onCheckedChange = { newState ->
-                            Log.d("AlwaysOnActivity", "Switch button changed: $newState")
+                            Log.d(TAG, "Switch button changed: $newState")
                             isOngoingActivity = newState
 
                             if (newState) {
-                                Log.d("AlwaysOnActivity", "Starting AlwaysOnService")
+                                Log.d(TAG, "Starting AlwaysOnService")
                                 AlwaysOnService.startService(context)
                             } else {
-                                Log.d("AlwaysOnActivity", "Stopping AlwaysOnService")
+                                Log.d(TAG, "Stopping AlwaysOnService")
                                 AlwaysOnService.stopService(context)
                             }
                         },
