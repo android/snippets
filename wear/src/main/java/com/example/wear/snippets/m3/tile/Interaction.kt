@@ -201,7 +201,7 @@ class InteractionLoadAction : BaseTileService() {
         )
         // [END_EXCLUDE]
     }
-    // [START android_wear_m3_interaction_loadaction_request]
+    // [END android_wear_m3_interaction_loadaction_request]
 
     override fun MaterialScope.tileLayout(
         requestParams: RequestBuilders.TileRequest
