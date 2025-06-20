@@ -76,6 +76,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.material3)
     implementation(libs.compose.foundation)
