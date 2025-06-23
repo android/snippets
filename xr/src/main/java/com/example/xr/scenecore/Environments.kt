@@ -44,32 +44,34 @@ private class Environments(val session: Session) {
         // [START androidxr_scenecore_environment_setEnvironmentPreference]
         val spatialEnvironmentPreference =
             SpatialEnvironment.SpatialEnvironmentPreference(lightingForSkybox, environmentGeometry)
-        val preferenceResult =
-            session.scene.spatialEnvironment.setSpatialEnvironmentPreference(spatialEnvironmentPreference)
-        if (preferenceResult == SpatialEnvironment.SetSpatialEnvironmentPreferenceChangeApplied()) {
+        session.scene.spatialEnvironment.preferredSpatialEnvironment = spatialEnvironmentPreference
+        if (session.scene.spatialEnvironment.isPreferredSpatialEnvironmentActive) {
             // The environment was successfully updated and is now visible, and any listeners
             // specified using addOnSpatialEnvironmentChangedListener will be notified.
-        } else if (preferenceResult == SpatialEnvironment.SetSpatialEnvironmentPreferenceChangePending()) {
-            // The environment is in the process of being updated. Once visible, any listeners
-            // specified using addOnSpatialEnvironmentChangedListener will be notified.
-        }
+        } else {
+            // The passthrough opacity preference was successfully set, but not
+            // immediately visible. The passthrough opacity change will be applied
+            // when the activity has the SPATIAL_CAPABILITY_APP_ENVIRONMENT capability.
+            // Then, any listeners specified using addOnSpatialEnvironmentChangedListener
+            // will be notified.
+         }
         // [END androidxr_scenecore_environment_setEnvironmentPreference]
     }
 
     @Suppress("RestrictedApi") // b/416066566
     fun setPassthroughOpacityPreference() {
         // [START androidxr_scenecore_environment_setPassthroughOpacityPreference]
-        val preferenceResult = session.scene.spatialEnvironment.setPassthroughOpacityPreference(1.0f)
-        if (preferenceResult == SpatialEnvironment.SetPassthroughOpacityPreferenceChangeApplied()) {
+        session.scene.spatialEnvironment.preferredPassthroughOpacity = 1.0f
+        if (session.scene.spatialEnvironment.currentPassthroughOpacity == 1.0f) {
             // The passthrough opacity request succeeded and should be visible now, and any listeners
-            // specified using addOnPassthroughOpacityChangedListener will be notified
-        } else if (preferenceResult == SpatialEnvironment.SetPassthroughOpacityPreferenceChangePending()) {
+            // specified using addOnPassthroughOpacityChangedListener will be notified.
+        } else {
             // The passthrough opacity preference was successfully set, but not
             // immediately visible. The passthrough opacity change will be applied
             // when the activity has the
             // SpatialCapabilities.SPATIAL_CAPABILITY_PASSTHROUGH_CONTROL capability.
             // Then, any listeners specified using addOnPassthroughOpacityChangedListener
-            // will be notified
+            // will be notified.
         }
         // [END androidxr_scenecore_environment_setPassthroughOpacityPreference]
     }
@@ -77,7 +79,7 @@ private class Environments(val session: Session) {
     @Suppress("RestrictedApi") // b/416066566
     fun getCurrentPassthroughOpacity() {
         // [START androidxr_scenecore_environment_getCurrentPassthroughOpacity]
-        val currentPassthroughOpacity = session.scene.spatialEnvironment.getCurrentPassthroughOpacity()
+        val currentPassthroughOpacity = session.scene.spatialEnvironment.currentPassthroughOpacity
         // [END androidxr_scenecore_environment_getCurrentPassthroughOpacity]
     }
 }
