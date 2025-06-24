@@ -53,7 +53,7 @@ private fun getTileTextToShow(): String {
 
 /** Demonstrates a sweep transition animation on a [CircularProgressIndicator]. */
 class AnimationSweepTransition : TileService() {
-    // [START android_wear_tile_animations_sweep-transition]
+    // [START android_wear_tile_animations_sweep_transition]
     private var startValue = 15f
     private var endValue = 105f
     private val animationDurationInMillis = 2000L // 2 seconds

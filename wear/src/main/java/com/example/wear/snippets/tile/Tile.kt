@@ -27,7 +27,6 @@ import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
 import androidx.wear.protolayout.TypeBuilders
 import androidx.wear.protolayout.expression.DynamicBuilders
-import androidx.wear.protolayout.expression.DynamicBuilders.DynamicString
 import androidx.wear.protolayout.expression.PlatformHealthSources
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
@@ -201,18 +200,4 @@ class DynamicHeartRate : TileService() {
                 .build()
         )
     // [END android_wear_tile_dynamic_heart_rate]
-}
-
-@RequiresPermission(
-    allOf = [Manifest.permission.ACTIVITY_RECOGNITION, Manifest.permission.BODY_SENSORS]
-)
-fun dynamicExpression1() {
-    // [START android_wear_tile_dynamic_expressions1]
-    val personHealthInfo =
-        DynamicString.constant("This person has walked ")
-            .concat(PlatformHealthSources.dailySteps().div(1000).format())
-            .concat(DynamicString.constant("thousands of steps and has a current heart rate "))
-            .concat(PlatformHealthSources.heartRateBpm().format())
-            .concat(DynamicString.constant(" beats per minute"))
-    // [END android_wear_tile_dynamic_expressions2]
 }
