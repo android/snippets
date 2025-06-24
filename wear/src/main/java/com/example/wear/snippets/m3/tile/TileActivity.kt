@@ -56,9 +56,8 @@ class TileActivity : ComponentActivity() {
         setContent { MainContent() }
         // [END_EXCLUDE]
     }
+    // [END android_wear_m3_interactions_launchaction_activity]
 }
-
-// [END android_wear_m3_interactions_launchaction_activity]
 
 @Composable
 fun MainContent() {
