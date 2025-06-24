@@ -135,7 +135,7 @@ class AnimationArcDirection : TileService() {
 class AnimationFadeTransition : TileService() {
 
     @OptIn(ProtoLayoutExperimental::class)
-    // [START android_wear_tile_animations_smooth_fade_slide]
+    // [START android_wear_tile_animations_fade]
     public override fun onTileRequest(
         requestParams: RequestBuilders.TileRequest
     ): ListenableFuture<Tile> {
@@ -164,7 +164,7 @@ class AnimationFadeTransition : TileService() {
                 .build()
         )
     }
-    // [END android_wear_tile_animations_smooth_fade_slide]
+    // [END android_wear_tile_animations_fade]
 }
 
 /** Demonstrates smooth slide-in and slide-out transitions. */

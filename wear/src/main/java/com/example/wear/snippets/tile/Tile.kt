@@ -105,7 +105,6 @@ data class Meeting(val name: String, val dateTimeMillis: Long)
 
 object MeetingsRepo {
     fun getMeetings(): List<Meeting> {
-        // TODO: Replace with actual meeting data
         val now = System.currentTimeMillis()
         return listOf(
             Meeting("Meeting 1", now + 1 * 60 * 60 * 1000), // 1 hour from now
