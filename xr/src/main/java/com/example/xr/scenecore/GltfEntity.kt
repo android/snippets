@@ -30,7 +30,7 @@ import java.nio.file.Paths
 
 private suspend fun loadGltfFile(session: Session) {
     // [START androidxr_scenecore_gltfmodel_create]
-    val gltfModel = GltfModel.createAsync(session, Paths.get("models", "saturn_rings.glb")).await()
+    val gltfModel = GltfModel.create(session, Paths.get("models", "saturn_rings.glb"))
     // [END androidxr_scenecore_gltfmodel_create]
 }
 

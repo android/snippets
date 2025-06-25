@@ -28,8 +28,7 @@ import java.nio.file.Paths
 private class Environments(val session: Session) {
     suspend fun loadEnvironmentGeometry(context: Context) {
         // [START androidxr_scenecore_environment_loadEnvironmentGeometry]
-        val environmentGeometryFuture = GltfModel.createAsync(session, Paths.get("DayGeometry.glb"))
-        val environmentGeometry = environmentGeometryFuture.await()
+        val environmentGeometry = GltfModel.create(session, Paths.get("DayGeometry.glb"))
         // [END androidxr_scenecore_environment_loadEnvironmentGeometry]
     }
 
