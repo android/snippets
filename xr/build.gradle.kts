@@ -41,8 +41,6 @@ dependencies {
     implementation("com.google.ar:impress:0.0.3")
 
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.guava)
-    implementation(libs.kotlinx.coroutines.guava)
 
     implementation(libs.androidx.media3.exoplayer)
 

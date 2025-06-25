@@ -25,7 +25,6 @@ import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.SpatialCapabilities
 import androidx.xr.scenecore.scene
-import kotlinx.coroutines.guava.await
 import java.nio.file.Paths
 
 private suspend fun loadGltfFile(session: Session) {

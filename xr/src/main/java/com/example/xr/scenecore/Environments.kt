@@ -22,7 +22,6 @@ import androidx.xr.scenecore.ExrImage
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.SpatialEnvironment
 import androidx.xr.scenecore.scene
-import kotlinx.coroutines.guava.await
 import java.nio.file.Paths
 
 private class Environments(val session: Session) {
@@ -34,7 +33,7 @@ private class Environments(val session: Session) {
 
     suspend fun loadEnvironmentSkybox() {
         // [START androidxr_scenecore_environment_loadEnvironmentSkybox]
-        val lightingForSkybox = ExrImage.createFromZipAsync(session, Paths.get("BlueSkyboxLighting.zip")).await()
+        val lightingForSkybox = ExrImage.createFromZip(session, Paths.get("BlueSkyboxLighting.zip"))
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
