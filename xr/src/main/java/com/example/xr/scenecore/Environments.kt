@@ -52,7 +52,7 @@ private class Environments(val session: Session) {
             // when the activity has the SPATIAL_CAPABILITY_APP_ENVIRONMENT capability.
             // Then, any listeners specified using addOnSpatialEnvironmentChangedListener
             // will be notified.
-         }
+        }
         // [END androidxr_scenecore_environment_setEnvironmentPreference]
     }
 
