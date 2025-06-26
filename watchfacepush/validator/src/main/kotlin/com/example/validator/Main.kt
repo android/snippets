@@ -31,7 +31,6 @@ private fun performValidation() {
         // ...
     } else {
         // There were failures, handle them accordingly - validation has failed.
-        println(result.successes().size.toString() + " successes, " + result.failures().size.toString() + " failures")
         result.failures().forEach { failure ->
             println("FAILURE: ${failure.name()}: ${failure.failureMessage()}")
             // ...
