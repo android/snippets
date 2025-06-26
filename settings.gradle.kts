@@ -14,7 +14,12 @@ dependencyResolutionManagement {
             println("https://androidx.dev/snapshots/builds/$it/artifacts/repository/")
             maven { url = uri("https://androidx.dev/snapshots/builds/$it/artifacts/repository/") }
         }
-
+        maven {
+            url = uri("https://jitpack.io")
+            content {
+                includeGroup("com.github.xgouchet")
+            }
+        }
         google()
         mavenCentral()
     }
@@ -30,4 +35,5 @@ include(
         ":misc",
         ":identity:credentialmanager",
         ":xr",
+        ":watchfacepush:validator"
 )
