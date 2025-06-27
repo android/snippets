@@ -49,3 +49,5 @@ jobs:
       run: ./gradlew :misc:build
     - name: Build XR snippets
       run: ./gradlew :xr:build
+    - name: Build Watch Face Push validation snippets
+      run: ./gradlew :watchfacepush:validator:run 
