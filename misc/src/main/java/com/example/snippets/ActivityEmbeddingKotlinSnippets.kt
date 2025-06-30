@@ -276,7 +276,9 @@ class ActivityEmbeddingKotlinSnippets {
     /**
      * Function used by snippet.
      */
-    fun classForItem(item: Int): Class<*> { return Class::class.java }
+    fun classForItem(item: Int): Class<*> {
+        return Class::class.java
+    }
 
     // [START android_activity_embedding_MenuActivity_class_kotlin]
     inner class MenuActivity : AppCompatActivity() {

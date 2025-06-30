@@ -10,6 +10,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -36,6 +37,7 @@ import androidx.window.embedding.SplitRule;
 import androidx.window.java.embedding.SplitControllerCallbackAdapter;
 import androidx.window.layout.FoldingFeature;
 import androidx.window.layout.WindowMetrics;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
