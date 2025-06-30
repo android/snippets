@@ -236,6 +236,8 @@ private fun SwipeItemWithAnimationExample() {
         )
     }
 
+    println("test")
+
     LazyColumn {
         items(
             items = todoItems,
