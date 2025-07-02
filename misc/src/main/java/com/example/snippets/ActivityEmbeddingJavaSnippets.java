@@ -1,5 +1,6 @@
 package com.example.snippets;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +13,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
-import androidx.annotation.RequiresApi;import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.startup.Initializer;
 import androidx.window.WindowSdkExtensions;
@@ -348,6 +350,7 @@ public class ActivityEmbeddingJavaSnippets {
 
     static class ActivityPinningSnippetsActivity extends Activity {
 
+        @SuppressLint("RequiresWindowSdk")
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

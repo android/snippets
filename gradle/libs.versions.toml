@@ -1,82 +1,93 @@
 [versions]
 accompanist = "0.36.0"
-androidGradlePlugin = "8.8.1"
-androidx-activity-compose = "1.10.0"
+activityKtx = "1.10.1"
+android-googleid = "1.1.1"
+androidGradlePlugin = "8.10.1"
+androidx-activity-compose = "1.10.1"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.02.00"
+androidx-compose-bom = "2025.06.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
+androidx-compose-ui-test-junit4-accessibility = "1.9.0-beta01"
 androidx-constraintlayout = "2.2.1"
-androidx-constraintlayout-compose = "1.1.0"
-androidx-coordinator-layout = "1.2.0"
-androidx-corektx = "1.16.0-beta01"
+androidx-constraintlayout-compose = "1.1.1"
+androidx-coordinator-layout = "1.3.0"
+androidx-corektx = "1.16.0"
 androidx-credentials = "1.5.0"
 androidx-credentials-play-services-auth = "1.5.0"
 androidx-emoji2-views = "1.5.0"
-androidx-fragment-ktx = "1.8.6"
+androidx-fragment-ktx = "1.8.8"
 androidx-glance-appwidget = "1.1.1"
-androidx-lifecycle-compose = "2.8.7"
-androidx-lifecycle-runtime-compose = "2.8.7"
-androidx-navigation = "2.8.7"
+androidx-lifecycle-compose = "2.9.1"
+androidx-lifecycle-runtime-compose = "2.9.1"
+androidx-navigation = "2.9.0"
 androidx-paging = "3.3.6"
 androidx-startup-runtime = "1.2.0"
 androidx-test = "1.6.1"
 androidx-test-espresso = "3.6.1"
 androidx-test-junit = "1.2.1"
-androidx-window = "1.4.0-rc01"
-androidx-window-core = "1.4.0-beta02"
-androidx-window-java = "1.3.0"
+androidx-window = "1.5.0-alpha02"
+androidx-window-core = "1.5.0-alpha02"
+androidx-window-java = "1.5.0-alpha02"
+# @keep
+androidx-xr = "1.0.0-alpha03"
+# @keep
+androidx-xr-arcore = "1.0.0-alpha04"
+androidx-xr-compose = "1.0.0-alpha04"
+androidx-xr-scenecore = "1.0.0-alpha04"
 androidxHiltNavigationCompose = "1.2.0"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 coil = "2.7.0"
-android-googleid = "1.1.1"
 # @keep
 compileSdk = "35"
-compose-latest = "1.7.8"
+compose-latest = "1.8.3"
 composeUiTooling = "1.4.1"
 coreSplashscreen = "1.0.1"
-coroutines = "1.10.1"
+coroutines = "1.10.2"
 glide = "1.0.0-beta01"
-google-maps = "19.0.0"
+google-maps = "19.2.0"
 gradle-versions = "0.52.0"
-guava = "33.4.0-jre"
-hilt = "2.55"
-horologist = "0.6.22"
+guava = "33.4.8-jre"
+hilt = "2.56.2"
+horologist = "0.7.14-beta"
 junit = "4.13.2"
-kotlin = "2.1.10"
-kotlinxCoroutinesGuava = "1.9.0"
+kotlin = "2.2.0"
 kotlinCoroutinesOkhttp = "1.0"
-kotlinxSerializationJson = "1.8.0"
-ksp = "2.1.10-1.0.30"
-maps-compose = "6.4.4"
-material = "1.13.0-alpha10"
+kotlinxCoroutinesGuava = "1.10.2"
+kotlinxSerializationJson = "1.8.1"
+ksp = "2.1.21-2.0.2"
+lifecycleService = "2.9.1"
+maps-compose = "6.6.0"
+material = "1.14.0-alpha02"
 material3-adaptive = "1.1.0"
-material3-adaptive-navigation-suite = "1.3.1"
-media3 = "1.5.1"
+material3-adaptive-navigation-suite = "1.3.2"
+media3 = "1.7.1"
 # @keep
 minSdk = "21"
-playServicesWearable = "19.0.0"
-protolayout = "1.2.1"
-recyclerview = "1.4.0"
-# @keep
-androidx-xr = "1.0.0-alpha02"
-targetSdk = "34"
-tiles = "1.4.1"
-version-catalog-update = "0.8.5"
-wear = "1.3.0"
-wearComposeFoundation = "1.4.1"
-wearComposeMaterial = "1.4.1"
-wearToolingPreview = "1.0.0"
-activityKtx = "1.10.0"
 okHttp = "4.12.0"
-webkit = "1.13.0"
+playServicesWearable = "19.0.0"
+protolayout = "1.3.0"
+recyclerview = "1.4.0"
+targetSdk = "34"
+tiles = "1.5.0"
+validatorPush = "1.0.0-alpha03"
+version-catalog-update = "1.0.0"
+wear = "1.3.0"
+wearComposeFoundation = "1.5.0-beta04"
+wearComposeMaterial = "1.5.0-beta04"
+wearComposeMaterial3 = "1.5.0-beta04"
+wearOngoing = "1.0.0"
+wearToolingPreview = "1.0.0"
+webkit = "1.14.0"
 
 [libraries]
-accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
-accompanist-permissions = "com.google.accompanist:accompanist-permissions:0.37.0"
+accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
+accompanist-permissions = "com.google.accompanist:accompanist-permissions:0.37.3"
 accompanist-theme-adapter-appcompat = { module = "com.google.accompanist:accompanist-themeadapter-appcompat", version.ref = "accompanist" }
 accompanist-theme-adapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist" }
 accompanist-theme-adapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
+android-identity-googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "android-googleid" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
@@ -95,14 +106,15 @@ androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-latest" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test" }
-androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose-latest" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-latest" }
+androidx-compose-ui-test-junit4-accessibility = { module = "androidx.compose.ui:ui-test-junit4-accessibility", version.ref = "androidx-compose-ui-test-junit4-accessibility" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
-androidx-constraintlayout = {module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout-compose" }
 androidx-coordinator-layout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator-layout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
@@ -117,6 +129,7 @@ androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.1"
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-compose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
+androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycleService" }
 androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
@@ -127,31 +140,32 @@ androidx-paging-compose = { module = "androidx.paging:paging-compose", version.r
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
+androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-startup-runtime = {module = "androidx.startup:startup-runtime", version.ref = "androidx-startup-runtime" }
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup-runtime" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
-androidx-test-runner = "androidx.test:runner:1.6.2"
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
+androidx-test-runner = "androidx.test:runner:1.6.2"
 androidx-tiles = { module = "androidx.wear.tiles:tiles", version.ref = "tiles" }
 androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tiles" }
 androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tiles" }
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
+androidx-wear-ongoing = { module = "androidx.wear:wear-ongoing", version.ref = "wearOngoing" }
 androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
+androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
-androidx-window-java = {module = "androidx.window:window-java", version.ref = "androidx-window-java" }
-androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.0"
-androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr" }
-androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr" }
-androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr" }
-android-identity-googleid = {module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "android-googleid"}
+androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
+androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.2"
+androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
+androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
+androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr-scenecore" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -169,10 +183,11 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp" }
-androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }
+validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
+wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
+wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -180,7 +195,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = "org.jetbrains.kotlin.android:2.2.0"
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

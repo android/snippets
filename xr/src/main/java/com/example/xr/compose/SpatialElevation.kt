@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.example.xr.arcore
+package com.example.xr.compose
 
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.xr.runtime.Session
+import androidx.compose.runtime.Composable
+import androidx.xr.compose.spatial.SpatialElevation
+import androidx.xr.compose.spatial.SpatialElevationLevel
 
-/**
- * This is a dummy version of [SessionLifecycleHelper](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:xr/arcore/integration-tests/whitebox/src/main/kotlin/androidx/xr/arcore/apps/whitebox/common/SessionLifecycleHelper.kt).
- * This will be removed when Session becomes a LifecycleOwner in cl/726643897.
- */
-class SessionLifecycleHelper(
-    val onCreateCallback: (Session) -> Unit,
+@Composable
+private fun ComposableThatShouldElevateInXr() {}
 
-    val onResumeCallback: (() -> Unit)? = null,
-) : DefaultLifecycleObserver
+@Composable
+private fun SpatialElevationExample() {
+    // [START androidxr_compose_spatialelevation]
+    // Elevate an otherwise 2D Composable (signified here by ComposableThatShouldElevateInXr).
+    SpatialElevation(spatialElevationLevel = SpatialElevationLevel.Level4) {
+        ComposableThatShouldElevateInXr()
+    }
+    // [END androidxr_compose_spatialelevation]
+}
