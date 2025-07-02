@@ -26,7 +26,7 @@ class WebViewMainActivity : ComponentActivity() {
           settings.javaScriptEnabled = true
 
           // Test URL:
-          val url = "https://credman-web-test.glitch.me/"
+          val url = "https://passkeys-codelab.glitch.me/"
           val listenerSupported = WebViewFeature.isFeatureSupported(
             WebViewFeature.WEB_MESSAGE_LISTENER
           )
