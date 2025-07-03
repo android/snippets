@@ -25,15 +25,20 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -52,10 +57,13 @@ import androidx.compose.ui.focus.FocusDirection.Companion.Right
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusRequester.Companion.Cancel
 import androidx.compose.ui.focus.FocusRequester.Companion.Default
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component3
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component4
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Red
@@ -70,9 +78,67 @@ import androidx.compose.ui.node.DelegatableNode
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.navigation.FocusExamplesDestination
 import kotlinx.coroutines.launch
+
+@Composable
+fun FocusExamples(
+    modifier: Modifier = Modifier,
+    onNavigation: (FocusExamplesDestination) -> Unit = {}
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
+    ) {
+        items(FocusExamplesDestination.entries.toList()) {
+            ListItem(
+                modifier = Modifier.clickable(onClick = {
+                    onNavigation(it)
+                }),
+                headlineContent = {
+                    Text(it.title)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+internal fun Section(
+    title: String,
+    modifier: Modifier = Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(16.dp),
+    style: TextStyle = MaterialTheme.typography.headlineMedium,
+    content: @Composable () -> Unit = {}
+) {
+    Column(
+        modifier = modifier.focusGroup(),
+        verticalArrangement = verticalArrangement
+    ) {
+        Text(title, style = style)
+        content()
+    }
+}
+
+@Composable
+internal fun SubSection(
+    title: String,
+    modifier: Modifier = Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(8.dp),
+    style: TextStyle = MaterialTheme.typography.headlineSmall,
+    content: @Composable () -> Unit = {}
+) {
+    Section(
+        title = title,
+        modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        style = style,
+        content = content,
+    )
+}
 
 @Preview
 @Composable
@@ -276,7 +342,7 @@ private fun RequestFocus() {
 }
 
 @Composable
-private fun RequestFocus2() {
+internal fun RequestFocus2() {
     // [START android_compose_touchinput_focus_request2]
     val focusRequester = remember { FocusRequester() }
     var text by remember { mutableStateOf("") }
@@ -382,7 +448,7 @@ private fun ModifierOrder2() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun RedirectFocus() {
+private fun FocusRedirection() {
     // [START android_compose_touchinput_focus_redirect]
     val otherComposable = remember { FocusRequester() }
 
@@ -399,7 +465,7 @@ private fun RedirectFocus() {
 }
 
 @Composable
-private fun FocusAdvancing() {
+internal fun FocusAdvancing() {
     // [START android_compose_touchinput_focus_advancing]
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf("") }
@@ -424,7 +490,7 @@ private fun FocusAdvancing() {
 @Composable
 private fun ReactToFocus() {
     // [START android_compose_touchinput_focus_react]
-    var color by remember { mutableStateOf(Color.White) }
+    var color by remember { mutableStateOf(White) }
     Card(
         modifier = Modifier
             .onFocusChanged {
@@ -460,7 +526,7 @@ private class MyHighlightIndicationNode(private val interactionSource: Interacti
     override fun ContentDrawScope.draw() {
         drawContent()
         if (isFocused) {
-            drawRect(size = size, color = Color.White, alpha = 0.2f)
+            drawRect(size = size, color = White, alpha = 0.2f)
         }
     }
 }
