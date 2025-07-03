@@ -35,9 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
-import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
-import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component3
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
@@ -120,7 +117,7 @@ fun OneDimensionalFocusTraversal(
             // Focus target
             Card(
                 onClick = onClick,
-                modifier = Modifier.Companion
+                modifier = Modifier
                     .width(160.dp)
                     .offset(x = 176.dp)
             ) {
@@ -155,7 +152,7 @@ fun OneDimensionalFocusTraversalInZShape(
     // [START android_compose_touchinput_focus_one_dimensional_traversal_in_z_shape]
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        // modifier = modifier
+        modifier = modifier
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -205,7 +202,7 @@ fun OneDimensionalFocusTraversalOverride(
                 modifier = Modifier
                     .focusRequester(first)
                     .focusProperties {
-                        next = second // Set focus move to 2nd card wth the Tab key
+                        next = second // Set focus move to 2nd card with the Tab key
                     }
 
             ) {
@@ -217,10 +214,10 @@ fun OneDimensionalFocusTraversalOverride(
                 modifier = Modifier
                     .focusRequester(third)
                     .focusProperties {
-                        next = first // Set focus move to 1st card wth the Tab key
+                        next = first // Set focus move to 1st card with the Tab key
                     }
             ) {
-                Text(text = "3nd　card", modifier = Modifier.padding(32.dp))
+                Text(text = "3rd　card", modifier = Modifier.padding(32.dp))
             }
         }
         // Focus target
@@ -230,7 +227,7 @@ fun OneDimensionalFocusTraversalOverride(
             Modifier
                 .focusRequester(second)
                 .focusProperties {
-                    next = third // Set focus move to third card wth the Tab key
+                    next = third // Set focus move to third card with the Tab key
                 }
         ) {
             Text(text = "2nd　card", modifier = Modifier.padding(32.dp))
