@@ -58,7 +58,9 @@ class WebViewMainActivity : ComponentActivity() {
     coroutineScope: CoroutineScope,
     credentialManagerHandler: CredentialManagerHandler
   ) {
+    // [START android_identity_create_webview_object]
     val passkeyWebListener = PasskeyWebListener(activity, coroutineScope, credentialManagerHandler)
+
     val webViewClient = object : WebViewClient() {
       override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
@@ -66,12 +68,15 @@ class WebViewMainActivity : ComponentActivity() {
       }
     }
 
+    webView.webViewClient = webViewClient
+    // [END android_identity_create_webview_object]
+
+    // [START android_identity_set_web]
     val rules = setOf("*")
     if (WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
       WebViewCompat.addWebMessageListener(webView, PasskeyWebListener.INTERFACE_NAME,
         rules, passkeyWebListener)
     }
-
-    webView.webViewClient = webViewClient
+    // [END android_identity_set_web]
   }
 }
