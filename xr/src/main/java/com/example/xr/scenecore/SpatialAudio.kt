@@ -20,6 +20,7 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION
 import android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION
+import android.media.MediaCodecList
 import android.media.MediaPlayer
 import android.media.SoundPool
 import androidx.xr.runtime.Session
@@ -151,4 +152,12 @@ private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Cont
         // The session does not have spatial audio capabilities
     }
     // [END androidxr_scenecore_playSpatialAudioAmbionics]
+}
+
+private fun detectSupport() {
+    // [START androidxr_scenecore_dolby_detect_support]
+    val codecInfos = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
+    fun supportsEac3SDecoding() = codecInfos.any { !it.isEncoder && it.supportedTypes.any { it == "audio/aec3" } }
+    fun supportsAc4Decoding() = codecInfos.any { !it.isEncoder && it.supportedTypes.any { it == "audio/ac4" } }
+    // [END androidxr_scenecore_dolby_detect_support]
 }
