@@ -130,6 +130,40 @@ class PasskeyAndPasswordFunctions (
     }
   }
 
+  fun autofillImplementation(
+    requestJson: String
+  ) {
+    // [START android_identity_autofill_construct_request]
+    // Retrieves the user's saved password for your app.
+    val getPasswordOption = GetPasswordOption()
+
+    // Get a passkey from the user's public key credential provider.
+    val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
+      requestJson = requestJson
+    )
+
+    val getCredRequest = GetCredentialRequest(
+      listOf(getPasswordOption, getPublicKeyCredentialOption)
+    )
+    // [END android_identity_autofill_construct_request]
+
+    runBlocking {
+      // [START android_identity_autofill_get_credential_api]
+      coroutineScope {
+        try {
+          val result = credentialManager.getCredential(
+            context = activityContext, // Use an activity-based context.
+            request = getCredRequest
+          )
+          handleSignIn(result);
+        } catch (e: GetCredentialException) {
+          handleFailure(e);
+        }
+      }
+      // [END android_identity_autofill_get_credential_api]
+    }
+  }
+
   // [START android_identity_launch_sign_in_flow_2]
   fun handleSignIn(result: GetCredentialResponse) {
     // Handle the successfully returned credential.
@@ -238,6 +272,8 @@ class PasskeyAndPasswordFunctions (
     }
   }
   // [END android_identity_handle_create_passkey_failure]
+
+  fun handleFailure(e: GetCredentialException) { }
 
   // [START android_identity_register_password]
   suspend fun registerPassword(username: String, password: String) {
