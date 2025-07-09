@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.semantics
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
