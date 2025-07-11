@@ -54,6 +54,6 @@ jobs:
       run: ./gradlew :xr:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
 
     - name: Auto-commit if spotlessApply has changes
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v6
       with:
         commit_message: Apply Spotless
