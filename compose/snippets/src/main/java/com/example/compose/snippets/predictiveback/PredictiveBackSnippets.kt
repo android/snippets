@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -110,7 +111,10 @@ private fun PredictiveBackHandlerBasicExample() {
 
     Box(
         modifier = Modifier
-            .fillMaxSize(boxScale)
+            .graphicsLayer {
+                scaleX = boxScale
+                scaleY = scaleX
+            }
             .background(Color.Blue)
     )
 
@@ -127,6 +131,7 @@ private fun PredictiveBackHandlerBasicExample() {
         } catch (e: CancellationException) {
             // code for cancellation
             boxScale = 1F
+            throw e
         }
     }
     // [END android_compose_predictivebackhandler_basic]
@@ -180,8 +185,10 @@ private fun PredictiveBackHandlerManualProgress() {
                 closeDrawer(velocityTracker.calculateVelocity().x)
             } catch (e: CancellationException) {
                 openDrawer(velocityTracker.calculateVelocity().x)
+                throw e
+            } finally {
+                velocityTracker.resetTracking()
             }
-            velocityTracker.resetTracking()
         }
         // [END android_compose_predictivebackhandler_manualprogress]
     }
