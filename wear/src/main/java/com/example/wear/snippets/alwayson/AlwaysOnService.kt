@@ -110,7 +110,6 @@ class AlwaysOnService : LifecycleService() {
 
         val notificationBuilder =
             NotificationCompat.Builder(this, CHANNEL_ID)
-                // ...
                 // [START_EXCLUDE]
                 .setContentTitle("Always On Service")
                 .setContentText("Service is running in background")
@@ -128,7 +127,6 @@ class AlwaysOnService : LifecycleService() {
 
         val ongoingActivity =
             OngoingActivity.Builder(applicationContext, NOTIFICATION_ID, notificationBuilder)
-                // ...
                 // [START_EXCLUDE]
                 .setStaticIcon(R.drawable.ic_walk)
                 .setAnimatedIcon(R.drawable.animated_walk)
