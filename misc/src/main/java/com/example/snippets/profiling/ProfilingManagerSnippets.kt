@@ -16,14 +16,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.asExecutor
 
-// [START android_profiling_manager_record_system_trace_kotlin]
-
 class MainActivity : Activity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     sampleRecordSystemTrace()
   }
 
+  // [START android_profiling_manager_record_system_trace_kotlin]
   @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
   fun sampleRecordSystemTrace() {
     val mainExecutor: Executor = Dispatchers.IO.asExecutor() // Your choice of executor for the callback to occur on.
@@ -47,6 +46,7 @@ class MainActivity : Activity() {
     requestBuilder.setTag("FOO") // Caller supplied tag for identification
     requestBuilder.setDurationMs(60000)
     requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER)
+    requestBuilder.setBufferSizeKb(20971520)
     requestProfiling(applicationContext, requestBuilder.build(), mainExecutor, resultCallback)
 
     // Wait some time for profiling to start.
@@ -62,6 +62,5 @@ class MainActivity : Activity() {
   fun heavyOperation() {
     // Computations you want to profile
   }
+  // [END android_profiling_manager_record_system_trace_kotlin]
 }
-
-// [END android_profiling_manager_record_system_trace_kotlin]

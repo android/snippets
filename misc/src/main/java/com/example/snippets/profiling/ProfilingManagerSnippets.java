@@ -13,7 +13,6 @@ import androidx.core.os.Profiling;
 import androidx.core.os.SystemTraceRequestBuilder;
 import androidx.core.os.BufferFillPolicy;
 
-// [START android_profiling_manager_record_system_trace_java]
 
 public class MainActivityJava extends Activity {
 
@@ -23,6 +22,7 @@ public class MainActivityJava extends Activity {
     sampleRecordSystemTrace();
   }
 
+  // [START android_profiling_manager_record_system_trace_java]
   void heavyOperation() {
     // Computations you want to profile
   }
@@ -55,6 +55,7 @@ public class MainActivityJava extends Activity {
     requestBuilder.setTag("FOO");
     requestBuilder.setDurationMs(60000);
     requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER);
+    requestBuilder.setBufferSizeKb(20971520);
     Profiling.requestProfiling(getApplicationContext(), requestBuilder.build(), mainExecutor,
         resultCallback);
 
@@ -67,6 +68,5 @@ public class MainActivityJava extends Activity {
     // Once the interesting code section is profiled, stop profile
     stopSignal.cancel();
   }
+  // [END android_profiling_manager_record_system_trace_java]
 }
-
-// [END android_profiling_manager_record_system_trace_java]
