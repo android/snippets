@@ -659,7 +659,7 @@ fun CustomPredictiveBackHandle() {
                 // For each backEvent that comes in, we manually seekTo the reported back progress
                 try {
                     seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
-                } catch (e: CancellationException) {
+                } catch (_: CancellationException) {
                     // seekTo may be cancelled as expected, if animateTo or subsequent seekTo calls
                     // before the current seekTo finishes, in this case, we ignore the cancellation.
                 }
@@ -671,6 +671,7 @@ fun CustomPredictiveBackHandle() {
             // When the predictive back gesture is cancelled, we snap to the end state to ensure
             // it completes its seeking animation back to the currentState
             seekableTransitionState.snapTo(seekableTransitionState.currentState)
+            throw e
         }
     }
     val coroutineScope = rememberCoroutineScope()
