@@ -22,9 +22,11 @@ import android.os.StrictMode
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -60,7 +62,15 @@ import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.layouts.PagerExamples
 import com.example.compose.snippets.navigation.Destination
+import com.example.compose.snippets.navigation.FocusExamplesDestination
 import com.example.compose.snippets.navigation.TopComponentsDestination
+import com.example.compose.snippets.touchinput.focus.FocusExamples
+import com.example.compose.snippets.touchinput.focus.FocusTargetExamples
+import com.example.compose.snippets.touchinput.focus.FocusedStateExamples
+import com.example.compose.snippets.touchinput.focus.MoveFocusExamples
+import com.example.compose.snippets.touchinput.focus.OneDimensionalFocusTraversalExamples
+import com.example.compose.snippets.touchinput.focus.RequestFocusExamples
+import com.example.compose.snippets.touchinput.focus.TwoDimensionalFocusTraversalExamples
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
 class SnippetsActivity : ComponentActivity() {
@@ -94,6 +104,9 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
                                     Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
                                     Destination.PagerExamples -> PagerExamples()
+                                    Destination.FocusExamples -> FocusExamples() {
+                                        navController.navigate(it.route)
+                                    }
                                 }
                             }
                         }
@@ -125,6 +138,34 @@ class SnippetsActivity : ComponentActivity() {
                                     TopComponentsDestination.SegmentedButtonExamples -> SegmentedButtonExamples()
                                     TopComponentsDestination.SwipeToDismissBoxExamples -> SwipeToDismissBoxExamples()
                                     TopComponentsDestination.SearchBarExamples -> SearchBarExamples()
+                                }
+                            }
+                        }
+                        FocusExamplesDestination.entries.forEach { destination ->
+                            composable(destination.route) {
+                                when (destination) {
+                                    FocusExamplesDestination.FocusTarget -> {
+                                        FocusTargetExamples(modifier = Modifier.padding(32.dp))
+                                    }
+                                    FocusExamplesDestination.OneDimensionalFocusTraversal -> {
+                                        OneDimensionalFocusTraversalExamples(
+                                            modifier = Modifier.padding(32.dp)
+                                        )
+                                    }
+                                    FocusExamplesDestination.TwoDimensionalFocusTraversal -> {
+                                        TwoDimensionalFocusTraversalExamples(
+                                            modifier = Modifier.padding(32.dp)
+                                        )
+                                    }
+                                    FocusExamplesDestination.RequestFocus -> {
+                                        RequestFocusExamples(modifier = Modifier.padding(32.dp))
+                                    }
+                                    FocusExamplesDestination.FocusedState -> {
+                                        FocusedStateExamples(modifier = Modifier.padding(32.dp))
+                                    }
+                                    FocusExamplesDestination.MoveFocus -> {
+                                        MoveFocusExamples(modifier = Modifier.padding(32.dp))
+                                    }
                                 }
                             }
                         }
