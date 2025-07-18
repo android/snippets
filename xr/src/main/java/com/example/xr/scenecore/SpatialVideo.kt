@@ -19,6 +19,7 @@ package com.example.xr.scenecore
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.xr.runtime.Session
@@ -108,4 +109,44 @@ private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
     exoPlayer.prepare()
     exoPlayer.play()
     // [END androidxr_scenecore_surfaceEntityCreateMVHEVC]
+}
+
+@Suppress("RestrictedApi") // b/416066566
+private fun ComponentActivity.surfaceEntityCreateDRM(xrSession: Session) {
+    // [START androidxr_scenecore_surfaceEntityCreateDRM]
+    // Create a SurfaceEntity with DRM content
+
+    // Define the URI for your DRM-protected content and license server.
+    val videoUri = "https://your-content-provider.com/video.mpd"
+    val drmLicenseUrl = "https://your-license-server.com/license"
+
+    // Create the SurfaceEntity with the PROTECTED content security level.
+    val protectedSurfaceEntity = SurfaceEntity.create(
+        session = xrSession,
+        stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        canvasShape = SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f),
+        contentSecurityLevel = SurfaceEntity.ContentSecurityLevel.PROTECTED
+    )
+
+    // Build a MediaItem with the necessary DRM configuration.
+    val mediaItem = MediaItem.Builder()
+        .setUri(videoUri)
+        .setDrmConfiguration(
+            MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
+                .setLicenseUri(drmLicenseUrl)
+                .build()
+        )
+        .build()
+
+    // Initialize ExoPlayer and set the protected surface.
+    val exoPlayer = ExoPlayer.Builder(this).build()
+    exoPlayer.setVideoSurface(protectedSurfaceEntity.getSurface())
+
+    // Set the media item and start playback.
+    exoPlayer.setMediaItem(mediaItem)
+    exoPlayer.prepare()
+    exoPlayer.play()
+
+    // [END androidxr_scenecore_surfaceEntityCreateDRM]
 }
