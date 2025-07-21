@@ -18,32 +18,27 @@ package com.example.xr.scenecore
 
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.FloatSize3d
-import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.ResizableComponent
-import androidx.xr.scenecore.ResizeListener
+import androidx.xr.scenecore.ResizeEvent
 import androidx.xr.scenecore.SurfaceEntity
 import java.util.concurrent.Executor
 
 @Suppress("RestrictedApi") // b/416066566
-private fun resizableComponentExample(session: Session, entity: Entity, executor: Executor) {
+private fun resizableComponentExample(
+    session: Session,
+    surfaceEntity: SurfaceEntity,
+    executor: Executor
+) {
     // [START androidxr_scenecore_resizableComponentExample]
-    val resizableComponent = ResizableComponent.create(session)
-    resizableComponent.minimumSize = FloatSize3d(177f, 100f, 1f)
+    val resizableComponent = ResizableComponent.create(session) { event ->
+        if (event.resizeState == ResizeEvent.ResizeState.RESIZE_STATE_END) {
+            // update the Entity to reflect the new size
+            surfaceEntity.canvasShape = SurfaceEntity.CanvasShape.Quad(event.newSize.width, event.newSize.height)
+        }
+    }
+    resizableComponent.minimumEntitySize = FloatSize3d(177f, 100f, 1f)
     resizableComponent.fixedAspectRatio = 16f / 9f // Specify a 16:9 aspect ratio
 
-    resizableComponent.addResizeListener(
-        executor,
-        object : ResizeListener {
-            override fun onResizeEnd(entity: Entity, finalSize: FloatSize3d) {
-                // update the size in the component
-                resizableComponent.size = finalSize
-
-                // update the Entity to reflect the new size
-                (entity as SurfaceEntity).canvasShape = SurfaceEntity.CanvasShape.Quad(finalSize.width, finalSize.height)
-            }
-        },
-    )
-
-    entity.addComponent(resizableComponent)
+    surfaceEntity.addComponent(resizableComponent)
     // [END androidxr_scenecore_resizableComponentExample]
 }

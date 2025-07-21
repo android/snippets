@@ -22,7 +22,6 @@ import androidx.xr.arcore.Trackable
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
-import androidx.xr.runtime.SessionConfigurePermissionsNotGranted
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.AnchorEntity
@@ -37,8 +36,6 @@ fun configureAnchoring(session: Session) {
     when (val result = session.configure(newConfig)) {
         is SessionConfigureConfigurationNotSupported ->
             TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
-        is SessionConfigurePermissionsNotGranted ->
-            TODO(/* The required permissions in result.permissions have not been granted. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
             TODO(/* A different unhandled exception was thrown. */)
