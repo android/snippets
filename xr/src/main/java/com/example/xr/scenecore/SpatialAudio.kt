@@ -20,9 +20,12 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION
 import android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION
-import android.media.MediaCodecList
 import android.media.MediaPlayer
 import android.media.SoundPool
+import androidx.annotation.OptIn
+import androidx.media3.common.C
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.audio.AudioCapabilities
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.PointSourceParams
@@ -151,10 +154,18 @@ private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Cont
     // [END androidxr_scenecore_playSpatialAudioAmbionics]
 }
 
-private fun detectSupport() {
+@OptIn(UnstableApi::class)
+private fun detectSupport(context: Context) {
     // [START androidxr_scenecore_dolby_detect_support]
-    val codecInfos = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
-    fun supportsEac3SDecoding() = codecInfos.any { !it.isEncoder && it.supportedTypes.any { it == "audio/aec3" } }
-    fun supportsAc4Decoding() = codecInfos.any { !it.isEncoder && it.supportedTypes.any { it == "audio/ac4" } }
+    val audioCapabilities = AudioCapabilities.getCapabilities(context, androidx.media3.common.AudioAttributes.DEFAULT, null)
+    if (audioCapabilities.supportsEncoding(C.ENCODING_AC3)) {
+        // Device supports playback of the Dolby Digital media format.
+    }
+    if (audioCapabilities.supportsEncoding(C.ENCODING_E_AC3)) {
+        // Device supports playback of the Dolby Digital Plus media format.
+    }
+    if (audioCapabilities.supportsEncoding(C.ENCODING_E_AC3_JOC)) {
+        // Device supports playback of the Dolby Digital Plus with Dolby Atmos media format.
+    }
     // [END androidxr_scenecore_dolby_detect_support]
 }
