@@ -27,7 +27,7 @@ fun checkMultipleCapabilities(xrSession: Session) {
             SpatialCapabilities.SPATIAL_CAPABILITY_PASSTHROUGH_CONTROL
         )
     ) {
-        xrSession.scene.spatialEnvironment.setPassthroughOpacityPreference(0f)
+        xrSession.scene.spatialEnvironment.preferredPassthroughOpacity = 1f
     }
     // Example 2: multiple capability flags can be checked simultaneously:
     if (xrSession.scene.spatialCapabilities.hasCapability(

@@ -19,19 +19,23 @@ package com.example.xr.compose
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialExternalSurface
 import androidx.xr.compose.subspace.StereoMode
+import androidx.xr.compose.subspace.SurfaceProtection
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
 
 // [START androidxr_compose_SpatialExternalSurfaceStereo]
+@OptIn(ExperimentalComposeApi::class)
 @Composable
 fun SpatialExternalSurfaceContent() {
     val context = LocalContext.current
@@ -69,3 +73,46 @@ fun SpatialExternalSurfaceContent() {
     }
 }
 // [END androidxr_compose_SpatialExternalSurfaceStereo]
+
+// [START androidxr_compose_SpatialExternalSurfaceDRM]
+@OptIn(ExperimentalComposeApi::class)
+@Composable
+fun DrmSpatialVideoPlayer() {
+    val context = LocalContext.current
+    Subspace {
+        SpatialExternalSurface(
+            modifier = SubspaceModifier
+                .width(1200.dp)
+                .height(676.dp),
+            stereoMode = StereoMode.SideBySide,
+            surfaceProtection = SurfaceProtection.Protected
+        ) {
+            val exoPlayer = remember { ExoPlayer.Builder(context).build() }
+
+            // Define the URI for your DRM-protected content and license server.
+            val videoUri = "https://your-content-provider.com/video.mpd"
+            val drmLicenseUrl = "https://your-license-server.com/license"
+
+            // Build a MediaItem with the necessary DRM configuration.
+            val mediaItem = MediaItem.Builder()
+                .setUri(videoUri)
+                .setDrmConfiguration(
+                    MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
+                        .setLicenseUri(drmLicenseUrl)
+                        .build()
+                )
+                .build()
+
+            onSurfaceCreated { surface ->
+                // The created surface is secure and can be used by the player.
+                exoPlayer.setVideoSurface(surface)
+                exoPlayer.setMediaItem(mediaItem)
+                exoPlayer.prepare()
+                exoPlayer.play()
+            }
+
+            onSurfaceDestroyed { exoPlayer.release() }
+        }
+    }
+}
+// [END androidxr_compose_SpatialExternalSurfaceDRM]

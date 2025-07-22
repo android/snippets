@@ -25,16 +25,25 @@ android {
     buildFeatures {
         compose = true
     }
+    lint {
+        disable += "RestrictedApi"
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.xr.arcore)
-    implementation(libs.androidx.xr.scenecore)
-    implementation(libs.androidx.xr.compose)
+    implementation(libs.androidx.xr.arcore)  {
+        exclude(module = "impress")
+    }
+    implementation(libs.androidx.xr.scenecore)  {
+        exclude(module = "impress")
+    }
+    implementation(libs.androidx.xr.compose)  {
+        exclude(module = "impress")
+    }
+
+    implementation("com.google.ar:impress:0.0.3")
 
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.guava)
-    implementation(libs.kotlinx.coroutines.guava)
 
     implementation(libs.androidx.media3.exoplayer)
 

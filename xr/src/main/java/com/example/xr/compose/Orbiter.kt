@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,9 +36,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.xr.compose.spatial.EdgeOffset
+import androidx.xr.compose.spatial.ContentEdge
 import androidx.xr.compose.spatial.Orbiter
-import androidx.xr.compose.spatial.OrbiterEdge
+import androidx.xr.compose.spatial.OrbiterOffsetType
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.SpatialRow
@@ -72,7 +72,7 @@ private fun OrbiterExampleSubspace() {
 @Composable
 fun OrbiterExample() {
     Orbiter(
-        position = OrbiterEdge.Bottom,
+        position = ContentEdge.Bottom,
         offset = 96.dp,
         alignment = Alignment.CenterHorizontally
     ) {
@@ -102,13 +102,14 @@ fun OrbiterAnchoringExample() {
     Subspace {
         SpatialRow {
             Orbiter(
-                position = OrbiterEdge.Top,
-                offset = EdgeOffset.inner(8.dp),
+                position = ContentEdge.Top,
+                offset = 8.dp,
+                offsetType = OrbiterOffsetType.InnerEdge,
                 shape = SpatialRoundedCornerShape(size = CornerSize(50))
             ) {
                 Text(
                     "Hello World!",
-                    style = MaterialTheme.typography.h2,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .background(Color.White)
                         .padding(16.dp)
@@ -150,7 +151,7 @@ private fun Ui2DToOribiter() {
 
     // New XR differentiated approach
     Orbiter(
-        position = OrbiterEdge.Start,
+        position = ContentEdge.Start,
         offset = dimensionResource(R.dimen.start_orbiter_padding),
         alignment = Alignment.Top
     ) {

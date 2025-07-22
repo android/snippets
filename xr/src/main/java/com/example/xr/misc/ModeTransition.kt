@@ -32,6 +32,6 @@ fun modeTransitionCompose() {
 
 fun modeTransitionScenecore(xrSession: Session) {
     // [START androidxr_misc_modeTransitionScenecore]
-    xrSession.scene.spatialEnvironment.requestHomeSpaceMode()
+    xrSession.scene.requestHomeSpaceMode()
     // [END androidxr_misc_modeTransitionScenecore]
 }
