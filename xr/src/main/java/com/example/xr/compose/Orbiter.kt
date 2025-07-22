@@ -50,7 +50,6 @@ import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
 import com.example.xr.R
 
-@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun OrbiterExampleSubspace() {
     // [START androidxr_compose_OrbiterExampleSubspace]
@@ -98,7 +97,6 @@ fun OrbiterExample() {
 // [END androidxr_compose_OrbiterExample]
 
 @Composable
-@Suppress("RestrictedApi") // b/416066566
 fun OrbiterAnchoringExample() {
     // [START androidxr_compose_OrbiterAnchoringExample]
     Subspace {

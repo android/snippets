@@ -63,7 +63,6 @@ private fun createAnchorAtTrackable(trackable: Trackable<*>) {
     // [END androidxr_arcore_anchor_create_trackable]
 }
 
-@Suppress("RestrictedApi") // b/422174724
 private fun attachEntityToAnchor(
     session: Session,
     entity: Entity,

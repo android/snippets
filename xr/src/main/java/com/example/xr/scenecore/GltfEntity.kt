@@ -33,7 +33,6 @@ private suspend fun loadGltfFile(session: Session) {
     // [END androidxr_scenecore_gltfmodel_create]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [START androidxr_scenecore_gltfmodelentity_create]
     if (session.scene.spatialCapabilities
@@ -44,7 +43,6 @@ private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [END androidxr_scenecore_gltfmodelentity_create]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private fun animateEntity(gltfEntity: GltfModelEntity) {
     // [START androidxr_scenecore_gltfmodelentity_animation]
     gltfEntity.startAnimation(loop = true, animationName = "Walk")

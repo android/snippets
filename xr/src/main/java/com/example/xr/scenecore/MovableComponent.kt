@@ -23,7 +23,6 @@ import androidx.xr.scenecore.MovableComponent
 import androidx.xr.scenecore.PlaneOrientation
 import androidx.xr.scenecore.PlaneSemanticType
 
-@Suppress("RestrictedApi") // b/416066566
 private fun createSystemMovable(session: Session, entity: Entity) {
     // [START androidxr_scenecore_movableComponent_createSystemMovable]
     val movableComponent = MovableComponent.createSystemMovable(session)
@@ -31,7 +30,6 @@ private fun createSystemMovable(session: Session, entity: Entity) {
     // [END androidxr_scenecore_movableComponent_createSystemMovable]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private fun movableComponentAnchorExample(session: Session, entity: Entity) {
     // [START androidxr_scenecore_movableComponent_anchorable]
     val anchorPlacement = AnchorPlacement.createForPlanes(

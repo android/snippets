@@ -22,7 +22,6 @@ import androidx.xr.scenecore.InputEvent
 import androidx.xr.scenecore.InteractableComponent
 import java.util.concurrent.Executors
 
-@Suppress("RestrictedApi") // b/416066566
 private fun interactableComponentExample(session: Session, entity: Entity) {
     // [START androidxr_scenecore_interactableComponentExample]
     val executor = Executors.newSingleThreadExecutor()

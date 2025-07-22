@@ -36,7 +36,6 @@ import androidx.xr.compose.subspace.layout.width
 
 // [START androidxr_compose_SpatialExternalSurfaceStereo]
 @OptIn(ExperimentalComposeApi::class)
-@Suppress("RestrictedApi") // b/416066566
 @Composable
 fun SpatialExternalSurfaceContent() {
     val context = LocalContext.current
@@ -77,7 +76,6 @@ fun SpatialExternalSurfaceContent() {
 
 // [START androidxr_compose_SpatialExternalSurfaceDRM]
 @OptIn(ExperimentalComposeApi::class)
-@Suppress("RestrictedApi") // b/416066566
 @Composable
 fun DrmSpatialVideoPlayer() {
     val context = LocalContext.current

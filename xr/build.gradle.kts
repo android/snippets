@@ -25,6 +25,9 @@ android {
     buildFeatures {
         compose = true
     }
+    lint {
+        disable += "RestrictedApi"
+    }
 }
 
 dependencies {

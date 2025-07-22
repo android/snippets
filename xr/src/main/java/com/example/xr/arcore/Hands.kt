@@ -76,7 +76,6 @@ fun secondaryHandDetection(activity: Activity, session: Session) {
     // [END androidxr_arcore_hand_handedness]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
     val session: Session = null!!
     val palmEntity: GltfModelEntity = null!!
@@ -97,7 +96,6 @@ fun ComponentActivity.renderPlanetAtHandPalm(leftHandState: Hand.State) {
     // [END androidxr_arcore_hand_entityAtHandPalm]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     val session: Session = null!!
     val indexFingerEntity: GltfModelEntity = null!!
@@ -120,7 +118,6 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
     // [END androidxr_arcore_hand_entityAtIndexFingerTip]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private fun detectPinch(session: Session, handState: Hand.State): Boolean {
     // [START androidxr_arcore_hand_pinch_gesture]
     val thumbTip = handState.handJoints[HandJointType.THUMB_TIP] ?: return false

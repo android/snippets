@@ -42,7 +42,6 @@ import com.example.xr.R
 private class MyCustomView(context: Context) : View(context)
 
 private class ActivityWithSubspaceContent : ComponentActivity() {
-    @Suppress("RestrictedApi") // b/416066566
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // [START androidxr_compose_ActivityWithSubspaceContent]
@@ -57,7 +56,6 @@ private class ActivityWithSubspaceContent : ComponentActivity() {
     }
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private class FragmentWithComposeView() : Fragment() {
     // [START androidxr_compose_FragmentWithComposeView]
     override fun onCreateView(

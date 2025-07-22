@@ -48,7 +48,6 @@ private suspend fun subscribePlanes(session: Session) {
     // [END androidxr_arcore_planes_subscribe]
 }
 
-@Suppress("RestrictedApi") // b/416066566
 private fun hitTestTable(session: Session) {
     val pose = session.scene.spatialUser.head?.transformPoseTo(Pose(), session.scene.perceptionSpace) ?: return
     val ray = Ray(pose.translation, pose.forward)

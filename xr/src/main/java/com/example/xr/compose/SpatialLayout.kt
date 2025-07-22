@@ -36,7 +36,6 @@ import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
 
-@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun SpatialLayoutExampleSubspace() {
     // [START androidxr_compose_SpatialLayoutExampleSubspace]

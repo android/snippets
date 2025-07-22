@@ -39,7 +39,6 @@ import androidx.xr.compose.subspace.layout.scale
 import androidx.xr.compose.subspace.layout.width
 import kotlinx.coroutines.launch
 
-@Suppress("RestrictedApi") // b/416066566
 @Composable
 private fun VolumeExample() {
     // [START androidxr_compose_Volume]

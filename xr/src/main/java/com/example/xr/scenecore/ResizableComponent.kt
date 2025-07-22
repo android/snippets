@@ -23,7 +23,6 @@ import androidx.xr.scenecore.ResizeEvent
 import androidx.xr.scenecore.SurfaceEntity
 import java.util.concurrent.Executor
 
-@Suppress("RestrictedApi") // b/416066566
 private fun resizableComponentExample(
     session: Session,
     surfaceEntity: SurfaceEntity,

@@ -37,7 +37,6 @@ private class Environments(val session: Session) {
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
-    @Suppress("RestrictedApi") // b/416066566
     fun setEnvironmentPreference(environmentGeometry: GltfModel, lightingForSkybox: ExrImage) {
         // [START androidxr_scenecore_environment_setEnvironmentPreference]
         val spatialEnvironmentPreference =
@@ -56,7 +55,6 @@ private class Environments(val session: Session) {
         // [END androidxr_scenecore_environment_setEnvironmentPreference]
     }
 
-    @Suppress("RestrictedApi") // b/416066566
     fun setPassthroughOpacityPreference() {
         // [START androidxr_scenecore_environment_setPassthroughOpacityPreference]
         session.scene.spatialEnvironment.preferredPassthroughOpacity = 1.0f
@@ -74,7 +72,6 @@ private class Environments(val session: Session) {
         // [END androidxr_scenecore_environment_setPassthroughOpacityPreference]
     }
 
-    @Suppress("RestrictedApi") // b/416066566
     fun getCurrentPassthroughOpacity() {
         // [START androidxr_scenecore_environment_getCurrentPassthroughOpacity]
         val currentPassthroughOpacity = session.scene.spatialEnvironment.currentPassthroughOpacity
