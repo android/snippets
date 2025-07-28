@@ -19,6 +19,7 @@ package com.example.xr.scenecore
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -26,7 +27,11 @@ import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.SurfaceEntity
+import androidx.xr.scenecore.Texture
+import androidx.xr.scenecore.TextureSampler
 import androidx.xr.scenecore.scene
+import java.nio.file.Paths
+import kotlinx.coroutines.launch
 
 private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreate]
@@ -144,4 +149,79 @@ private fun ComponentActivity.surfaceEntityCreateDRM(xrSession: Session) {
     exoPlayer.play()
 
     // [END androidxr_scenecore_surfaceEntityCreateDRM]
+}
+
+private fun ComponentActivity.surfaceEntityHDR(xrSession: Session) {
+    // [START androidxr_scenecore_surfaceEntityHDR]
+    // Define the color properties for your HDR video. These values should be specific
+    // to your content.
+    val hdrMetadata = SurfaceEntity.ContentColorMetadata(
+        colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.BT2020,
+        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.ST2084, // PQ
+        colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.LIMITED,
+        maxCLL = 1000 // Example: 1000 nits
+    )
+
+    // Create a SurfaceEntity, passing the HDR metadata at creation time.
+    val hdrSurfaceEntity = SurfaceEntity.create(
+        session = xrSession,
+        stereoMode = SurfaceEntity.StereoMode.MONO,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        canvasShape = SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f),
+        contentColorMetadata = hdrMetadata
+    )
+
+    // Initialize ExoPlayer and set the surface.
+    val exoPlayer = ExoPlayer.Builder(this).build()
+    exoPlayer.setVideoSurface(hdrSurfaceEntity.getSurface())
+
+    // Define the URI for your HDR content.
+    val videoUri = "https://your-content-provider.com/hdr_video.mp4"
+    val mediaItem = MediaItem.fromUri(videoUri)
+
+    // Set the media item and start playback.
+    exoPlayer.setMediaItem(mediaItem)
+    exoPlayer.prepare()
+    exoPlayer.play()
+    // [END androidxr_scenecore_surfaceEntityHDR]
+}
+
+private fun surfaceEntityEdgeFeathering(xrSession: Session) {
+    // [START androidxr_scenecore_surfaceEntityEdgeFeathering]
+    // Create a SurfaceEntity.
+    val surfaceEntity = SurfaceEntity.create(
+        session = xrSession,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f))
+    )
+
+    // Feather the edges of the surface.
+    surfaceEntity.edgeFeather =
+        SurfaceEntity.EdgeFeatheringParams.SmoothFeather(0.1f, 0.1f)
+    // [END androidxr_scenecore_surfaceEntityEdgeFeathering]
+}
+
+private fun surfaceEntityAlphaMasking(xrSession: Session, activity: ComponentActivity) {
+    // [START androidxr_scenecore_surfaceEntityAlphaMasking]
+    // Create a SurfaceEntity.
+    val surfaceEntity = SurfaceEntity.create(
+        session = xrSession,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f))
+    )
+
+    // Load the texture in a coroutine scope.
+    activity.lifecycleScope.launch {
+        val alphaMaskTexture =
+            Texture.create(
+                xrSession,
+                Paths.get("textures", "alpha_mask.png"),
+                TextureSampler.create()
+            )
+
+        // Apply the alpha mask.
+        surfaceEntity.primaryAlphaMaskTexture = alphaMaskTexture
+
+        // To remove the mask, set the property to null.
+        surfaceEntity.primaryAlphaMaskTexture = null
+    }
+    // [END androidxr_scenecore_surfaceEntityAlphaMasking]
 }
