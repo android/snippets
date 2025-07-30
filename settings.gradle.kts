@@ -1,4 +1,4 @@
-val snapshotVersion : String? = "13790637"
+val snapshotVersion : String? = System.getenv("COMPOSE_SNAPSHOT_ID")
 
 pluginManagement {
     repositories {
