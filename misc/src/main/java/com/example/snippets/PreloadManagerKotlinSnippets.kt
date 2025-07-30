@@ -1,0 +1,116 @@
+package com.example.snippets
+
+import androidx.media3.common.C
+import androidx.media3.exoplayer.source.preload.TargetPreloadStatusControl
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.preload.DefaultPreloadManager
+import java.lang.Math.abs
+
+
+// constants to make the code snippets work
+const val currentPlayingIndex = 10
+
+// [START android_defaultpreloadmanager_MyTargetPreloadStatusControl]
+class MyTargetPreloadStatusControl(
+    currentPlayingIndex: Int = C.INDEX_UNSET
+) : TargetPreloadStatusControl<Int, DefaultPreloadManager.PreloadStatus> {
+
+    override fun getTargetPreloadStatus(index: Int): DefaultPreloadManager.PreloadStatus? {
+        if (index - currentPlayingIndex == 1) { // next track
+            // return a PreloadStatus that is labelled by STAGE_SPECIFIED_RANGE_LOADED and
+            // suggest loading 3000ms from the default start position
+            return DefaultPreloadManager.PreloadStatus.specifiedRangeLoaded(3000L)
+        } else if (index - currentPlayingIndex == -1) { // previous track
+            // return a PreloadStatus that is labelled by STAGE_SPECIFIED_RANGE_LOADED and
+            // suggest loading 3000ms from the default start position
+            return DefaultPreloadManager.PreloadStatus.specifiedRangeLoaded(3000L)
+        } else if (abs(index - currentPlayingIndex) == 2) {
+            // return a PreloadStatus that is labelled by STAGE_TRACKS_SELECTED
+            return DefaultPreloadManager.PreloadStatus.TRACKS_SELECTED
+        } else if (abs(index - currentPlayingIndex) <= 4) {
+            // return a PreloadStatus that is labelled by STAGE_SOURCE_PREPARED
+            return DefaultPreloadManager.PreloadStatus.SOURCE_PREPARED
+        }
+        return null
+    }
+}
+// [END android_defaultpreloadmanager_MyTargetPreloadStatusControl]
+
+public class PreloadManagerSnippetsKotlin {
+
+    class PreloadSnippetsActivity : AppCompatActivity() {
+        private val context = this
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+            // [START android_defaultpreloadmanager_createPLM]
+            val targetPreloadStatusControl = MyTargetPreloadStatusControl()
+            val preloadManagerBuilder =
+                DefaultPreloadManager.Builder(context, targetPreloadStatusControl)
+            val preloadManager = preloadManagerBuilder.build()
+            // [END android_defaultpreloadmanager_createPLM]
+
+            val player = preloadManagerBuilder.buildExoPlayer()
+
+            // [START android_defaultpreloadmanager_addMedia]
+            val initialMediaItems = pullMediaItemsFromService(/* count= */ 20);
+            for (index in 0 until initialMediaItems.size) {
+                preloadManager.add(initialMediaItems.get(index), /* rankingData= */ index)
+            }
+            // items aren't actually loaded yet! need to call invalidate() after this
+            // [END android_defaultpreloadmanager_addMedia]
+
+            // [START android_defaultpreloadmanager_invalidate]
+            preloadManager.invalidate()
+            // [END  android_defaultpreloadmanager_invalidate]
+
+        }
+
+        private fun fetchMedia(
+            preloadManager: DefaultPreloadManager,
+            mediaItem: MediaItem,
+            player: ExoPlayer,
+            currentIndex: Int
+        ) {
+            // [START android_defaultpreloadmanager_getAndPlayMedia]
+            // When a media item is about to display on the screen
+            val mediaSource = preloadManager.getMediaSource(mediaItem)
+            if (mediaSource != null) {
+                player.setMediaSource(mediaSource)
+            }
+            player.prepare()
+
+            // When the media item is displaying at the center of the screen
+            player.play()
+            preloadManager.setCurrentPlayingIndex(currentIndex)
+
+            // Need to call invalidate() to update the priorities
+            preloadManager.invalidate()
+            // [END android_defaultpreloadmanager_getAndPlayMedia]
+        }
+
+        private fun removeMedia(mediaItem: MediaItem, preloadManager: DefaultPreloadManager) {
+            // [START android_defaultpreloadmanager_removeItem]
+            preloadManager.remove(mediaItem)
+            // [END android_defaultpreloadmanager_removeItem]
+
+        }
+
+        private fun releasePLM(preloadManager: DefaultPreloadManager) {
+            // [START android_defaultpreloadmanager_releasePLM]
+            preloadManager.release()
+            // [END android_defaultpreloadmanager_releasePLM]
+        }
+
+        // dummy methods to support the code snippets
+        private fun pullMediaItemsFromService(count: Int): List<MediaItem> {
+            return listOf()
+        }
+    }
+
+
+}
