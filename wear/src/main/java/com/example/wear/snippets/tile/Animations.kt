@@ -44,10 +44,10 @@ import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
-import java.util.UUID
 import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import java.util.UUID
 
 private const val RESOURCES_VERSION = "1"
 private const val someTileText = "Hello"
