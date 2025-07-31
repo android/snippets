@@ -3,8 +3,10 @@ package com.example.snippets
 import androidx.media3.common.C
 import androidx.media3.exoplayer.source.preload.TargetPreloadStatusControl
 import android.os.Bundle
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.preload.DefaultPreloadManager
 import java.lang.Math.abs
@@ -13,6 +15,7 @@ import java.lang.Math.abs
 // constants to make the code snippets work
 const val currentPlayingIndex = 10
 
+@UnstableApi
 // [START android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 class MyTargetPreloadStatusControl(
     currentPlayingIndex: Int = C.INDEX_UNSET
@@ -44,6 +47,7 @@ public class PreloadManagerSnippetsKotlin {
     class PreloadSnippetsActivity : AppCompatActivity() {
         private val context = this
 
+        @OptIn(UnstableApi::class)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -70,6 +74,7 @@ public class PreloadManagerSnippetsKotlin {
 
         }
 
+        @OptIn(UnstableApi::class)
         private fun fetchMedia(
             preloadManager: DefaultPreloadManager,
             mediaItem: MediaItem,
@@ -93,6 +98,7 @@ public class PreloadManagerSnippetsKotlin {
             // [END android_defaultpreloadmanager_getAndPlayMedia]
         }
 
+        @OptIn(UnstableApi::class)
         private fun removeMedia(mediaItem: MediaItem, preloadManager: DefaultPreloadManager) {
             // [START android_defaultpreloadmanager_removeItem]
             preloadManager.remove(mediaItem)
@@ -100,6 +106,7 @@ public class PreloadManagerSnippetsKotlin {
 
         }
 
+        @OptIn(UnstableApi::class)
         private fun releasePLM(preloadManager: DefaultPreloadManager) {
             // [START android_defaultpreloadmanager_releasePLM]
             preloadManager.release()
