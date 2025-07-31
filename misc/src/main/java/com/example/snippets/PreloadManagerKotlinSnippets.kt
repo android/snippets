@@ -85,7 +85,7 @@ class PreloadManagerSnippetsKotlin {
 
             // [START android_defaultpreloadmanager_invalidate]
             preloadManager.invalidate()
-            // [END  android_defaultpreloadmanager_invalidate]
+            // [END android_defaultpreloadmanager_invalidate]
         }
 
         @OptIn(UnstableApi::class)
