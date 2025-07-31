@@ -47,8 +47,9 @@ import androidx.wear.tiles.TileService
 import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import java.util.UUID
 
+// In a real implementation, this needs to change whenever the resources
+// change, to ensure the updated resources are loaded.
 private const val RESOURCES_VERSION = "1"
 private const val someTileText = "Hello"
 private val deviceParameters = DeviceParametersBuilders.DeviceParameters.Builder().build()
@@ -333,7 +334,7 @@ class LottieAnimation : TileService() {
 
         return Futures.immediateFuture(
             Tile.Builder()
-                .setResourcesVersion(UUID.randomUUID().toString())
+                .setResourcesVersion(RESOURCES_VERSION)
                 .setTileTimeline(Timeline.fromLayoutElement(layout))
                 .build()
         )
