@@ -61,7 +61,7 @@ class PreloadManagerSnippetsKotlin {
             val player = preloadManagerBuilder.buildExoPlayer()
 
             // [START android_defaultpreloadmanager_addMedia]
-            val initialMediaItems = pullMediaItemsFromService(/* count= */ 20);
+            val initialMediaItems = pullMediaItemsFromService(/* count= */ 20)
             for (index in 0 until initialMediaItems.size) {
                 preloadManager.add(initialMediaItems.get(index), /* rankingData= */ index)
             }
