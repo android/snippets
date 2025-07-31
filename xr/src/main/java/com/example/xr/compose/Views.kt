@@ -35,8 +35,8 @@ import androidx.xr.compose.subspace.layout.depth
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
 import androidx.xr.runtime.Session
+import androidx.xr.runtime.math.IntSize2d
 import androidx.xr.scenecore.PanelEntity
-import androidx.xr.scenecore.PixelDimensions
 import com.example.xr.R
 
 private class MyCustomView(context: Context) : View(context)
@@ -86,7 +86,7 @@ fun ComponentActivity.PanelEntityWithView(xrSession: Session) {
     val panelEntity = PanelEntity.create(
         session = xrSession,
         view = panelContent,
-        pixelDimensions = PixelDimensions(500, 500),
+        pixelDimensions = IntSize2d(500, 500),
         name = "panel entity"
     )
     // [END androidxr_compose_PanelEntityWithView]
