@@ -42,7 +42,7 @@ class MyTargetPreloadStatusControl(
 }
 // [END android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 
-public class PreloadManagerSnippetsKotlin {
+class PreloadManagerSnippetsKotlin {
 
     class PreloadSnippetsActivity : AppCompatActivity() {
         private val context = this
