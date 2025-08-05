@@ -36,7 +36,6 @@ class DeviceCompatibilityModeTestKotlinSnippets {
     }
     // [END android_device_compatibility_mode_assert_isLetterboxed_kotlin]
 
-
     // Class used by snippets.
 
     class MainActivity : AppCompatActivity() {
