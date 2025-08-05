@@ -42,7 +42,7 @@ class MyWidget : GlanceAppWidget() {
 
 // [START android_compose_glance_in_app_pinning]
 @Composable
-fun AnInAppComposable(){
+fun AnInAppComposable() {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     Button(
@@ -55,6 +55,6 @@ fun AnInAppComposable(){
                 )
             }
         }
-    ){}
+    ) {}
 }
 // [END android_compose_glance_in_app_pinning]
