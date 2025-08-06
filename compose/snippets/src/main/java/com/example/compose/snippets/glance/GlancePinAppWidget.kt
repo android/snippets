@@ -49,9 +49,9 @@ fun AnInAppComposable() {
         onClick = {
             coroutineScope.launch {
                 GlanceAppWidgetManager(context).requestPinGlanceAppWidget(
-                    MyWidgetReceiver::class.java,
-                    MyWidget(),
-                    DpSize(245.dp, 115.dp)
+                    receiver = MyWidgetReceiver::class.java,
+                    preview = MyWidget(),
+                    previewState = DpSize(245.dp, 115.dp)
                 )
             }
         }
