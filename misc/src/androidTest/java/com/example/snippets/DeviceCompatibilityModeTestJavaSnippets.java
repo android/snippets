@@ -43,8 +43,8 @@ public class DeviceCompatibilityModeTestJavaSnippets {
 
     // Class used by snippets.
 
-    static class MainActivity extends AppCompatActivity {
-        public boolean isLetterboxed (MainActivity activity) {
+    class MainActivity extends AppCompatActivity {
+        public boolean isLetterboxed() {
             return true;
         }
     }
