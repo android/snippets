@@ -47,6 +47,7 @@ class DeviceScanActivity : ListActivity() {
     // Stops scanning after 10 seconds.
     private val SCAN_PERIOD: Long = 10000
 
+    @SuppressWarnings("MissingPermission")
     private fun scanLeDevice() {
         if (!mScanning) { // Stops scanning after a pre-defined scan period.
             handler.postDelayed({

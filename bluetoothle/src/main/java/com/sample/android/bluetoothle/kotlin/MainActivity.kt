@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressWarnings("MissingPermission")
     private fun setUpBLE() {
         // [START get_bluetooth_adapter]
         // Initializes Bluetooth adapter.

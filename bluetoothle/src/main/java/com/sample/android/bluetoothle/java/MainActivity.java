@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @SuppressWarnings("MissingPermission")
     private void setUpBLE() {
         // [START get_bluetooth_adapter]
         // Initializes Bluetooth adapter.
