@@ -34,7 +34,7 @@ public class DeviceCompatibilityModeTestJavaSnippets {
         try (ActivityScenario<MainActivity> scenario =
             ActivityScenario.launch(MainActivity.class)) {
                 scenario.onActivity( activity -> {
-                    assertFalse(activity.isLetterboxed(activity));
+                    assertFalse(activity.isLetterboxed());
                 });
             }
     }
