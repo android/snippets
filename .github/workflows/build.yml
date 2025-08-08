@@ -38,16 +38,18 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
     - name: Build Compose
-      run: ./gradlew :compose:snippets:build
+      run: ./gradlew :compose:snippets:build --stacktrace
     - name: Build recompose snippets
-      run: ./gradlew :compose:recomposehighlighter:build
+      run: ./gradlew :compose:recomposehighlighter:build --stacktrace
     - name: Build kotlin snippets
-      run: ./gradlew :kotlin:build
+      run: ./gradlew :kotlin:build --stacktrace
     - name: Build Wear snippets
-      run: ./gradlew :wear:build
+      run: ./gradlew :wear:build --stacktrace
     - name: Build misc snippets
-      run: ./gradlew :misc:build
+      run: ./gradlew :misc:build --stacktrace
     - name: Build XR snippets
-      run: ./gradlew :xr:build
+      run: ./gradlew :xr:build --stacktrace
     - name: Build Watch Face Push validation snippets
-      run: ./gradlew :watchfacepush:validator:run 
+      run: ./gradlew :watchfacepush:validator:run --stacktrace
+    - name: Build All
+      run: ./gradlew build --stacktrace
