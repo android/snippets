@@ -46,6 +46,8 @@ android {
 
 }
 dependencies {
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.media3.exoplayer)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
