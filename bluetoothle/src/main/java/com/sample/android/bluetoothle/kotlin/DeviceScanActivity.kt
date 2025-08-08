@@ -16,11 +16,13 @@
 
 package com.sample.android.bluetoothle.kotlin
 
+import android.Manifest
 import android.app.ListActivity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.os.Handler
+import androidx.annotation.RequiresPermission
 import com.sample.android.bluetoothle.java.LeDeviceListAdapter
 
 /**
@@ -47,6 +49,7 @@ class DeviceScanActivity : ListActivity() {
     // Stops scanning after 10 seconds.
     private val SCAN_PERIOD: Long = 10000
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_SCAN)
     private fun scanLeDevice() {
         if (!mScanning) { // Stops scanning after a pre-defined scan period.
             handler.postDelayed({

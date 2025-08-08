@@ -16,11 +16,13 @@
 
 package com.sample.android.bluetoothle.kotlin
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private fun setUpBLE() {
         // [START get_bluetooth_adapter]
         // Initializes Bluetooth adapter.

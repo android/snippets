@@ -1,12 +1,14 @@
 package com.sample.android.bluetoothle.java;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresPermission;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sample.android.bluetoothle.R;
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private void setUpBLE() {
         // [START get_bluetooth_adapter]
         // Initializes Bluetooth adapter.
