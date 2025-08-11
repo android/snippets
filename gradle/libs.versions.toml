@@ -76,8 +76,6 @@ wearComposeMaterial3 = "1.5.0-beta04"
 wearOngoing = "1.0.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
-media3CommonKtx = "1.8.0"
-media3Exoplayer = "1.8.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -189,8 +187,6 @@ play-services-wearable = { module = "com.google.android.gms:play-services-wearab
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
-androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3Exoplayer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

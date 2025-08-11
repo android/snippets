@@ -100,6 +100,10 @@ class PreloadManagerSnippetsKotlin {
             val mediaSource = preloadManager.getMediaSource(mediaItem)
             if (mediaSource != null) {
                 player.setMediaSource(mediaSource)
+            } else {
+                // If mediaSource is null, that mediaItem hasn't been added to the preload manager
+                // yet. So, send it directly to the player when it's about to play
+                player.setMediaItem(mediaItem)
             }
             player.prepare()
 
