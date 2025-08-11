@@ -36,10 +36,9 @@ class DeviceCompatibilityModeTestKotlinSnippets {
     }
     // [END android_device_compatibility_mode_assert_isLetterboxed_kotlin]
 
-    // Classes used by snippets.
+    // Class used by snippets.
 
     class MainActivity : AppCompatActivity() {
-
         fun isLetterboxed(): Boolean {
             return true
         }
