@@ -37,18 +37,6 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
-    - name: Build Compose
-      run: ./gradlew :compose:snippets:build --stacktrace
-    - name: Build recompose snippets
-      run: ./gradlew :compose:recomposehighlighter:build --stacktrace
-    - name: Build kotlin snippets
-      run: ./gradlew :kotlin:build --stacktrace
-    - name: Build Wear snippets
-      run: ./gradlew :wear:build --stacktrace
-    - name: Build misc snippets
-      run: ./gradlew :misc:build --stacktrace
-    - name: Build XR snippets
-      run: ./gradlew :xr:build --stacktrace
     - name: Build Watch Face Push validation snippets
       run: ./gradlew :watchfacepush:validator:run --stacktrace
     - name: Build All
