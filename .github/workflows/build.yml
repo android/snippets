@@ -37,7 +37,7 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
-    - name: Build Watch Face Push validation snippets
-      run: ./gradlew :watchfacepush:validator:run --stacktrace
     - name: Build All
       run: ./gradlew build --stacktrace
+    - name: Build Watch Face Push validation snippets
+      run: ./gradlew :watchfacepush:validator:run --stacktrace
