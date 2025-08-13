@@ -15,7 +15,8 @@ public class WakeLockSnippetsJava extends Activity {
 
         // [START android_backgroundwork_wakelock_create_java]
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyClassName::MyWakelockTag");
+        PowerManager.WakeLock wakeLock =
+                powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyClassName::MyWakelockTag");
         wakeLock.acquire();
         // [END android_backgroundwork_wakelock_create_java]
 
