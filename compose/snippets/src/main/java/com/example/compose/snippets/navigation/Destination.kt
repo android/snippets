@@ -24,7 +24,8 @@ enum class Destination(val route: String, val title: String) {
     ScreenshotExample("screenshotExample", "Screenshot Examples"),
     ShapesExamples("shapesExamples", "Shapes Examples"),
     SharedElementExamples("sharedElement", "Shared elements"),
-    PagerExamples("pagerExamples", "Pager examples")
+    PagerExamples("pagerExamples", "Pager examples"),
+    FocusExamples("focusExamples", "Focus Examples")
 }
 
 // Enum class for compose components navigation screen.
@@ -52,4 +53,14 @@ enum class TopComponentsDestination(val route: String, val title: String) {
     SegmentedButtonExamples("segmentedButtonExamples", "Segmented button"),
     SwipeToDismissBoxExamples("swipeToDismissBoxExamples", "Swipe to dismiss box examples"),
     SearchBarExamples("searchBarExamples", "Search bar")
+}
+
+// Enum class for focus examples navigation screen.
+enum class FocusExamplesDestination(val route: String, val title: String) {
+    FocusTarget("focusTarget", "Focus target"),
+    OneDimensionalFocusTraversal("focusTraversal", "Focus traversal: 1D"),
+    TwoDimensionalFocusTraversal("focusTraversal2D", "Focus traversal 2D"),
+    RequestFocus("requestFocus", "Request focus"),
+    FocusedState("focusableState", "Focusable state"),
+    MoveFocus("moveFocus", "Move focus"),
 }
