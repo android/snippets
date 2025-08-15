@@ -142,6 +142,7 @@ private class CircleNode(var color: Color) : DrawModifierNode, Modifier.Node() {
 }
 // [END android_compose_custom_modifiers_7]
 
+// TODO: Create a new snippet that overrides InspectorInfo.inspectableProperties.
 // [START android_compose_custom_modifiers_8]
 // ModifierNodeElement
 private data class CircleElement(val color: Color) : ModifierNodeElement<CircleNode>() {
@@ -159,6 +160,7 @@ fun Modifier.circle(color: Color) = this then CircleElement(color)
 // [END android_compose_custom_modifiers_9]
 
 private object CustomModifierSnippets10 {
+    // TODO: Create a new snippet that overrides InspectorInfo.inspectableProperties.
     // [START android_compose_custom_modifiers_10]
     // Modifier factory
     fun Modifier.circle(color: Color) = this then CircleElement(color)
@@ -181,6 +183,7 @@ private object CustomModifierSnippets10 {
     // [END android_compose_custom_modifiers_10]
 }
 
+// TODO: Create a new snippet that overrides InspectorInfo.inspectableProperties.
 // [START android_compose_custom_modifiers_11]
 fun Modifier.fixedPadding() = this then FixedPaddingElement
 
