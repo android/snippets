@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google LLC
+ * Copyright 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import org.junit.runner.RunWith
 
 // Helper function to let code below compile
 private fun ExampleRepository(): Repository = Repository(Dispatchers.IO)
-
 
 // [START coroutine_test_repo_with_rule_blank]
 class ExampleRepository(private val ioDispatcher: CoroutineDispatcher) { /* ... */ }
@@ -89,5 +88,3 @@ class DispatchersOutsideTests {
     }
     // [END coroutine_test_repo_without_rule]
 }
-
-

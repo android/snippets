@@ -26,6 +26,14 @@ application {
     mainClass.set("com.example.validator.Main")
 }
 
+sourceSets {
+    named("main") {
+        java {
+            srcDir("src/main/java")
+        }
+    }
+}
+
 dependencies {
     implementation(libs.validator.push)
 }

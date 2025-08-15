@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.identity.credentialmanager
 
 import android.annotation.SuppressLint
@@ -33,7 +49,7 @@ import androidx.credentials.provider.PublicKeyCredentialEntry
 import androidx.credentials.webauthn.PublicKeyCredentialRequestOptions
 
 @RequiresApi(VERSION_CODES.UPSIDE_DOWN_CAKE)
-class MyCredentialProviderService: CredentialProviderService() {
+class MyCredentialProviderService : CredentialProviderService() {
     private val PERSONAL_ACCOUNT_ID: String = ""
     private val FAMILY_ACCOUNT_ID: String = ""
     private val CREATE_PASSKEY_INTENT: String = ""
@@ -78,15 +94,19 @@ class MyCredentialProviderService: CredentialProviderService() {
         // account, and one for storing them to the 'Family' account. These
         // accounts are local to this sample app only.
         val createEntries: MutableList<CreateEntry> = mutableListOf()
-        createEntries.add( CreateEntry(
-            PERSONAL_ACCOUNT_ID,
-            createNewPendingIntent(PERSONAL_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
-        ))
+        createEntries.add(
+            CreateEntry(
+                PERSONAL_ACCOUNT_ID,
+                createNewPendingIntent(PERSONAL_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
+            )
+        )
 
-        createEntries.add( CreateEntry(
-            FAMILY_ACCOUNT_ID,
-            createNewPendingIntent(FAMILY_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
-        ))
+        createEntries.add(
+            CreateEntry(
+                FAMILY_ACCOUNT_ID,
+                createNewPendingIntent(FAMILY_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
+            )
+        )
 
         return BeginCreateCredentialResponse(createEntries)
     }
@@ -101,7 +121,8 @@ class MyCredentialProviderService: CredentialProviderService() {
 
         return PendingIntent.getActivity(
             applicationContext, UNIQUE_REQ_CODE,
-            intent, (
+            intent,
+            (
                 PendingIntent.FLAG_MUTABLE
                     or PendingIntent.FLAG_UPDATE_CURRENT
                 )
@@ -120,10 +141,12 @@ class MyCredentialProviderService: CredentialProviderService() {
         callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException>,
     ) {
         if (isAppLocked()) {
-            callback.onResult(BeginGetCredentialResponse(
-                authenticationActions = mutableListOf(
-                    AuthenticationAction(
-                        unlockEntryTitle, createUnlockPendingIntent())
+            callback.onResult(
+                BeginGetCredentialResponse(
+                    authenticationActions = mutableListOf(
+                        AuthenticationAction(
+                            unlockEntryTitle, createUnlockPendingIntent()
+                        )
                     )
                 )
             )
@@ -142,7 +165,8 @@ class MyCredentialProviderService: CredentialProviderService() {
     private fun createUnlockPendingIntent(): PendingIntent {
         val intent = Intent(UNLOCK_INTENT).setPackage(PACKAGE_NAME)
         return PendingIntent.getActivity(
-            applicationContext, UNIQUE_REQUEST_CODE, intent, (
+            applicationContext, UNIQUE_REQUEST_CODE, intent,
+            (
                 PendingIntent.FLAG_MUTABLE
                     or PendingIntent.FLAG_UPDATE_CURRENT
                 )
@@ -156,7 +180,6 @@ class MyCredentialProviderService: CredentialProviderService() {
         // that are to be invoked through the PendingIntent(s)
         private const val GET_PASSKEY_INTENT_ACTION = "PACKAGE_NAME.GET_PASSKEY"
         private const val GET_PASSWORD_INTENT_ACTION = "PACKAGE_NAME.GET_PASSWORD"
-
     }
 
     fun processGetCredentialRequest(

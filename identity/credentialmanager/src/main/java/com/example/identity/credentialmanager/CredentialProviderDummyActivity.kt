@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.identity.credentialmanager
 
 import android.annotation.SuppressLint
@@ -46,7 +62,7 @@ import java.security.spec.ECParameterSpec
 import java.security.spec.ECPoint
 import java.security.spec.EllipticCurve
 
-class CredentialProviderDummyActivity: FragmentActivity() {
+class CredentialProviderDummyActivity : FragmentActivity() {
 
     private val PERSONAL_ACCOUNT_ID: String = ""
     private val FAMILY_ACCOUNT_ID: String = ""
@@ -85,7 +101,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
 
         val biometricPrompt = BiometricPrompt(
             this,
-            {  }, // Pass in your own executor
+            { }, // Pass in your own executor
             object : AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
@@ -109,7 +125,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
 
                     // Generate a credential key pair
                     val spec = ECGenParameterSpec("secp256r1")
-                    val keyPairGen = KeyPairGenerator.getInstance("EC");
+                    val keyPairGen = KeyPairGenerator.getInstance("EC")
                     keyPairGen.initialize(spec)
                     val keyPair = keyPairGen.genKeyPair()
 
@@ -165,7 +181,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
     @RequiresApi(VERSION_CODES.P)
     fun appInfoToOrigin(info: CallingAppInfo): String {
         val cert = info.signingInfo.apkContentsSigners[0].toByteArray()
-        val md = MessageDigest.getInstance("SHA-256");
+        val md = MessageDigest.getInstance("SHA-256")
         val certHash = md.digest(cert)
         // This is the format for origin
         return "android:apk-key-hash:${b64Encode(certHash)}"
@@ -240,7 +256,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
             )
         )
 
-        //Set the final response back
+        // Set the final response back
         val result = Intent()
         val response = CreatePasswordResponse()
         PendingIntentHandler.setCreateCredentialResponse(result, response)
@@ -300,10 +316,11 @@ class CredentialProviderDummyActivity: FragmentActivity() {
 
         val biometricPrompt = BiometricPrompt(
             this,
-            {  }, // Pass in your own executor
+            { }, // Pass in your own executor
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(
-                    errorCode: Int, errString: CharSequence
+                    errorCode: Int,
+                    errString: CharSequence
                 ) {
                     super.onAuthenticationError(errorCode, errString)
                     finish()
@@ -330,7 +347,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
                         packageName = packageName
                     )
 
-                    val sig = Signature.getInstance("SHA256withECDSA");
+                    val sig = Signature.getInstance("SHA256withECDSA")
                     sig.initSign(privateKey)
                     sig.update(response.dataToSign())
                     response.signature = sig.sign()
@@ -401,9 +418,7 @@ class CredentialProviderDummyActivity: FragmentActivity() {
     }
 
     // [START android_identity_credential_pending_intent]
-    fun createSettingsPendingIntent(): PendingIntent
-    // [END android_identity_credential_pending_intent]
-    {
+    fun createSettingsPendingIntent(): PendingIntent { // [END android_identity_credential_pending_intent]
         return PendingIntent.getBroadcast(this, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
     }
 
@@ -468,7 +483,7 @@ data class CredentialsInfo(
     val passwords: List<PasswordInfo> = listOf()
 )
 
-class ECPrivateKeyImpl: ECPrivateKey {
+class ECPrivateKeyImpl : ECPrivateKey {
     override fun getAlgorithm(): String = ""
     override fun getFormat(): String = ""
     override fun getEncoded(): ByteArray = byteArrayOf()
