@@ -36,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -264,7 +265,7 @@ private object BackwardsWrite {
     // [START android_compose_performance_backwardswrite]
     @Composable
     fun BadComposable() {
-        var count by remember { mutableStateOf(0) }
+        var count by remember { mutableIntStateOf(0) }
 
         // Causes recomposition on click
         Button(onClick = { count++ }, Modifier.wrapContentSize()) {
