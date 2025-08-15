@@ -66,10 +66,10 @@ import androidx.core.content.ContextCompat.startActivity
 import com.example.compose.snippets.R
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import java.io.File
-import kotlin.coroutines.resume
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.io.File
+import kotlin.coroutines.resume
 
 /*
 * Copyright 2022 The Android Open Source Project
