@@ -1,4 +1,4 @@
-val snapshotVersion : String? = System.getenv("COMPOSE_SNAPSHOT_ID")
+val snapshotVersion: String? = System.getenv("COMPOSE_SNAPSHOT_ID")
 
 pluginManagement {
     repositories {
@@ -27,13 +27,13 @@ dependencyResolutionManagement {
 rootProject.name = "snippets"
 include(
     ":bluetoothle",
-        ":compose:recomposehighlighter",
-        ":kotlin",
-        ":compose:snippets",
-        ":wear",
-        ":views",
-        ":misc",
-        ":identity:credentialmanager",
-        ":xr",
-        ":watchfacepush:validator"
+    ":compose:recomposehighlighter",
+    ":kotlin",
+    ":compose:snippets",
+    ":wear",
+    ":views",
+    ":misc",
+    ":identity:credentialmanager",
+    ":xr",
+    ":watchfacepush:validator"
 )
