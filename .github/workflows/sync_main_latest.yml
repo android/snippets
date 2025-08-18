@@ -11,7 +11,7 @@ jobs:
     name: Syncing branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set git config user
         run: git config user.email "compose-devrel-github-bot@google.com" && git config user.name "compose-devrel-github-bot"
