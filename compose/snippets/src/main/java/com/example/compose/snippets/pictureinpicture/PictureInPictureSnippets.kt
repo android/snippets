@@ -356,7 +356,7 @@ fun PipListenerPreAPI12(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
+            val onUserLeaveBehavior = Runnable {
                 context.findActivity()
                     .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
             }
@@ -384,7 +384,7 @@ fun EnterPiPPre12(shouldEnterPipMode: Boolean) {
     ) {
         val context = LocalContext.current
         DisposableEffect(context) {
-            val onUserLeaveBehavior: () -> Unit = {
+            val onUserLeaveBehavior = Runnable {
                 if (currentShouldEnterPipMode) {
                     context.findActivity()
                         .enterPictureInPictureMode(PictureInPictureParams.Builder().build())
