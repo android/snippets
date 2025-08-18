@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -178,7 +179,7 @@ private object Loop {
     fun Loop() {
         // [START android_compose_phases_loop]
         Box {
-            var imageHeightPx by remember { mutableStateOf(0) }
+            var imageHeightPx by remember { mutableIntStateOf(0) }
 
             Image(
                 painter = painterResource(R.drawable.rectangle),

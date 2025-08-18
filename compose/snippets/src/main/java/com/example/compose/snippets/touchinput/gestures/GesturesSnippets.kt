@@ -52,6 +52,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -77,7 +79,7 @@ import kotlin.math.roundToInt
 // [START android_compose_touchinput_gestures_clickable]
 @Composable
 private fun ClickableSample() {
-    val count = remember { mutableStateOf(0) }
+    val count = remember { mutableIntStateOf(0) }
     // content that you want to make clickable
     Text(
         text = count.value.toString(),
@@ -89,7 +91,7 @@ private fun ClickableSample() {
 @Preview
 @Composable
 private fun WithPointerInput() {
-    val count = remember { mutableStateOf(0) }
+    val count = remember { mutableIntStateOf(0) }
     // content that you want to make clickable
     Text(
         text = count.value.toString(),
@@ -151,7 +153,7 @@ private fun ScrollBoxesSmooth() {
 @Composable
 private fun ScrollableSample() {
     // actual composable state
-    var offset by remember { mutableStateOf(0f) }
+    var offset by remember { mutableFloatStateOf(0f) }
     Box(
         Modifier
             .size(150.dp)
@@ -249,7 +251,7 @@ private object NestedScrollInterop {
 // [START android_compose_touchinput_gestures_draggable]
 @Composable
 private fun DraggableText() {
-    var offsetX by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
     Text(
         modifier = Modifier
             .offset { IntOffset(offsetX.roundToInt(), 0) }
@@ -268,8 +270,8 @@ private fun DraggableText() {
 @Composable
 private fun DraggableTextLowLevel() {
     Box(modifier = Modifier.fillMaxSize()) {
-        var offsetX by remember { mutableStateOf(0f) }
-        var offsetY by remember { mutableStateOf(0f) }
+        var offsetX by remember { mutableFloatStateOf(0f) }
+        var offsetY by remember { mutableFloatStateOf(0f) }
 
         Box(
             Modifier
@@ -324,8 +326,8 @@ private fun SwipeableSample() {
 @Composable
 private fun TransformableSample() {
     // set up all transformation states
-    var scale by remember { mutableStateOf(1f) }
-    var rotation by remember { mutableStateOf(0f) }
+    var scale by remember { mutableFloatStateOf(1f) }
+    var rotation by remember { mutableFloatStateOf(0f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
         scale *= zoomChange

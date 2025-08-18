@@ -34,6 +34,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -655,7 +656,7 @@ object CompoundButton {
         // [START android_compose_glance_buildUI12]
         var isApplesChecked by remember { mutableStateOf(false) }
         var isEnabledSwitched by remember { mutableStateOf(false) }
-        var isRadioChecked by remember { mutableStateOf(0) }
+        var isRadioChecked by remember { mutableIntStateOf(0) }
 
         CheckBox(
             checked = isApplesChecked,
