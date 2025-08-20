@@ -35,7 +35,7 @@ androidxHiltNavigationCompose = "1.2.0"
 appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
-compileSdk = "35"
+compileSdk = "36"
 compose-latest = "1.9.0"
 composeUiTooling = "1.4.1"
 coreSplashscreen = "1.0.1"
