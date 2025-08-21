@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.identity.credentialmanager
 
 import android.app.Activity
@@ -16,6 +32,7 @@ import androidx.credentials.GetPublicKeyCredentialOption
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialException
 import com.example.identity.credentialmanager.ApiResult.Success
+import java.io.StringWriter
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request.Builder
@@ -24,7 +41,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import java.io.StringWriter
 import ru.gildor.coroutines.okhttp.await
 
 class Fido2ToCredmanMigration(
@@ -44,12 +60,15 @@ class Fido2ToCredmanMigration(
         // ...
         val call = client.newCall(
             Builder()
-                .method("POST", jsonRequestBody {
-                    name("attestation").value("none")
-                    name("authenticatorSelection").objectValue {
-                        name("residentKey").value("required")
+                .method(
+                    "POST",
+                    jsonRequestBody {
+                        name("attestation").value("none")
+                        name("authenticatorSelection").objectValue {
+                            name("residentKey").value("required")
+                        }
                     }
-            }).build()
+                ).build()
         )
         // ...
     }
@@ -61,14 +80,17 @@ class Fido2ToCredmanMigration(
             Builder()
                 .url("$BASE_URL/<your api url>")
                 .addHeader("Cookie", formatCookie(sessionId))
-                .method("POST", jsonRequestBody {
-                    name("attestation").value("none")
-                    name("authenticatorSelection").objectValue {
-                        name("authenticatorAttachment").value("platform")
-                        name("userVerification").value("required")
-                        name("residentKey").value("required")
+                .method(
+                    "POST",
+                    jsonRequestBody {
+                        name("attestation").value("none")
+                        name("authenticatorSelection").objectValue {
+                            name("authenticatorAttachment").value("platform")
+                            name("userVerification").value("required")
+                            name("residentKey").value("required")
+                        }
                     }
-                }).build()
+                ).build()
         )
         val response = call.await()
         return response.result("Error calling the api") {
@@ -108,10 +130,13 @@ class Fido2ToCredmanMigration(
      * @return a JSON object.
      */
     suspend fun signinRequest(): ApiResult<JSONObject> {
-        val call = client.newCall(Builder().url(buildString {
-            append("$BASE_URL/signinRequest")
-        }).method("POST", jsonRequestBody {})
-            .build()
+        val call = client.newCall(
+            Builder().url(
+                buildString {
+                    append("$BASE_URL/signinRequest")
+                }
+            ).method("POST", jsonRequestBody {})
+                .build()
         )
         val response = call.await()
         return response.result("Error calling /signinRequest") {
@@ -129,31 +154,36 @@ class Fido2ToCredmanMigration(
      * including the newly-registered one.
      */
     suspend fun signinResponse(
-        sessionId: String, response: JSONObject, credentialId: String
+        sessionId: String,
+        response: JSONObject,
+        credentialId: String
     ): ApiResult<Unit> {
 
         val call = client.newCall(
             Builder().url("$BASE_URL/signinResponse")
-                .addHeader("Cookie",formatCookie(sessionId))
-                .method("POST", jsonRequestBody {
-                    name("id").value(credentialId)
-                    name("type").value(PUBLIC_KEY.toString())
-                    name("rawId").value(credentialId)
-                    name("response").objectValue {
-                        name("clientDataJSON").value(
-                            response.getString("clientDataJSON")
-                        )
-                        name("authenticatorData").value(
-                            response.getString("authenticatorData")
-                        )
-                        name("signature").value(
-                            response.getString("signature")
-                        )
-                        name("userHandle").value(
-                            response.getString("userHandle")
-                        )
+                .addHeader("Cookie", formatCookie(sessionId))
+                .method(
+                    "POST",
+                    jsonRequestBody {
+                        name("id").value(credentialId)
+                        name("type").value(PUBLIC_KEY.toString())
+                        name("rawId").value(credentialId)
+                        name("response").objectValue {
+                            name("clientDataJSON").value(
+                                response.getString("clientDataJSON")
+                            )
+                            name("authenticatorData").value(
+                                response.getString("authenticatorData")
+                            )
+                            name("signature").value(
+                                response.getString("signature")
+                            )
+                            name("userHandle").value(
+                                response.getString("userHandle")
+                            )
+                        }
                     }
-                }).build()
+                ).build()
         )
         val apiResponse = call.await()
         return apiResponse.result("Error calling /signingResponse") {
@@ -169,11 +199,12 @@ class Fido2ToCredmanMigration(
         Toast.makeText(
             activity,
             "Fetching previously stored credentials",
-            Toast.LENGTH_SHORT)
+            Toast.LENGTH_SHORT
+        )
             .show()
         var result: GetCredentialResponse? = null
         try {
-            val request= GetCredentialRequest(
+            val request = GetCredentialRequest(
                 listOf(
                     GetPublicKeyCredentialOption(
                         creationResult.toString(),
@@ -234,7 +265,7 @@ class Fido2ToCredmanMigration(
 }
 
 sealed class ApiResult<out R> {
-    class Success<T>: ApiResult<T>()
+    class Success<T> : ApiResult<T>()
 }
 
 class ApiException(message: String) : RuntimeException(message)

@@ -42,16 +42,7 @@ jobs:
         java-version: '17'
 
     - name: Run spotlessApply
-      run: ./gradlew :compose:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
-
-    - name: Run spotlessApply for Wear
-      run: ./gradlew :wear:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
-
-    - name: Run spotlessApply for Misc
-      run: ./gradlew :misc:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
-
-    - name: Run spotlessApply for XR
-      run: ./gradlew :xr:spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
+      run: ./gradlew spotlessApply --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
 
     - name: Auto-commit if spotlessApply has changes
       uses: stefanzweifel/git-auto-commit-action@v5
