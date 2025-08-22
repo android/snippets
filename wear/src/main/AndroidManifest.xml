@@ -221,7 +221,7 @@
         </service>
         <!-- [END android_wear_complication_manifest] -->
 
-        <!-- [START android_wear_complication_manifest] -->
+        <!-- [START android_wear_complication_timeline_manifest] -->
         <service
             android:name=".snippets.complication.MyTimelineComplicationDataSourceService"
             android:exported="true"
@@ -239,7 +239,7 @@
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="300" />
         </service>
-        <!-- [END android_wear_complication_manifest] -->
+        <!-- [END android_wear_complication_timeline_manifest] -->
 
     </application>
 
