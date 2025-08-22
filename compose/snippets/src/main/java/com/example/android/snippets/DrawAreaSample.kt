@@ -81,7 +81,7 @@ class DrawAreaSampleActivity : ComponentActivity() {
     }
 }
 
-// [START draw_area_sample]
+// [START android_compose_draw_area_sample]
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)
 fun DrawArea(modifier: Modifier = Modifier, viewModel: DrawAreaViewModel = viewModel()) {
@@ -102,7 +102,7 @@ fun DrawArea(modifier: Modifier = Modifier, viewModel: DrawAreaViewModel = viewM
         }
     }
 }
-// [END draw_area_sample]
+// [END android_compose_draw_area_sample]
 
 class DrawAreaViewModel : ViewModel() {
     private var currentPath = Path()
