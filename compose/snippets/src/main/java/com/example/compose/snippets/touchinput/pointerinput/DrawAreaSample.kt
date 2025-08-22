@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.snippets
+package com.example.compose.snippets.touchinput.pointerinput
 
 import android.os.Bundle
 import android.util.Log
