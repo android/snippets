@@ -34,7 +34,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceSe
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService.Companion.EXTRA_CONFIG_COMPLICATION_TYPE
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService.Companion.EXTRA_CONFIG_DATA_SOURCE_COMPONENT
 
-class ConfigurationActivity: ComponentActivity() {
+class ConfigurationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // [START android_wear_complication_configuration_intent]
@@ -79,4 +79,3 @@ class ConfigurationActivity: ComponentActivity() {
         }
     }
 }
-
