@@ -65,9 +65,9 @@ class ViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    // [START android_snippets_kotlin_flow_test_hot_fake_repository]
     @Test
     fun testHotFakeRepository() = runTest {
-        // [START android_snippets_kotlin_flow_test_hot_fake_repository]
         val fakeRepository = FakeRepository()
         val viewModel = MyViewModel(fakeRepository)
 
@@ -83,8 +83,8 @@ class ViewModelTest {
         fakeRepository.emit(2)
         fakeRepository.emit(3)
         assertEquals(3, viewModel.score.value) // Assert on the latest value
-        // [END android_snippets_kotlin_flow_test_hot_fake_repository]
     }
+    // [END android_snippets_kotlin_flow_test_hot_fake_repository]
 }
 
 // [START android_snippets_kotlin_flow_test_my_view_model_with_state_in]
@@ -101,9 +101,9 @@ class LazilySharingViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    // [START android_snippets_kotlin_flow_test_lazily_sharing_view_model]
     @Test
     fun testLazilySharingViewModel() = runTest {
-        // [START android_snippets_kotlin_flow_test_lazily_sharing_view_model]
         val fakeRepository = HotFakeRepository()
         val viewModel = MyViewModelWithStateIn(fakeRepository)
 
@@ -121,6 +121,6 @@ class LazilySharingViewModelTest {
         fakeRepository.emit(2)
         fakeRepository.emit(3)
         assertEquals(3, viewModel.score.value)
-        // [END android_snippets_kotlin_flow_test_lazily_sharing_view_model]
     }
+    // [END android_snippets_kotlin_flow_test_lazily_sharing_view_model]
 }
