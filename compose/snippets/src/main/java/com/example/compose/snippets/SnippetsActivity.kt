@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.compose.snippets.touchinput.pointerinput.DrawArea
 import com.example.compose.snippets.animations.AnimationExamplesScreen
 import com.example.compose.snippets.animations.sharedelement.PlaceholderSizeAnimated_Demo
 import com.example.compose.snippets.components.AppBarExamples
@@ -62,6 +61,7 @@ import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.layouts.PagerExamples
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
+import com.example.compose.snippets.touchinput.pointerinput.DrawArea
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
 class SnippetsActivity : ComponentActivity() {
