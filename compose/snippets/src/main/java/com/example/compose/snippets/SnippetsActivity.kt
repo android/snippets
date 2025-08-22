@@ -62,6 +62,7 @@ import com.example.compose.snippets.layouts.PagerExamples
 import com.example.compose.snippets.navigation.Destination
 import com.example.compose.snippets.navigation.TopComponentsDestination
 import com.example.compose.snippets.ui.theme.SnippetsTheme
+import com.example.android.snippets.DrawArea
 
 class SnippetsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +95,7 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
                                     Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
                                     Destination.PagerExamples -> PagerExamples()
+                                    Destination.DrawAreaSample -> DrawArea()
                                 }
                             }
                         }
