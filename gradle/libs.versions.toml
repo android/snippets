@@ -77,6 +77,7 @@ wearComposeMaterial3 = "1.5.0-rc02"
 wearOngoing = "1.0.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
+turbine = "0.13.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -189,6 +190,7 @@ play-services-wearable = { module = "com.google.android.gms:play-services-wearab
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
