@@ -17,34 +17,41 @@
 package com.android.example.compose.testing
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
-import com.example.compose.snippets.R
 
-class CommonPatternsSample {
+// [START android_snippets_compose_testing_common_patterns]
+class MyComposeTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun myTest() {
-        // [START android_snippets_compose_testing_common_patterns]
         // Start the app
         composeTestRule.setContent {
             MyAppTheme {
-                MainScreen(uiState = exampleUiState, /*...*/)
+                MainScreen(uiState = exampleUiState)
             }
         }
-        val continueLabel = composeTestRule.activity.getString(R.string.next)
-        composeTestRule.onNodeWithText(continueLabel).performClick()
-        // [END android_snippets_compose_testing_common_patterns]
+        composeTestRule.onNodeWithText("Continue").performClick()
+
+        composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
     }
 }
+// [END android_snippets_compose_testing_common_patterns]
 
 @Composable
 fun MyAppTheme(content: @Composable () -> Unit) {
@@ -53,8 +60,13 @@ fun MyAppTheme(content: @Composable () -> Unit) {
 
 @Composable
 fun MainScreen(uiState: ExampleUiState) {
-    Text(text = "Hello ${uiState.name}")
-    Text(text = "Next")
+    var showWelcome by remember { mutableStateOf(false) }
+    if (showWelcome) {
+        Text(text = "Welcome")
+    } else {
+        Text(text = "Hello ${uiState.name}")
+        Text(text = "Continue", modifier = Modifier.clickable { showWelcome = true })
+    }
 }
 
 data class ExampleUiState(val name: String)

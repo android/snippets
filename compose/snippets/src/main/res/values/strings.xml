@@ -16,7 +16,8 @@
   -->
 <resources>
     <string name="app_name">snippets</string>
-    <string name="next" translatable="false">Next</string>
+    <string name="next" translatable="false">Continue</string>
+    <string name="welcome" translatable="false">Welcome</string>
     <string name="dog_content_description">Golden Retriever in fall leaves</string>
     <string name="shopping_cart_content_desc">Shopping cart</string>
     <string name="bus_content_description">Bus</string>
