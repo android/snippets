@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
     implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.watchface.complications.data.source.ktx)
+
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.tooling.preview)
