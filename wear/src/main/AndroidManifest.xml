@@ -227,6 +227,7 @@
             <meta-data
                 android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
                 android:value="MY_CONFIG_ACTION" />
+
         </service>
         <!-- [END android_wear_complication_manifest] -->
 
