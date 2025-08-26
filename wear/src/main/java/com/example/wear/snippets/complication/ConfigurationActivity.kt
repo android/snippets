@@ -70,7 +70,7 @@ class ConfigurationActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(4.dp))
             Button(onClick = {
                 // [START android_wear_complication_configuration_finish]
-                setResult(RESULT_OK) // Or RESULT_CANCELLED to cancel configuration
+                setResult(RESULT_OK) // Or RESULT_CANCELED to cancel configuration
                 finish()
                 // [END android_wear_complication_configuration_finish]
             }) {
