@@ -395,6 +395,7 @@ class LottieAnimationFallback : TileService() {
                         .setStartTrigger(createOnVisibleTrigger())
                         .build()
                 )
+                // Fallback if lottie is not supported
                 .setAndroidResourceByResId(
                     ResourceBuilders.AndroidImageResourceByResId.Builder()
                         .setResourceId(R.drawable.lottie_fallback)
