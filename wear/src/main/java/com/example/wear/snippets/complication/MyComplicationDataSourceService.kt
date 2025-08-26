@@ -26,7 +26,7 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 // [START android_wear_complication]
 class MyComplicationDataSourceService : SuspendingComplicationDataSourceService() {
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
-        // Retrieve latest info for inclusion in the data
+        // Retrieve the latest info for inclusion in the data.
         val text = getLatestData()
         return shortTextComplicationData(text)
     }
@@ -40,7 +40,7 @@ class MyComplicationDataSourceService : SuspendingComplicationDataSourceService(
             text = PlainComplicationText.Builder(text).build(),
             contentDescription = PlainComplicationText.Builder(text).build()
         )
-            // Add further optional details here such as icon, tap action, title etc
+            // Add further optional details here such as icon, tap action, and title.
             .build()
 
     // [START_EXCLUDE]
