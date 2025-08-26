@@ -271,9 +271,7 @@ class AnimationScaling : TileService() {
                                             // Shrink the element by a scale factor
                                             // of 0.5 horizontally and 0.75 vertically.
                                             .setScaleX(FloatProp.Builder(0.5f).build())
-                                            .setScaleY(
-                                                FloatProp.Builder(0.75f).build()
-                                            )
+                                            .setScaleY(FloatProp.Builder(0.75f).build())
                                             .build()
                                     )
                                     .build()
@@ -361,4 +359,55 @@ class LottieAnimation : TileService() {
         )
     }
 }
+
 // [END android_wear_tile_animations_lottie]
+
+class LottieAnimationFallback : TileService() {
+
+    val lottieResourceId = "lottie_animation"
+
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
+
+        val layout =
+            LayoutElementBuilders.Image.Builder()
+                .setWidth(dp(150f))
+                .setHeight(dp(150f))
+                .setResourceId(lottieResourceId)
+                .build()
+
+        return Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(Timeline.fromLayoutElement(layout))
+                .build()
+        )
+    }
+
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ): ListenableFuture<Resources> {
+
+        // [START android_wear_tile_animations_lottie_fallback]
+        val lottieImage =
+            ResourceBuilders.ImageResource.Builder()
+                .setAndroidLottieResourceByResId(
+                    ResourceBuilders.AndroidLottieResourceByResId.Builder(R.raw.lottie)
+                        .setStartTrigger(createOnVisibleTrigger())
+                        .build()
+                )
+                .setAndroidResourceByResId(
+                    ResourceBuilders.AndroidImageResourceByResId.Builder()
+                        .setResourceId(R.drawable.lottie_fallback)
+                        .build()
+                )
+                .build()
+        // [END android_wear_tile_animations_lottie_fallback]
+
+        return Futures.immediateFuture(
+            Resources.Builder()
+                .setVersion(requestParams.version)
+                .addIdToImageMapping(lottieResourceId, lottieImage)
+                .build()
+        )
+    }
+}
