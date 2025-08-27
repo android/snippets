@@ -212,7 +212,7 @@
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
             </intent-filter>
 
-            <!-- Supported types should be comma-separated e.g. SHORT_TEXT,SMALL_IMAGE -->
+            <!-- Supported types should be comma-separated, for example: "SHORT_TEXT,SMALL_IMAGE" -->
             <meta-data
                 android:name="android.support.wearable.complications.SUPPORTED_TYPES"
                 android:value="SHORT_TEXT" />
@@ -220,10 +220,7 @@
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="300" />
 
-            <!--
-                Optionally, the complication can be configured by the user by specifying a
-                configuration activity.
-            -->
+            <!-- Optionally, specify a configuration activity, where the user can configure your complication. -->
             <meta-data
                 android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
                 android:value="MY_CONFIG_ACTION" />
