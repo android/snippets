@@ -7,6 +7,9 @@ pluginManagement {
         mavenCentral()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -14,7 +17,12 @@ dependencyResolutionManagement {
             println("https://androidx.dev/snapshots/builds/$it/artifacts/repository/")
             maven { url = uri("https://androidx.dev/snapshots/builds/$it/artifacts/repository/") }
         }
-
+        maven {
+            url = uri("https://jitpack.io")
+            content {
+                includeGroup("com.github.xgouchet")
+            }
+        }
         google()
         mavenCentral()
     }
@@ -30,4 +38,5 @@ include(
         ":misc",
         ":identity:credentialmanager",
         ":xr",
+        ":watchfacepush:validator"
 )

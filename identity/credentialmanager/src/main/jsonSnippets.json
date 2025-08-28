@@ -47,7 +47,7 @@
         "allowCredentials": [],
         "timeout": 1800000,
         "userVerification": "required",
-        "rpId": "credential-manager-app-test.glitch.me"
+        "rpId": "https://passkeys-codelab.glitch.me/"
       }
       // [END android_identity_format_json_request_passkey]
     },

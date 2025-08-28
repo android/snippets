@@ -19,11 +19,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain(11)
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        disable += "RestrictedApi"
     }
 }
 
@@ -33,8 +36,6 @@ dependencies {
     implementation(libs.androidx.xr.compose)
 
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.guava)
-    implementation(libs.kotlinx.coroutines.guava)
 
     implementation(libs.androidx.media3.exoplayer)
 

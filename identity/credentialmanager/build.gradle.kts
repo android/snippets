@@ -39,6 +39,13 @@ android {
     buildFeatures {
         compose = true
     }
+    sourceSets {
+        named("main") {
+            java {
+                srcDir("src/main/java")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -70,6 +77,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.kotlin.coroutines.okhttp)
     implementation(libs.androidx.webkit)
+    implementation(libs.appcompat)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

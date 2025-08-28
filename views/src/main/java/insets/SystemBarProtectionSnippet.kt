@@ -40,7 +40,7 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
         ) { v: View, insets: WindowInsetsCompat ->
             val innerPadding = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars() or
-                        WindowInsetsCompat.Type.displayCutout()
+                    WindowInsetsCompat.Type.displayCutout()
             )
             v.setPadding(
                 innerPadding.left,
@@ -51,18 +51,18 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
             insets
         }
 
-        // [START android_system_bar_protection_kotlin]
         val red = 52
         val green = 168
         val blue = 83
+        val paneBackgroundColor = Color.rgb(red, green, blue)
+        // [START android_system_bar_protection_kotlin]
         findViewById<ProtectionLayout>(R.id.list_protection)
             .setProtections(
                 listOf(
                     GradientProtection(
                         WindowInsetsCompat.Side.TOP,
                         // Ideally, this is the pane's background color
-                        // alpha = 204 for an 80% gradient
-                        Color.argb(204, red, green, blue)
+                        paneBackgroundColor
                     )
                 )
             )
