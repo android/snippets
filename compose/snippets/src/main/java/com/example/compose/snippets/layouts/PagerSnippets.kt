@@ -399,7 +399,11 @@ fun PagerIndicator() {
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                val color = if (pagerState.currentPage == iteration) {
+                    Color.DarkGray
+                } else {
+                    Color.LightGray
+                }
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
@@ -560,7 +564,10 @@ internal fun PagerSampleItem(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(4.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(4.dp),
+                )
                 .sizeIn(minWidth = 40.dp, minHeight = 40.dp)
                 .padding(8.dp)
                 .wrapContentSize(Alignment.Center)

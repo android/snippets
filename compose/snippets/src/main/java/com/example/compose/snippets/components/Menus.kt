@@ -197,8 +197,12 @@ fun DropdownMenuWithDetails() {
             // Second section
             DropdownMenuItem(
                 text = { Text("Send Feedback") },
-                leadingIcon = { Icon(Icons.Outlined.Feedback, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Feedback, contentDescription = null)
+                },
+                trailingIcon = {
+                    Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null)
+                },
                 onClick = { /* Do something... */ }
             )
 
@@ -212,8 +216,12 @@ fun DropdownMenuWithDetails() {
             )
             DropdownMenuItem(
                 text = { Text("Help") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null) },
+                leadingIcon = {
+                    Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null)
+                },
+                trailingIcon = {
+                    Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null)
+                },
                 onClick = { /* Do something... */ }
             )
         }
@@ -237,9 +245,17 @@ fun DropdownFilter(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(Icons.Default.Tune, "Filters")
-        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time") })
+        FilterChip(
+            selected = false,
+            onClick = { /*TODO*/ },
+            label = { Text("Time") },
+        )
         DropdownFilterChip()
-        FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible") })
+        FilterChip(
+            selected = false,
+            onClick = { /*TODO*/ },
+            label = { Text("Wheelchair accessible") },
+        )
     }
 }
 

@@ -98,7 +98,11 @@ fun TodoListItem(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        imageVector = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
+                        } else {
+                            Icons.Default.CheckBoxOutlineBlank
+                        },
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
@@ -187,12 +191,22 @@ fun TodoListItemWithAnimation(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        imageVector = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
+                        } else {
+                            Icons.Default.CheckBoxOutlineBlank
+                        },
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
                             .drawBehind {
-                                drawRect(lerp(Color.LightGray, Color.Blue, swipeToDismissBoxState.progress))
+                                drawRect(
+                                    color = lerp(
+                                        start = Color.LightGray,
+                                        stop = Color.Blue,
+                                        fraction = swipeToDismissBoxState.progress
+                                    )
+                                )
                             }
                             .wrapContentSize(Alignment.CenterStart)
                             .padding(12.dp),
@@ -205,7 +219,13 @@ fun TodoListItemWithAnimation(
                         contentDescription = "Remove item",
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(lerp(Color.LightGray, Color.Red, swipeToDismissBoxState.progress))
+                            .background(
+                                color = lerp(
+                                    start = Color.LightGray,
+                                    stop = Color.Red,
+                                    fraction = swipeToDismissBoxState.progress
+                                )
+                            )
                             .wrapContentSize(Alignment.CenterEnd)
                             .padding(12.dp),
                         tint = Color.White

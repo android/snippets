@@ -75,7 +75,9 @@ class MyCredentialProviderService : CredentialProviderService() {
         }
     }
 
-    fun processCreateCredentialRequest(request: BeginCreateCredentialRequest): BeginCreateCredentialResponse? {
+    fun processCreateCredentialRequest(
+        request: BeginCreateCredentialRequest,
+    ): BeginCreateCredentialResponse? {
         when (request) {
             is BeginCreatePublicKeyCredentialRequest -> {
                 // Request is passkey type
@@ -96,15 +98,21 @@ class MyCredentialProviderService : CredentialProviderService() {
         val createEntries: MutableList<CreateEntry> = mutableListOf()
         createEntries.add(
             CreateEntry(
-                PERSONAL_ACCOUNT_ID,
-                createNewPendingIntent(PERSONAL_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
+                accountName = PERSONAL_ACCOUNT_ID,
+                pendingIntent = createNewPendingIntent(
+                    accountId = PERSONAL_ACCOUNT_ID,
+                    action = CREATE_PASSKEY_INTENT,
+                )
             )
         )
 
         createEntries.add(
             CreateEntry(
-                FAMILY_ACCOUNT_ID,
-                createNewPendingIntent(FAMILY_ACCOUNT_ID, CREATE_PASSKEY_INTENT)
+                accountName = FAMILY_ACCOUNT_ID,
+                pendingIntent = createNewPendingIntent(
+                    accountId = FAMILY_ACCOUNT_ID,
+                    action = CREATE_PASSKEY_INTENT,
+                )
             )
         )
 

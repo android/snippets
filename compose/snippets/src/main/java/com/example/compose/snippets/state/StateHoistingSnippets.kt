@@ -58,7 +58,9 @@ private object StateHoistingSnippets1 {
     fun ChatBubble(
         message: Message
     ) {
-        var showDetails by rememberSaveable { mutableStateOf(false) } // Define the UI element expanded state
+        var showDetails by rememberSaveable {
+            mutableStateOf(false) // Define the UI element expanded state
+        }
 
         ClickableText(
             text = AnnotatedString(message.content),

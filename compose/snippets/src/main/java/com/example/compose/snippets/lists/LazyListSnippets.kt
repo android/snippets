@@ -464,7 +464,10 @@ private fun LazyItemAnimationWithSpec() {
                 Modifier.animateItem(
                     fadeInSpec = tween(durationMillis = 250),
                     fadeOutSpec = tween(durationMillis = 100),
-                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
+                    placementSpec = spring(
+                        stiffness = Spring.StiffnessLow,
+                        dampingRatio = Spring.DampingRatioMediumBouncy
+                    )
                 )
             ) {
                 // ...

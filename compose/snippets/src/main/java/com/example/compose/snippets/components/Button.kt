@@ -42,15 +42,25 @@ fun ButtonExamples() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Filled button:")
-        FilledButtonExample(onClick = { Log.d("Filled button", "Filled button clicked.") })
+        FilledButtonExample(
+            onClick = { Log.d("Filled button", "Filled button clicked.") },
+        )
         Text("Filled tonal button:")
-        FilledTonalButtonExample(onClick = { Log.d("Filled tonal button", "Filled tonal button clicked.") })
+        FilledTonalButtonExample(
+            onClick = { Log.d("Filled tonal button", "Filled tonal button clicked.") },
+        )
         Text("Elevated button:")
-        ElevatedButtonExample(onClick = { Log.d("Elevated button", "Elevated button clicked.") })
+        ElevatedButtonExample(
+            onClick = { Log.d("Elevated button", "Elevated button clicked.") },
+        )
         Text("Outlined button:")
-        OutlinedButtonExample(onClick = { Log.d("Outlined button", "Outlined button clicked.") })
+        OutlinedButtonExample(
+            onClick = { Log.d("Outlined button", "Outlined button clicked.") },
+        )
         Text("Text button")
-        TextButtonExample(onClick = { Log.d("Text button", "Text button clicked.") })
+        TextButtonExample(
+            onClick = { Log.d("Text button", "Text button clicked.") },
+        )
     }
 }
 

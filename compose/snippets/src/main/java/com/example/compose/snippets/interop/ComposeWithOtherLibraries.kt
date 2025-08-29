@@ -79,9 +79,10 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun GetContentExample() {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        imageUri = uri
-    }
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            imageUri = uri
+        }
     Column {
         Button(onClick = { launcher.launch("image/*") }) {
             Text(text = "Load Image")

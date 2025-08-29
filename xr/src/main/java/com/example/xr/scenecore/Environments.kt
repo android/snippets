@@ -33,7 +33,10 @@ private class Environments(val session: Session) {
 
     suspend fun loadEnvironmentSkybox() {
         // [START androidxr_scenecore_environment_loadEnvironmentSkybox]
-        val lightingForSkybox = ExrImage.createFromZip(session, Paths.get("BlueSkyboxLighting.zip"))
+        val lightingForSkybox = ExrImage.createFromZip(
+            session,
+            Paths.get("BlueSkyboxLighting.zip"),
+        )
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
@@ -59,8 +62,9 @@ private class Environments(val session: Session) {
         // [START androidxr_scenecore_environment_setPassthroughOpacityPreference]
         session.scene.spatialEnvironment.preferredPassthroughOpacity = 1.0f
         if (session.scene.spatialEnvironment.currentPassthroughOpacity == 1.0f) {
-            // The passthrough opacity request succeeded and should be visible now, and any listeners
-            // specified using addOnPassthroughOpacityChangedListener will be notified.
+            // The passthrough opacity request succeeded and should be visible now,
+            // and any listeners specified using
+            // addOnPassthroughOpacityChangedListener will be notified.
         } else {
             // The passthrough opacity preference was successfully set, but not
             // immediately visible. The passthrough opacity change will be applied

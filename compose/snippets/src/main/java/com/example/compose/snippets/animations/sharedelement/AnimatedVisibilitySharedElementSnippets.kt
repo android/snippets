@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalSharedTransitionApi::class)
+@file:OptIn(
+    ExperimentalSharedTransitionApi::class,
+    ExperimentalSharedTransitionApi::class,
+)
 
 package com.example.compose.snippets.animations.sharedelement
 
@@ -100,13 +103,17 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                     Box(
                         modifier = Modifier
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState(key = "${snack.name}-bounds"),
+                                sharedContentState = rememberSharedContentState(
+                                    key = "${snack.name}-bounds"
+                                ),
                                 // Using the scope provided by AnimatedVisibility
                                 animatedVisibilityScope = this,
-                                clipInOverlayDuringTransition = OverlayClip(shapeForSharedElement)
+                                clipInOverlayDuringTransition = OverlayClip(
+                                    clipShape = shapeForSharedElement,
+                                )
                             )
-                            .background(Color.White, shapeForSharedElement)
-                            .clip(shapeForSharedElement)
+                            .background(Color.White, shape = shapeForSharedElement)
+                            .clip(shape = shapeForSharedElement),
                     ) {
                         SnackContents(
                             snack = snack,
@@ -164,9 +171,12 @@ fun SharedTransitionScope.SnackEditDetails(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .sharedBounds(
-                            sharedContentState = rememberSharedContentState(key = "${targetSnack.name}-bounds"),
+                            sharedContentState = rememberSharedContentState(
+                                key = "${targetSnack.name}-bounds",
+                            ),
                             animatedVisibilityScope = this@AnimatedContent,
-                            clipInOverlayDuringTransition = OverlayClip(shapeForSharedElement)
+                            clipInOverlayDuringTransition =
+                            OverlayClip(shapeForSharedElement)
                         )
                         .background(Color.White, shapeForSharedElement)
                         .clip(shapeForSharedElement)
