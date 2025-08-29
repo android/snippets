@@ -15,8 +15,6 @@
  */
 
 package com.example.compose.snippets.text
-
-import android.text.TextUtils
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -249,7 +247,7 @@ class CustomInputTransformation : InputTransformation {
 // [START android_compose_state_text_16]
 class DigitOnlyInputTransformation : InputTransformation {
     override fun TextFieldBuffer.transformInput() {
-        if (!TextUtils.isDigitsOnly(asCharSequence())) {
+        if (!asCharSequence().isDigitsOnly()) {
             revertAllChanges()
         }
     }
