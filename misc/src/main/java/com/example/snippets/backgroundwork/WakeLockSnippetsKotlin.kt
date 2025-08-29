@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.os.PowerManager
 
 // Snippets for doc page go here
+@Suppress("UNUSED_PARAMETER")
 class WakeLockSnippetsKotlin : Activity() {
 
     // [START android_backgroundwork_wakelock_create_kotlin]
