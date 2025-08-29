@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -65,7 +66,7 @@ fun ProgressIndicatorExamples() {
 // [START android_compose_components_determinateindicator]
 @Composable
 fun LinearDeterminateIndicator() {
-    var currentProgress by remember { mutableStateOf(0f) }
+    var currentProgress by remember { mutableFloatStateOf(0f) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope() // Create a coroutine scope
 
@@ -107,7 +108,7 @@ suspend fun loadProgress(updateProgress: (Float) -> Unit) {
 @Preview
 @Composable
 fun CircularDeterminateIndicator() {
-    var currentProgress by remember { mutableStateOf(0f) }
+    var currentProgress by remember { mutableFloatStateOf(0f) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope() // Create a coroutine scope
 
