@@ -30,6 +30,7 @@ import java.lang.Math.abs
 // constants to make the code snippets work
 const val currentPlayingIndex = 10
 
+@Suppress("Unused")
 @UnstableApi
 // [START android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 class MyTargetPreloadStatusControl(
@@ -57,6 +58,7 @@ class MyTargetPreloadStatusControl(
 }
 // [END android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 
+@Suppress("Unused")
 class PreloadManagerSnippetsKotlin {
 
     class PreloadSnippetsActivity : AppCompatActivity() {
@@ -72,8 +74,6 @@ class PreloadManagerSnippetsKotlin {
                 DefaultPreloadManager.Builder(context, targetPreloadStatusControl)
             val preloadManager = preloadManagerBuilder.build()
             // [END android_defaultpreloadmanager_createPLM]
-
-            val player = preloadManagerBuilder.buildExoPlayer()
 
             // [START android_defaultpreloadmanager_addMedia]
             val initialMediaItems = pullMediaItemsFromService(/* count= */ 20)
