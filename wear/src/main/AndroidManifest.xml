@@ -201,6 +201,68 @@
                 android:value="For Ongoing Activity"/>
         </service>
 
+        <!-- [START android_wear_complication_manifest] -->
+        <service
+            android:name=".snippets.complication.MyComplicationDataSourceService"
+            android:exported="true"
+            android:label="@string/my_complication_service_label"
+            android:icon="@drawable/complication_icon"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+
+            <!-- Supported types should be comma-separated, for example: "SHORT_TEXT,SMALL_IMAGE" -->
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+
+            <!-- Optionally, specify a configuration activity, where the user can configure your complication. -->
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="MY_CONFIG_ACTION" />
+
+        </service>
+        <!-- [END android_wear_complication_manifest] -->
+
+        <!-- [START android_wear_timeline_complication_manifest] -->
+        <service
+            android:name=".snippets.complication.MyTimelineComplicationDataSourceService"
+            android:exported="true"
+            android:label="@string/my_complication_timeline_service_label"
+            android:icon="@drawable/complication_icon"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+        </service>
+        <!-- [END android_wear_timeline_complication_manifest] -->
+
+        <activity
+            android:name=".snippets.complication.ConfigurationActivity"
+            android:label="@string/configuration_activity_label"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault">
+            <!-- [START android_wear_complication_intent_filter] -->
+            <intent-filter>
+                <action android:name="MY_CONFIG_ACTION" />
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- [END android_wear_complication_intent_filter] -->
+        </activity>
+
     </application>
 
 </manifest>
