@@ -34,16 +34,23 @@ class CredentialManagerHandler(private val activity: Activity) {
     /**
      * Encapsulates the create passkey API for credential manager in a less error-prone manner.
      *
-     * @param request a create public key credential request JSON required by [CreatePublicKeyCredentialRequest].
+     * @param request a create public key credential request JSON
+     * required by [CreatePublicKeyCredentialRequest].
      * @return [CreatePublicKeyCredentialResponse] containing the result of the credential creation.
      */
     suspend fun createPasskey(request: String): CreatePublicKeyCredentialResponse {
         val createRequest = CreatePublicKeyCredentialRequest(request)
         try {
-            return mCredMan.createCredential(activity, createRequest) as CreatePublicKeyCredentialResponse
+            return mCredMan.createCredential(
+                activity,
+                createRequest,
+            ) as CreatePublicKeyCredentialResponse
         } catch (e: CreateCredentialException) {
             // For error handling use guidance from https://developer.android.com/training/sign-in/passkeys
-            Log.i(TAG, "Error creating credential: ErrMessage: ${e.errorMessage}, ErrType: ${e.type}")
+            Log.i(
+                TAG,
+                "Error creating credential: ErrMessage: ${e.errorMessage}, ErrType: ${e.type}",
+            )
             throw e
         }
     }
@@ -55,7 +62,14 @@ class CredentialManagerHandler(private val activity: Activity) {
      * @return [GetCredentialResponse] containing the result of the credential retrieval.
      */
     suspend fun getPasskey(request: String): GetCredentialResponse {
-        val getRequest = GetCredentialRequest(listOf(GetPublicKeyCredentialOption(request, null)))
+        val getRequest = GetCredentialRequest(
+            credentialOptions = listOf(
+                GetPublicKeyCredentialOption(
+                    requestJson = request,
+                    clientDataHash = null,
+                )
+            ),
+        )
         try {
             return mCredMan.getCredential(activity, getRequest)
         } catch (e: GetCredentialException) {

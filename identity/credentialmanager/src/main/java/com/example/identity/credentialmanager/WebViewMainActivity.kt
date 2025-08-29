@@ -76,12 +76,19 @@ class WebViewMainActivity : ComponentActivity() {
         credentialManagerHandler: CredentialManagerHandler
     ) {
         // [START android_identity_create_webview_object]
-        val passkeyWebListener = PasskeyWebListener(activity, coroutineScope, credentialManagerHandler)
+        val passkeyWebListener = PasskeyWebListener(
+            activity,
+            coroutineScope,
+            credentialManagerHandler,
+        )
 
         val webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
-                webView.evaluateJavascript(PasskeyWebListener.INJECTED_VAL, null)
+                webView.evaluateJavascript(
+                    PasskeyWebListener.INJECTED_VAL,
+                    null,
+                )
             }
         }
 

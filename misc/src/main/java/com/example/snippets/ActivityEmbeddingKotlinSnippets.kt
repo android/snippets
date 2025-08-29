@@ -63,7 +63,9 @@ class ActivityEmbeddingKotlinSnippets {
                 SplitController.getInstance(this).setSplitAttributesCalculator { params ->
                     val parentConfiguration = params.parentConfiguration
                     val builder = SplitAttributes.Builder()
-                    return@setSplitAttributesCalculator if (parentConfiguration.screenWidthDp >= 840) {
+                    return@setSplitAttributesCalculator if (
+                        parentConfiguration.screenWidthDp >= 840
+                    ) {
                         // Side-by-side dual-pane layout for wide displays.
                         builder
                             .setLayoutDirection(SplitAttributes.LayoutDirection.LOCALE)
@@ -90,7 +92,10 @@ class ActivityEmbeddingKotlinSnippets {
                     val parentWindowMetrics = params.parentWindowMetrics
                     val parentConfiguration = params.parentConfiguration
                     val foldingFeatures =
-                        params.parentWindowLayoutInfo.displayFeatures.filterIsInstance<FoldingFeature>()
+                        params
+                            .parentWindowLayoutInfo
+                            .displayFeatures
+                            .filterIsInstance<FoldingFeature>()
                     val feature = if (foldingFeatures.size == 1) foldingFeatures[0] else null
                     val builder = SplitAttributes.Builder()
                     builder.setSplitType(SPLIT_TYPE_HINGE)
@@ -321,7 +326,8 @@ class ActivityEmbeddingKotlinSnippets {
             val view = layout.findViewById<View>(R.id.infoButton)
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    splitController.splitInfoList(this@SplitDeviceActivity) // The activity instance.
+                    splitController
+                        .splitInfoList(this@SplitDeviceActivity) // The activity instance.
                         .collect { list ->
                             view.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
                         }

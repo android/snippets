@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -79,57 +81,69 @@ class SnippetsActivity : ComponentActivity() {
                         composable("LandingScreen") {
                             LandingScreen { navController.navigate(it.route) }
                         }
-                        Destination.entries.forEach { destination ->
-                            composable(destination.route) {
-                                when (destination) {
-                                    Destination.BrushExamples -> BrushExamplesScreen()
-                                    Destination.ImageExamples -> ImageExamplesScreen()
-                                    Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
-                                    Destination.ScreenshotExample -> BitmapFromComposableFullSnippet()
-                                    Destination.ComponentsExamples -> ComponentsScreen {
-                                        navController.navigate(
-                                            it.route
-                                        )
-                                    }
-                                    Destination.ShapesExamples -> ApplyPolygonAsClipImage()
-                                    Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
-                                    Destination.PagerExamples -> PagerExamples()
-                                }
-                            }
-                        }
-                        TopComponentsDestination.entries.forEach { destination ->
-                            composable(destination.route) {
-                                when (destination) {
-                                    TopComponentsDestination.CardExamples -> CardExamples()
-                                    TopComponentsDestination.SwitchExamples -> SwitchExamples()
-                                    TopComponentsDestination.SliderExamples -> SliderExamples()
-                                    TopComponentsDestination.DialogExamples -> DialogExamples()
-                                    TopComponentsDestination.ChipExamples -> ChipExamples()
-                                    TopComponentsDestination.FloatingActionButtonExamples -> FloatingActionButtonExamples()
-                                    TopComponentsDestination.ButtonExamples -> ButtonExamples()
-                                    TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
-                                    TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
-                                    TopComponentsDestination.AppBarExamples -> AppBarExamples {
-                                        navController.popBackStack()
-                                    }
-                                    TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
-                                    TopComponentsDestination.DividerExamples -> DividerExamples()
-                                    TopComponentsDestination.BadgeExamples -> BadgeExamples()
-                                    TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
-                                    TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
-                                    TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
-                                    TopComponentsDestination.CarouselExamples -> CarouselExamples()
-                                    TopComponentsDestination.MenusExample -> MenusExamples()
-                                    TopComponentsDestination.TooltipExamples -> TooltipExamples()
-                                    TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
-                                    TopComponentsDestination.SegmentedButtonExamples -> SegmentedButtonExamples()
-                                    TopComponentsDestination.SwipeToDismissBoxExamples -> SwipeToDismissBoxExamples()
-                                    TopComponentsDestination.SearchBarExamples -> SearchBarExamples()
-                                }
-                            }
-                        }
+                        destinations(navController)
+                        topComponentsDestinations(navController)
                     }
                 }
+            }
+        }
+    }
+}
+
+private fun NavGraphBuilder.destinations(navController: NavHostController) {
+    Destination.entries.forEach { destination ->
+        composable(destination.route) {
+            when (destination) {
+                Destination.BrushExamples -> BrushExamplesScreen()
+                Destination.ImageExamples -> ImageExamplesScreen()
+                Destination.AnimationQuickGuideExamples -> AnimationExamplesScreen()
+                Destination.ScreenshotExample -> BitmapFromComposableFullSnippet()
+                Destination.ComponentsExamples -> ComponentsScreen {
+                    navController.navigate(
+                        it.route
+                    )
+                }
+
+                Destination.ShapesExamples -> ApplyPolygonAsClipImage()
+                Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
+                Destination.PagerExamples -> PagerExamples()
+            }
+        }
+    }
+}
+
+private fun NavGraphBuilder.topComponentsDestinations(navController: NavHostController) {
+    TopComponentsDestination.entries.forEach { destination ->
+        composable(destination.route) {
+            when (destination) {
+                TopComponentsDestination.CardExamples -> CardExamples()
+                TopComponentsDestination.SwitchExamples -> SwitchExamples()
+                TopComponentsDestination.SliderExamples -> SliderExamples()
+                TopComponentsDestination.DialogExamples -> DialogExamples()
+                TopComponentsDestination.ChipExamples -> ChipExamples()
+                TopComponentsDestination.FloatingActionButtonExamples ->
+                    FloatingActionButtonExamples()
+
+                TopComponentsDestination.ButtonExamples -> ButtonExamples()
+                TopComponentsDestination.ProgressIndicatorExamples -> ProgressIndicatorExamples()
+                TopComponentsDestination.ScaffoldExample -> ScaffoldExample()
+                TopComponentsDestination.AppBarExamples -> AppBarExamples {
+                    navController.popBackStack()
+                }
+
+                TopComponentsDestination.CheckboxExamples -> CheckboxExamples()
+                TopComponentsDestination.DividerExamples -> DividerExamples()
+                TopComponentsDestination.BadgeExamples -> BadgeExamples()
+                TopComponentsDestination.PartialBottomSheet -> PartialBottomSheet()
+                TopComponentsDestination.TimePickerExamples -> TimePickerExamples()
+                TopComponentsDestination.DatePickerExamples -> DatePickerExamples()
+                TopComponentsDestination.CarouselExamples -> CarouselExamples()
+                TopComponentsDestination.MenusExample -> MenusExamples()
+                TopComponentsDestination.TooltipExamples -> TooltipExamples()
+                TopComponentsDestination.NavigationDrawerExamples -> NavigationDrawerExamples()
+                TopComponentsDestination.SegmentedButtonExamples -> SegmentedButtonExamples()
+                TopComponentsDestination.SwipeToDismissBoxExamples -> SwipeToDismissBoxExamples()
+                TopComponentsDestination.SearchBarExamples -> SearchBarExamples()
             }
         }
     }

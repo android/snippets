@@ -97,10 +97,14 @@ object CompositionLocalSnippets3 {
             Surface {
                 Column {
                     Text("Uses Surface's provided content color")
-                    CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.primary) {
+                    CompositionLocalProvider(
+                        LocalContentColor provides MaterialTheme.colorScheme.primary,
+                    ) {
                         Text("Primary color provided by LocalContentColor")
                         Text("This Text also uses primary as textColor")
-                        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.error) {
+                        CompositionLocalProvider(
+                            LocalContentColor provides MaterialTheme.colorScheme.error,
+                        ) {
                             DescendantExample()
                         }
                     }

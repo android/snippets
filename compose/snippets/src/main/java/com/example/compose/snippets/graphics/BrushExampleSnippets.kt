@@ -225,16 +225,17 @@ fun GraphicsBrushSizeRecreationExample() {
         modifier = Modifier
             .requiredSize(200.dp)
             .drawBehind {
-                drawRect(brush = brush) // will allocate a shader to occupy the 200 x 200 dp drawing area
+                // will allocate a shader to occupy the 200 x 200 dp drawing area
+                drawRect(brush = brush)
                 inset(10f) {
-          /* Will allocate a shader to occupy the 180 x 180 dp drawing area as the
-           inset scope reduces the drawing  area by 10 pixels on the left, top, right,
-          bottom sides */
+                    /* Will allocate a shader to occupy the 180 x 180 dp drawing area as the
+                     inset scope reduces the drawing  area by 10 pixels on the left, top, right,
+                    bottom sides */
                     drawRect(brush = brush)
                     inset(5f) {
-            /* will allocate a shader to occupy the 170 x 170 dp drawing area as the
-             inset scope reduces the  drawing area by 5 pixels on the left, top,
-             right, bottom sides */
+                        /* will allocate a shader to occupy the 170 x 170 dp drawing area as the
+                         inset scope reduces the  drawing area by 5 pixels on the left, top,
+                         right, bottom sides */
                         drawRect(brush = brush)
                     }
                 }

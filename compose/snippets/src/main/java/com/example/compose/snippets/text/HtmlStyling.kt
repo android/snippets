@@ -35,7 +35,8 @@ fun AnnotatedHtmlStringWithLink(
     htmlText: String = """
        <h1>Jetpack Compose</h1>
        <p>
-           Build <b>better apps</b> faster with <a href="https://www.android.com">Jetpack Compose</a>
+           Build <b>better apps</b> faster with 
+           <a href="https://www.android.com">Jetpack Compose</a>
        </p>
     """.trimIndent()
 ) {

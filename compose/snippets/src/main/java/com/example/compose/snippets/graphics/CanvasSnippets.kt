@@ -239,7 +239,14 @@ fun CanvasDrawPath() {
 fun CanvasMeasureText() {
     val pinkColor = Color(0xFFF48FB1)
     val longTextSample =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
+            " tempor incididunt ut labore et dolore magna aliqua." +
+            " Ut enim ad minim veniam, quis nostrud exercitation" +
+            " ullamco laboris nisi ut aliquip ex ea commodo consequat." +
+            " Duis aute irure dolor in reprehenderit in voluptate" +
+            " velit esse cillum dolore eu fugiat nulla pariatur." +
+            " Excepteur sint occaecat cupidatat non proident," +
+            " sunt in culpa qui officia deserunt mollit anim id est laborum."
     // [START android_compose_graphics_canvas_draw_text_measure]
     val textMeasurer = rememberTextMeasurer()
 
@@ -249,7 +256,9 @@ fun CanvasMeasureText() {
                 val measuredText =
                     textMeasurer.measure(
                         AnnotatedString(longTextSample),
-                        constraints = Constraints.fixedWidth((size.width * 2f / 3f).toInt()),
+                        constraints = Constraints.fixedWidth(
+                            width = (size.width * 2f / 3f).toInt(),
+                        ),
                         style = TextStyle(fontSize = 18.sp)
                     )
 
@@ -268,7 +277,14 @@ fun CanvasMeasureText() {
 fun CanvasMeasureTextOverflow() {
     val pinkColor = Color(0xFFF48FB1)
     val longTextSample =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
+            " tempor incididunt ut labore et dolore magna aliqua." +
+            " Ut enim ad minim veniam, quis nostrud exercitation" +
+            " ullamco laboris nisi ut aliquip ex ea commodo consequat." +
+            " Duis aute irure dolor in reprehenderit in voluptate" +
+            " velit esse cillum dolore eu fugiat nulla pariatur." +
+            " Excepteur sint occaecat cupidatat non proident," +
+            " sunt in culpa qui officia deserunt mollit anim id est laborum."
     // [START android_compose_graphics_canvas_draw_text_measure_ellipsis]
     val textMeasurer = rememberTextMeasurer()
 
@@ -305,7 +321,12 @@ fun CanvasDrawIntoCanvas() {
         modifier = Modifier
             .drawWithContent {
                 drawIntoCanvas { canvas ->
-                    drawable.setBounds(0, 0, size.width.toInt(), size.height.toInt())
+                    drawable.setBounds(
+                        0,
+                        0,
+                        size.width.toInt(),
+                        size.height.toInt(),
+                    )
                     drawable.draw(canvas.nativeCanvas)
                 }
             }
@@ -360,7 +381,14 @@ fun CanvasTransformationScaleAnim() {
         Animatable(1f)
     }
     LaunchedEffect(Unit) {
-        animatable.animateTo(10f, animationSpec = tween(3000, 3000, easing = LinearEasing))
+        animatable.animateTo(
+            targetValue = 10f,
+            animationSpec = tween(
+                durationMillis = 3000,
+                delayMillis = 3000,
+                easing = LinearEasing,
+            ),
+        )
     }
     Canvas(modifier = Modifier.fillMaxSize()) {
         scale(scaleX = animatable.value, scaleY = animatable.value * 1.5f) {

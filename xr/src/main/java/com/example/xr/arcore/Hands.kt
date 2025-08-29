@@ -67,7 +67,8 @@ fun secondaryHandDetection(activity: Activity, session: Session) {
     fun detectGesture(handState: Flow<Hand.State>) {}
     // [START androidxr_arcore_hand_handedness]
     val handedness = Hand.getPrimaryHandSide(activity.contentResolver)
-    val secondaryHand = if (handedness == Hand.HandSide.LEFT) Hand.right(session) else Hand.left(session)
+    val secondaryHand =
+        if (handedness == Hand.HandSide.LEFT) Hand.right(session) else Hand.left(session)
     val handState = secondaryHand?.state ?: return
     detectGesture(handState)
     // [END androidxr_arcore_hand_handedness]

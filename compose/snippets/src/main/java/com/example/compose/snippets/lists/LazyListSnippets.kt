@@ -461,11 +461,14 @@ private fun LazyItemAnimationWithSpec() {
     LazyColumn {
         items(books, key = { it.id }) {
             Row(
-                Modifier.animateItem(
+                modifier = Modifier.animateItem(
                     fadeInSpec = tween(durationMillis = 250),
                     fadeOutSpec = tween(durationMillis = 100),
-                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
-                )
+                    placementSpec = spring(
+                        stiffness = Spring.StiffnessLow,
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                    ),
+                ),
             ) {
                 // ...
             }

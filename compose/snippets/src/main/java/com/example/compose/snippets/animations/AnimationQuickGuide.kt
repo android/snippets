@@ -132,7 +132,8 @@ fun AnimatedVisibilityCookbook() {
         var visible by remember {
             mutableStateOf(true)
         }
-        // Animated visibility will eventually remove the item from the composition once the animation has finished.
+        // Animated visibility will eventually remove the item from the composition once the
+        // animation has finished.
         AnimatedVisibility(visible) {
             // your composable here
             // [START_EXCLUDE]

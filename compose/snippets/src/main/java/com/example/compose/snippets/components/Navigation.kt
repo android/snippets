@@ -190,7 +190,10 @@ fun NavigationTabExample(modifier: Modifier = Modifier) {
     var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
 
     Scaffold(modifier = modifier) { contentPadding ->
-        PrimaryTabRow(selectedTabIndex = selectedDestination, modifier = Modifier.padding(contentPadding)) {
+        PrimaryTabRow(
+            selectedTabIndex = selectedDestination,
+            modifier = Modifier.padding(contentPadding),
+        ) {
             Destination.entries.forEachIndexed { index, destination ->
                 Tab(
                     selected = selectedDestination == index,

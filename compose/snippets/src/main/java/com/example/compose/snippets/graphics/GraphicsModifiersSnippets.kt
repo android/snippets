@@ -116,7 +116,8 @@ fun ModifierDrawWithContent() {
             }
             .drawWithContent {
                 drawContent()
-                // draws a fully black area with a small keyhole at pointerOffset that’ll show part of the UI.
+                // draws a fully black area with a small keyhole at
+                // pointerOffset that’ll show part of the UI.
                 drawRect(
                     Brush.radialGradient(
                         listOf(Color.Transparent, Color.Black),
@@ -399,7 +400,13 @@ fun CompositingStrategyExamples() {
                 .border(2.dp, color = Color.Blue)
         ) {
             // ... and drawing a size of 200 dp here outside the bounds
-            drawRect(color = Color.Magenta, size = Size(200.dp.toPx(), 200.dp.toPx()))
+            drawRect(
+                color = Color.Magenta,
+                size = Size(
+                    width = 200.dp.toPx(),
+                    height = 200.dp.toPx(),
+                ),
+            )
         }
 
         Spacer(modifier = Modifier.size(300.dp))
@@ -413,7 +420,8 @@ fun CompositingStrategyExamples() {
                 .size(100.dp) // Note size of 100 dp here
                 .border(2.dp, color = Color.Blue)
         ) {
-            /* ... and drawing a size of 200 dp. However, because of the CompositingStrategy.Offscreen usage above, the
+            /* ... and drawing a size of 200 dp. However, because of the
+            CompositingStrategy.Offscreen usage above, the
             content gets clipped */
             drawRect(color = Color.Red, size = Size(200.dp.toPx(), 200.dp.toPx()))
         }

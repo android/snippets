@@ -51,9 +51,10 @@ class WebViewActivity : ComponentActivity() {
                             // Check if getWebauthenticationSupport may have been disabled by the WebView.
                             Log.e(
                                 "WebViewPasskeyDemo",
-                                "getWebAuthenticationSupport result: " + WebSettingsCompat.getWebAuthenticationSupport(
-                                    webView.settings
-                                ),
+                                "getWebAuthenticationSupport result: " +
+                                    WebSettingsCompat.getWebAuthenticationSupport(
+                                        webView.settings
+                                    ),
                             )
                         } else {
                             Log.e("WebViewPasskeyDemo", "WebView does not support passkeys.")

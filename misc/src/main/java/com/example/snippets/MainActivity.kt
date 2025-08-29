@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                         Destination.entries.forEach { destination ->
                             composable(destination.route) {
                                 when (destination) {
-                                    Destination.BroadcastReceiverExamples -> BroadcastReceiverSample()
+                                    Destination.BroadcastReceiverExamples ->
+                                        BroadcastReceiverSample()
                                     // Add your destination here
                                 }
                             }

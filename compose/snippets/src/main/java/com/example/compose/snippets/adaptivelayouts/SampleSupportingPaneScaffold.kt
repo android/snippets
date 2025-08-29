@@ -90,13 +90,18 @@ fun SampleNavigableSupportingPaneScaffoldFull() {
                     .safeContentPadding()
                     .background(Color.Red)
             ) {
-                if (scaffoldNavigator.scaffoldValue[SupportingPaneScaffoldRole.Supporting] == PaneAdaptedValue.Hidden) {
+                val shouldShowSupportingPane =
+                    scaffoldNavigator.scaffoldValue[SupportingPaneScaffoldRole.Supporting] ==
+                        PaneAdaptedValue.Hidden
+                if (shouldShowSupportingPane) {
                     Button(
                         modifier = Modifier
                             .wrapContentSize(),
                         onClick = {
                             scope.launch {
-                                scaffoldNavigator.navigateTo(SupportingPaneScaffoldRole.Supporting)
+                                scaffoldNavigator.navigateTo(
+                                    pane = SupportingPaneScaffoldRole.Supporting,
+                                )
                             }
                         }
                     ) {
@@ -201,7 +206,8 @@ fun SampleNavigableSupportingPaneScaffoldSimplified() {
         navigator = scaffoldNavigator,
         mainPane = {
             MainPane(
-                shouldShowSupportingPaneButton = scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden,
+                shouldShowSupportingPaneButton =
+                scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden,
                 onNavigateToSupportingPane = {
                     scope.launch {
                         scaffoldNavigator.navigateTo(ThreePaneScaffoldRole.Secondary)
@@ -214,6 +220,7 @@ fun SampleNavigableSupportingPaneScaffoldSimplified() {
     // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_simplified]
 }
 
+/* ktlint-disable standard:max-line-length */
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SampleSupportingPaneScaffoldSimplifiedWithPredictiveBackHandler() {
@@ -230,8 +237,10 @@ fun SampleSupportingPaneScaffoldSimplifiedWithPredictiveBackHandler() {
         directive = scaffoldNavigator.scaffoldDirective,
         scaffoldState = scaffoldNavigator.scaffoldState,
         mainPane = {
+            val shouldShowSupportingPaneButton =
+                scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden
             MainPane(
-                shouldShowSupportingPaneButton = scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden,
+                shouldShowSupportingPaneButton = shouldShowSupportingPaneButton,
                 onNavigateToSupportingPane = {
                     scope.launch {
                         scaffoldNavigator.navigateTo(ThreePaneScaffoldRole.Secondary)

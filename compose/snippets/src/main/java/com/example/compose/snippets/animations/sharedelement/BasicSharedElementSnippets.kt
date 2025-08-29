@@ -136,8 +136,15 @@ private class SharedElementBasicUsage2 {
             // [START_EXCLUDE]
             modifier = Modifier
                 .padding(top = 200.dp, start = 16.dp, end = 16.dp)
-                .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                .background(RoseLight, RoundedCornerShape(8.dp))
+                .border(
+                    width = 1.dp,
+                    color = Color.Gray.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(8.dp),
+                )
+                .background(
+                    color = RoseLight,
+                    shape = RoundedCornerShape(8.dp),
+                )
                 .clickable {
                     onBack()
                 }
@@ -155,11 +162,15 @@ private class SharedElementBasicUsage2 {
             // [START_EXCLUDE]
             Text("Cupcake", fontSize = 28.sp)
             Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                    "Curabitur sit amet lobortis velit. " +
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                    " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                    "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                    "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                    " Curabitur sagittis, lectus posuere imperdiet" +
+                    " facilisis, nibh massa " +
+                    "molestie est, quis dapibus orci ligula non magna." +
+                    " Pellentesque rhoncus " +
+                    "hendrerit massa quis ultricies. Curabitur congue" +
+                    " ullamcorper leo, at maximus"
             )
             // [END_EXCLUDE]
         }
@@ -287,11 +298,15 @@ private class SharedElementBasicUsage3 {
                     )
                 )
                 Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Curabitur sit amet lobortis velit. " +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                        " Curabitur sagittis, lectus posuere imperdiet facilisis," +
+                        " nibh massa " +
+                        "molestie est, quis dapibus orci ligula non magna." +
+                        " Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies. Curabitur congue" +
+                        " ullamcorper leo, at maximus"
                 )
                 // [END_EXCLUDE]
             }
@@ -450,7 +465,8 @@ val LocalSharedTransitionScope = compositionLocalOf<SharedTransitionScope?> { nu
 
 @Composable
 private fun SharedElementScope_CompositionLocal() {
-    // An example of how to use composition locals to pass around the shared transition scope, far down your UI tree.
+    // An example of how to use composition locals to pass
+    // around the shared transition scope, far down your UI tree.
     // [START_EXCLUDE]
     val state = remember {
         mutableStateOf(false)

@@ -139,9 +139,18 @@ private object VariableFontSnippetsUseTheme {
             Font(
                 R.font.robotoflex_variable,
                 variationSettings = FontVariation.Settings(
-                    FontVariation.weight(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WEIGHT),
-                    FontVariation.width(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WIDTH),
-                    FontVariation.slant(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.SLANT),
+                    FontVariation.weight(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.WEIGHT,
+                    ),
+                    FontVariation.width(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.WIDTH,
+                    ),
+                    FontVariation.slant(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.SLANT,
+                    ),
                 )
             )
         )
@@ -201,9 +210,18 @@ private object VariableFontsTypographyTheme {
             Font(
                 R.font.robotoflex_variable,
                 variationSettings = FontVariation.Settings(
-                    FontVariation.weight(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WEIGHT),
-                    FontVariation.width(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.WIDTH),
-                    FontVariation.slant(VariableFontSnippetsExtractedSettings.DisplayLargeVFConfig.SLANT),
+                    FontVariation.weight(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.WEIGHT,
+                    ),
+                    FontVariation.width(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.WIDTH,
+                    ),
+                    FontVariation.slant(
+                        value = VariableFontSnippetsExtractedSettings
+                            .DisplayLargeVFConfig.SLANT,
+                    ),
                 )
             )
         )
@@ -311,7 +329,11 @@ private object VariableFontsTypographyTheme {
                         maxLines = 2
                     )
                     Text(
-                        text = "Jetpack Compose is Android’s recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.",
+                        text = "Jetpack Compose is Android’s recommended modern toolkit" +
+                            " for building native UI. It simplifies and accelerates" +
+                            " UI development on Android. Quickly bring your app to" +
+                            " life with less code, powerful tools, and intuitive" +
+                            " Kotlin APIs.",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 3
@@ -326,12 +348,16 @@ private object VariableFontsTypographyTheme {
 private object VariableFontsTypographyCustomAxes {
     // [START android_compose_variable_font_custom_axes]
     fun ascenderHeight(ascenderHeight: Float): FontVariation.Setting {
-        require(ascenderHeight in 649f..854f) { "'Ascender Height' must be in 649f..854f" }
+        require(ascenderHeight in 649f..854f) {
+            "'Ascender Height' must be in 649f..854f"
+        }
         return FontVariation.Setting("YTAS", ascenderHeight)
     }
 
     fun counterWidth(counterWidth: Int): FontVariation.Setting {
-        require(counterWidth in 323..603) { "'Counter width' must be in 323..603" }
+        require(counterWidth in 323..603) {
+            "'Counter width' must be in 323..603"
+        }
         return FontVariation.Setting("XTRA", counterWidth.toFloat())
     }
     // [END android_compose_variable_font_custom_axes]
@@ -489,7 +515,11 @@ private object VariableFontsTypographyCustomAxes {
                         maxLines = 2
                     )
                     Text(
-                        text = "Jetpack Compose is Android’s recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.",
+                        text = "Jetpack Compose is Android’s recommended modern toolkit" +
+                            " for building native UI. It simplifies and accelerates" +
+                            " UI development on Android. Quickly bring your app to" +
+                            " life with less code, powerful tools, and intuitive" +
+                            " Kotlin APIs.",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 8.dp),
                         maxLines = 3

@@ -190,12 +190,15 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
     )
 }
 
-fun customPaneScaffoldDirective(currentWindowAdaptiveInfo: WindowAdaptiveInfo): PaneScaffoldDirective {
+fun customPaneScaffoldDirective(
+    currentWindowAdaptiveInfo: WindowAdaptiveInfo,
+): PaneScaffoldDirective {
+    val windowSizeClass = currentWindowAdaptiveInfo.windowSizeClass
     val horizontalPartitions = when {
-        currentWindowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+        windowSizeClass.isWidthAtLeastBreakpoint(
             WIDTH_DP_EXPANDED_LOWER_BOUND
         ) -> 3
-        currentWindowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+        windowSizeClass.isWidthAtLeastBreakpoint(
             WIDTH_DP_MEDIUM_LOWER_BOUND
         ) -> 2
         else -> 1

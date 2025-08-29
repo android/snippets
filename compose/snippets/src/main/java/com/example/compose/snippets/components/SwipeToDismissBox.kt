@@ -70,7 +70,7 @@ fun SwipeToDismissBoxExamples() {
 // [START android_compose_components_todoitem]
 data class TodoItem(
     val itemDescription: String,
-    var isItemDone: Boolean = false
+    var isItemDone: Boolean = false,
 )
 // [END android_compose_components_todoitem]
 
@@ -88,7 +88,7 @@ fun TodoListItem(
             else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
-        }
+        },
     )
 
     SwipeToDismissBox(
@@ -98,7 +98,11 @@ fun TodoListItem(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        imageVector = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
+                        } else {
+                            Icons.Default.CheckBoxOutlineBlank
+                        },
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
@@ -122,11 +126,11 @@ fun TodoListItem(
                 }
                 Settled -> {}
             }
-        }
+        },
     ) {
         ListItem(
             headlineContent = { Text(todoItem.itemDescription) },
-            supportingContent = { Text("swipe me to update or remove.") }
+            supportingContent = { Text("swipe me to update or remove.") },
         )
     }
 }
@@ -139,14 +143,14 @@ private fun SwipeItemExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
-            TodoItem("Go to gym"), TodoItem("Get dinner")
+            TodoItem("Go to gym"), TodoItem("Get dinner"),
         )
     }
 
     LazyColumn {
         items(
             items = todoItems,
-            key = { it.itemDescription }
+            key = { it.itemDescription },
         ) { todoItem ->
             TodoListItem(
                 todoItem = todoItem,
@@ -156,7 +160,7 @@ private fun SwipeItemExample() {
                 onRemove = { todoItem ->
                     todoItems -= todoItem
                 },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
             )
         }
     }
@@ -177,7 +181,7 @@ fun TodoListItemWithAnimation(
             else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
-        }
+        },
     )
 
     SwipeToDismissBox(
@@ -187,16 +191,26 @@ fun TodoListItemWithAnimation(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        imageVector = if (todoItem.isItemDone) {
+                            Icons.Default.CheckBox
+                        } else {
+                            Icons.Default.CheckBoxOutlineBlank
+                        },
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
                             .drawBehind {
-                                drawRect(lerp(Color.LightGray, Color.Blue, swipeToDismissBoxState.progress))
+                                drawRect(
+                                    color = lerp(
+                                        start = Color.LightGray,
+                                        stop = Color.Blue,
+                                        fraction = swipeToDismissBoxState.progress
+                                    )
+                                )
                             }
                             .wrapContentSize(Alignment.CenterStart)
                             .padding(12.dp),
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
                 EndToStart -> {
@@ -205,10 +219,16 @@ fun TodoListItemWithAnimation(
                         contentDescription = "Remove item",
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(lerp(Color.LightGray, Color.Red, swipeToDismissBoxState.progress))
+                            .background(
+                                color = lerp(
+                                    start = Color.LightGray,
+                                    stop = Color.Red,
+                                    fraction = swipeToDismissBoxState.progress
+                                )
+                            )
                             .wrapContentSize(Alignment.CenterEnd)
                             .padding(12.dp),
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
                 Settled -> {}
@@ -218,7 +238,7 @@ fun TodoListItemWithAnimation(
         OutlinedCard(shape = RectangleShape) {
             ListItem(
                 headlineContent = { Text(todoItem.itemDescription) },
-                supportingContent = { Text("swipe me to update or remove.") }
+                supportingContent = { Text("swipe me to update or remove.") },
             )
         }
     }
@@ -232,14 +252,14 @@ private fun SwipeItemWithAnimationExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
-            TodoItem("Go to gym"), TodoItem("Get dinner")
+            TodoItem("Go to gym"), TodoItem("Get dinner"),
         )
     }
 
     LazyColumn {
         items(
             items = todoItems,
-            key = { it.itemDescription }
+            key = { it.itemDescription },
         ) { todoItem ->
             TodoListItemWithAnimation(
                 todoItem = todoItem,
@@ -249,7 +269,7 @@ private fun SwipeItemWithAnimationExample() {
                 onRemove = { todoItem ->
                     todoItems -= todoItem
                 },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
             )
         }
     }

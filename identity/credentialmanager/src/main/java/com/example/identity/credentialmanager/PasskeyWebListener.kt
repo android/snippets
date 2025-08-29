@@ -179,6 +179,7 @@ class PasskeyWebListener(
         const val REQUEST_KEY = "request"
         const val CREATE_UNIQUE_KEY = "create"
         const val GET_UNIQUE_KEY = "get"
+        @Suppress("ktlint:standard:max-line-length")
         /** INJECTED_VAL is the minified version of the JavaScript code described at this class
          * heading. The non minified form is found at credmanweb/javascript/encode.js.*/
         const val INJECTED_VAL = """

@@ -187,7 +187,8 @@ private fun DetailsContent(
                 )
             )
             Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                    "Curabitur sit amet lobortis velit. " +
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                     " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
                     "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +

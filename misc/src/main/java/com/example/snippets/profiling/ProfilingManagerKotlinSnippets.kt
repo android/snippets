@@ -53,7 +53,8 @@ class ProfilingManagerKotlinSnippets {
                 } else {
                     Log.e(
                         "ProfileTest",
-                        "Profiling failed errorcode=" + profilingResult.errorCode + " errormsg=" + profilingResult.errorMessage
+                        "Profiling failed errorcode=" + profilingResult.errorCode +
+                            " errormsg=" + profilingResult.errorMessage,
                     )
                 }
             }
@@ -65,7 +66,12 @@ class ProfilingManagerKotlinSnippets {
             requestBuilder.setDurationMs(60000)
             requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER)
             requestBuilder.setBufferSizeKb(20971520)
-            requestProfiling(applicationContext, requestBuilder.build(), mainExecutor, resultCallback)
+            requestProfiling(
+                applicationContext,
+                requestBuilder.build(),
+                mainExecutor,
+                resultCallback,
+            )
 
             // Wait some time for profiling to start.
 

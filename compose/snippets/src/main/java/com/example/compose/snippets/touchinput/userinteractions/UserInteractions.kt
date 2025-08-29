@@ -57,14 +57,18 @@ import kotlinx.coroutines.launch
 // [START android_compose_userinteractions_scale_indication_object]
 object ScaleIndication : Indication {
     @Composable
-    override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
+    override fun rememberUpdatedInstance(
+        interactionSource: InteractionSource,
+    ): IndicationInstance {
         // key the remember against interactionSource, so if it changes we create a new instance
         val instance = remember(interactionSource) { ScaleIndicationInstance() }
 
         LaunchedEffect(interactionSource) {
             interactionSource.interactions.collectLatest { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> instance.animateToPressed(interaction.pressPosition)
+                    is PressInteraction.Press -> instance.animateToPressed(
+                        pressPosition = interaction.pressPosition,
+                    )
                     is PressInteraction.Release -> instance.animateToResting()
                     is PressInteraction.Cancel -> instance.animateToResting()
                 }
@@ -216,7 +220,9 @@ private class ScaleIndicationNode(
         coroutineScope.launch {
             interactionSource.interactions.collectLatest { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
+                    is PressInteraction.Press -> animateToPressed(
+                        pressPosition = interaction.pressPosition,
+                    )
                     is PressInteraction.Release -> animateToResting()
                     is PressInteraction.Cancel -> animateToResting()
                 }

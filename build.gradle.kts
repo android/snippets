@@ -42,7 +42,6 @@ allprojects {
                 "spacing-between-declarations-with-comments",
                 "unary-op-spacing",
                 "no-trailing-spaces",
-                "max-line-length",
                 // Disabled rules that were introduced or changed between 0.46.0 ~ 1.50.0
                 "class-signature",
                 "trailing-comma-on-call-site",

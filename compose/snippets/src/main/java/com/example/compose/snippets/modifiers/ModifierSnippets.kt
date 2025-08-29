@@ -243,7 +243,8 @@ private object AnimationInline {
         val animatedState = animateFloatAsState(/*...*/)
 
         LoadingWheel(
-            // Creation and allocation of this modifier will happen on every frame of the animation!
+            // Creation and allocation of this modifier
+            // will happen on every frame of the animation!
             modifier = Modifier
                 .padding(12.dp)
                 .background(Color.Gray),
@@ -352,7 +353,8 @@ private fun ScopedModifiers2() {
 
         Box {
             Text2(
-                // Weight won't do anything here since the Text composable is not a direct child of Column
+                // Weight won't do anything here since the
+                // Text composable is not a direct child of Column
                 modifier = reusableItemModifier
                 // ...
             )
@@ -366,8 +368,9 @@ private object ChainingExtractedModifiers {
 
     @Composable
     private fun Snippet() {
-        // Note: In a real app, you would define the modifier outside of the composable where it is
-        // needed. For the snippet in the documentation, putting it in one place is clearer.
+        // Note: In a real app, you would define the modifier
+        // outside of the composable where it is needed.
+        // For the snippet in the documentation, putting it in one place is clearer.
         // [START android_compose_modifiers_chainingextractedmodifiers]
         val reusableModifier = Modifier
             .fillMaxWidth()

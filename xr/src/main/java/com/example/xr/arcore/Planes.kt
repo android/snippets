@@ -46,7 +46,10 @@ private suspend fun subscribePlanes(session: Session) {
 }
 
 private fun hitTestTable(session: Session) {
-    val pose = session.scene.spatialUser.head?.transformPoseTo(Pose(), session.scene.perceptionSpace) ?: return
+    val pose = session.scene.spatialUser.head?.transformPoseTo(
+        Pose(),
+        session.scene.perceptionSpace,
+    ) ?: return
     val ray = Ray(pose.translation, pose.forward)
     // [START androidxr_arcore_hitTest]
     val results = androidx.xr.arcore.hitTest(session, ray)

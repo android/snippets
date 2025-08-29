@@ -136,7 +136,8 @@ fun BitmapFromComposableFullSnippet() {
     )
 
     // This logic should live in your ViewModel - trigger a side effect to invoke URI sharing.
-    // checks permissions granted, and then saves the bitmap from a Picture that is already capturing content
+    // checks permissions granted,
+    // and then saves the bitmap from a Picture that is already capturing content
     // and shares it with the default share sheet.
     fun shareBitmapFromComposable() {
         if (writeStorageAccessState.allPermissionsGranted) {
@@ -265,5 +266,9 @@ private fun shareBitmap(context: Context, uri: Uri) {
         putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-    startActivity(context, createChooser(intent, "Share your image"), null)
+    startActivity(
+        context,
+        createChooser(intent, "Share your image"),
+        null,
+    )
 }

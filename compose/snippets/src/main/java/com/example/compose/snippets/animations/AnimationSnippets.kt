@@ -938,7 +938,10 @@ private fun ContentIcon() {
 // [START android_compose_animations_char_by_char]
 @Composable
 private fun AnimatedText() {
-    val text = "This text animates as though it is being typed \uD83E\uDDDE\u200D♀\uFE0F \uD83D\uDD10  \uD83D\uDC69\u200D❤\uFE0F\u200D\uD83D\uDC68 \uD83D\uDC74\uD83C\uDFFD"
+    val text = "This text animates as though it is being typed" +
+        " \uD83E\uDDDE\u200D♀\uFE0F \uD83D\uDD10" +
+        "  \uD83D\uDC69\u200D❤\uFE0F\u200D\uD83D\uDC68" +
+        " \uD83D\uDC74\uD83C\uDFFD"
 
     // Use BreakIterator as it correctly iterates over characters regardless of how they are
     // stored, for example, some emojis are made up of multiple characters.

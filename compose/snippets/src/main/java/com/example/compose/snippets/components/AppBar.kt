@@ -306,7 +306,9 @@ fun MediumTopAppBarExample() {
 // [START android_compose_components_largetopappbar]
 @Composable
 fun LargeTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        state = rememberTopAppBarState(),
+    )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -471,7 +473,11 @@ private fun AppBarMultiSelectionExample(
                                 /* click action */
                             },
                             onLongClick = {
-                                if (isItemSelected) selectedItems -= index else selectedItems += index
+                                if (isItemSelected) {
+                                    selectedItems -= index
+                                } else {
+                                    selectedItems += index
+                                }
                             }
                         )
                 )

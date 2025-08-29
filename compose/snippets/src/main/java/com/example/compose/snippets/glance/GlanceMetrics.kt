@@ -74,10 +74,13 @@ class GlanceMetrics {
             }
 
             // Impressions
-            metrics["totalImpressionLength"] = metrics.getValue("totalImpressionLength") + event.visibleDuration.toMillis()
+            metrics["totalImpressionLength"] =
+                metrics.getValue("totalImpressionLength") + event.visibleDuration.toMillis()
             Log.d(
                 TAG,
-                "Widget $widgetId: Impression event with duration " + event.visibleDuration.toMillis() + "ms"
+                "Widget $widgetId: Impression event with duration " +
+                    event.visibleDuration.toMillis() +
+                    "ms"
             )
 
             // Position

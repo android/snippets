@@ -51,7 +51,9 @@ fun MyApp(
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 ) {
     // Decide whether to show the top app bar based on window size class.
-    val showTopAppBar = windowSizeClass.isHeightAtLeastBreakpoint(WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND)
+    val showTopAppBar = windowSizeClass.isHeightAtLeastBreakpoint(
+        heightDpBreakpoint = WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND,
+    )
 
     // MyScreen logic is based on the showTopAppBar boolean flag.
     MyScreen(

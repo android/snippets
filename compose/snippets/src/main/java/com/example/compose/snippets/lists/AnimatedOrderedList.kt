@@ -47,7 +47,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class AnimatedOrderedListViewModel : ViewModel() {
-    private val _data = listOf("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten")
+    private val _data =
+        listOf("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten")
     private val _displayedItems: MutableStateFlow<List<String>> = MutableStateFlow(_data)
     val displayedItems: StateFlow<List<String>> = _displayedItems
 

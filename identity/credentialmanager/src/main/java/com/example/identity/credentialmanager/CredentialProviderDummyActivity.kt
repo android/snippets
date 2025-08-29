@@ -271,7 +271,8 @@ class CredentialProviderDummyActivity : FragmentActivity() {
     ) {
         // [START android_identity_credential_provider_user_pk_selection]
         val getRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
-        val publicKeyRequest = getRequest?.credentialOptions?.first() as GetPublicKeyCredentialOption
+        val publicKeyRequest =
+            getRequest?.credentialOptions?.first() as GetPublicKeyCredentialOption
 
         val requestInfo = intent.getBundleExtra("CREDENTIAL_DATA")
         val credIdEnc = requestInfo?.getString("credId").orEmpty()
@@ -358,7 +359,9 @@ class CredentialProviderDummyActivity : FragmentActivity() {
                         authenticatorAttachment = "", // Add your authenticator attachment
                     )
                     val result = Intent()
-                    val passkeyCredential = PublicKeyCredential(credential.json())
+                    val passkeyCredential = PublicKeyCredential(
+                        authenticationResponseJson = credential.json(),
+                    )
                     PendingIntentHandler.setGetCredentialResponse(
                         result, GetCredentialResponse(passkeyCredential)
                     )
@@ -418,8 +421,14 @@ class CredentialProviderDummyActivity : FragmentActivity() {
     }
 
     // [START android_identity_credential_pending_intent]
-    fun createSettingsPendingIntent(): PendingIntent { // [END android_identity_credential_pending_intent]
-        return PendingIntent.getBroadcast(this, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    fun createSettingsPendingIntent(): PendingIntent {
+        // [END android_identity_credential_pending_intent]
+        return PendingIntent.getBroadcast(
+            this,
+            0,
+            Intent(),
+            PendingIntent.FLAG_IMMUTABLE,
+        )
     }
 
     private fun getPublicKeyFromKeyPair(keyPair: KeyPair): ByteArray {
@@ -438,7 +447,12 @@ class CredentialProviderDummyActivity : FragmentActivity() {
         accountId: String,
         intent: String
     ): PendingIntent {
-        return PendingIntent.getBroadcast(this, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+        return PendingIntent.getBroadcast(
+            this,
+            0,
+            Intent(),
+            PendingIntent.FLAG_IMMUTABLE,
+        )
     }
 
     private fun b64Decode(encodedString: String): ByteArray {

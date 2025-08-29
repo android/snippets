@@ -61,8 +61,10 @@ class PasskeyAndPasswordFunctions(
      * Retrieves a passkey from the credential manager.
      *
      * @param creationResult The result of the passkey creation operation.
-     * @param context The activity context from the Composable, to be used in Credential Manager APIs
-     * @return The [GetCredentialResponse] object containing the passkey, or null if an error occurred.
+     * @param context The activity context from the Composable, to be used in
+     * Credential Manager APIs.
+     * @return The [GetCredentialResponse] object containing the passkey, or
+     * null if an error occurred.
      */
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun signInFlow(
@@ -169,8 +171,8 @@ class PasskeyAndPasswordFunctions(
             // [END android_identity_autofill_get_credential_api]
         }
 
-        val usernameEditText: androidx.appcompat.widget.AppCompatEditText = AppCompatEditText(activityContext)
-        val passwordEditText: androidx.appcompat.widget.AppCompatEditText = AppCompatEditText(activityContext)
+        val usernameEditText: AppCompatEditText = AppCompatEditText(activityContext)
+        val passwordEditText: AppCompatEditText = AppCompatEditText(activityContext)
 
         // [START android_identity_autofill_enable_edit_text]
         usernameEditText.pendingGetCredentialRequest = PendingGetCredentialRequest(

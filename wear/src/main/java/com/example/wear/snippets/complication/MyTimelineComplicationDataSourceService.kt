@@ -37,7 +37,9 @@ data class CalendarEntry(
 
 // [START android_wear_timeline_complication]
 class MyTimelineComplicationDataSourceService : SuspendingTimelineComplicationDataSourceService() {
-    override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationDataTimeline? {
+    override suspend fun onComplicationRequest(
+        request: ComplicationRequest,
+    ): ComplicationDataTimeline? {
         if (request.complicationType != ComplicationType.SHORT_TEXT) {
             return ComplicationDataTimeline(
                 defaultComplicationData = NoDataComplicationData(),
@@ -73,9 +75,21 @@ class MyTimelineComplicationDataSourceService : SuspendingTimelineComplicationDa
     private fun getCalendarEvents(): List<CalendarEntry> {
         val now = Instant.now()
         return listOf(
-            CalendarEntry(now, now.plus(1, ChronoUnit.HOURS), "Event 1"),
-            CalendarEntry(now.plus(2, ChronoUnit.HOURS), now.plus(3, ChronoUnit.HOURS), "Event 2"),
-            CalendarEntry(now.plus(4, ChronoUnit.HOURS), now.plus(5, ChronoUnit.HOURS), "Event 3"),
+            CalendarEntry(
+                start = now,
+                end = now.plus(1, ChronoUnit.HOURS),
+                name = "Event 1",
+            ),
+            CalendarEntry(
+                start = now.plus(2, ChronoUnit.HOURS),
+                end = now.plus(3, ChronoUnit.HOURS),
+                name = "Event 2",
+            ),
+            CalendarEntry(
+                start = now.plus(4, ChronoUnit.HOURS),
+                end = now.plus(5, ChronoUnit.HOURS),
+                name = "Event 3",
+            ),
         )
     }
     // [END_EXCLUDE]
