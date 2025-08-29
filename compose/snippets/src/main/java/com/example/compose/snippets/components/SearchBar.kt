@@ -181,7 +181,12 @@ fun CustomizableSearchBar(
     modifier: Modifier = Modifier,
     // Customization options
     placeholder: @Composable () -> Unit = { Text("Search") },
-    leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
+    leadingIcon: @Composable (() -> Unit)? = {
+        Icon(
+            Icons.Default.Search,
+            contentDescription = "Search",
+        )
+    },
     trailingIcon: @Composable (() -> Unit)? = null,
     supportingContent: (@Composable (String) -> Unit)? = null,
     leadingContent: (@Composable () -> Unit)? = null,

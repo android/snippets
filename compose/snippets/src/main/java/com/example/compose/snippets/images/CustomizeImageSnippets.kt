@@ -152,7 +152,8 @@ fun CustomClippingShape() {
             density: Density
         ): Outline {
             val path = Path().apply {
-                // We create an Oval that starts at ¼ of the width, and ends at ¾ of the width of the container.
+                // We create an Oval that starts at ¼ of the width,
+                // and ends at ¾ of the width of the container.
                 addOval(
                     Rect(
                         left = size.width / 4f,

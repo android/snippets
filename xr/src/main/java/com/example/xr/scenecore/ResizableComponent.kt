@@ -32,7 +32,11 @@ private fun resizableComponentExample(
     val resizableComponent = ResizableComponent.create(session) { event ->
         if (event.resizeState == ResizeEvent.ResizeState.RESIZE_STATE_END) {
             // update the Entity to reflect the new size
-            surfaceEntity.canvasShape = SurfaceEntity.CanvasShape.Quad(event.newSize.width, event.newSize.height)
+            surfaceEntity.canvasShape =
+                SurfaceEntity.CanvasShape.Quad(
+                    width = event.newSize.width,
+                    height = event.newSize.height,
+                )
         }
     }
     resizableComponent.minimumEntitySize = FloatSize3d(177f, 100f, 1f)
