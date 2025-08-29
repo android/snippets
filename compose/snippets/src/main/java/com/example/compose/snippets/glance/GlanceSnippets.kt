@@ -226,7 +226,7 @@ private object ActionLaunchSendBroadcastEvent {
 
 private object ActionLambda {
     @Composable
-    fun actionLambda() {
+    fun ActionLambda() {
         // [START android_compose_glance_lambda01]
         Text(
             text = "Submit",
@@ -238,7 +238,7 @@ private object ActionLambda {
     }
 
     @Composable
-    fun actionLambda2() {
+    fun ActionLambda2() {
         // [START android_compose_glance_lambda02]
         Button(
             text = "Submit",
@@ -437,7 +437,7 @@ object ManageAndUpdate {
 object BuildUIWithGlance {
 
     @Composable
-    fun example1() {
+    fun Example1() {
         // [START android_compose_glance_buildUI01]
         Row(modifier = GlanceModifier.fillMaxWidth().padding(16.dp)) {
             val modifier = GlanceModifier.defaultWeight()
@@ -449,7 +449,7 @@ object BuildUIWithGlance {
     }
 
     @Composable
-    fun example2() {
+    fun Example2() {
 
         // [START android_compose_glance_buildUI02]
         // Remember to import Glance Composables
@@ -467,7 +467,7 @@ object BuildUIWithGlance {
     }
 
     @Composable
-    fun example3() {
+    fun Example3() {
         // [START android_compose_glance_buildUI03]
         LazyColumn {
             item {
@@ -481,7 +481,7 @@ object BuildUIWithGlance {
     }
 
     @Composable
-    fun example4() {
+    fun Example4() {
         val peopleNameList = arrayListOf<String>()
         val peopleList = arrayListOf<Person>()
 
@@ -632,7 +632,7 @@ object SizeModeSnippets3 {
 
 object AccessResources {
     @Composable
-    fun example1() {
+    fun Example1() {
         // [START android_compose_glance_buildUI10]
         LocalContext.current.getString(R.string.glance_title)
         // [END android_compose_glance_buildUI10]
@@ -652,7 +652,7 @@ object AccessResources {
 
 object CompoundButton {
     @Composable
-    fun example1() {
+    fun Example1() {
         // [START android_compose_glance_buildUI12]
         var isApplesChecked by remember { mutableStateOf(false) }
         var isEnabledSwitched by remember { mutableStateOf(false) }
@@ -861,7 +861,7 @@ object GlanceTheming {
     }
 
     @Composable
-    fun shapeExample() {
+    fun ShapeExample() {
         // Note : android_compose_glance_glancetheming04 is found in button_outline.xml
         // [START android_compose_glance_glancetheming05]
         GlanceModifier.background(
@@ -899,7 +899,7 @@ object GlanceInnerPadding {
 
 object GlanceInteroperability {
     @Composable
-    fun example01() {
+    fun Example01() {
         // [START android_compose_glance_glanceinteroperability01]
         val packageName = LocalContext.current.packageName
         Column(modifier = GlanceModifier.fillMaxSize()) {
@@ -910,7 +910,7 @@ object GlanceInteroperability {
     }
 
     @Composable
-    fun example02() {
+    fun Example02() {
         val packageName = null
 
         // [START android_compose_glance_glanceinteroperability02]
