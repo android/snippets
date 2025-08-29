@@ -176,7 +176,7 @@ fun SharedTransitionScope.SnackEditDetails(
                             ),
                             animatedVisibilityScope = this@AnimatedContent,
                             clipInOverlayDuringTransition =
-                                OverlayClip(shapeForSharedElement),
+                            OverlayClip(shapeForSharedElement),
                         )
                         .background(Color.White, shapeForSharedElement)
                         .clip(shapeForSharedElement),

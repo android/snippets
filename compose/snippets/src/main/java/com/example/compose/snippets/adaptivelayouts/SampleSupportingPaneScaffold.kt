@@ -150,7 +150,7 @@ fun SampleNavigableSupportingPaneScaffoldSimplified() {
         mainPane = {
             MainPane(
                 shouldShowSupportingPaneButton =
-                    scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden,
+                scaffoldNavigator.scaffoldValue.secondary == PaneAdaptedValue.Hidden,
                 onNavigateToSupportingPane = {
                     scope.launch {
                         scaffoldNavigator.navigateTo(ThreePaneScaffoldRole.Secondary)
