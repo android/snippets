@@ -70,18 +70,18 @@ fun SharedElement_PredictiveBack() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = "home"
+            startDestination = "home",
         ) {
             composable("home") {
                 HomeScreen(
                     this@SharedTransitionLayout,
                     this@composable,
-                    { navController.navigate("details/$it") }
+                    { navController.navigate("details/$it") },
                 )
             }
             composable(
                 "details/{item}",
-                arguments = listOf(navArgument("item") { type = NavType.IntType })
+                arguments = listOf(navArgument("item") { type = NavType.IntType }),
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("item")
                 val snack = listSnacks[id!!]
@@ -92,7 +92,7 @@ fun SharedElement_PredictiveBack() {
                     this@composable,
                     {
                         navController.navigate("home")
-                    }
+                    },
                 )
             }
         }
@@ -105,7 +105,7 @@ fun DetailsScreen(
     snack: Snack,
     sharedTransitionScope: SharedTransitionScope,
     animatedContentScope: AnimatedContentScope,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     with(sharedTransitionScope) {
         Column(
@@ -126,7 +126,7 @@ fun DetailsScreen(
                         animatedVisibilityScope = animatedContentScope
                     )
                     .aspectRatio(1f)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
             Text(
                 text = snack.name,
@@ -137,7 +137,7 @@ fun DetailsScreen(
                             .rememberSharedContentState(key = "text-$id"),
                         animatedVisibilityScope = animatedContentScope
                     )
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
         }
     }
@@ -153,7 +153,7 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(listSnacks) { index, item ->
             Row(
@@ -195,6 +195,6 @@ fun HomeScreen(
 data class Snack(
     val name: String,
     val description: String,
-    @DrawableRes val image: Int
+    @DrawableRes val image: Int,
 )
 // [END android_compose_shared_element_predictive_back]

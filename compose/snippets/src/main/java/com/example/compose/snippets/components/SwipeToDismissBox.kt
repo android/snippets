@@ -70,7 +70,7 @@ fun SwipeToDismissBoxExamples() {
 // [START android_compose_components_todoitem]
 data class TodoItem(
     val itemDescription: String,
-    var isItemDone: Boolean = false
+    var isItemDone: Boolean = false,
 )
 // [END android_compose_components_todoitem]
 
@@ -88,7 +88,7 @@ fun TodoListItem(
             else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
-        }
+        },
     )
 
     SwipeToDismissBox(
@@ -126,11 +126,11 @@ fun TodoListItem(
                 }
                 Settled -> {}
             }
-        }
+        },
     ) {
         ListItem(
             headlineContent = { Text(todoItem.itemDescription) },
-            supportingContent = { Text("swipe me to update or remove.") }
+            supportingContent = { Text("swipe me to update or remove.") },
         )
     }
 }
@@ -143,14 +143,14 @@ private fun SwipeItemExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
-            TodoItem("Go to gym"), TodoItem("Get dinner")
+            TodoItem("Go to gym"), TodoItem("Get dinner"),
         )
     }
 
     LazyColumn {
         items(
             items = todoItems,
-            key = { it.itemDescription }
+            key = { it.itemDescription },
         ) { todoItem ->
             TodoListItem(
                 todoItem = todoItem,
@@ -160,7 +160,7 @@ private fun SwipeItemExample() {
                 onRemove = { todoItem ->
                     todoItems -= todoItem
                 },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
             )
         }
     }
@@ -181,7 +181,7 @@ fun TodoListItemWithAnimation(
             else if (it == EndToStart) onRemove(todoItem)
             // Reset item when toggling done status
             it != StartToEnd
-        }
+        },
     )
 
     SwipeToDismissBox(
@@ -210,7 +210,7 @@ fun TodoListItemWithAnimation(
                             }
                             .wrapContentSize(Alignment.CenterStart)
                             .padding(12.dp),
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
                 EndToStart -> {
@@ -228,7 +228,7 @@ fun TodoListItemWithAnimation(
                             )
                             .wrapContentSize(Alignment.CenterEnd)
                             .padding(12.dp),
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
                 Settled -> {}
@@ -238,7 +238,7 @@ fun TodoListItemWithAnimation(
         OutlinedCard(shape = RectangleShape) {
             ListItem(
                 headlineContent = { Text(todoItem.itemDescription) },
-                supportingContent = { Text("swipe me to update or remove.") }
+                supportingContent = { Text("swipe me to update or remove.") },
             )
         }
     }
@@ -252,14 +252,14 @@ private fun SwipeItemWithAnimationExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
-            TodoItem("Go to gym"), TodoItem("Get dinner")
+            TodoItem("Go to gym"), TodoItem("Get dinner"),
         )
     }
 
     LazyColumn {
         items(
             items = todoItems,
-            key = { it.itemDescription }
+            key = { it.itemDescription },
         ) { todoItem ->
             TodoListItemWithAnimation(
                 todoItem = todoItem,
@@ -269,7 +269,7 @@ private fun SwipeItemWithAnimationExample() {
                 onRemove = { todoItem ->
                     todoItems -= todoItem
                 },
-                modifier = Modifier.animateItem()
+                modifier = Modifier.animateItem(),
             )
         }
     }

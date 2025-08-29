@@ -352,14 +352,7 @@ private fun MorphOnClick() {
 }
 
 // [START android_compose_shapes_polygon_compose_shape]
-fun RoundedPolygon.getBounds() = calculateBounds().let {
-    Rect(
-        left = it[0],
-        top = it[1],
-        right = it[2],
-        bottom = it[3],
-    )
-}
+fun RoundedPolygon.getBounds() = calculateBounds().let { Rect(it[0], it[1], it[2], it[3]) }
 class RoundedPolygonShape(
     private val polygon: RoundedPolygon,
     private var matrix: Matrix = Matrix()

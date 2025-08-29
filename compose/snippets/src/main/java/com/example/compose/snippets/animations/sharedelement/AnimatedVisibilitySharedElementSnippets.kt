@@ -90,7 +90,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                 .fillMaxSize()
                 .background(Color.LightGray.copy(alpha = 0.5f))
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             // [END_EXCLUDE]
         ) {
             items(listSnacks) { snack ->
@@ -98,7 +98,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                     visible = snack != selectedSnack,
                     enter = fadeIn() + scaleIn(),
                     exit = fadeOut() + scaleOut(),
-                    modifier = Modifier.animateItem()
+                    modifier = Modifier.animateItem(),
                 ) {
                     Box(
                         modifier = Modifier
@@ -123,7 +123,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
                             ),
                             onClick = {
                                 selectedSnack = snack
-                            }
+                            },
                         )
                     }
                 }
@@ -134,7 +134,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
             snack = selectedSnack,
             onConfirmClick = {
                 selectedSnack = null
-            }
+            },
         )
     }
     // [END android_compose_shared_elements_animated_visibility]
@@ -144,7 +144,7 @@ private fun AnimatedVisibilitySharedElementShortenedExample() {
 fun SharedTransitionScope.SnackEditDetails(
     snack: Snack?,
     modifier: Modifier = Modifier,
-    onConfirmClick: () -> Unit
+    onConfirmClick: () -> Unit,
 ) {
     AnimatedContent(
         modifier = modifier,
@@ -152,11 +152,11 @@ fun SharedTransitionScope.SnackEditDetails(
         transitionSpec = {
             fadeIn() togetherWith fadeOut()
         },
-        label = "SnackEditDetails"
+        label = "SnackEditDetails",
     ) { targetSnack ->
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             if (targetSnack != null) {
                 Box(
@@ -165,7 +165,7 @@ fun SharedTransitionScope.SnackEditDetails(
                         .clickable {
                             onConfirmClick()
                         }
-                        .background(Color.Black.copy(alpha = 0.5f))
+                        .background(Color.Black.copy(alpha = 0.5f)),
                 )
                 Column(
                     modifier = Modifier
@@ -176,10 +176,10 @@ fun SharedTransitionScope.SnackEditDetails(
                             ),
                             animatedVisibilityScope = this@AnimatedContent,
                             clipInOverlayDuringTransition =
-                            OverlayClip(shapeForSharedElement)
+                                OverlayClip(shapeForSharedElement),
                         )
                         .background(Color.White, shapeForSharedElement)
-                        .clip(shapeForSharedElement)
+                        .clip(shapeForSharedElement),
                 ) {
 
                     SnackContents(
@@ -196,7 +196,7 @@ fun SharedTransitionScope.SnackEditDetails(
                         Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp, end = 8.dp),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.End,
                     ) {
                         TextButton(onClick = { onConfirmClick() }) {
                             Text(text = "Save changes")
@@ -212,7 +212,7 @@ fun SharedTransitionScope.SnackEditDetails(
 fun SnackContents(
     snack: Snack,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -221,7 +221,7 @@ fun SnackContents(
                 indication = null
             ) {
                 onClick()
-            }
+            },
     ) {
         Image(
             painter = painterResource(id = snack.image),
@@ -229,14 +229,14 @@ fun SnackContents(
                 .fillMaxWidth()
                 .aspectRatio(20f / 9f),
             contentScale = ContentScale.Crop,
-            contentDescription = null
+            contentDescription = null,
         )
         Text(
             text = snack.name,
             modifier = Modifier
                 .wrapContentWidth()
                 .padding(8.dp),
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleSmall,
         )
     }
 }
