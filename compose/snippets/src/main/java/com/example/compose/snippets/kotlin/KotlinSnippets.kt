@@ -340,15 +340,17 @@ fun MoveBoxWhereTapped() {
                 // coroutines inside a suspend function
                 coroutineScope {
                     while (true) {
-                        // Wait for the user to tap on the screen
-                        val offset = awaitPointerEventScope {
-                            awaitFirstDown().position
-                        }
-                        // Launch a new coroutine to asynchronously animate to
-                        // where the user tapped on the screen
-                        launch {
-                            // Animate to the pressed position
-                            animatedOffset.animateTo(offset)
+                        // Wait for the user to tap on the screen and animate
+                        // in the same block
+                        awaitPointerEventScope {
+                            val offset = awaitFirstDown().position
+
+                            // Launch a new coroutine to asynchronously animate to
+                            // where the user tapped on the screen
+                            launch {
+                                // Animate to the pressed position
+                                animatedOffset.animateTo(offset)
+                            }
                         }
                     }
                 }

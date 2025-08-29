@@ -45,7 +45,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -472,7 +472,7 @@ fun ContextualFlowLayoutExample() {
     // [START android_compose_layouts_contextual_flow]
     val totalCount = 40
     var maxLines by remember {
-        mutableStateOf(2)
+        mutableIntStateOf(2)
     }
 
     val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
