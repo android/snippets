@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.identity.credentialmanager
 
 import android.os.Build.VERSION_CODES
@@ -11,7 +27,7 @@ import androidx.credentials.provider.BiometricPromptData
 import androidx.credentials.provider.CallingAppInfo
 import androidx.credentials.provider.PendingIntentHandler
 
-class SingleTap: ComponentActivity() {
+class SingleTap : ComponentActivity() {
     private val x: Any? = null
     private val TAG: String = ""
 
@@ -35,7 +51,7 @@ class SingleTap: ComponentActivity() {
                     allowedAuthenticators = allowedAuthenticator
                 )
             )
-            // [END android_identity_single_tap_set_biometric_prompt_data]
+        // [END android_identity_single_tap_set_biometric_prompt_data]
 
         when (x) {
             // [START android_identity_single_tap_pk_creation]
@@ -105,8 +121,7 @@ class SingleTap: ComponentActivity() {
 
             if (biometricPromptResult == null) {
                 // Do your own authentication flow, if needed
-            }
-            else if (biometricPromptResult.isSuccessful) {
+            } else if (biometricPromptResult.isSuccessful) {
                 createPasskey(
                     publicKeyRequest.requestJson,
                     createRequest.callingAppInfo,
@@ -150,8 +165,7 @@ class SingleTap: ComponentActivity() {
         // Add your logic based on what needs to be done
         // after getting biometrics
 
-        if (biometricPromptResult == null)
-        {
+        if (biometricPromptResult == null) {
             // Do your own authentication flow, if necessary
         } else if (biometricPromptResult.isSuccessful) {
 
