@@ -6,4 +6,7 @@
     <string name="message_detail">Message Detail</string>
     <string name="tile_label">Hello Tile</string>
     <string name="tile_description">Hello Tile Description</string>
+    <string name="my_complication_service_label">My Complication</string>
+    <string name="my_complication_timeline_service_label">My Timeline Complication</string>
+    <string name="configuration_activity_label">Configuration activity</string>
 </resources>
