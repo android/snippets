@@ -3,6 +3,8 @@ import KmpKit
 import SwiftUI
 
 // [START android_kmp_viewmodel_ios_contentview]
+// iosApp/ContentView.swift
+
 struct ContentView: View {
 
     /// Use the store owner as a StateObject to allow retrieving ViewModels and scoping it to this screen.

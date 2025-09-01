@@ -10,6 +10,8 @@ import kotlinx.cinterop.getOriginalKotlinClass
 import kotlin.reflect.KClass
 
 // [START android_kmp_viewmodel_resolve_viewmodel]
+// iosMain/ViewModelResolver.ios.kt
+
 /**
  *   This function allows retrieving any ViewModel from Swift Code with generics. We only get
  *   [ObjCClass] type for the [modelClass], because the interop between Kotlin and Swift code

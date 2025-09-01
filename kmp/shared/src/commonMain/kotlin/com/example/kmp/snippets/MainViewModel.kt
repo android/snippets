@@ -5,6 +5,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 
 // [START android_kmp_viewmodel_class]
+// commonMain/MainViewModel.kt
+
 class MainViewModel(
     private val repository: DataRepository,
 ) : ViewModel() { /* some logic */ }

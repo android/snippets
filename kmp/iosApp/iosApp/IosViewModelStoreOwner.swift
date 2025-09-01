@@ -2,6 +2,8 @@ import Foundation
 import KmpKit
 
 // [START android_kmp_viewmodel_ios_viewmodel_storeowner]
+// iosApp/IosViewModelStoreOwner.swift
+
 class IosViewModelStoreOwner: ObservableObject, ViewModelStoreOwner {
 
     let viewModelStore = ViewModelStore()
