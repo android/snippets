@@ -39,5 +39,5 @@ include(
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
-    ":kmp:kmp-shared",
+    ":kmp:shared",
 )
