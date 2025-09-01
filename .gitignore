@@ -11,3 +11,4 @@ build
 .externalNativeBuild
 .idea/*
 /.idea/*
+.kotlin
