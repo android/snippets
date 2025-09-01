@@ -31,23 +31,15 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "kmp-sharedKit"
 
-    iosX64 {
-        binaries.framework {
-            baseName = xcfName
-        }
-    }
-
-    iosArm64 {
-        binaries.framework {
-            baseName = xcfName
-        }
-    }
-
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = xcfName
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
+            export(libs.androidx.lifecycle.viewmodel)
+            baseName = "KmpKit"
         }
     }
 
@@ -60,7 +52,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.jetbrains.kotlin.stdlib)
-                // Add KMP dependencies here
+                api(libs.androidx.lifecycle.viewmodel)
             }
         }
 
