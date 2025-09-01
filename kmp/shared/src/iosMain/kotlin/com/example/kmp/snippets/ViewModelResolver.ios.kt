@@ -1,4 +1,4 @@
-package com.example.kmp.snipets
+package com.example.kmp.snippets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,9 +9,10 @@ import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import kotlin.reflect.KClass
 
+// [START android_kmp_viewmodel_resolve_viewmodel]
 /**
  *   This function allows retrieving any ViewModel from Swift Code with generics. We only get
- *   [kotlinx.cinterop.ObjCClass] type for the [modelClass], because the interop between Kotlin and Swift code
+ *   [ObjCClass] type for the [modelClass], because the interop between Kotlin and Swift code
  *   doesn't preserve the generic class, but we can retrieve the original KClass in Kotlin.
  */
 @BetaInteropApi
@@ -29,3 +30,4 @@ fun ViewModelStore.resolveViewModel(
     val provider = ViewModelProvider.Companion.create(this, factory, extras ?: CreationExtras.Empty)
     return key?.let { provider[key, vmClass] } ?: provider[vmClass]
 }
+// [END android_kmp_viewmodel_resolve_viewmodel]
