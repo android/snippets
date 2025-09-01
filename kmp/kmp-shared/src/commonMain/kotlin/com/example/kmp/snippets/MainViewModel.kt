@@ -1,4 +1,4 @@
-package com.example.kmp.kmp_shared
+package com.example.kmp.snippets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.initializer
