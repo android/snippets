@@ -16,7 +16,7 @@ val mainViewModelFactory = viewModelFactory {
     }
 }
 
-fun getDataRepository(): DataRepository = TODO()
+fun getDataRepository(): DataRepository = DataRepository()
 // [END android_kmp_viewmodel_class]
 
 
