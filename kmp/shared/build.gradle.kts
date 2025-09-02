@@ -64,9 +64,15 @@ kotlin {
 
         androidMain {
             dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
+                val composeBom = project.dependencies.platform(libs.androidx.compose.bom)
+                implementation(composeBom)
+                implementation(libs.androidx.compose.runtime)
+                implementation(libs.androidx.compose.foundation)
+                implementation(libs.androidx.compose.foundation.layout)
+                implementation(libs.androidx.compose.ui.util)
+                implementation(libs.androidx.compose.material)
+                implementation(libs.androidx.lifecycle.runtime)
+                implementation(libs.androidx.lifecycle.viewModelCompose)
             }
         }
 
