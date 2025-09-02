@@ -32,6 +32,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -191,6 +192,28 @@ class ExampleFragmentMultipleComposeView : Fragment() {
 }
 // [END android_compose_interop_apis_compose_in_fragment_multiple]
 
+// [START android_compose_interop_apis_android_view_reuse]
+@Composable
+fun AndroidViewInLazyList() {
+    LazyColumn {
+        items(100) { index ->
+            AndroidView(
+                modifier = Modifier.fillMaxSize(), // Occupy the max size in the Compose UI tree
+                factory = { context ->
+                    MyView(context)
+                },
+                update = { view ->
+                    view.selectedItem = index
+                },
+                onReset = { view ->
+                    view.clear()
+                }
+            )
+        }
+    }
+}
+// [END android_compose_interop_apis_android_view_reuse]
+
 // [START android_compose_interop_apis_views_in_compose]
 @Composable
 fun CustomView() {
@@ -231,6 +254,8 @@ fun ContentExample() {
 // [START_EXCLUDE silent]
 class MyView(context: Context) : View(context) {
     var selectedItem: Int = 0
+
+    fun clear() { }
 }
 // [END_EXCLUDE silent]
 // [END android_compose_interop_apis_views_in_compose]
