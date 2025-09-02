@@ -211,7 +211,7 @@ class DynamicHeartRate : TileService() {
 class FeatureFallback : TileService() {
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
 
-        // [BEGIN android_wear_tile_version_fallback]
+        // [START android_wear_tile_version_fallback]
         val rendererVersion = requestParams.deviceConfiguration.rendererSchemaVersion
 
         val arcElement =
