@@ -21,7 +21,12 @@ import android.content.Context
 import androidx.annotation.RequiresPermission
 import androidx.wear.protolayout.ColorBuilders.argb
 import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.DimensionBuilders.degrees
+import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.Arc
+import androidx.wear.protolayout.LayoutElementBuilders.ArcLine
+import androidx.wear.protolayout.LayoutElementBuilders.DashedArcLine
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
@@ -30,6 +35,8 @@ import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.expression.PlatformHealthSources
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
@@ -199,4 +206,43 @@ class DynamicHeartRate : TileService() {
                 .build()
         )
     // [END android_wear_tile_dynamic_heart_rate]
+}
+
+class FeatureFallback : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
+
+        // [BEGIN android_wear_tile_version_fallback]
+        val rendererVersion = requestParams.deviceConfiguration.rendererSchemaVersion
+
+        val arcElement =
+            if (
+                rendererVersion.major > 1 ||
+                (rendererVersion.major == 1 && rendererVersion.minor >= 500)
+            ) {
+                // Use DashedArcLine if the renderer supports it …
+                DashedArcLine.Builder() // Has @RequiresSchemaVersion(major = 1, minor = 500)
+                    .setLength(degrees(270f))
+                    .setThickness(8f)
+                    .setLinePattern(
+                        LayoutElementBuilders.DashedLinePattern.Builder()
+                            .setGapSize(8f)
+                            .setGapInterval(10f)
+                            .build()
+                    )
+                    .build()
+            } else {
+                // … otherwise use ArcLine.
+                ArcLine.Builder().setLength(degrees(270f)).setThickness(dp(8f)).build()
+            }
+        // [END android_wear_tile_version_fallback]
+
+        val layout =
+            materialScope(this, requestParams.deviceConfiguration) {
+                primaryLayout(mainSlot = { Arc.Builder().addContent(arcElement).build() })
+            }
+
+        return Futures.immediateFuture(
+            Tile.Builder().setTileTimeline(Timeline.fromLayoutElement(layout)).build()
+        )
+    }
 }
