@@ -6,7 +6,7 @@ import android.os.PowerManager;
 
 import androidx.annotation.Nullable;
 
-@SuppressWarnings("Unused")
+@SuppressWarnings("UNUSED")
 public class WakeLockSnippetsJava extends Activity {
 
     PowerManager.WakeLock wakeLock;
