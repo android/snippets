@@ -215,12 +215,14 @@ class FeatureFallback : TileService() {
         val rendererVersion = requestParams.deviceConfiguration.rendererSchemaVersion
 
         val arcElement =
+            // DashedArcLine has the annotation @RequiresSchemaVersion(major = 1, minor = 500)
+            // and so is supported by renderer versions 1.500 and greater
             if (
                 rendererVersion.major > 1 ||
                 (rendererVersion.major == 1 && rendererVersion.minor >= 500)
             ) {
                 // Use DashedArcLine if the renderer supports it …
-                DashedArcLine.Builder() // Has @RequiresSchemaVersion(major = 1, minor = 500)
+                DashedArcLine.Builder()
                     .setLength(degrees(270f))
                     .setThickness(8f)
                     .setLinePattern(
