@@ -6,7 +6,7 @@ import android.os.PowerManager;
 
 import androidx.annotation.Nullable;
 
-@SuppressWarnings("UNUSED")
+@SuppressWarnings("unused")
 public class WakeLockSnippetsJava extends Activity {
 
     PowerManager.WakeLock wakeLock;
@@ -24,7 +24,7 @@ public class WakeLockSnippetsJava extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    @SuppressWarnings("UNUSED")
+    @SuppressWarnings("unused")
     // [START android_backgroundwork_wakelock_release_java]
     void doSomethingAndRelease() throws MyException {
         try {

@@ -30,7 +30,7 @@ import java.lang.Math.abs
 // constants to make the code snippets work
 const val currentPlayingIndex = 10
 
-@Suppress("UNUSED_PARAMETER")
+@Suppress("unused_parameter")
 @UnstableApi
 // [START android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 class MyTargetPreloadStatusControl(
@@ -58,7 +58,7 @@ class MyTargetPreloadStatusControl(
 }
 // [END android_defaultpreloadmanager_MyTargetPreloadStatusControl]
 
-@Suppress("UNUSED_PARAMETER")
+@Suppress("unused_parameter")
 class PreloadManagerSnippetsKotlin {
 
     class PreloadSnippetsActivity : AppCompatActivity() {
