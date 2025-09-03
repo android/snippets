@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.lint)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -67,6 +68,7 @@ kotlin {
                 val composeBom = project.dependencies.platform(libs.androidx.compose.bom)
                 implementation(composeBom)
                 implementation(libs.androidx.compose.runtime)
+                implementation(libs.androidx.compose.ui)
                 implementation(libs.androidx.compose.foundation)
                 implementation(libs.androidx.compose.foundation.layout)
                 implementation(libs.androidx.compose.ui.util)
@@ -94,5 +96,4 @@ kotlin {
             }
         }
     }
-
 }
