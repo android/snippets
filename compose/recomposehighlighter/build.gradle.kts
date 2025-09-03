@@ -27,8 +27,10 @@ android {
 
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -40,7 +42,6 @@ android {
         // Disable unused AGP features
         viewBinding = true
     }
-
 }
 dependencies {
     val composeBom = platform(libs.androidx.compose.bom)
