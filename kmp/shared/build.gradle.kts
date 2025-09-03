@@ -2,18 +2,16 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.android.lint)
-    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.example.kmp.snippets"
-        compileSdk = 36
-        minSdk = 24
+        namespace = "com.example.kmp.snippets.shared"
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
 
         withHostTestBuilder {
         }
@@ -24,6 +22,8 @@ kotlin {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
+
+    jvmToolchain(17)
 
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
@@ -65,16 +65,7 @@ kotlin {
 
         androidMain {
             dependencies {
-                val composeBom = project.dependencies.platform(libs.androidx.compose.bom)
-                implementation(composeBom)
-                implementation(libs.androidx.compose.runtime)
-                implementation(libs.androidx.compose.ui)
-                implementation(libs.androidx.compose.foundation)
-                implementation(libs.androidx.compose.foundation.layout)
-                implementation(libs.androidx.compose.ui.util)
-                implementation(libs.androidx.compose.material)
-                implementation(libs.androidx.lifecycle.runtime)
-                implementation(libs.androidx.lifecycle.viewModelCompose)
+
             }
         }
 
