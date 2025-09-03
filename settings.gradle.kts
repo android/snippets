@@ -39,5 +39,6 @@ include(
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
-    ":kmp:shared",
+    ":kmp:androidApp",
+    ":kmp:shared"
 )

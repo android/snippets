@@ -5,14 +5,13 @@ plugins {
 }
 
 kotlin {
-
     // Target declarations - add or remove as needed below. These define
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.example.kmp.snippets"
-        compileSdk = 36
-        minSdk = 24
+        namespace = "com.example.kmp.snippets.shared"
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
 
         withHostTestBuilder {
         }
@@ -23,6 +22,8 @@ kotlin {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
+
+    jvmToolchain(17)
 
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
@@ -64,9 +65,7 @@ kotlin {
 
         androidMain {
             dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
+
             }
         }
 
@@ -88,5 +87,4 @@ kotlin {
             }
         }
     }
-
 }
