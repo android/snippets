@@ -105,7 +105,8 @@ fun DatePickerExamples() {
 // [END_EXCLUDE]
         if (selectedDate != null) {
             val date = Date(selectedDate!!)
-            val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
+            val formattedDate =
+                SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
             Text("Selected date: $formattedDate")
         } else {
             Text("No date selected")
@@ -121,8 +122,10 @@ fun DatePickerExamples() {
         if (selectedDateRange.first != null && selectedDateRange.second != null) {
             val startDate = Date(selectedDateRange.first!!)
             val endDate = Date(selectedDateRange.second!!)
-            val formattedStartDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(startDate)
-            val formattedEndDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(endDate)
+            val formattedStartDate =
+                SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(startDate)
+            val formattedEndDate =
+                SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(endDate)
             Text("Selected date range: $formattedStartDate - $formattedEndDate")
         } else {
             Text("No date range selected")
@@ -294,9 +297,10 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .pointerInput(selectedDate) {
                 awaitEachGesture {
-                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                    // in the Initial pass to observe events before the text field consumes them
-                    // in the Main pass.
+                    // Modifier.clickable doesn't work for text fields,
+                    // so we use Modifier.pointerInput
+                    // in the Initial pass to observe events before
+                    // the text field consumes them in the Main pass.
                     awaitFirstDown(pass = PointerEventPass.Initial)
                     val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
                     if (upEvent != null) {

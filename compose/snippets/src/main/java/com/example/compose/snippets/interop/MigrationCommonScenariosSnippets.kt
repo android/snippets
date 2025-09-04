@@ -79,7 +79,8 @@ class RVActivity : ComponentActivity() {
         // recyclerView.layoutManager = LinearLayoutManager(context)
         composeView.setContent {
             LazyColumn(Modifier.fillMaxSize()) {
-                // We use a LazyColumn since the layout manager of the RecyclerView is a vertical LinearLayoutManager
+                // We use a LazyColumn since the layout manager of the
+                // RecyclerView is a vertical LinearLayoutManager
             }
         }
         // [END android_compose_interop_migration_common_scenarios_recyclerview_step2]
@@ -100,7 +101,11 @@ class RVActivity : ComponentActivity() {
 
     private fun commonUseCase1() {
         // [START android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_1]
-        val itemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+        val itemDecoration =
+            DividerItemDecoration(
+                recyclerView.context,
+                LinearLayoutManager.VERTICAL,
+            )
         recyclerView.addItemDecoration(itemDecoration)
         // [END android_compose_interop_migration_common_scenarios_recyclerview_common_use_case_1]
     }
