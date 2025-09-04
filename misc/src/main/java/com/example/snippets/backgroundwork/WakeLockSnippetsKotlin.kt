@@ -17,7 +17,6 @@
 package com.example.snippets.backgroundwork
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.os.PowerManager
 
@@ -25,11 +24,12 @@ import android.os.PowerManager
 @Suppress("unused_parameter")
 class WakeLockSnippetsKotlin : Activity() {
 
+    val wlTimeout = 10*60*1000L // 10 minutes
     // [START android_backgroundwork_wakelock_create_kotlin]
     val wakeLock: PowerManager.WakeLock =
-        (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+        (getSystemService(POWER_SERVICE) as PowerManager).run {
             newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyClassName::MyWakelockTag").apply {
-                acquire()
+                acquire(wlTimeout)
             }
         }
     // [END android_backgroundwork_wakelock_create_kotlin]
@@ -44,7 +44,7 @@ class WakeLockSnippetsKotlin : Activity() {
     fun doSomethingAndRelease() {
         wakeLock.apply {
             try {
-                acquire()
+                acquire(wlTimeout)
                 doTheWork()
             } finally {
                 release()
