@@ -24,7 +24,7 @@ import android.os.PowerManager
 @Suppress("unused_parameter")
 class WakeLockSnippetsKotlin : Activity() {
 
-    val wlTimeout = 10*60*1000L // 10 minutes
+    val wlTimeout = 10 * 60 * 1000L // 10 minutes
     // [START android_backgroundwork_wakelock_create_kotlin]
     val wakeLock: PowerManager.WakeLock =
         (getSystemService(POWER_SERVICE) as PowerManager).run {
