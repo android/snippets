@@ -159,12 +159,11 @@ fun OverrideDefaultInsetsSnippet() {
 
 // [START android_compose_insets_rulers]
 @Composable
-fun WindowInsetsRulersDemo(modifier: Modifier){
+fun WindowInsetsRulersDemo(modifier: Modifier) {
     Box(
         contentAlignment = BottomCenter,
         modifier = modifier
             .fillMaxSize()
-
             // The mistake that causes issues downstream, as .padding doesn't consume insets.
             // While it's correct to instead use .windowInsetsPadding(WindowInsets.navigationBars),
             // assume it's difficult to identify this issue to see how WindowInsetsRulers can help.
@@ -178,8 +177,8 @@ fun WindowInsetsRulersDemo(modifier: Modifier){
                 // Composable without having to fix the parent upstream.
                 .alignToSafeDrawing()
 
-                //.imePadding()
-                //.fillMaxWidth()
+            // .imePadding()
+            // .fillMaxWidth()
         )
     }
 }
@@ -190,7 +189,7 @@ fun Modifier.alignToSafeDrawing(): Modifier {
             val placeable = measurable.measure(constraints)
             val width = placeable.width
             val height = placeable.height
-            layout(width, height){
+            layout(width, height) {
                 val bottom = WindowInsetsRulers.SafeDrawing.current.bottom
                     .current(0f).roundToInt() - height
                 val right = WindowInsetsRulers.SafeDrawing.current.right
