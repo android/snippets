@@ -117,7 +117,7 @@ class TileBreakpoints : TileService() {
                                 }
                             )
                         }
-                        // [START android_wear_tile_breakpoints]
+                        // [END android_wear_tile_breakpoints]
                     )
                 )
                 .build()
