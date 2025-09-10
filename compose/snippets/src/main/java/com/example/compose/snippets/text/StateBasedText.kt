@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
@@ -148,12 +149,15 @@ fun TextFieldInitialState() {
 @Composable
 fun TextFieldBuffer() {
     // [START android_compose_state_text_8]
-    val phoneNumberState = rememberTextFieldState("123456789")
+    val phoneNumberState = rememberTextFieldState("1234567890")
 
     TextField(
         state = phoneNumberState,
-        inputTransformation = InputTransformation { // TextFieldBuffer scope
-            if (!asCharSequence().isDigitsOnly()) {
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone
+        ),
+        inputTransformation = InputTransformation.maxLength(10).then {
+            if (asCharSequence().isDigitsOnly()) {
                 revertAllChanges()
             }
         },
