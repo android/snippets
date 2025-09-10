@@ -38,7 +38,6 @@ import androidx.compose.material.TextField
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -177,7 +176,7 @@ fun EditTextFieldState() {
     editTFState(usernameState)
 }
 
-fun editTFState(textFieldState: TextFieldState){
+fun editTFState(textFieldState: TextFieldState) {
     // [START android_compose_state_text_9]
     // Initial textFieldState text passed in is "I love Android"
     // textFieldState.text : I love Android
