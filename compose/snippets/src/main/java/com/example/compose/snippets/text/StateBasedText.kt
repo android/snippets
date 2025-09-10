@@ -169,13 +169,13 @@ fun TextFieldBuffer() {
 @Preview
 @Composable
 fun EditTextFieldState() {
-    Text("Happy Cat")
     val usernameState = rememberTextFieldState("I love Android")
     editTFState(usernameState)
 }
 
 fun editTFState(textFieldState: TextFieldState){
     // [START android_compose_state_text_9]
+    // Initial textFieldState text passed in is "I love Android"
     // textFieldState.text : I love Android
     // textFieldState.selection: TextRange(14, 14)
     textFieldState.edit { insert(14, "!") }
