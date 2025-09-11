@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.graphics
 
 import androidx.compose.animation.animateColor
@@ -20,6 +36,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,31 +47,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.innerShadow
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.RectangleShape
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-
-
+import kotlinx.coroutines.delay
 
 // [START android_compose_graphics_simple_shadow]
 @Preview(showBackground = true)
 @Composable
 fun SimpleShadow() {
-    Box(Modifier
-        .shadow(12.dp, RectangleShape)
-        .size(100.dp, 100.dp))
+    Box(
+        Modifier
+            .shadow(12.dp, RectangleShape)
+            .size(100.dp, 100.dp)
+    )
 }
 // [END android_compose_graphics_simple_shadow]
-
 
 // [START android_compose_graphics_simple_drop_shadow]
 @Composable
@@ -78,7 +93,6 @@ fun SimpleDropShadowUsage() {
                     )
                 )
                 .align(Alignment.Center)
-
                 .background(
                     color = Color.White,
                     shape = RoundedCornerShape(20.dp)
@@ -107,13 +121,11 @@ fun SimpleInnerShadowUsage() {
                 .width(300.dp)
                 .height(200.dp)
                 .align(Alignment.Center)
-
-                //note that the background needs to be defined before defining the inner shadow
+                // note that the background needs to be defined before defining the inner shadow
                 .background(
                     color = Color.White,
                     shape = RoundedCornerShape(20.dp)
                 )
-
                 .innerShadow(
                     shape = RoundedCornerShape(20.dp),
                     shadow = Shadow(
@@ -155,7 +167,6 @@ fun RealisticShadows() {
                 .width(300.dp)
                 .height(200.dp)
                 .align(Alignment.Center)
-
                 .dropShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -165,7 +176,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 2.dp, 8.dp)
                     )
                 )
-
                 .dropShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -175,14 +185,12 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 0.dp, 4.dp)
                     )
                 )
-
-
-                //note that the background needs to be defined before defining the inner shadow
+                // note that the background needs to be defined before defining the inner shadow
                 .background(
                     color = Color.Black,
                     shape = RoundedCornerShape(100.dp)
                 )
-////
+// //
                 .innerShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -192,7 +200,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 6.dp, 6.dp)
                     )
                 )
-
                 .innerShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -202,7 +209,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 5.dp, 5.dp)
                     )
                 )
-
                 .innerShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -212,7 +218,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = (-3).dp, (-12).dp)
                     )
                 )
-
                 .innerShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -222,7 +227,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 0.dp, 0.dp)
                     )
                 )
-
                 .innerShadow(
                     shape = RoundedCornerShape(100.dp),
                     shadow = Shadow(
@@ -232,7 +236,6 @@ fun RealisticShadows() {
                         offset = DpOffset(x = 1.dp, 1.dp)
                     )
                 )
-
 
         ) {
             Text(
@@ -273,7 +276,7 @@ fun GradientBasedShadowAnimation() {
             Color(0xFF4cc9f0)
         )
 
-        //..
+        // ..
 
         // State for the breathing animation
         var breathingState by remember { mutableStateOf(BreathingState.Inhaling) }
@@ -315,7 +318,6 @@ fun GradientBasedShadowAnimation() {
                 BreathingState.Exhaling -> 1f
             }
         }
-
 
         // Get text based on current state
         val breathingText = when (breathingState) {
@@ -405,7 +407,7 @@ fun NeumorphicRaisedButton(
                     offset = DpOffset(lowerOffset, lowerOffset)
                 ),
 
-                )
+            )
             .background(bgColor, shape)
     )
 }
@@ -490,19 +492,16 @@ fun AnimatedColoredShadows() {
             }
             // [END_EXCLUDE]
 
-
-
             Box(
                 Modifier
                     .clickable(
                         interactionSource, indication = null
                     ) {
-                        //** ...... **//
+                        // ** ...... **//
                     }
                     .width(300.dp)
                     .height(200.dp)
                     .align(Alignment.Center)
-
                     .dropShadow(
                         shape = RoundedCornerShape(70.dp),
                         shadow = Shadow(
@@ -513,7 +512,6 @@ fun AnimatedColoredShadows() {
                             alpha = shadowAlpha
                         )
                     )
-
                     .dropShadow(
                         shape = RoundedCornerShape(70.dp),
                         shadow = Shadow(
@@ -524,13 +522,11 @@ fun AnimatedColoredShadows() {
                             alpha = shadowAlpha
                         )
                     )
-
-                    //note that the background needs to be defined before defining the inner shadow
+                    // note that the background needs to be defined before defining the inner shadow
                     .background(
                         color = Color(0xFFFFFFFF),
                         shape = RoundedCornerShape(70.dp)
                     )
-
                     .innerShadow(
                         shape = RoundedCornerShape(70.dp),
                         shadow = Shadow(
@@ -540,7 +536,6 @@ fun AnimatedColoredShadows() {
                             offset = DpOffset(x = 4.dp, 0.dp)
                         )
                     )
-
                     .innerShadow(
                         shape = RoundedCornerShape(70.dp),
                         shadow = Shadow(
@@ -551,7 +546,6 @@ fun AnimatedColoredShadows() {
                             alpha = innerShadowAlpha
                         )
                     )
-
 
             ) {
                 Text(
@@ -569,7 +563,6 @@ fun AnimatedColoredShadows() {
     }
 }
 // [END android_compose_graphics_animated_shadow]
-
 
 // [START android_compose_graphics_neobrutal_shadow]
 @Composable
