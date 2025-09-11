@@ -156,7 +156,7 @@ fun TextFieldBuffer() {
             keyboardType = KeyboardType.Phone
         ),
         inputTransformation = InputTransformation.maxLength(10).then {
-            if (asCharSequence().isDigitsOnly()) {
+            if (!asCharSequence().isDigitsOnly()) {
                 revertAllChanges()
             }
         },
