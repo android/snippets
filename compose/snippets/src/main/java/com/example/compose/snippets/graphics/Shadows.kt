@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.ui.theme.SnippetsTheme
+import kotlinx.coroutines.delay
 
 @Preview(showBackground = true)
 // [START android_compose_graphics_simple_shadow]
