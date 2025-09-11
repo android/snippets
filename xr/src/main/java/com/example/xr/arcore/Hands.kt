@@ -70,7 +70,8 @@ fun secondaryHandDetection(activity: Activity, session: Session) {
     fun detectGesture(handState: Flow<Hand.State>) {}
     // [START androidxr_arcore_hand_handedness]
     val handedness = Hand.getPrimaryHandSide(activity.contentResolver)
-    val secondaryHand = if (handedness == Hand.HandSide.LEFT) Hand.right(session) else Hand.left(session)
+    val secondaryHand =
+        if (handedness == Hand.HandSide.LEFT) Hand.right(session) else Hand.left(session)
     val handState = secondaryHand?.state ?: return
     detectGesture(handState)
     // [END androidxr_arcore_hand_handedness]
@@ -121,9 +122,15 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
 private fun detectPinch(session: Session, handState: Hand.State): Boolean {
     // [START androidxr_arcore_hand_pinch_gesture]
     val thumbTip = handState.handJoints[HandJointType.THUMB_TIP] ?: return false
-    val thumbTipPose = session.scene.perceptionSpace.transformPoseTo(thumbTip, session.scene.activitySpace)
+    val thumbTipPose = session.scene.perceptionSpace.transformPoseTo(
+        pose = thumbTip,
+        destination = session.scene.activitySpace,
+    )
     val indexTip = handState.handJoints[HandJointType.INDEX_TIP] ?: return false
-    val indexTipPose = session.scene.perceptionSpace.transformPoseTo(indexTip, session.scene.activitySpace)
+    val indexTipPose = session.scene.perceptionSpace.transformPoseTo(
+        pose = indexTip,
+        destination = session.scene.activitySpace,
+    )
     return Vector3.distance(thumbTipPose.translation, indexTipPose.translation) < 0.05
     // [END androidxr_arcore_hand_pinch_gesture]
 }

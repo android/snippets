@@ -346,7 +346,9 @@ private class ScaleNode(private val interactionSource: InteractionSource) :
         coroutineScope.launch {
             interactionSource.interactions.collectLatest { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
+                    is PressInteraction.Press -> animateToPressed(
+                        pressPosition = interaction.pressPosition,
+                    )
                     is PressInteraction.Release -> animateToResting()
                     is PressInteraction.Cancel -> animateToResting()
                 }
@@ -473,7 +475,9 @@ private class NeonNode(
         coroutineScope.launch {
             interactionSource.interactions.collect { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> animateToPressed(interaction.pressPosition)
+                    is PressInteraction.Press -> animateToPressed(
+                        pressPosition = interaction.pressPosition,
+                    )
                     is PressInteraction.Release -> animateToResting()
                     is PressInteraction.Cancel -> animateToResting()
                 }
@@ -629,7 +633,10 @@ private class NeonNode(
 // [END android_compose_interactions_neon_node]
 
 // [START android_compose_interactions_neon_indication]
-data class NeonIndication(private val shape: Shape, private val borderWidth: Dp) : IndicationNodeFactory {
+data class NeonIndication(
+    private val shape: Shape,
+    private val borderWidth: Dp,
+) : IndicationNodeFactory {
 
     override fun create(interactionSource: InteractionSource): DelegatableNode {
         return NeonNode(

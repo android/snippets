@@ -157,7 +157,11 @@ private fun MainContent(
                         ),
                         boundsTransform = boundsTransform
                     )
-                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.Gray.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(8.dp),
+                    )
                     .background(LavenderLight, RoundedCornerShape(8.dp))
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -230,7 +234,11 @@ private fun DetailsContent(
                         ),
                         boundsTransform = boundsTransform
                     )
-                    .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.Gray.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(8.dp),
+                    )
                     .background(RoseLight, RoundedCornerShape(8.dp))
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -271,11 +279,15 @@ private fun DetailsContent(
                 )
                 // [END android_compose_shared_element_text_bounds_transform]
                 Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                        "Curabitur sit amet lobortis velit. " +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
+                        " Curabitur sagittis, lectus posuere" +
+                        " imperdiet facilisis, nibh massa " +
+                        "molestie est, quis dapibus orci" +
+                        " ligula non magna. Pellentesque rhoncus " +
+                        "hendrerit massa quis ultricies." +
+                        " Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
             }
@@ -369,11 +381,15 @@ private fun SharedElement_Clipping() {
                         )
                     )
                     Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sit amet lobortis velit. " +
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis," +
+                            " nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna." +
+                            " Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue" +
+                            " ullamcorper leo, at maximus"
                     )
                 }
             }
@@ -479,8 +495,10 @@ private fun SharedElement_SkipLookaheadSize() {
                             tint = Color.White,
                             modifier = Modifier
                                 .sharedBounds(
-                                    rememberSharedContentState(key = "icon_background"),
-                                    this@AnimatedVisibility
+                                    sharedContentState = rememberSharedContentState(
+                                        key = "icon_background",
+                                    ),
+                                    animatedVisibilityScope = this@AnimatedVisibility,
                                 )
                                 .background(selectionColor, RoundedCornerShape(50))
                                 .padding(
@@ -490,8 +508,8 @@ private fun SharedElement_SkipLookaheadSize() {
                                     end = 20.dp
                                 )
                                 .sharedElement(
-                                    rememberSharedContentState(key = "icon"),
-                                    this@AnimatedVisibility
+                                    sharedContentState = rememberSharedContentState(key = "icon"),
+                                    animatedVisibilityScope = this@AnimatedVisibility,
                                 )
                         )
                     }
@@ -509,13 +527,15 @@ private fun SharedElement_SkipLookaheadSize() {
                         .align(Alignment.BottomEnd)
                         .padding(30.dp)
                         .sharedBounds(
-                            rememberSharedContentState(key = "container"),
-                            this@AnimatedVisibility,
+                            sharedContentState = rememberSharedContentState(key = "container"),
+                            animatedVisibilityScope = this@AnimatedVisibility,
                             enter = EnterTransition.None,
                         )
                         .sharedBounds(
-                            rememberSharedContentState(key = "icon_background"),
-                            this@AnimatedVisibility,
+                            sharedContentState = rememberSharedContentState(
+                                key = "icon_background",
+                            ),
+                            animatedVisibilityScope = this@AnimatedVisibility,
                             enter = EnterTransition.None,
                             exit = ExitTransition.None
                         ),
@@ -530,8 +550,8 @@ private fun SharedElement_SkipLookaheadSize() {
                             .padding(30.dp)
                             .size(40.dp)
                             .sharedElement(
-                                rememberSharedContentState(key = "icon"),
-                                this@AnimatedVisibility
+                                sharedContentState = rememberSharedContentState(key = "icon"),
+                                animatedVisibilityScope = this@AnimatedVisibility,
                             )
                     )
                 }
@@ -561,7 +581,11 @@ fun PlaceholderSizeAnimated_Demo() {
             navController = navController,
             startDestination = "home"
         ) {
-            composable("home", enterTransition = { fadeIn() }, exitTransition = { fadeOut() }) {
+            composable(
+                route = "home",
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+            ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                         (listSnacks).forEachIndexed { index, snack ->
@@ -572,9 +596,13 @@ fun PlaceholderSizeAnimated_Demo() {
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .sharedBounds(
-                                        rememberSharedContentState(key = "image-${snack.name}"),
+                                        sharedContentState = rememberSharedContentState(
+                                            key = "image-${snack.name}",
+                                        ),
                                         animatedVisibilityScope = this@composable,
-                                        placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
+                                        placeHolderSize = SharedTransitionScope
+                                            .PlaceHolderSize
+                                            .animatedSize,
                                     )
                                     .clickable {
                                         navController.navigate("details/$index")
@@ -603,9 +631,9 @@ fun PlaceholderSizeAnimated_Demo() {
                 }
             }
             composable(
-                "details/{id}",
+                route = "details/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType }),
-                enterTransition = { fadeIn() }, exitTransition = { fadeOut() }
+                enterTransition = { fadeIn() }, exitTransition = { fadeOut() },
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id")
                 val snack = listSnacks[id!!]
@@ -622,9 +650,13 @@ fun PlaceholderSizeAnimated_Demo() {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .sharedBounds(
-                                rememberSharedContentState(key = "image-${snack.name}"),
+                                sharedContentState = rememberSharedContentState(
+                                    key = "image-${snack.name}",
+                                ),
                                 animatedVisibilityScope = this@composable,
-                                placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
+                                placeHolderSize = SharedTransitionScope
+                                    .PlaceHolderSize
+                                    .animatedSize,
                             )
                             .clip(RoundedCornerShape(8.dp))
                             .fillMaxWidth()
@@ -651,14 +683,19 @@ fun CustomPredictiveBackHandle() {
     }
     val transition = rememberTransition(transitionState = seekableTransitionState)
 
-    PredictiveBackHandler(seekableTransitionState.currentState is Screen.Details) { progress ->
+    PredictiveBackHandler(
+        enabled = seekableTransitionState.currentState is Screen.Details,
+    ) { progress ->
         try {
             // Whilst a back gesture is in progress, backEvents will be fired for each progress
             // update.
             progress.collect { backEvent ->
                 // For each backEvent that comes in, we manually seekTo the reported back progress
                 try {
-                    seekableTransitionState.seekTo(backEvent.progress, targetState = Screen.Home)
+                    seekableTransitionState.seekTo(
+                        fraction = backEvent.progress,
+                        targetState = Screen.Home,
+                    )
                 } catch (_: CancellationException) {
                     // seekTo may be cancelled as expected, if animateTo or subsequent seekTo calls
                     // before the current seekTo finishes, in this case, we ignore the cancellation.
@@ -666,11 +703,11 @@ fun CustomPredictiveBackHandle() {
             }
             // Once collection has completed, we are either fully in the target state, or need
             // to progress towards the end.
-            seekableTransitionState.animateTo(seekableTransitionState.targetState)
+            seekableTransitionState.animateTo(targetState = seekableTransitionState.targetState)
         } catch (e: CancellationException) {
             // When the predictive back gesture is cancelled, we snap to the end state to ensure
             // it completes its seeking animation back to the currentState
-            seekableTransitionState.snapTo(seekableTransitionState.currentState)
+            seekableTransitionState.snapTo(targetState = seekableTransitionState.currentState)
             throw e
         }
     }
@@ -685,10 +722,16 @@ fun CustomPredictiveBackHandle() {
             onValueChange = {
                 coroutineScope.launch {
                     if (seekableTransitionState.currentState is Screen.Details) {
-                        seekableTransitionState.seekTo(it, Screen.Home)
+                        seekableTransitionState.seekTo(
+                            fraction = it,
+                            targetState = Screen.Home,
+                        )
                     } else {
                         // seek to the previously navigated index
-                        seekableTransitionState.seekTo(it, Screen.Details(lastNavigatedIndex))
+                        seekableTransitionState.seekTo(
+                            fraction = it,
+                            targetState = Screen.Details(id = lastNavigatedIndex),
+                        )
                     }
                 }
             }
@@ -703,7 +746,9 @@ fun CustomPredictiveBackHandle() {
                             onItemClick = {
                                 coroutineScope.launch {
                                     lastNavigatedIndex = it
-                                    seekableTransitionState.animateTo(Screen.Details(it))
+                                    seekableTransitionState.animateTo(
+                                        targetState = Screen.Details(it),
+                                    )
                                 }
                             }
                         )

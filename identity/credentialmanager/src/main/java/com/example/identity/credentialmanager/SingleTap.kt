@@ -169,7 +169,11 @@ class SingleTap : ComponentActivity() {
             // Do your own authentication flow, if necessary
         } else if (biometricPromptResult.isSuccessful) {
 
-            Log.i(TAG, "The response from the biometricPromptResult was ${biometricPromptResult.authenticationResult?.authenticationType}")
+            Log.i(
+                TAG,
+                "The response from the biometricPromptResult was " +
+                    "${biometricPromptResult.authenticationResult?.authenticationType}"
+            )
 
             validatePasskey(
                 publicKeyRequest.requestJson,

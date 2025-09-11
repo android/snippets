@@ -51,8 +51,16 @@ fun ToggleIconButtonExample() {
         onClick = { isToggled = !isToggled }
     ) {
         Icon(
-            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
-            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+            painter = if (isToggled) {
+                painterResource(R.drawable.favorite_filled)
+            } else {
+                painterResource(R.drawable.favorite)
+            },
+            contentDescription = if (isToggled) {
+                "Selected icon button"
+            } else {
+                "Unselected icon button."
+            },
         )
     }
 }
@@ -85,7 +93,11 @@ fun MomentaryIconButton(
         interactionSource = interactionSource
     ) {
         Icon(
-            painter = if (isPressed) painterResource(id = selectedImage) else painterResource(id = unselectedImage),
+            painter = if (isPressed) {
+                painterResource(id = selectedImage)
+            } else {
+                painterResource(id = unselectedImage)
+            },
             contentDescription = contentDescription,
         )
     }

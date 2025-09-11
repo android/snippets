@@ -41,8 +41,7 @@ rootProject {
               "spacing-between-declarations-with-annotations," +
               "spacing-between-declarations-with-comments," +
               "unary-op-spacing," +
-              "no-trailing-spaces," +
-              "max-line-length"
+              "no-trailing-spaces"
           )
         )
         licenseHeaderFile(rootProject.file("spotless/copyright.kt"))

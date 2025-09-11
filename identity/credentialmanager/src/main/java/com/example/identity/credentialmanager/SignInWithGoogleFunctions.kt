@@ -110,7 +110,7 @@ class SignInWithGoogleFunctions(
                         // purposes, but don't use them to store or control access to user
                         // data. For that you first need to validate the token:
                         // pass googleIdTokenCredential.getIdToken() to the backend server.
-                        // see [validation instructions](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
+                        // See [validation instructions](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token) // ktlint-disable standard:max-line-length
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
                     }
