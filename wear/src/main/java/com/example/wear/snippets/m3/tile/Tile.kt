@@ -19,6 +19,7 @@ package com.example.wear.snippets.m3.tile
 import android.content.Context
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
+import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.button
 import androidx.wear.protolayout.material3.buttonGroup
@@ -124,12 +125,15 @@ class TileBreakpoints : TileService() {
         )
 }
 
+fun MaterialScope.myAdaptiveLayout() =
+    primaryLayout(mainSlot = { text("Hello, World".layoutString) })
+
 // [START android_wear_tile_preview]
 @Preview(device = WearDevices.LARGE_ROUND)
 fun smallPreview(context: Context) = TilePreviewData {
     TilePreviewHelper.singleTimelineEntryTileBuilder(
         materialScope(context, it.deviceConfiguration) {
-            primaryLayout(mainSlot = { text("Hello, World".layoutString) })
+            myAdaptiveLayout() // varies the layout depending on the size of the screen
         }
     )
         .build()
