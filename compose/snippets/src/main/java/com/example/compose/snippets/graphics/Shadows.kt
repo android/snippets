@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -44,24 +45,27 @@ import androidx.compose.ui.graphics.RectangleShape
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
 
-
-// [START android_compose_graphics_simple_shadow]
 @Preview(showBackground = true)
+// [START android_compose_graphics_simple_shadow]
 @Composable
-fun SimpleShadow() {
-    Box(Modifier
-        .shadow(12.dp, RectangleShape)
-        .size(100.dp, 100.dp))
+fun ElevationBasedShadow() {
+    Box(modifier = Modifier.aspectRatio(1f).fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+        Box(Modifier
+            .size(100.dp, 100.dp)
+            .shadow(10.dp, RectangleShape)
+            .background(Color.White)
+        )
+    }
 }
 // [END android_compose_graphics_simple_shadow]
 
-
-// [START android_compose_graphics_simple_drop_shadow]
-@Composable
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
 )
+// [START android_compose_graphics_simple_drop_shadow]
+@Composable
 fun SimpleDropShadowUsage() {
     Box(Modifier.fillMaxSize()) {
         Box(
@@ -94,12 +98,12 @@ fun SimpleDropShadowUsage() {
 }
 // [END android_compose_graphics_simple_drop_shadow]
 
-// [START android_compose_graphics_simple_inner_shadow]
-@Composable
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
 )
+// [START android_compose_graphics_simple_inner_shadow]
+@Composable
 fun SimpleInnerShadowUsage() {
     Box(Modifier.fillMaxSize()) {
         Box(
@@ -135,12 +139,12 @@ fun SimpleInnerShadowUsage() {
 }
 // [END android_compose_graphics_simple_inner_shadow]
 
-// [START android_compose_graphics_realistic_shadow]
-@Composable
 @Preview(
     showBackground = true,
     backgroundColor = 0xFF232323
 )
+// [START android_compose_graphics_realistic_shadow]
+@Composable
 fun RealisticShadows() {
     Box(Modifier.fillMaxSize()) {
         val dropShadowColor1 = Color(0xB3000000)
@@ -368,8 +372,8 @@ fun GradientBasedShadowAnimation() {
     }
 }
 
-// [START android_compose_graphics_neumorphic_shadow]
 @Preview
+// [START android_compose_graphics_neumorphic_shadow]
 @Composable
 fun NeumorphicRaisedButton(
     shape: RoundedCornerShape = RoundedCornerShape(30.dp)
@@ -411,12 +415,12 @@ fun NeumorphicRaisedButton(
 }
 // [END android_compose_graphics_neumorphic_shadow]
 
-// [START android_compose_graphics_animated_shadow]
-@Composable
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF
 )
+// [START android_compose_graphics_animated_shadow]
+@Composable
 fun AnimatedColoredShadows() {
     SnippetsTheme {
         Box(Modifier.fillMaxSize()) {
@@ -570,13 +574,12 @@ fun AnimatedColoredShadows() {
 }
 // [END android_compose_graphics_animated_shadow]
 
-
-// [START android_compose_graphics_neobrutal_shadow]
-@Composable
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFCC00
 )
+// [START android_compose_graphics_neobrutal_shadow]
+@Composable
 fun NeoBrutalShadows() {
     SnippetsTheme {
         val dropShadowColor = Color(0xFF007AFF)
