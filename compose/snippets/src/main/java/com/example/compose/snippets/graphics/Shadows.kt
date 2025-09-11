@@ -59,24 +59,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
-
-
-
 @Preview(showBackground = true)
 // [START android_compose_graphics_simple_shadow]
 @Composable
 fun ElevationBasedShadow() {
-    Box(modifier = Modifier.aspectRatio(1f).fillMaxSize(),
-        contentAlignment = Alignment.Center) {
-        Box(Modifier
-            .size(100.dp, 100.dp)
-            .shadow(10.dp, RectangleShape)
-            .background(Color.White)
+    Box(
+        modifier = Modifier.aspectRatio(1f).fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            Modifier
+                .size(100.dp, 100.dp)
+                .shadow(10.dp, RectangleShape)
+                .background(Color.White)
         )
     }
 }
 // [END android_compose_graphics_simple_shadow]
-
 
 @Preview(
     showBackground = true,
