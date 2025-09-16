@@ -31,6 +31,8 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fitInside
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
@@ -49,9 +51,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.RectRulers
 import androidx.compose.ui.layout.WindowInsetsRulers
+import androidx.compose.ui.layout.innermostOf
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
@@ -208,3 +213,49 @@ fun Modifier.alignToSafeDrawing(): Modifier {
     }
 }
 // [END android_compose_insets_rulers]
+
+// [START android_compose_insets_fit_inside]
+@Composable
+fun FitInsideDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            // Or DisplayCutout, Ime, NavigationBars, StatusBar, etc...
+            .fitInside(WindowInsetsRulers.SafeDrawing.current)
+    )
+}
+// [END android_compose_insets_fit_inside]
+
+// [START android_compose_insets_rulers_ime]
+@Composable
+fun FitInsideWithImeDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .fitInside(RectRulers.innermostOf(
+                WindowInsetsRulers.NavigationBars.current,
+                WindowInsetsRulers.Ime.current
+            ))
+    ) {
+        TextField(
+            value = "Demo IME Insets",
+            onValueChange = {},
+            modifier = modifier.align(Alignment.BottomStart).fillMaxWidth()
+        )
+    }
+}
+// [END android_compose_insets_rulers_ime]
+
+// [START android_compose_insets_rulers_status_caption_bars]
+@Composable
+fun FitInsideWithStatusAndCaptionBarDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .fitInside(RectRulers.innermostOf(
+                WindowInsetsRulers.StatusBars.current,
+                WindowInsetsRulers.CaptionBar.current
+            ))
+    )
+}
+// [END android_compose_insets_rulers_status_caption_bars]
