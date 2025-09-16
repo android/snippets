@@ -21,7 +21,6 @@ import androidx.xr.arcore.AnchorCreateSuccess
 import androidx.xr.arcore.Trackable
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
-import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.AnchorEntity
@@ -34,11 +33,9 @@ fun configureAnchoring(session: Session) {
         anchorPersistence = Config.AnchorPersistenceMode.LOCAL,
     )
     when (val result = session.configure(newConfig)) {
-        is SessionConfigureConfigurationNotSupported ->
-            TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
-            TODO(/* A different unhandled exception was thrown. */)
+            TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
     }
     // [END androidxr_arcore_anchoring_configure]
 }
@@ -47,8 +44,11 @@ private fun createAnchorAtPose(session: Session, pose: Pose) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create]
     when (val result = Anchor.create(session, pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
+        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */
+        }
+
+        else -> { /* handle failure */
+        }
     }
     // [END androidxr_arcore_anchor_create]
 }
@@ -57,8 +57,11 @@ private fun createAnchorAtTrackable(trackable: Trackable<*>) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create_trackable]
     when (val result = trackable.createAnchor(pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
+        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */
+        }
+
+        else -> { /* handle failure */
+        }
     }
     // [END androidxr_arcore_anchor_create_trackable]
 }
