@@ -24,11 +24,11 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.xr.runtime.Session
+import androidx.xr.runtime.math.FloatSize2d
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.SurfaceEntity
 import androidx.xr.scenecore.Texture
-import androidx.xr.scenecore.TextureSampler
 import androidx.xr.scenecore.scene
 import java.nio.file.Paths
 import kotlinx.coroutines.launch
@@ -36,10 +36,10 @@ import kotlinx.coroutines.launch
 private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreate]
     val stereoSurfaceEntity = SurfaceEntity.create(
-        xrSession,
-        SurfaceEntity.StereoMode.SIDE_BY_SIDE,
-        Pose(Vector3(0.0f, 0.0f, -1.5f)),
-        SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
+        session = xrSession,
+        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f))
     )
     val videoUri = Uri.Builder()
         .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -60,13 +60,13 @@ private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     // Set up the surface for playing a 180° video on a hemisphere.
     val hemisphereStereoSurfaceEntity =
         SurfaceEntity.create(
-            xrSession,
-            SurfaceEntity.StereoMode.SIDE_BY_SIDE,
-            xrSession.scene.spatialUser.head?.transformPoseTo(
+            session = xrSession,
+            stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
+            pose = xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
                 xrSession.scene.activitySpace
             )!!,
-            SurfaceEntity.CanvasShape.Vr180Hemisphere(1.0f),
+            shape = SurfaceEntity.Shape.Hemisphere(1.0f),
         )
     // ... and use the surface for playing the media.
     // [END androidxr_scenecore_surfaceEntityCreateSbs]
@@ -77,13 +77,13 @@ private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     // Set up the surface for playing a 360° video on a sphere.
     val sphereStereoSurfaceEntity =
         SurfaceEntity.create(
-            xrSession,
-            SurfaceEntity.StereoMode.TOP_BOTTOM,
-            xrSession.scene.spatialUser.head?.transformPoseTo(
+            session = xrSession,
+            stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_TOP_BOTTOM,
+            pose = xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
                 xrSession.scene.activitySpace
             )!!,
-            SurfaceEntity.CanvasShape.Vr360Sphere(1.0f),
+            shape = SurfaceEntity.Shape.Sphere(1.0f),
         )
     // ... and use the surface for playing the media.
     // [END androidxr_scenecore_surfaceEntityCreateTb]
@@ -93,10 +93,10 @@ private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateMVHEVC]
     // Create the SurfaceEntity with the StereoMode corresponding to the MV-HEVC content
     val stereoSurfaceEntity = SurfaceEntity.create(
-        xrSession,
-        SurfaceEntity.StereoMode.MULTIVIEW_LEFT_PRIMARY,
-        Pose(Vector3(0.0f, 0.0f, -1.5f)),
-        SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f)
+        session = xrSession,
+        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_MULTIVIEW_LEFT_PRIMARY,
+        pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
+        shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f))
     )
     val videoUri = Uri.Builder()
         .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -123,10 +123,10 @@ private fun ComponentActivity.surfaceEntityCreateDRM(xrSession: Session) {
     // Create the SurfaceEntity with the PROTECTED content security level.
     val protectedSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
+        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
-        canvasShape = SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f),
-        contentSecurityLevel = SurfaceEntity.ContentSecurityLevel.PROTECTED
+        shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f)),
+        surfaceProtection = SurfaceEntity.SurfaceProtection.SURFACE_PROTECTION_PROTECTED
     )
 
     // Build a MediaItem with the necessary DRM configuration.
@@ -156,20 +156,20 @@ private fun ComponentActivity.surfaceEntityHDR(xrSession: Session) {
     // Define the color properties for your HDR video. These values should be specific
     // to your content.
     val hdrMetadata = SurfaceEntity.ContentColorMetadata(
-        colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.BT2020,
-        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.ST2084, // PQ
-        colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.LIMITED,
-        maxCLL = 1000 // Example: 1000 nits
+        colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.COLOR_SPACE_BT2020,
+        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.COLOR_TRANSFER_ST2084, // PQ
+        colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.COLOR_RANGE_LIMITED,
+        maxContentLightLevel = 1000 // Example: 1000 nits
     )
 
     // Create a SurfaceEntity, passing the HDR metadata at creation time.
     val hdrSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.MONO,
+        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_MONO,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
-        canvasShape = SurfaceEntity.CanvasShape.Quad(1.0f, 1.0f),
-        contentColorMetadata = hdrMetadata
+        shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f)),
     )
+    hdrSurfaceEntity.contentColorMetadata = hdrMetadata
 
     // Initialize ExoPlayer and set the surface.
     val exoPlayer = ExoPlayer.Builder(this).build()
@@ -195,8 +195,8 @@ private fun surfaceEntityEdgeFeathering(xrSession: Session) {
     )
 
     // Feather the edges of the surface.
-    surfaceEntity.edgeFeather =
-        SurfaceEntity.EdgeFeatheringParams.SmoothFeather(0.1f, 0.1f)
+    surfaceEntity.edgeFeatheringParams =
+        SurfaceEntity.EdgeFeatheringParams.RectangleFeather(0.1f, 0.1f)
     // [END androidxr_scenecore_surfaceEntityEdgeFeathering]
 }
 
@@ -214,7 +214,6 @@ private fun surfaceEntityAlphaMasking(xrSession: Session, activity: ComponentAct
             Texture.create(
                 xrSession,
                 Paths.get("textures", "alpha_mask.png"),
-                TextureSampler.create()
             )
 
         // Apply the alpha mask.
