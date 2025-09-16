@@ -232,10 +232,12 @@ fun FitInsideWithImeDemo(modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .fitInside(RectRulers.innermostOf(
-                WindowInsetsRulers.NavigationBars.current,
-                WindowInsetsRulers.Ime.current
-            ))
+            .fitInside(
+                RectRulers.innermostOf(
+                    WindowInsetsRulers.NavigationBars.current,
+                    WindowInsetsRulers.Ime.current
+                )
+            )
     ) {
         TextField(
             value = "Demo IME Insets",
@@ -252,10 +254,12 @@ fun FitInsideWithStatusAndCaptionBarDemo(modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .fitInside(RectRulers.innermostOf(
-                WindowInsetsRulers.StatusBars.current,
-                WindowInsetsRulers.CaptionBar.current
-            ))
+            .fitInside(
+                RectRulers.innermostOf(
+                    WindowInsetsRulers.StatusBars.current,
+                    WindowInsetsRulers.CaptionBar.current
+                )
+            )
     )
 }
 // [END android_compose_insets_rulers_status_caption_bars]
