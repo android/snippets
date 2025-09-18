@@ -25,7 +25,7 @@ plugins {
 }
 
 android {
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 36
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
