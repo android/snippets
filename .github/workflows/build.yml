@@ -32,11 +32,11 @@ jobs:
     - uses: actions/checkout@v4
       with:
         token: ${{ secrets.PAT || github.token }}
-    - name: set up Java 17
+    - name: set up Java 25
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '17'
+        java-version: '25'
     - name: Build All
       run: ./gradlew build --stacktrace
     - name: Build Watch Face Push validation snippets
