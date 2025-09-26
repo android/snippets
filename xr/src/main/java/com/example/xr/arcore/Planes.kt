@@ -19,7 +19,6 @@ package com.example.xr.arcore
 import androidx.xr.arcore.Plane
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
-import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Ray
@@ -31,11 +30,9 @@ fun configurePlaneTracking(session: Session) {
         planeTracking = Config.PlaneTrackingMode.HORIZONTAL_AND_VERTICAL,
     )
     when (val result = session.configure(newConfig)) {
-        is SessionConfigureConfigurationNotSupported ->
-            TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
-            TODO(/* A different unhandled exception was thrown. */)
+            TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
     }
     // [END androidxr_arcore_planetracking_configure]
 }
