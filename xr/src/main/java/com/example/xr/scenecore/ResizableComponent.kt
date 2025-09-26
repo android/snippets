@@ -17,6 +17,7 @@
 package com.example.xr.scenecore
 
 import androidx.xr.runtime.Session
+import androidx.xr.runtime.math.FloatSize2d
 import androidx.xr.runtime.math.FloatSize3d
 import androidx.xr.scenecore.ResizableComponent
 import androidx.xr.scenecore.ResizeEvent
@@ -32,11 +33,11 @@ private fun resizableComponentExample(
     val resizableComponent = ResizableComponent.create(session) { event ->
         if (event.resizeState == ResizeEvent.ResizeState.RESIZE_STATE_END) {
             // update the Entity to reflect the new size
-            surfaceEntity.canvasShape = SurfaceEntity.CanvasShape.Quad(event.newSize.width, event.newSize.height)
+            surfaceEntity.shape = SurfaceEntity.Shape.Quad(FloatSize2d(event.newSize.width, event.newSize.height))
         }
     }
     resizableComponent.minimumEntitySize = FloatSize3d(177f, 100f, 1f)
-    resizableComponent.fixedAspectRatio = 16f / 9f // Specify a 16:9 aspect ratio
+    resizableComponent.isFixedAspectRatioEnabled = true // Maintain a fixed aspect ratio when resizing
 
     surfaceEntity.addComponent(resizableComponent)
     // [END androidxr_scenecore_resizableComponentExample]
