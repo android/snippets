@@ -40,7 +40,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
     // [START androidxr_scenecore_playSpatialAudio]
     // Check spatial capabilities before using spatial audio
     if (session.scene.spatialCapabilities
-        .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)
+            .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)
     ) { // The session has spatial audio capabilities
         val maxVolume = 1F
         val lowPriority = 0
