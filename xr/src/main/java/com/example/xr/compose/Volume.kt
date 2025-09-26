@@ -28,13 +28,13 @@ import androidx.compose.ui.unit.sp
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.ExperimentalSubspaceVolumeApi
+import androidx.xr.compose.subspace.MovePolicy
+import androidx.xr.compose.subspace.ResizePolicy
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.Volume
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
-import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.offset
-import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.scale
 import androidx.xr.compose.subspace.layout.width
 import kotlinx.coroutines.launch
@@ -44,8 +44,9 @@ private fun VolumeExample() {
     // [START androidxr_compose_Volume]
     Subspace {
         SpatialPanel(
-            SubspaceModifier.height(1500.dp).width(1500.dp)
-                .resizable().movable()
+            SubspaceModifier.height(1500.dp).width(1500.dp),
+            dragPolicy = MovePolicy(),
+            resizePolicy = ResizePolicy(),
         ) {
             ObjectInAVolume(true)
             Box(
