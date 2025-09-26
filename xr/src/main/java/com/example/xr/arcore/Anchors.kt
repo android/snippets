@@ -44,11 +44,8 @@ private fun createAnchorAtPose(session: Session, pose: Pose) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create]
     when (val result = Anchor.create(session, pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */
-        }
-
-        else -> { /* handle failure */
-        }
+        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
+        else -> { /* handle failure */ }
     }
     // [END androidxr_arcore_anchor_create]
 }
@@ -57,11 +54,8 @@ private fun createAnchorAtTrackable(trackable: Trackable<*>) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create_trackable]
     when (val result = trackable.createAnchor(pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */
-        }
-
-        else -> { /* handle failure */
-        }
+        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
+        else -> { /* handle failure */ }
     }
     // [END androidxr_arcore_anchor_create_trackable]
 }
