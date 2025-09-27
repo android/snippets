@@ -18,7 +18,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.example.snippet.views"
+    namespace = "com.example.android.views"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -48,8 +48,9 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.google.android.material)
     implementation(libs.androidx.glance.appwidget)
 
