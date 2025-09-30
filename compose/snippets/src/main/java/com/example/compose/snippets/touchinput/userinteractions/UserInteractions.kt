@@ -37,7 +37,6 @@ import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalUseFallbackRippleImplementation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -239,28 +238,6 @@ private class ScaleIndicationNode(
 @Composable
 fun App() {
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun LocalUseFallbackRippleImplementationExample() {
-// [START android_compose_userinteractions_localusefallbackrippleimplementation]
-    CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
-        MaterialTheme {
-            App()
-        }
-    }
-// [END android_compose_userinteractions_localusefallbackrippleimplementation]
-}
-
-// [START android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyAppTheme(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalUseFallbackRippleImplementation provides true) {
-        MaterialTheme(content = content)
-    }
-}
-// [END android_compose_userinteractions_localusefallbackrippleimplementation_app_theme]
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

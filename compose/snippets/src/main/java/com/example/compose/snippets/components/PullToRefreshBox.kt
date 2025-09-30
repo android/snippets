@@ -32,11 +32,10 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.PositionalThreshold
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
-import androidx.compose.material3.pulltorefresh.pullToRefreshIndicator
+import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -187,10 +186,10 @@ fun MyCustomIndicator(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.pullToRefreshIndicator(
+        modifier = modifier.pullToRefresh(
             state = state,
             isRefreshing = isRefreshing,
-            containerColor = PullToRefreshDefaults.containerColor,
+            onRefresh = { /* */ },
             threshold = PositionalThreshold
         ),
         contentAlignment = Alignment.Center
