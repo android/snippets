@@ -157,7 +157,7 @@ fun SampleNavigationSuiteScaffoldColors() {
 }
 
 @Composable
-fun SampleNavigationSuiteScaffoldIconAlignment() {
+fun SampleNavigationSuiteScaffoldIconsAlignment() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_icons_alignment]
@@ -181,7 +181,7 @@ fun SampleNavigationSuiteScaffoldIconAlignment() {
     ) {
         // TODO: Destination content.
     }
-    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items_icons_alignment]
+    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_icons_alignment]
 }
 
 @Composable
