@@ -25,7 +25,7 @@ import android.widget.RemoteViews
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.compose
-import com.example.example.snippet.views.R
+import com.example.android.views.R
 
 class ExampleAppWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {

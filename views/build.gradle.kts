@@ -18,7 +18,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.example.snippet.views"
+    namespace = "com.example.android.views"
     compileSdk = 35
 
     defaultConfig {
@@ -48,6 +48,8 @@ android {
 
 dependencies {
 
+    implementation("androidx.core:core:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)

@@ -22,6 +22,10 @@ plugins {
     application
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 application {
     mainClass.set("com.example.validator.Main")
 }

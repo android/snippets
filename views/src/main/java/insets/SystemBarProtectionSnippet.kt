@@ -25,7 +25,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.insets.GradientProtection
 import androidx.core.view.insets.ProtectionLayout
-import com.example.example.snippet.views.R
+import com.example.android.views.R
 
 class SystemBarProtectionSnippet : AppCompatActivity() {
 
