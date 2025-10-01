@@ -1,63 +1,63 @@
 [versions]
 accompanist = "0.36.0"
-activityKtx = "1.10.1"
+activityKtx = "1.11.0"
 android-googleid = "1.1.1"
-androidGradlePlugin = "8.12.1"
-androidx-activity-compose = "1.10.1"
+androidGradlePlugin = "8.13.0"
+androidx-activity-compose = "1.11.0"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.08.00"
+androidx-compose-bom = "2025.09.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.10.0-alpha01"
+androidx-compose-ui-test-junit4-accessibility = "1.10.0-alpha04"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
 androidx-corektx = "1.17.0"
 androidx-credentials = "1.5.0"
 androidx-credentials-play-services-auth = "1.5.0"
-androidx-emoji2-views = "1.5.0"
+androidx-emoji2-views = "1.6.0"
 androidx-fragment-ktx = "1.8.9"
 androidx-glance-appwidget = "1.1.1"
-androidx-lifecycle-compose = "2.9.2"
-androidx-lifecycle-runtime-compose = "2.9.2"
-androidx-navigation = "2.9.3"
+androidx-lifecycle-compose = "2.9.4"
+androidx-lifecycle-runtime-compose = "2.9.4"
+androidx-navigation = "2.9.5"
 androidx-paging = "3.3.6"
 androidx-startup-runtime = "1.2.0"
 androidx-test = "1.7.0"
 androidx-test-espresso = "3.7.0"
 androidx-test-junit = "1.3.0"
-androidx-window = "1.5.0-beta02"
-androidx-window-core = "1.5.0-beta02"
-androidx-window-java = "1.5.0-beta02"
+androidx-window = "1.5.0"
+androidx-window-core = "1.5.0"
+androidx-window-java = "1.5.0"
 androidx-xr-arcore = "1.0.0-alpha06"
 androidx-xr-compose = "1.0.0-alpha07"
 androidx-xr-scenecore = "1.0.0-alpha07"
-androidxHiltNavigationCompose = "1.2.0"
+androidxHiltNavigationCompose = "1.3.0"
 appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "36"
-compose-latest = "1.9.0"
-composeUiTooling = "1.4.1"
+compose-latest = "1.9.2"
+composeUiTooling = "1.5.2"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
-glide = "1.0.0-beta01"
+glide = "1.0.0-beta08"
 google-maps = "19.2.0"
-gradle-versions = "0.52.0"
-guava = "33.4.8-jre"
-hilt = "2.57"
-horologist = "0.8.1-alpha"
+gradle-versions = "0.53.0"
+guava = "33.5.0-jre"
+hilt = "2.57.2"
+horologist = "0.8.2-alpha"
 junit = "4.13.2"
-ktlint = "1.5.0"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
-ksp = "2.2.10-2.0.2"
-lifecycleService = "2.9.2"
-maps-compose = "6.7.2"
-material = "1.14.0-alpha03"
+ksp = "2.2.20-2.0.3"
+ktlint = "1.5.0"
+lifecycleService = "2.9.4"
+maps-compose = "6.12.0"
+material = "1.14.0-alpha05"
 material3-adaptive = "1.1.0"
-material3-adaptive-navigation-suite = "1.3.2"
+material3-adaptive-navigation-suite = "1.4.0"
 media3 = "1.8.0"
 # @keep
 minSdk = "35"
@@ -65,18 +65,18 @@ okHttp = "5.1.0"
 playServicesWearable = "19.0.0"
 protolayout = "1.3.0"
 recyclerview = "1.4.0"
-spotless = "7.0.2"
+spotless = "8.0.0"
 targetSdk = "35"
 tiles = "1.5.0"
 tracing = "1.3.0"
-validatorPush = "1.0.0-alpha06"
-version-catalog-update = "1.0.0"
+validatorPush = "1.0.0-alpha08"
+version-catalog-update = "1.0.1"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
 wear = "1.3.0"
-wearComposeFoundation = "1.5.0-rc02"
-wearComposeMaterial = "1.5.0-rc02"
-wearComposeMaterial3 = "1.5.0-rc02"
-wearOngoing = "1.0.0"
+wearComposeFoundation = "1.6.0-alpha02"
+wearComposeMaterial = "1.6.0-alpha02"
+wearComposeMaterial3 = "1.6.0-alpha02"
+wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 
@@ -125,9 +125,9 @@ androidx-credentials-play-services-auth = { module = "androidx.credentials:crede
 androidx-emoji2-views = { module = "androidx.emoji2:emoji2-views", version.ref = "androidx-emoji2-views" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance-appwidget" }
+androidx-glance-appwidget-testing = { module = "androidx.glance:glance-appwidget-testing", version.ref = "androidx-glance-appwidget" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance-appwidget" }
-androidx-glance-testing = { group = "androidx.glance", name = "glance-testing", version.ref = "androidx-glance-appwidget" }
-androidx-glance-appwidget-testing = { group = "androidx.glance", name = "glance-appwidget-testing", version.ref = "androidx-glance-appwidget" }
+androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.1"
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-compose" }
@@ -165,7 +165,7 @@ androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
-androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.3"
+androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.5"
 androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
 androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
 androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr-scenecore" }
@@ -182,9 +182,11 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
+jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -194,21 +196,19 @@ play-services-wearable = { module = "com.google.android.gms:play-services-wearab
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
-jetbrains-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-android = "org.jetbrains.kotlin.android:2.2.10"
+kotlin-android = "org.jetbrains.kotlin.android:2.2.20"
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
