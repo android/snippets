@@ -235,10 +235,6 @@ private class ScaleIndicationNode(
 }
 // [END android_compose_userinteractions_scale_indication_node]
 
-@Composable
-fun App() {
-}
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun MyComposableDisabledRippleConfig() {
