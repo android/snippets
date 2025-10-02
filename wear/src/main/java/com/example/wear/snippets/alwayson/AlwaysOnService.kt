@@ -22,6 +22,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
@@ -29,6 +30,7 @@ import androidx.lifecycle.LifecycleService
 import androidx.wear.ongoing.OngoingActivity
 import androidx.wear.ongoing.Status
 import com.example.wear.R
+import java.util.concurrent.TimeUnit
 
 class AlwaysOnService : LifecycleService() {
 
@@ -122,8 +124,7 @@ class AlwaysOnService : LifecycleService() {
                 .setOngoing(true)
 
         // [START_EXCLUDE]
-        // Create an Ongoing Activity
-        val ongoingActivityStatus = Status.Builder().addTemplate("Stopwatch running").build()
+        val ongoingActivityStatus = createOngoingStatus()
         // [END_EXCLUDE]
 
         val ongoingActivity =
@@ -142,4 +143,22 @@ class AlwaysOnService : LifecycleService() {
         return notificationBuilder.build()
     }
     // [END android_wear_ongoing_activity_create_notification]
+
+    private fun createOngoingStatus(): Status {
+        // [START android_wear_ongoing_activity_create_status]
+        val statusTemplate = "#type# for #time#"
+
+        // Creates a 5 minute timer.
+        // Note the use of SystemClock.elapsedRealtime(), not System.currentTimeMillis().
+        val runStartTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(5)
+
+        val ongoingActivityStatus = Status.Builder()
+            .addTemplate(statusTemplate)
+            .addPart("type", Status.TextPart("Run"))
+            .addPart("time", Status.StopwatchPart(runStartTime))
+            .build()
+        // [END android_wear_ongoing_activity_create_status]
+
+        return ongoingActivityStatus
+    }
 }
