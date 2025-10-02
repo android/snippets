@@ -76,7 +76,7 @@ wear = "1.3.0"
 wearComposeFoundation = "1.5.0-rc02"
 wearComposeMaterial = "1.5.0-rc02"
 wearComposeMaterial3 = "1.5.0-rc02"
-wearOngoing = "1.0.0"
+wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 
