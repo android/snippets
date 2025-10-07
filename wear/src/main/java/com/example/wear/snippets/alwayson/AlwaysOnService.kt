@@ -131,7 +131,7 @@ class AlwaysOnService1 : AlwaysOnServiceBase() {
         ongoingActivity.apply(applicationContext)
 
         val notification = notificationBuilder.build()
-        // [END android_wear_ongoing_activity_create_notification] // where's the equivalent START? should this even be here? check the docs jjjjjjj
+        // [END android_wear_ongoing_activity_create_notification]
 
         startForeground(NOTIFICATION_ID, notification)
     }
