@@ -36,7 +36,7 @@ private suspend fun loadGltfFile(session: Session) {
 private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [START androidxr_scenecore_gltfmodelentity_create]
     if (session.scene.spatialCapabilities
-        .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_3D_CONTENT)
+            .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_3D_CONTENT)
     ) {
         val gltfEntity = GltfModelEntity.create(session, gltfModel)
     }

@@ -163,4 +163,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4.accessibility)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    androidTestImplementation(libs.androidx.glance.testing)
+    androidTestImplementation(libs.androidx.glance.appwidget.testing)
 }
