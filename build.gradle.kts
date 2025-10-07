@@ -1,3 +1,6 @@
+import org.codehaus.groovy.runtime.DefaultGroovyMethods.step
+import org.jetbrains.kotlin.gradle.internal.builtins.StandardNames.FqNames.target
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.gradle.versions)
@@ -16,7 +19,7 @@ plugins {
     alias(libs.plugins.spotless) apply false
 }
 
-subprojects {
+allprojects {
     apply(plugin = "com.diffplug.spotless")
     extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
