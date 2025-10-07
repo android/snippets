@@ -1,3 +1,4 @@
+
 [versions]
 accompanist = "0.36.0"
 activityKtx = "1.11.0"
@@ -40,6 +41,9 @@ compose-latest = "1.9.2"
 composeUiTooling = "1.5.2"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
+# [START firebase_bom_version]
+firebase-bom = "34.3.0"
+# [END firebase_bom_version]
 glide = "1.0.0-beta08"
 google-maps = "19.2.0"
 gradle-versions = "0.53.0"
@@ -173,6 +177,10 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
+# [START firebase_bom_libraries]
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-ai = { module = "com.google.firebase:firebase-ai" }
+# [END firebase_bom_libraries]
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }

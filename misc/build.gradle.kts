@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -74,11 +75,11 @@ dependencies {
     implementation(libs.appcompat)
     // [START firebase_ai_bom]
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation(platform(libs.firebase.bom))
 
     // Add the dependency for the Firebase AI Logic library When using the BoM,
     // you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-ai")
+    implementation(libs.firebase.ai)
     // [END firebase_ai_bom]
 
     testImplementation(libs.junit)
