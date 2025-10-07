@@ -66,7 +66,10 @@ class AlwaysOnService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         Log.d(TAG, "onStartCommand: Service started with startId: $startId")
 
+        // Switch between different types of ongoing notification
         createNotification1()
+        // createNotification2()
+        // createNotification3()
 
         Log.d(TAG, "onStartCommand: Service is now running as foreground service")
 
