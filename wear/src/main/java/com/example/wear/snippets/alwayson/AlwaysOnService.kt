@@ -68,9 +68,7 @@ class AlwaysOnService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         Log.d(TAG, "onStartCommand: Service started with startId: $startId")
 
-        // Create and start foreground notification
-        val notification = createNotification()
-        startForeground(NOTIFICATION_ID, notification)
+        createNotification1()
 
         Log.d(TAG, "onStartCommand: Service is now running as foreground service")
 
@@ -95,8 +93,9 @@ class AlwaysOnService : LifecycleService() {
         Log.d(TAG, "createNotificationChannel: Notification channel created")
     }
 
-    // [START android_wear_ongoing_activity_create_notification]
-    private fun createNotification(): Notification {
+    // Creates an ongoing activity that demonstrates how to link the touch intent to the always-on activity.
+    private fun createNotification1(): Unit {
+        // [START android_wear_ongoing_activity_create_notification]
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -124,7 +123,7 @@ class AlwaysOnService : LifecycleService() {
                 .setOngoing(true)
 
         // [START_EXCLUDE]
-        val ongoingActivityStatus = createOngoingStatus()
+        val ongoingActivityStatus = Status.Builder().addTemplate("Stopwatch running").build()
         // [END_EXCLUDE]
 
         val ongoingActivity =
@@ -140,25 +139,118 @@ class AlwaysOnService : LifecycleService() {
 
         ongoingActivity.apply(applicationContext)
 
-        return notificationBuilder.build()
-    }
-    // [END android_wear_ongoing_activity_create_notification]
+        val notification = notificationBuilder.build()
+        // [END android_wear_ongoing_activity_create_notification] // where's the equivalent START? should this even be here? check the docs jjjjjjj
 
-    private fun createOngoingStatus(): Status {
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    // Creates an ongoing activity with a static status text
+    private fun createNotification2(): Unit {
+
+        // [START android_wear_ongoing_activity_notification_builder]
+        // Create a PendingIntent to pass to the notification builder
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                0,
+                Intent(this, AlwaysOnActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                },
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Always On Service")
+            .setContentText("Service is running in background")
+            .setSmallIcon(R.drawable.animated_walk)
+            // Category helps the system prioritize the ongoing activity
+            .setCategory(NotificationCompat.CATEGORY_WORKOUT)
+            .setContentIntent(pendingIntent)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOngoing(true) // Important!
+        // [END android_wear_ongoing_activity_notification_builder]
+
+        // [START android_wear_ongoing_activity_builder]
+        val ongoingActivity =
+            OngoingActivity.Builder(applicationContext, NOTIFICATION_ID, notificationBuilder)
+                // Sets the icon that appears on the watch face in active mode.
+                .setAnimatedIcon(R.drawable.animated_walk)
+                // Sets the icon that appears on the watch face in ambient mode.
+                .setStaticIcon(R.drawable.ic_walk)
+                // Sets the tap target to bring the user back to the app.
+                .setTouchIntent(pendingIntent)
+                .build()
+        // [END android_wear_ongoing_activity_builder]
+
+        // [START android_wear_ongoing_activity_post_notification]
+        // This call modifies notificationBuilder to include the ongoing activity data.
+        ongoingActivity.apply(applicationContext)
+
+        // Post the notification.
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+        // [END android_wear_ongoing_activity_post_notification]
+    }
+
+    // Creates an ongoing activity that demonstrates dynamic status text (a timer)
+    private fun createNotification3(): Unit {
+        val activityIntent =
+            Intent(this, AlwaysOnActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                0,
+                activityIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Always On Service")
+            .setContentText("Service is running in background")
+            .setSmallIcon(R.drawable.animated_walk)
+            // Category helps the system prioritize the ongoing activity
+            .setCategory(NotificationCompat.CATEGORY_WORKOUT)
+            .setContentIntent(pendingIntent)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOngoing(true) // Important!
+
         // [START android_wear_ongoing_activity_create_status]
+        // Define a template with placeholders for the activity type and the timer.
         val statusTemplate = "#type# for #time#"
 
-        // Creates a 5 minute timer.
-        // Note the use of SystemClock.elapsedRealtime(), not System.currentTimeMillis().
-        val runStartTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(5)
+        // Set the start time for a stopwatch.
+        // Use SystemClock.elapsedRealtime() for time-based parts.
+        val runStartTime = SystemClock.elapsedRealtime()
 
         val ongoingActivityStatus = Status.Builder()
+            // Sets the template string.
             .addTemplate(statusTemplate)
+            // Fills the #type# placeholder with a static text part.
             .addPart("type", Status.TextPart("Run"))
+            // Fills the #time# placeholder with a stopwatch part.
             .addPart("time", Status.StopwatchPart(runStartTime))
             .build()
         // [END android_wear_ongoing_activity_create_status]
 
-        return ongoingActivityStatus
+        // [START android_wear_ongoing_activity_set_status]
+        val ongoingActivity =
+            OngoingActivity.Builder(applicationContext, NOTIFICATION_ID, notificationBuilder)
+                // [START_EXCLUDE]
+                .setAnimatedIcon(R.drawable.animated_walk)
+                .setStaticIcon(R.drawable.ic_walk)
+                .setTouchIntent(pendingIntent)
+                // [END_EXCLUDE]
+                // Add the status to the OngoingActivity.
+                .setStatus(ongoingActivityStatus)
+                .build()
+        // [END android_wear_ongoing_activity_set_status]
+
+        ongoingActivity.apply(applicationContext)
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+
     }
+
 }
