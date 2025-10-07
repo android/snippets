@@ -35,7 +35,7 @@ androidxHiltNavigationCompose = "1.3.0"
 appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
-compileSdk = "36"
+compileSdk = "36" # gradle.kts for Module :compose:snippets uses Android 16 QPR 2
 compose-latest = "1.9.2"
 composeUiTooling = "1.5.2"
 coreSplashscreen = "1.0.1"
