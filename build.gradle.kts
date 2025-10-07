@@ -1,3 +1,6 @@
+import org.codehaus.groovy.runtime.DefaultGroovyMethods.step
+import org.jetbrains.kotlin.gradle.internal.builtins.StandardNames.FqNames.target
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.gradle.versions)
@@ -85,7 +88,7 @@ allprojects {
         }
         kotlinGradle {
             target("**/*.kts")
-            targetExclude("**/build/**/*.kts")
+            targetExclude("**/build/**/*.kts", "spotless/**/*.kts")
             // Look for the first line that doesn't have a block comment (assumed to be the license)
             licenseHeaderFile(rootProject.file("spotless/copyright.kts"), "(^(?![\\/ ]\\*).*$)")
         }

@@ -18,6 +18,8 @@
 
 package com.example.compose.snippets.state
 
+import android.R.id.message
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -34,7 +36,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -60,9 +68,11 @@ private object StateHoistingSnippets1 {
     ) {
         var showDetails by rememberSaveable { mutableStateOf(false) } // Define the UI element expanded state
 
-        ClickableText(
+        Text(
             text = AnnotatedString(message.content),
-            onClick = { showDetails = !showDetails } // Apply simple UI logic
+            modifier = Modifier.clickable {
+                showDetails = !showDetails // Apply UI logic
+            }
         )
 
         if (showDetails) {
