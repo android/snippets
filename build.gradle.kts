@@ -16,12 +16,12 @@ plugins {
     alias(libs.plugins.spotless) apply false
 }
 
-subprojects {
+allprojects {
     apply(plugin = "com.diffplug.spotless")
     extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            targetExclude("**/build/**/*.kt")
+            targetExclude("**/build/**/*.kt", "spotless/**/*.kt")
 
             val disabledRules = arrayOf(
                 // These rules were introduced in ktlint 0.46.0 and should not be
@@ -91,7 +91,7 @@ subprojects {
         }
         format("xml") {
             target("**/*.xml")
-            targetExclude("**/build/**/*.xml")
+            targetExclude("**/build/**/*.xml", "spotless/**/*.xml")
             // Look for the root tag or a tag that is a snippet
             licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[a-zA-Z])|(<!--\\s+(//\\s*)?\\[START)").skipLinesMatching(".*START.*")
         }
