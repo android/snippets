@@ -16,7 +16,6 @@
 
 package com.example.wear.snippets.alwayson
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -30,7 +29,6 @@ import androidx.lifecycle.LifecycleService
 import androidx.wear.ongoing.OngoingActivity
 import androidx.wear.ongoing.Status
 import com.example.wear.R
-import java.util.concurrent.TimeUnit
 
 class AlwaysOnService : LifecycleService() {
 
@@ -94,7 +92,7 @@ class AlwaysOnService : LifecycleService() {
     }
 
     // Creates an ongoing activity that demonstrates how to link the touch intent to the always-on activity.
-    private fun createNotification1(): Unit {
+    private fun createNotification1() {
         // [START android_wear_ongoing_activity_create_notification]
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
@@ -146,7 +144,7 @@ class AlwaysOnService : LifecycleService() {
     }
 
     // Creates an ongoing activity with a static status text
-    private fun createNotification2(): Unit {
+    private fun createNotification2() {
 
         // [START android_wear_ongoing_activity_notification_builder]
         // Create a PendingIntent to pass to the notification builder
@@ -193,7 +191,7 @@ class AlwaysOnService : LifecycleService() {
     }
 
     // Creates an ongoing activity that demonstrates dynamic status text (a timer)
-    private fun createNotification3(): Unit {
+    private fun createNotification3() {
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -250,7 +248,5 @@ class AlwaysOnService : LifecycleService() {
 
         ongoingActivity.apply(applicationContext)
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
-
     }
-
 }
