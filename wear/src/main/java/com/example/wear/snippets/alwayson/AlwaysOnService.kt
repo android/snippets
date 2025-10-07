@@ -62,8 +62,6 @@ abstract class AlwaysOnServiceBase : LifecycleService() {
         return START_STICKY
     }
 
-
-
     override fun onDestroy() {
         Log.d(TAG, "onDestroy: Service destroyed")
         isRunning = false
