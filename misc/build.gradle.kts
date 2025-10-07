@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.androidx.window)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.window.java)
-    implementation(libs.appcompat)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)
