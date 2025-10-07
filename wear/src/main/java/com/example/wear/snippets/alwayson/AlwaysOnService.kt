@@ -19,7 +19,6 @@ package com.example.wear.snippets.alwayson
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
@@ -30,29 +29,19 @@ import androidx.wear.ongoing.OngoingActivity
 import androidx.wear.ongoing.Status
 import com.example.wear.R
 
-class AlwaysOnService : LifecycleService() {
+abstract class AlwaysOnServiceBase : LifecycleService() {
 
     private val notificationManager by lazy { getSystemService<NotificationManager>() }
 
     companion object {
         private const val TAG = "AlwaysOnService"
-        private const val NOTIFICATION_ID = 1001
-        private const val CHANNEL_ID = "always_on_service_channel"
+        const val NOTIFICATION_ID = 1001
+        const val CHANNEL_ID = "always_on_service_channel"
         private const val CHANNEL_NAME = "Always On Service"
+
         @Volatile
         var isRunning = false
             private set
-
-        fun startService(context: Context) {
-            Log.d(TAG, "Starting AlwaysOnService")
-            val intent = Intent(context, AlwaysOnService::class.java)
-            context.startForegroundService(intent)
-        }
-
-        fun stopService(context: Context) {
-            Log.d(TAG, "Stopping AlwaysOnService")
-            context.stopService(Intent(context, AlwaysOnService::class.java))
-        }
     }
 
     override fun onCreate() {
@@ -66,15 +55,14 @@ class AlwaysOnService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         Log.d(TAG, "onStartCommand: Service started with startId: $startId")
 
-        // Switch between different types of ongoing notification
-        createNotification1()
-        // createNotification2()
-        // createNotification3()
+        createNotification()
 
         Log.d(TAG, "onStartCommand: Service is now running as foreground service")
 
         return START_STICKY
     }
+
+
 
     override fun onDestroy() {
         Log.d(TAG, "onDestroy: Service destroyed")
@@ -94,8 +82,12 @@ class AlwaysOnService : LifecycleService() {
         Log.d(TAG, "createNotificationChannel: Notification channel created")
     }
 
-    // Creates an ongoing activity that demonstrates how to link the touch intent to the always-on activity.
-    private fun createNotification1() {
+    abstract fun createNotification()
+}
+
+class AlwaysOnService1 : AlwaysOnServiceBase() {
+    override fun createNotification() {
+        // Creates an ongoing activity that demonstrates how to link the touch intent to the always-on activity.
         // [START android_wear_ongoing_activity_create_notification]
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
@@ -145,9 +137,11 @@ class AlwaysOnService : LifecycleService() {
 
         startForeground(NOTIFICATION_ID, notification)
     }
+}
 
-    // Creates an ongoing activity with a static status text
-    private fun createNotification2() {
+class AlwaysOnService2 : AlwaysOnServiceBase() {
+    override fun createNotification() {
+        // Creates an ongoing activity with a static status text
 
         // [START android_wear_ongoing_activity_notification_builder]
         // Create a PendingIntent to pass to the notification builder
@@ -192,9 +186,11 @@ class AlwaysOnService : LifecycleService() {
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
         // [END android_wear_ongoing_activity_post_notification]
     }
+}
 
-    // Creates an ongoing activity that demonstrates dynamic status text (a timer)
-    private fun createNotification3() {
+class AlwaysOnService3 : AlwaysOnServiceBase() {
+    override fun createNotification() {
+        // Creates an ongoing activity that demonstrates dynamic status text (a timer)
         val activityIntent =
             Intent(this, AlwaysOnActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP

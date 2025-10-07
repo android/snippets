@@ -17,6 +17,7 @@
 package com.example.wear.snippets.alwayson
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -141,46 +142,55 @@ fun ElapsedTime(ambientState: AmbientState) {
 @Composable
 fun WearApp() {
     val context = LocalContext.current
-    var isOngoingActivity by rememberSaveable { mutableStateOf(AlwaysOnService.isRunning) }
+    var runningService by rememberSaveable { mutableStateOf<Class<*>?>(null) }
+
     MaterialTheme(
         colorScheme = dynamicColorScheme(LocalContext.current) ?: MaterialTheme.colorScheme
     ) {
-        // [START android_wear_ongoing_activity_ambientaware]
         AmbientAware { ambientState ->
-            // [START_EXCLUDE]
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Elapsed Time", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(8.dp))
-                    // [END_EXCLUDE]
                     ElapsedTime(ambientState = ambientState)
-                    // [START_EXCLUDE]
                     Spacer(modifier = Modifier.height(8.dp))
-                    SwitchButton(
-                        checked = isOngoingActivity,
-                        onCheckedChange = { newState ->
-                            Log.d(TAG, "Switch button changed: $newState")
-                            isOngoingActivity = newState
 
-                            if (newState) {
-                                Log.d(TAG, "Starting AlwaysOnService")
-                                AlwaysOnService.startService(context)
-                            } else {
-                                Log.d(TAG, "Stopping AlwaysOnService")
-                                AlwaysOnService.stopService(context)
-                            }
-                        },
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                    ) {
-                        Text(
-                            text = "Ongoing Activity",
-                            style = MaterialTheme.typography.bodyExtraSmall,
-                        )
+                    val services = listOf(
+                        AlwaysOnService1::class.java,
+                        AlwaysOnService2::class.java,
+                        AlwaysOnService3::class.java
+                    )
+
+                    services.forEachIndexed { index, serviceClass ->
+                        val isRunning = runningService == serviceClass
+                        SwitchButton(
+                            checked = isRunning,
+                            onCheckedChange = { newState ->
+                                if (newState) {
+                                    if (runningService != null) {
+                                        Log.d(TAG, "Stopping ${runningService?.simpleName}")
+                                        context.stopService(Intent(context, runningService))
+                                    }
+                                    Log.d(TAG, "Starting ${serviceClass.simpleName}")
+                                    val intent = Intent(context, serviceClass)
+                                    context.startForegroundService(intent)
+                                    runningService = serviceClass
+                                } else {
+                                    Log.d(TAG, "Stopping ${serviceClass.simpleName}")
+                                    context.stopService(Intent(context, serviceClass))
+                                    runningService = null
+                                }
+                            },
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Text(
+                                text = "Ongoing Activity ${index + 1}",
+                                style = MaterialTheme.typography.bodyExtraSmall,
+                            )
+                        }
                     }
                 }
             }
-            // [END_EXCLUDE]
         }
-        // [END android_wear_ongoing_activity_ambientaware]
     }
 }
