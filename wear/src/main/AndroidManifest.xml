@@ -224,7 +224,21 @@
         </activity>
 
         <service
-            android:name=".snippets.alwayson.AlwaysOnService"
+            android:name=".snippets.alwayson.AlwaysOnService1"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService2"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService3"
             android:foregroundServiceType="specialUse"
             android:exported="false">
             <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
