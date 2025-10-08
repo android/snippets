@@ -48,6 +48,8 @@ glide = "1.0.0-beta08"
 google-maps = "19.2.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
+guava-android = "31.0.1-android"
+reactive-streams = "1.0.4"
 hilt = "2.57.1"
 horologist = "0.8.2-alpha"
 junit = "4.13.2"
@@ -186,6 +188,8 @@ google-android-material = { module = "com.google.android.material:material", ver
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
+reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }

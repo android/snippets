@@ -82,6 +82,14 @@ dependencies {
     implementation(libs.firebase.ai)
     // [END firebase_ai_bom]
 
+    // Required for one-shot operations (to use `ListenableFuture` from Guava
+    // Android)
+    implementation(libs.guava.android)
+
+    // Required for streaming operations (to use `Publisher` from Reactive
+    // Streams)
+    implementation(libs.reactive.streams)
+
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)
