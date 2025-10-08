@@ -18,13 +18,16 @@ package com.example.compose.snippets.glance
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 
 private const val TAG = "WidgetMetrics"
 
 class GlanceMetrics {
 
     // [START android_compose_glance_metrics]
+    @RequiresApi(Build.VERSION_CODES_FULL.BAKLAVA_1)
     fun getWidgetEngagementMetrics(context: Context) {
         val manager = AppWidgetManager.getInstance(context)
 
