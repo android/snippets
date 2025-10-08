@@ -72,6 +72,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".snippets.audio.AudioActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
+
         <!-- [START android_wear_tile_manifest] -->
         <service
             android:name=".snippets.tile.MyTileService"
