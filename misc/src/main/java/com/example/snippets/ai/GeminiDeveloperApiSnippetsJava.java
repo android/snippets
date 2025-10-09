@@ -34,11 +34,9 @@ import com.google.firebase.ai.java.ChatFutures;
 import com.google.firebase.ai.java.GenerativeModelFutures;
 import com.google.firebase.ai.type.Content;
 import com.google.firebase.ai.type.GenerateContentResponse;
-import com.google.firebase.ai.type.GenerationConfig;
 import com.google.firebase.ai.type.GenerativeBackend;
 import com.google.firebase.ai.type.ImagePart;
 import com.google.firebase.ai.type.Part;
-import com.google.firebase.ai.type.ResponseModality;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,33 +47,40 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-final class GeminiDeveloperApiSnippetsJava {
+@SuppressWarnings("unused")
+public final class GeminiDeveloperApiSnippetsJava {
 
     private static final String TAG = "GeminiDeveloperApiSnippetsJava";
 
     private GeminiDeveloperApiSnippetsJava() {}
 
     static final class GeminiDeveloperApi25FlashModelConfigurationJava {
-        // [START android_gemini_developer_api_gemini_25_flash_model_java]
-        public static GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
-                .generativeModel("gemini-2.5-flash");
+        public static GenerativeModelFutures model;
 
-        public static GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
-        // [END android_gemini_developer_api_gemini_25_flash_model_java]
+        static {
+            // [START android_gemini_developer_api_gemini_25_flash_model_java]
+            GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
+                    .generativeModel("gemini-2.5-flash");
 
+            GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
+            // [END android_gemini_developer_api_gemini_25_flash_model_java]
+            GeminiDeveloperApi25FlashModelConfigurationJava.model = model;
+        }
     }
 
     static final class Gemini25FlashImagePreviewModelConfigurationJava {
-        // [START android_gemini_developer_api_gemini_25_flash_image_model_java]
-        public static GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel(
-                "gemini-2.5-flash-image-preview",
-                // Configure the model to respond with text and images (required)
-                new GenerationConfig.Builder()
-                        .setResponseModalities(Arrays.asList(ResponseModality.TEXT, ResponseModality.IMAGE))
-                        .build()
-        );
-        public static GenerativeModelFutures model = GenerativeModelFutures.from(ai);
-        // [END android_gemini_developer_api_gemini_25_flash_image_model_java]
+        public static GenerativeModelFutures model;
+
+        static {
+            // [START android_gemini_developer_api_gemini_25_flash_image_model_java]
+            GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
+                    .generativeModel("gemini-2.5-flash");
+
+            GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
+            // [END android_gemini_developer_api_gemini_25_flash_image_model_java]
+            Gemini25FlashImagePreviewModelConfigurationJava.model = model;
+        }
+
     }
 
     public static void textOnlyInput(Executor executor) {

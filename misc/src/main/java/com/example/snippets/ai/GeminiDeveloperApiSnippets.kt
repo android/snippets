@@ -52,6 +52,7 @@ object Gemini25FlashImagePreviewModelConfiguration {
     // [END android_gemini_developer_api_gemini_25_flash_image_model]
 }
 
+@Suppress("unused")
 fun textOnlyInput(scope: CoroutineScope) {
     val model = GeminiDeveloperApi25FlashModelConfiguration.model
     // [START android_gemini_developer_api_text_only_input]
@@ -61,6 +62,7 @@ fun textOnlyInput(scope: CoroutineScope) {
     // [END android_gemini_developer_api_text_only_input]
 }
 
+@Suppress("unused")
 fun textAndImageInput(scope: CoroutineScope, bitmap: Bitmap) {
     val model = GeminiDeveloperApi25FlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_input]
@@ -75,6 +77,7 @@ fun textAndImageInput(scope: CoroutineScope, bitmap: Bitmap) {
     // [END android_gemini_developer_api_multimodal_input]
 }
 
+@Suppress("unused")
 fun textAndAudioInput(
     scope: CoroutineScope,
     contentResolver: ContentResolver,
@@ -99,6 +102,7 @@ fun textAndAudioInput(
     // [END android_gemini_developer_api_multimodal_audio_input]
 }
 
+@Suppress("unused")
 fun textAndVideoInput(
     scope: CoroutineScope,
     contentResolver: ContentResolver,
@@ -123,6 +127,7 @@ fun textAndVideoInput(
     // [END android_gemini_developer_api_multimodal_video_input]
 }
 
+@Suppress("unused")
 fun multiTurnChat(scope: CoroutineScope) {
     val model = GeminiDeveloperApi25FlashModelConfiguration.model
     // [START android_gemini_developer_api_multiturn_chat]
@@ -139,6 +144,7 @@ fun multiTurnChat(scope: CoroutineScope) {
     // [END android_gemini_developer_api_multiturn_chat]
 }
 
+@Suppress("unused")
 fun generateImageFromText(scope: CoroutineScope) {
     val model = Gemini25FlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_generate_image_from_text]
@@ -154,6 +160,7 @@ fun generateImageFromText(scope: CoroutineScope) {
     // [END android_gemini_developer_api_generate_image_from_text]
 }
 
+@Suppress("unused")
 fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
     val model = Gemini25FlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_edit_image]
@@ -171,6 +178,7 @@ fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
     // [END android_gemini_developer_api_edit_image]
 }
 
+@Suppress("unused")
 fun editImageWithChat(scope: CoroutineScope, bitmap: Bitmap) {
     val model = Gemini25FlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_edit_image_chat]
