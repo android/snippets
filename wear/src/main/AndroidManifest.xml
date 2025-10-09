@@ -77,6 +77,11 @@
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault"/>
 
+        <activity android:name=".snippets.location.LocationActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
+
         <!-- [START android_wear_tile_manifest] -->
         <service
             android:name=".snippets.tile.MyTileService"
