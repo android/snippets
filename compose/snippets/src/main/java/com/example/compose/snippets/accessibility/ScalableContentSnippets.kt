@@ -40,8 +40,9 @@ import androidx.compose.ui.unit.dp
 
 // [START android_compose_accessibility_scalable_content_density_scaling]
 private class DensityScalingState(
-    private val minScale: Float = 1f,
-    private val maxScale: Float = 3f,
+    // Note: For accessibility, typical min/max values are ~0.75x and ~3.5x.
+    private val minScale: Float = 0.75f,
+    private val maxScale: Float = 3.5f,
     private val currentDensity: Density
 ) {
     val transformableState = TransformableState { zoomChange, _, _ ->
@@ -83,8 +84,9 @@ fun DensityScalingSample() {
 
 // [START android_compose_accessibility_scalable_content_font_scaling]
 class FontScaleState(
-    private val minScale: Float = 1f,
-    private val maxScale: Float = 3f,
+    // Note: For accessibility, typical min/max values are ~0.75x and ~3.5x.
+    private val minScale: Float = 0.75f,
+    private val maxScale: Float = 3.5f,
     private val currentDensity: Density
 ) {
     val transformableState = TransformableState { zoomChange, _, _ ->
