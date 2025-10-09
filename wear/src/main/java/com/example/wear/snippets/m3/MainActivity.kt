@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import com.example.wear.snippets.m3.list.ComposeList
+import com.example.wear.snippets.m3.pager.HorizontalPager
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,5 +36,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WearApp() {
     // insert here the snippet you want to test
-    ComposeList()
+    HorizontalPager()
 }
