@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -72,6 +73,10 @@ dependencies {
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.window.java)
     implementation(libs.appcompat)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ai)
+    implementation(libs.guava.android)
+    implementation(libs.reactive.streams)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)

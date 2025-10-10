@@ -1,6 +1,3 @@
-import org.codehaus.groovy.runtime.DefaultGroovyMethods.step
-import org.jetbrains.kotlin.gradle.internal.builtins.StandardNames.FqNames.target
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.gradle.versions)
@@ -94,7 +91,11 @@ allprojects {
         }
         format("xml") {
             target("**/*.xml")
-            targetExclude("**/build/**/*.xml", "spotless/**/*.xml")
+            targetExclude(
+                "**/build/**/*.xml",
+                "spotless/**/*.xml",
+                ".idea/**",
+            )
             // Look for the root tag or a tag that is a snippet
             licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[a-zA-Z])|(<!--\\s+(//\\s*)?\\[START)").skipLinesMatching(".*START.*")
         }
