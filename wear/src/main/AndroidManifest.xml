@@ -42,6 +42,17 @@
             android:value="true" />
 
         <activity
+            android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".snippets.m3.MainActivity"
             android:exported="true"
             android:taskAffinity=""
