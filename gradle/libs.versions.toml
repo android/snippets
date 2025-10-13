@@ -5,9 +5,9 @@ android-googleid = "1.1.1"
 androidGradlePlugin = "8.13.0"
 androidx-activity-compose = "1.11.0"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.09.01"
+androidx-compose-bom = "2025.10.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.10.0-alpha04"
+androidx-compose-ui-test-junit4-accessibility = "1.10.0-alpha05"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
@@ -35,33 +35,34 @@ androidxHiltNavigationCompose = "1.3.0"
 appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
-compileSdk = "36" # gradle.kts for Module :compose:snippets uses Android 16 QPR 2
-compose-latest = "1.9.2"
-composeUiTooling = "1.5.2"
+compileSdk = "36"
+compose-latest = "1.9.3"
+composeUiTooling = "1.5.3"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
 glide = "1.0.0-beta08"
 google-maps = "19.2.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
-hilt = "2.57.1"
+hilt = "2.57.2"
 horologist = "0.8.2-alpha"
 junit = "4.13.2"
-ktlint = "1.5.0"
 kotlin = "2.2.20"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
-ksp = "2.2.20-2.0.3"
+ksp = "2.2.20-2.0.4"
+ktlint = "1.5.0"
 lifecycleService = "2.9.4"
-maps-compose = "6.11.0"
-material = "1.14.0-alpha04"
+maps-compose = "6.12.1"
+material = "1.14.0-alpha05"
 material3-adaptive = "1.1.0"
 material3-adaptive-navigation-suite = "1.4.0"
 media3 = "1.8.0"
+media3Ui = "1.8.0"
 # @keep
 minSdk = "35"
-okHttp = "5.1.0"
+okHttp = "5.2.0"
 playServicesWearable = "19.0.0"
 protolayout = "1.3.0"
 recyclerview = "1.4.0"
@@ -70,16 +71,15 @@ targetSdk = "36"
 tiles = "1.5.0"
 tracing = "1.3.0"
 validatorPush = "1.0.0-alpha08"
-version-catalog-update = "1.0.0"
+version-catalog-update = "1.0.1"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
 wear = "1.3.0"
-wearComposeFoundation = "1.5.2"
-wearComposeMaterial = "1.5.2"
-wearComposeMaterial3 = "1.5.2"
+wearComposeFoundation = "1.5.3"
+wearComposeMaterial = "1.5.3"
+wearComposeMaterial3 = "1.5.3"
 wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
-media3Ui = "1.8.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -140,6 +140,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Ui" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
@@ -197,7 +198,6 @@ play-services-wearable = { module = "com.google.android.gms:play-services-wearab
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
-androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
