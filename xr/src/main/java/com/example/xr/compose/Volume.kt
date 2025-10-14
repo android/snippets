@@ -71,7 +71,7 @@ fun ObjectInAVolume(show3DObject: Boolean) {
     val volumeXOffset = 0.dp
     val volumeYOffset = 0.dp
     val volumeZOffset = 0.dp
-    // [END_EXCLUDE silent]
+    // [END_EXCLUDE]
     val session = checkNotNull(LocalSession.current)
     val scope = rememberCoroutineScope()
     if (show3DObject) {
@@ -80,7 +80,6 @@ fun ObjectInAVolume(show3DObject: Boolean) {
                 modifier = SubspaceModifier
                     .offset(volumeXOffset, volumeYOffset, volumeZOffset) // Relative position
                     .scale(1.2f) // Scale to 120% of the size
-
             ) { parent ->
                 scope.launch {
                     // Load your 3D model here
