@@ -17,6 +17,7 @@
 package com.example.compose.snippets.adaptivelayouts
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
@@ -28,6 +29,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItem
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
@@ -152,6 +154,34 @@ fun SampleNavigationSuiteScaffoldColors() {
         // Content...
     }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_item_colors]
+}
+
+@Composable
+fun SampleNavigationSuiteScaffoldIconsAlignment() {
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+
+    // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_icons_alignment]
+    NavigationSuiteScaffold(
+        navigationItems = {
+            AppDestinations.entries.forEach {
+                NavigationSuiteItem(
+                    icon = {
+                        Icon(
+                            it.icon,
+                            contentDescription = stringResource(it.contentDescription)
+                        )
+                    },
+                    label = { Text(stringResource(it.label)) },
+                    selected = it == currentDestination,
+                    onClick = { currentDestination = it },
+                )
+            }
+        },
+        navigationItemVerticalArrangement = Arrangement.Center
+    ) {
+        // TODO: Destination content.
+    }
+    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_icons_alignment]
 }
 
 @Composable
