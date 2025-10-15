@@ -218,7 +218,7 @@ fun CenterAlignedTopAppBarExample() {
 
         topBar = {
             CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
@@ -431,6 +431,7 @@ fun AppBarSelectionActions(
                 }
             }
         },
+        modifier = modifier
     )
 }
 // [END android_compose_components_appbarselectionactions]
@@ -454,6 +455,7 @@ private fun AppBarMultiSelectionExample(
     var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
 
     Scaffold(
+        modifier = modifier,
         topBar = { AppBarSelectionActions(selectedItems) }
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding) {
@@ -517,7 +519,8 @@ fun LazyListMultiSelection(
 ) {
     var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
 
-    LazyColumn(contentPadding = contentPadding) {
+    LazyColumn(modifier = modifier,
+        contentPadding = contentPadding) {
         itemsIndexed(listItems) { _, index ->
             val selected = selectedItems.contains(index)
             ListItemSelectable(

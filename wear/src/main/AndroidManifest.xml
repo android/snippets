@@ -42,6 +42,17 @@
             android:value="true" />
 
         <activity
+            android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".snippets.m3.MainActivity"
             android:exported="true"
             android:taskAffinity=""
@@ -71,6 +82,16 @@
                 <data android:scheme="googleandroidsnippets" android:host="app" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".snippets.audio.AudioActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
+
+        <activity android:name=".snippets.location.LocationActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
 
         <!-- [START android_wear_tile_manifest] -->
         <service
@@ -224,7 +245,21 @@
         </activity>
 
         <service
-            android:name=".snippets.alwayson.AlwaysOnService"
+            android:name=".snippets.alwayson.AlwaysOnService1"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService2"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService3"
             android:foregroundServiceType="specialUse"
             android:exported="false">
             <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"

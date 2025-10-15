@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 group = "com.example.validator"
 version = "1.0"
@@ -22,8 +23,18 @@ plugins {
     application
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
 application {
     mainClass.set("com.example.validator.Main")
+
 }
 
 sourceSets {
@@ -32,6 +43,7 @@ sourceSets {
             srcDir("src/main/java")
         }
     }
+
 }
 
 dependencies {

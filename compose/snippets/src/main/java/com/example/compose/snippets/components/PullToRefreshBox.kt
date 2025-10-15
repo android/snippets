@@ -189,8 +189,10 @@ fun MyCustomIndicator(
         modifier = modifier.pullToRefresh(
             state = state,
             isRefreshing = isRefreshing,
-            onRefresh = { /* */ },
-            threshold = PositionalThreshold
+            threshold = PositionalThreshold,
+            onRefresh = {
+
+            }
         ),
         contentAlignment = Alignment.Center
     ) {
