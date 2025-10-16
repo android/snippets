@@ -17,9 +17,15 @@
 package com.example.compose.snippets.adaptivelayouts
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -30,13 +36,17 @@ import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
 import androidx.compose.material3.adaptive.navigation.NavigableSupportingPaneScaffold
+import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldPredictiveBackHandler
 import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Devices.TABLET
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -57,6 +67,12 @@ fun SampleNavigableSupportingPaneScaffoldParts() {
     // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_params]
 }
 
+@Composable
+@Preview(device = TABLET)
+fun SampleNavigationSupportingPaneScaffoldFullTabletPreview() {
+    SampleNavigableSupportingPaneScaffoldFull()
+}
+
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 @Preview
@@ -64,6 +80,7 @@ fun SampleNavigableSupportingPaneScaffoldFull() {
     // [START android_compose_adaptivelayouts_sample_supporting_pane_scaffold_full]
     val scaffoldNavigator = rememberSupportingPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
+    val backNavigationBehavior = BackNavigationBehavior.PopUntilScaffoldValueChange
 
     NavigableSupportingPaneScaffold(
         navigator = scaffoldNavigator,
@@ -92,7 +109,26 @@ fun SampleNavigableSupportingPaneScaffoldFull() {
         },
         supportingPane = {
             AnimatedPane(modifier = Modifier.safeContentPadding()) {
-                Text("Supporting pane")
+                Column {
+                    // Allow users to dismiss the supporting pane. Use back navigation to
+                    // hide an expanded supporting pane.
+                    if (scaffoldNavigator.scaffoldValue[SupportingPaneScaffoldRole.Supporting] == PaneAdaptedValue.Expanded) {
+                        // Material design principles promote the usage of a right-aligned
+                        // close (X) button.
+                        IconButton(
+                            modifier =  Modifier.align(Alignment.End).padding(16.dp),
+                            onClick = {
+                                scope.launch {
+                                    scaffoldNavigator.navigateBack(backNavigationBehavior)
+                                }
+                            }
+                        ) {
+                            Icon(Icons.Default.Close, contentDescription = "Close")
+                        }
+                    }
+                    Text("Supporting pane")
+                }
+
             }
         }
     )
@@ -124,11 +160,32 @@ fun ThreePaneScaffoldPaneScope.MainPane(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ThreePaneScaffoldPaneScope.SupportingPane(
+    scaffoldNavigator: ThreePaneScaffoldNavigator<Any>,
     modifier: Modifier = Modifier,
+    backNavigationBehavior: BackNavigationBehavior = BackNavigationBehavior.PopUntilScaffoldValueChange,
 ) {
-    AnimatedPane(modifier = modifier.safeContentPadding()) {
-        // Supporting pane content
-        Text("This is the supporting pane")
+    val scope = rememberCoroutineScope()
+    AnimatedPane(modifier = Modifier.safeContentPadding()) {
+        Column {
+            // Allow users to dismiss the supporting pane. Use back navigation to
+            // hide an expanded supporting pane.
+            if (scaffoldNavigator.scaffoldValue[SupportingPaneScaffoldRole.Supporting] == PaneAdaptedValue.Expanded) {
+                // Material design principles promote the usage of a right-aligned
+                // close (X) button.
+                IconButton(
+                    modifier =  modifier.align(Alignment.End).padding(16.dp),
+                    onClick = {
+                        scope.launch {
+                            scaffoldNavigator.navigateBack(backNavigationBehavior)
+                        }
+                    }
+                ) {
+                    Icon(Icons.Default.Close, contentDescription = "Close")
+                }
+            }
+            Text("Supporting pane")
+        }
+
     }
 }
 // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_extracted_panes]
@@ -152,7 +209,7 @@ fun SampleNavigableSupportingPaneScaffoldSimplified() {
                 }
             )
         },
-        supportingPane = { SupportingPane() },
+        supportingPane = { SupportingPane(scaffoldNavigator = scaffoldNavigator) },
     )
     // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_simplified]
 }
@@ -182,7 +239,7 @@ fun SampleSupportingPaneScaffoldSimplifiedWithPredictiveBackHandler() {
                 }
             )
         },
-        supportingPane = { SupportingPane() },
+        supportingPane = { SupportingPane(scaffoldNavigator = scaffoldNavigator) },
     )
     // [END android_compose_adaptivelayouts_sample_supporting_pane_scaffold_simplified_with_predictive_back_handler]
 }
