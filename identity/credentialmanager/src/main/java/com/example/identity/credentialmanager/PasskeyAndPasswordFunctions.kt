@@ -235,7 +235,7 @@ class PasskeyAndPasswordFunctions(
 
     // [START android_identity_create_passkey]
     suspend fun createPasskey(requestJson: String, preferImmediatelyAvailableCredentials: Boolean) {
-        var isConditionalCreateRequest: Boolean = false
+        var isConditional: Boolean = false
         val createPublicKeyCredentialRequest = CreatePublicKeyCredentialRequest(
             // Contains the request in JSON format.
             requestJson = requestJson,
@@ -243,7 +243,7 @@ class PasskeyAndPasswordFunctions(
             // credentials or hybrid credentials.
             preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials,
             // Automatically create a passkey if the user does not have one.
-            isConditionalCreateRequest = isConditionalCreateRequest
+            isConditional = isConditional
         )
 
         // Execute createCredential asynchronously to register credentials
