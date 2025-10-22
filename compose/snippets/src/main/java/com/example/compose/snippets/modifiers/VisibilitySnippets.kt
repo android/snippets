@@ -133,7 +133,6 @@ private object OnFirstVisibleSample {
 
     @Composable
     fun OnFirstVisibleExample(modifier: Modifier = Modifier, id: Int) {
-        // [START android_compose_modifiers_onFirstVisible]
         Card(
             modifier = modifier
                 .fillMaxWidth()
