@@ -110,13 +110,14 @@
       // Json response when creating a passkey
       // [START android_identity_create_passkey_response_json]
       {
-        "id": "KEDetxZcUfinhVi6Za5nZQ",
+        "id": "<identifier String>",
         "type": "public-key",
-        "rawId": "KEDetxZcUfinhVi6Za5nZQ",
+        "rawId": "<identifier String>",
         "response": {
-          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoibmhrUVhmRTU5SmI5N1Z5eU5Ka3ZEaVh1Y01Fdmx0ZHV2Y3JEbUdyT0RIWSIsIm9yaWdpbiI6ImFuZHJvaWQ6YXBrLWtleS1oYXNoOk1MTHpEdll4UTRFS1R3QzZVNlpWVnJGUXRIOEdjVi0xZDQ0NEZLOUh2YUkiLCJhbmRyb2lkUGFja2FnZU5hbWUiOiJjb20uZ29vZ2xlLmNyZWRlbnRpYWxtYW5hZ2VyLnNhbXBsZSJ9",
-          "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViUj5r_fLFhV-qdmGEwiukwD5E_5ama9g0hzXgN8thcFGRdAAAAAAAAAAAAAAAAAAAAAAAAAAAAEChA3rcWXFH4p4VYumWuZ2WlAQIDJiABIVgg4RqZaJyaC24Pf4tT-8ONIZ5_Elddf3dNotGOx81jj3siWCAWXS6Lz70hvC2g8hwoLllOwlsbYatNkO2uYFO-eJID6A"
-        }
+          "clientDataJSON": "<ArrayBuffer encoded object with the origin and signed challenge>",
+          "attestationObject": "<ArrayBuffer encoded object with the public key and other information.>"
+        },
+        "authenticatorAttachment": "platform"
       }
       // [END android_identity_create_passkey_response_json]
     },
