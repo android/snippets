@@ -80,6 +80,7 @@ class PasskeyAndPasswordFunctions(
         // [END android_identity_get_password_passkey_options]
         var result: GetCredentialResponse
         var preferImmediatelyAvailableCredentials: Boolean = false
+        var isConditionalCreateRequest: Boolean = false
         // [START android_identity_get_credential_request]
         val credentialRequest = GetCredentialRequest(
             // Include all the sign-in options that your app supports
@@ -242,7 +243,7 @@ class PasskeyAndPasswordFunctions(
             // credentials or hybrid credentials.
             preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials,
             // Automatically create a passkey if the user does not have one.
-            isConditionalCreateRequest = true
+            isConditionalCreateRequest = isConditionalCreateRequest
         )
 
         // Execute createCredential asynchronously to register credentials
