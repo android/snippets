@@ -70,10 +70,10 @@ class PasskeyAndPasswordFunctions(
     ) {
         val requestJson = creationResult.toString()
         // [START android_identity_get_password_passkey_options]
-        // Get the the password logins from the credential provider on the user's device
+        // Get password logins from the credential provider on the user's device.
         val getPasswordOption = GetPasswordOption()
 
-        // Get the passkeys from the credential provider on the user's device
+        // Get passkeys from the credential provider on the user's device.
         val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
             requestJson = requestJson
         )
@@ -82,7 +82,7 @@ class PasskeyAndPasswordFunctions(
         var preferImmediatelyAvailableCredentials: Boolean = false
         // [START android_identity_get_credential_request]
         val credentialRequest = GetCredentialRequest(
-            // Include all the sign-in options that your app supports
+            // Include all the sign-in options that your app supports.
             listOf(getPasswordOption, getPublicKeyCredentialOption),
             // Defines whether you prefer to use only immediately available
             // credentials or hybrid credentials.
@@ -235,7 +235,6 @@ class PasskeyAndPasswordFunctions(
 
     // [START android_identity_create_passkey]
     suspend fun createPasskey(requestJson: String, preferImmediatelyAvailableCredentials: Boolean) {
-        var isConditionalCreateRequest: Boolean = false
         val createPublicKeyCredentialRequest = CreatePublicKeyCredentialRequest(
             // Contains the request in JSON format.
             requestJson = requestJson,
@@ -243,7 +242,7 @@ class PasskeyAndPasswordFunctions(
             // credentials or hybrid credentials.
             preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials,
             // Automatically create a passkey if the user does not have one.
-            isConditionalCreateRequest = isConditionalCreateRequest
+            isConditionalCreateRequest: Boolean = true
         )
 
         // Execute createCredential asynchronously to register credentials
