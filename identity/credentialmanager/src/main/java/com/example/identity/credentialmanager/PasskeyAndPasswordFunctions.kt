@@ -80,7 +80,6 @@ class PasskeyAndPasswordFunctions(
         // [END android_identity_get_password_passkey_options]
         var result: GetCredentialResponse
         var preferImmediatelyAvailableCredentials: Boolean = false
-        var isConditionalCreateRequest: Boolean = false
         // [START android_identity_get_credential_request]
         val credentialRequest = GetCredentialRequest(
             // Include all the sign-in options that your app supports
@@ -236,6 +235,7 @@ class PasskeyAndPasswordFunctions(
 
     // [START android_identity_create_passkey]
     suspend fun createPasskey(requestJson: String, preferImmediatelyAvailableCredentials: Boolean) {
+        var isConditionalCreateRequest: Boolean = false
         val createPublicKeyCredentialRequest = CreatePublicKeyCredentialRequest(
             // Contains the request in JSON format.
             requestJson = requestJson,
