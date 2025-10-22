@@ -70,11 +70,10 @@ class PasskeyAndPasswordFunctions(
     ) {
         val requestJson = creationResult.toString()
         // [START android_identity_get_password_passkey_options]
-        // Retrieves the user's saved password for your app from their
-        // password provider.
+        // Get the the password logins from the credential provider on the user's device
         val getPasswordOption = GetPasswordOption()
 
-        // Get passkey from the user's public key credential provider.
+        // Get the passkeys from the credential provider on the user's device
         val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(
             requestJson = requestJson
         )
@@ -82,7 +81,11 @@ class PasskeyAndPasswordFunctions(
         var result: GetCredentialResponse
         // [START android_identity_get_credential_request]
         val credentialRequest = GetCredentialRequest(
+            // Include all the sign-in options that your app supports
             listOf(getPasswordOption, getPublicKeyCredentialOption),
+            // Defines whether you prefer to use only immediately available
+            // credentials or hybrid credentials.
+            preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials
         )
         // [END android_identity_get_credential_request]
         runBlocking {
@@ -92,7 +95,8 @@ class PasskeyAndPasswordFunctions(
                 val response = credentialManager.prepareGetCredential(
                     GetCredentialRequest(
                         listOf(
-                            getPublicKeyCredentialOption,
+                            // Include all the sign-in options that your app supports
+                            getPublicKeyCredentialOption, 
                             getPasswordOption
                         )
                     )
@@ -231,18 +235,17 @@ class PasskeyAndPasswordFunctions(
     // [START android_identity_create_passkey]
     suspend fun createPasskey(requestJson: String, preferImmediatelyAvailableCredentials: Boolean) {
         val createPublicKeyCredentialRequest = CreatePublicKeyCredentialRequest(
-            // Contains the request in JSON format. Uses the standard WebAuthn
-            // web JSON spec.
+            // Contains the request in JSON format.
             requestJson = requestJson,
-            // Defines whether you prefer to use only immediately available
-            // credentials, not hybrid credentials, to fulfill this request.
-            // This value is false by default.
+            // Defines whether you prefer to use only locally-available
+            // credentials or hybrid credentials.
             preferImmediatelyAvailableCredentials = preferImmediatelyAvailableCredentials,
+            // Automatically create a passkey if the user does not have one.
+            isConditionalCreateRequest = true
         )
 
-        // Execute CreateCredentialRequest asynchronously to register credentials
-        // for a user account. Handle success and failure cases with the result and
-        // exceptions, respectively.
+        // Execute createCredential asynchronously to register credentials
+        // for a user account.
         coroutineScope {
             try {
                 val result = credentialManager.createCredential(
