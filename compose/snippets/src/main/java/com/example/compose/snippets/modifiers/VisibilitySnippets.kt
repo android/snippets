@@ -65,7 +65,7 @@ private object OnVisibilityChangedSample {
 private object OnVisibilityChangedMinFractionVisible {
 
     @Composable
-    fun onVisibilityChangedModifierMinFraction(modifier: Modifier = Modifier) {
+    fun OnVisibilityChangedModifierMinFractionExample(modifier: Modifier = Modifier) {
         // [START android_compose_modifiers_onVisibilityChangedMinFraction]
         LazyColumn(
             modifier = modifier.fillMaxSize()
@@ -77,8 +77,8 @@ private object OnVisibilityChangedMinFractionVisible {
                         .fillParentMaxWidth()
                         .border(0.5.dp, Color.Gray)
                         // [END_EXCLUDE]
+                        // Here the visible callback gets triggered when 20% of the composable is visible
                         .onVisibilityChanged(
-// Here the visible callback gets triggered when 20% of the composable is visible
                             minFractionVisible = 0.2f,
                         ) { visible ->
                             if (visible) {
@@ -105,9 +105,9 @@ private object onVisibilityChangedMinDuration {
     val PalePink = Color(0xFFF3E9EB)
 
     @Composable
-    fun onVisibilityChangedMinDuration(
-        modifier: Modifier = Modifier,
+    fun OnVisibilityChangedMinDurationExample(
         @DrawableRes imageRes: Int,
+        modifier: Modifier = Modifier,
     ) {
         // [START android_compose_modifiers_onVisibilityChangedMinDuration]
         var background by remember { mutableStateOf(PalePink) }
@@ -148,7 +148,7 @@ private object onVisibilityChangedMinDuration {
 private object OnFirstVisibleSample {
 
     @Composable
-    fun OnFirstVisibleExample(modifier: Modifier = Modifier, id: Int) {
+    fun OnFirstVisibleExample(id: Int, modifier: Modifier = Modifier) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
