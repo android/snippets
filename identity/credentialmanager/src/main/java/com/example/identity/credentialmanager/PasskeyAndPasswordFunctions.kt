@@ -79,6 +79,7 @@ class PasskeyAndPasswordFunctions(
         )
         // [END android_identity_get_password_passkey_options]
         var result: GetCredentialResponse
+        var preferImmediatelyAvailableCredentials: Boolean = false
         // [START android_identity_get_credential_request]
         val credentialRequest = GetCredentialRequest(
             // Include all the sign-in options that your app supports
