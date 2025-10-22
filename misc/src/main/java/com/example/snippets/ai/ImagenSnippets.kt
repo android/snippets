@@ -51,7 +51,6 @@ import androidx.compose.ui.layout.ContentScale
 import com.google.firebase.Firebase
 import com.google.firebase.ai.ImagenModel
 import com.google.firebase.ai.ai
-import com.google.firebase.ai.type.Dimension
 import com.google.firebase.ai.type.Dimensions
 import com.google.firebase.ai.type.GenerativeBackend
 import com.google.firebase.ai.type.ImagenAspectRatio
@@ -83,12 +82,12 @@ import androidx.compose.ui.graphics.Color as ComposeColor
 
 private object ImagenModelConfiguration {
     // [START android_imagen_model_configuration]
-    val config = ImagenGenerationConfig {
-        numberOfImages = 2
-        aspectRatio = ImagenAspectRatio.LANDSCAPE_16x9
-        imageFormat = ImagenImageFormat.jpeg(compressionQuality = 100)
-        addWatermark = false
-    }
+    val config = ImagenGenerationConfig(
+        numberOfImages = 2,
+        aspectRatio = ImagenAspectRatio.LANDSCAPE_16x9,
+        imageFormat = ImagenImageFormat.jpeg(compressionQuality = 100),
+        addWatermark = false,
+    )
 
     // Initialize the Gemini Developer API backend service
     // For Vertex AI use Firebase.ai(backend = GenerativeBackend.vertexAI())
@@ -98,7 +97,7 @@ private object ImagenModelConfiguration {
         safetySettings = ImagenSafetySettings(
             safetyFilterLevel = ImagenSafetyFilterLevel.BLOCK_LOW_AND_ABOVE,
             personFilterLevel = ImagenPersonFilterLevel.BLOCK_ALL
-        )
+        ),
     )
     // [END android_imagen_model_configuration]
 }
@@ -117,7 +116,7 @@ private fun generateImagesWithImagen(scope: CoroutineScope) {
         val imageResponse = model.generateImages(
             prompt = "A hyper realistic picture of a t-rex with a blue bagpack in a prehistoric forest",
         )
-        val image = imageResponse.images.first
+        val image = imageResponse.images.first()
         val bitmapImage = image.asBitmap()
         // [END android_imagen_generate_images]
     }
@@ -133,29 +132,32 @@ suspend fun insertFlowersIntoImage(
 
     // Pass the original image, a mask, the prompt, and an editing configuration.
     val editedImage = model.editImage(
-        sources = listOf(
-            ImagenRawImage(originalImage),
-            mask
+        referenceImages = listOf(
+            ImagenRawImage(originalImage.toImagenInlineImage()),
+            mask,
         ),
         prompt = prompt,
         // Define the editing configuration for inpainting and insertion.
         config = ImagenEditingConfig(ImagenEditMode.INPAINT_INSERTION)
     )
-
     return editedImage
 }
 // [END android_imagen_inpaint_insertion]
 
 // [START android_imagen_inpaint_removal]
-suspend fun removeBallFromImage(model: ImagenModel, originalImage: Bitmap, mask: ImagenMaskReference): ImagenGenerationResponse<ImagenInlineImage> {
+suspend fun removeBallFromImage(
+    model: ImagenModel,
+    originalImage: Bitmap,
+    mask: ImagenMaskReference
+): ImagenGenerationResponse<ImagenInlineImage> {
 
     // Optional: provide the prompt describing the content to be removed.
     val prompt = "a ball"
 
     // Pass the original image, a mask, the prompt, and an editing configuration.
     val editedImage = model.editImage(
-        sources = listOf(
-            ImagenRawImage(originalImage),
+        referenceImages = listOf(
+            ImagenRawImage(originalImage.toImagenInlineImage()),
             mask
         ),
         prompt = prompt,
@@ -168,7 +170,6 @@ suspend fun removeBallFromImage(model: ImagenModel, originalImage: Bitmap, mask:
 // [END android_imagen_inpaint_removal]
 
 // [START android_imagen_editing_mask_editor]
-
 @Composable
 fun ImagenEditingMaskEditor(
     sourceBitmap: Bitmap,
@@ -248,7 +249,7 @@ fun ImagenEditingMaskEditor(
         }
         Button(
             onClick = {
-                val maskBitmap = createMask(sourceBitmap, paths)
+                val maskBitmap = createMaskBitmap(sourceBitmap, paths)
                 onMaskFinalized(maskBitmap)
             },
         ) {
@@ -263,7 +264,7 @@ private fun createMaskBitmap(
     sourceBitmap: Bitmap,
     paths: SnapshotStateList<Path>,
 ): Bitmap {
-    val maskBitmap = createBitmap(sourceBitmap.width, sourceBitmap.height)
+    val maskBitmap = Bitmap.createBitmap(sourceBitmap.width, sourceBitmap.height, Bitmap.Config.ARGB_8888)
     val canvas = android.graphics.Canvas(maskBitmap)
     val paint = Paint().apply {
         color = AndroidColor.RED
@@ -285,9 +286,9 @@ suspend fun expandImage(originalImage: Bitmap, imagenModel: ImagenModel): Imagen
     // Optionally describe what should appear in the expanded area.
     val prompt = "a sprawling sandy beach next to the ocean"
 
-    val editedImage = model.outpaintImage(
-        ImagenRawImage(originalImage),
-        Dimension(width, height),
+    val editedImage = imagenModel.outpaintImage(
+        originalImage.toImagenInlineImage(),
+        Dimensions(1024, 1024),
         prompt = prompt,
         newPosition = ImagenImagePlacement.LEFT_CENTER
     )
@@ -304,8 +305,8 @@ suspend fun replaceBackground(model: ImagenModel, originalImage: Bitmap): Imagen
 
     // Pass the original image, a mask, the prompt, and an editing configuration.
     val editedImage = model.editImage(
-        sources = listOf(
-            ImagenRawImage(originalImage),
+        referenceImages = listOf(
+            ImagenRawImage(originalImage.toImagenInlineImage()),
             ImagenBackgroundMask(),
         ),
         prompt = prompt,
@@ -321,8 +322,8 @@ suspend fun customizeCatImage(model: ImagenModel, referenceCatImage: Bitmap): Im
 
     // Define the subject reference using the reference image.
     val subjectReference = ImagenSubjectReference(
-        image = referenceCatImage,
-        referenceID = 1,
+        image = referenceCatImage.toImagenInlineImage(),
+        referenceId = 1,
         description = "cat",
         subjectType = ImagenSubjectReferenceType.ANIMAL
     )
@@ -333,7 +334,7 @@ suspend fun customizeCatImage(model: ImagenModel, referenceCatImage: Bitmap): Im
 
     // Use the editImage API to perform the subject customization.
     val editedImage = model.editImage(
-        references = listOf(subjectReference),
+        referenceImages = listOf(subjectReference),
         prompt = prompt,
         config = ImagenEditingConfig(
             editSteps = 50 // Number of editing steps, a higher value can improve quality
@@ -345,23 +346,23 @@ suspend fun customizeCatImage(model: ImagenModel, referenceCatImage: Bitmap): Im
 // [END android_imagen_customize_subject]
 
 // [START android_imagen_customize_control]
-suspend fun customizeCatImageByControl(model: ImagenModel, referenceCatImage: Bitmap): ImagenGenerationResponse<ImagenInlineImage> {
+suspend fun customizeCatImageByControl(model: ImagenModel, referenceImage: Bitmap): ImagenGenerationResponse<ImagenInlineImage> {
 
     // Define the subject reference using the reference image.
     val controlReference = ImagenControlReference(
-        image = referenceImage,
-        referenceID = 1,
-        controlType = CONTROL_TYPE_SCRIBBLE
+        image = referenceImage.toImagenInlineImage(),
+        referenceId = 1,
+        type = ImagenControlType.SCRIBBLE,
     )
 
     val prompt = "A cat flying through outer space arranged like the scribble map[1]"
 
     val editedImage = model.editImage(
-        references = listOf(controlReference),
+        referenceImages = listOf(controlReference),
         prompt = prompt,
         config = ImagenEditingConfig(
             editSteps = 50
-        )
+        ),
     )
 
     return editedImage
@@ -373,8 +374,8 @@ suspend fun customizeImageByStyle(model: ImagenModel, referenceVanGoghImage: Bit
 
     // Define the style reference using the reference image.
     val styleReference = ImagenStyleReference(
-        image = referenceVanGoghImage,
-        referenceID = 1,
+        image = referenceVanGoghImage.toImagenInlineImage(),
+        referenceId = 1,
         description = "Van Gogh style"
     )
 
@@ -384,11 +385,11 @@ suspend fun customizeImageByStyle(model: ImagenModel, referenceVanGoghImage: Bit
 
     // Use the editImage API to perform the style customization.
     val editedImage = model.editImage(
-        references = listOf(styleReference),
+        referenceImages = listOf(styleReference),
         prompt = prompt,
         config = ImagenEditingConfig(
             editSteps = 50 // Number of editing steps, a higher value can improve quality
-        )
+        ),
     )
 
     return editedImage
