@@ -57,14 +57,14 @@
       // JSON response format
       // [START android_identity_format_json_response_passkey]
       {
-        "id": "<credential_id>",
+        "id": "<credential ID>",
         "type": "public-key",
-        "rawId": "<raw_credential_id>",
+        "rawId": "<raw credential ID>",
         "response": {
-          "clientDataJSON": "<signed_client_data_containing_challenge>",
-          "authenticatorData": "<authenticator_metadata_and_signed_hash>",
-          "signature": "<digital_signature_to_be_verified>",
-          "userHandle": "<user_id_from_credential_registration>"
+          "clientDataJSON": "<signed client data containing challenge>",
+          "authenticatorData": "<authenticator metadata>",
+          "signature": "<digital signature to be verified>",
+          "userHandle": "<user ID from credential registration>"
         }
       }
       // [END android_identity_format_json_response_passkey]
@@ -81,7 +81,7 @@
         },
         "user": {
           "id": "<base64url-encoded user ID>",
-          "name": "<user name string>",
+          "name": "<user name>",
           "displayName": "<user display name>"
         },
         "pubKeyCredParams": [
@@ -110,9 +110,9 @@
       // Json response when creating a passkey
       // [START android_identity_create_passkey_response_json]
       {
-        "id": "<identifier String>",
+        "id": "<identifier>",
         "type": "public-key",
-        "rawId": "<identifier String>",
+        "rawId": "<identifier>",
         "response": {
           "clientDataJSON": "<ArrayBuffer encoded object with the origin and signed challenge>",
           "attestationObject": "<ArrayBuffer encoded object with the public key and other information.>"
