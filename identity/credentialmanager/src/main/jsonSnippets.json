@@ -30,7 +30,7 @@
             "namespace": "android_app",
             "package_name": "com.example.android",
             "sha256_cert_fingerprints": [
-              SHA_HEX_VALUE
+             "<SHA_HEX_VALUE>"
             ]
           }
         }
@@ -57,14 +57,14 @@
       // JSON response format
       // [START android_identity_format_json_response_passkey]
       {
-        "id": "KEDetxZcUfinhVi6Za5nZQ",
+        "id": "<credential ID>",
         "type": "public-key",
-        "rawId": "KEDetxZcUfinhVi6Za5nZQ",
+        "rawId": "<raw credential ID>",
         "response": {
-          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiVDF4Q3NueE0yRE5MMktkSzVDTGE2Zk1oRDdPQnFobzZzeXpJbmtfbi1VbyIsIm9yaWdpbiI6ImFuZHJvaWQ6YXBrLWtleS1oYXNoOk1MTHpEdll4UTRFS1R3QzZVNlpWVnJGUXRIOEdjVi0xZDQ0NEZLOUh2YUkiLCJhbmRyb2lkUGFja2FnZU5hbWUiOiJjb20uZ29vZ2xlLmNyZWRlbnRpYWxtYW5hZ2VyLnNhbXBsZSJ9",
-          "authenticatorData": "j5r_fLFhV-qdmGEwiukwD5E_5ama9g0hzXgN8thcFGQdAAAAAA",
-          "signature": "MEUCIQCO1Cm4SA2xiG5FdKDHCJorueiS04wCsqHhiRDbbgITYAIgMKMFirgC2SSFmxrh7z9PzUqr0bK1HZ6Zn8vZVhETnyQ",
-          "userHandle": "2HzoHm_hY0CjuEESY9tY6-3SdjmNHOoNqaPDcZGzsr0"
+          "clientDataJSON": "<signed client data containing challenge>",
+          "authenticatorData": "<authenticator metadata>",
+          "signature": "<digital signature to be verified>",
+          "userHandle": "<user ID from credential registration>"
         }
       }
       // [END android_identity_format_json_response_passkey]
@@ -74,40 +74,30 @@
       // Json request for creating a passkey
       // [START android_identity_create_passkey_request_json]
       {
-        "challenge": "abc123",
+        "challenge": "<base64url-encoded challenge>",
         "rp": {
-          "name": "Credential Manager example",
-          "id": "credential-manager-test.example.com"
+          "name": "<relying party name>",
+          "id": "<relying party host name>"
         },
         "user": {
-          "id": "def456",
-          "name": "helloandroid@gmail.com",
-          "displayName": "helloandroid@gmail.com"
+          "id": "<base64url-encoded user ID>",
+          "name": "<user name>",
+          "displayName": "<user display name>"
         },
         "pubKeyCredParams": [
           {
             "type": "public-key",
             "alg": -7
-          },
-          {
-            "type": "public-key",
-            "alg": -257
           }
         ],
-        "timeout": 1800000,
         "attestation": "none",
         "excludeCredentials": [
           {
-            "id": "ghi789",
-            "type": "public-key"
-          },
-          {
-            "id": "jkl012",
-            "type": "public-key"
+              "id": "<base64url-encoded credential ID to exclude>", 
+              "type": "public-key"
           }
         ],
         "authenticatorSelection": {
-          "authenticatorAttachment": "platform",
           "requireResidentKey": true,
           "residentKey": "required",
           "userVerification": "required"
@@ -120,16 +110,27 @@
       // Json response when creating a passkey
       // [START android_identity_create_passkey_response_json]
       {
-        "id": "KEDetxZcUfinhVi6Za5nZQ",
+        "id": "<identifier>",
         "type": "public-key",
-        "rawId": "KEDetxZcUfinhVi6Za5nZQ",
+        "rawId": "<identifier>",
         "response": {
-          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoibmhrUVhmRTU5SmI5N1Z5eU5Ka3ZEaVh1Y01Fdmx0ZHV2Y3JEbUdyT0RIWSIsIm9yaWdpbiI6ImFuZHJvaWQ6YXBrLWtleS1oYXNoOk1MTHpEdll4UTRFS1R3QzZVNlpWVnJGUXRIOEdjVi0xZDQ0NEZLOUh2YUkiLCJhbmRyb2lkUGFja2FnZU5hbWUiOiJjb20uZ29vZ2xlLmNyZWRlbnRpYWxtYW5hZ2VyLnNhbXBsZSJ9",
-          "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViUj5r_fLFhV-qdmGEwiukwD5E_5ama9g0hzXgN8thcFGRdAAAAAAAAAAAAAAAAAAAAAAAAAAAAEChA3rcWXFH4p4VYumWuZ2WlAQIDJiABIVgg4RqZaJyaC24Pf4tT-8ONIZ5_Elddf3dNotGOx81jj3siWCAWXS6Lz70hvC2g8hwoLllOwlsbYatNkO2uYFO-eJID6A"
-        }
+          "clientDataJSON": "<ArrayBuffer encoded object with the origin and signed challenge>",
+          "attestationObject": "<ArrayBuffer encoded object with the public key and other information.>"
+        },
+        "authenticatorAttachment": "platform"
       }
       // [END android_identity_create_passkey_response_json]
-    }
-
+    },
+    {
+      "SignInJsonRequest":
+      //Json object sent by server when creating sign-in request
+      // [START android_identity_create_sign_in_request_json]
+      {
+        "challenge": "<your app challenge>",
+        "allowCredentials": [],
+        "rpId": "<your app server domain>"
+      }
+        // [END android_identity_create_sign_in_request_json]
+      }
   ]
 }
