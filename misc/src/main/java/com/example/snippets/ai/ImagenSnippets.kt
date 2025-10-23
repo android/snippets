@@ -57,8 +57,8 @@ import com.google.firebase.ai.type.ImagenAspectRatio
 import com.google.firebase.ai.type.ImagenBackgroundMask
 import com.google.firebase.ai.type.ImagenControlReference
 import com.google.firebase.ai.type.ImagenControlType
-import com.google.firebase.ai.type.ImagenEditingConfig
 import com.google.firebase.ai.type.ImagenEditMode
+import com.google.firebase.ai.type.ImagenEditingConfig
 import com.google.firebase.ai.type.ImagenGenerationConfig
 import com.google.firebase.ai.type.ImagenGenerationResponse
 import com.google.firebase.ai.type.ImagenImageFormat
@@ -170,6 +170,8 @@ suspend fun removeBallFromImage(
 // [END android_imagen_inpaint_removal]
 
 // [START android_imagen_editing_mask_editor]
+//import androidx.compose.ui.graphics.Color as ComposeColor
+
 @Composable
 fun ImagenEditingMaskEditor(
     sourceBitmap: Bitmap,
@@ -260,6 +262,9 @@ fun ImagenEditingMaskEditor(
 // [END android_imagen_editing_mask_editor]
 
 // [START android_imagen_editing_create_mask]
+// import android.graphics.Color as AndroidColor
+// import android.graphics.Paint
+
 private fun createMaskBitmap(
     sourceBitmap: Bitmap,
     paths: SnapshotStateList<Path>,
