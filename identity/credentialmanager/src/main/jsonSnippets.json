@@ -63,8 +63,8 @@
         "response": {
           "clientDataJSON": "<signed_client_data_containing_challenge>",
           "authenticatorData": "<authenticator_metadata_and_signed_hash>",
-          "signature": "digital_signature_to_be_verified",
-          "userHandle": "user_id_from_credential_registration"
+          "signature": "<digital_signature_to_be_verified>",
+          "userHandle": "<user_id_from_credential_registration>"
         }
       }
       // [END android_identity_format_json_response_passkey]
