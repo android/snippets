@@ -30,7 +30,7 @@
             "namespace": "android_app",
             "package_name": "com.example.android",
             "sha256_cert_fingerprints": [
-              SHA_HEX_VALUE
+             "<SHA_HEX_VALUE>"
             ]
           }
         }
@@ -126,7 +126,7 @@
       //Json object sent by server when creating sign-in request
       // [START android_identity_create_sign_in_request_json]
       {
-        "challenge": "<your app challenge or challenge string>",
+        "challenge": "<your app challenge>",
         "allowCredentials": [],
         "rpId": "<your app server domain>"
       }
