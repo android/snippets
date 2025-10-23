@@ -12,8 +12,8 @@ androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
 androidx-corektx = "1.17.0"
-androidx-credentials = "1.5.0"
-androidx-credentials-play-services-auth = "1.5.0"
+androidx-credentials = "1.6.0-beta03"
+androidx-credentials-play-services-auth = "1.6.0-beta03"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment-ktx = "1.8.9"
 androidx-glance-appwidget = "1.1.1"
@@ -40,10 +40,13 @@ compose-latest = "1.9.3"
 composeUiTooling = "1.5.3"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
+firebase-bom = "34.4.0"
 glide = "1.0.0-beta08"
 google-maps = "19.2.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
+guava-android = "31.0.1-android"
+reactive-streams = "1.0.4"
 hilt = "2.57.2"
 horologist = "0.8.2-alpha"
 junit = "4.13.2"
@@ -176,11 +179,15 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-ai = { module = "com.google.firebase:firebase-ai" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
+reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
