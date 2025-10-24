@@ -31,7 +31,6 @@ import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneSt
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -61,12 +60,12 @@ class MaterialListDetailActivity : ComponentActivity() {
         setContent {
             Scaffold { paddingValues ->
                 val backStack = rememberNavBackStack(ProductList)
-                val listDetailStrategy = rememberListDetailSceneStrategy<Any>()
+                val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
 
                 NavDisplay(
                     backStack = backStack,
                     modifier = Modifier.padding(paddingValues),
-                    onBack = { keysToRemove -> repeat(keysToRemove) { backStack.removeLastOrNull() } },
+                    onBack = { backStack.removeLastOrNull() },
                     sceneStrategy = listDetailStrategy,
                     entryProvider = entryProvider {
                         entry<ProductList>(
