@@ -25,15 +25,17 @@ import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.scene.Scene
+import androidx.navigation3.scene.SceneStrategy
+import androidx.navigation3.scene.SceneStrategyScope
 import androidx.navigation3.ui.NavDisplay
-import androidx.navigation3.ui.Scene
-import androidx.navigation3.ui.SceneStrategy
+import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import kotlinx.serialization.Serializable
 
@@ -63,8 +65,7 @@ data class SinglePaneScene<T : Any>(
  * list.
  */
 public class SinglePaneSceneStrategy<T : Any> : SceneStrategy<T> {
-    @Composable
-    override fun calculateScene(entries: List<NavEntry<T>>, onBack: (Int) -> Unit): Scene<T> =
+    override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T> =
         SinglePaneScene(
             key = entries.last().contentKey,
             entry = entries.last(),
@@ -106,20 +107,23 @@ class TwoPaneScene<T : Any>(
     }
 }
 
+@Composable
+fun <T: Any> rememberTwoPaneSceneStrategy() : TwoPaneSceneStrategy<T> {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+
+    return remember(windowSizeClass){
+        TwoPaneSceneStrategy(windowSizeClass)
+    }
+}
+
 // --- TwoPaneSceneStrategy ---
 /**
  * A [SceneStrategy] that activates a [TwoPaneScene] if the window is wide enough
  * and the top two back stack entries declare support for two-pane display.
  */
-class TwoPaneSceneStrategy<T : Any> : SceneStrategy<T> {
+class TwoPaneSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : SceneStrategy<T> {
     @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalMaterial3WindowSizeClassApi::class)
-    @Composable
-    override fun calculateScene(
-        entries: List<NavEntry<T>>,
-        onBack: (Int) -> Unit
-    ): Scene<T>? {
-
-        val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
 
         // Condition 1: Only return a Scene if the window is sufficiently wide to render two panes.
         // We use isWidthAtLeastBreakpoint with WIDTH_DP_MEDIUM_LOWER_BOUND (600dp).
@@ -193,12 +197,10 @@ fun MyAppContent() {
             // ... other entries ...
         },
         // Simply provide your custom strategy. NavDisplay will fall back to SinglePaneSceneStrategy automatically.
-        sceneStrategy = TwoPaneSceneStrategy<Any>(),
-        onBack = { count ->
-            repeat(count) {
-                if (backStack.isNotEmpty()) {
-                    backStack.removeLastOrNull()
-                }
+        sceneStrategy = rememberTwoPaneSceneStrategy(),
+        onBack = {
+            if (backStack.isNotEmpty()) {
+                backStack.removeLastOrNull()
             }
         }
     )

@@ -21,9 +21,8 @@ import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDe
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import kotlinx.serialization.Serializable
 
 // [START android_compose_navigation3_savingstate_1]
@@ -44,9 +43,8 @@ fun ScopingViewModels() {
     // [START android_compose_navigation3_savingstate_2]
     NavDisplay(
         entryDecorators = listOf(
-            // Add the default decorators for managing scenes and saving state
-            rememberSceneSetupNavEntryDecorator(),
-            rememberSavedStateNavEntryDecorator(),
+            // Add the default decorators for saving state
+            rememberSaveableStateHolderNavEntryDecorator(),
             // Then add the view model store decorator
             rememberViewModelStoreNavEntryDecorator()
         ),
