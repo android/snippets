@@ -69,7 +69,7 @@ media3 = "1.8.0"
 media3Ui = "1.8.0"
 # @keep
 minSdk = "35"
-nav3Core = "1.0.0-alpha11"
+nav3Core = "1.0.0-beta01"
 okHttp = "5.2.0"
 playServicesWearable = "19.0.0"
 protobuf = "4.32.1"
