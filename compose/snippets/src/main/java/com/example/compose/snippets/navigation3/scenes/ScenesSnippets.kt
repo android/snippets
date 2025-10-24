@@ -106,10 +106,10 @@ class TwoPaneScene<T : Any>(
 }
 
 @Composable
-fun <T: Any> rememberTwoPaneSceneStrategy() : TwoPaneSceneStrategy<T> {
+fun <T : Any> rememberTwoPaneSceneStrategy(): TwoPaneSceneStrategy<T> {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
-    return remember(windowSizeClass){
+    return remember(windowSizeClass) {
         TwoPaneSceneStrategy(windowSizeClass)
     }
 }
@@ -194,7 +194,7 @@ fun MyAppContent() {
         },
         // Simply provide your custom strategy. NavDisplay will fall back to SinglePaneSceneStrategy automatically.
         sceneStrategy = rememberTwoPaneSceneStrategy(),
-        onBack =  {
+        onBack = {
             if (backStack.isNotEmpty()) {
                 backStack.removeLastOrNull()
             }
