@@ -1,0 +1,10 @@
+// [START android_datastore_proto_definition]
+syntax = "proto3";
+
+option java_package = "com.example.datastore.snippets.proto";
+option java_multiple_files = true;
+
+message Settings {
+  int32 example_counter = 1;
+}
+// [END android_datastore_proto_definition]

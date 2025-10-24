@@ -33,6 +33,7 @@ include(
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
+    ":datastore",
     ":wear",
     ":views",
     ":misc",
