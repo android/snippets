@@ -5,9 +5,9 @@ android-googleid = "1.1.1"
 androidGradlePlugin = "8.13.0"
 androidx-activity-compose = "1.11.0"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.10.00"
+androidx-compose-bom = "2025.10.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.10.0-alpha05"
+androidx-compose-ui-test-junit4-accessibility = "1.10.0-beta01"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
@@ -36,8 +36,8 @@ appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "36"
-compose-latest = "1.9.3"
-composeUiTooling = "1.5.3"
+compose-latest = "1.9.4"
+composeUiTooling = "1.5.4"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
 firebase-bom = "34.4.0"
@@ -45,29 +45,29 @@ glide = "1.0.0-beta08"
 google-maps = "19.2.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
-guava-android = "31.0.1-android"
-reactive-streams = "1.0.4"
+guava-android = "33.5.0-jre"
 hilt = "2.57.2"
 horologist = "0.8.2-alpha"
 junit = "4.13.2"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
-ksp = "2.2.20-2.0.4"
+ksp = "2.3.0"
 ktlint = "1.5.0"
 lifecycleService = "2.9.4"
 maps-compose = "6.12.1"
-material = "1.14.0-alpha05"
-material3-adaptive = "1.1.0"
+material = "1.14.0-alpha06"
+material3-adaptive = "1.2.0"
 material3-adaptive-navigation-suite = "1.4.0"
 media3 = "1.8.0"
 media3Ui = "1.8.0"
 # @keep
 minSdk = "35"
-okHttp = "5.2.0"
+okHttp = "5.2.1"
 playServicesWearable = "19.0.0"
 protolayout = "1.3.0"
+reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 spotless = "8.0.0"
 targetSdk = "36"
@@ -77,13 +77,13 @@ validatorPush = "1.0.0-alpha08"
 version-catalog-update = "1.0.1"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
 wear = "1.3.0"
-wearComposeFoundation = "1.5.3"
-wearComposeMaterial = "1.5.3"
-wearComposeMaterial3 = "1.5.3"
+wearComposeFoundation = "1.5.4"
+wearComposeMaterial = "1.5.4"
+wearComposeMaterial3 = "1.5.4"
+wearInput = "1.2.0"
 wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
-wearInput = "1.2.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -133,7 +133,7 @@ androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", versi
 androidx-glance-appwidget-testing = { module = "androidx.glance:glance-appwidget-testing", version.ref = "androidx-glance-appwidget" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance-appwidget" }
 androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
-androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.0.1"
+androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-compose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
@@ -165,13 +165,14 @@ androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-p
 androidx-tracing = { module = "androidx.tracing:tracing", version.ref = "tracing" }
 androidx-watchface-complications-data-source-ktx = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "watchfaceComplicationsDataSourceKtx" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
+androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wearInput" }
 androidx-wear-ongoing = { module = "androidx.wear:wear-ongoing", version.ref = "wearOngoing" }
 androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
 androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
-androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.10.5"
+androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.11.0"
 androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
 androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
 androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr-scenecore" }
@@ -179,15 +180,14 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ai = { module = "com.google.firebase:firebase-ai" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
-reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
@@ -203,10 +203,10 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
+reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
-androidx-wear-input = { group = "androidx.wear", name = "wear-input", version.ref = "wearInput" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -216,7 +216,7 @@ android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-android = "org.jetbrains.kotlin.android:2.2.20"
+kotlin-android = "org.jetbrains.kotlin.android:2.2.21"
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
