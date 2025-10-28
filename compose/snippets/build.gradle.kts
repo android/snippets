@@ -109,6 +109,7 @@ dependencies {
     implementation(libs.androidx.emoji2.views)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
+    implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.coordinator.layout)
     implementation(libs.google.android.material)
