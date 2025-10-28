@@ -51,11 +51,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.AndroidFragment
 import com.example.compose.snippets.MyActivity
 import com.example.compose.snippets.R
 import com.example.compose.snippets.databinding.ExampleLayoutBinding
 import com.example.compose.snippets.databinding.FragmentExampleBinding
-import com.example.compose.snippets.databinding.MyFragmentLayoutBinding
 
 // [START android_compose_interop_apis_compose_in_views]
 class ExampleActivity : ComponentActivity() {
@@ -272,10 +272,7 @@ fun AndroidViewBindingExample() {
 // [START android_compose_interop_apis_fragments_in_compose]
 @Composable
 fun FragmentInComposeExample() {
-    AndroidViewBinding(MyFragmentLayoutBinding::inflate) {
-        val myFragment = fragmentContainerView.getFragment<MyFragment>()
-        // ...
-    }
+    AndroidFragment<MyFragment>()
 }
 
 // [START_EXCLUDE silent]
