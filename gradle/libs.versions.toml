@@ -20,6 +20,7 @@ androidx-glance-appwidget = "1.1.1"
 androidx-lifecycle-compose = "2.9.4"
 androidx-lifecycle-runtime-compose = "2.9.4"
 androidx-navigation = "2.9.5"
+androidx-navigation3 = "1.0.0-beta01"
 androidx-paging = "3.3.6"
 androidx-startup-runtime = "1.2.0"
 androidx-test = "1.7.0"
@@ -40,6 +41,10 @@ compose-latest = "1.9.4"
 composeUiTooling = "1.5.4"
 coreSplashscreen = "1.0.1"
 coroutines = "1.10.2"
+dataStore = "1.1.7"
+datastoreCore = "1.1.7"
+datastorePreferencesRxjava2 = "1.1.7"
+datastorePreferencesRxjava3 = "1.1.7"
 firebase-bom = "34.4.0"
 glide = "1.0.0-beta08"
 google-maps = "19.2.0"
@@ -66,6 +71,8 @@ media3Ui = "1.8.0"
 minSdk = "35"
 okHttp = "5.2.1"
 playServicesWearable = "19.0.0"
+protobuf = "4.32.1"
+protoc = "0.9.5"
 protolayout = "1.3.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
@@ -127,6 +134,12 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials-play-services-auth" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastoreCore" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
+androidx-datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "dataStore" }
+androidx-datastore-preferences-rxjava2 = { module = "androidx.datastore:datastore-preferences-rxjava2", version.ref = "datastorePreferencesRxjava2" }
+androidx-datastore-preferences-rxjava3 = { module = "androidx.datastore:datastore-preferences-rxjava3", version.ref = "datastorePreferencesRxjava3" }
 androidx-emoji2-views = { module = "androidx.emoji2:emoji2-views", version.ref = "androidx-emoji2-views" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "androidx-fragment" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
@@ -147,6 +160,8 @@ androidx-media3-common = { module = "androidx.media3:media3-common", version.ref
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Ui" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
@@ -185,6 +200,7 @@ firebase-ai = { module = "com.google.firebase:firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
+google-protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -215,6 +231,7 @@ android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-protobuf = { id = "com.google.protobuf", version.ref = "protoc" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = "org.jetbrains.kotlin.android:2.2.21"
