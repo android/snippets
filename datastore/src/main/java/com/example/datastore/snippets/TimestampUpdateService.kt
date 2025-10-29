@@ -34,7 +34,7 @@ class TimestampUpdateService : Service() {
 
     // [START_EXCLUDE silent]
     override fun onBind(intent: Intent): IBinder? = null
-    // [END_EXCLUDE silent]
+    // [END_EXCLUDE]
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
