@@ -1,4 +1,4 @@
-package com.example.webviewdarkmode
+package com.example.snippets.jetpackwebkit
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,6 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         // You still get your WebView instance the standard way.
         // [START android_views_notifications_build_basic]
+
+        // import android.webkit.WebView
+        // import androidx.webkit.WebSettingsCompat
+        // import androidx.webkit.WebViewFeature
+
         val webView: WebView = findViewById(R.id.my_webview)
 
         // This is necessary to keep navigation inside your WebView
