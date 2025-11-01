@@ -19,6 +19,7 @@ package com.example.snippets.ai
 import com.google.firebase.Firebase
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.FunctionCallPart
+import com.google.firebase.ai.type.FunctionDeclaration
 import com.google.firebase.ai.type.FunctionResponsePart
 import com.google.firebase.ai.type.GenerativeBackend
 import com.google.firebase.ai.type.ResponseModality
@@ -28,7 +29,6 @@ import com.google.firebase.ai.type.Tool
 import com.google.firebase.ai.type.Voice
 import com.google.firebase.ai.type.content
 import com.google.firebase.ai.type.liveGenerationConfig
-import com.google.firebase.ai.type.FunctionDeclaration
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
@@ -44,7 +44,8 @@ class GeminiLiveApiSnippets {
             generationConfig = liveGenerationConfig {
                 responseModality = ResponseModality.AUDIO
                 speechConfig = SpeechConfig(voice = Voice("FENRIR"))
-            })
+            }
+        )
         // [END android_gemini_live_api_initialize]
     }
 
