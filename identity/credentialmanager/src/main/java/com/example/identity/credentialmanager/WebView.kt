@@ -24,10 +24,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.example.identity.credentialmanager.WebViewClientImpl
 
 // [START android_identity_webview_main_activity]
-class MainActivity : ComponentActivity() {
+class WebViewMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
