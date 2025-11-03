@@ -186,7 +186,7 @@ fun MyAppContent() {
                 Text(
                     text = "I'm a Conversation List",
                     Modifier.clickable(onClick = {
-                        backStack.addDetail(ConversationDetail(1, 2))
+                        backStack.addDetail(ConversationDetail("123"))
                     })
                 )
             }
