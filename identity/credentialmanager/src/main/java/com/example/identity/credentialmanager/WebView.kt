@@ -11,6 +11,7 @@ import android.webkit.WebView
 import com.example.identity.WebViewClientImpl
 
 
+// [START android_identity_webview_main_activity]
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,3 +49,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+// [END android_identity_webview_main_activity]
