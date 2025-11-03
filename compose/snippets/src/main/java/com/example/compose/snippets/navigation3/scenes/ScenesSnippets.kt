@@ -199,7 +199,7 @@ fun MyAppContent() {
 // Manage List-Detail backstack
 private fun NavBackStack<NavKey>.addDetail(detailRoute: ConversationDetail) {
 
-    // Remove any existing detail routes
+    // Remove any existing detail routes, then add the new detail route
     removeIf { it is ConversationDetail }
 add(detailRoute)
     // Avoid adding the same detail route to the back stack twice.
