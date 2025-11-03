@@ -26,7 +26,7 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 
 // [START android_identity_webview_main_activity]
-class WebViewMainActivity : ComponentActivity() {
+class WebViewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
