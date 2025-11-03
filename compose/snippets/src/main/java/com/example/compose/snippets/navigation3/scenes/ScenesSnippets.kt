@@ -169,7 +169,6 @@ data class ConversationDetail(
     val colorId: Int
 ) : NavKey
 
-
 @Composable
 fun MyAppContent() {
     val backStack = rememberNavBackStack(ConversationList)
@@ -184,9 +183,12 @@ fun MyAppContent() {
                 metadata = ListDetailScene.listPane()
             ) {
                 // Add new Detail with backStack.addDetail(detailRoute)
-                Text(text = "I'm a Conversation List", Modifier.clickable(onClick = {
-                    backStack.addDetail(ConversationDetail(1, 2))
-                }))
+                Text(
+                    text = "I'm a Conversation List",
+                    Modifier.clickable(onClick = {
+                        backStack.addDetail(ConversationDetail(1, 2))
+                    })
+                )
             }
             entry<ConversationDetail>(
                 metadata = ListDetailScene.detailPane()
