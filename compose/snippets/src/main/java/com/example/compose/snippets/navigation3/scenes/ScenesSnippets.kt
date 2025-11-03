@@ -201,7 +201,7 @@ private fun NavBackStack<NavKey>.addDetail(detailRoute: ConversationDetail) {
 
     // Remove any existing detail routes, then add the new detail route
     removeIf { it is ConversationDetail }
-add(detailRoute)
+    add(detailRoute)
     // Avoid adding the same detail route to the back stack twice.
     if (!contains(detailRoute)) {
         add(detailRoute)
