@@ -24,7 +24,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.example.identity.WebViewClientImpl
+import com.example.identity.credentialmanager.WebViewClientImpl
 
 // [START android_identity_webview_main_activity]
 class MainActivity : ComponentActivity() {
