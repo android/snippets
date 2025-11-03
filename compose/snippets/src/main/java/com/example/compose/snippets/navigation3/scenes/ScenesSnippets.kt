@@ -16,9 +16,11 @@
 
 package com.example.compose.snippets.navigation3.scenes
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -167,7 +169,6 @@ data class ConversationDetail(
     val colorId: Int
 ) : NavKey
 
-@Serializable data object Profile : NavKey
 
 @Composable
 fun MyAppContent() {
@@ -183,14 +184,14 @@ fun MyAppContent() {
                 metadata = ListDetailScene.listPane()
             ) {
                 // Add new Detail with backStack.addDetail(detailRoute)
+                Text(text = "I'm a Conversation List", Modifier.clickable(onClick = {
+                    backStack.addDetail(ConversationDetail(1, 2))
+                }))
             }
             entry<ConversationDetail>(
                 metadata = ListDetailScene.detailPane()
             ) {
                 // Show Detail Composable
-            }
-            entry<Profile> {
-                // Profile Composable
             }
         }
     )
@@ -201,10 +202,6 @@ private fun NavBackStack<NavKey>.addDetail(detailRoute: ConversationDetail) {
 
     // Remove any existing detail routes, then add the new detail route
     removeIf { it is ConversationDetail }
-add(detailRoute)
-    // Avoid adding the same detail route to the back stack twice.
-    if (!contains(detailRoute)) {
-        add(detailRoute)
-    }
+    add(detailRoute)
 }
 // [END android_compose_navigation3_scenes_4]
