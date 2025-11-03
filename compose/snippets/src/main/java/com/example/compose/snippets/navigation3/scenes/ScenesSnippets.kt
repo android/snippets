@@ -142,7 +142,7 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
         val listEntry = entries.findLast { it.metadata.containsKey(LIST_KEY) } ?: return null
 
         // We use the list's contentKey to uniquely identify the scene.
-        // This allows the detail panes to be animated in and out by the scene, rather than
+        // This allows the detail panes to be displayed instantly through recomposition, rather than
         // having NavDisplay animate the whole scene out when the selected detail item changes.
         val sceneKey = listEntry.contentKey
 
