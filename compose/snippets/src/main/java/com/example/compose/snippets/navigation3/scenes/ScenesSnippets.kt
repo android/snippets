@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.navigation3.scenes
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +37,7 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import com.example.compose.snippets.navigation3.scenes.ListDetailScene.Companion.DETAIL_KEY
 import com.example.compose.snippets.navigation3.scenes.ListDetailScene.Companion.LIST_KEY
+import com.example.compose.snippets.touchinput.Button
 import kotlinx.serialization.Serializable
 
 interface SceneExample<T : Any> {
@@ -164,10 +164,7 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
 data object ConversationList : NavKey
 
 @Serializable
-data class ConversationDetail(
-    val id: Int,
-    val colorId: Int
-) : NavKey
+data class ConversationDetail(val id: String) : NavKey
 
 @Composable
 fun MyAppContent() {
@@ -182,18 +179,18 @@ fun MyAppContent() {
             entry<ConversationList>(
                 metadata = ListDetailScene.listPane()
             ) {
-                // Add new Detail with backStack.addDetail(detailRoute)
-                Text(
-                    text = "I'm a Conversation List",
-                    Modifier.clickable(onClick = {
-                        backStack.addDetail(ConversationDetail("123"))
-                    })
-                )
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Text(text = "I'm a Conversation List")
+                    Button(onClick = { backStack.addDetail(ConversationDetail("123")) }) {
+                        Text(text = "Open detail")
+                    }
+                }
+
             }
             entry<ConversationDetail>(
                 metadata = ListDetailScene.detailPane()
             ) {
-                // Show Detail Composable
+                Text(text = "I'm a Conversation Detail")
             }
         }
     )
