@@ -185,7 +185,6 @@ fun MyAppContent() {
                         Text(text = "Open detail")
                     }
                 }
-
             }
             entry<ConversationDetail>(
                 metadata = ListDetailScene.detailPane()
