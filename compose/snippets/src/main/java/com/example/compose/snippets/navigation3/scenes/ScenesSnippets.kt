@@ -35,8 +35,6 @@ import androidx.navigation3.scene.SceneStrategyScope
 import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
-import com.example.compose.snippets.navigation3.scenes.ListDetailScene.Companion.DETAIL_KEY
-import com.example.compose.snippets.navigation3.scenes.ListDetailScene.Companion.LIST_KEY
 import com.example.compose.snippets.touchinput.Button
 import kotlinx.serialization.Serializable
 
@@ -98,23 +96,6 @@ class ListDetailScene<T : Any>(
             }
         }
     }
-
-    companion object {
-        internal const val LIST_KEY = "ListDetailScene-List"
-        internal const val DETAIL_KEY = "ListDetailScene-Detail"
-
-        /**
-         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
-         * as a list in the [ListDetailScene].
-         */
-        fun listPane() = mapOf(LIST_KEY to true)
-
-        /**
-         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
-         * as a list in the [ListDetailScene].
-         */
-        fun detailPane() = mapOf(DETAIL_KEY to true)
-    }
 }
 
 @Composable
@@ -128,8 +109,8 @@ fun <T : Any> rememberListDetailSceneStrategy(): ListDetailSceneStrategy<T> {
 
 // --- ListDetailSceneStrategy ---
 /**
- * A [SceneStrategy] that returns a [ListDetailScene] if the window is wide enough
- * and the last two back stack entries are list and detail.
+ * A [SceneStrategy] that returns a [ListDetailScene] if the window is wide enough, the last item
+ * is the backstack is a detail, and before it, at any point in the backstack is a list.
  */
 class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : SceneStrategy<T> {
 
@@ -155,6 +136,23 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
             detailEntry = detailEntry
         )
     }
+
+    companion object {
+        internal const val LIST_KEY = "ListDetailScene-List"
+        internal const val DETAIL_KEY = "ListDetailScene-Detail"
+
+        /**
+         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
+         * as a list in the [ListDetailScene].
+         */
+        fun listPane() = mapOf(LIST_KEY to true)
+
+        /**
+         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
+         * as a list in the [ListDetailScene].
+         */
+        fun detailPane() = mapOf(DETAIL_KEY to true)
+    }
 }
 // [END android_compose_navigation3_scenes_3]
 
@@ -177,7 +175,7 @@ fun MyAppContent() {
         sceneStrategy = listDetailStrategy,
         entryProvider = entryProvider {
             entry<ConversationList>(
-                metadata = ListDetailScene.listPane()
+                metadata = ListDetailSceneStrategy.listPane()
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Text(text = "I'm a Conversation List")
@@ -187,7 +185,7 @@ fun MyAppContent() {
                 }
             }
             entry<ConversationDetail>(
-                metadata = ListDetailScene.detailPane()
+                metadata = ListDetailSceneStrategy.detailPane()
             ) {
                 Text(text = "I'm a Conversation Detail")
             }
