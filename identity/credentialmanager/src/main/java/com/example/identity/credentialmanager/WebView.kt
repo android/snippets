@@ -30,7 +30,8 @@ class WebViewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val url = "https://passkeys-codelab.glitch.me/"
+            // Put your webview link here.
+            val url = "https://project-sesame-426206.appspot.com/passkey-signup"
             AndroidView(
                 factory = { context ->
                     WebView(context).apply {
