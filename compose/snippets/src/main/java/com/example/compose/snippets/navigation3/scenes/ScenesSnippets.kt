@@ -19,12 +19,12 @@ package com.example.compose.snippets.navigation3.scenes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -35,6 +35,7 @@ import androidx.navigation3.scene.SceneStrategyScope
 import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
+import com.example.compose.snippets.touchinput.Button
 import kotlinx.serialization.Serializable
 
 interface SceneExample<T : Any> {
@@ -73,87 +74,84 @@ public class SinglePaneSceneStrategy<T : Any> : SceneStrategy<T> {
 // [END android_compose_navigation3_scenes_2]
 
 // [START android_compose_navigation3_scenes_3]
-// --- TwoPaneScene ---
+// --- ListDetailScene ---
 /**
- * A custom [Scene] that displays two [NavEntry]s side-by-side in a 50/50 split.
+ * A [Scene] that displays a list and a detail [NavEntry] side-by-side in a 40/60 split.
+ *
  */
-class TwoPaneScene<T : Any>(
+class ListDetailScene<T : Any>(
     override val key: Any,
     override val previousEntries: List<NavEntry<T>>,
-    val firstEntry: NavEntry<T>,
-    val secondEntry: NavEntry<T>
+    val listEntry: NavEntry<T>,
+    val detailEntry: NavEntry<T>,
 ) : Scene<T> {
-    override val entries: List<NavEntry<T>> = listOf(firstEntry, secondEntry)
+    override val entries: List<NavEntry<T>> = listOf(listEntry, detailEntry)
     override val content: @Composable (() -> Unit) = {
         Row(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.weight(0.5f)) {
-                firstEntry.Content()
+            Column(modifier = Modifier.weight(0.4f)) {
+                listEntry.Content()
             }
-            Column(modifier = Modifier.weight(0.5f)) {
-                secondEntry.Content()
+            Column(modifier = Modifier.weight(0.6f)) {
+                detailEntry.Content()
             }
         }
-    }
-
-    companion object {
-        internal const val TWO_PANE_KEY = "TwoPane"
-        /**
-         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
-         * in a two-pane layout.
-         */
-        fun twoPane() = mapOf(TWO_PANE_KEY to true)
     }
 }
 
 @Composable
-fun <T : Any> rememberTwoPaneSceneStrategy(): TwoPaneSceneStrategy<T> {
+fun <T : Any> rememberListDetailSceneStrategy(): ListDetailSceneStrategy<T> {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
     return remember(windowSizeClass) {
-        TwoPaneSceneStrategy(windowSizeClass)
+        ListDetailSceneStrategy(windowSizeClass)
     }
 }
 
-// --- TwoPaneSceneStrategy ---
+// --- ListDetailSceneStrategy ---
 /**
- * A [SceneStrategy] that activates a [TwoPaneScene] if the window is wide enough
- * and the top two back stack entries declare support for two-pane display.
+ * A [SceneStrategy] that returns a [ListDetailScene] if the window is wide enough, the last item
+ * is the backstack is a detail, and before it, at any point in the backstack is a list.
  */
-class TwoPaneSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : SceneStrategy<T> {
+class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : SceneStrategy<T> {
+
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
-        // Condition 1: Only return a Scene if the window is sufficiently wide to render two panes.
-        // We use isWidthAtLeastBreakpoint with WIDTH_DP_MEDIUM_LOWER_BOUND (600dp).
+
         if (!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
             return null
         }
 
-        val lastTwoEntries = entries.takeLast(2)
+        val detailEntry =
+            entries.lastOrNull()?.takeIf { it.metadata.containsKey(DETAIL_KEY) } ?: return null
+        val listEntry = entries.findLast { it.metadata.containsKey(LIST_KEY) } ?: return null
 
-        // Condition 2: Only return a Scene if there are two entries, and both have declared
-        // they can be displayed in a two pane scene.
-        return if (lastTwoEntries.size == 2 &&
-            lastTwoEntries.all { it.metadata.containsKey(TwoPaneScene.TWO_PANE_KEY) }
-        ) {
-            val firstEntry = lastTwoEntries.first()
-            val secondEntry = lastTwoEntries.last()
+        // We use the list's contentKey to uniquely identify the scene.
+        // This allows the detail panes to be displayed instantly through recomposition, rather than
+        // having NavDisplay animate the whole scene out when the selected detail item changes.
+        val sceneKey = listEntry.contentKey
 
-            // The scene key must uniquely represent the state of the scene.
-            val sceneKey = Pair(firstEntry.contentKey, secondEntry.contentKey)
+        return ListDetailScene(
+            key = sceneKey,
+            previousEntries = entries.dropLast(1),
+            listEntry = listEntry,
+            detailEntry = detailEntry
+        )
+    }
 
-            TwoPaneScene(
-                key = sceneKey,
-                // Where we go back to is a UX decision. In this case, we only remove the top
-                // entry from the back stack, despite displaying two entries in this scene.
-                // This is because in this app we only ever add one entry to the
-                // back stack at a time. It would therefore be confusing to the user to add one
-                // when navigating forward, but remove two when navigating back.
-                previousEntries = entries.dropLast(1),
-                firstEntry = firstEntry,
-                secondEntry = secondEntry
-            )
-        } else {
-            null
-        }
+    companion object {
+        internal const val LIST_KEY = "ListDetailScene-List"
+        internal const val DETAIL_KEY = "ListDetailScene-Detail"
+
+        /**
+         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
+         * as a list in the [ListDetailScene].
+         */
+        fun listPane() = mapOf(LIST_KEY to true)
+
+        /**
+         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
+         * as a list in the [ListDetailScene].
+         */
+        fun detailPane() = mapOf(DETAIL_KEY to true)
     }
 }
 // [END android_compose_navigation3_scenes_3]
@@ -161,44 +159,44 @@ class TwoPaneSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : Scen
 // [START android_compose_navigation3_scenes_4]
 // Define your navigation keys
 @Serializable
-data object ProductList : NavKey
+data object ConversationList : NavKey
+
 @Serializable
-data class ProductDetail(val id: String) : NavKey
+data class ConversationDetail(val id: String) : NavKey
 
 @Composable
 fun MyAppContent() {
-    val backStack = rememberNavBackStack(ProductList)
+    val backStack = rememberNavBackStack(ConversationList)
+    val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
 
     NavDisplay(
         backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        sceneStrategy = listDetailStrategy,
         entryProvider = entryProvider {
-            entry<ProductList>(
-                // Mark this entry as eligible for two-pane display
-                metadata = TwoPaneScene.twoPane()
-            ) { key ->
-                Column {
-                    Text("Product List")
-                    Button(onClick = { backStack.add(ProductDetail("ABC")) }) {
-                        Text("View Details for ABC (Two-Pane Eligible)")
+            entry<ConversationList>(
+                metadata = ListDetailSceneStrategy.listPane()
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Text(text = "I'm a Conversation List")
+                    Button(onClick = { backStack.addDetail(ConversationDetail("123")) }) {
+                        Text(text = "Open detail")
                     }
                 }
             }
-
-            entry<ProductDetail>(
-                // Mark this entry as eligible for two-pane display
-                metadata = TwoPaneScene.twoPane()
-            ) { key ->
-                Text("Product Detail: ${key.id} (Two-Pane Eligible)")
-            }
-            // ... other entries ...
-        },
-        // Simply provide your custom strategy. NavDisplay will fall back to SinglePaneSceneStrategy automatically.
-        sceneStrategy = rememberTwoPaneSceneStrategy(),
-        onBack = {
-            if (backStack.isNotEmpty()) {
-                backStack.removeLastOrNull()
+            entry<ConversationDetail>(
+                metadata = ListDetailSceneStrategy.detailPane()
+            ) {
+                Text(text = "I'm a Conversation Detail")
             }
         }
     )
+}
+
+private fun NavBackStack<NavKey>.addDetail(detailRoute: ConversationDetail) {
+
+    // Remove any existing detail routes, then add the new detail route
+    removeIf { it is ConversationDetail }
+    add(detailRoute)
 }
 // [END android_compose_navigation3_scenes_4]
