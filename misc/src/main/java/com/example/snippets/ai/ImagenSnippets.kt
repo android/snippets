@@ -114,7 +114,8 @@ private fun generateImagesWithImagen(scope: CoroutineScope) {
     scope.launch {
         // [START android_imagen_generate_images]
         val imageResponse = model.generateImages(
-            prompt = "A hyper realistic picture of a t-rex with a blue bagpack in a prehistoric forest",
+            prompt = "A hyper realistic picture of a t-rex with a blue bagpack in a prehistoric " +
+                    "forest",
         )
         val image = imageResponse.images.first()
         val bitmapImage = image.asBitmap()

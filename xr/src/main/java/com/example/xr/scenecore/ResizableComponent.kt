@@ -33,11 +33,15 @@ private fun resizableComponentExample(
     val resizableComponent = ResizableComponent.create(session) { event ->
         if (event.resizeState == ResizeEvent.ResizeState.RESIZE_STATE_END) {
             // update the Entity to reflect the new size
-            surfaceEntity.shape = SurfaceEntity.Shape.Quad(FloatSize2d(event.newSize.width, event.newSize.height))
+            surfaceEntity.shape =
+                SurfaceEntity.Shape.Quad(
+                    FloatSize2d(event.newSize.width, event.newSize.height)
+                )
         }
     }
     resizableComponent.minimumEntitySize = FloatSize3d(177f, 100f, 1f)
-    resizableComponent.isFixedAspectRatioEnabled = true // Maintain a fixed aspect ratio when resizing
+    resizableComponent.isFixedAspectRatioEnabled =
+        true // Maintain a fixed aspect ratio when resizing
 
     surfaceEntity.addComponent(resizableComponent)
     // [END androidxr_scenecore_resizableComponentExample]

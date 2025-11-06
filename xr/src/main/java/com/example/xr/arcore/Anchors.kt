@@ -35,7 +35,10 @@ fun configureAnchoring(session: Session) {
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
-            TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
+            TODO(
+                "The session could not be configured. " +
+                    "See SessionConfigureResult for possible causes."
+            )
     }
     // [END androidxr_arcore_anchoring_configure]
 }

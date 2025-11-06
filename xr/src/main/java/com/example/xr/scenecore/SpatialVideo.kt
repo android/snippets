@@ -126,7 +126,8 @@ private fun ComponentActivity.surfaceEntityCreateDRM(xrSession: Session) {
         stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
         shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f)),
-        surfaceProtection = SurfaceEntity.SurfaceProtection.SURFACE_PROTECTION_PROTECTED
+        surfaceProtection =
+        SurfaceEntity.SurfaceProtection.SURFACE_PROTECTION_PROTECTED
     )
 
     // Build a MediaItem with the necessary DRM configuration.
@@ -157,7 +158,8 @@ private fun ComponentActivity.surfaceEntityHDR(xrSession: Session) {
     // to your content.
     val hdrMetadata = SurfaceEntity.ContentColorMetadata(
         colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.COLOR_SPACE_BT2020,
-        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.COLOR_TRANSFER_ST2084, // PQ
+        // PQ
+        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.COLOR_TRANSFER_ST2084,
         colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.COLOR_RANGE_LIMITED,
         maxContentLightLevel = 1000 // Example: 1000 nits
     )

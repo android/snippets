@@ -67,7 +67,6 @@ allprojects {
                 "standard:function-naming",
                 "standard:property-naming",
                 "standard:class-naming",
-                "standard:max-line-length",
                 "standard:comment-wrapping",
                 "standard:import-ordering",
                 "standard:filename",

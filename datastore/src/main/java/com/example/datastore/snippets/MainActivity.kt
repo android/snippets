@@ -44,7 +44,13 @@ import com.example.datastore.snippets.ui.theme.SnippetsTheme
 
 class MainActivity : ComponentActivity() {
 
-    internal enum class Snippets { LandingPage, PreferencesDataStore, ProtoDataStore, JsonDataStore, MultiProcessDataStore }
+    internal enum class Snippets {
+        LandingPage,
+        PreferencesDataStore,
+        ProtoDataStore,
+        JsonDataStore,
+        MultiProcessDataStore,
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

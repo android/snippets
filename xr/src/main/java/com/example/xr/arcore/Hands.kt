@@ -41,7 +41,10 @@ fun ComponentActivity.configureSession(session: Session) {
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
-            TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
+            TODO(
+                "The session could not be configured." +
+                    " See SessionConfigureResult for possible causes."
+            )
     }
     // [END androidxr_arcore_hand_configure]
 }
@@ -119,9 +122,15 @@ fun ComponentActivity.renderPlanetAtFingerTip(rightHandState: Hand.State) {
 private fun detectPinch(session: Session, handState: Hand.State): Boolean {
     // [START androidxr_arcore_hand_pinch_gesture]
     val thumbTip = handState.handJoints[HandJointType.HAND_JOINT_TYPE_THUMB_TIP] ?: return false
-    val thumbTipPose = session.scene.perceptionSpace.transformPoseTo(thumbTip, session.scene.activitySpace)
+    val thumbTipPose = session.scene.perceptionSpace.transformPoseTo(
+        thumbTip,
+        session.scene.activitySpace,
+    )
     val indexTip = handState.handJoints[HandJointType.HAND_JOINT_TYPE_INDEX_TIP] ?: return false
-    val indexTipPose = session.scene.perceptionSpace.transformPoseTo(indexTip, session.scene.activitySpace)
+    val indexTipPose = session.scene.perceptionSpace.transformPoseTo(
+        indexTip,
+        session.scene.activitySpace,
+    )
     return Vector3.distance(thumbTipPose.translation, indexTipPose.translation) < 0.05
     // [END androidxr_arcore_hand_pinch_gesture]
 }
@@ -134,8 +143,17 @@ private fun detectStop(session: Session, handState: Hand.State): Boolean {
         val forward2 = handState.handJoints[joint2]?.forward ?: return false
         return Vector3.angleBetween(forward1, forward2) < threshold
     }
-    return pointingInSameDirection(HandJointType.HAND_JOINT_TYPE_INDEX_PROXIMAL, HandJointType.HAND_JOINT_TYPE_INDEX_TIP) &&
-        pointingInSameDirection(HandJointType.HAND_JOINT_TYPE_MIDDLE_PROXIMAL, HandJointType.HAND_JOINT_TYPE_MIDDLE_TIP) &&
-        pointingInSameDirection(HandJointType.HAND_JOINT_TYPE_RING_PROXIMAL, HandJointType.HAND_JOINT_TYPE_RING_TIP)
+    return pointingInSameDirection(
+        HandJointType.HAND_JOINT_TYPE_INDEX_PROXIMAL,
+        HandJointType.HAND_JOINT_TYPE_INDEX_TIP
+    ) &&
+        pointingInSameDirection(
+            HandJointType.HAND_JOINT_TYPE_MIDDLE_PROXIMAL,
+            HandJointType.HAND_JOINT_TYPE_MIDDLE_TIP
+        ) &&
+        pointingInSameDirection(
+            HandJointType.HAND_JOINT_TYPE_RING_PROXIMAL,
+            HandJointType.HAND_JOINT_TYPE_RING_TIP
+        )
     // [END androidxr_arcore_hand_stop_gesture]
 }
