@@ -144,26 +144,26 @@ fun SampleNavigableListDetailPaneScaffoldFull() {
             }
         },
         detailPane = {
-            Column {
-                // Allow users to dismiss the detail pane. Use back navigation to
-                // hide an expanded detail pane.
-                if (scaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded) {
-                    // Material design principles promote the usage of a right-aligned
-                    // close (X) button.
-                    IconButton(
-                        modifier =  Modifier.align(Alignment.End).padding(16.dp),
-                        onClick = {
-                            scope.launch {
-                                scaffoldNavigator.navigateBack(backNavigationBehavior)
+            AnimatedPane {
+                // Show the detail pane content if selected item is available
+                scaffoldNavigator.currentDestination?.contentKey?.let {
+                    Column {
+                        // Allow users to dismiss the detail pane. Use back navigation to
+                        // hide an expanded detail pane.
+                        if (scaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded) {
+                            // Material design principles promote the usage of a right-aligned
+                            // close (X) button.
+                            IconButton(
+                                modifier =  Modifier.align(Alignment.End).padding(16.dp),
+                                onClick = {
+                                    scope.launch {
+                                        scaffoldNavigator.navigateBack(backNavigationBehavior)
+                                    }
+                                }
+                            ) {
+                                Icon(Icons.Default.Close, contentDescription = "Close")
                             }
                         }
-                    ) {
-                        Icon(Icons.Default.Close, contentDescription = "Close")
-                    }
-                }
-                AnimatedPane {
-                    // Show the detail pane content if selected item is available
-                    scaffoldNavigator.currentDestination?.contentKey?.let {
                         MyDetails(it)
                     }
                 }
@@ -180,6 +180,7 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator<MyItem>()
     val customScaffoldDirective = customPaneScaffoldDirective(currentWindowAdaptiveInfo())
     val scope = rememberCoroutineScope()
+    val backNavigationBehavior = BackNavigationBehavior.PopUntilScaffoldValueChange
 
     ThreePaneScaffoldPredictiveBackHandler(
         navigator = scaffoldNavigator,
@@ -208,7 +209,25 @@ fun SampleListDetailPaneScaffoldWithPredictiveBackFull() {
             AnimatedPane {
                 // Show the detail pane content if selected item is available
                 scaffoldNavigator.currentDestination?.contentKey?.let {
-                    MyDetails(it)
+                    Column {
+                        // Allow users to dismiss the detail pane. Use back navigation to
+                        // hide an expanded detail pane.
+                        if (scaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded) {
+                            // Material design principles promote the usage of a right-aligned
+                            // close (X) button.
+                            IconButton(
+                                modifier =  Modifier.align(Alignment.End).padding(16.dp),
+                                onClick = {
+                                    scope.launch {
+                                        scaffoldNavigator.navigateBack(backNavigationBehavior)
+                                    }
+                                }
+                            ) {
+                                Icon(Icons.Default.Close, contentDescription = "Close")
+                            }
+                        }
+                        MyDetails(it)
+                    }
                 }
             }
         },
