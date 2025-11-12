@@ -22,7 +22,7 @@ import androidx.core.os.BufferFillPolicy;
 public class ProfilingManagerJavaSnippets {
   public class MainActivityJava extends Activity {
 
-    public static final String TAG = "EDGAR";
+    public static final String TAG = "ProfilingManager";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
