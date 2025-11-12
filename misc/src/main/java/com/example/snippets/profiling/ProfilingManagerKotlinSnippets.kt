@@ -21,19 +21,28 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
 import android.os.ProfilingResult
+import android.os.ProfilingManager
+import android.os.ProfilingTrigger
 import android.util.Log
+import java.util.ArrayList
 import androidx.annotation.RequiresApi
 import androidx.core.os.BufferFillPolicy
 import androidx.core.os.SystemTraceRequestBuilder
 import androidx.core.os.requestProfiling
+import android.view.Choreographer
 import androidx.tracing.Trace
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.function.Consumer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 
 class ProfilingManagerKotlinSnippets {
     class MainActivity : Activity() {
+        companion object {
+            const val TAG = "MyApp"
+        }
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             sampleRecordSystemTrace()
@@ -81,5 +90,34 @@ class ProfilingManagerKotlinSnippets {
             // Computations you want to profile
         }
         // [END android_profiling_manager_record_system_trace_kotlin]
+
+        // [START android_profiling_manager_triggered_trace]
+        fun recordWithTrigger() {
+            val profilingManager = applicationContext.getSystemService(ProfilingManager::class.java)
+
+            val triggers = ArrayList<ProfilingTrigger>()
+
+            val triggerBuilder = ProfilingTrigger.Builder(ProfilingTrigger.TRIGGER_TYPE_APP_FULLY_DRAWN)
+                .setRateLimitingPeriodHours(1)
+
+            triggers.add(triggerBuilder.build())
+
+            val mainExecutor: Executor = Executors.newSingleThreadExecutor()
+
+            val resultCallback = Consumer<ProfilingResult> { profilingResult ->
+                if (profilingResult.errorCode == ProfilingResult.ERROR_NONE) {
+                    Log.d(TAG, "Received profiling result. file: ${profilingResult.resultFilePath}")
+                }
+            }
+
+            profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback)
+            profilingManager.addProfilingTriggers(triggers)
+
+            Choreographer.getInstance().postFrameCallback { frameTimeNanos ->
+                // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
+                reportFullyDrawn()
+            }
+        }
+        // [END android_profiling_manager_triggered_trace]
     }
 }
