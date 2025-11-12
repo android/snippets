@@ -54,7 +54,6 @@ android {
     }
 }
 dependencies {
-    implementation("libs.androidx.compose.foundation:foundation")
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.kotlinx.coroutines.android)
     testImplementation(libs.kotlinx.coroutines.test)
