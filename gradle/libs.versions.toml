@@ -68,7 +68,7 @@ material3-adaptive-navigation-suite = "1.4.0"
 media3 = "1.8.0"
 media3Ui = "1.8.0"
 # @keep
-minSdk = "35"
+minSdk = "36"
 okHttp = "5.2.1"
 playServicesWearable = "19.0.0"
 protobuf = "4.32.1"
