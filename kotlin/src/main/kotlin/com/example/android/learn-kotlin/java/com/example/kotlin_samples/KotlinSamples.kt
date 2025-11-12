@@ -28,7 +28,7 @@ private const val count = 42
  * bodies are unchanged.
  */
 
-// [START kotlin_defining_a_function]
+// [START android_kotlin_defining_a_function]
 // From Snippet 6
 fun generateAnswerString(): String {
     val answerString = if (count == 42) {
@@ -39,9 +39,9 @@ fun generateAnswerString(): String {
 
     return answerString
 }
-// [END kotlin_defining_a_function]
+// [END android_kotlin_defining_a_function]
 
-// [START kotlin_function_with_parameter]
+// [START android_kotlin_function_with_parameter]
 // From Snippet 8
 // Note: This function has the same signature as the one from Snippet 10 and 11.
 // It is kept here as the primary example.
@@ -54,9 +54,9 @@ fun generateAnswerString(countThreshold: Int): String {
 
     return answerString
 }
-// [END kotlin_function_with_parameter]
+// [END android_kotlin_function_with_parameter]
 
-// [START kotlin_function_with_explicit_return]
+// [START android_kotlin_function_with_explicit_return]
 // From Snippet 10
 fun generateAnswerStringWithExplicitReturn(countThreshold: Int): String {
     return if (count > countThreshold) {
@@ -65,24 +65,24 @@ fun generateAnswerStringWithExplicitReturn(countThreshold: Int): String {
         "The answer eludes me."
     }
 }
-// [END kotlin_function_with_explicit_return]
+// [END android_kotlin_function_with_explicit_return]
 
-// [START kotlin_function_as_single_expression]
+// [START android_kotlin_function_as_single_expression]
 // From Snippet 11
 fun generateAnswerStringAsExpression(countThreshold: Int): String = if (count > countThreshold) {
     "I have the answer"
 } else {
     "The answer eludes me"
 }
-// [END kotlin_function_as_single_expression]
+// [END android_kotlin_function_as_single_expression]
 
-// [START kotlin_higher_order_function_definition]
+// [START android_kotlin_higher_order_function_definition]
 // From Snippet 14
 fun stringMapper(str: String, mapper: (String) -> Int): Int {
     // Invoke function
     return mapper(str)
 }
-// [END kotlin_higher_order_function_definition]
+// [END android_kotlin_higher_order_function_definition]
 
 
 /**
@@ -115,7 +115,7 @@ fun main() {
 }
 
 fun runSnippet1() {
-    // [START kotlin_control_flow_if_else_if]
+    // [START android_kotlin_control_flow_if_else_if]
     if (count == 42) {
         println("I have the answer.")
     } else if (count > 35) {
@@ -123,21 +123,21 @@ fun runSnippet1() {
     } else {
         println("The answer eludes me.")
     }
-    // [END kotlin_control_flow_if_else_if]
+    // [END android_kotlin_control_flow_if_else_if]
 }
 
 fun runSnippet2() {
-    // [START kotlin_control_flow_if_else]
+    // [START android_kotlin_control_flow_if_else]
     if (count == 42) {
         println("I have the answer.")
     } else {
         println("The answer eludes me.")
     }
-    // [END kotlin_control_flow_if_else]
+    // [END android_kotlin_control_flow_if_else]
 }
 
 fun runSnippet3() {
-    // [START kotlin_control_flow_if_as_expression]
+    // [START android_kotlin_control_flow_if_as_expression]
     val answerString: String = if (count == 42) {
         "I have the answer."
     } else if (count > 35) {
@@ -147,11 +147,11 @@ fun runSnippet3() {
     }
 
     println(answerString)
-    // [END kotlin_control_flow_if_as_expression]
+    // [END android_kotlin_control_flow_if_as_expression]
 }
 
 fun runSnippet4() {
-    // [START kotlin_control_flow_when_as_expression]
+    // [START android_kotlin_control_flow_when_as_expression]
     val answerString = when {
         count == 42 -> "I have the answer."
         count > 35 -> "The answer is close."
@@ -159,62 +159,63 @@ fun runSnippet4() {
     }
 
     println(answerString)
-    // [END kotlin_control_flow_when_as_expression]
+    // [END android_kotlin_control_flow_when_as_expression]
 }
 
 fun runSnippet5() {
-    // [START kotlin_null_safety_smart_cast]
+    // [START android_kotlin_null_safety_smart_cast]
     val languageName: String? = null
     if (languageName != null) {
         // No need to write languageName?.toUpperCase()
         println(languageName.toUpperCase())
     }
-    // [END kotlin_null_safety_smart_cast]
+    // [END android_kotlin_null_safety_smart_cast]
 }
 
 fun runSnippet7() {
-    // [START kotlin_calling_a_function]
+    // [START android_kotlin_calling_a_function]
     val answerString = generateAnswerString()
-    // [END kotlin_calling_a_function]
+    // [END android_kotlin_calling_a_function]
 }
 
 fun runSnippet9() {
-    // [START kotlin_calling_a_function_with_argument]
+    // [START android_kotlin_calling_a_function_with_argument]
     val answerString = generateAnswerString(42)
-    // [END kotlin_calling_a_function_with_argument]
+    // [END android_kotlin_calling_a_function_with_argument]
 }
 
 fun runSnippet12() {
-    // [START kotlin_lambda_declaration]
+    // [START android_kotlin_lambda_declaration]
     val stringLengthFunc: (String) -> Int = { input ->
         input.length
     }
-    // [END kotlin_lambda_declaration]
+    // [END android_kotlin_lambda_declaration]
 }
 
 fun runSnippet13() {
-    // [START kotlin_lambda_invocation]
+    // [START android_kotlin_lambda_invocation]
     val stringLengthFunc: (String) -> Int = { input ->
         input.length
     }
 
     val stringLength: Int = stringLengthFunc("Android")
-    // [END kotlin_lambda_invocation]
+    // [END android_kotlin_lambda_invocation]
     // The original snippet did not print the result, so we don't either.
 }
 
 fun runSnippet15() {
-    // [START kotlin_higher_order_function_call_default]
+    // [START android_kotlin_higher_order_function_call_default]
     stringMapper("Android", { input ->
         input.length
     })
-    // [END kotlin_higher_order_function_call_default]
+    // [END android_kotlin_higher_order_function_call_default]
 }
 
 fun runSnippet16() {
-    // [START kotlin_higher_order_function_call_trailing_lambda]
+    // [START android_kotlin_higher_order_function_call_trailing_lambda]
     stringMapper("Android") { input ->
         input.length
     }
-    // [END kotlin_higher_order_function_call_trailing_lambda]
+    // [END android_kotlin_higher_order_function_call_trailing_lambda]
 }
+
