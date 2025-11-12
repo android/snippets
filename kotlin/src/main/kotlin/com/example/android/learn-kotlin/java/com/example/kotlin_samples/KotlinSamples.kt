@@ -16,8 +16,6 @@
 
 package com.example.android.kotlin.snippets
 
-import androidx.compose.ui.text.toUpperCase
-
 // A top-level constant used by the snippets below.
 private const val count = 42
 
@@ -166,8 +164,7 @@ fun runSnippet5() {
     // [START android_kotlin_null_safety_smart_cast]
     val languageName: String? = null
     if (languageName != null) {
-        // No need to write languageName?.toUpperCase()
-        println(languageName.toUpperCase())
+        println(languageName.uppercase())
     }
     // [END android_kotlin_null_safety_smart_cast]
 }
