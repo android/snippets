@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.compose.snippets.navigation3.decorators
 
 import android.os.SystemClock
@@ -15,7 +31,6 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
-
 
 /**
  * Decorator that automatically applies performance tracking and lifecycle tracing to every
@@ -38,17 +53,17 @@ import kotlinx.serialization.Serializable
  */
 
 // [START android_compose_navigation3_custom_decorator_1]
-class TracingNavEntryDecorator<T: Any>(
+class TracingNavEntryDecorator<T : Any>(
     private val logTag: String,
     private val onReportJankState: (String, Boolean) -> Unit
-): NavEntryDecorator<T>(
-    onPop = { key->
+) : NavEntryDecorator<T>(
+    onPop = { key ->
         // Your onPop logic goes in here
         // [START_EXCLUDE]
-        Log.v(logTag, "${key} popped. Cleaning up performance markers.")
+        Log.v(logTag, "$key popped. Cleaning up performance markers.")
         // [END_EXCLUDE]
     },
-    decorate = {entry ->
+    decorate = { entry ->
         // Your decorate logic goes in here
         val name = entry.contentKey.toString()
         // [START_EXCLUDE]
@@ -60,7 +75,7 @@ class TracingNavEntryDecorator<T: Any>(
                 Log.e(logTag, "Ran into an $e exception")
             }
 
-            onReportJankState(name,true)
+            onReportJankState(name, true)
 
             onDispose {
                 Trace.endSection()
@@ -74,7 +89,7 @@ class TracingNavEntryDecorator<T: Any>(
             val duration = SystemClock.uptimeMillis() - startTime
 
             if (duration > 0) {
-                Log.d(logTag, "$name Composition to Layout took $duration ms" )
+                Log.d(logTag, "$name Composition to Layout took $duration ms")
             }
         }
         // [END_EXCLUDE]
@@ -102,7 +117,7 @@ class TracingNavEntryDecorator<T: Any>(
 // [END_EXCLUDE]
 
 @Composable
-fun <T: Any> rememberTracingNavEntryDecorator(
+fun <T : Any> rememberTracingNavEntryDecorator(
     logTag: String = "NavPerformance",
     reportJankState: (screenName: String, isVisible: Boolean) -> Unit = { _, _ -> },
 ): TracingNavEntryDecorator<T> {
@@ -140,6 +155,3 @@ fun CustomDecorators() {
     )
     // [END android_compose_navigation3_custom_decorator_1]
 }
-
-
-
