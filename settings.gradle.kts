@@ -25,6 +25,7 @@ dependencyResolutionManagement {
         }
         google()
         mavenCentral()
+        maven(url = "/tmp/health_tracking_eap/health_tracking.m2repo/")
     }
 }
 rootProject.name = "snippets"
@@ -43,3 +44,4 @@ include(
     ":kmp:androidApp",
     ":kmp:shared"
 )
+include(":sft")

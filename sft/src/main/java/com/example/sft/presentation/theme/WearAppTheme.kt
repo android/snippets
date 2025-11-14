@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package com.example.wear.snippets.m3
+package com.example.sft.presentation.theme
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import com.example.wear.snippets.m3.list.ComposeList
-import com.example.wear.snippets.m3.navigation.navigation
-import com.example.wear.snippets.m3.pager.HorizontalPager
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            WearApp()
-        }
-    }
-}
+import androidx.wear.compose.material3.MaterialTheme
 
 @Composable
-fun WearApp() {
-    // insert here the snippet you want to test
-    navigation()
+fun WearAppTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = wearColorPalette,
+        typography = Typography,
+        // For shapes, we generally recommend using the default Material Wear shapes which are
+        // optimized for round and non-round devices.
+        content = content
+    )
 }
