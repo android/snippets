@@ -29,6 +29,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- [START android_wear_splash_manifest] -->
+        <activity
+            android:name=".snippets.SplashScreenActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.App.Starting">
+            <!-- [START_EXCLUDE] -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- [END_EXCLUDE] -->
+        </activity>
+        <!-- [END android_wear_splash_manifest] -->
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
