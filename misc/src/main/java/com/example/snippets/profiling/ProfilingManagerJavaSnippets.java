@@ -97,7 +97,7 @@ public class ProfilingManagerJavaSnippets {
                 Log.d(
                     "ProfileTest",
                     "Received profiling result file=" + profilingResult.getResultFilePath());
-                setupUploadJob(profilingResult.getResultFilePath());
+                setupProfileUploadWorker(profilingResult.getResultFilePath());
               } else {
                 Log.e(
                     "ProfileTest",
@@ -121,7 +121,7 @@ public class ProfilingManagerJavaSnippets {
     // [END android_profiling_manager_triggered_trace_java]
 
     // [START android_profiling_manager_triggered_trace_setup_upload_job_java]
-    public void setupUploadJob(String resultFilePath) {
+    public void setupProfileUploadWorker(String resultFilePath) {
       // Setup job to upload the profiling result file.
     }
     // [END android_profiling_manager_triggered_trace_setup_upload_job_java]

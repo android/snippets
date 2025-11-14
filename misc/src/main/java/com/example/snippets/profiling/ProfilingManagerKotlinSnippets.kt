@@ -110,7 +110,7 @@ class ProfilingManagerKotlinSnippets {
                         "ProfileTest",
                         "Received profiling result file=" + profilingResult.resultFilePath
                     )
-                    setupUploadJob(profilingResult.resultFilePath)
+                    setupProfileUploadWorker(profilingResult.resultFilePath)
                 } else {
                     Log.e(
                         "ProfileTest",
@@ -132,7 +132,7 @@ class ProfilingManagerKotlinSnippets {
         // [END android_profiling_manager_triggered_trace]
 
         // [START android_profiling_manager_triggered_trace_setup_upload_job]
-        fun setupUploadJob(resultFilePath: String?) {
+        fun setupProfileUploadWorker(resultFilePath: String?) {
             // Setup job to upload the profiling result file.
         }
         // [END android_profiling_manager_triggered_trace_setup_upload_job]
