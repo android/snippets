@@ -40,12 +40,12 @@ fun DecoratorsBasic() {
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        //[START_EXCLUDE]
+        // [START_EXCLUDE]
         backStack = rememberNavBackStack(Home),
         entryProvider = entryProvider {
             entry<Home> { Text("Welcome to Nav3") }
         }
-        //[END_EXCLUDE]
+        // [END_EXCLUDE]
     )
     // [END android_compose_navigation3_decorator_1]
 }
