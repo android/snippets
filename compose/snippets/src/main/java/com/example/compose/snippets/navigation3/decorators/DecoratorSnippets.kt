@@ -49,11 +49,11 @@ fun DecoratorsBasic() {
 }
 
 // [START android_compose_navigation3_decorator_2]
-class CustomNavEntryDecorator<T: Any> : NavEntryDecorator<T>(
+class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
     decorate = { entry ->
-        Log.d("CustomNavEntryDecorator","entry with ${entry.contentKey} entered composition and was decorated")
+        Log.d("CustomNavEntryDecorator", "entry with ${entry.contentKey} entered composition and was decorated")
         entry.Content()
     },
-    onPop = { contentKey -> Log.d("CustomNavEntryDecorator","entry with $contentKey was popped") }
+    onPop = { contentKey -> Log.d("CustomNavEntryDecorator", "entry with $contentKey was popped") }
 )
 // [END android_compose_navigation3_decorator_2]
