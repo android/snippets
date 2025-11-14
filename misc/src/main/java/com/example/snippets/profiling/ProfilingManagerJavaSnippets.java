@@ -93,23 +93,37 @@ public class ProfilingManagerJavaSnippets {
           new Consumer<ProfilingResult>() {
             @Override
             public void accept(ProfilingResult profilingResult) {
-              // ...
               if (profilingResult.getErrorCode() == ProfilingResult.ERROR_NONE) {
-                Log.d(TAG,
-                    "Received profiling result. file: " + profilingResult.getResultFilePath());
+                Log.d(
+                    "ProfileTest",
+                    "Received profiling result file=" + profilingResult.getResultFilePath());
+                setupUploadJob(profilingResult.getResultFilePath());
+              } else {
+                Log.e(
+                    "ProfileTest",
+                    "Profiling failed errorcode="
+                        + profilingResult.getErrorCode()
+                        + " errormsg="
+                        + profilingResult.getErrorMessage());
               }
             }
           };
       profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback);
       profilingManager.addProfilingTriggers(triggers);
 
+      // [START_EXCLUDE silent]
       Choreographer.getInstance().postFrameCallback((f) -> {
         // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
         reportFullyDrawn();
       });
+      // [END_EXCLUDE silent]
     }
     // [END android_profiling_manager_triggered_trace_java]
 
-    
+    // [START android_profiling_manager_triggered_trace_setup_upload_job_java]
+    public void setupUploadJob(String resultFilePath) {
+      // Setup job to upload the profiling result file.
+    }
+    // [END android_profiling_manager_triggered_trace_setup_upload_job_java]
   }
 }
