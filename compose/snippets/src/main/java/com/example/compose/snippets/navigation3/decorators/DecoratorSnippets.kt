@@ -16,8 +16,11 @@
 
 package com.example.compose.snippets.navigation3.decorators
 
+import android.util.Log
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -26,21 +29,31 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.compose.snippets.navigation3.savingstate.Home
 import kotlinx.serialization.Serializable
 
-// [START android_compose_navigation3_decorator_1]
 @Serializable
 data object Home : NavKey
 
 @Composable
 fun DecoratorsBasic() {
-
-    val backStack = rememberNavBackStack(Home)
+    // [START android_compose_navigation3_decorator_1]
     NavDisplay(
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        backStack = backStack,
-        entryProvider = entryProvider { },
+        // [END android_compose_navigation3_decorator_1]
+        backStack = rememberNavBackStack(Home),
+        entryProvider = entryProvider {
+            entry<Home> { Text("Welcome to Nav3") }
+        }
     )
-    // [END android_compose_navigation3_decorator_1]
 }
+
+// [START android_compose_navigation3_decorator_2]
+class CustomNavEntryDecorator<T: Any> : NavEntryDecorator<T>(
+    decorate = { entry ->
+        Log.d("CustomNavEntryDecorator","entry with ${entry.contentKey} entered composition and was decorated")
+        entry.Content()
+    },
+    onPop = { contentKey -> Log.d("CustomNavEntryDecorator","entry with $contentKey was popped") }
+)
+// [END android_compose_navigation3_decorator_2]
