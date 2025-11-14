@@ -29,8 +29,6 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.compose.snippets.navigation3.savingstate.Home
 import kotlinx.serialization.Serializable
 
-
-
 // [START android_compose_navigation3_decorator_1]
 class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
     decorate = { entry ->
@@ -42,8 +40,8 @@ class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
 // [END android_compose_navigation3_decorator_1]
 
 @Composable
-fun <T:Any> rememberMyCustomNavEntryDecorator(): CustomNavEntryDecorator<T>{
-    return remember{
+fun <T : Any> rememberMyCustomNavEntryDecorator(): CustomNavEntryDecorator<T> {
+    return remember {
         CustomNavEntryDecorator()
     }
 }
