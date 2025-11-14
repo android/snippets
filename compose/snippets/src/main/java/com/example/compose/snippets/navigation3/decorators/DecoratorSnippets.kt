@@ -19,7 +19,7 @@ package com.example.compose.snippets.navigation3.decorators
 import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -29,16 +29,35 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.compose.snippets.navigation3.savingstate.Home
 import kotlinx.serialization.Serializable
 
+
+
+// [START android_compose_navigation3_decorator_1]
+class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
+    decorate = { entry ->
+        Log.d("CustomNavEntryDecorator", "entry with ${entry.contentKey} entered composition and was decorated")
+        entry.Content()
+    },
+    onPop = { contentKey -> Log.d("CustomNavEntryDecorator", "entry with $contentKey was popped") }
+)
+// [END android_compose_navigation3_decorator_1]
+
+@Composable
+fun <T:Any> rememberMyCustomNavEntryDecorator(): CustomNavEntryDecorator<T>{
+    return remember{
+        CustomNavEntryDecorator()
+    }
+}
+
 @Serializable
 data object Home : NavKey
 
 @Composable
 fun DecoratorsBasic() {
-    // [START android_compose_navigation3_decorator_1]
+    // [START android_compose_navigation3_decorator_2]
     NavDisplay(
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
-            rememberViewModelStoreNavEntryDecorator()
+            rememberMyCustomNavEntryDecorator()
         ),
         // [START_EXCLUDE]
         backStack = rememberNavBackStack(Home),
@@ -47,15 +66,5 @@ fun DecoratorsBasic() {
         }
         // [END_EXCLUDE]
     )
-    // [END android_compose_navigation3_decorator_1]
+    // [END android_compose_navigation3_decorator_2]
 }
-
-// [START android_compose_navigation3_decorator_2]
-class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
-    decorate = { entry ->
-        Log.d("CustomNavEntryDecorator", "entry with ${entry.contentKey} entered composition and was decorated")
-        entry.Content()
-    },
-    onPop = { contentKey -> Log.d("CustomNavEntryDecorator", "entry with $contentKey was popped") }
-)
-// [END android_compose_navigation3_decorator_2]
