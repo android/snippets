@@ -96,7 +96,6 @@ fun ExerciseSelectionScreen(
     val context = LocalContext.current
     val exerciseRepository = remember { ExerciseRepository() }
     var exercises by remember { mutableStateOf<List<ExerciseRepository.Exercise>>(emptyList()) }
-    var selectedExercise by remember { mutableStateOf<ExerciseRepository.Exercise?>(null) }
     var permissionsGranted by remember { mutableStateOf(false) }
 
 

@@ -36,7 +36,6 @@ class TestExerciseSessionListenerService() : ExerciseSessionListenerService() {
         exerciseSummary: ExerciseSummary,
         exerciseDevice: ExerciseDevice,
     ) {
-        Log.i(TAG, "onExerciseSessionEnded")
         exerciseSummary.getMostRecentMetrics(
             ExerciseMetrics.HEART_RATE,
             ExerciseMetrics.DISTANCE, ExerciseMetrics.ABSOLUTE_ELEVATION
@@ -49,21 +48,21 @@ class TestExerciseSessionListenerService() : ExerciseSessionListenerService() {
             *ALL_METRICS.toTypedArray(),
         )
         ) {
-            Log.i(TAG + ".lastMetrics", metric.toString())
+            Log.i("$TAG.lastMetrics", metric.toString())
         }
         ioScope.launch {
             val allMetricsFlow = exerciseSummary.getAllMetrics()
-            Log.i(TAG + ".metricSummary number", allMetricsFlow.count().toString())
+            Log.i("$TAG.metricSummary number", allMetricsFlow.count().toString())
 
             allMetricsFlow.collect { metric: ExerciseMetricRecord ->
-                Log.i(TAG + ".metricSummary", metric.toString())
+                Log.i("$TAG.metricSummary", metric.toString())
             }
-            Log.i(TAG + ".metricSummary", "All metrics collected")
+            Log.i("$TAG.metricSummary", "All metrics collected")
         }
         ioScope.launch {
             val allEventsFlow = exerciseSummary.getAllEvents()
             allEventsFlow.collect { event: ExerciseEventRecord ->
-                Log.i(TAG + ".eventSummary", event.toString())
+                Log.i("$TAG.eventSummary", event.toString())
             }
         }
     }
@@ -72,6 +71,7 @@ class TestExerciseSessionListenerService() : ExerciseSessionListenerService() {
         const val TAG = "TestExerciseSessionListenerService"
         private val ALL_METRICS =
             listOf(
+                ExerciseMetrics.ACTIVE_DURATION,
                 ExerciseMetrics.ABSOLUTE_ELEVATION,
                 ExerciseMetrics.DISTANCE,
                 ExerciseMetrics.ELEVATION_GAINED,
