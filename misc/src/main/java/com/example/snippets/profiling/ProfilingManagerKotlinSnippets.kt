@@ -136,6 +136,5 @@ class ProfilingManagerKotlinSnippets {
             // Setup job to upload the profiling result file.
         }
         // [END android_profiling_manager_triggered_trace_setup_upload_job]
-
     }
 }
