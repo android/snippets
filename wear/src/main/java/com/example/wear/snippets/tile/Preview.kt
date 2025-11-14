@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("MissingPermission")
+
 package com.example.wear.snippets.tile
 
 import android.content.Context
