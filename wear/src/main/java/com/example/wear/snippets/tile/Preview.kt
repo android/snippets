@@ -23,7 +23,7 @@ import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
-import androidx.wear.protolayout.types.layoutString
+import androidx.wear.protolayout.types.stringLayoutConstraint
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tiles.tooling.preview.TilePreviewHelper
@@ -33,6 +33,8 @@ import androidx.wear.protolayout.expression.DynamicDataBuilders
 import androidx.wear.protolayout.expression.PlatformDataValues
 import androidx.wear.protolayout.expression.PlatformHealthSources
 import com.example.wear.R
+import androidx.wear.protolayout.types.layoutString
+import androidx.wear.protolayout.types.asLayoutString
 
 // [START android_wear_tile_preview_simple]
 @Preview(device = WearDevices.SMALL_ROUND)
@@ -65,7 +67,9 @@ fun previewWithResources(context: Context) = TilePreviewData(
         Resources.Builder()
             .setVersion(RESOURCES_VERSION)
             .addIdToImageMapping(
-                myImageId, getImageById(R.drawable.animated_walk))
+                myImageId,
+                getImageById(R.drawable.animated_walk)
+            )
             .build()
     },
     onTileRequest = { request ->
@@ -87,6 +91,22 @@ fun getImageById(
         )
         .build()
 
+fun buildMyTileLayoutDynamic(
+    context: Context,
+    deviceParameters: DeviceParameters,
+) = materialScope(context = context, deviceConfiguration = deviceParameters) {
+    primaryLayout(
+        mainSlot = {
+            text(
+                text =
+                PlatformHealthSources.heartRateBpm()
+                    .format()
+                    .asLayoutString("--", stringLayoutConstraint("999"))
+            )
+        }
+    )
+}
+
 // [START android_wear_tile_preview_platform]
 @Preview(device = WearDevices.SMALL_ROUND)
 fun previewWithPlatformOverride(context: Context) = TilePreviewData(
@@ -96,7 +116,7 @@ fun previewWithPlatformOverride(context: Context) = TilePreviewData(
     ),
     onTileRequest = { request ->
         TilePreviewHelper.singleTimelineEntryTileBuilder(
-            buildMyTileLayout(context, request.deviceConfiguration)
+            buildMyTileLayoutDynamic(context, request.deviceConfiguration)
         ).build()
     }
 )
