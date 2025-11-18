@@ -40,31 +40,18 @@ class CustomNavEntryDecorator<T : Any> : NavEntryDecorator<T>(
 )
 // [END android_compose_navigation3_decorator_1]
 
-@Composable
-fun <T : Any> rememberMyCustomNavEntryDecorator(): CustomNavEntryDecorator<T> {
-    return remember {
-        CustomNavEntryDecorator()
-    }
-}
-
 @Serializable
 data object Home : NavKey
 
 @Composable
 fun DecoratorsBasic() {
     // [START android_compose_navigation3_decorator_2]
-    /*
-    import androidx.navigation3.ui.NavDisplay
-    import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
-    import androidx.navigation3.runtime.rememberNavBackStack
-    import androidx.navigation3.runtime.entryProvider
-    import androidx.compose.material3.Text
-     */
 
+    // import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
     NavDisplay(
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
-            rememberMyCustomNavEntryDecorator()
+            remember { CustomNavEntryDecorator() }
         ),
         // [START_EXCLUDE]
         backStack = rememberNavBackStack(Home),
