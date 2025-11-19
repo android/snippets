@@ -27,6 +27,16 @@ import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.LayoutElementBuilders.Arc
 import androidx.wear.protolayout.LayoutElementBuilders.ArcLine
 import androidx.wear.protolayout.LayoutElementBuilders.DashedArcLine
+import androidx.wear.protolayout.LayoutElementBuilders.FontStyle
+import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
+import androidx.wear.protolayout.LayoutElementBuilders.SpanImage
+import androidx.wear.protolayout.LayoutElementBuilders.SpanText
+import androidx.wear.protolayout.ModifiersBuilders
+import androidx.wear.protolayout.ModifiersBuilders.Background
+import androidx.wear.protolayout.ModifiersBuilders.Modifiers
+import androidx.wear.protolayout.ModifiersBuilders.Semantics
+import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
@@ -41,6 +51,7 @@ import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
+import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
@@ -247,4 +258,77 @@ class FeatureFallback : TileService() {
             Tile.Builder().setTileTimeline(Timeline.fromLayoutElement(layout)).build()
         )
     }
+}
+
+// [START android_wear_tile_get_started_modifiers]
+private fun myImage(): LayoutElement =
+    Image.Builder()
+        .setWidth(dp(24f))
+        .setHeight(dp(24f))
+        .setResourceId("image_id")
+        .setModifiers(
+            Modifiers.Builder()
+                .setBackground(Background.Builder().setColor(argb(0xFFFF0000.toInt())).build())
+                .setPadding(ModifiersBuilders.Padding.Builder().setStart(dp(12f)).build())
+                .setSemantics(Semantics.Builder().setContentDescription("Image description").build())
+                .build()
+        )
+        .build()
+// [START android_wear_tile_get_started_modifiers]
+
+// [START android_wear_tile_get_started_spannables]
+private fun mySpannable(): LayoutElement =
+    LayoutElementBuilders.Spannable.Builder()
+        .addSpan(SpanText.Builder().setText("Hello ").build())
+        .addSpan(SpanImage.Builder().setWidth(dp(24f)).setHeight(dp(24f)).setResourceId("image_id").build())
+        .addSpan(
+            SpanText.Builder()
+                .setText("world")
+                .setFontStyle(FontStyle.Builder().setItalic(true).build())
+                .build()
+        )
+        .build()
+// [END android_wear_tile_get_started_spannables]
+
+class ResourcesTileService : TileService() {
+
+    private val imageAsByteArray = byteArrayOf()
+
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> =
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(Timeline.fromLayoutElement(simpleLayout(this)))
+                .build()
+        )
+
+    // [START android_wear_tile_get_started_resources]
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ) = Futures.immediateFuture(
+        Resources.Builder()
+            .setVersion("1")
+            .addIdToImageMapping(
+                "image_from_resource",
+                ResourceBuilders.ImageResource.Builder()
+                    .setAndroidResourceByResId(
+                        ResourceBuilders.AndroidImageResourceByResId.Builder()
+                            .setResourceId(R.drawable.ic_walk)
+                            .build()
+                    ).build()
+            )
+            .addIdToImageMapping(
+                "image_inline",
+                ResourceBuilders.ImageResource.Builder()
+                    .setInlineResource(
+                        ResourceBuilders.InlineImageResource.Builder()
+                            .setData(imageAsByteArray)
+                            .setWidthPx(48)
+                            .setHeightPx(48)
+                            .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
+                            .build()
+                    ).build()
+            ).build()
+    )
+    // [END android_wear_tile_get_started_resources]
 }
