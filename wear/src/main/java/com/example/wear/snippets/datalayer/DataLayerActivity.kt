@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.wear.snippets.com.example.wear.snippets.datalayer
+package com.example.wear.snippets.datalayer
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.activity.ComponentActivity
+import com.example.wear.R
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wearable.Asset
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
@@ -26,6 +32,8 @@ import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
     private val dataClient by lazy { Wearable.getDataClient(this) }
@@ -79,4 +87,69 @@ class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener 
     companion object {
         private const val COUNT_KEY = "com.example.key.count"
     }
+}
+
+// [START android_wear_sync_createasset]
+private fun createAssetFromBitmap(bitmap: Bitmap): Asset =
+    ByteArrayOutputStream().let { byteStream ->
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
+        Asset.createFromBytes(byteStream.toByteArray())
+    }
+// [END android_wear_sync_createasset]
+
+// [START android_wear_datalayer_imageputdata]
+private fun Context.sendImagePutDataRequest(): Task<DataItem> {
+
+    val asset: Asset = createAssetFromBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_walk))
+    val request: PutDataRequest = PutDataRequest.create("/image").apply {
+        putAsset("profileImage", asset)
+    }
+    val putTask: Task<DataItem> = Wearable.getDataClient(this).putDataItem(request)
+
+    return putTask
+}
+// [END android_wear_datalayer_imageputdata]
+
+// [START android_wear_datalayer_imageputdatamap]
+private fun Context.sendImagePutDataMapRequest(): Task<DataItem> {
+
+    val asset: Asset = createAssetFromBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_walk))
+    val request: PutDataRequest = PutDataMapRequest.create("/image").run {
+        dataMap.putAsset("profileImage", asset)
+        asPutDataRequest()
+    }
+    val putTask: Task<DataItem> = Wearable.getDataClient(this).putDataItem(request)
+
+    return putTask
+}
+// [END android_wear_datalayer_imageputdatamap]
+
+class DataLayerActivity2 : ComponentActivity(), DataClient.OnDataChangedListener {
+    // [START android_wear_datalayer_ondatachanged_assetextract]
+    override fun onDataChanged(dataEvents: DataEventBuffer) {
+        dataEvents
+            .filter { it.type == DataEvent.TYPE_CHANGED && it.dataItem.uri.path == "/image" }
+            .forEach { event ->
+                val bitmap: Bitmap? = DataMapItem.fromDataItem(event.dataItem)
+                    .dataMap.getAsset("profileImage")
+                    ?.let { asset -> loadBitmapFromAsset(asset) }
+                // Do something with the bitmap
+            }
+    }
+
+    fun loadBitmapFromAsset(asset: Asset): Bitmap? {
+        // Convert asset into a file descriptor and block until it's ready
+        val assetInputStream: InputStream? =
+            Tasks.await(Wearable.getDataClient(this).getFdForAsset(asset))
+                ?.inputStream
+
+        return assetInputStream?.let { inputStream ->
+            // Decode the stream into a bitmap
+            BitmapFactory.decodeStream(inputStream)
+        } ?: run {
+            // Requested an unknown asset
+            null
+        }
+    }
+    // [END android_wear_datalayer_ondatachanged_assetextract]
 }
