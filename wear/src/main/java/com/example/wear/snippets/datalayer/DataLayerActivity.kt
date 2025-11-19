@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.wear.snippets.com.example.wear.snippets.datalayer
+package com.example.wear.snippets.datalayer
 
 import android.content.Context
 import android.graphics.Bitmap
