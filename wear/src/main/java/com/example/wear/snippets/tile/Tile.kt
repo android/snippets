@@ -274,7 +274,7 @@ private fun myImage(): LayoutElement =
                 .build()
         )
         .build()
-// [START android_wear_tile_get_started_modifiers]
+// [END android_wear_tile_get_started_modifiers]
 
 // [START android_wear_tile_get_started_spannables]
 private fun mySpannable(): LayoutElement =
