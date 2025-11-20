@@ -16,19 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    // [START purchases_updated_listener]
+    // [START android_purchases_updated_listener]
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             // To be implemented in a later section.
         }
-    // [END purchases_updated_listener]
+    // [END android_purchases_updated_listener]
 
     private fun initializeBillingClient(context: Context) {
-        // [START initialize_billing_client]
+        // [START android_initialize_billing_client]
         val billingClient = BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
             .build()
-        // [END initialize_billing_client]
+        // [END android_initialize_billing_client]
     }
 }
