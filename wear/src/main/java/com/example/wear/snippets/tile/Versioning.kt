@@ -50,7 +50,7 @@ class LayoutM2 {
     // [END android_wear_tile_version_layoutm2]
 
     // [START android_wear_tile_version_modifierm2]
-    // A Builder-style modifier to set the opacity of an element to 0.5
+    // Uses Builder-style modifier to set opacity
     fun myModifier(): ModifiersBuilders.Modifiers =
         ModifiersBuilders.Modifiers.Builder()
             .setOpacity(TypeBuilders.FloatProp.Builder(0.5F).build())
@@ -70,7 +70,7 @@ class LayoutM3 {
     // [END android_wear_tile_version_layoutm3]
 
     // [START android_wear_tile_version_modifierm3]
-    // The equivalent Compose-like modifier is much simpler
+    // Uses Compose-like modifiers to set opacity
     fun myModifier(): LayoutModifier = LayoutModifier.opacity(0.5F)
     // [END android_wear_tile_version_modifierm3]
 }
