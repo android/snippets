@@ -65,7 +65,7 @@ class LayoutM3 {
         deviceConfiguration: DeviceParametersBuilders.DeviceParameters,
     ) =
         materialScope(context, deviceConfiguration) {
-            primaryLayout(mainSlot = { text("Hello, World!".layoutString) }) // HELPME
+            primaryLayout(mainSlot = { text("Hello, World!".layoutString) })
         }
     // [END android_wear_tile_version_layoutm3]
 
