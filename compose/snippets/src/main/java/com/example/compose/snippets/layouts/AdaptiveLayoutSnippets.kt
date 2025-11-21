@@ -48,7 +48,7 @@ import androidx.window.core.layout.WindowSizeClass
 // [START android_compose_adaptive_layouts_basic]
 @Composable
 fun MyApp(
-    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo(supportLargeAndXLargeWidth = true).windowSizeClass
 ) {
     // Decide whether to show the top app bar based on window size class.
     val showTopAppBar = windowSizeClass.isHeightAtLeastBreakpoint(WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND)
