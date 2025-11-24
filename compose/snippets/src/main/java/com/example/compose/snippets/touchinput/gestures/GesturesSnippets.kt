@@ -231,7 +231,6 @@ private fun ScrollableAreaSample() {
 
         val viewportHeight = constraints.maxHeight
         // [END_EXCLUDE]
-
         // Update the maximum scroll value to not scroll beyond limits and stop when scroll
         // reaches the end.
         scrollState.maxValue = (totalHeight - viewportHeight).coerceAtLeast(0)
@@ -271,7 +270,6 @@ private fun ScrollableAreaSample() {
         }
     }
 }
-
 // [START_EXCLUDE]
 /*
  * A custom implementation of ScrollableState that manages a scroll position and its maximum allowed
