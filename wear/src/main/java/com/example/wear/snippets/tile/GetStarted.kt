@@ -38,25 +38,6 @@ import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileService
 
-/*
-
-ORIGINAL:
-
-materialScope(
-    context = context,
-    deviceConfiguration = requestParams.deviceConfiguration, // requestParams is passed to onTileRequest
-    defaultColorScheme = myFallbackColorScheme
-) {
-    // inside the MaterialScope, you can call functions like primaryLayout()
-    primaryLayout(
-        titleSlot = { text(text = "Title".layoutString) },
-        mainSlot = { text(text = "Main Content".layoutString) },
-        bottomSlot = { textEdgeButton(text = "Action".layoutString) }
-    )
-}
-
-*/
-
 private fun TileService.materialscope1(
     context: Context,
     requestParams: RequestBuilders.TileRequest,
@@ -81,27 +62,7 @@ private fun TileService.materialscope1(
             }
         )
     }
-// [START android_wear_tile_getstarted_materialscope1]
-
-/*
-
-ORIGINAL:
-
-val myColorScheme =
-    ColorScheme(
-        primary = ...
-        onPrimary = ...
-        // 27 more
-    )
-
-materialScope(
-  defaultColorScheme = myColorScheme
-) {
-  // If the user selects "no theme" in settings, myColorScheme is used.
-  // Otherwise, the system-provided theme is used.
-}
-
-*/
+// [END android_wear_tile_getstarted_materialscope1]
 
 private fun TileService.materialscope2(
     requestParams: RequestBuilders.TileRequest
@@ -127,18 +88,6 @@ private fun TileService.materialscope2(
     }
     // [END android_wear_tile_getstarted_materialscope2]
 }
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors = filledButtonColors() // default
-    /* OR colors = filledTonalButtonColors() */
-    /* OR colors = filledVariantButtonColors() */
-    // ... other parameters
-)
-
-*/
 
 private fun MaterialScope.textEdgeButton1() =
     // [START android_wear_tile_getstarted_textedgebutton1]
@@ -156,22 +105,6 @@ private fun MaterialScope.textEdgeButton1() =
         // [END_EXCLUDE]
     )
 // [END android_wear_tile_getstarted_textedgebutton1]
-
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors =
-        filledButtonColors()
-            .copy(
-                containerColor = colorScheme.tertiary,
-                labelColor = colorScheme.onTertiary
-            )
-    // ... other parameters
-)
-
-*/
 
 public fun MaterialScope.textEdgeButton2() =
     // [START android_wear_tile_getstarted_textedgebutton2]
@@ -214,19 +147,6 @@ private fun TileService.materialscope3(
     // [END android_wear_tile_getstarted_materialscope3]
 }
 
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors = filledButtonColors() // default
-    /* OR colors = filledTonalButtonColors() */
-    /* OR colors = filledVariantButtonColors() */
-    // ... other parameters
-)
-
-*/
-
 private fun MaterialScope.textEdgeButton5() =
     // [START android_wear_tile_getstarted_textedgebutton5]
     textEdgeButton(
@@ -240,22 +160,6 @@ private fun MaterialScope.textEdgeButton5() =
         // [END_EXCLUDE]
     )
 // [END android_wear_tile_getstarted_textedgebutton5]
-
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors =
-        filledButtonColors()
-            .copy(
-                containerColor = colorScheme.tertiary,
-                labelColor = colorScheme.onTertiary
-            )
-    // ... other parameters
-)
-
-*/
 
 private fun MaterialScope.textEdgeButton6() =
     // [START android_wear_tile_getstarted_textedgebutton6]
@@ -273,24 +177,6 @@ private fun MaterialScope.textEdgeButton6() =
         // [END_EXCLUDE]
     )
 // [END android_wear_tile_getstarted_textedgebutton6]
-
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors =
-        ButtonColors(
-            // the materialScope makes colorScheme available
-            containerColor = colorScheme.secondary,
-            iconColor = colorScheme.secondaryDim,
-            labelColor = colorScheme.onSecondary,
-            secondaryLabelColor = colorScheme.onSecondary
-        )
-    // ... other parameters
-)
-
-*/
 
 private fun MaterialScope.textEdgeButton3() =
     // [START android_wear_tile_getstarted_textedgebutton3]
@@ -311,20 +197,6 @@ private fun MaterialScope.textEdgeButton3() =
     )
 // [END android_wear_tile_getstarted_textedgebutton3]
 
-/*
-
-ORIGINAL:
-
-textEdgeButton(
-    colors = filledButtonColors().copy(
-        containerColor = android.graphics.Color.RED.argb, // Using named colors
-        labelColor = 0xFFFFFF00.argb // Using a hex code for yellow
-    )
-    // ... other parameters
-)
-
-*/
-
 private fun MaterialScope.textEdgeButton4() =
     // [START android_wear_tile_getstarted_textedgebutton4]
     textEdgeButton(
@@ -340,17 +212,6 @@ private fun MaterialScope.textEdgeButton4() =
     )
 // [END android_wear_tile_getstarted_textedgebutton4]
 
-/*
-
-ORIGINAL:
-
-text(
-    text = "Hello, World!".layoutString,
-    typography = BODY_MEDIUM,
-)
-
-*/
-
 private fun MaterialScope.text1() =
     // [START android_wear_tile_getstarted_text1]
     text(
@@ -358,21 +219,6 @@ private fun MaterialScope.text1() =
         typography = BODY_MEDIUM,
     )
 // [END android_wear_tile_getstarted_text1]
-
-/*
-
-ORIGINAL:
-
-text(
-    text = "Hello, World".layoutString,
-    italic = true,
-
-    // Use elements defined in androidx.wear.protolayout.LayoutElementBuilders.FontSetting
-    settings =
-        listOf(weight(500), width(100F), roundness(100)),
-)
-
-*/
 
 private fun MaterialScope.text2() =
     // [START android_wear_tile_getstarted_text2]
@@ -390,22 +236,8 @@ private fun MaterialScope.text2() =
     )
 // [END android_wear_tile_getstarted_text2]
 
-/*
-
-ORIGINAL:
-
-textButton(
-   height = expand(),
-   width = expand(),
-   shape = shapes.medium, // OR another value like shapes.full
-   colors = filledVariantButtonColors(),
-   labelContent = { text("Hello, World!".layoutString) },
-)
-
-*/
-
 private fun MaterialScope.textButton1() =
-    // [START android_wear_tile_getstarted_textButton1]
+    // [START android_wear_tile_getstarted_textbutton1]
     textButton(
         height = expand(),
         width = expand(),
@@ -416,24 +248,7 @@ private fun MaterialScope.textButton1() =
         onClick = clickable()
         // [END_EXCLUDE]
     )
-// [END android_wear_tile_getstarted_textButton1]
-
-/*
-
-ORIGINAL:
-
-primaryLayout(
-    mainSlot = {
-        textButton(
-            shape = shapes.small,
-            /* ... */
-        )
-    },
-    // margin constants defined in androidx.wear.protolayout.material3.PrimaryLayoutMargins
-    margins = MAX_PRIMARY_LAYOUT_MARGIN,
-)
-
-*/
+// [END android_wear_tile_getstarted_textbutton1]
 
 private fun MaterialScope.primaryLayout1() =
     // [START android_wear_tile_getstarted_primaryLayout1]
