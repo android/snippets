@@ -18,14 +18,19 @@ package com.example.sft.presentation
 
 import android.Manifest
 import android.app.Activity
+import android.health.connect.HealthPermissions
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,16 +40,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -52,10 +58,6 @@ import com.example.sft.R
 import com.example.sft.presentation.theme.WearAppTheme
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -112,12 +114,17 @@ fun ExerciseSelectionScreen(
 
     LaunchedEffect(Unit) {
         exercises = exerciseRepository.exercises
-        val permissions = arrayOf(
+        val permissions = mutableListOf(
             Manifest.permission.BODY_SENSORS,
             Manifest.permission.ACTIVITY_RECOGNITION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        ).apply {
+            //Granular heart rate permission for Wear 6+
+            if (Build.VERSION.SDK_INT >= 36) {
+                this.add(HealthPermissions.READ_HEART_RATE)
+            }
+        }.toTypedArray()
         permissionLauncher.launch(permissions)
     }
 
@@ -144,7 +151,7 @@ fun ExerciseSelectionScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 item {
-                    ListHeader() { Text(text = "Workouts") }
+                    ListHeader { Text(text = "Workouts") }
                 }
                 items(exercises) { exercise ->
                     Button(
