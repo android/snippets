@@ -106,18 +106,35 @@ class ProfilingManagerKotlinSnippets {
 
             val resultCallback = Consumer<ProfilingResult> { profilingResult ->
                 if (profilingResult.errorCode == ProfilingResult.ERROR_NONE) {
-                    Log.d(TAG, "Received profiling result. file: ${profilingResult.resultFilePath}")
+                    Log.d(
+                        "ProfileTest",
+                        "Received profiling result file=" + profilingResult.resultFilePath
+                    )
+                    setupProfileUploadWorker(profilingResult.resultFilePath)
+                } else {
+                    Log.e(
+                        "ProfileTest",
+                        "Profiling failed errorcode=" + profilingResult.errorCode + " errormsg=" + profilingResult.errorMessage
+                    )
                 }
             }
 
             profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback)
             profilingManager.addProfilingTriggers(triggers)
 
+            // [START_EXCLUDE silent]
             Choreographer.getInstance().postFrameCallback { frameTimeNanos ->
                 // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
                 reportFullyDrawn()
             }
+            // [END_EXCLUDE silent]
         }
         // [END android_profiling_manager_triggered_trace]
+
+        // [START android_profiling_manager_triggered_trace_setup_upload_job]
+        fun setupProfileUploadWorker(resultFilePath: String?) {
+            // Setup job to upload the profiling result file.
+        }
+        // [END android_profiling_manager_triggered_trace_setup_upload_job]
     }
 }

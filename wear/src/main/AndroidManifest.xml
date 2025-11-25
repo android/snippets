@@ -14,7 +14,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
@@ -29,6 +30,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- [START android_wear_splash_manifest] -->
+        <activity
+            android:name=".snippets.SplashScreenActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.App.Starting">
+            <!-- ... -->
+            <!-- [START_EXCLUDE silent] -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- [END_EXCLUDE] -->
+        </activity>
+        <!-- [END android_wear_splash_manifest] -->
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
@@ -327,6 +345,36 @@
             </intent-filter>
             <!-- [END android_wear_complication_intent_filter] -->
         </activity>
+
+        <service
+            android:name=".snippets.m3.tile.StateTile"
+            android:label="@string/tile_label"
+            android:description="@string/tile_description"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
+        <!-- [START android_wear_datalayerlistener_intent_filter] -->
+        <service
+            android:name=".snippets.datalayer.DataLayerListenerService"
+            android:exported="true"
+            tools:ignore="ExportedService" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:scheme="wear"
+                    android:host="*"
+                    android:path="/start-activity" />
+            </intent-filter>
+        </service>
+        <!-- [END android_wear_datalayerlistener_intent_filter] -->
 
     </application>
 
