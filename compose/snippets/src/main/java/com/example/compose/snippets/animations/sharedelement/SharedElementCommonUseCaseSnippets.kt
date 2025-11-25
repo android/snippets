@@ -92,7 +92,7 @@ private fun SharedElementTypicalUseText() {
                         animatedVisibilityScope = this,
                         enter = fadeIn(),
                         exit = fadeOut(),
-                        resizeMode = SharedTransitionScope.ResizeMode.ScaleToBounds()
+                        resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds()
                     )
             )
             // [END android_compose_shared_element_text_tip]

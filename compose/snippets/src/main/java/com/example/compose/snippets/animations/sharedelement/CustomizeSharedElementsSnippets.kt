@@ -574,7 +574,7 @@ fun PlaceholderSizeAnimated_Demo() {
                                     .sharedBounds(
                                         rememberSharedContentState(key = "image-${snack.name}"),
                                         animatedVisibilityScope = this@composable,
-                                        placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
+                                        placeholderSize =  SharedTransitionScope.PlaceholderSize.AnimatedSize
                                     )
                                     .clickable {
                                         navController.navigate("details/$index")
@@ -624,7 +624,7 @@ fun PlaceholderSizeAnimated_Demo() {
                             .sharedBounds(
                                 rememberSharedContentState(key = "image-${snack.name}"),
                                 animatedVisibilityScope = this@composable,
-                                placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
+                                placeholderSize =  SharedTransitionScope.PlaceholderSize.AnimatedSize
                             )
                             .clip(RoundedCornerShape(8.dp))
                             .fillMaxWidth()
