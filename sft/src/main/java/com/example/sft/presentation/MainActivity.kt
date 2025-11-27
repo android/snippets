@@ -61,169 +61,172 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadd
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var viewModel: SFTExerciseViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = SFTExerciseViewModel(this)
         setContent {
             WearApp()
         }
     }
-}
 
-@Composable
-fun WearApp() {
-    val viewModel: SFTExerciseViewModel = viewModel()
-    val navController = rememberSwipeDismissableNavController()
+    override fun onStart() {
+        super.onStart()
+        viewModel.showActiveSessionIfExists(this)
+    }
 
-    WearAppTheme {
-        AppScaffold {
-            SwipeDismissableNavHost(navController = navController, startDestination = "menu") {
-                composable("menu") {
-                    ExerciseSelectionScreen(
-                        viewModel = viewModel,
+
+    @Composable
+    fun WearApp() {
+
+        val navController = rememberSwipeDismissableNavController()
+
+        WearAppTheme {
+            AppScaffold {
+                SwipeDismissableNavHost(navController = navController, startDestination = "menu") {
+                    composable("menu") {
+                        ExerciseSelectionScreen(
+                            //  viewModel = viewModel,
+                        )
+                    }
+                    composable("settings") {
+                        SettingsScreen()
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun ExerciseSelectionScreen(
+        modifier: Modifier = Modifier,
+    ) {
+        val context = LocalContext.current
+        val exerciseRepository = remember { ExerciseRepository() }
+        var exercises by remember { mutableStateOf<List<ExerciseRepository.Exercise>>(emptyList()) }
+        var permissionsGranted by remember { mutableStateOf(false) }
+
+
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            if (permissions.all { it.value }) {
+                permissionsGranted = true
+            } else {
+                // Handle permission denial
+            }
+        }
+
+
+        LaunchedEffect(Unit) {
+            exercises = exerciseRepository.exercises
+            val permissions = mutableListOf(
+                Manifest.permission.BODY_SENSORS,
+                Manifest.permission.ACTIVITY_RECOGNITION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ).apply {
+                //Granular heart rate permission for Wear 6+
+                if (Build.VERSION.SDK_INT >= 36) {
+                    this.add(HealthPermissions.READ_HEART_RATE)
+                }
+            }.toTypedArray()
+            permissionLauncher.launch(permissions)
+        }
+
+        val scrollState = rememberTransformingLazyColumnState()
+        val contentPadding = rememberResponsiveColumnPadding(
+            first = ColumnItemType.ListHeader,
+            last = ColumnItemType.Button
+        )
+
+        ScreenScaffold(
+            scrollState = scrollState,
+            contentPadding = contentPadding
+        ) { contentPadding ->
+            if (permissionsGranted) {
+                TransformingLazyColumn(
+                    state = scrollState,
+                    contentPadding = contentPadding,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item {
+                        ListHeader { Text(text = "Workouts") }
+                    }
+                    items(exercises) { exercise ->
+                        Button(
+                            label = {
+                                Text(
+                                    text = context.getString(exercise.displayName),
+                                    modifier = modifier.fillMaxWidth()
+                                )
+                            },
+                            onClick = {
+                                viewModel.newSystemRenderedSession(
+                                    exerciseType = exercise.exerciseType,
+                                    exerciseIcon = exercise.icon,
+                                    exerciseName = exercise.displayName,
+                                    topMetricRecord = exercise.metricTypes,
+                                    activity = (context as? Activity)
+                                )
+                            },
+                            modifier = modifier.fillMaxWidth()
+                        )
+                    }
+                    item {
+                        Button(
+                            label = {
+                                Text(
+                                    text = stringResource(R.string.settings),
+                                    modifier = modifier.fillMaxWidth()
+                                )
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                                contentColor = MaterialTheme.colorScheme.onSurface,
+                            ),
+                            onClick = { },
+                            modifier = modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Permissions are required to use this app.",
+                        textAlign = TextAlign.Center
                     )
                 }
-                composable("settings") {
-                    SettingsScreen()
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ExerciseSelectionScreen(
-    viewModel: SFTExerciseViewModel,
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    val exerciseRepository = remember { ExerciseRepository() }
-    var exercises by remember { mutableStateOf<List<ExerciseRepository.Exercise>>(emptyList()) }
-    var permissionsGranted by remember { mutableStateOf(false) }
-
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        if (permissions.all { it.value }) {
-            permissionsGranted = true
-        } else {
-            // Handle permission denial
-        }
-    }
-
-
-    LaunchedEffect(Unit) {
-        exercises = exerciseRepository.exercises
-        val permissions = mutableListOf(
-            Manifest.permission.BODY_SENSORS,
-            Manifest.permission.ACTIVITY_RECOGNITION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        ).apply {
-            //Granular heart rate permission for Wear 6+
-            if (Build.VERSION.SDK_INT >= 36) {
-                this.add(HealthPermissions.READ_HEART_RATE)
-            }
-        }.toTypedArray()
-        permissionLauncher.launch(permissions)
-    }
-
-    val systemRenderedSession by viewModel.systemRenderedSession.collectAsState()
-    LaunchedEffect(systemRenderedSession) {
-        systemRenderedSession?.let {
-            (context as? Activity)?.let { activity ->
-                it.show(activity)
-                viewModel.onSystemRenderedSessionShown()
             }
         }
     }
 
-    val scrollState = rememberTransformingLazyColumnState()
-    val contentPadding = rememberResponsiveColumnPadding(first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Button)
-
-    ScreenScaffold(scrollState = scrollState, contentPadding = contentPadding) {
-        contentPadding ->
-        if (permissionsGranted) {
+    @Composable
+    fun SettingsScreen(modifier: Modifier = Modifier) {
+        val listState = rememberTransformingLazyColumnState()
+        ScreenScaffold(scrollState = listState) {
             TransformingLazyColumn(
-                state = scrollState,
-                contentPadding = contentPadding,
-                modifier = Modifier.fillMaxSize()
+                state = listState
             ) {
                 item {
-                    ListHeader { Text(text = "Workouts") }
-                }
-                items(exercises) { exercise ->
-                    Button(
-                        label = {
-                            Text(
-                                text = context.getString(exercise.displayName),
-                                modifier = modifier.fillMaxWidth()
-                            )
-                        },
-                        onClick = {
-                            viewModel.newSystemRenderedSession(
-                                exerciseType = exercise.exerciseType,
-                                exerciseIcon = exercise.icon,
-                                exerciseName = exercise.displayName,
-                                topMetricRecord = exercise.metricTypes
-                            )
-                        },
-                        modifier = modifier.fillMaxWidth()
-                    )
+                    ListHeader(modifier = modifier.fillMaxSize()) { Text(text = "Settings") }
                 }
                 item {
                     Button(
                         label = {
                             Text(
-                                text = stringResource(R.string.settings),
+                                text = stringResource(R.string.measureUnits),
                                 modifier = modifier.fillMaxWidth()
                             )
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                            contentColor = MaterialTheme.colorScheme.onSurface,
-                        ),
                         onClick = { },
                         modifier = modifier.fillMaxWidth()
                     )
                 }
-            }
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Permissions are required to use this app.",
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
-    val listState = rememberTransformingLazyColumnState()
-    ScreenScaffold(scrollState = listState) {
-        TransformingLazyColumn(
-            state = listState
-        ) {
-            item {
-                ListHeader(modifier = modifier.fillMaxSize()) { Text(text = "Settings") }
-            }
-            item {
-                Button(
-                    label = {
-                        Text(
-                            text = stringResource(R.string.measureUnits),
-                            modifier = modifier.fillMaxWidth()
-                        )
-                    },
-                    onClick = { },
-                    modifier = modifier.fillMaxWidth()
-                )
             }
         }
     }

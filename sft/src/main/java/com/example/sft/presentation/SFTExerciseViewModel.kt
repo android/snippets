@@ -16,10 +16,11 @@
 
 package com.example.sft.presentation
 
-import android.app.Application
+import android.app.Activity
 import android.content.ComponentName
+import android.content.Context
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sft.R
 import com.google.android.gms.health.tracking.HealthTracking
@@ -36,17 +37,13 @@ import com.google.android.gms.health.tracking.exercise.session.ExerciseSessionRe
 import com.google.android.gms.health.tracking.exercise.session.SystemRenderedExerciseSession
 import com.google.android.gms.health.tracking.exercise.session.SystemRenderedSessionConfig
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 
-class SFTExerciseViewModel(application: Application) : AndroidViewModel(application) {
-    private val exerciseClient = HealthTracking.getExerciseClient(application)
+class SFTExerciseViewModel(context: Context) : ViewModel() {
+    private val exerciseClient = HealthTracking.getExerciseClient(context.applicationContext)
     private lateinit var session: ControllableExerciseSession
     private val _systemRenderedSession = MutableStateFlow<SystemRenderedExerciseSession?>(null)
-    val systemRenderedSession: StateFlow<SystemRenderedExerciseSession?> = _systemRenderedSession.asStateFlow()
-
     private var exerciseRepository = ExerciseRepository()
 
     fun newSystemRenderedSession(
@@ -54,9 +51,13 @@ class SFTExerciseViewModel(application: Application) : AndroidViewModel(applicat
         exerciseName: Int,
         exerciseIcon: Int,
         topMetricRecord: List<ExerciseMetric<ExerciseMetricRecord>>,
+        activity: Activity?
     ) {
+        if (activity == null) {
+            Log.d("ExerciseSelectionViewModel", "Activity is null, not starting new session")
+            return
+        }
         viewModelScope.launch {
-            _systemRenderedSession.value =
                 exerciseClient.exerciseSessionController.newSystemRenderedSession(
                     ExerciseSessionRequest(exerciseType),
                     SystemRenderedSessionConfig(
@@ -66,7 +67,7 @@ class SFTExerciseViewModel(application: Application) : AndroidViewModel(applicat
                         topMetrics = topMetricRecord,
                         distanceUnits = SystemRenderedSessionConfig.DistanceUnits.METRIC
                     )
-                )
+                ).show(activity = activity)
             Log.i(
                 TAG,
                 "Got a system rendered session with id ${_systemRenderedSession.value?.sessionId}"
@@ -74,27 +75,19 @@ class SFTExerciseViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun onSystemRenderedSessionShown() {
-        _systemRenderedSession.value = null
-    }
-
-    fun registerExerciseSessionListenerService(desiredExerciseMetricTypes: List<ExerciseMetric<*>>) {
+    init {
         viewModelScope.launch {
             val config = ExerciseSessionListenerServiceConfig.createForOnExerciseSessionEnded(
-                ComponentName(getApplication(), TestExerciseSessionListenerService::class.java),
-                desiredExerciseMetricTypes = desiredExerciseMetricTypes
+                ComponentName(context, TestExerciseSessionListenerService::class.java),
+                desiredExerciseMetricTypes = exerciseRepository.desiredExerciseMetricTypes
             )
             exerciseClient.exerciseSessionController.registerExerciseSessionListenerService(config)
         }
     }
 
-    init {
-        registerExerciseSessionListenerService(exerciseRepository.desiredExerciseMetricTypes)
-    }
-
-    fun showActiveSessionIfExists() {
+    fun showActiveSessionIfExists(activity: Activity) {
         viewModelScope.launch {
-            exerciseClient.exerciseSessionController.getOngoingSystemRenderedSession()?.show()
+            exerciseClient.exerciseSessionController.getOngoingSystemRenderedSession()?.show(activity =  activity)
         }
     }
 
