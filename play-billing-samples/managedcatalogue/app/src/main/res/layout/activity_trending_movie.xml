@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2022 Google LLC
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trending_movie_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".TrendingMovieActivity">
+
+    <!-- Banner Image -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/movie_poster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.BannerImage"
+        app:layout_constraintBottom_toTopOf="@id/about_section"
+        app:layout_constraintVertical_bias="0.0"
+        android:contentDescription="@string/movie_title" />
+
+    <!-- Movie Title Overlay on Banner -->
+    <TextView
+        android:id="@+id/movie_title_overlay"
+        style="@style/TextAppearance.MyApp.HeadlineLarge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/movie_title"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@id/movie_poster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/about_section"
+        style="@style/TextAppearance.MyApp.TitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:text="@string/about_section_text"
+        android:textColor="#444746"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_poster"
+        app:layout_constraintBottom_toTopOf="@id/movie_description_trending" />
+
+    <TextView
+        android:id="@+id/movie_description_trending"
+        style="@style/TextAppearance.MyApp.BodyMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        app:maxLines="3"
+        android:text="@string/movie_description_placeholder"
+        android:textColor="#444746"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_section"
+        app:layout_constraintBottom_toTopOf="@id/ratings_layout" />
+
+    <!-- Ratings Section -->
+    <LinearLayout
+        android:id="@+id/ratings_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_description_trending"
+        app:layout_constraintBottom_toTopOf="@id/tags_layout">
+
+        <!-- Star Rating -->
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:contentDescription="@string/star_rating_content_description"
+            android:src="@drawable/rating_1"
+            app:tint="#E4692E" />
+
+        <TextView
+            style="@style/TextAppearance.MyApp.LabelLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="4.6"
+            android:textColor="#444746" />
+
+        <!-- Tomato Rating -->
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/tomato_rating_content_description"
+            android:src="@drawable/rating_2"
+            app:tint="#D93025" />
+
+        <TextView
+            style="@style/TextAppearance.MyApp.LabelLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="93%"
+            android:textColor="#444746" />
+    </LinearLayout>
+
+    <!-- Tags Layout -->
+    <LinearLayout
+        android:id="@+id/tags_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratings_layout"
+        app:layout_constraintBottom_toTopOf="@id/buy_rent_button_grp">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="false">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MyApp.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/adventure_tag"/>
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MyApp.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/mystery_tag" />
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButtonGroup
+        android:id="@+id/buy_rent_button_grp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.MaterialButtonGroup.Connected"
+        android:spacing="2dp"
+        android:weightSum="2"
+        app:innerCornerSize="6dp"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tags_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MyApp.Button"
+            android:id="@+id/buy_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/buy_button_text" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MyApp.Button"
+            android:id="@+id/rent_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/rent_button_text" />
+
+    </com.google.android.material.button.MaterialButtonGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

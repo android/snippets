@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2022 Google LLC
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+  <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="android:textViewStyle">@style/Widget.MyApp.TextView</item>
+      <item name="android:statusBarColor">@android:color/transparent</item>
+      <item name="android:windowLightStatusBar">true</item>
+    <item name="textAppearanceDisplayLarge">@style/TextAppearance.MyApp.DisplayLarge</item>
+    <item name="textAppearanceDisplayMedium">@style/TextAppearance.MyApp.DisplayMedium</item>
+    <item name="textAppearanceDisplaySmall">@style/TextAppearance.MyApp.DisplaySmall</item>
+    <item name="textAppearanceHeadlineLarge">@style/TextAppearance.MyApp.HeadlineLarge</item>
+    <item name="textAppearanceHeadlineMedium">@style/TextAppearance.MyApp.HeadlineMedium</item>
+    <item name="textAppearanceHeadlineSmall">@style/TextAppearance.MyApp.HeadlineSmall</item>
+    <item name="textAppearanceTitleLarge">@style/TextAppearance.MyApp.TitleLarge</item>
+    <item name="textAppearanceTitleMedium">@style/TextAppearance.MyApp.TitleMedium</item>
+    <item name="textAppearanceTitleSmall">@style/TextAppearance.MyApp.TitleSmall</item>
+    <item name="textAppearanceBodyLarge">@style/TextAppearance.MyApp.BodyLarge</item>
+    <item name="textAppearanceBodyMedium">@style/TextAppearance.MyApp.BodyMedium</item>
+    <item name="textAppearanceBodySmall">@style/TextAppearance.MyApp.BodySmall</item>
+    <item name="textAppearanceLabelLarge">@style/TextAppearance.MyApp.LabelLarge</item>
+    <item name="textAppearanceLabelMedium">@style/TextAppearance.MyApp.LabelMedium</item>
+    <item name="textAppearanceLabelSmall">@style/TextAppearance.MyApp.LabelSmall</item>
+</style>
+
+<!-- Base style for TextViews -->
+<style name="Widget.MyApp.TextView" parent="Widget.AppCompat.TextView">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+    <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+</style>
+
+<style name="ShapeAppearanceOverlay.MyApp.CardImage" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">16dp</item>
+</style>
+
+<style name="ShapeAppearanceOverlay.MyApp.BannerImage" parent="">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSizeBottomLeft">16dp</item>
+    <item name="cornerSizeBottomRight">16dp</item>
+    <item name="cornerSizeTopLeft">0dp</item>
+    <item name="cornerSizeTopRight">0dp</item>
+</style>
+
+<style name="Widget.MyApp.Button" parent="Widget.Material3.Button">
+    <item name="backgroundTint">@color/md_theme_primary</item>
+    <item name="android:textColor">@android:color/white</item>
+    <item name="paddingEnd">24dp</item>
+    <item name="paddingStart">24dp</item>
+    <item name="android:paddingTop">16dp</item>
+    <item name="android:paddingBottom">16dp</item>
+    <item name="cornerRadius">16dp</item>
+    <item name="android:textAppearance">@style/TextAppearance.Material3.TitleMedium</item>
+</style>
+
+<style name="Widget.MyApp.Chip.Assist" parent="Widget.Material3.Chip.Assist">
+    <item name="chipBackgroundColor">@color/md_theme_onPrimary</item>
+    <item name="android:textColor">@color/md_theme_onSurfaceVariant</item>
+</style>
+
+<!-- Define Noto Sans versions of Material 3 Text Appearances -->
+<style name="TextAppearance.MyApp.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+    <item name="android:fontFamily">@font/noto_sans_medium</item>
+</style>
+<style name="TextAppearance.MyApp.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+    <item name="android:fontFamily">@font/noto_sans_semibold</item>
+</style>
+<style name="TextAppearance.MyApp.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.BodySmall" parent="TextAppearance.Material3.BodySmall">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+    <item name="android:fontFamily">@font/noto_sans_semibold</item>
+</style>
+<style name="TextAppearance.MyApp.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+<style name="TextAppearance.MyApp.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+    <item name="android:fontFamily">@font/noto_sans_regular</item>
+</style>
+</resources>

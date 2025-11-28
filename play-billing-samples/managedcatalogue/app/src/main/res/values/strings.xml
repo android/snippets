@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2022 Google LLC
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="app_name" translatable="true">Movies all day</string>
+  <string name="app_logo">Movies all day logo</string>
+  <string name="movie_title">Purrfect Mayhem: The Rewind Protocol</string>
+  <string name="trending_text">Trending now</string>
+  <string name="upcoming_next">Upcoming releases</string>
+  <string name="movie_poster"> Upcoming movie poster</string>
+  <string name="default_movie_desc">Buy or rent for 30 days</string>
+  <string name="default_movie_price">Start watching from <xliff:g id="price">%1$s</xliff:g></string>
+  <string name="movie_unavailable_text">This movie is currently unavailable in your region.</string>
+  <string name="upcoming_title">Purrfect Mayhem: The Final Playback</string>
+  <string name="coming_soon_text">Coming soon...</string>
+  <string name="mystery_tag">Mystery</string>
+  <string name="adventure_tag">Adventure</string>
+  <string name="buy_button_text">Buy</string>
+  <string name="rent_button_text">Rent</string>
+  <string name="preorder_button_text">Preorder</string>
+  <string name="movie_description_placeholder">Movie description placeholder...</string>
+  <string name="about_section_text">About</string>
+  <string name="star_rating_content_description">Star rating</string>
+  <string name="tomato_rating_content_description">Rotten Tomato rating</string>
+  <string name="price_unavailable">Price unavailable</string>
+  <string name="release_date_text">Releasing on <xliff:g id="date">%1$s</xliff:g></string>
+  <string name="buy_for_button_text">Buy for <xliff:g id="price">%1$s</xliff:g></string>
+  <string name="rent_for_button_text">Rent for <xliff:g id="price">%1$s</xliff:g></string>
+  <string name="github">GitHub</string>
+  <string name="licenses">Licenses</string>
+  <string name="codelab">Codelab</string>
+  <string name="resources">Resources</string>
+  <string name="github_url" translatable="false">https://github.com/googlesamples/play-billing-samples</string>
+  <string name="codelab_url" translatable="false">https://goo.gle/managedCatalogueCodelab</string>
+  <string name="preorder_at_button_text">Preorder at <xliff:g id="price">%1$s</xliff:g></string>
+</resources>
