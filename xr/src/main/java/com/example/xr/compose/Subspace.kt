@@ -69,11 +69,8 @@ private fun SecondaryPane() {}
 
 @Composable
 private fun RecommendedContentBoxInFullSpace() {
-
     // [START androidxr_compose_RecommendedContentBoxInFullSpace]
-
     val session = LocalSession.current
     session?.scene?.activitySpace?.recommendedContentBoxInFullSpace
-
     // [END androidxr_compose_RecommendedContentBoxInFullSpace]
 }
