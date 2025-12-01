@@ -33,7 +33,7 @@ class ComposeListScreenTest(
     @Test
     fun myScreenTest() =
         runTest {
-            AppScaffold{
+            AppScaffold {
                 ComposeList()
             }
         }
