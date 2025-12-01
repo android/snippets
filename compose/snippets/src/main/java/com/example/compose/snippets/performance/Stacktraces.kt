@@ -27,11 +27,13 @@ class SampleStackTracesEnabledApp : Application() {
     override fun onCreate() {
         // If the App is a debug variant, include the source information,
         // otherwise do the less accurate GroupKeys option through Auto.
-        Composer.setDiagnosticStackTraceMode(if (BuildConfig.DEBUG) {
-            ComposeStackTraceMode.SourceInformation
-        } else {
-            ComposeStackTraceMode.Auto
-        })
+        Composer.setDiagnosticStackTraceMode(
+            if (BuildConfig.DEBUG) {
+                ComposeStackTraceMode.SourceInformation
+            } else {
+                ComposeStackTraceMode.Auto
+            }
+        )
     }
 }
 // [END android_compose_stacktraces_enable]
