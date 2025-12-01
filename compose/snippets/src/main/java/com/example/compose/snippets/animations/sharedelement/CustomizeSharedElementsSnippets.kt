@@ -35,16 +35,19 @@ import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -62,6 +65,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -69,6 +73,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -83,6 +88,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.currentState
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -272,10 +278,10 @@ private fun DetailsContent(
                 // [END android_compose_shared_element_text_bounds_transform]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                        "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                        "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
             }
@@ -332,7 +338,7 @@ private fun SharedElement_Clipping() {
                             rememberSharedContentState(key = "title"),
                             animatedVisibilityScope = this@AnimatedContent,
 
-                        )
+                            )
                     )
                 }
             } else {
@@ -370,10 +376,10 @@ private fun SharedElement_Clipping() {
                     )
                     Text(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                            " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
-                            "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
-                            "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                                " Curabitur sagittis, lectus posuere imperdiet facilisis, nibh massa " +
+                                "molestie est, quis dapibus orci ligula non magna. Pellentesque rhoncus " +
+                                "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus"
                     )
                 }
             }
@@ -574,7 +580,6 @@ fun PlaceholderSizeAnimated_Demo() {
                                     .sharedBounds(
                                         rememberSharedContentState(key = "image-${snack.name}"),
                                         animatedVisibilityScope = this@composable,
-                                        placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
                                     )
                                     .clickable {
                                         navController.navigate("details/$index")
@@ -624,7 +629,6 @@ fun PlaceholderSizeAnimated_Demo() {
                             .sharedBounds(
                                 rememberSharedContentState(key = "image-${snack.name}"),
                                 animatedVisibilityScope = this@composable,
-                                placeHolderSize = SharedTransitionScope.PlaceHolderSize.animatedSize
                             )
                             .clip(RoundedCornerShape(8.dp))
                             .fillMaxWidth()
@@ -729,4 +733,71 @@ fun CustomPredictiveBackHandle() {
     }
 
     // [END android_compose_shared_element_custom_seeking]
+}
+
+@Composable
+@Preview
+fun DynamicSharedElements() {
+    var currentState by remember {
+        mutableStateOf("A")
+    }
+    // [START android_compose_shared_element_dynamic_enable_disable]
+    SharedTransitionLayout {
+        val transition = updateTransition(currentState)
+        transition.AnimatedContent { targetState ->
+            // 1. Define your condition & create the configuration
+            fun animationConfig() : SharedTransitionScope.SharedContentConfig {
+                return object : SharedTransitionScope.SharedContentConfig {
+                    override val SharedTransitionScope.SharedContentState.isEnabled: Boolean
+                        // For this example, we only enable the transition in one direction
+                        // from A -> B and not the other way around.
+                        get() =
+                            transition.currentState == "A" && transition.targetState == "B"
+                }
+            }
+            when (targetState) {
+                "A" -> Box(
+                    modifier = Modifier
+                        .sharedElement(
+                            rememberSharedContentState(
+                                key = "shared_box",
+                                config = animationConfig()
+                            ),
+                            animatedVisibilityScope = this
+                        )
+                        // [START_EXCLUDE]
+                        .size(100.dp)
+                        .background(Color.Red)
+                        .clickable {
+                            currentState = "B"
+                        }
+                        // [END_EXCLUDE]
+                ) {
+                    // Your content
+                }
+                "B" -> {
+                    Box(
+                        modifier = Modifier
+                            .sharedElement(
+                                rememberSharedContentState(
+                                    key = "shared_box",
+                                    config = animationConfig()
+                                ),
+                                animatedVisibilityScope = this
+                            )
+                            // [START_EXCLUDE]
+                            .size(200.dp)
+                            .background(Color.Blue)
+                            .clickable {
+                                currentState = "A"
+                            }
+                            // [END_EXCLUDE]
+                    ) {
+                        // Your content
+                    }
+                }
+            }
+        }
+    }
+    // [END android_compose_shared_element_dynamic_enable_disable]
 }
