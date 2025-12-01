@@ -5,7 +5,7 @@ android-googleid = "1.1.1"
 androidGradlePlugin = "8.13.0"
 androidx-activity-compose = "1.11.0"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2025.10.01"
+androidx-compose-bom = "2025.11.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.10.0-beta01"
 androidx-constraintlayout = "2.2.1"
@@ -37,8 +37,8 @@ appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "36"
-compose-latest = "1.9.4"
-composeUiTooling = "1.5.4"
+compose-latest = "1.9.5"
+composeUiTooling = "1.5.5"
 coreSplashscreen = "1.2.0"
 coroutines = "1.10.2"
 dataStore = "1.1.7"
@@ -76,6 +76,8 @@ protoc = "0.9.5"
 protolayout = "1.3.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
+robolectric = "4.16"
+roborazzi = "1.52.0"
 spotless = "8.0.0"
 targetSdk = "36"
 tiles = "1.5.0"
@@ -84,9 +86,9 @@ validatorPush = "1.0.0-alpha08"
 version-catalog-update = "1.0.1"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
 wear = "1.3.0"
-wearComposeFoundation = "1.5.4"
-wearComposeMaterial = "1.5.4"
-wearComposeMaterial3 = "1.5.4"
+wearComposeFoundation = "1.5.5"
+wearComposeMaterial = "1.5.5"
+wearComposeMaterial3 = "1.5.5"
 wearInput = "1.2.0"
 wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
@@ -209,6 +211,11 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
+horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
@@ -239,5 +246,6 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
