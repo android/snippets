@@ -22,9 +22,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.ApplicationSubspace
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
+import androidx.xr.scenecore.scene
 
 private class SubspaceActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,3 +66,14 @@ private fun PrimaryPane() {
 
 @Composable
 private fun SecondaryPane() {}
+
+@Composable
+private fun RecommendedContentBoxInFullSpace() {
+
+    // [START androidxr_compose_RecommendedContentBoxInFullSpace]
+
+    val session = LocalSession.current
+    session?.scene?.activitySpace?.recommendedContentBoxInFullSpace
+
+    // [END androidxr_compose_RecommendedContentBoxInFullSpace]
+}
