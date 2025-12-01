@@ -745,7 +745,7 @@ fun DynamicSharedElements() {
     SharedTransitionLayout {
         val transition = updateTransition(currentState)
         transition.AnimatedContent { targetState ->
-            // 1. Define your condition & create the configuration
+            // Create the configuration that depends on state changing.
             fun animationConfig() : SharedTransitionScope.SharedContentConfig {
                 return object : SharedTransitionScope.SharedContentConfig {
                     override val SharedTransitionScope.SharedContentState.isEnabled: Boolean
