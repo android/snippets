@@ -16,7 +16,7 @@
 
 package com.example.snippets.ai
 
-import android.content.ContentResolver
+import android.app.Application
 import android.graphics.Bitmap
 import android.net.Uri
 import com.google.firebase.Firebase
@@ -80,12 +80,13 @@ fun textAndImageInput(scope: CoroutineScope, bitmap: Bitmap) {
 @Suppress("unused")
 fun textAndAudioInput(
     scope: CoroutineScope,
-    contentResolver: ContentResolver,
+    applicationContext: Application,
     audioUri: Uri
 ) {
     val model = GeminiDeveloperApi25FlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_audio_input]
     scope.launch {
+        val contentResolver = applicationContext.contentResolver
         contentResolver.openInputStream(audioUri).use { stream ->
             stream?.let {
                 val bytes = it.readBytes()
@@ -105,12 +106,13 @@ fun textAndAudioInput(
 @Suppress("unused")
 fun textAndVideoInput(
     scope: CoroutineScope,
-    contentResolver: ContentResolver,
+    applicationContext: Application,
     videoUri: Uri
 ) {
     val model = GeminiDeveloperApi25FlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_video_input]
     scope.launch {
+        val contentResolver = applicationContext.contentResolver
         contentResolver.openInputStream(videoUri).use { stream ->
             stream?.let {
                 val bytes = it.readBytes()

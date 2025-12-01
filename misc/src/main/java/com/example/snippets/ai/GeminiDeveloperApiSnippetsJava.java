@@ -34,9 +34,11 @@ import com.google.firebase.ai.java.ChatFutures;
 import com.google.firebase.ai.java.GenerativeModelFutures;
 import com.google.firebase.ai.type.Content;
 import com.google.firebase.ai.type.GenerateContentResponse;
+import com.google.firebase.ai.type.GenerationConfig;
 import com.google.firebase.ai.type.GenerativeBackend;
 import com.google.firebase.ai.type.ImagePart;
 import com.google.firebase.ai.type.Part;
+import com.google.firebase.ai.type.ResponseModality;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,10 +75,14 @@ public final class GeminiDeveloperApiSnippetsJava {
 
         static {
             // [START android_gemini_developer_api_gemini_25_flash_image_model_java]
-            GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
-                    .generativeModel("gemini-2.5-flash");
-
-            GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
+            GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel(
+                    "gemini-2.5-flash-image-preview",
+                    // Configure the model to respond with text and images (required)
+                    new GenerationConfig.Builder()
+                            .setResponseModalities(Arrays.asList(ResponseModality.TEXT, ResponseModality.IMAGE))
+                            .build()
+            );
+            GenerativeModelFutures model = GenerativeModelFutures.from(ai);
             // [END android_gemini_developer_api_gemini_25_flash_image_model_java]
             Gemini25FlashImagePreviewModelConfigurationJava.model = model;
         }
