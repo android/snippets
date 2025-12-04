@@ -23,7 +23,7 @@ import androidx.activity.ComponentActivity
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.GltfModelEntity
-import androidx.xr.scenecore.SpatialCapabilities
+import androidx.xr.scenecore.SpatialCapability
 import androidx.xr.scenecore.scene
 import java.nio.file.Paths
 
@@ -35,9 +35,7 @@ private suspend fun loadGltfFile(session: Session) {
 
 private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [START androidxr_scenecore_gltfmodelentity_create]
-    if (session.scene.spatialCapabilities
-            .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_3D_CONTENT)
-    ) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_3D_CONTENT)) {
         val gltfEntity = GltfModelEntity.create(session, gltfModel)
     }
     // [END androidxr_scenecore_gltfmodelentity_create]

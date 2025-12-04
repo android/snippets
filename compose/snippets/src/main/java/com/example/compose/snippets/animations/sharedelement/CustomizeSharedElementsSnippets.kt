@@ -141,7 +141,7 @@ private fun MainContent(
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     with(sharedTransitionScope) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier.fillMaxSize()) {
             Row(
                 modifier = Modifier
                     .padding(8.dp)
@@ -215,7 +215,7 @@ private fun DetailsContent(
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     with(sharedTransitionScope) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .padding(top = 200.dp, start = 16.dp, end = 16.dp)
@@ -580,6 +580,7 @@ fun PlaceholderSizeAnimated_Demo() {
                                     .sharedBounds(
                                         rememberSharedContentState(key = "image-${snack.name}"),
                                         animatedVisibilityScope = this@composable,
+                                        placeholderSize = SharedTransitionScope.PlaceholderSize.AnimatedSize
                                     )
                                     .clickable {
                                         navController.navigate("details/$index")
@@ -629,6 +630,7 @@ fun PlaceholderSizeAnimated_Demo() {
                             .sharedBounds(
                                 rememberSharedContentState(key = "image-${snack.name}"),
                                 animatedVisibilityScope = this@composable,
+                                placeholderSize = SharedTransitionScope.PlaceholderSize.AnimatedSize
                             )
                             .clip(RoundedCornerShape(8.dp))
                             .fillMaxWidth()
