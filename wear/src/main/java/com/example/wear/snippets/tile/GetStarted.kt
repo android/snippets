@@ -22,8 +22,10 @@ import androidx.wear.protolayout.DimensionBuilders.expand
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.roundness
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.weight
 import androidx.wear.protolayout.LayoutElementBuilders.FontSetting.width
+import androidx.wear.protolayout.material3.ButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledButtonColors
 import androidx.wear.protolayout.material3.ButtonDefaults.filledVariantButtonColors
+import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.PrimaryLayoutMargins.Companion.MAX_PRIMARY_LAYOUT_MARGIN
 import androidx.wear.protolayout.material3.Typography.BODY_MEDIUM
@@ -41,7 +43,7 @@ import androidx.wear.tiles.TileService
 private fun TileService.materialscope1(
     context: Context,
     requestParams: RequestBuilders.TileRequest,
-    myFallbackColorScheme: androidx.wear.protolayout.material3.ColorScheme
+    myFallbackColorScheme: ColorScheme
 ) =
     // [START android_wear_tile_getstarted_materialscope1]
     materialScope(
@@ -65,18 +67,19 @@ private fun TileService.materialscope1(
 // [END android_wear_tile_getstarted_materialscope1]
 
 private fun TileService.materialscope2(
+    context: Context,
     requestParams: RequestBuilders.TileRequest
 ) {
     // [START android_wear_tile_getstarted_materialscope2]
     val myColorScheme =
-        androidx.wear.protolayout.material3.ColorScheme(
+        ColorScheme(
             primary = Color.rgb(0, 0, 255).argb, // Blue
             onPrimary = Color.rgb(255, 255, 255).argb, // White
             // 27 more
         )
 
     materialScope(
-        context = this,
+        context = context,
         deviceConfiguration = requestParams.deviceConfiguration,
         defaultColorScheme = myColorScheme
     ) {
@@ -124,17 +127,18 @@ public fun MaterialScope.textEdgeButton2() =
 // [END android_wear_tile_getstarted_textedgebutton2]
 
 private fun TileService.materialscope3(
+    context: Context,
     requestParams: RequestBuilders.TileRequest
 ) {
-    // [START android_wear_tile_getstarted_materialscope3]
     val myColorScheme =
-        androidx.wear.protolayout.material3.ColorScheme(
+        ColorScheme(
             primary = Color.rgb(0, 0, 255).argb,
             onPrimary = Color.rgb(255, 255, 255).argb,
         )
 
+    // [START android_wear_tile_getstarted_materialscope3]
     materialScope(
-        context = this,
+        context = context,
         deviceConfiguration = requestParams.deviceConfiguration,
         allowDynamicTheme = false,
         defaultColorScheme = myColorScheme
@@ -182,7 +186,7 @@ private fun MaterialScope.textEdgeButton3() =
     // [START android_wear_tile_getstarted_textedgebutton3]
     textEdgeButton(
         colors =
-        androidx.wear.protolayout.material3.ButtonColors(
+        ButtonColors(
             // the materialScope makes colorScheme available
             containerColor = colorScheme.secondary,
             iconColor = colorScheme.secondaryDim,

@@ -30,7 +30,7 @@ import androidx.xr.runtime.Session
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.PointSourceParams
 import androidx.xr.scenecore.SoundFieldAttributes
-import androidx.xr.scenecore.SpatialCapabilities
+import androidx.xr.scenecore.SpatialCapability
 import androidx.xr.scenecore.SpatialMediaPlayer
 import androidx.xr.scenecore.SpatialSoundPool
 import androidx.xr.scenecore.SpatializerConstants
@@ -39,8 +39,7 @@ import androidx.xr.scenecore.scene
 private fun playSpatialAudioAtEntity(session: Session, appContext: Context, entity: Entity) {
     // [START androidxr_scenecore_playSpatialAudio]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities
-            .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)
     ) { // The session has spatial audio capabilities
         val maxVolume = 1F
         val lowPriority = 0
@@ -85,7 +84,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
 private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioSurround]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
         val pointSourceAttributes = PointSourceParams(session.scene.mainPanelEntity)
@@ -120,11 +119,11 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
 private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioAmbionics]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
         val soundFieldAttributes =
-            SoundFieldAttributes(SpatializerConstants.AMBISONICS_ORDER_FIRST_ORDER)
+            SoundFieldAttributes(SpatializerConstants.AmbisonicsOrder.FIRST_ORDER)
 
         val mediaPlayer = MediaPlayer()
 
