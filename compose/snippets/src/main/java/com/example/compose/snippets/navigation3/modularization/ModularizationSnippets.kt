@@ -108,6 +108,7 @@ class MainActivity : ComponentActivity() {
     lateinit var entryBuilders: Set<@JvmSuppressWildcards EntryProviderScope<NavKey>.() -> Unit>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContent {
             NavDisplay(
                 entryProvider = entryProvider {
