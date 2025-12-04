@@ -32,7 +32,7 @@ fun checkMultipleCapabilities(xrSession: Session) {
     }
     // Example 2: multiple capability flags can be checked simultaneously:
     if (xrSession.scene.spatialCapabilities.contains(SpatialCapability.PASSTHROUGH_CONTROL) &&
-        xrSession.scene.spatialCapabilities.contains(SPATIAL_3D_CONTENT)
+        xrSession.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_3D_CONTENT)
     ) {
         // ...
     }
