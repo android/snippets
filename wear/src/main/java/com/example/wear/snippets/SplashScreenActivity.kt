@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Android Open Source Project
+ * Copyright 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.designsystems
+package com.example.wear.snippets
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-// [START android_compose_designsystems_interop_mdc3theme]
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
-class Mdc3ThemeExample : AppCompatActivity() {
+// [START android_wear_splash_activity]
+class SplashScreenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
-        // Use Mdc3Theme instead of M3 MaterialTheme
-        // Color scheme, typography, and shapes have been read from the
-        // View-based theme used in this Activity
+
         setContent {
-            Mdc3Theme {
-                // Your app-level composable here
-            }
+            WearApp()
         }
     }
 }
-// [END android_compose_designsystems_interop_mdc3theme]
+// [END android_wear_splash_activity]

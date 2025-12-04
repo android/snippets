@@ -25,7 +25,9 @@ plugins {
 }
 
 android {
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(libs.versions.compileSdk.get().toInt())
+        {minorApiLevel = 1}} // Android 16 QPR 2
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -108,6 +110,7 @@ dependencies {
     implementation(libs.androidx.emoji2.views)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
+    implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.coordinator.layout)
     implementation(libs.google.android.material)
@@ -170,4 +173,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4.accessibility)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    androidTestImplementation(libs.androidx.glance.testing)
+    androidTestImplementation(libs.androidx.glance.appwidget.testing)
 }
