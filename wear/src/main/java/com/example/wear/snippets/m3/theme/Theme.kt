@@ -19,9 +19,9 @@ package com.example.wear.snippets.m3.theme
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.MotionScheme
 import androidx.wear.compose.material3.Shapes
 import androidx.wear.compose.material3.Typography
-import androidx.wear.compose.material3.MotionScheme
 
 @Composable
 fun materialTheme() {
