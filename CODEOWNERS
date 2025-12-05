@@ -1,5 +1,5 @@
-*               @yrezgui @kkuan2011 @riggaroo @jakeroseman
-/compose/       @riggaroo @simona-anomis @wardlauren
-/build/         @amylgu @alexmikeck
-/wear/          @kul3r4 @shumelchyk @khufnagle
-/xr/            @vad710
+*               @yrezgui @kkuan2011
+/compose/       @android/devrel-compose
+/car/           @android/devrel-car
+/wear/          @android/devrel-wear
+/xr/            @android/devrel-xr
