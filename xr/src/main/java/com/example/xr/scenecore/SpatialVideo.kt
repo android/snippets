@@ -37,7 +37,7 @@ private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreate]
     val stereoSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
+        stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
         shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f))
     )
@@ -61,7 +61,7 @@ private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     val hemisphereStereoSurfaceEntity =
         SurfaceEntity.create(
             session = xrSession,
-            stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
+            stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
             pose = xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
                 xrSession.scene.activitySpace
@@ -78,7 +78,7 @@ private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     val sphereStereoSurfaceEntity =
         SurfaceEntity.create(
             session = xrSession,
-            stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_TOP_BOTTOM,
+            stereoMode = SurfaceEntity.StereoMode.TOP_BOTTOM,
             pose = xrSession.scene.spatialUser.head?.transformPoseTo(
                 Pose.Identity,
                 xrSession.scene.activitySpace
@@ -94,7 +94,7 @@ private fun ComponentActivity.surfaceEntityCreateMVHEVC(xrSession: Session) {
     // Create the SurfaceEntity with the StereoMode corresponding to the MV-HEVC content
     val stereoSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_MULTIVIEW_LEFT_PRIMARY,
+        stereoMode = SurfaceEntity.StereoMode.MULTIVIEW_LEFT_PRIMARY,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
         shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f))
     )
@@ -123,10 +123,10 @@ private fun ComponentActivity.surfaceEntityCreateDRM(xrSession: Session) {
     // Create the SurfaceEntity with the PROTECTED content security level.
     val protectedSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_SIDE_BY_SIDE,
+        stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
         shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f)),
-        surfaceProtection = SurfaceEntity.SurfaceProtection.SURFACE_PROTECTION_PROTECTED
+        surfaceProtection = SurfaceEntity.SurfaceProtection.PROTECTED
     )
 
     // Build a MediaItem with the necessary DRM configuration.
@@ -156,16 +156,16 @@ private fun ComponentActivity.surfaceEntityHDR(xrSession: Session) {
     // Define the color properties for your HDR video. These values should be specific
     // to your content.
     val hdrMetadata = SurfaceEntity.ContentColorMetadata(
-        colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.COLOR_SPACE_BT2020,
-        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.COLOR_TRANSFER_ST2084, // PQ
-        colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.COLOR_RANGE_LIMITED,
+        colorSpace = SurfaceEntity.ContentColorMetadata.ColorSpace.BT2020,
+        colorTransfer = SurfaceEntity.ContentColorMetadata.ColorTransfer.ST2084, // PQ
+        colorRange = SurfaceEntity.ContentColorMetadata.ColorRange.LIMITED,
         maxContentLightLevel = 1000 // Example: 1000 nits
     )
 
     // Create a SurfaceEntity, passing the HDR metadata at creation time.
     val hdrSurfaceEntity = SurfaceEntity.create(
         session = xrSession,
-        stereoMode = SurfaceEntity.StereoMode.STEREO_MODE_MONO,
+        stereoMode = SurfaceEntity.StereoMode.MONO,
         pose = Pose(Vector3(0.0f, 0.0f, -1.5f)),
         shape = SurfaceEntity.Shape.Quad(FloatSize2d(1.0f, 1.0f)),
     )
