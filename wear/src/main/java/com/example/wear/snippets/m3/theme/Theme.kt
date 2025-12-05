@@ -17,25 +17,25 @@
 package com.example.wear.snippets.m3.theme
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.material3.dynamicColorScheme
+import androidx.wear.compose.material3.MotionScheme
+import androidx.wear.compose.material3.Shapes
+import androidx.wear.compose.material3.Typography
 
-// [START android_wear_dynamic_theme]
 @Composable
-fun myApp() {
-    val dynamicColorScheme = dynamicColorScheme(LocalContext.current)
-    MaterialTheme(colorScheme = dynamicColorScheme ?: myBrandColors) {}
-}
-
-internal val myBrandColors: ColorScheme = ColorScheme( /* Specify colors here */)
-// [END android_wear_dynamic_theme]]
-
-fun color() {
-    // [START android_wear_color]
-    val appColorScheme: ColorScheme = ColorScheme(
-        // M3 ColorScheme parameters
+fun materialTheme() {
+    val appColorScheme = ColorScheme()
+    val appTypography = Typography()
+    val appShapes = Shapes()
+    val appMotionScheme = MotionScheme.standard()
+    // [START android_wear_material_theme]
+    MaterialTheme(
+        colorScheme = appColorScheme,
+        typography = appTypography,
+        shapes = appShapes,
+        motionScheme = appMotionScheme,
+        content = { /*content here*/ }
     )
-    // [END android_wear_color]
+    // [END android_wear_material_theme]
 }
