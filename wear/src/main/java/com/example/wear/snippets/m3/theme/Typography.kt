@@ -15,10 +15,9 @@
  */
 
 package com.example.wear.snippets.m3.theme
-
+// [START android_wear_typography]
 import androidx.wear.compose.material3.Typography
 
-// [START android_wear_typography]
 val Typography = Typography(
     // M3 TextStyle parameters
 )
