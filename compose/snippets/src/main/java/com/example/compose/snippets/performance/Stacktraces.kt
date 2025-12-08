@@ -25,15 +25,12 @@ import com.google.maps.android.ktx.BuildConfig
 class SampleStackTracesEnabledApp : Application() {
 
     override fun onCreate() {
-        // If the App is a debug variant, include the source information,
-        // otherwise do the less accurate GroupKeys option through Auto.
-        Composer.setDiagnosticStackTraceMode(
-            if (BuildConfig.DEBUG) {
-                ComposeStackTraceMode.SourceInformation
-            } else {
-                ComposeStackTraceMode.Auto
-            }
-        )
+        // Enable Compose stack traces for minified builds only.
+        Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.Auto)
+
+        // Alternatively:
+        // Enable verbose Compose stack traces for local debugging
+        Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.SourceInformation)
     }
 }
 // [END android_compose_stacktraces_enable]
