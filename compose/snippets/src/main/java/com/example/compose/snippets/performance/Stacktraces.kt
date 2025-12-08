@@ -19,7 +19,6 @@ package com.example.compose.snippets.performance
 import android.app.Application
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.tooling.ComposeStackTraceMode
-import com.google.maps.android.ktx.BuildConfig
 
 // [START android_compose_stacktraces_enable]
 class SampleStackTracesEnabledApp : Application() {
