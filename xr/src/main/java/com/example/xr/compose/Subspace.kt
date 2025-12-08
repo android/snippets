@@ -23,6 +23,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.xr.compose.platform.LocalSession
+import androidx.xr.compose.spatial.PlanarEmbeddedSubspace
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.scenecore.scene
@@ -55,9 +56,9 @@ private fun MyComposable() {
 
 @Composable
 private fun PrimaryPane() {
-    // This is a nested subspace, because PrimaryPane is in a SpatialPanel
-    // and that SpatialPanel is in a top-level Subspace
-    Subspace {
+    // This is an embedded subspace, because PrimaryPane is in a SpatialPanel
+    // and that SpatialPanel is in the top-level Subspace
+    PlanarEmbeddedSubspace {
         SpatialPanel {}
     }
 }
