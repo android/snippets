@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composer
 import androidx.compose.runtime.tooling.ComposeStackTraceMode
 
 // [START android_compose_stacktraces_enable]
+// Enable stack traces at application level: onCreate
 class SampleStackTracesEnabledApp : Application() {
 
     override fun onCreate() {
