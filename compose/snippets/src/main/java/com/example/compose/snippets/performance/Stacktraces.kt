@@ -25,6 +25,7 @@ import com.google.maps.android.ktx.BuildConfig
 class SampleStackTracesEnabledApp : Application() {
 
     override fun onCreate() {
+        super.onCreate()
         // Enable Compose stack traces for minified builds only.
         Composer.setDiagnosticStackTraceMode(ComposeStackTraceMode.Auto)
 
