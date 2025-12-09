@@ -18,9 +18,20 @@ package com.example.wear.snippets.m3.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+// [START android_wear_color]
 import androidx.wear.compose.material3.ColorScheme
+// [START_EXCLUDE]
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.dynamicColorScheme
+
+
+fun color() {
+// [END_EXCLUDE]
+    val appColorScheme: ColorScheme = ColorScheme(
+        // M3 ColorScheme parameters
+    )
+    // [END android_wear_color]
+}
 
 // [START android_wear_dynamic_theme]
 @Composable
@@ -30,12 +41,4 @@ fun myApp() {
 }
 
 internal val myBrandColors: ColorScheme = ColorScheme( /* Specify colors here */)
-// [END android_wear_dynamic_theme]]
-
-fun color() {
-    // [START android_wear_color]
-    val appColorScheme: ColorScheme = ColorScheme(
-        // M3 ColorScheme parameters
-    )
-    // [END android_wear_color]
-}
+// [END android_wear_dynamic_theme]
