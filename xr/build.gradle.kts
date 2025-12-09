@@ -32,6 +32,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.xr.arcore)
+    implementation(libs.androidx.arcore.play.services)
+    implementation(libs.google.ar.core)
     implementation(libs.androidx.xr.scenecore)
     implementation(libs.androidx.xr.compose)
 
