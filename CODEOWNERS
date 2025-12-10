@@ -2,4 +2,5 @@
 /compose/       @android/devrel-compose
 /car/           @android/devrel-car
 /wear/          @android/devrel-wear
+/wearcompanion/ @android/devrel-wear
 /xr/            @android/devrel-xr

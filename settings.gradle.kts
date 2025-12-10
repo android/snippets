@@ -35,6 +35,7 @@ include(
     ":compose:snippets",
     ":datastore",
     ":wear",
+    ":wearcompanion",
     ":views",
     ":misc",
     ":identity:credentialmanager",
