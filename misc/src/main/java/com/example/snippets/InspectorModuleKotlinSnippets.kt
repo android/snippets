@@ -18,6 +18,9 @@ package com.example.snippets
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
+import android.media.MediaMetadataRetriever.METADATA_KEY_MIMETYPE
+import android.media.MediaMetadataRetriever.OPTION_CLOSEST
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.media3.common.MediaItem
@@ -37,7 +40,7 @@ const val TAG = "InspectorModuleLog"
 @OptIn(UnstableApi::class)
 class InspectorModuleKotlinSnippets {
 
-    // [START android_media3_inspector_MetadataRetriever_kotlin]
+    // [START android_dev_retriever_media3_kotlin]
     suspend fun retrieveMetadata(context: Context, mediaItem: MediaItem) {
         try {
             // 1. Build the retriever and open a .use block.
@@ -53,9 +56,45 @@ class InspectorModuleKotlinSnippets {
             throw RuntimeException(e)
         }
     }
-    // [END android_media3_inspector_MetadataRetriever_kotlin]
+    // [END android_dev_retriever_media3_kotlin]
 
-    // [START android_media3_inspector_FrameExtractor_kotlin]
+    // [START android_migration_retriever_platform_kotlin]
+    fun retrieveMetadataPlatform(mediaPath: String) {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(mediaPath)
+        try {
+            val mimeType = retriever.extractMetadata(METADATA_KEY_MIMETYPE)
+            Log.d(TAG, "MIME type: $mimeType")
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        } finally {
+            retriever.release()
+        }
+    }
+    // [END android_migration_retriever_platform_kotlin]
+
+    // [START android_migration_retriever_media3_kotlin]
+    suspend fun retrieveMetadataMedia3(context: Context, mediaItem: MediaItem) {
+        try {
+            MetadataRetriever.Builder(context, mediaItem).build().use { retriever ->
+                val trackGroups = retriever.retrieveTrackGroups().await()
+
+                for (i in 0 until trackGroups.length) {
+                    val trackGroup = trackGroups.get(i)
+                    for (j in 0 until trackGroup.length) {
+                        val format = trackGroup.getFormat(j)
+                        val mimeType = format.containerMimeType
+                        Log.d(TAG, "MIME type: $mimeType")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+    }
+    // [END android_migration_retriever_media3_kotlin]
+
+    // [START android_dev_frame_media3_kotlin]
     suspend fun extractFrame(context: Context, mediaItem: MediaItem): Bitmap? {
         return try {
             // 1. Build the extractor and open a .use block.
@@ -71,9 +110,50 @@ class InspectorModuleKotlinSnippets {
             null
         }
     }
-    // [END android_media3_inspector_FrameExtractor_kotlin]
+    // [END android_dev_frame_media3_kotlin]
 
-    // [START android_media3_inspector_MediaExtractorCompat_kotlin]
+    // [START android_migration_frame_platform_kotlin]
+    fun extractFramePlatform(mediaPath: String, frameTimeMs: Long): Bitmap? {
+        var retriever: MediaMetadataRetriever? = null
+        val bitmap: Bitmap?
+        try {
+            retriever = MediaMetadataRetriever()
+            retriever.setDataSource(mediaPath)
+
+            bitmap = retriever.getFrameAtTime(
+                frameTimeMs * 1000L, // Time is in microseconds
+                OPTION_CLOSEST
+            )
+            Log.d(TAG, "Extracted frame : $bitmap")
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        } finally {
+            retriever?.release()
+        }
+        return bitmap
+    }
+    // [END android_migration_frame_platform_kotlin]
+
+    // [START android_migration_frame_media3_kotlin]
+    suspend fun extractFrameMedia3(
+        context: Context,
+        mediaItem: MediaItem,
+        frameTimeMs: Long
+    ): Bitmap? {
+        return try {
+            FrameExtractor.Builder(context, mediaItem).build().use { extractor ->
+                val frame = extractor.getFrame(frameTimeMs).await()
+                Log.d(TAG, "Extracted frame at ${frame.presentationTimeMs} ms")
+                frame.bitmap
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Exception: $e")
+            null
+        }
+    }
+    // [END android_migration_frame_media3_kotlin]
+
+    // [START android_dev_extractor_media3_kotlin]
     fun extractSamples(context: Context, mediaPath: String) {
         val extractor = MediaExtractorCompat(context)
         try {
@@ -103,10 +183,11 @@ class InspectorModuleKotlinSnippets {
         } catch (e: IOException) {
             throw RuntimeException(e)
         } finally {
-            extractor.release() // 3. Release the extractor
+            // 3. Release the extractor
+            extractor.release()
         }
     }
-    // [END android_media3_inspector_MediaExtractorCompat_kotlin]
+    // [END android_dev_extractor_media3_kotlin]
 
     private fun handleMetadata(trackGroups: TrackGroupArray, timeline: Timeline, durationUs: Long) {
         Log.d(TAG, "TrackGroups: $trackGroups us")

@@ -16,14 +16,21 @@
 
 package com.example.snippets;
 
+import static android.media.MediaMetadataRetriever.METADATA_KEY_MIMETYPE;
+import static android.media.MediaMetadataRetriever.OPTION_CLOSEST;
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaFormat;
+import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
+import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Timeline;
+import androidx.media3.common.TrackGroup;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.MediaExtractorCompat;
 import androidx.media3.exoplayer.source.TrackGroupArray;
@@ -47,12 +54,12 @@ import kotlin.Suppress;
 public class InspectorModuleJavaSnippets {
     private final String TAG = "InspectorModuleLog";
 
-    // [START android_media3_inspector_MetadataRetriever_java]
+    // [START android_dev_retriever_media3_java]
     public void retrieveMetadata(Context context, MediaItem mediaItem) {
-        try (MetadataRetriever metadataRetriever = new MetadataRetriever.Builder(context, mediaItem).build()) {
-            ListenableFuture<TrackGroupArray> trackGroupsFuture = metadataRetriever.retrieveTrackGroups();
-            ListenableFuture<Timeline> timelineFuture = metadataRetriever.retrieveTimeline();
-            ListenableFuture<Long> durationUsFuture = metadataRetriever.retrieveDurationUs();
+        try (MetadataRetriever retriever = new MetadataRetriever.Builder(context, mediaItem).build()) {
+            ListenableFuture<TrackGroupArray> trackGroupsFuture = retriever.retrieveTrackGroups();
+            ListenableFuture<Timeline> timelineFuture = retriever.retrieveTimeline();
+            ListenableFuture<Long> durationUsFuture = retriever.retrieveDurationUs();
 
             ListenableFuture<List<Object>> allFutures = Futures.allAsList(trackGroupsFuture, timelineFuture, durationUsFuture);
             Executor executor = Executors.newSingleThreadExecutor();
@@ -62,7 +69,8 @@ public class InspectorModuleJavaSnippets {
                     handleMetadata(
                             Futures.getUnchecked(trackGroupsFuture),
                             Futures.getUnchecked(timelineFuture),
-                            Futures.getUnchecked(durationUsFuture));
+                            Futures.getUnchecked(durationUsFuture)
+                    );
                 }
 
                 @Override
@@ -72,19 +80,61 @@ public class InspectorModuleJavaSnippets {
             }, executor);
         }
     }
-    // [END android_media3_inspector_MetadataRetriever_java]
+    // [END android_dev_retriever_media3_java]
 
-    // [START android_media3_inspector_FrameExtractor_java]
+    // [START android_migration_retriever_platform_java]
+    public void retrieveMetadataPlatform(String mediaPath) {
+        try (MediaMetadataRetriever retriever = new MediaMetadataRetriever()) {
+            retriever.setDataSource(mediaPath);
+            String mimeType = retriever.extractMetadata(METADATA_KEY_MIMETYPE);
+            Log.d(TAG, "MIME type: " + mimeType);
+            retriever.release();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    // [END android_migration_retriever_platform_java]
+
+    // [START android_migration_retriever_media3_java]
+    public void retrieveMetadataMedia3(Context context, MediaItem mediaItem) {
+        try (MetadataRetriever retriever = new MetadataRetriever.Builder(context, mediaItem).build()) {
+            ListenableFuture<TrackGroupArray> trackGroupsFuture = retriever.retrieveTrackGroups();
+
+            Executor executor = Executors.newSingleThreadExecutor();
+            Futures.addCallback(trackGroupsFuture, new FutureCallback<Object>() {
+                @Override
+                public void onSuccess(Object trackGroupsObject) {
+                    TrackGroupArray trackGroups = (TrackGroupArray) trackGroupsObject;
+                    for (int i = 0; i < trackGroups.length; i++) {
+                        TrackGroup trackGroup = trackGroups.get(i);
+                        for (int j = 0; j < trackGroup.length; j++) {
+                            Format format = trackGroup.getFormat(j);
+                            String mimeType = format.containerMimeType;
+                            Log.d(TAG, "MIME type: " + mimeType);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Throwable t) {
+                    Log.e(TAG, "Error retrieving metadata: " + t.getMessage());
+                }
+            }, executor);
+        }
+    }
+    // [END android_migration_retriever_media3_java]
+
+    // [START android_dev_frame_media3_java]
     public void extractFrame(Context context, MediaItem mediaItem) {
         try (FrameExtractor frameExtractor = new FrameExtractor.Builder(context, mediaItem).build()) {
             ListenableFuture<FrameExtractor.Frame> frameFuture = frameExtractor.getFrame(5000L);
 
             Executor executor = Executors.newSingleThreadExecutor();
             Futures.addCallback(frameFuture, new FutureCallback<Object>() {
-                @OptIn(markerClass = UnstableApi.class)
                 @Override
-                public void onSuccess(Object result) {
-                    long presentationTimeMs = Futures.getUnchecked(frameFuture).presentationTimeMs;
+                public void onSuccess(Object frameObject) {
+                    FrameExtractor.Frame frame = (FrameExtractor.Frame) frameObject;
+                    long presentationTimeMs = frame.presentationTimeMs;
                     Log.d(TAG, "Extracted frame at " + presentationTimeMs);
                 }
 
@@ -95,9 +145,25 @@ public class InspectorModuleJavaSnippets {
             }, executor);
         }
     }
-    // [END android_media3_inspector_FrameExtractor_java]
+    // [END android_dev_frame_media3_java]
 
-    // [START android_media3_inspector_MediaExtractorCompat_java]
+    // [START android_migration_frame_platform_java]
+    public Bitmap extractFramePlatform(String mediaPath, Long frameTimeMs) {
+        Bitmap bitmap;
+        try (MediaMetadataRetriever retriever = new MediaMetadataRetriever()) {
+            retriever.setDataSource(mediaPath);
+            bitmap = retriever.getFrameAtTime(frameTimeMs * 1000L, // Time is in microseconds
+                    OPTION_CLOSEST);
+            Log.d(TAG, "Extracted frame " + bitmap);
+            retriever.release();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return bitmap;
+    }
+    // [END android_migration_frame_platform_java]
+
+    // [START android_dev_extractor_media3_java]
     public void extractSamples(Context context, String mediaPath) {
         MediaExtractorCompat extractor = new MediaExtractorCompat(context);
         try {
@@ -127,10 +193,11 @@ public class InspectorModuleJavaSnippets {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            extractor.release(); // 3. Release the extractor
+            // 3. Release the extractor
+            extractor.release();
         }
     }
-    // [END android_media3_inspector_MediaExtractorCompat_java]
+    // [END android_dev_extractor_media3_java]
 
     private void handleMetadata(TrackGroupArray trackGroups, Timeline timeline, Long durationUs) {
         Log.d(TAG, "TrackGroups: " + trackGroups);
