@@ -163,6 +163,29 @@ public class InspectorModuleJavaSnippets {
     }
     // [END android_migration_frame_platform_java]
 
+    // [START android_migration_frame_media3_java]
+    public void extractFrameMedia3(Context context, MediaItem mediaItem, Long frameTimeMs) {
+        try (FrameExtractor frameExtractor = new FrameExtractor.Builder(context, mediaItem).build()) {
+            ListenableFuture<FrameExtractor.Frame> frameFuture = frameExtractor.getFrame(frameTimeMs);
+
+            Executor executor = Executors.newSingleThreadExecutor();
+            Futures.addCallback(frameFuture, new FutureCallback<Object>() {
+                @Override
+                public void onSuccess(Object frameObject) {
+                    FrameExtractor.Frame frame = (FrameExtractor.Frame) frameObject;
+                    long presentationTimeMs = frame.presentationTimeMs;
+                    Log.d(TAG, "Extracted frame at " + presentationTimeMs);
+                }
+
+                @Override
+                public void onFailure(@NonNull Throwable t) {
+                    Log.e(TAG, "Error extracting frame: " + t.getMessage());
+                }
+            }, executor);
+        }
+    }
+    // [END android_migration_frame_media3_java]
+
     // [START android_dev_extractor_media3_java]
     public void extractSamples(Context context, String mediaPath) {
         MediaExtractorCompat extractor = new MediaExtractorCompat(context);

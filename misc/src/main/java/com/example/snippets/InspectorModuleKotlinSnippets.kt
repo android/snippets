@@ -97,7 +97,7 @@ class InspectorModuleKotlinSnippets {
     // [START android_dev_frame_media3_kotlin]
     suspend fun extractFrame(context: Context, mediaItem: MediaItem): Bitmap? {
         return try {
-            // 1. Build the extractor and open a .use block.
+            // 1. Build the frame extractor and open a .use block.
             // This automatically calls close() when the block finishes.
             FrameExtractor.Builder(context, mediaItem).build().use { extractor ->
                 // 2. Extract the specific frame at the 5000ms (5-second) mark
