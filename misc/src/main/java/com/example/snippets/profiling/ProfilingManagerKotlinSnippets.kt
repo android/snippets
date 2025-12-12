@@ -17,6 +17,7 @@
 package com.example.snippets.profiling
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
@@ -30,6 +31,16 @@ import androidx.core.os.BufferFillPolicy
 import androidx.core.os.SystemTraceRequestBuilder
 import androidx.core.os.requestProfiling
 import androidx.tracing.Trace
+import androidx.tracing.trace
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.NetworkType
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.workDataOf
+import androidx.work.WorkManager
+import androidx.work.Worker
+import androidx.work.WorkerParameters
+import androidx.work.OneTimeWorkRequest
 import java.util.ArrayList
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -137,4 +148,77 @@ class ProfilingManagerKotlinSnippets {
         }
         // [END android_profiling_manager_triggered_trace_setup_upload_job]
     }
+
+  // [START android_profiling_manager_trace_upload_job_kotlin]
+  class MainActivityTraceUploadJob : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+      super.onCreate(savedInstanceState)
+
+      sampleRecordSystemTraceWithJob()
+    }
+
+    fun heavyOperation() {
+      // Work you want to trace
+    }
+
+    class TraceUploadWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+      override fun doWork(): Result {
+        // Perform your uploading work here
+        Log.d("ProfileTest","Uploading trace: "+inputData.getString("PROFILE_PATH"))
+
+        return Result.success()
+      }
+    }
+
+    fun setupProfileUploadWorker(profileFilepath : String?) {
+      val workMgr = WorkManager.getInstance(applicationContext)
+      val workRequestBuilder = OneTimeWorkRequest.Builder(TraceUploadWorker::class)
+
+      val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.UNMETERED)
+        .setRequiresDeviceIdle(true)
+        .setRequiresCharging(true)
+        .build()
+      workRequestBuilder.setConstraints(constraints)
+
+      val inputDataBuilder = Data.Builder()
+      inputDataBuilder.putString("PROFILE_PATH", profileFilepath)
+      workRequestBuilder.setInputData(inputDataBuilder.build())
+
+      workMgr.enqueue(workRequestBuilder.build())
+    }
+
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    fun sampleRecordSystemTraceWithJob() {
+      val mainExecutor: Executor = Dispatchers.IO.asExecutor()
+      val resultCallback = Consumer<ProfilingResult> { profilingResult ->
+        if (profilingResult.errorCode == ProfilingResult.ERROR_NONE) {
+          setupUploadJob(profilingResult.resultFilePath)
+        } else {
+          Log.e(
+            "ProfileTest",
+            "Profiling failed errorcode=" + profilingResult.errorCode + " errormsg=" + profilingResult.errorMessage
+          )
+        }
+      }
+      val stopSignal = CancellationSignal()
+
+      val requestBuilder = SystemTraceRequestBuilder()
+      requestBuilder.setCancellationSignal(stopSignal)
+      requestBuilder.setTag("FOO")
+      requestBuilder.setDurationMs(60000)
+      requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER)
+      requestProfiling(applicationContext, requestBuilder.build(), mainExecutor, resultCallback)
+
+      // Wait some time for profiling to start.
+
+      trace("MyApp:HeavyOperation") {
+        // Code to profile
+        heavyOperation()
+      }
+
+      stopSignal.cancel()
+    }
+  }
+  // [END android_profiling_manager_trace_upload_job_kotlin]
 }

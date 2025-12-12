@@ -2,8 +2,10 @@ package com.example.snippets.profiling;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.ProfilingManager;
 import android.os.ProfilingTrigger;
+import android.content.Context;
 import android.util.Log;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,6 +20,14 @@ import androidx.tracing.Trace;
 import androidx.core.os.Profiling;
 import androidx.core.os.SystemTraceRequestBuilder;
 import androidx.core.os.BufferFillPolicy;
+import androidx.annotation.RequiresApi;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.Data;
 import com.example.snippets.R;
 
 public class ProfilingManagerJavaSnippets {
@@ -209,4 +219,88 @@ public class ProfilingManagerJavaSnippets {
     }
     // [END android_profiling_manager_anr_case_study_java_snippet_2]
   }
+
+
+  // [START android_profiling_manager_trace_upload_job_java]
+  public class MainActivityTraceUploadJobJava extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      sampleRecordSystemTraceWithJob();
+    }
+
+    void heavyOperation() {
+      // Work you want to trace
+    }
+
+    public static class TraceUploadWorker extends Worker {
+      public TraceUploadWorker(
+          @androidx.annotation.NonNull Context context,
+          @androidx.annotation.NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+      }
+
+      @androidx.annotation.NonNull
+      @Override
+      public Result doWork() {
+        // Perform your uploading work here
+        Log.d("ProfileTest", "Uploading trace: " + getInputData().getString("PROFILE_PATH"));
+
+        return Result.success();
+      }
+    }
+
+    public void setupProfileUploadWorker(String profileFilepath) {
+      WorkManager workMgr = WorkManager.getInstance(getApplicationContext());
+      OneTimeWorkRequest.Builder workRequestBuilder = new OneTimeWorkRequest.Builder(TraceUploadWorker.class);
+
+      Constraints constraints = new Constraints.Builder()
+          .setRequiredNetworkType(NetworkType.UNMETERED)
+          .setRequiresDeviceIdle(true)
+          .build();
+      workRequestBuilder.setConstraints(constraints);
+
+      Data.Builder inputDataBuilder = new Data.Builder();
+      inputDataBuilder.putString("PROFILE_PATH", profileFilepath);
+      workRequestBuilder.setInputData(inputDataBuilder.build());
+
+      workMgr.enqueue(workRequestBuilder.build());
+    }
+
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+    public void sampleRecordSystemTraceWithJob() {
+      Executor mainExecutor = Executors.newSingleThreadExecutor();
+      Consumer<ProfilingResult> resultCallback =
+          profilingResult -> {
+            if (profilingResult.getErrorCode() == ProfilingResult.ERROR_NONE) {
+              setupUploadJob(profilingResult.getResultFilePath());
+            } else {
+              Log.e(
+                  "ProfileTest",
+                  "Profiling failed errorcode="
+                      + profilingResult.getErrorCode()
+                      + " errormsg="
+                      + profilingResult.getErrorMessage());
+            }
+          };
+      CancellationSignal stopSignal = new CancellationSignal();
+
+      SystemTraceRequestBuilder requestBuilder = new SystemTraceRequestBuilder();
+      requestBuilder.setCancellationSignal(stopSignal);
+      requestBuilder.setTag("FOO");
+      requestBuilder.setDurationMs(60000);
+      requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER);
+      Profiling.requestProfiling(getApplicationContext(), requestBuilder.build(), mainExecutor, resultCallback);
+
+      // Wait some time for profiling to start.
+
+      // Add some tracing to be captured in the profile
+      Trace.beginSection("MyApp:HeavyOperation");
+      heavyOperation();
+      Trace.endSection();
+
+      stopSignal.cancel();
+    }
+  }
+  // [END android_profiling_manager_trace_upload_job_java]
 }
