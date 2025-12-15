@@ -76,26 +76,6 @@ private object RememberAndRetainObserverSnippets3 {
         override fun onRemembered() {}
     }
 
-    // [START android_compose_state_observers_public_implementation]
-    abstract class MyManager
-
-    // Not Recommended: Exposing a public constructor (even implicitly) for an object implementing
-    // RememberObserver can cause unexpected invocations if it is remembered multiple times.
-    class MyComposeManager : MyManager(), RememberObserver { /*...*/ }
-
-    // Not Recommended: The return type may be an implementation of RememberObserver and should be
-    // remembered explicitly.
-    fun createFoo(): MyManager = MyComposeManager()
-    // [END android_compose_state_observers_public_implementation]
-}
-
-private object RememberAndRetainObserverSnippets4 {
-    interface RememberObserver : androidx.compose.runtime.RememberObserver {
-        override fun onAbandoned() {}
-        override fun onForgotten() {}
-        override fun onRemembered() {}
-    }
-
     // [START android_compose_state_observers_private_implementation]
     abstract class MyManager
 
@@ -120,27 +100,7 @@ private object RememberAndRetainObserverSnippets4 {
     // [END android_compose_state_observers_private_implementation]
 }
 
-private object RememberAndRetainObserverSnippets5 {
-    class Foo : RememberObserver {
-        override fun onRemembered() {}
-        override fun onForgotten() {}
-        override fun onAbandoned() {}
-    }
-
-    @Composable fun rememberFoo() = remember { Foo() }
-
-    @Composable
-    fun Snippet() {
-        // [START android_compose_state_observers_only_remember_once]
-        val first: RememberObserver = rememberFoo()
-
-        // Not Recommended: Re-remembered `Foo` now gets double callbacks
-        val second = remember { first }
-        // [END android_compose_state_observers_only_remember_once]
-    }
-}
-
-private object RememberAndRetainObserverSnippets6 {
+private object RememberAndRetainObserverSnippets4 {
     class Foo : RememberObserver {
         override fun onRemembered() {}
         override fun onForgotten() {}
@@ -165,27 +125,7 @@ private object RememberAndRetainObserverSnippets6 {
     }
 }
 
-private object RememberAndRetainObserverSnippets7 {
-    class Foo : RememberObserver {
-        override fun onRemembered() {}
-        override fun onForgotten() {}
-        override fun onAbandoned() {}
-    }
-
-    @Composable fun rememberFoo() = remember { Foo() }
-
-    // [START android_compose_state_observers_reremember_params]
-    @Composable
-    fun MyComposable(
-        parameter: Foo
-    ) {
-        // Not Recommended: Input should be remembered by the caller.
-        val rememberedParameter = remember { parameter }
-    }
-    // [END android_compose_state_observers_reremember_params]
-}
-
-private object RememberAndRetainObserverSnippets8 {
+private object RememberAndRetainObserverSnippets5 {
     class Foo : RememberObserver {
         override fun onRemembered() {}
         override fun onForgotten() {}
