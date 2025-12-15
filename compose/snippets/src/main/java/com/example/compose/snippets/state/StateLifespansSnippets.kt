@@ -33,7 +33,7 @@ private object StateLifespansSnippets1 {
 }
 
 private object StateLifespansSnippets2 {
-    // [START android_compose_state_lifespans_retain]
+    // [START android_compose_state_lifespans_retain_invocation]
     @Composable
     fun MediaPlayer() {
         // Use the application context to avoid a memory leak
