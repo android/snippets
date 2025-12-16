@@ -18,23 +18,21 @@ package com.example.wear.snippets.m3.theme
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.ColorScheme
+// [START android_wear_material_theme]
 import androidx.wear.compose.material3.MaterialTheme
+// [START_EXCLUDE]
 import androidx.wear.compose.material3.MotionScheme
 import androidx.wear.compose.material3.Shapes
 import androidx.wear.compose.material3.Typography
 
 @Composable
 fun materialTheme() {
-    val appColorScheme = ColorScheme()
-    val appTypography = Typography()
-    val appShapes = Shapes()
-    val appMotionScheme = MotionScheme.standard()
-    // [START android_wear_material_theme]
+    // [END_EXCLUDE]
     MaterialTheme(
-        colorScheme = appColorScheme,
-        typography = appTypography,
-        shapes = appShapes,
-        motionScheme = appMotionScheme,
+        colorScheme = ColorScheme(),
+        typography = Typography(),
+        shapes = Shapes(),
+        motionScheme = MotionScheme.standard(),
         content = { /*content here*/ }
     )
     // [END android_wear_material_theme]
