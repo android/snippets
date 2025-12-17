@@ -103,13 +103,13 @@ class WearOAuthPKCEManager(private val context: Context) {
         }
     }
 
-    /** Dummy token retrieval function. */
+    /** placeholder token retrieval function. */
     private fun retrieveToken(code: String, oauthRequest: OAuthRequest): Result<String> {
-        return Result.success("dummyToken")
+        return Result.success("placeholderToken")
     }
 
-    /** Dummy user profile retrieval. */
+    /** placeholder user profile retrieval. */
     private fun retrieveUserProfile(token: String): Result<String> {
-        return Result.success("dummyProfile")
+        return Result.success("placeholderProfile")
     }
 }

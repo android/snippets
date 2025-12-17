@@ -78,7 +78,7 @@ class AuthDataListenerService : WearableListenerService() {
             }
         }
     }
-    /** Dummy sign in handler. */
+    /** placeholder sign in handler. */
     fun handleSignInSequence(token: String?) {}
 }
 

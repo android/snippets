@@ -50,7 +50,7 @@ class DeviceGrantManager(private val context: Context) {
         // An example of a verificationURI w
         return VerificationInfo(
             "your client backend",
-            userCode = "dummyUser",
+            userCode = "placeholderUser",
             deviceCode = "myDeviceCode",
         )
     }
@@ -69,10 +69,10 @@ class DeviceGrantManager(private val context: Context) {
     // [END android_wear_auth_oauth_dag_authorize_device]
 
     private fun fetchToken(deviceCode: String): Result<String> {
-        return Result.success("dummyToken")
+        return Result.success("placeholderToken")
     }
 
     private fun retrieveUserProfile(token: Result<String>): Result<String> {
-        return Result.success("dummyProfile")
+        return Result.success("placeholderProfile")
     }
 }

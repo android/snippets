@@ -59,7 +59,7 @@ class CredentialManagerAuthenticator(
         return false
     }
 
-/**signInRequest
+    /**
      * Creates a [GetCredentialRequest] with standard Wear Credential types.
      *
      * @return A configured [GetCredentialRequest] ready to be used with [CredentialManager.getCredential].
@@ -75,7 +75,7 @@ class CredentialManagerAuthenticator(
         )
     }
 
-/**
+    /**
      * Routes the credential received from `getCredential` to the appropriate authentication
      * type handler on the [AuthenticationServer].
      *
@@ -109,7 +109,7 @@ class CredentialManagerAuthenticator(
     }
 }
 
-/** Dummy authentication server would make network calls to your authentication server.*/
+/** Placeholder authentication server would make network calls to your authentication server.*/
 class AuthenticationServer {
 
     /** Retrieves the public key credential request options from the authentication server.*/
@@ -130,6 +130,6 @@ class AuthenticationServer {
     }
 }
 
-/** Dummy navigation function. */
+/** placeholder navigation function. */
 fun navigateToSecondaryAuthentication() {
 }
