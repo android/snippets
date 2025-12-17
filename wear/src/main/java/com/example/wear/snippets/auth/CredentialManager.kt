@@ -22,13 +22,13 @@ import android.os.Bundle
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
-import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.GetPasswordOption
 import androidx.credentials.GetPublicKeyCredentialOption
 import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 
 /**
@@ -59,70 +59,75 @@ class CredentialManagerAuthenticator(
         return false
     }
 
-
 /**signInRequest
- * Creates a [GetCredentialRequest] with standard Wear Credential types.
- *
- * @return A configured [GetCredentialRequest] ready to be used with [CredentialManager.getCredential].
- */
-private fun createGetCredentialRequest(): GetCredentialRequest {
-    return GetCredentialRequest(
-        credentialOptions = listOf(
-            GetPublicKeyCredentialOption(authenticationServer.getPublicKeyRequestOptions()),
-            GetPasswordOption(),
-            GetGoogleIdOption.Builder()
-                .setServerClientId("<Your Google Sign in Server Client ID here.").build(),
-        ),
-    )
-}
+     * Creates a [GetCredentialRequest] with standard Wear Credential types.
+     *
+     * @return A configured [GetCredentialRequest] ready to be used with [CredentialManager.getCredential].
+     */
+    private fun createGetCredentialRequest(): GetCredentialRequest {
+        return GetCredentialRequest(
+            credentialOptions = listOf(
+                GetPublicKeyCredentialOption(authenticationServer.getPublicKeyRequestOptions()),
+                GetPasswordOption(),
+                GetGoogleIdOption.Builder()
+                    .setServerClientId("<Your Google Sign in Server Client ID here.").build(),
+            ),
+        )
+    }
 
 /**
- * Routes the credential received from `getCredential` to the appropriate authentication
- * type handler on the [AuthenticationServer].
- *
- * @param credential The selected cre
- * @return `true` if the credential was successfully processed and authenticated, else 'false'.
- */
-private fun authenticate(credential: Credential): Boolean {
-    when (credential) {
-        is PublicKeyCredential -> {
-            return authenticationServer.loginWithPasskey(credential.authenticationResponseJson)
-        }
+     * Routes the credential received from `getCredential` to the appropriate authentication
+     * type handler on the [AuthenticationServer].
+     *
+     * @param credential The selected cre
+     * @return `true` if the credential was successfully processed and authenticated, else 'false'.
+     */
+    private fun authenticate(credential: Credential): Boolean {
+        when (credential) {
+            is PublicKeyCredential -> {
+                return authenticationServer.loginWithPasskey(credential.authenticationResponseJson)
+            }
 
-        is PasswordCredential -> {
-            return authenticationServer.loginWithPassword(
-                credential.id,
-                credential.password,
-            )
-        }
+            is PasswordCredential -> {
+                return authenticationServer.loginWithPassword(
+                    credential.id,
+                    credential.password,
+                )
+            }
 
-        is CustomCredential -> {
-            return authenticationServer.loginWithCustomCredential(
-                credential.type,
-                credential.data,
-            )
-        }
+            is CustomCredential -> {
+                return authenticationServer.loginWithCustomCredential(
+                    credential.type,
+                    credential.data,
+                )
+            }
 
-        else -> {
-            return false
+            else -> {
+                return false
+            }
         }
     }
 }
-}
-
 
 /** Dummy authentication server would make network calls to your authentication server.*/
 class AuthenticationServer {
 
     /** Retrieves the public key credential request options from the authentication server.*/
-    internal fun getPublicKeyRequestOptions(): String { return "result of network call" }
+    internal fun getPublicKeyRequestOptions(): String {
+        return "result of network call"
+    }
 
-    fun loginWithPasskey(passkeyResponseJSON: String): Boolean { return true }
+    fun loginWithPasskey(passkeyResponseJSON: String): Boolean {
+        return true
+    }
 
-    fun loginWithPassword(username: String, password: String): Boolean { return true }
+    fun loginWithPassword(username: String, password: String): Boolean {
+        return true
+    }
 
-    fun loginWithCustomCredential(type: String, data: Bundle) : Boolean { return true }
-
+    fun loginWithCustomCredential(type: String, data: Bundle): Boolean {
+        return true
+    }
 }
 
 /** Dummy navigation function. */

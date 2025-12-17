@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.wear.snippets.auth
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.wear.remote.interactions.RemoteActivityHelper
-
 
 class DeviceGrantManager(private val context: Context) {
 
@@ -46,7 +46,7 @@ class DeviceGrantManager(private val context: Context) {
     )
 
     /* A fake server call to retrieve */
-    private fun getFakeVerificationInfo(): VerificationInfo{
+    private fun getFakeVerificationInfo(): VerificationInfo {
         // An example of a verificationURI w
         return VerificationInfo(
             "your client backend",
@@ -68,14 +68,11 @@ class DeviceGrantManager(private val context: Context) {
     }
     // [END android_wear_auth_oauth_dag_authorize_device]
 
-
     private fun fetchToken(deviceCode: String): Result<String> {
         return Result.success("dummyToken")
-
     }
 
     private fun retrieveUserProfile(token: Result<String>): Result<String> {
         return Result.success("dummyProfile")
-
     }
 }
