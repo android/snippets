@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2023 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <string name="watch_face_name">Simple Digital</string>
+    <string name="greeting">Hello, World!</string>
+    <string name="show_date_label">Show date</string>
+    <string name="background_image_label">Background Image</string>
+    <string name="background0_image_label">Image A</string>
+    <string name="background1_image_label">Image B</string>
+    <string name="theme_label">Color theme</string>
+    <string name="relaxed_label">Relaxed</string>
+    <string name="urban_label">Urban</string>
+    <string name="show_hr_label">Show HR</string>
+    <string name="flavor_sporty_label">Sporty</string>
+    <string name="flavor_sophisticated_label">Sporty</string>
+</resources>

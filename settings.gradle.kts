@@ -34,6 +34,7 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":watchface",
     ":wear",
     ":wearcompanion",
     ":views",
