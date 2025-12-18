@@ -2,7 +2,7 @@
 accompanist = "0.36.0"
 activityKtx = "1.12.1"
 android-googleid = "1.1.1"
-androidGradlePlugin = "8.13.1"
+androidGradlePlugin = "8.13.2"
 androidx-activity-compose = "1.12.1"
 androidx-appcompat = "1.7.0"
 androidx-compose-bom = "2025.12.00"
@@ -96,6 +96,7 @@ wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 wearPhoneInteractions = "1.1.0"
+wearRemoteInteractions = "1.1.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -237,6 +238,7 @@ validator-push = { module = "com.google.android.wearable.watchface.validator:val
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
+androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
