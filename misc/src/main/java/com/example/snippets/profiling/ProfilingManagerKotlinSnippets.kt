@@ -31,7 +31,6 @@ import androidx.core.os.BufferFillPolicy
 import androidx.core.os.SystemTraceRequestBuilder
 import androidx.core.os.requestProfiling
 import androidx.tracing.Trace
-import androidx.tracing.trace
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
@@ -142,30 +141,30 @@ class ProfilingManagerKotlinSnippets {
 
         // [START android_profiling_manager_trace_upload_job_kotlin]        // [START android_profiling_manager_trace_upload_job_kotlin]
         class TraceUploadWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
-          override fun doWork(): Result {
-            // Perform your uploading work here
-            Log.d("ProfileTest", "Uploading trace: " + inputData.getString("PROFILE_PATH"))
+            override fun doWork(): Result {
+                // Perform your uploading work here
+                Log.d("ProfileTest", "Uploading trace: " + inputData.getString("PROFILE_PATH"))
 
-            return Result.success()
-          }
+                return Result.success()
+            }
         }
 
         fun setupProfileUploadWorker(profileFilepath: String?) {
-          val workMgr = WorkManager.getInstance(applicationContext)
-          val workRequestBuilder = OneTimeWorkRequest.Builder(TraceUploadWorker::class)
+            val workMgr = WorkManager.getInstance(applicationContext)
+            val workRequestBuilder = OneTimeWorkRequest.Builder(TraceUploadWorker::class)
 
-          val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
-            .setRequiresDeviceIdle(true)
-            .setRequiresCharging(true)
-            .build()
-          workRequestBuilder.setConstraints(constraints)
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.UNMETERED)
+                .setRequiresDeviceIdle(true)
+                .setRequiresCharging(true)
+                .build()
+            workRequestBuilder.setConstraints(constraints)
 
-          val inputDataBuilder = Data.Builder()
-          inputDataBuilder.putString("PROFILE_PATH", profileFilepath)
-          workRequestBuilder.setInputData(inputDataBuilder.build())
+            val inputDataBuilder = Data.Builder()
+            inputDataBuilder.putString("PROFILE_PATH", profileFilepath)
+            workRequestBuilder.setInputData(inputDataBuilder.build())
 
-          workMgr.enqueue(workRequestBuilder.build())
+            workMgr.enqueue(workRequestBuilder.build())
         }
         // [END android_profiling_manager_trace_upload_job_kotlin]
     }
