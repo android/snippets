@@ -38,6 +38,6 @@
                 pivotX="0.5" pivotY="0.8571"
                 tintColor="[CONFIGURATION.myThemeColor.2]"/>
         </AnalogClock>
-        <!-- [END android_watch_face_color_configuration_complex] -->
+        <!-- [END android_watch_face_color_configuration_use] -->
     </Scene>
 </WatchFace>
