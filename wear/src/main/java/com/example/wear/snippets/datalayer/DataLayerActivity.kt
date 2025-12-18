@@ -124,6 +124,20 @@ private fun Context.sendImagePutDataMapRequest(): Task<DataItem> {
 }
 // [END android_wear_datalayer_imageputdatamap]
 
+private fun Context.sendAuthTokenPutDataMapRequest(): Task<DataItem> {
+    // [START android_wear_datalayer_auth_token_sharing]
+
+    val token = "..." // Auth token to transmit to the Wear OS device.
+    val putDataReq: PutDataRequest = PutDataMapRequest.create("/auth").run {
+        dataMap.putString("token", token)
+        asPutDataRequest()
+    }
+    val putDataTask: Task<DataItem> = Wearable.getDataClient(this).putDataItem(putDataReq)
+    // [END android_wear_datalayer_auth_token_sharing]
+
+    return putDataTask
+}
+
 class DataLayerActivity2 : ComponentActivity(), DataClient.OnDataChangedListener {
     // [START android_wear_datalayer_ondatachanged_assetextract]
     override fun onDataChanged(dataEvents: DataEventBuffer) {
