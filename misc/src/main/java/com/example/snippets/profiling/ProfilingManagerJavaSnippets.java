@@ -2,8 +2,10 @@ package com.example.snippets.profiling;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.ProfilingManager;
 import android.os.ProfilingTrigger;
+import android.content.Context;
 import android.util.Log;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,10 +20,20 @@ import androidx.tracing.Trace;
 import androidx.core.os.Profiling;
 import androidx.core.os.SystemTraceRequestBuilder;
 import androidx.core.os.BufferFillPolicy;
+import androidx.annotation.RequiresApi;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.Data;
 import com.example.snippets.R;
 
 public class ProfilingManagerJavaSnippets {
+
   public class MainActivityJava extends Activity {
+
     // [START android_profiling_manager_anr_case_study_java_snippet_2]
     private static final int NETWORK_TIMEOUT_MILLISECS = 2000;
     // [END android_profiling_manager_anr_case_study_java_snippet_2]
@@ -48,6 +60,7 @@ public class ProfilingManagerJavaSnippets {
                 Log.d(
                     "ProfileTest",
                     "Received profiling result file=" + profilingResult.getResultFilePath());
+                setupProfileUploadWorker(profilingResult.getResultFilePath());
               } else {
                 Log.e(
                     "ProfileTest",
@@ -123,17 +136,13 @@ public class ProfilingManagerJavaSnippets {
     }
     // [END android_profiling_manager_triggered_trace_java]
 
-    // [START android_profiling_manager_triggered_trace_setup_upload_job_java]
-    public void setupProfileUploadWorker(String resultFilePath) {
-      // Setup job to upload the profiling result file.
-    }
-    // [END android_profiling_manager_triggered_trace_setup_upload_job_java]
-
     // [START android_profiling_manager_anr_case_study_java_snippet_1]
     public void addANRTrigger() {
-      ProfilingManager profilingManager = getApplicationContext().getSystemService(ProfilingManager.class);
+      ProfilingManager profilingManager = getApplicationContext().getSystemService(
+          ProfilingManager.class);
       List<ProfilingTrigger> triggers = new ArrayList<>();
-      ProfilingTrigger.Builder triggerBuilder = new ProfilingTrigger.Builder(ProfilingTrigger.TRIGGER_TYPE_ANR);
+      ProfilingTrigger.Builder triggerBuilder = new ProfilingTrigger.Builder(
+          ProfilingTrigger.TRIGGER_TYPE_ANR);
       triggers.add(triggerBuilder.build());
       Executor mainExecutor = Executors.newSingleThreadExecutor();
       Consumer<ProfilingResult> resultCallback =
@@ -175,14 +184,15 @@ public class ProfilingManagerJavaSnippets {
       try {
         if (Math.random() < 0.2) {
           // Simulate performing a network request by waiting a random period of time
-          int networkRequestTimeMs = (int)(Math.random() * timeoutMiliseconds);
+          int networkRequestTimeMs = (int) (Math.random() * timeoutMiliseconds);
           Thread.sleep(networkRequestTimeMs);
           return true;
         } else {
           // Simulate a timeout
           Thread.sleep(timeoutMiliseconds);
         }
-      } catch (InterruptedException e) {}
+      } catch (InterruptedException e) {
+      }
       return false;
       // [END_EXCLUDE]
     }
@@ -190,7 +200,8 @@ public class ProfilingManagerJavaSnippets {
     // [START_EXCLUDE silent]
     void cpuIntensiveComputation(int durationMs) {
       long start = System.currentTimeMillis();
-      while (System.currentTimeMillis() - start < durationMs) {}
+      while (System.currentTimeMillis() - start < durationMs) {
+      }
     }
     // [END_EXCLUDE silent]
 
@@ -208,5 +219,43 @@ public class ProfilingManagerJavaSnippets {
       Trace.endSection();
     }
     // [END android_profiling_manager_anr_case_study_java_snippet_2]
+
+    // [START android_profiling_manager_trace_upload_job_java]
+    public static class TraceUploadWorker extends Worker {
+
+      public TraceUploadWorker(
+          @androidx.annotation.NonNull Context context,
+          @androidx.annotation.NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+      }
+
+      @androidx.annotation.NonNull
+      @Override
+      public Result doWork() {
+        // Perform your uploading work here
+        Log.d("ProfileTest", "Uploading trace: " + getInputData().getString("PROFILE_PATH"));
+
+        return Result.success();
+      }
+    }
+
+    public void setupProfileUploadWorker(String profileFilepath) {
+      WorkManager workMgr = WorkManager.getInstance(getApplicationContext());
+      OneTimeWorkRequest.Builder workRequestBuilder = new OneTimeWorkRequest.Builder(
+          TraceUploadWorker.class);
+
+      Constraints constraints = new Constraints.Builder()
+          .setRequiredNetworkType(NetworkType.UNMETERED)
+          .setRequiresDeviceIdle(true)
+          .build();
+      workRequestBuilder.setConstraints(constraints);
+
+      Data.Builder inputDataBuilder = new Data.Builder();
+      inputDataBuilder.putString("PROFILE_PATH", profileFilepath);
+      workRequestBuilder.setInputData(inputDataBuilder.build());
+
+      workMgr.enqueue(workRequestBuilder.build());
+    }
+    // [END android_profiling_manager_trace_upload_job_java]
   }
 }
