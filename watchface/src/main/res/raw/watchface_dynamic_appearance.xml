@@ -41,5 +41,13 @@
             </Ellipse>
         </PartDraw>
         <!-- [END android_watch_face_dynamic_appearance_balls] -->
+
+        <!-- [START android_watch_face_dynamic_appearance_agif] -->
+        <PartAnimatedImage x="0" y="0" width="450" height="450">
+            <AnimationController play="ON_VISIBLE"/>
+            <AnimatedImage resource="animation" format="AGIF"/>
+            <Thumbnail resource="animation_thumbnail" />
+        </PartAnimatedImage>
+        <!-- [END android_watch_face_dynamic_appearance_agif] -->
     </Scene>
 </WatchFace>
