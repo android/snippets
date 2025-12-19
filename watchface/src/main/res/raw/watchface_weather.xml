@@ -35,7 +35,7 @@
             </Expressions>
             <Compare expression="is_weather_available">
                 <!-- Weather is available, so show the weather data. -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartText x="100" y="200" width="200" height="50">
                     <Text>
                         <Font family="SYNC_TO_DEVICE" size="16">
@@ -47,7 +47,7 @@
             </Compare>
             <Default>
                 <!-- Weather isn't available, so show an appropriate message. -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartText x="100" y="200" width="200" height="50">
                     <Text>
                         <Font family="SYNC_TO_DEVICE" size="16">

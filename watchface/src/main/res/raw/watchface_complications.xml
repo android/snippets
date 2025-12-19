@@ -22,7 +22,7 @@
             <BoundingOval x="0"  y="0" width="100" height="100" />
             <Complication type="SHORT_TEXT">
                 <!-- Complication content for rendering SHORT_TEXT data goes here -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartText x="0" y="0" width="100" height="100">
                     <Text align="CENTER">
                         <Font size="32">
@@ -36,7 +36,7 @@
             </Complication>
             <Complication type="SMALL_IMAGE">
                 <!-- Complication content for rendering SMALL_IMAGE data goes here -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartImage x="0" y="0" width="100" height="100">
                     <Image resource="[COMPLICATION.SMALL_IMAGE]" />
                 </PartImage>
@@ -52,7 +52,7 @@
                 defaultSystemProvider="STEP_COUNT"
                 defaultSystemProviderType="SHORT_TEXT" />
             <!-- ... -->
-            <!-- [START_EXCLUDE] -->
+            <!-- [START_EXCLUDE silent] -->
             <BoundingOval x="0"  y="0" width="250" height="250" />
             <Complication type="SHORT_TEXT">
                 <!-- Complication content for rendering SHORT_TEXT data goes here -->

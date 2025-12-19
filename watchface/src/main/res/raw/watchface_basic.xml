@@ -18,7 +18,7 @@
 <WatchFace width="450" height="450">
     <Scene>
         <!-- Content to be rendered -->
-        <!-- [START_EXCLUDE] -->
+        <!-- [START_EXCLUDE silent] -->
         <PartText x="0" y="0" width="450" height="450">
             <Text align="CENTER">
                 <Font size="32">Snippets</Font>

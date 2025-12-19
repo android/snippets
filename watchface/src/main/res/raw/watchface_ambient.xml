@@ -21,7 +21,7 @@
             <!-- Hide these elements in ambient mode -->
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <!-- Components to show in interactive mode -->
-            <!-- [START_EXCLUDE] -->
+            <!-- [START_EXCLUDE silent] -->
             <PartText x="0" y="0" width="200" height="50">
                 <Text>
                     <Font family="SYNC_TO_DEVICE" size="16">
@@ -34,7 +34,7 @@
         <Group name="logo_ambient" x="100" y="100" width="200" height="200" alpha="0">
             <Variant mode="AMBIENT" target="alpha" value="255" />
             <!-- Components to show in ambient mode -->
-            <!-- [START_EXCLUDE] -->
+            <!-- [START_EXCLUDE silent] -->
             <PartText x="0" y="0" width="200" height="50">
                 <Text>
                     <Font family="SYNC_TO_DEVICE" size="16">

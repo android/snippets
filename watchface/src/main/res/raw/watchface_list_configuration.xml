@@ -36,7 +36,7 @@
         <ListConfiguration id="background_image">
             <ListOption id="0">
                 <!-- ...Content for option 0 -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartImage x="0" y="0" width="450" height="450">
                     <Image resource="background0" />
                 </PartImage>
@@ -44,7 +44,7 @@
             </ListOption>
             <ListOption id="1">
                 <!-- ...Content for option 1 -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartImage x="0" y="0" width="450" height="450">
                     <Image resource="background1" />
                 </PartImage>
@@ -63,7 +63,7 @@
             </Expressions>
             <Compare expression="background_zero_and_something_else">
                 <!-- Content goes here -->
-                <!-- [START_EXCLUDE] -->
+                <!-- [START_EXCLUDE silent] -->
                 <PartText x="0" y="150" width="450" height="250">
                     <Text align="CENTER">
                         <Font family="pacifico" size="48">Complex</Font>
