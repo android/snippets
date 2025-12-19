@@ -84,5 +84,50 @@
             </PartText>
         </Group>
         <!-- [END android_watch_face_effect_blend_mode_combo] -->
+
+        <!-- [START android_watch_face_effect_blend_mode_before_render] -->
+        <Group name="container" x="75" y="100" width="300" height="300">
+            <PartDraw x="25" y="15" width="150" height="150">
+                <Rectangle x="0" y="0" width="150" height="150">
+                    <Fill color="#ffd3ba" />
+                </Rectangle>
+            </PartDraw>
+            <PartDraw x="100" y="15" width="150" height="150" blendMode="HUE">
+                <Ellipse x="0" y="0" width="150" height="150">
+                    <Fill color="#219ebc" />
+                </Ellipse>
+            </PartDraw>
+            <PartDraw x="100" y="15" width="150" height="150" renderMode="MASK">
+                <Rectangle x="0" y="0" width="150" height="150">
+                    <Fill color="#ffffff" />
+                </Rectangle>
+            </PartDraw>
+            <PartText x="35" y="60" width="300" height="120" blendMode="COLOR_BURN">
+                <Text align="START">
+                    <Font family="pacifico" size="96" weight="BOLD" color="#fb5607">Hello!</Font>
+                </Text>
+            </PartText>
+        </Group>
+        <!-- [END android_watch_face_effect_blend_mode_before_render] -->
+
+        <!-- [START android_watch_face_effect_tintcolor] -->
+        <Group x="75" y="100" width="350" height="350" name="group1" tintColor="#ffd3ba">
+            <PartDraw x="25" y="0" width="100" height="100">
+                <Rectangle x="0" y="0" width="100" height="100">
+                    <Fill color="#ffffff" />
+                </Rectangle>
+            </PartDraw>
+            <PartDraw x="150" y="0" width="100" height="100">
+                <Ellipse x="25" y="0" width="100" height="100">
+                    <Fill color="#ffffff" />
+                </Ellipse>
+            </PartDraw>
+            <PartText x="0" y="150" width="300" height="80">
+                <Text align="CENTER">
+                    <Font family="pacifico" size="72" weight="BOLD" color="#ffffff">Hello!</Font>
+                </Text>
+            </PartText>
+        </Group>
+        <!-- [END android_watch_face_effect_tintcolor] -->
     </Scene>
 </WatchFace>
