@@ -99,6 +99,8 @@ wearRemoteInteractions = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.15.0"
 wfp = "1.0.0-beta01"
+xrGlimmer = "1.0.0-alpha03"
+xrProjected = "1.0.0-alpha03"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -244,6 +246,10 @@ roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule"
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
+androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
+androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "xrGlimmer" }
+androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "xrProjected" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
