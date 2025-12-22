@@ -40,6 +40,8 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.glimmer)
+    implementation(libs.androidx.projected)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
