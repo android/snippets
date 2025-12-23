@@ -36,6 +36,8 @@ class GlassesMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        lifecycle.addObserver(GlassesLifecycleObserver())
+
         setContent {
             GlimmerTheme {
                 HomeScreen(onClose = {
@@ -43,17 +45,6 @@ class GlassesMainActivity : ComponentActivity() {
                 })
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // Do things to make the user aware that this activity is active (for
-        // example, play audio frequently), when the display is off.
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // Stop all the data source access.
     }
 
 }
@@ -64,7 +55,8 @@ class GlassesMainActivity : ComponentActivity() {
 fun HomeScreen(modifier: Modifier = Modifier, onClose: () -> Unit) {
     Box(
         modifier = modifier
-            .surface(focusable = false).fillMaxSize(),
+            .surface(focusable = false)
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Card(

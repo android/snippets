@@ -98,7 +98,7 @@ wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 wearPhoneInteractions = "1.1.0"
 wearRemoteInteractions = "1.1.0"
-glimmer = "1.0.0-alpha03"
+xrGlimmer = "1.0.0-alpha03"
 projected = "1.0.0-alpha03"
 
 [libraries]
@@ -243,7 +243,7 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
-androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "glimmer" }
+androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "xrGlimmer" }
 androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "projected" }
 
 [plugins]
