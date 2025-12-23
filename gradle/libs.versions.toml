@@ -99,7 +99,7 @@ webkit = "1.14.0"
 wearPhoneInteractions = "1.1.0"
 wearRemoteInteractions = "1.1.0"
 xrGlimmer = "1.0.0-alpha03"
-projected = "1.0.0-alpha03"
+xrProjected = "1.0.0-alpha03"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -244,7 +244,7 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
 androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "xrGlimmer" }
-androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "projected" }
+androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "xrProjected" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
