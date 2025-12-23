@@ -14,181 +14,181 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.tooling
+//package com.example.compose.snippets.tooling
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.example.compose.snippets.R
+//import androidx.compose.foundation.background
+//import androidx.compose.foundation.layout.Box
+//import androidx.compose.material3.MaterialTheme
+//import androidx.compose.material3.Surface
+//import androidx.compose.material3.Text
+//import androidx.compose.runtime.Composable
+//import androidx.compose.ui.Modifier
+//import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.platform.LocalInspectionMode
+//import androidx.compose.ui.res.stringResource
+//import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.PreviewParameter
+//import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+//import com.example.compose.snippets.R
 
 // [START android_compose_tooling_simple_composable]
-@Composable
-fun SimpleComposable() {
-    Text("Hello World")
+//@Composable
+//fun SimpleComposable() {
+  //  Text("Hello World")
 }
 // [END android_compose_tooling_simple_composable]
 
 // [START android_compose_tooling_simple_composable_preview]
-@Preview
-@Composable
-fun SimpleComposablePreview() {
-    SimpleComposable()
+//@Preview
+//@Composable
+//fun SimpleComposablePreview() {
+//    SimpleComposable()
 }
 // [END android_compose_tooling_simple_composable_preview]
 
 // [START android_compose_tooling_local_inspection_mode]
-@Composable
-fun GreetingScreen(name: String) {
-    if (LocalInspectionMode.current) {
+//@Composable
+//fun GreetingScreen(name: String) {
+   // if (LocalInspectionMode.current) {
         // Show this text in a preview window:
-        Text("Hello preview user!")
+    //    Text("Hello preview user!")
     } else {
         // Show this text in the app:
-        Text("Hello $name!")
+      //  Text("Hello $name!")
     }
 }
 // [END android_compose_tooling_local_inspection_mode]
 
 // [START android_compose_tooling_multipreview_annotations]
-@Preview(
-    name = "small font",
-    group = "font scales",
-    fontScale = 0.5f
+//@Preview(
+//    name = "small font",
+  //  group = "font scales",
+    //fontScale = 0.5f
 )
-@Preview(
-    name = "large font",
-    group = "font scales",
-    fontScale = 1.5f
+//@Preview(
+    //name = "large font",
+    //group = "font scales",
+    //fontScale = 1.5f
 )
-annotation class FontScalePreviews
+//annotation class FontScalePreviews
 // [END android_compose_tooling_multipreview_annotations]
 
 // [START android_compose_tooling_multipreview_usage]
-@FontScalePreviews
-@Composable
-fun HelloWorldPreview() {
-    Text("Hello World")
+//@FontScalePreviews
+//@Composable
+//fun HelloWorldPreview() {
+  //  Text("Hello World")
 }
 // [END android_compose_tooling_multipreview_usage]
 
 // [START android_compose_tooling_multipreview_combine]
-@Preview(
-    name = "Spanish",
-    group = "locale",
-    locale = "es"
+//@Preview(
+ //   name = "Spanish",
+   // group = "locale",
+    //locale = "es"
 )
-@FontScalePreviews
-annotation class CombinedPreviews
+//@FontScalePreviews
+//annotation class CombinedPreviews
 
-@CombinedPreviews
-@Composable
-fun HelloWorldPreview2() {
-    MaterialTheme { Surface { Text(stringResource(R.string.hello_world)) } }
+//@CombinedPreviews
+//@Composable
+//fun HelloWorldPreview2() {
+  //  MaterialTheme { Surface { Text(stringResource(R.string.hello_world)) } }
 }
 // [END android_compose_tooling_multipreview_combine]
 
 // [START android_compose_tooling_preview_bg_color]
-@Preview(showBackground = true, backgroundColor = 0xFF00FF00)
-@Composable
-fun WithGreenBackground() {
-    Text("Hello World")
+//@Preview(showBackground = true, backgroundColor = 0xFF00FF00)
+//@Composable
+//fun WithGreenBackground() {
+   // Text("Hello World")
 }
 // [END android_compose_tooling_preview_bg_color]
 
 // [START android_compose_tooling_preview_dimens]
-@Preview(widthDp = 50, heightDp = 50)
-@Composable
-fun SquareComposablePreview() {
-    Box(Modifier.background(Color.Yellow)) {
-        Text("Hello World")
+//@Preview(widthDp = 50, heightDp = 50)
+//@Composable
+//fun SquareComposablePreview() {
+  //  Box(Modifier.background(Color.Yellow)) {
+    //    Text("Hello World")
     }
 }
 // [END android_compose_tooling_preview_dimens]
 
 // [START android_compose_tooling_preview_locale]
-@Preview(locale = "fr-rFR")
-@Composable
-fun DifferentLocaleComposablePreview() {
-    Text(text = stringResource(R.string.greeting))
+//@Preview(locale = "fr-rFR")
+//@Composable
+//fun DifferentLocaleComposablePreview() {
+  //  Text(text = stringResource(R.string.greeting))
 }
 // [END android_compose_tooling_preview_locale]
 
 // [START android_compose_tooling_preview_system_ui]
-@Preview(showSystemUi = true)
-@Composable
-fun DecoratedComposablePreview() {
-    Text("Hello World")
+//@Preview(showSystemUi = true)/
+//@Composable
+//fun DecoratedComposablePreview() {
+  //  Text("Hello World")
 }
 // [END android_compose_tooling_preview_system_ui]
 
 // [START android_compose_tooling_preview_parameter_provider_composable]
-@Preview
-@Composable
-fun UserProfilePreview(
-    @PreviewParameter(UserPreviewParameterProvider::class) user: User
-) {
-    UserProfile(user)
+//@Preview
+//@Composable
+//fun UserProfilePreview(
+  //  @PreviewParameter(UserPreviewParameterProvider::class) user: User
+) //{
+    //UserProfile(user)
 }
 
 // [START_EXCLUDE silent]
-@Composable
-fun UserProfile(user: User) {
+//@Composable
+//fun UserProfile(user: User) {
 }
 // [END_EXCLUDE]
 // [END android_compose_tooling_preview_parameter_provider_composable]
 
 // [START android_compose_tooling_preview_parameter_provider]
-class UserPreviewParameterProvider : PreviewParameterProvider<User> {
-    override val values = sequenceOf(
-        User("Elise"),
-        User("Frank"),
-        User("Julia")
+//class UserPreviewParameterProvider : PreviewParameterProvider<User> {
+  //  override val values = sequenceOf(
+    //    User("Elise"),
+      //  User("Frank"),
+        //User("Julia")
     )
 }
 // [END android_compose_tooling_preview_parameter_provider]
 
 // [START android_compose_tooling_preview_parameter_provider_composable2]
-@Preview
-@Composable
-fun UserProfilePreview2(
-    @PreviewParameter(UserPreviewParameterProvider::class, limit = 2) user: User
+//@Preview
+//@Composable
+//fun UserProfilePreview2(
+  //  @PreviewParameter(UserPreviewParameterProvider::class, limit = 2) user: User
 ) {
-    UserProfile(user)
+    //UserProfile(user)
 }
 // [END android_compose_tooling_preview_parameter_provider_composable2]
 
 
 // [START android_compose_tooling_preview_parameter_provider_composable3]
-class UserAgePreviewParameterProvider : PreviewParameterProvider<User> {
+//class UserAgePreviewParameterProvider : PreviewParameterProvider<User> {
     // Using a List internally for efficient index-based access
-    private val userList = listOf(
-        User(name = "Elise", age = 30),
-        User(name = "Frank", age = 31),
-        User(name = "Julia", age = 40)
+  //  private val userList = listOf(
+    //    User(name = "Elise", age = 30),
+      //  User(name = "Frank", age = 31),
+        //User(name = "Julia", age = 40)
     )
 
-    override val values = userList.asSequence()
+  //  override val values = userList.asSequence()
 
-    override fun getDisplayName(index: Int): String? {
+    //override fun getDisplayName(index: Int): String? {
         // Return null or an empty string to use the default index-based name
-        val user = userList.getOrNull(index) ?: return null
-        return "${user.name} - ${user.age}"
+      //  val user = userList.getOrNull(index) ?: return null
+        //return "${user.name} - ${user.age}"
     }
 }
 // [END android_compose_tooling_preview_parameter_provider_composable3]
 
 // [START_EXCLUDE silent]
-data class User(val name: String, val age: Int = 0)
+//data class User(val name: String, val age: Int = 0)
 // [END_EXCLUDE]
 
 /*
