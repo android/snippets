@@ -20,7 +20,6 @@
     <application
         android:label="XR"
         tools:ignore="MissingApplicationIcon">
-        <!-- [START androidxr_projected_ai_glasses_activity_manifest]
         <activity
             android:name="com.example.xr.projected.GlassesMainActivity"
             android:exported="true"
@@ -29,7 +28,6 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        [END androidxr_projected_ai_glasses_activity_manifest] -->
         <activity
             android:name="com.example.xr.projected.PhoneMainActivity"
             android:exported="true">
