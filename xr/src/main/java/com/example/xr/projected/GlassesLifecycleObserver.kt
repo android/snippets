@@ -16,16 +16,35 @@
 
 package com.example.xr.projected
 
+import android.content.Context
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.xr.projected.ProjectedDisplayController
+import androidx.xr.projected.ProjectedDisplayController.PresentationMode
+import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import java.util.function.Consumer
 
-class GlassesLifecycleObserver : DefaultLifecycleObserver {
+@OptIn(ExperimentalProjectedApi::class)
+class GlassesLifecycleObserver(
+    private val context: Context,
+    private val controller: ProjectedDisplayController,
+    private val onVisualsChanged: (Boolean) -> Unit
+) : DefaultLifecycleObserver {
+
+    private val executor = ContextCompat.getMainExecutor(context)
+
+    private val visualStateListener = Consumer<ProjectedDisplayController.PresentationModeFlags> { flags ->
+        val visualsOn = flags.hasPresentationMode(PresentationMode.VISUALS_ON)
+        onVisualsChanged(visualsOn)
+    }
+
     override fun onStart(owner: LifecycleOwner) {
-        // Do things to make the user aware that this activity is active (for
-        // example, play audio frequently), when the display is off.
+        controller.addPresentationModeChangedListener(executor, visualStateListener)
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        // Stop all the data source access.
+        // unregister to stop consuming values and prevent memory leaks.
+        controller.removePresentationModeChangedListener(visualStateListener)
     }
 }
