@@ -68,7 +68,7 @@ private class MaterialOverride(val xrSession: Session) {
     private fun setMaterialOverride(entity: GltfModelEntity, pbrMaterial: KhronosPbrMaterial) {
         // [START androidxr_scenecore_material_override_setMaterialOverride]
         entity.setMaterialOverride(
-            material = newMaterial,
+            material = pbrMaterial,
             nodeName = "Node Name"
         )
         // [END androidxr_scenecore_material_override_setMaterialOverride]
