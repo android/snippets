@@ -27,7 +27,7 @@ import kotlin.io.path.Path
 private class MaterialOverride(val xrSession: Session) {
     private suspend fun createMaterial() {
         // [START androidxr_scenecore_material_override_createMaterial]
-        KhronosPbrMaterial.create(
+        val material = KhronosPbrMaterial.create(
             session = xrSession,
             alphaMode = AlphaMode.OPAQUE
         )
