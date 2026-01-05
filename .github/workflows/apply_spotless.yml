@@ -11,14 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Apply spotless
+#name: Apply spotless
 
-on:
-  pull_request:
-    branches: [ '*' ]
-  workflow_dispatch:
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+#on:
+ # pull_request:
+   # branches: [ '*' ]
+  #workflow_dispatch:
+#concurrency:
+  #group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
