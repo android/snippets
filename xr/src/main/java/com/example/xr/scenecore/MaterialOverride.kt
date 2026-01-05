@@ -51,7 +51,7 @@ private class MaterialOverride(val xrSession: Session) {
         // [START androidxr_scenecore_material_override_createTexture]
         val texture = Texture.create(
             session = xrSession,
-            path = Path("textures/white.png")
+            path = Path("textures/texture_file.png")
         )
         // [END androidxr_scenecore_material_override_createTexture]
     }
