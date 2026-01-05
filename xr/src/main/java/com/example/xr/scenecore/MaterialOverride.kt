@@ -49,7 +49,7 @@ private class MaterialOverride(val xrSession: Session) {
 
     private suspend fun createTexture() {
         // [START androidxr_scenecore_material_override_createTexture]
-        Texture.create(
+        val texture = Texture.create(
             session = xrSession,
             path = Path("textures/white.png")
         )
