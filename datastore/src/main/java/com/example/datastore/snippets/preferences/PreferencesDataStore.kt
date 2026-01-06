@@ -30,20 +30,6 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 // [END android_datastore_preferences_create]
 
-/*
-// [START android_datastore_preferences_migrate]
-// Be sure to pass the original SharePreferences name when creating the migration.
-private val SETTINGS_NAME = "settings"
-
-private val Context.dataStore by preferencesDataStore(
-    name = SETTINGS_NAME,
-    produceMigrations = { context ->
-        listOf(SharedPreferencesMigration(context, SETTINGS_NAME))
-    }
-)
-// [END android_datastore_preferences_migrate]
-*/
-
 class PreferencesDataStore(private val context: Context) {
 
     // [START android_datastore_preferences_read]
