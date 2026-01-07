@@ -40,24 +40,49 @@ import com.example.compose.snippets.touchinput.Button
 
 @Composable
 fun AddAutofill() {
-    // [START android_compose_autofill_1]
+    var textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    // [START android_compose_autofill_1_value]
+    TextField(
+        value = textFieldValue.value,
+        onValueChange = {textFieldValue.value = it},
+        modifier = Modifier.semantics { contentType = ContentType.Username }
+    )
+    // [END android_compose_autofill_1_value]
+
+    // [START android_compose_autofill_1_state]
     TextField(
         state = rememberTextFieldState(),
         modifier = Modifier.semantics { contentType = ContentType.Username }
     )
-    // [END android_compose_autofill_1]
+    // [END android_compose_autofill_1_state]
 }
 
 @Composable
 fun AddMultipleTypesOfAutofill() {
-    // [START android_compose_autofill_2]
+    var textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    // [START android_compose_autofill_2_value]
+    TextField(
+        value = textFieldValue.value,
+        onValueChange = { textFieldValue.value = it },
+        modifier = Modifier.semantics {
+            contentType = ContentType.Username + ContentType.EmailAddress
+        }
+    )
+    // [END android_compose_autofill_2_value]
+
+    // [START android_compose_autofill_2_state]
     TextField(
         state = rememberTextFieldState(),
         modifier = Modifier.semantics {
             contentType = ContentType.Username + ContentType.EmailAddress
         }
     )
-    // [END android_compose_autofill_2]
+    // [END android_compose_autofill_2_state]
 }
 
 @Composable
@@ -68,11 +93,35 @@ fun AutofillManager() {
 }
 
 @Composable
-fun SaveDataWithAutofill() {
+fun SaveDateWithAutofillValue() {
     var textFieldValue = remember {
         mutableStateOf(TextFieldValue(""))
     }
-    // [START android_compose_autofill_4]
+    // [START android_compose_autofill_4_value]
+    val autofillManager = LocalAutofillManager.current
+
+    Column {
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword }
+        )
+    }
+    // [END android_compose_autofill_4_value]
+}
+
+@Composable
+fun SaveDataWithAutofillState() {
+
+    // [START android_compose_autofill_4_state]
     val autofillManager = LocalAutofillManager.current
 
     Column {
@@ -88,12 +137,42 @@ fun SaveDataWithAutofill() {
             modifier = Modifier.semantics { contentType = ContentType.NewPassword }
         )
     }
-    // [END android_compose_autofill_4]
+    // [END android_compose_autofill_4_state]
+}
+
+
+@Composable
+fun SaveDataWithAutofillOnClickValue() {
+    var textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    // [START android_compose_autofill_5_value]
+    val autofillManager = LocalAutofillManager.current
+
+    Column {
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername },
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword },
+        )
+
+        // Submit button
+        Button(onClick = { autofillManager?.commit() }) { Text("Reset credentials") }
+    }
+    // [END android_compose_autofill_5_value]
 }
 
 @Composable
-fun SaveDataWithAutofillOnClick() {
-    // [START android_compose_autofill_5]
+fun SaveDataWithAutofillOnClickState() {
+    // [START android_compose_autofill_5_state]
     val autofillManager = LocalAutofillManager.current
 
     Column {
@@ -112,12 +191,31 @@ fun SaveDataWithAutofillOnClick() {
         // Submit button
         Button(onClick = { autofillManager?.commit() }) { Text("Reset credentials") }
     }
-    // [END android_compose_autofill_5]
+    // [END android_compose_autofill_5_state]
 }
 
 @Composable
-fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
-    // [START android_compose_autofill_6]
+fun CustomAutofillHighlightValue() {
+    var textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    // [START android_compose_autofill_6_value]
+    val customHighlightColor = Color.Red
+
+    CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.Username }
+        )
+    }
+    // [END android_compose_autofill_6_value]
+}
+
+@Composable
+fun CustomAutofillHighlightState(customHighlightColor: Color = Color.Red) {
+    // [START android_compose_autofill_6_state]
     val customHighlightColor = Color.Red
 
     CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
@@ -126,5 +224,5 @@ fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
             modifier = Modifier.semantics { contentType = ContentType.Username }
         )
     }
-    // [END android_compose_autofill_6]
+    // [END android_compose_autofill_6_state]
 }
