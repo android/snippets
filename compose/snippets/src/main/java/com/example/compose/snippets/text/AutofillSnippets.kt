@@ -93,7 +93,7 @@ fun AutofillManager() {
 }
 
 @Composable
-fun SaveDateWithAutofillValue() {
+fun SaveDataWithAutofillValue() {
     val textFieldValue = remember {
         mutableStateOf(TextFieldValue(""))
     }
