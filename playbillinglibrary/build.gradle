@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation "com.google.common.collect:collect:1.0.0"
+    implementation libs.guava
     implementation libs.billing
     implementation libs.androidx.appcompat
     implementation libs.google.android.material
