@@ -45,4 +45,4 @@ include(
     ":kmp:androidApp",
     ":kmp:shared"
 )
-include(":playbillinglibrary")
+include(":playbilling")
