@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library) apply false
     alias(libs.plugins.android.lint) apply false
     alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.roborazzi) apply false
 }
 
 allprojects {
