@@ -31,11 +31,17 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.xr.arcore)
+    implementation(libs.androidx.xr.arcore) {
+        exclude(module="impress")
+    }
     implementation(libs.androidx.arcore.play.services)
     implementation(libs.google.ar.core)
-    implementation(libs.androidx.xr.scenecore)
-    implementation(libs.androidx.xr.compose)
+    implementation(libs.androidx.xr.scenecore) {
+        exclude(module="impress")
+    }
+    implementation(libs.androidx.xr.compose) {
+        exclude(module="impress")
+    }
 
     implementation(libs.androidx.activity.ktx)
 

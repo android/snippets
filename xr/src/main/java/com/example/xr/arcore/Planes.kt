@@ -16,11 +16,11 @@
 
 package com.example.xr.arcore
 
+import androidx.xr.arcore.ArDevice
 import androidx.xr.arcore.Plane
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
-import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Ray
 import androidx.xr.scenecore.scene
 
@@ -46,8 +46,9 @@ private suspend fun subscribePlanes(session: Session) {
 }
 
 private fun hitTestTable(session: Session) {
-    val pose = session.scene.spatialUser.head?.transformPoseTo(Pose(), session.scene.perceptionSpace) ?: return
-    val ray = Ray(pose.translation, pose.forward)
+    val devicePose = ArDevice.getInstance(session).state.value.devicePose
+    val activitySpacePose = session.scene.perceptionSpace.transformPoseTo(devicePose, session.scene.activitySpace)
+    val ray = Ray(activitySpacePose.translation, activitySpacePose.forward)
     // [START androidxr_arcore_hitTest]
     val results = androidx.xr.arcore.hitTest(session, ray)
     // When interested in the first Table hit:
