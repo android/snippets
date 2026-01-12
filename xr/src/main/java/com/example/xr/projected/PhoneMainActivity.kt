@@ -77,7 +77,7 @@ fun ConnectionScreen() {
             )
             Spacer(modifier = Modifier.height(32.dp))
             val scope = rememberCoroutineScope()
-            val isGlassesConnected by ProjectedContext.isProjectedDeviceConnected(
+            val areGlassesConnected by ProjectedContext.isProjectedDeviceConnected(
                 context,
                 scope.coroutineContext
             ).collectAsStateWithLifecycle(initialValue = false)
@@ -92,9 +92,9 @@ fun ConnectionScreen() {
                     // [END androidxr_projected_start_glasses_activity]
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isGlassesConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                    containerColor = if (areGlassesConnected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
                 ),
-                enabled = isGlassesConnected
+                enabled = areGlassesConnected
             ) {
                 Text(
                     text = "Launch",
@@ -103,7 +103,7 @@ fun ConnectionScreen() {
             }
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = "Status: " + if (isGlassesConnected) "Connected" else "Disconnected",
+                text = "Status: " + if (areGlassesConnected) "Connected" else "Disconnected",
                 style = MaterialTheme.typography.titleMedium
             )
         }

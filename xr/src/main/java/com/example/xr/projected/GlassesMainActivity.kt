@@ -19,16 +19,16 @@ package com.example.xr.projected
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.Card
@@ -36,6 +36,8 @@ import androidx.xr.glimmer.GlimmerTheme
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.surface
 import androidx.xr.projected.ProjectedDisplayController
+import androidx.xr.projected.ProjectedDeviceController
+import androidx.xr.projected.ProjectedDeviceController.Capability.Companion.CAPABILITY_VISUAL_UI
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import kotlinx.coroutines.launch
 
@@ -43,35 +45,42 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalProjectedApi::class)
 class GlassesMainActivity : ComponentActivity() {
 
+    private var displayController: ProjectedDisplayController? = null
+    private var isVisualUiSupported by mutableStateOf(false)
+    private var areVisualsOn by mutableStateOf(true)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel: GlassesViewModel by viewModels()
+
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                displayController?.close()
+                displayController = null
+            }
+        })
 
         lifecycleScope.launch {
-            val controller = ProjectedDisplayController.create(this@GlassesMainActivity)
+            // [START androidxr_projected_device_capabilities_check]
+            // Check device capabilities
+            val projectedDeviceController = ProjectedDeviceController.create(this@GlassesMainActivity)
+            isVisualUiSupported = projectedDeviceController.capabilities.contains(CAPABILITY_VISUAL_UI)
+            // [END androidxr_projected_device_capabilities_check]
 
+            val controller = ProjectedDisplayController.create(this@GlassesMainActivity)
+            displayController = controller
             val observer = GlassesLifecycleObserver(
                 context = this@GlassesMainActivity,
                 controller = controller,
-                onVisualsChanged = viewModel::updateVisuals
+                onVisualsChanged = { visualsOn -> areVisualsOn = visualsOn }
             )
             lifecycle.addObserver(observer)
-
-            // Cleanup observer to close the controller
-            lifecycle.addObserver(object : DefaultLifecycleObserver {
-                override fun onDestroy(owner: LifecycleOwner) {
-                    controller.close()
-                }
-            })
         }
 
         setContent {
-            // [required] Use collectAsStateWithLifecycle for safe collection
-            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
             GlimmerTheme {
                 HomeScreen(
-                    visualsOn = uiState.areVisualsOn,
+                    areVisualsOn = areVisualsOn,
+                    isVisualUiSupported = isVisualUiSupported,
                     onClose = { finish() }
                 )
             }
@@ -83,7 +92,8 @@ class GlassesMainActivity : ComponentActivity() {
 // [START androidxr_projected_ai_glasses_activity_homescreen]
 @Composable
 fun HomeScreen(
-    visualsOn: Boolean,
+    areVisualsOn: Boolean,
+    isVisualUiSupported: Boolean,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -93,19 +103,23 @@ fun HomeScreen(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Card(
-            title = { Text("Android XR") },
-            action = {
-                Button(onClick = onClose) {
-                    Text("Close")
+        if (isVisualUiSupported) {
+            Card(
+                title = { Text("Android XR") },
+                action = {
+                    Button(onClick = onClose) {
+                        Text("Close")
+                    }
+                }
+            ) {
+                if (areVisualsOn) {
+                    Text("Hello, AI Glasses!")
+                } else {
+                    Text("Display is off. Audio guidance active.")
                 }
             }
-        ) {
-            if (visualsOn) {
-                Text("Hello, AI Glasses!")
-            } else {
-                Text("Display is off. Audio guidance active.")
-            }
+        } else {
+            Text("Audio Guidance Mode Active")
         }
     }
 }
