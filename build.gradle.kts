@@ -23,6 +23,12 @@ allprojects {
         kotlin {
             target("**/*.kt")
             targetExclude("**/build/**/*.kt", "spotless/**/*.kt")
+            targetExclude(
+                "**/build/**/*.kt",
+                "spotless/**/*.kt",
+                "src/main/kotlin/com/example/android/kotlin/style/StyleGuideFormatting.kt",
+                "src/test/kotlin/com/example/android/kotlin/style/StyleGuideFormattingTest.kt",
+            )
 
             val disabledRules = arrayOf(
                 // These rules were introduced in ktlint 0.46.0 and should not be
