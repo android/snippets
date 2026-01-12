@@ -251,7 +251,7 @@ class AlwaysOnService3 : AlwaysOnServiceBase() {
     }
 }
 
-class AlwaysOnServiceMisc {
+object AlwaysOnServiceMisc {
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun update(context: Context, ongoingActivity: OngoingActivity, newStatus: Status) {
         // [START android_wear_ongoing_activity_update]
