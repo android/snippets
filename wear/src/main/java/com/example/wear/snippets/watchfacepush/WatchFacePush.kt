@@ -97,9 +97,10 @@ class WatchFacePushSnippetManager(context: Context) {
 
     fun getMetaData(watchFaceDetails: WatchFacePushManager.WatchFaceDetails) {
         // [START android_wear_wfp_get_meta_data]
-        watchFaceDetails
+        val color = watchFaceDetails
             .getMetaData("com.myapp.watchfacepush.mywatchface.default_color")
             .invoke()
+        Log.i(TAG, "Default color: $color")
         // [END android_wear_wfp_get_meta_data]
     }
 }
