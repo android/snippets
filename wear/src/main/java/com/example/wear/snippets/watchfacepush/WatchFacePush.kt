@@ -63,7 +63,7 @@ class WatchFacePushSnippetManager(context: Context) {
         // com.example.watchfacepush.red
         val slotId =
             watchFacePushManager.listWatchFaces().installedWatchFaceDetails.firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
-                ?: throw Exception("No green watch face found")
+                ?: throw IllegalArgumentException("No green watch face found")
         try {
             watchFacePushManager.updateWatchFace(slotId, redParcelFileDesc, redValidationToken)
         } catch (e: WatchFacePushManager.UpdateWatchFaceException) {
