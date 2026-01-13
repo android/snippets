@@ -33,7 +33,12 @@ class WatchFacePushSnippetManager(context: Context) {
         // [START android_wear_wfp_list_watch_faces]
         val response = watchFacePushManager.listWatchFaces()
         val installedList = response.installedWatchFaceDetails
+        installedList.forEach {
+            Log.i(TAG, "Installed watchface: ${it.packageName}")
+        }
+
         val remainingSlots = response.remainingSlotCount
+        Log.i(TAG, "Remaining slots: $remainingSlots")
         // [END android_wear_wfp_list_watch_faces]
     }
 
@@ -49,7 +54,7 @@ class WatchFacePushSnippetManager(context: Context) {
             val slot = watchFacePushManager.addWatchFace(parcelFileDescriptor, token)
             Log.i(TAG, "${slot.packageName} (${slot.versionCode}) added in slot ${slot.slotId}")
         } catch (e: WatchFacePushManager.AddWatchFaceException) {
-            // Something went wrong adding the watch face.
+            Log.e(TAG, "Something went wrong installing the watch face", e)
         }
         // [END android_wear_wfp_add_watch_face]
     }
@@ -67,7 +72,7 @@ class WatchFacePushSnippetManager(context: Context) {
         try {
             watchFacePushManager.updateWatchFace(slotId, redParcelFileDesc, redValidationToken)
         } catch (e: WatchFacePushManager.UpdateWatchFaceException) {
-            // Something went wrong updating the watch face.
+            Log.e(TAG, "Something went wrong updating the watch face", e)
         }
         // [END android_wear_wfp_replace_watch_face]
     }
@@ -82,7 +87,7 @@ class WatchFacePushSnippetManager(context: Context) {
         try {
             watchFacePushManager.removeWatchFace(slotId)
         } catch (e: WatchFacePushManager.RemoveWatchFaceException) {
-            // Something went wrong removing the watch face.
+            Log.e(TAG, "Something went wrong removing the watch face", e)
         }
         // [END android_wear_wfp_remove_watch_face]
     }
