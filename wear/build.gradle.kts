@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wear"
-        minSdk = 26
+        minSdk = 33
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -103,6 +103,7 @@ dependencies {
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.watchface.complications.data.source.ktx)
     implementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.androidx.watchfacepush)
 
     // Testing
     testImplementation(libs.androidx.compose.ui.test.junit4)

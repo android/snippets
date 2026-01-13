@@ -22,6 +22,16 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- [START android_wear_wfp_general_permission] -->
+    <!-- Required to use the Watch Face Push API.  -->
+    <uses-permission android:name="com.google.wear.permission.PUSH_WATCH_FACES" />
+    <!-- [END android_wear_wfp_general_permission] -->
+
+    <!-- [START android_wear_wfp_active_permission] -->
+    <!-- Required to be able to call the setWatchFaceAsActive() method. -->
+    <uses-permission android:name="com.google.wear.permission.SET_PUSHED_WATCH_FACE_AS_ACTIVE" />
+    <!-- [END android_wear_wfp_active_permission] -->
+
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
@@ -30,6 +40,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- [START android_wear_wfp_default_watch_face_token] -->
+        <meta-data
+            android:name="com.google.android.wearable.marketplace.DEFAULT_WATCHFACE_VALIDATION_TOKEN"
+            android:value="@string/default_wf_token" />
+        <!-- [END android_wear_wfp_default_watch_face_token] -->
+
+        <!-- [START android_wear_wfp_meta_data_property] -->
+        <!-- For watch face com.myapp.watchfacepush.mywatchface -->
+        <property
+            android:name="default_color"
+            android:value="red" />
+        <!-- [END android_wear_wfp_meta_data_property] -->
 
         <!-- [START android_wear_splash_manifest] -->
         <activity
