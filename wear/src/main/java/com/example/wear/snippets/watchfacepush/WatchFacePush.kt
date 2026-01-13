@@ -77,7 +77,7 @@ class WatchFacePushSnippetManager(context: Context) {
         // Remove the com.example.watchfacepush.green watch face.
         val slotId =
             watchFacePushManager.listWatchFaces().installedWatchFaceDetails.firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
-                ?: throw Exception("No green watch face found")
+                ?: throw IllegalArgumentException("No green watch face found")
 
         try {
             watchFacePushManager.removeWatchFace(slotId)
