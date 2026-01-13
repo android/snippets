@@ -21,6 +21,7 @@ import android.util.Log
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
+import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
 
@@ -57,6 +58,29 @@ class DataLayerListenerService : WearableListenerService() {
     }
 }
 // [END android_wear_datalayer_datalayerlistenerservice]
+
+// [START android_wear_datalayer_auth_token_sharing_listener]
+class AuthDataListenerService : WearableListenerService() {
+    override fun onDataChanged(dataEvents: DataEventBuffer) {
+        dataEvents.forEach { event ->
+            if (event.type == DataEvent.TYPE_CHANGED) {
+                val dataItemPath = event.dataItem.uri.path ?: ""
+
+                if (dataItemPath.startsWith("/auth")) {
+                    val token = DataMapItem.fromDataItem(event.dataItem)
+                        .dataMap
+                        .getString("token")
+                    // Display an interstitial screen to notify the user that they're being signed
+                    // in. Then, store the token and use it in network requests.
+// [END android_wear_datalayer_auth_token_sharing_listener]
+                    handleSignInSequence(token)
+                }
+            }
+        }
+    }
+    /** placeholder sign in handler. */
+    fun handleSignInSequence(token: String?) {}
+}
 
 // [START android_wear_datalayer_ondatachangedlisteneer]
 class MainActivity : Activity(), DataClient.OnDataChangedListener {

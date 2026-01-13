@@ -2,7 +2,7 @@
 accompanist = "0.36.0"
 activityKtx = "1.12.1"
 android-googleid = "1.1.1"
-androidGradlePlugin = "8.13.1"
+androidGradlePlugin = "8.13.2"
 androidx-activity-compose = "1.12.1"
 androidx-appcompat = "1.7.0"
 androidx-compose-bom = "2025.12.00"
@@ -29,6 +29,7 @@ androidx-test-junit = "1.3.0"
 androidx-window = "1.5.1"
 androidx-window-core = "1.5.1"
 androidx-window-java = "1.5.1"
+androidx-work-runtime = "2.11.0"
 androidx-xr-arcore = "1.0.0-alpha09"
 androidx-xr-compose = "1.0.0-alpha09"
 androidx-xr-scenecore = "1.0.0-alpha10"
@@ -95,6 +96,8 @@ wearInput = "1.2.0"
 wearOngoing = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
+wearPhoneInteractions = "1.1.0"
+wearRemoteInteractions = "1.1.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -193,6 +196,7 @@ androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window-core" }
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work-runtime" }
 androidx-work-runtime-ktx = "androidx.work:work-runtime-ktx:2.11.0"
 androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
 androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
@@ -235,6 +239,8 @@ roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule"
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
+androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
