@@ -98,6 +98,7 @@ wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 wearPhoneInteractions = "1.1.0"
 wearRemoteInteractions = "1.1.0"
+wfp = "1.0.0-beta01"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -187,6 +188,7 @@ androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version
 androidx-tiles-tooling = { module = "androidx.wear.tiles:tiles-tooling", version.ref = "tiles" }
 androidx-tiles-tooling-preview = { module = "androidx.wear.tiles:tiles-tooling-preview", version.ref = "tiles" }
 androidx-tracing = { module = "androidx.tracing:tracing", version.ref = "tracing" }
+androidx-watchfacepush = { module = "androidx.wear.watchfacepush:watchfacepush", version.ref = "wfp" }
 androidx-watchface-complications-data-source-ktx = { module = "androidx.wear.watchface:watchface-complications-data-source-ktx", version.ref = "watchfaceComplicationsDataSourceKtx" }
 androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
 androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wearInput" }
