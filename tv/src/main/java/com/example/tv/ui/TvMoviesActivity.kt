@@ -3,9 +3,9 @@ package com.example.tv.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +29,20 @@ import com.example.tv.data.Section
 
 class TvMoviesActivity : ComponentActivity() {
     companion object {
+        val FEATURED = listOf(
+            Movie(
+                "The Shawshank Redemption",
+                "Two imprisoned men bond over a number of years",
+                "https://example.com/shawshank_poster.jpg",
+                "https://example.com/shawshank_background.jpg"
+            ),
+            Movie(
+                "Pulp Fiction",
+                "The lives of two mob hitmen, a boxer, a gangster and his wife",
+                "https://example.com/pulp_fiction_poster.jpg",
+                "https://example.com/pulp_fiction_background.jpg"
+            )
+        )
         val SECTIONS = listOf(
             Section(
                 "Favorites", listOf(
@@ -97,10 +111,12 @@ class TvMoviesActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                CatalogBrowser(SECTIONS, Modifier.padding(padding))
+                Column {
+                    FeaturedCarousel(FEATURED)
+                    CatalogBrowser(SECTIONS, Modifier.padding(padding))
+                }
             }
         }
     }
