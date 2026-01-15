@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlinx.metadata.jvm)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)
