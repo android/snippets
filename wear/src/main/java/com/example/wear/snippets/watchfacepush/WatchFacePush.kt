@@ -67,7 +67,8 @@ class WatchFacePushSnippetManager(context: Context) {
         // Replacing the com.example.watchfacepush.green watch face with
         // com.example.watchfacepush.red
         val slotId =
-            watchFacePushManager.listWatchFaces().installedWatchFaceDetails.firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
+            watchFacePushManager.listWatchFaces().installedWatchFaceDetails
+                .firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
                 ?: throw IllegalArgumentException("No green watch face found")
         try {
             watchFacePushManager.updateWatchFace(slotId, redParcelFileDesc, redValidationToken)
@@ -81,7 +82,8 @@ class WatchFacePushSnippetManager(context: Context) {
         // [START android_wear_wfp_remove_watch_face]
         // Remove the com.example.watchfacepush.green watch face.
         val slotId =
-            watchFacePushManager.listWatchFaces().installedWatchFaceDetails.firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
+            watchFacePushManager.listWatchFaces().installedWatchFaceDetails
+                .firstOrNull { it.packageName == "com.example.watchfacepush.green" }?.slotId
                 ?: throw IllegalArgumentException("No green watch face found")
 
         try {
