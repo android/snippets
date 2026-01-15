@@ -47,7 +47,7 @@ fun AddAutofill() {
     // [START android_compose_autofill_1_value]
     TextField(
         value = textFieldValue.value,
-        onValueChange = {textFieldValue.value = it},
+        onValueChange = { textFieldValue.value = it },
         modifier = Modifier.semantics { contentType = ContentType.Username }
     )
     // [END android_compose_autofill_1_value]
