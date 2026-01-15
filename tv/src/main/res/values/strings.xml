@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TV Snippets</string>
+    <string name="title_activity_tv_movies">TvMoviesActivity</string>
+</resources>

@@ -45,3 +45,4 @@ include(
     ":kmp:androidApp",
     ":kmp:shared"
 )
+include(":tv")
