@@ -3,6 +3,7 @@ package com.example.tv.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -220,7 +221,14 @@ fun FeaturedCarousel(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Text(text = content.title)
+            Text(
+                text = content.title,
+                style = MaterialTheme.typography.headlineMedium.copy(color = androidx.compose.ui.graphics.Color.White),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.5f))
+                    .padding(8.dp)
+            )
         }
     }
 }
