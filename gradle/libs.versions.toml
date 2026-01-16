@@ -99,7 +99,6 @@ wearToolingPreview = "1.0.0"
 webkit = "1.14.0"
 wearPhoneInteractions = "1.1.0"
 wearRemoteInteractions = "1.1.0"
-runtime = "1.10.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -244,7 +243,6 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wearPhoneInteractions" }
 androidx-wear-remote-interactions = { group = "androidx.wear", name = "wear-remote-interactions", version.ref = "wearRemoteInteractions" }
-androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
