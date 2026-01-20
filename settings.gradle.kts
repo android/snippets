@@ -43,5 +43,6 @@ include(
     ":xr",
     ":watchfacepush:validator",
     ":kmp:androidApp",
-    ":kmp:shared"
+    ":kmp:shared",
+    ":tv"
 )
