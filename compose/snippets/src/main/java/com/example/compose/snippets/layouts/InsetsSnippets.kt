@@ -28,9 +28,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fitInside
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -44,10 +49,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.RectRulers
+import androidx.compose.ui.layout.WindowInsetsRulers
+import androidx.compose.ui.layout.innermostOf
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 
 class InsetSnippetActivity : ComponentActivity() {
 
@@ -147,3 +161,105 @@ fun OverrideDefaultInsetsSnippet() {
     )
     // [END android_compose_insets_override_defaults]
 }
+
+// [START android_compose_insets_rulers]
+@Composable
+fun WindowInsetsRulersDemo(modifier: Modifier) {
+    Box(
+        contentAlignment = BottomCenter,
+        modifier = modifier
+            .fillMaxSize()
+            // The mistake that causes issues downstream, as .padding doesn't consume insets.
+            // While it's correct to instead use .windowInsetsPadding(WindowInsets.navigationBars),
+            // assume it's difficult to identify this issue to see how WindowInsetsRulers can help.
+            .padding(WindowInsets.navigationBars.asPaddingValues())
+    ) {
+        TextField(
+            value = "Demo IME Insets",
+            onValueChange = {},
+            modifier = modifier
+                // Use alignToSafeDrawing() instead of .imePadding() to precisely place this child
+                // Composable without having to fix the parent upstream.
+                .alignToSafeDrawing()
+
+            // .imePadding()
+            // .fillMaxWidth()
+        )
+    }
+}
+
+fun Modifier.alignToSafeDrawing(): Modifier {
+    return layout { measurable, constraints ->
+        if (constraints.hasBoundedWidth && constraints.hasBoundedHeight) {
+            val placeable = measurable.measure(constraints)
+            val width = placeable.width
+            val height = placeable.height
+            layout(width, height) {
+                val bottom = WindowInsetsRulers.SafeDrawing.current.bottom
+                    .current(0f).roundToInt() - height
+                val right = WindowInsetsRulers.SafeDrawing.current.right
+                    .current(0f).roundToInt()
+                val left = WindowInsetsRulers.SafeDrawing.current.left
+                    .current(0f).roundToInt()
+                measurable.measure(Constraints.fixed(right - left, height))
+                    .place(left, bottom)
+            }
+        } else {
+            val placeable = measurable.measure(constraints)
+            layout(placeable.width, placeable.height) {
+                placeable.place(0, 0)
+            }
+        }
+    }
+}
+// [END android_compose_insets_rulers]
+
+// [START android_compose_insets_fit_inside]
+@Composable
+fun FitInsideDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            // Or DisplayCutout, Ime, NavigationBars, StatusBar, etc...
+            .fitInside(WindowInsetsRulers.SafeDrawing.current)
+    )
+}
+// [END android_compose_insets_fit_inside]
+
+// [START android_compose_insets_rulers_ime]
+@Composable
+fun FitInsideWithImeDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .fitInside(
+                RectRulers.innermostOf(
+                    WindowInsetsRulers.NavigationBars.current,
+                    WindowInsetsRulers.Ime.current
+                )
+            )
+    ) {
+        TextField(
+            value = "Demo IME Insets",
+            onValueChange = {},
+            modifier = modifier.align(Alignment.BottomStart).fillMaxWidth()
+        )
+    }
+}
+// [END android_compose_insets_rulers_ime]
+
+// [START android_compose_insets_rulers_status_caption_bars]
+@Composable
+fun FitInsideWithStatusAndCaptionBarDemo(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .fitInside(
+                RectRulers.innermostOf(
+                    WindowInsetsRulers.StatusBars.current,
+                    WindowInsetsRulers.CaptionBar.current
+                )
+            )
+    )
+}
+// [END android_compose_insets_rulers_status_caption_bars]

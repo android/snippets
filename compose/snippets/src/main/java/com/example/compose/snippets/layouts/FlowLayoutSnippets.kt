@@ -21,9 +21,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ContextualFlowRow
-import androidx.compose.foundation.layout.ContextualFlowRowOverflow
-import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
@@ -33,22 +30,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -463,48 +451,6 @@ fun FlowLayout_FractionalSizing() {
         )
     }
     // [END android_compose_flow_layout_fractional_sizing]
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Preview
-@Composable
-fun ContextualFlowLayoutExample() {
-    // [START android_compose_layouts_contextual_flow]
-    val totalCount = 40
-    var maxLines by remember {
-        mutableStateOf(2)
-    }
-
-    val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
-        val remainingItems = totalCount - scope.shownItemCount
-        ChipItem(if (remainingItems == 0) "Less" else "+$remainingItems", onClick = {
-            if (remainingItems == 0) {
-                maxLines = 2
-            } else {
-                maxLines += 5
-            }
-        })
-    }
-    ContextualFlowRow(
-        modifier = Modifier
-            .safeDrawingPadding()
-            .fillMaxWidth(1f)
-            .padding(16.dp)
-            .wrapContentHeight(align = Alignment.Top)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        maxLines = maxLines,
-        overflow = ContextualFlowRowOverflow.expandOrCollapseIndicator(
-            minRowsToShowCollapse = 4,
-            expandIndicator = moreOrCollapseIndicator,
-            collapseIndicator = moreOrCollapseIndicator
-        ),
-        itemCount = totalCount
-    ) { index ->
-        ChipItem("Item $index")
-    }
-    // [END android_compose_layouts_contextual_flow]
 }
 
 @OptIn(ExperimentalLayoutApi::class)

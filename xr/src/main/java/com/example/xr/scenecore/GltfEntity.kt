@@ -23,21 +23,19 @@ import androidx.activity.ComponentActivity
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.GltfModelEntity
-import androidx.xr.scenecore.SpatialCapabilities
+import androidx.xr.scenecore.SpatialCapability
 import androidx.xr.scenecore.scene
-import kotlinx.coroutines.guava.await
+import java.nio.file.Paths
 
 private suspend fun loadGltfFile(session: Session) {
     // [START androidxr_scenecore_gltfmodel_create]
-    val gltfModel = GltfModel.create(session, "models/saturn_rings.glb").await()
+    val gltfModel = GltfModel.create(session, Paths.get("models", "saturn_rings.glb"))
     // [END androidxr_scenecore_gltfmodel_create]
 }
 
 private fun createModelEntity(session: Session, gltfModel: GltfModel) {
     // [START androidxr_scenecore_gltfmodelentity_create]
-    if (session.scene.spatialCapabilities
-        .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_3D_CONTENT)
-    ) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_3D_CONTENT)) {
         val gltfEntity = GltfModelEntity.create(session, gltfModel)
     }
     // [END androidxr_scenecore_gltfmodelentity_create]

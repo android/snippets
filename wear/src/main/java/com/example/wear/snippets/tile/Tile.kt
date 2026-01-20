@@ -21,7 +21,22 @@ import android.content.Context
 import androidx.annotation.RequiresPermission
 import androidx.wear.protolayout.ColorBuilders.argb
 import androidx.wear.protolayout.DimensionBuilders
+import androidx.wear.protolayout.DimensionBuilders.degrees
+import androidx.wear.protolayout.DimensionBuilders.dp
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.LayoutElementBuilders.Arc
+import androidx.wear.protolayout.LayoutElementBuilders.ArcLine
+import androidx.wear.protolayout.LayoutElementBuilders.DashedArcLine
+import androidx.wear.protolayout.LayoutElementBuilders.FontStyle
+import androidx.wear.protolayout.LayoutElementBuilders.Image
+import androidx.wear.protolayout.LayoutElementBuilders.LayoutElement
+import androidx.wear.protolayout.LayoutElementBuilders.SpanImage
+import androidx.wear.protolayout.LayoutElementBuilders.SpanText
+import androidx.wear.protolayout.ModifiersBuilders
+import androidx.wear.protolayout.ModifiersBuilders.Background
+import androidx.wear.protolayout.ModifiersBuilders.Modifiers
+import androidx.wear.protolayout.ModifiersBuilders.Semantics
+import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.TimelineBuilders.Timeline
@@ -30,10 +45,13 @@ import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.expression.PlatformHealthSources
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
+import androidx.wear.protolayout.material3.materialScope
+import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
+import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
@@ -199,4 +217,118 @@ class DynamicHeartRate : TileService() {
                 .build()
         )
     // [END android_wear_tile_dynamic_heart_rate]
+}
+
+class FeatureFallback : TileService() {
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
+
+        // [START android_wear_tile_version_fallback]
+        val rendererVersion = requestParams.deviceConfiguration.rendererSchemaVersion
+
+        val arcElement =
+            // DashedArcLine has the annotation @RequiresSchemaVersion(major = 1, minor = 500)
+            // and so is supported by renderer versions 1.500 and greater
+            if (
+                rendererVersion.major > 1 ||
+                (rendererVersion.major == 1 && rendererVersion.minor >= 500)
+            ) {
+                // Use DashedArcLine if the renderer supports it …
+                DashedArcLine.Builder()
+                    .setLength(degrees(270f))
+                    .setThickness(8f)
+                    .setLinePattern(
+                        LayoutElementBuilders.DashedLinePattern.Builder()
+                            .setGapSize(8f)
+                            .setGapInterval(10f)
+                            .build()
+                    )
+                    .build()
+            } else {
+                // … otherwise use ArcLine.
+                ArcLine.Builder().setLength(degrees(270f)).setThickness(dp(8f)).build()
+            }
+        // [END android_wear_tile_version_fallback]
+
+        val layout =
+            materialScope(this, requestParams.deviceConfiguration) {
+                primaryLayout(mainSlot = { Arc.Builder().addContent(arcElement).build() })
+            }
+
+        return Futures.immediateFuture(
+            Tile.Builder().setTileTimeline(Timeline.fromLayoutElement(layout)).build()
+        )
+    }
+}
+
+// [START android_wear_tile_get_started_modifiers]
+private fun myImage(): LayoutElement =
+    Image.Builder()
+        .setWidth(dp(24f))
+        .setHeight(dp(24f))
+        .setResourceId("image_id")
+        .setModifiers(
+            Modifiers.Builder()
+                .setBackground(Background.Builder().setColor(argb(0xFFFF0000.toInt())).build())
+                .setPadding(ModifiersBuilders.Padding.Builder().setStart(dp(12f)).build())
+                .setSemantics(Semantics.Builder().setContentDescription("Image description").build())
+                .build()
+        )
+        .build()
+// [END android_wear_tile_get_started_modifiers]
+
+// [START android_wear_tile_get_started_spannables]
+private fun mySpannable(): LayoutElement =
+    LayoutElementBuilders.Spannable.Builder()
+        .addSpan(SpanText.Builder().setText("Hello ").build())
+        .addSpan(SpanImage.Builder().setWidth(dp(24f)).setHeight(dp(24f)).setResourceId("image_id").build())
+        .addSpan(
+            SpanText.Builder()
+                .setText("world")
+                .setFontStyle(FontStyle.Builder().setItalic(true).build())
+                .build()
+        )
+        .build()
+// [END android_wear_tile_get_started_spannables]
+
+class ResourcesTileService : TileService() {
+
+    private val imageAsByteArray = byteArrayOf()
+
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> =
+        Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(Timeline.fromLayoutElement(simpleLayout(this)))
+                .build()
+        )
+
+    // [START android_wear_tile_get_started_resources]
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ) = Futures.immediateFuture(
+        Resources.Builder()
+            .setVersion("1")
+            .addIdToImageMapping(
+                "image_from_resource",
+                ResourceBuilders.ImageResource.Builder()
+                    .setAndroidResourceByResId(
+                        ResourceBuilders.AndroidImageResourceByResId.Builder()
+                            .setResourceId(R.drawable.ic_walk)
+                            .build()
+                    ).build()
+            )
+            .addIdToImageMapping(
+                "image_inline",
+                ResourceBuilders.ImageResource.Builder()
+                    .setInlineResource(
+                        ResourceBuilders.InlineImageResource.Builder()
+                            .setData(imageAsByteArray)
+                            .setWidthPx(48)
+                            .setHeightPx(48)
+                            .setFormat(ResourceBuilders.IMAGE_FORMAT_RGB_565)
+                            .build()
+                    ).build()
+            ).build()
+    )
+    // [END android_wear_tile_get_started_resources]
 }

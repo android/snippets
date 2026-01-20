@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <Scene>
+        <!-- [START android_watch_face_complication_slot] -->
+        <ComplicationSlot slotId="1" supportedTypes="SHORT_TEXT SMALL_IMAGE EMPTY"
+            x="100" y="100" width="100" height="100">
+            <BoundingOval x="0"  y="0" width="100" height="100" />
+            <Complication type="SHORT_TEXT">
+                <!-- Complication content for rendering SHORT_TEXT data goes here -->
+                <!-- [START_EXCLUDE silent] -->
+                <PartText x="0" y="0" width="100" height="100">
+                    <Text align="CENTER">
+                        <Font size="32">
+                            <Template>
+                                <![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" />
+                            </Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- [END_EXCLUDE] -->
+            </Complication>
+            <Complication type="SMALL_IMAGE">
+                <!-- Complication content for rendering SMALL_IMAGE data goes here -->
+                <!-- [START_EXCLUDE silent] -->
+                <PartImage x="0" y="0" width="100" height="100">
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+                <!-- [END_EXCLUDE] -->
+            </Complication>
+        </ComplicationSlot>
+        <!-- [END android_watch_face_complication_slot] -->
+
+        <!-- [START android_watch_face_complication_default_provider] -->
+        <ComplicationSlot slotId="2" supportedTypes="SHORT_TEXT SMALL_IMAGE EMPTY"
+            x="250" y="100" width="100" height="100">
+            <DefaultProviderPolicy
+                defaultSystemProvider="STEP_COUNT"
+                defaultSystemProviderType="SHORT_TEXT" />
+            <!-- ... -->
+            <!-- [START_EXCLUDE silent] -->
+            <BoundingOval x="0"  y="0" width="250" height="250" />
+            <Complication type="SHORT_TEXT">
+                <!-- Complication content for rendering SHORT_TEXT data goes here -->
+                <PartText x="0" y="0" width="250" height="250">
+                    <Text align="CENTER">
+                        <Font size="32">
+                            <Template>
+                                <![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" />
+                            </Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <!-- [END_EXCLUDE] -->
+        </ComplicationSlot>
+        <!-- [END android_watch_face_complication_default_provider] -->
+
+        <ComplicationSlot slotId="3" supportedTypes="SHORT_TEXT SMALL_IMAGE EMPTY"
+            x="200" y="300" width="100" height="100">
+            <BoundingOval x="0"  y="0" width="100" height="100" />
+            <!-- [START android_watch_face_complication_text_content] -->
+            <Complication type="SHORT_TEXT">
+                <PartText x="0" y="0" width="100" height="100">
+                    <Text>
+                        <Font size="32">
+                            <Template>
+                                <![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" />
+                            </Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <!-- [END android_watch_face_complication_text_content] -->
+            <!-- [START android_watch_face_complication_image_content] -->
+            <Complication type="SMALL_IMAGE">
+                <PartImage x="0" y="0" width="100" height="100">
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
+            <!-- [END android_watch_face_complication_image_content] -->
+        </ComplicationSlot>
+    </Scene>
+</WatchFace>

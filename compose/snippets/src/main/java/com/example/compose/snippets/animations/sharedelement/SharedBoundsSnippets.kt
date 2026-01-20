@@ -102,7 +102,7 @@ private fun MainContent(
                     animatedVisibilityScope = animatedVisibilityScope,
                     enter = fadeIn(),
                     exit = fadeOut(),
-                    resizeMode = SharedTransitionScope.ResizeMode.ScaleToBounds()
+                    resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds()
                 )
                 // [START_EXCLUDE]
                 .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
@@ -154,7 +154,7 @@ private fun DetailsContent(
                     animatedVisibilityScope = animatedVisibilityScope,
                     enter = fadeIn(),
                     exit = fadeOut(),
-                    resizeMode = SharedTransitionScope.ResizeMode.ScaleToBounds()
+                    resizeMode = SharedTransitionScope.ResizeMode.scaleToBounds()
                 )
                 // [START_EXCLUDE]
                 .border(1.dp, Color.Gray.copy(alpha = 0.5f), RoundedCornerShape(8.dp))

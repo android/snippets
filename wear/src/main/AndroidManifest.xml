@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- [START android_wear_wfp_general_permission] -->
+    <!-- Required to use the Watch Face Push API.  -->
+    <uses-permission android:name="com.google.wear.permission.PUSH_WATCH_FACES" />
+    <!-- [END android_wear_wfp_general_permission] -->
+
+    <!-- [START android_wear_wfp_active_permission] -->
+    <!-- Required to be able to call the setWatchFaceAsActive() method. -->
+    <uses-permission android:name="com.google.wear.permission.SET_PUSHED_WATCH_FACE_AS_ACTIVE" />
+    <!-- [END android_wear_wfp_active_permission] -->
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -14,6 +40,36 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- [START android_wear_wfp_default_watch_face_token] -->
+        <meta-data
+            android:name="com.google.android.wearable.marketplace.DEFAULT_WATCHFACE_VALIDATION_TOKEN"
+            android:value="@string/default_wf_token" />
+        <!-- [END android_wear_wfp_default_watch_face_token] -->
+
+        <!-- [START android_wear_wfp_meta_data_property] -->
+        <!-- For watch face com.myapp.watchfacepush.mywatchface -->
+        <property
+            android:name="default_color"
+            android:value="red" />
+        <!-- [END android_wear_wfp_meta_data_property] -->
+
+        <!-- [START android_wear_splash_manifest] -->
+        <activity
+            android:name=".snippets.SplashScreenActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.App.Starting">
+            <!-- ... -->
+            <!-- [START_EXCLUDE silent] -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- [END_EXCLUDE] -->
+        </activity>
+        <!-- [END android_wear_splash_manifest] -->
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
@@ -26,6 +82,17 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+        <activity
+            android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".snippets.m3.MainActivity"
             android:exported="true"
@@ -56,6 +123,16 @@
                 <data android:scheme="googleandroidsnippets" android:host="app" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".snippets.audio.AudioActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
+
+        <activity android:name=".snippets.location.LocationActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault"/>
 
         <!-- [START android_wear_tile_manifest] -->
         <service
@@ -166,6 +243,36 @@
                 android:resource="@drawable/tile_preview" />
         </service>
 
+        <service
+            android:name=".snippets.tile.LottieAnimation"
+            android:label="@string/tile_label"
+            android:description="@string/tile_description"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
+        <service
+            android:name=".snippets.tile.FeatureFallback"
+            android:label="@string/tile_label"
+            android:description="@string/tile_description"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
         <activity
             android:name=".snippets.alwayson.AlwaysOnActivity"
             android:label="0 Stopwatch"
@@ -179,11 +286,129 @@
         </activity>
 
         <service
-            android:name=".snippets.alwayson.AlwaysOnService"
+            android:name=".snippets.alwayson.AlwaysOnService1"
             android:foregroundServiceType="specialUse"
             android:exported="false">
             <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService2"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+        <service
+            android:name=".snippets.alwayson.AlwaysOnService3"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="For Ongoing Activity"/>
+        </service>
+
+        <!-- [START android_wear_complication_manifest] -->
+        <service
+            android:name=".snippets.complication.MyComplicationDataSourceService"
+            android:exported="true"
+            android:label="@string/my_complication_service_label"
+            android:icon="@drawable/complication_icon"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+
+            <!-- Supported types should be comma-separated, for example: "SHORT_TEXT,SMALL_IMAGE" -->
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+
+            <!-- Optionally, specify a configuration activity, where the user can configure your complication. -->
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="MY_CONFIG_ACTION" />
+
+        </service>
+        <!-- [END android_wear_complication_manifest] -->
+
+        <!-- [START android_wear_timeline_complication_manifest] -->
+        <service
+            android:name=".snippets.complication.MyTimelineComplicationDataSourceService"
+            android:exported="true"
+            android:label="@string/my_complication_timeline_service_label"
+            android:icon="@drawable/complication_icon"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+        </service>
+        <!-- [END android_wear_timeline_complication_manifest] -->
+
+        <activity
+            android:name=".snippets.complication.ConfigurationActivity"
+            android:label="@string/configuration_activity_label"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault">
+            <!-- [START android_wear_complication_intent_filter] -->
+            <intent-filter>
+                <action android:name="MY_CONFIG_ACTION" />
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- [END android_wear_complication_intent_filter] -->
+        </activity>
+
+        <service
+            android:name=".snippets.m3.tile.StateTile"
+            android:label="@string/tile_label"
+            android:description="@string/tile_description"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+
+            <meta-data android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_preview" />
+        </service>
+
+        <!-- [START android_wear_datalayerlistener_intent_filter] -->
+        <service
+            android:name=".snippets.datalayer.DataLayerListenerService"
+            android:exported="true"
+            tools:ignore="ExportedService" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:scheme="wear"
+                    android:host="*"
+                    android:path="/start-activity" />
+            </intent-filter>
+        </service>
+        <!-- [END android_wear_datalayerlistener_intent_filter] -->
+
+        <service
+            android:name=".snippets.datalayer.AuthDataListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:scheme="wear"
+                    android:host="*"
+                    android:pathPrefix="/auth" />
+            </intent-filter>
         </service>
 
     </application>

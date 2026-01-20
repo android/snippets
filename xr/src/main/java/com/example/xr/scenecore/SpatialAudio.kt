@@ -22,11 +22,15 @@ import android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION
 import android.media.AudioAttributes.USAGE_ASSISTANCE_SONIFICATION
 import android.media.MediaPlayer
 import android.media.SoundPool
+import androidx.annotation.OptIn
+import androidx.media3.common.C
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.audio.AudioCapabilities
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.PointSourceParams
 import androidx.xr.scenecore.SoundFieldAttributes
-import androidx.xr.scenecore.SpatialCapabilities
+import androidx.xr.scenecore.SpatialCapability
 import androidx.xr.scenecore.SpatialMediaPlayer
 import androidx.xr.scenecore.SpatialSoundPool
 import androidx.xr.scenecore.SpatializerConstants
@@ -35,8 +39,7 @@ import androidx.xr.scenecore.scene
 private fun playSpatialAudioAtEntity(session: Session, appContext: Context, entity: Entity) {
     // [START androidxr_scenecore_playSpatialAudio]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities
-        .hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)
     ) { // The session has spatial audio capabilities
         val maxVolume = 1F
         val lowPriority = 0
@@ -81,7 +84,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
 private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioSurround]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
         val pointSourceAttributes = PointSourceParams(session.scene.mainPanelEntity)
@@ -116,11 +119,11 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
 private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Context) {
     // [START androidxr_scenecore_playSpatialAudioAmbionics]
     // Check spatial capabilities before using spatial audio
-    if (session.scene.spatialCapabilities.hasCapability(SpatialCapabilities.SPATIAL_CAPABILITY_SPATIAL_AUDIO)) {
+    if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
         val soundFieldAttributes =
-            SoundFieldAttributes(SpatializerConstants.AMBISONICS_ORDER_FIRST_ORDER)
+            SoundFieldAttributes(SpatializerConstants.AmbisonicsOrder.FIRST_ORDER)
 
         val mediaPlayer = MediaPlayer()
 
@@ -148,4 +151,20 @@ private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Cont
         // The session does not have spatial audio capabilities
     }
     // [END androidxr_scenecore_playSpatialAudioAmbionics]
+}
+
+@OptIn(UnstableApi::class)
+private fun detectSupport(context: Context) {
+    // [START androidxr_scenecore_dolby_detect_support]
+    val audioCapabilities = AudioCapabilities.getCapabilities(context, androidx.media3.common.AudioAttributes.DEFAULT, null)
+    if (audioCapabilities.supportsEncoding(C.ENCODING_AC3)) {
+        // Device supports playback of the Dolby Digital media format.
+    }
+    if (audioCapabilities.supportsEncoding(C.ENCODING_E_AC3)) {
+        // Device supports playback of the Dolby Digital Plus media format.
+    }
+    if (audioCapabilities.supportsEncoding(C.ENCODING_E_AC3_JOC)) {
+        // Device supports playback of the Dolby Digital Plus with Dolby Atmos media format.
+    }
+    // [END androidxr_scenecore_dolby_detect_support]
 }

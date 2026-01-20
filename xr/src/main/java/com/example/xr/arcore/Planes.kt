@@ -19,25 +19,20 @@ package com.example.xr.arcore
 import androidx.xr.arcore.Plane
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
-import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
-import androidx.xr.runtime.SessionConfigurePermissionsNotGranted
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Ray
 import androidx.xr.scenecore.scene
 
-@Suppress("RestrictedApi") // b/416288516 - session.config and session.configure() are incorrectly restricted
 fun configurePlaneTracking(session: Session) {
     // [START androidxr_arcore_planetracking_configure]
     val newConfig = session.config.copy(
-        planeTracking = Config.PlaneTrackingMode.HorizontalAndVertical,
+        planeTracking = Config.PlaneTrackingMode.HORIZONTAL_AND_VERTICAL,
     )
     when (val result = session.configure(newConfig)) {
-        is SessionConfigureConfigurationNotSupported ->
-            TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
-        is SessionConfigurePermissionsNotGranted ->
-            TODO(/* The required permissions in result.permissions have not been granted. */)
         is SessionConfigureSuccess -> TODO(/* Success! */)
+        else ->
+            TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
     }
     // [END androidxr_arcore_planetracking_configure]
 }
@@ -58,7 +53,7 @@ private fun hitTestTable(session: Session) {
     // When interested in the first Table hit:
     val tableHit = results.firstOrNull {
         val trackable = it.trackable
-        trackable is Plane && trackable.state.value.label == Plane.Label.Table
+        trackable is Plane && trackable.state.value.label == Plane.Label.TABLE
     }
     // [END androidxr_arcore_hitTest]
 }

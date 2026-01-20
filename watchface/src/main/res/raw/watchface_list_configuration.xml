@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <!-- [START android_watch_face_list_configuration_setup] -->
+    <!-- Under WatchFace element -->
+    <UserConfigurations>
+        <ListConfiguration id="background_image" displayName="background_image_label"
+            icon="background_option_icon"
+            screenReaderText="background_image_label" defaultValue="0">
+            <ListOption id="0" displayName="background0_image_label"
+                screenReaderText="background0_image_label" icon="background0_icon" />
+            <ListOption id="1" displayName="background1_image_label"
+                screenReaderText="background1_image_label" icon="background1_icon" />
+            ...
+        </ListConfiguration>
+    </UserConfigurations>
+    <!-- [END android_watch_face_list_configuration_setup] -->
+
+    <Scene>
+        <!-- [START android_watch_face_list_configuration_use] -->
+        <!-- Within the main Scene of the watch face -->
+        <ListConfiguration id="background_image">
+            <ListOption id="0">
+                <!-- ...Content for option 0 -->
+                <!-- [START_EXCLUDE silent] -->
+                <PartImage x="0" y="0" width="450" height="450">
+                    <Image resource="background0" />
+                </PartImage>
+                <!-- [END_EXCLUDE] -->
+            </ListOption>
+            <ListOption id="1">
+                <!-- ...Content for option 1 -->
+                <!-- [START_EXCLUDE silent] -->
+                <PartImage x="0" y="0" width="450" height="450">
+                    <Image resource="background1" />
+                </PartImage>
+                <!-- [END_EXCLUDE] -->
+            </ListOption>
+        </ListConfiguration>
+        <!-- [END android_watch_face_list_configuration_use] -->
+
+        <Condition>
+            <!-- [START android_watch_face_list_configuration_complex] -->
+            <Expressions>
+                <Expression name="background_zero_and_something_else">
+                    <!-- Use as part of a more complex evaluation -->
+                    <![CDATA[[CONFIGURATION.background_image] == "0" && [HOUR_0_23] < 15]]>
+                </Expression>
+            </Expressions>
+            <Compare expression="background_zero_and_something_else">
+                <!-- Content goes here -->
+                <!-- [START_EXCLUDE silent] -->
+                <PartText x="0" y="150" width="450" height="250">
+                    <Text align="CENTER">
+                        <Font family="pacifico" size="48">Complex</Font>
+                    </Text>
+                </PartText>
+                <!-- [END_EXCLUDE] -->
+            </Compare>
+        </Condition>
+        <!-- [END android_watch_face_list_configuration_complex] -->
+    </Scene>
+</WatchFace>

@@ -178,13 +178,13 @@ fun CustomizableSearchBar(
     onSearch: (String) -> Unit,
     searchResults: List<String>,
     onResultClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
     // Customization options
     placeholder: @Composable () -> Unit = { Text("Search") },
     leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
     trailingIcon: @Composable (() -> Unit)? = null,
     supportingContent: (@Composable (String) -> Unit)? = null,
     leadingContent: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier
 ) {
     // Track expanded state of search bar
     var expanded by rememberSaveable { mutableStateOf(false) }

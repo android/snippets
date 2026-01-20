@@ -6,37 +6,42 @@ plugins {
 
 android {
     namespace = "com.example.xr"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.xr"
         minSdk = 34
-        targetSdk = 35
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain(17)
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        disable += "RestrictedApi"
     }
 }
 
 dependencies {
     implementation(libs.androidx.xr.arcore)
+    implementation(libs.androidx.arcore.play.services)
+    implementation(libs.google.ar.core)
     implementation(libs.androidx.xr.scenecore)
     implementation(libs.androidx.xr.compose)
 
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.guava)
-    implementation(libs.kotlinx.coroutines.guava)
 
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.glimmer)
+    implementation(libs.androidx.projected)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)

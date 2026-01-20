@@ -166,7 +166,6 @@ fun AdvancedRichTooltipExample(
                         }
                     }
                 },
-                caretSize = DpSize(32.dp, 16.dp)
             ) {
                 Text(richTooltipText)
             }

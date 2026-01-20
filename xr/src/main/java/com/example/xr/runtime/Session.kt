@@ -16,14 +16,11 @@
 
 package com.example.xr.runtime
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.runtime.Session
-import androidx.xr.runtime.SessionCreatePermissionsNotGranted
 import androidx.xr.runtime.SessionCreateSuccess
-import androidx.xr.runtime.SessionResumePermissionsNotGranted
-import androidx.xr.runtime.SessionResumeSuccess
 
 // [START androidxr_localsession]
 @Composable
@@ -32,30 +29,15 @@ fun ComposableUsingSession() {
 }
 // [END androidxr_localsession]
 
-fun Activity.createSession() {
+fun ComponentActivity.createSession() {
     // [START androidxr_session_create]
     when (val result = Session.create(this)) {
         is SessionCreateSuccess -> {
             val xrSession = result.session
             // ...
         }
-        is SessionCreatePermissionsNotGranted ->
-            TODO(/* The required permissions in result.permissions have not been granted. */)
+        else ->
+            TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_session_create]
-}
-
-fun sessionResume(session: Session) {
-    // [START androidxr_session_resume]
-    when (val result = session.resume()) {
-        is SessionResumeSuccess -> {
-            // Session has been created successfully.
-            // Attach any successful handlers here.
-        }
-
-        is SessionResumePermissionsNotGranted -> {
-            // Request permissions in `result.permissions`.
-        }
-    }
-    // [END androidxr_session_resume]
 }

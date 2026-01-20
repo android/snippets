@@ -36,6 +36,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -59,7 +60,7 @@ fun MyScreen() {
 // [START android_compose_side_effects_launchedeffect]
     // Allow the pulse rate to be configured, so it can be sped up if the user is running
     // out of time
-    var pulseRateMs by remember { mutableStateOf(3000L) }
+    var pulseRateMs by remember { mutableLongStateOf(3000L) }
     val alpha = remember { Animatable(1f) }
     LaunchedEffect(pulseRateMs) { // Restart the effect when the pulse rate changes
         while (isActive) {

@@ -363,7 +363,7 @@ internal fun RequestFocus2() {
 private fun Capture() {
     var text by remember { mutableStateOf("") }
     // [START android_compose_touchinput_focus_capture]
-    val textField = FocusRequester()
+    val textField = remember { FocusRequester() }
 
     TextField(
         value = text,

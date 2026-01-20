@@ -40,7 +40,7 @@ class SystemBarProtectionSnippet : AppCompatActivity() {
         ) { v: View, insets: WindowInsetsCompat ->
             val innerPadding = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars() or
-                        WindowInsetsCompat.Type.displayCutout()
+                    WindowInsetsCompat.Type.displayCutout()
             )
             v.setPadding(
                 innerPadding.left,

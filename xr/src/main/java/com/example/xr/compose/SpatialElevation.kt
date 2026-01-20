@@ -27,7 +27,7 @@ private fun ComposableThatShouldElevateInXr() {}
 private fun SpatialElevationExample() {
     // [START androidxr_compose_spatialelevation]
     // Elevate an otherwise 2D Composable (signified here by ComposableThatShouldElevateInXr).
-    SpatialElevation(spatialElevationLevel = SpatialElevationLevel.Level4) {
+    SpatialElevation(elevation = SpatialElevationLevel.Level4) {
         ComposableThatShouldElevateInXr()
     }
     // [END androidxr_compose_spatialelevation]

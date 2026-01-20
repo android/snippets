@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     // [START android_identity_fido2_migration_dependency]
@@ -33,11 +34,20 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget("11")
+        }
     }
     buildFeatures {
         compose = true
+    }
+    sourceSets {
+        named("main") {
+            java {
+                srcDir("src/main/java")
+            }
+        }
     }
 }
 
@@ -70,6 +80,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.kotlin.coroutines.okhttp)
     implementation(libs.androidx.webkit)
+    implementation(libs.appcompat)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

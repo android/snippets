@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -109,7 +110,7 @@ fun Colors() {
     // <color name="purple_200">#FFBB86FC</color>
 
     // In your Compose code
-    Divider(color = colorResource(R.color.purple_200))
+    HorizontalDivider(color = colorResource(R.color.purple_200))
     // [END android_compose_resources_colors]
 }
 

@@ -15,8 +15,6 @@
  */
 
 package com.example.compose.snippets.text
-
-import android.text.TextUtils
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -40,7 +38,6 @@ import androidx.compose.material.TextField
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -48,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
@@ -146,21 +144,19 @@ fun TextFieldInitialState() {
     // [END android_compose_state_text_7]
 }
 
+@Preview(showBackground = true)
 @Composable
 fun TextFieldBuffer() {
     // [START android_compose_state_text_8]
-    val phoneNumberState = rememberTextFieldState()
-
-    LaunchedEffect(phoneNumberState) {
-        phoneNumberState.edit { // TextFieldBuffer scope
-            append("123456789")
-        }
-    }
+    val phoneNumberState = rememberTextFieldState("1234567890")
 
     TextField(
         state = phoneNumberState,
-        inputTransformation = InputTransformation { // TextFieldBuffer scope
-            if (asCharSequence().isDigitsOnly()) {
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone
+        ),
+        inputTransformation = InputTransformation.maxLength(10).then {
+            if (!asCharSequence().isDigitsOnly()) {
                 revertAllChanges()
             }
         },
@@ -176,32 +172,37 @@ fun TextFieldBuffer() {
 @Preview
 @Composable
 fun EditTextFieldState() {
-    // [START android_compose_state_text_9]
     val usernameState = rememberTextFieldState("I love Android")
+    editTFState(usernameState)
+}
+
+fun editTFState(textFieldState: TextFieldState) {
+    // [START android_compose_state_text_9]
+    // Initial textFieldState text passed in is "I love Android"
     // textFieldState.text : I love Android
     // textFieldState.selection: TextRange(14, 14)
-    usernameState.edit { insert(14, "!") }
+    textFieldState.edit { insert(14, "!") }
     // textFieldState.text : I love Android!
     // textFieldState.selection: TextRange(15, 15)
-    usernameState.edit { replace(7, 14, "Compose") }
+    textFieldState.edit { replace(7, 14, "Compose") }
     // textFieldState.text : I love Compose!
     // textFieldState.selection: TextRange(15, 15)
-    usernameState.edit { append("!!!") }
+    textFieldState.edit { append("!!!") }
     // textFieldState.text : I love Compose!!!!
     // textFieldState.selection: TextRange(18, 18)
-    usernameState.edit { selectAll() }
+    textFieldState.edit { selectAll() }
     // textFieldState.text : I love Compose!!!!
     // textFieldState.selection: TextRange(0, 18)
     // [END android_compose_state_text_9]
 
     // [START android_compose_state_text_10]
-    usernameState.setTextAndPlaceCursorAtEnd("I really love Android")
+    textFieldState.setTextAndPlaceCursorAtEnd("I really love Android")
     // textFieldState.text : I really love Android
     // textFieldState.selection : TextRange(21, 21)
     // [END android_compose_state_text_10]
 
     // [START android_compose_state_text_11]
-    usernameState.clearText()
+    textFieldState.clearText()
     // textFieldState.text :
     // textFieldState.selection : TextRange(0, 0)
     // [END android_compose_state_text_11]
@@ -249,7 +250,7 @@ class CustomInputTransformation : InputTransformation {
 // [START android_compose_state_text_16]
 class DigitOnlyInputTransformation : InputTransformation {
     override fun TextFieldBuffer.transformInput() {
-        if (!TextUtils.isDigitsOnly(asCharSequence())) {
+        if (!asCharSequence().isDigitsOnly()) {
             revertAllChanges()
         }
     }

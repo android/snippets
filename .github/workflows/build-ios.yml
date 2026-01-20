@@ -1,0 +1,51 @@
+# Copyright 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: Build iOS snippets
+
+on:
+  push:
+    branches: [ '*' ]
+    paths:
+      - 'kmp/**'
+      - '.github/workflows/build-ios.yml'
+  pull_request:
+    branches: [ '*' ]
+    paths:
+      - 'kmp/**'
+      - '.github/workflows/build-ios.yml'
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-build-ios
+  cancel-in-progress: true
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_ios:
+    name: Build iOS app
+    runs-on: macos-latest
+    steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build iOS app
+        uses: mxcl/xcodebuild@v3
+        with:
+          xcode: ^16
+          scheme: iosApp
+          platform: iOS
+          action: build
+          working-directory: kmp/iosApp

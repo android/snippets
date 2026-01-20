@@ -28,7 +28,10 @@ import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ModifiersBuilders.AnimatedVisibility
 import androidx.wear.protolayout.ModifiersBuilders.DefaultContentTransitions
 import androidx.wear.protolayout.ModifiersBuilders.Modifiers
+import androidx.wear.protolayout.ResourceBuilders
+import androidx.wear.protolayout.ResourceBuilders.Resources
 import androidx.wear.protolayout.TimelineBuilders.Timeline
+import androidx.wear.protolayout.TriggerBuilders.createOnVisibleTrigger
 import androidx.wear.protolayout.TypeBuilders.FloatProp
 import androidx.wear.protolayout.expression.AnimationParameterBuilders.AnimationParameters
 import androidx.wear.protolayout.expression.AnimationParameterBuilders.AnimationSpec
@@ -38,11 +41,15 @@ import androidx.wear.protolayout.material.CircularProgressIndicator
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.layouts.EdgeContentLayout
 import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.RequestBuilders.ResourcesRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
+import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
+// In a real implementation, this needs to change whenever the resources
+// change, to ensure the updated resources are loaded.
 private const val RESOURCES_VERSION = "1"
 private const val someTileText = "Hello"
 private val deviceParameters = DeviceParametersBuilders.DeviceParameters.Builder().build()
@@ -264,9 +271,7 @@ class AnimationScaling : TileService() {
                                             // Shrink the element by a scale factor
                                             // of 0.5 horizontally and 0.75 vertically.
                                             .setScaleX(FloatProp.Builder(0.5f).build())
-                                            .setScaleY(
-                                                FloatProp.Builder(0.75f).build()
-                                            )
+                                            .setScaleY(FloatProp.Builder(0.75f).build())
                                             .build()
                                     )
                                     .build()
@@ -308,5 +313,102 @@ class AnimationGeometricTranslation : TileService() {
                 .build()
         )
         // [END android_wear_tile_animations_geometric_translation]
+    }
+}
+
+// [START android_wear_tile_animations_lottie]
+class LottieAnimation : TileService() {
+
+    val lottieResourceId = "lottie_animation"
+
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
+
+        val layout =
+            LayoutElementBuilders.Image.Builder()
+                .setWidth(dp(150f))
+                .setHeight(dp(150f))
+                .setResourceId(lottieResourceId)
+                .build()
+
+        return Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(Timeline.fromLayoutElement(layout))
+                .build()
+        )
+    }
+
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ): ListenableFuture<Resources> {
+
+        val lottieImage =
+            ResourceBuilders.ImageResource.Builder()
+                .setAndroidLottieResourceByResId(
+                    ResourceBuilders.AndroidLottieResourceByResId.Builder(R.raw.lottie)
+                        .setStartTrigger(createOnVisibleTrigger())
+                        .build()
+                )
+                .build()
+
+        return Futures.immediateFuture(
+            Resources.Builder()
+                .setVersion(requestParams.version)
+                .addIdToImageMapping(lottieResourceId, lottieImage)
+                .build()
+        )
+    }
+}
+
+// [END android_wear_tile_animations_lottie]
+
+class LottieAnimationFallback : TileService() {
+
+    val lottieResourceId = "lottie_animation"
+
+    override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<Tile> {
+
+        val layout =
+            LayoutElementBuilders.Image.Builder()
+                .setWidth(dp(150f))
+                .setHeight(dp(150f))
+                .setResourceId(lottieResourceId)
+                .build()
+
+        return Futures.immediateFuture(
+            Tile.Builder()
+                .setResourcesVersion(RESOURCES_VERSION)
+                .setTileTimeline(Timeline.fromLayoutElement(layout))
+                .build()
+        )
+    }
+
+    override fun onTileResourcesRequest(
+        requestParams: ResourcesRequest
+    ): ListenableFuture<Resources> {
+
+        // [START android_wear_tile_animations_lottie_fallback]
+        val lottieImage =
+            ResourceBuilders.ImageResource.Builder()
+                .setAndroidLottieResourceByResId(
+                    ResourceBuilders.AndroidLottieResourceByResId.Builder(R.raw.lottie)
+                        .setStartTrigger(createOnVisibleTrigger())
+                        .build()
+                )
+                // Fallback if lottie is not supported
+                .setAndroidResourceByResId(
+                    ResourceBuilders.AndroidImageResourceByResId.Builder()
+                        .setResourceId(R.drawable.lottie_fallback)
+                        .build()
+                )
+                .build()
+        // [END android_wear_tile_animations_lottie_fallback]
+
+        return Futures.immediateFuture(
+            Resources.Builder()
+                .setVersion(requestParams.version)
+                .addIdToImageMapping(lottieResourceId, lottieImage)
+                .build()
+        )
     }
 }
