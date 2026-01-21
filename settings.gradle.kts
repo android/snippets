@@ -44,5 +44,6 @@ include(
     ":watchfacepush:validator",
     ":kmp:androidApp",
     ":kmp:shared",
-    ":playbilling"
+    ":playbilling",
+    ":tv"
 )
