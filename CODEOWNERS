@@ -5,4 +5,4 @@
 /wear/          @android/devrel-wear
 /wearcompanion/ @android/devrel-wear
 /xr/            @android/devrel-xr
-/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/ @android/devrel-adaptive-apps
+/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/ @android/devrel-compose
