@@ -200,11 +200,9 @@ private fun Context.syncDataSync(count: Int) {
         Tasks.await(task).apply {
             // Add your logic here
         }
-    }
-    catch (e: ExecutionException) {
+    } catch (e: ExecutionException) {
         // TODO: Handle exception
-    }
-    catch (e: InterruptedException) {
+    } catch (e: InterruptedException) {
         // TODO: Handle exception
         Thread.currentThread().interrupt()
     }
