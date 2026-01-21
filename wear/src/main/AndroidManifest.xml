@@ -78,10 +78,11 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
+        <!-- [START android_wear_standalone] -->
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
+        <!-- [END android_wear_standalone] -->
         <activity
             android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
             android:exported="true"
