@@ -75,6 +75,7 @@ dependencies {
 
     implementation(libs.compose.ui.tooling)
     implementation(libs.play.services.wearable)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.tiles)
     implementation(libs.androidx.wear)
     implementation(libs.androidx.wear.ongoing)
