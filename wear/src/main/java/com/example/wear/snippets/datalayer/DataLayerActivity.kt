@@ -169,33 +169,36 @@ class DataLayerActivity2 : ComponentActivity(), DataClient.OnDataChangedListener
     // [END android_wear_datalayer_ondatachanged_assetextract]
 }
 
-private fun Context.syncDataAsync(count: Int) {
+// [START android_wear_datalayer_async_call]
+private fun Context.sendDataAsync(count: Int) {
+    // Create a data item with the path and data to be sent
     val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
         dataMap.putInt("count_key", count)
         asPutDataRequest()
     }
-
+    // Create a task to send the data to the data layer
     val task: Task<DataItem> = Wearable.getDataClient(this).putDataItem(putDataReq)
-    // [START android_wear_datalayer_async_call]
+
     // Using Kotlin function references
     task.addOnSuccessListener(::handleDataItem)
     task.addOnFailureListener(::handleDataItemError)
     task.addOnCompleteListener(::handleTaskComplete)
-    // [START_EXCLUDE]
 }
-// [END_EXCLUDE]
+
 private fun handleDataItem(dataItem: DataItem) { }
 private fun handleDataItemError(exception: Exception) { }
 private fun handleTaskComplete(task: Task<DataItem>) { }
 // [END android_wear_datalayer_async_call]
 
-private fun Context.syncDataSync(count: Int) {
+// [START android_wear_datalayer_sync_call]
+private fun Context.sendDataSync(count: Int) {
+    // Create a data item with the path and data to be sent
     val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
         dataMap.putInt("count_key", count)
         asPutDataRequest()
     }
+    // Create a task to send the data to the data layer
     val task: Task<DataItem> = Wearable.getDataClient(this).putDataItem(putDataReq)
-    // [START android_wear_datalayer_sync_call]
     try {
         Tasks.await(task).apply {
             // Add your logic here
@@ -206,5 +209,5 @@ private fun Context.syncDataSync(count: Int) {
         // TODO: Handle exception
         Thread.currentThread().interrupt()
     }
-    // [END android_wear_datalayer_sync_call]
 }
+// [END android_wear_datalayer_sync_call]
