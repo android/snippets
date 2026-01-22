@@ -27,11 +27,11 @@ private fun interactableComponentExample(session: Session, entity: Entity) {
     val executor = Executors.newSingleThreadExecutor()
     val interactableComponent = InteractableComponent.create(session, executor) {
         // when the user disengages with the entity with their hands
-        if (it.source == InputEvent.Source.SOURCE_HANDS && it.action == InputEvent.Action.ACTION_UP) {
+        if (it.source == InputEvent.Source.HANDS && it.action == InputEvent.Action.UP) {
             // increase size with right hand and decrease with left
-            if (it.pointerType == InputEvent.Pointer.POINTER_TYPE_RIGHT) {
+            if (it.pointerType == InputEvent.Pointer.RIGHT) {
                 entity.setScale(1.5f)
-            } else if (it.pointerType == InputEvent.Pointer.POINTER_TYPE_LEFT) {
+            } else if (it.pointerType == InputEvent.Pointer.LEFT) {
                 entity.setScale(0.5f)
             }
         }

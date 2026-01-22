@@ -22,14 +22,37 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <uses-feature android:name="android.hardware.type.watch" />
+    <!-- [START android_wear_wfp_general_permission] -->
+    <!-- Required to use the Watch Face Push API.  -->
+    <uses-permission android:name="com.google.wear.permission.PUSH_WATCH_FACES" />
+    <!-- [END android_wear_wfp_general_permission] -->
 
+    <!-- [START android_wear_wfp_active_permission] -->
+    <!-- Required to be able to call the setWatchFaceAsActive() method. -->
+    <uses-permission android:name="com.google.wear.permission.SET_PUSHED_WATCH_FACE_AS_ACTIVE" />
+    <!-- [END android_wear_wfp_active_permission] -->
+    <!-- [START android_wear_watch_feature] -->
+    <uses-feature android:name="android.hardware.type.watch" />
+    <!-- [END android_wear_watch_feature] -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- [START android_wear_wfp_default_watch_face_token] -->
+        <meta-data
+            android:name="com.google.android.wearable.marketplace.DEFAULT_WATCHFACE_VALIDATION_TOKEN"
+            android:value="@string/default_wf_token" />
+        <!-- [END android_wear_wfp_default_watch_face_token] -->
+
+        <!-- [START android_wear_wfp_meta_data_property] -->
+        <!-- For watch face com.myapp.watchfacepush.mywatchface -->
+        <property
+            android:name="default_color"
+            android:value="red" />
+        <!-- [END android_wear_wfp_meta_data_property] -->
 
         <!-- [START android_wear_splash_manifest] -->
         <activity
@@ -55,10 +78,11 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
+        <!-- [START android_wear_standalone] -->
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
+        <!-- [END android_wear_standalone] -->
         <activity
             android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
             android:exported="true"
@@ -375,6 +399,18 @@
             </intent-filter>
         </service>
         <!-- [END android_wear_datalayerlistener_intent_filter] -->
+
+        <service
+            android:name=".snippets.datalayer.AuthDataListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:scheme="wear"
+                    android:host="*"
+                    android:pathPrefix="/auth" />
+            </intent-filter>
+        </service>
 
     </application>
 

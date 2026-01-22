@@ -34,12 +34,16 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":watchface",
     ":wear",
+    ":wearcompanion",
     ":views",
     ":misc",
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
     ":kmp:androidApp",
-    ":kmp:shared"
+    ":kmp:shared",
+    ":playbilling",
+    ":tv"
 )

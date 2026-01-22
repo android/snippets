@@ -31,7 +31,7 @@ private fun resizableComponentExample(
 ) {
     // [START androidxr_scenecore_resizableComponentExample]
     val resizableComponent = ResizableComponent.create(session) { event ->
-        if (event.resizeState == ResizeEvent.ResizeState.RESIZE_STATE_END) {
+        if (event.resizeState == ResizeEvent.ResizeState.END) {
             // update the Entity to reflect the new size
             surfaceEntity.shape = SurfaceEntity.Shape.Quad(FloatSize2d(event.newSize.width, event.newSize.height))
         }

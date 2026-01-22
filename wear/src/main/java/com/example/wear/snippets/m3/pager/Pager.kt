@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.VerticalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.AnimatedPage
 import androidx.wear.compose.material3.AppScaffold
@@ -29,6 +30,7 @@ import androidx.wear.compose.material3.HorizontalPagerScaffold
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.VerticalPagerScaffold
 import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
@@ -78,4 +80,25 @@ fun HorizontalPager() {
         }
     }
     // [END android_wear_horizontal_pager]
+}
+
+@Composable
+fun verticalPager() {
+    // [START android_wear_vertical_pager]
+    AppScaffold {
+        val pagerState = rememberPagerState(pageCount = { 10 })
+
+        VerticalPagerScaffold(pagerState = pagerState) {
+            VerticalPager(
+                state = pagerState
+            ) { page ->
+                AnimatedPage(pageIndex = page, pagerState = pagerState) {
+                    ScreenScaffold {
+                        ///…
+                    }
+                }
+            }
+        }
+    }
+    // [END android_wear_vertical_pager]
 }

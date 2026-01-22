@@ -25,4 +25,6 @@
     <string name="my_complication_service_label">My Complication</string>
     <string name="my_complication_timeline_service_label">My Timeline Complication</string>
     <string name="configuration_activity_label">Configuration activity</string>
+    <string name="show">Show</string>
+    <string name="default_wf_token">abcdef123456</string>
 </resources>

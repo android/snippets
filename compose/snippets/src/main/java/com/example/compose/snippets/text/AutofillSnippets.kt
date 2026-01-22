@@ -40,6 +40,18 @@ import com.example.compose.snippets.touchinput.Button
 
 @Composable
 fun AddAutofill() {
+    val textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    // [START android_compose_autofill_1_value]
+    TextField(
+        value = textFieldValue.value,
+        onValueChange = { textFieldValue.value = it },
+        modifier = Modifier.semantics { contentType = ContentType.Username }
+    )
+    // [END android_compose_autofill_1_value]
+
     // [START android_compose_autofill_1]
     TextField(
         state = rememberTextFieldState(),
@@ -50,6 +62,19 @@ fun AddAutofill() {
 
 @Composable
 fun AddMultipleTypesOfAutofill() {
+    val textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    // [START android_compose_autofill_2_value]
+    TextField(
+        value = textFieldValue.value,
+        onValueChange = { textFieldValue.value = it },
+        modifier = Modifier.semantics {
+            contentType = ContentType.Username + ContentType.EmailAddress
+        }
+    )
+    // [END android_compose_autofill_2_value]
+
     // [START android_compose_autofill_2]
     TextField(
         state = rememberTextFieldState(),
@@ -68,10 +93,34 @@ fun AutofillManager() {
 }
 
 @Composable
-fun SaveDataWithAutofill() {
-    var textFieldValue = remember {
+fun SaveDataWithAutofillValue() {
+    val textFieldValue = remember {
         mutableStateOf(TextFieldValue(""))
     }
+    // [START android_compose_autofill_4_value]
+    val autofillManager = LocalAutofillManager.current
+
+    Column {
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword }
+        )
+    }
+    // [END android_compose_autofill_4_value]
+}
+
+@Composable
+fun SaveDataWithAutofillState() {
+
     // [START android_compose_autofill_4]
     val autofillManager = LocalAutofillManager.current
 
@@ -91,8 +140,41 @@ fun SaveDataWithAutofill() {
     // [END android_compose_autofill_4]
 }
 
+
 @Composable
-fun SaveDataWithAutofillOnClick() {
+fun SaveDataWithAutofillOnClickValue() {
+    val usernameTextFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val passwordTextFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    // [START android_compose_autofill_5_value]
+    val autofillManager = LocalAutofillManager.current
+
+    Column {
+        TextField(
+            value = usernameTextFieldValue.value,
+            onValueChange = { usernameTextFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewUsername },
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = passwordTextFieldValue.value,
+            onValueChange = { passwordTextFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.NewPassword },
+        )
+
+        // Submit button
+        Button(onClick = { autofillManager?.commit() }) { Text("Reset credentials") }
+    }
+    // [END android_compose_autofill_5_value]
+}
+
+@Composable
+fun SaveDataWithAutofillOnClickState() {
     // [START android_compose_autofill_5]
     val autofillManager = LocalAutofillManager.current
 
@@ -116,7 +198,26 @@ fun SaveDataWithAutofillOnClick() {
 }
 
 @Composable
-fun CustomAutofillHighlight(customHighlightColor: Color = Color.Red) {
+fun CustomAutofillHighlightValue() {
+    val textFieldValue = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+
+    // [START android_compose_autofill_6_value]
+    val customHighlightColor = Color.Red
+
+    CompositionLocalProvider(LocalAutofillHighlightColor provides customHighlightColor) {
+        TextField(
+            value = textFieldValue.value,
+            onValueChange = { textFieldValue.value = it },
+            modifier = Modifier.semantics { contentType = ContentType.Username }
+        )
+    }
+    // [END android_compose_autofill_6_value]
+}
+
+@Composable
+fun CustomAutofillHighlightState(customHighlightColor: Color = Color.Red) {
     // [START android_compose_autofill_6]
     val customHighlightColor = Color.Red
 

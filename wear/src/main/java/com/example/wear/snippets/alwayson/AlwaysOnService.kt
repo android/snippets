@@ -16,12 +16,15 @@
 
 package com.example.wear.snippets.alwayson
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
+import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
@@ -245,5 +248,22 @@ class AlwaysOnService3 : AlwaysOnServiceBase() {
 
         ongoingActivity.apply(applicationContext)
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
+    }
+}
+
+object AlwaysOnServiceMisc {
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    fun update(context: Context, ongoingActivity: OngoingActivity, newStatus: Status) {
+        // [START android_wear_ongoing_activity_update]
+        ongoingActivity.update(context, newStatus)
+        // [END android_wear_ongoing_activity_update]
+    }
+
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    fun recover(context: Context, newStatus: Status) {
+        // [START android_wear_ongoing_activity_recover]
+        OngoingActivity.recoverOngoingActivity(context)
+            ?.update(context, newStatus)
+        // [END android_wear_ongoing_activity_recover]
     }
 }

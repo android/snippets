@@ -203,7 +203,6 @@ private fun ListsSnippetsContentSpacing3(photos: List<Photo>) {
 
 private object ListsSnippetsStickyHeaders1 {
     // [START android_compose_layouts_lazy_column_sticky_header]
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ListWithHeader(items: List<Item>) {
         LazyColumn {
@@ -224,7 +223,6 @@ private object ListsSnippetsStickyHeaders2 {
     // This ideally would be done in the ViewModel
     val grouped = contacts.groupBy { it.firstName[0] }
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ContactsList(grouped: Map<Char, List<Contact>>) {
         LazyColumn {

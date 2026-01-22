@@ -61,11 +61,13 @@ dependencies {
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.tracing)
+    implementation(libs.androidx.work.runtime)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlinx.metadata.jvm)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)
