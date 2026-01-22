@@ -29,7 +29,7 @@ val steps: DynamicInt32 = PlatformHealthSources.dailySteps()
 // [END android_wear_dynamic_expressions_platform_sources]
 
 // [START android_wear_dynamic_expressions_addition]
-val dynamicValue = DynamicInt32.constant(1).plus(2)
+val dynamicAdditionResult = DynamicInt32.constant(1).plus(2)
 // [END android_wear_dynamic_expressions_addition]
 
 // [START android_wear_dynamic_expressions_animated_addition]
