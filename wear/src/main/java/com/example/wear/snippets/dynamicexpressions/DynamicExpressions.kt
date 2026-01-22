@@ -33,5 +33,5 @@ val dynamicAdditionResult = DynamicInt32.constant(1).plus(2)
 // [END android_wear_dynamic_expressions_addition]
 
 // [START android_wear_dynamic_expressions_animated_addition]
-val x = DynamicInt32.constant(1).plus(2).animate()
+val animatedAdditionResult = DynamicInt32.constant(1).plus(2).animate()
 // [END android_wear_dynamic_expressions_animated_addition]
