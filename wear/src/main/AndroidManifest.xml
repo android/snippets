@@ -31,9 +31,9 @@
     <!-- Required to be able to call the setWatchFaceAsActive() method. -->
     <uses-permission android:name="com.google.wear.permission.SET_PUSHED_WATCH_FACE_AS_ACTIVE" />
     <!-- [END android_wear_wfp_active_permission] -->
-
+    <!-- [START android_wear_watch_feature] -->
     <uses-feature android:name="android.hardware.type.watch" />
-
+    <!-- [END android_wear_watch_feature] -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
