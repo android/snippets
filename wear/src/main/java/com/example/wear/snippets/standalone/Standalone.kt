@@ -24,4 +24,3 @@ private fun Context.phoneDeviceType() {
     var phoneDeviceType: Int = PhoneTypeHelper.getPhoneDeviceType(this)
     // [END android_wear_phone_device_type]
 }
-

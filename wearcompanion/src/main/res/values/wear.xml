@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright 2025 The Android Open Source Project
 
@@ -13,7 +14,6 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <!--  [START android_wearcompanion_watch_capabilities_xml] -->
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:keep="@array/android_wear_capabilities">
