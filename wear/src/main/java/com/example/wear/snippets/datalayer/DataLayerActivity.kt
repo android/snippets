@@ -32,10 +32,10 @@ import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
-import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.concurrent.ExecutionException
+import kotlinx.coroutines.tasks.await
 
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
     private val dataClient by lazy { Wearable.getDataClient(this) }
@@ -181,8 +181,7 @@ private suspend fun Context.sendDataAsync(count: Int) {
         handleDataItem(dataItem)
     } catch (e: Exception) {
         handleDataItemError(e)
-    }
-    finally{
+    } finally {
         handleTaskComplete()
     }
 }
