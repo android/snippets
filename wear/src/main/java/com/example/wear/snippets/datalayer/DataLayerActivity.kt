@@ -35,6 +35,7 @@ import com.google.android.gms.wearable.Wearable
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.concurrent.ExecutionException
+import kotlinx.coroutines.tasks.await
 
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
     private val dataClient by lazy { Wearable.getDataClient(this) }
@@ -170,24 +171,24 @@ class DataLayerActivity2 : ComponentActivity(), DataClient.OnDataChangedListener
 }
 
 // [START android_wear_datalayer_async_call]
-private fun Context.sendDataAsync(count: Int) {
-    // Create a data item with the path and data to be sent
-    val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
-        dataMap.putInt("count_key", count)
-        asPutDataRequest()
+private suspend fun Context.sendDataAsync(count: Int) {
+    try {
+        val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
+            dataMap.putInt("count_key", count)
+            asPutDataRequest()
+        }
+        val dataItem = Wearable.getDataClient(this).putDataItem(putDataReq).await()
+        handleDataItem(dataItem)
+    } catch (e: Exception) {
+        handleDataItemError(e)
+    } finally {
+        handleTaskComplete()
     }
-    // Create a task to send the data to the data layer
-    val task: Task<DataItem> = Wearable.getDataClient(this).putDataItem(putDataReq)
-
-    // Using Kotlin function references
-    task.addOnSuccessListener(::handleDataItem)
-    task.addOnFailureListener(::handleDataItemError)
-    task.addOnCompleteListener(::handleTaskComplete)
 }
 
 private fun handleDataItem(dataItem: DataItem) { }
 private fun handleDataItemError(exception: Exception) { }
-private fun handleTaskComplete(task: Task<DataItem>) { }
+private fun handleTaskComplete() { }
 // [END android_wear_datalayer_async_call]
 
 // [START android_wear_datalayer_sync_call]
