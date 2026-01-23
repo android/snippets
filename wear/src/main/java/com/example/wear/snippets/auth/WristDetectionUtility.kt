@@ -24,7 +24,6 @@ private const val PIXEL_WRIST_AUTOLOCK_SETTING_STATE = "wrist_detection_auto_loc
 
 // [START android_wear_auth_wrist_detection]
 fun isWristDetectionAutoLockingEnabled(context: Context): Boolean {
-    // [END android_wear_auth_wrist_detection]
     // Use the keyguard manager to check for the presence of a lock mechanism
     val keyguardManager = context.getSystemService<KeyguardManager>()
     val isSecured = keyguardManager?.isDeviceSecure == true
@@ -37,3 +36,4 @@ fun isWristDetectionAutoLockingEnabled(context: Context): Boolean {
 
     return isSecured && isWristDetectionOn
 }
+// [END android_wear_auth_wrist_detection]
