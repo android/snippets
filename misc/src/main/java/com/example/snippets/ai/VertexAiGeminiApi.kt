@@ -17,10 +17,9 @@
 package com.example.snippets.ai
 
 import com.google.firebase.Firebase
+import com.google.firebase.ai.GenerativeModel
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.GenerativeBackend
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class VertexAiGeminiApi {
 
@@ -29,13 +28,12 @@ class VertexAiGeminiApi {
         .generativeModel("gemini-2.5-flash")
     // [END android_snippets_vertex_ai_gemini_api_model]
 
-    fun generateText(scope: CoroutineScope) {
-        // [START android_snippets_vertex_ai_generate_content]
+    // [START android_snippets_vertex_ai_generate_content]
+    suspend fun generateText(model: GenerativeModel) {
         // Note: generateContent() is a suspend function, which integrates well
         // with existing Kotlin code.
-        scope.launch {
-            val response = model.generateContent("Write a story about a magic backpack.")
-        }
-        // [END android_snippets_vertex_ai_generate_content]
+        val response = model.generateContent("Write a story about a magic backpack.")
+        // ...
     }
+    // [END android_snippets_vertex_ai_generate_content]
 }
