@@ -72,15 +72,16 @@ class AuthDataListenerService : WearableListenerService() {
                         .getString("token")
                     // Display an interstitial screen to notify the user that they're being signed
                     // in. Then, store the token and use it in network requests.
-// [END android_wear_datalayer_auth_token_sharing_listener]
                     handleSignInSequence(token)
                 }
             }
         }
     }
+
     /** placeholder sign in handler. */
     fun handleSignInSequence(token: String?) {}
 }
+// [END android_wear_datalayer_auth_token_sharing_listener]
 
 // [START android_wear_datalayer_ondatachangedlisteneer]
 class MainActivity : Activity(), DataClient.OnDataChangedListener {
