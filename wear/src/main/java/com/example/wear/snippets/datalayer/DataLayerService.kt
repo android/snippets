@@ -21,9 +21,13 @@ import android.util.Log
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
+import com.google.android.gms.wearable.DataItem
+import com.google.android.gms.wearable.DataItemBuffer
 import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
+import kotlinx.coroutines.runBlocking
 
 private const val TAG = "DataLayerSample"
 private const val START_ACTIVITY_PATH = "/start-activity"
@@ -107,3 +111,41 @@ class MainActivity : Activity(), DataClient.OnDataChangedListener {
     }
 }
 // [END android_wear_datalayer_ondatachangedlisteneer]
+
+// [START android_wear_datalayer_mywearablelistenerservice]
+class MyWearableListenerService : WearableListenerService() {
+    val dataClient: DataClient = Wearable.getDataClient(this)
+
+    private fun shouldHandleDataItem(nodeId: String, dataItem: DataItem): Boolean {
+        // Your logic here
+        return dataItem.uri.path?.startsWith("/my_feature_path/") == true
+    }
+
+    private fun handleDataItem(nodeId: String, dataItem: DataItem) {
+        val data = dataItem.data ?: return
+        val path = dataItem.uri.path ?: return
+        // Your logic here
+        if (data.toString().startsWith("Please restore")) {
+            dataClient.putDataItem(PutDataRequest.create(path).setData(data))
+        }
+    }
+
+    override fun onNodeMigrated(nodeId: String, archive: DataItemBuffer) {
+        val dataItemsToHandle = mutableListOf<DataItem>()
+
+        for (dataItem in archive) {
+            if (shouldHandleDataItem(nodeId, dataItem)) {
+                dataItemsToHandle.add(dataItem.freeze())
+            }
+        }
+
+        // Callback stops automatically after 20 seconds of data processing.
+        // If you think you need more time, delegate to a coroutine or thread.
+        runBlocking {
+            for (dataItem in dataItemsToHandle) {
+                handleDataItem(nodeId, dataItem)
+            }
+        }
+    }
+}
+// [END android_wear_datalayer_mywearablelistenerservice]

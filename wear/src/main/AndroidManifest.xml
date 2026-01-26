@@ -412,6 +412,18 @@
             </intent-filter>
         </service>
 
+        <!-- [START android_wear_datalayer_mywearablelistenerservice_manifest] -->
+        <service
+            android:name=".snippets.datalayer.MyWearableListenerService"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.NODE_MIGRATED" />
+                <data android:scheme="wear" android:host="*" />
+            </intent-filter>
+        </service>
+        <!-- [END android_wear_datalayer_mywearablelistenerservice_manifest] -->
+
     </application>
 
 </manifest>
