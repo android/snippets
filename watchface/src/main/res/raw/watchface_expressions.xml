@@ -30,8 +30,8 @@
                 </Expression>
                 <Expression name="function_example">
                     <!-- [START android_watch_face_function] -->
-                    (5/90)*clamp([ACCELEROMETER_ANGLE_X],0,90) +
-                    (-5/90)*clamp([ACCELEROMETER_ANGLE_X],-90,0)
+                    (5.0/90.0)*clamp([ACCELEROMETER_ANGLE_X],0,90) +
+                    (-5.0/90.0)*clamp([ACCELEROMETER_ANGLE_X],-90,0)
                     <!-- [END android_watch_face_function] -->
                 </Expression>
                 <Expression name="afternoon_inefficient">
