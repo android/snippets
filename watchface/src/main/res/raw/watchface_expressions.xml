@@ -20,7 +20,7 @@
             <Expressions>
                 <Expression name="is_weekend_raw">
                     <!-- [START android_watch_face_expression_raw] -->
-                    [DAY_OF_WEEK] == 6 || [DAY_OF_WEEK] == 7]
+                    [DAY_OF_WEEK] == 6 || [DAY_OF_WEEK] == 7
                     <!-- [END android_watch_face_expression_raw] -->
                 </Expression>
                 <Expression name="is_weekend_cdata">
