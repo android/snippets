@@ -21,7 +21,6 @@ import androidx.xr.arcore.FaceBlendShapeType
 import androidx.xr.arcore.FaceConfidenceRegion
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
-import androidx.xr.runtime.SessionConfigureConfigurationNotSupported
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.TrackingState
 
@@ -32,8 +31,6 @@ private fun configureFaceTracking(session: Session) {
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
-        is SessionConfigureConfigurationNotSupported ->
-            TODO(/* Some combinations of configurations are not valid. Handle this failure case. */)
         else ->
             TODO(/* The session could not be configured. See SessionConfigureResult for possible causes. */)
     }
