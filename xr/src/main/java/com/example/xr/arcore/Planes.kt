@@ -22,7 +22,6 @@ import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Ray
-import androidx.xr.scenecore.scene
 
 fun configurePlaneTracking(session: Session) {
     // [START androidxr_arcore_planetracking_configure]
