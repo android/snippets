@@ -47,7 +47,6 @@ private suspend fun getDepthMap(session: Session) {
         val y = 350
         val index = x + y * depthMap.width
         val result = depthMap.smoothDepthMap?.get(index)
-        depthMap.rawDepthMap
         val confidence = depthMap.smoothConfidenceMap?.get(index)
     }
     // [END androidxr_arcore_depthmaps_calculate_results]
