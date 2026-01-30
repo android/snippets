@@ -18,7 +18,7 @@ package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
 import androidx.xr.arcore.Plane
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.PlaneTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Ray
@@ -26,7 +26,7 @@ import androidx.xr.runtime.math.Ray
 fun configurePlaneTracking(session: Session) {
     // [START androidxr_arcore_planetracking_configure]
     val newConfig = session.config.copy(
-        planeTracking = Config.PlaneTrackingMode.HORIZONTAL_AND_VERTICAL,
+        planeTracking = PlaneTrackingMode.HORIZONTAL_AND_VERTICAL,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
