@@ -19,7 +19,7 @@ package com.example.xr.arcore
 import androidx.xr.arcore.Face
 import androidx.xr.arcore.FaceBlendShapeType
 import androidx.xr.arcore.FaceConfidenceRegion
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.FaceTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.TrackingState
@@ -27,7 +27,7 @@ import androidx.xr.runtime.TrackingState
 private fun configureFaceTracking(session: Session) {
     // [START androidxr_arcore_faceTracking_configure]
     val newConfig = session.config.copy(
-        faceTracking = Config.FaceTrackingMode.USER,
+        faceTracking = FaceTrackingMode.BLEND_SHAPES,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
