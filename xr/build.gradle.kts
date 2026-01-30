@@ -30,12 +30,20 @@ android {
     }
 }
 
+val useSnapshot = providers.gradleProperty("snapshotVersion").orNull != null
 dependencies {
-    implementation(libs.androidx.xr.arcore)
-    implementation(libs.androidx.arcore.play.services)
+    if (useSnapshot) {
+        snapshotImplementation(libs.androidx.xr.arcore)
+        snapshotImplementation(libs.androidx.arcore.play.services)
+        snapshotImplementation(libs.androidx.xr.scenecore)
+        snapshotImplementation(libs.androidx.xr.compose)
+    } else {
+        implementation(libs.androidx.xr.arcore)
+        implementation(libs.androidx.arcore.play.services)
+        implementation(libs.androidx.xr.scenecore)
+        implementation(libs.androidx.xr.compose)
+    }
     implementation(libs.google.ar.core)
-    implementation(libs.androidx.xr.scenecore)
-    implementation(libs.androidx.xr.compose)
 
     implementation(libs.androidx.activity.ktx)
 
@@ -70,4 +78,11 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
+}
+
+fun DependencyHandler.snapshotImplementation(dependencyNotation: Provider<MinimalExternalModuleDependency>) {
+    val shim = dependencyNotation.get()
+    implementation("${shim.group}:${shim.name}:1.0.0-SNAPSHOT") {
+        exclude(module = "impress")
+    }
 }
