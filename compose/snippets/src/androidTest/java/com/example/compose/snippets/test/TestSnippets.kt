@@ -55,6 +55,7 @@ class Test2 {
             Text(text = status)
         }
 
+        // NOT RECOMMENDED
         // Fails: runTest creates a new, separate scheduler.
         // Advancing time here does NOT advance the compose clock.
         // To fix this without migrating, you would need to share the scheduler
