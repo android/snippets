@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.xr.arcore.ArDevice
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.FloatSize2d
 import androidx.xr.runtime.math.Pose
@@ -57,15 +58,15 @@ private fun ComponentActivity.surfaceEntityCreate(xrSession: Session) {
 
 private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateSbs]
+    val devicePose = ArDevice.getInstance(xrSession).state.value.devicePose
+    val activitySpacePose = xrSession.scene.perceptionSpace.transformPoseTo(devicePose, xrSession.scene.activitySpace)
+
     // Set up the surface for playing a 180° video on a hemisphere.
     val hemisphereStereoSurfaceEntity =
         SurfaceEntity.create(
             session = xrSession,
             stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE,
-            pose = xrSession.scene.spatialUser.head?.transformPoseTo(
-                Pose.Identity,
-                xrSession.scene.activitySpace
-            )!!,
+            pose = activitySpacePose,
             shape = SurfaceEntity.Shape.Hemisphere(1.0f),
         )
     // ... and use the surface for playing the media.
@@ -74,15 +75,14 @@ private fun ComponentActivity.surfaceEntityCreateSbs(xrSession: Session) {
 
 private fun ComponentActivity.surfaceEntityCreateTb(xrSession: Session) {
     // [START androidxr_scenecore_surfaceEntityCreateTb]
+    val devicePose = ArDevice.getInstance(xrSession).state.value.devicePose
+    val activitySpacePose = xrSession.scene.perceptionSpace.transformPoseTo(devicePose, xrSession.scene.activitySpace)
     // Set up the surface for playing a 360° video on a sphere.
     val sphereStereoSurfaceEntity =
         SurfaceEntity.create(
             session = xrSession,
             stereoMode = SurfaceEntity.StereoMode.TOP_BOTTOM,
-            pose = xrSession.scene.spatialUser.head?.transformPoseTo(
-                Pose.Identity,
-                xrSession.scene.activitySpace
-            )!!,
+            pose = activitySpacePose,
             shape = SurfaceEntity.Shape.Sphere(1.0f),
         )
     // ... and use the surface for playing the media.
