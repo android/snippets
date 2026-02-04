@@ -1,0 +1,52 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.android.kotlin.style
+
+import org.junit.Test
+
+class StyleGuideFormattingTest {
+
+    // [START android_style_guide_formatting_special_constructs_annotations_test]
+    @Volatile
+    var disposable: Disposable? = null
+
+    @Test
+    fun selectAll() {
+        // [START_EXCLUDE]
+        print("")
+        // [END_EXCLUDE]
+    }
+    // [END android_style_guide_formatting_special_constructs_annotations_test]
+
+    // [START android_style_guide_formatting_naming_function_test]
+    @Test fun pop_emptyStack() {
+        // [START_EXCLUDE]
+        print("")
+        // [END_EXCLUDE]
+    }
+    // [END android_style_guide_formatting_naming_function_test]
+
+    // [START android_style_guide_formatting_naming_spaces_test_wrong]
+    // WRONG!
+    fun `test every possible case`() {}
+    // [END android_style_guide_formatting_naming_spaces_test_wrong]
+
+    // [START android_style_guide_formatting_naming_spaces_test_okay]
+    // OK
+    fun testEveryPossibleCase() {}
+    // [END android_style_guide_formatting_naming_spaces_test_okay]
+}
