@@ -21,9 +21,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
-import com.google.firebase.ai.FirebaseAi;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.firebase.ai.FirebaseAI;
 import com.google.firebase.ai.ImagenModel;
+import com.google.firebase.ai.ImagenModelFutures;
 import com.google.firebase.ai.type.Dimensions;
 import com.google.firebase.ai.type.GenerativeBackend;
 import com.google.firebase.ai.type.ImagenAspectRatio;
@@ -37,6 +43,7 @@ import com.google.firebase.ai.type.ImagenGenerationResponse;
 import com.google.firebase.ai.type.ImagenImageFormat;
 import com.google.firebase.ai.type.ImagenImagePlacement;
 import com.google.firebase.ai.type.ImagenInlineImage;
+import com.google.firebase.ai.type.ImagenInlineImageKt;
 import com.google.firebase.ai.type.ImagenMaskReference;
 import com.google.firebase.ai.type.ImagenPersonFilterLevel;
 import com.google.firebase.ai.type.ImagenRawImage;
@@ -46,9 +53,11 @@ import com.google.firebase.ai.type.ImagenSafetySettings;
 import com.google.firebase.ai.type.ImagenStyleReference;
 import com.google.firebase.ai.type.ImagenSubjectReference;
 import com.google.firebase.ai.type.ImagenSubjectReferenceType;
-import com.google.android.gms.tasks.Task;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class ImagenSnippetsJava {
 
@@ -62,8 +71,8 @@ public class ImagenSnippetsJava {
                 .build();
 
         // Initialize the Gemini Developer API backend service
-        // For Vertex AI use FirebaseAi.getInstance(GenerativeBackend.vertexAI())
-        ImagenModel model = FirebaseAi.getInstance(GenerativeBackend.googleAI()).getImagenModel(
+        // For Vertex AI use FirebaseAI.getInstance(GenerativeBackend.vertexAI())
+        ImagenModel imagenModel = FirebaseAI.getInstance(GenerativeBackend.googleAI()).getImagenModel(
                 "imagen-4.0-generate-001",
                 config,
                 new ImagenSafetySettings.Builder()
@@ -71,41 +80,52 @@ public class ImagenSnippetsJava {
                         .setPersonFilterLevel(ImagenPersonFilterLevel.BLOCK_ALL)
                         .build()
         );
+        ImagenModelFutures model = ImagenModelFutures.from(imagenModel);
         // [END android_imagen_model_configuration_java]
     }
 
     private void imagenVertexAIModelConfiguration() {
         // [START android_imagen_vertex_model_configuration_java]
-        ImagenModel imagenModel = FirebaseAi.getInstance(GenerativeBackend.vertexAI())
+        ImagenModel imagenModel = FirebaseAI.getInstance(GenerativeBackend.vertexAI())
                 .getImagenModel("imagen-3.0-capability-001");
+        ImagenModelFutures model = ImagenModelFutures.from(imagenModel);
         // [END android_imagen_vertex_model_configuration_java]
     }
 
-    private void generateImages(ImagenModel model) {
+    private void generateImages(ImagenModelFutures model) {
         // [START android_imagen_generate_images_java]
-        Task<ImagenGenerationResponse> task = model.generateImages(
+        ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> future = model.generateImages(
                 "A hyper realistic picture of a t-rex with a blue bagpack in a prehistoric forest"
         );
 
-        task.addOnSuccessListener(imageResponse -> {
-            if (!imageResponse.getImages().isEmpty()) {
-                ImagenInlineImage image = imageResponse.getImages().get(0);
+        Futures.addCallback(future, new FutureCallback<ImagenGenerationResponse<ImagenInlineImage>>() {
+            @Override
+            public void onSuccess(ImagenGenerationResponse<ImagenInlineImage> result) {
+                if (result.getImages().isEmpty()) {
+                    return;
+                }
+                ImagenInlineImage image = result.getImages().get(0);
                 Bitmap bitmapImage = image.asBitmap();
             }
-        });
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        }, Executors.newSingleThreadExecutor());
         // [END android_imagen_generate_images_java]
     }
 
     // [START android_imagen_inpaint_insertion_java]
-    public Task<ImagenGenerationResponse> insertFlowersIntoImage(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> insertFlowersIntoImage(
+            ImagenModelFutures model,
             Bitmap originalImage,
             ImagenMaskReference mask) {
         String prompt = "a vase of flowers";
 
         // Pass the original image, a mask, the prompt, and an editing configuration.
         List<ImagenReferenceImage> referenceImages = Arrays.asList(
-                new ImagenRawImage(ImagenInlineImage.fromBitmap(originalImage)),
+                new ImagenRawImage(ImagenInlineImageKt.toImagenInlineImage(originalImage)),
                 mask
         );
 
@@ -121,8 +141,8 @@ public class ImagenSnippetsJava {
     // [END android_imagen_inpaint_insertion_java]
 
     // [START android_imagen_inpaint_removal_java]
-    public Task<ImagenGenerationResponse> removeBallFromImage(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> removeBallFromImage(
+            ImagenModelFutures model,
             Bitmap originalImage,
             ImagenMaskReference mask) {
 
@@ -131,7 +151,7 @@ public class ImagenSnippetsJava {
 
         // Pass the original image, a mask, the prompt, and an editing configuration.
         List<ImagenReferenceImage> referenceImages = Arrays.asList(
-                new ImagenRawImage(ImagenInlineImage.fromBitmap(originalImage)),
+                new ImagenRawImage(ImagenInlineImageKt.toImagenInlineImage(originalImage)),
                 mask
         );
 
@@ -147,6 +167,8 @@ public class ImagenSnippetsJava {
     // [END android_imagen_inpaint_removal_java]
 
     // [START android_imagen_editing_create_mask_java]
+    // import android.graphics.Color;
+    // import android.graphics.Paint;
     private Bitmap createMaskBitmap(Bitmap sourceBitmap, List<Path> paths) {
         Bitmap maskBitmap = Bitmap.createBitmap(
                 sourceBitmap.getWidth(),
@@ -172,15 +194,15 @@ public class ImagenSnippetsJava {
     // [END android_imagen_editing_create_mask_java]
 
     // [START android_imagen_expand_image_java]
-    public Task<ImagenGenerationResponse> expandImage(
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> expandImage(
             Bitmap originalImage,
-            ImagenModel imagenModel) {
+            ImagenModelFutures imagenModel) {
 
         // Optionally describe what should appear in the expanded area.
         String prompt = "a sprawling sandy beach next to the ocean";
 
         return imagenModel.outpaintImage(
-                ImagenInlineImage.fromBitmap(originalImage),
+                ImagenInlineImageKt.toImagenInlineImage(originalImage),
                 new Dimensions(1024, 1024),
                 prompt,
                 ImagenImagePlacement.LEFT_CENTER
@@ -189,15 +211,15 @@ public class ImagenSnippetsJava {
     // [END android_imagen_expand_image_java]
 
     // [START android_imagen_replace_background_java]
-    public Task<ImagenGenerationResponse> replaceBackground(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> replaceBackground(
+            ImagenModelFutures model,
             Bitmap originalImage) {
         // Provide the prompt describing the new background.
         String prompt = "space background";
 
         // Pass the original image, a mask, the prompt, and an editing configuration.
         List<ImagenReferenceImage> referenceImages = Arrays.asList(
-                new ImagenRawImage(ImagenInlineImage.fromBitmap(originalImage)),
+                new ImagenRawImage(ImagenInlineImageKt.toImagenInlineImage(originalImage)),
                 new ImagenBackgroundMask()
         );
 
@@ -212,13 +234,13 @@ public class ImagenSnippetsJava {
     // [END android_imagen_replace_background_java]
 
     // [START android_imagen_customize_subject_java]
-    public Task<ImagenGenerationResponse> customizeCatImage(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> customizeCatImage(
+            ImagenModelFutures model,
             Bitmap referenceCatImage) {
 
         // Define the subject reference using the reference image.
         ImagenSubjectReference subjectReference = new ImagenSubjectReference.Builder(
-                ImagenInlineImage.fromBitmap(referenceCatImage))
+                ImagenInlineImageKt.toImagenInlineImage(referenceCatImage))
                 .setReferenceId(1)
                 .setDescription("cat")
                 .setSubjectType(ImagenSubjectReferenceType.ANIMAL)
@@ -240,13 +262,13 @@ public class ImagenSnippetsJava {
     // [END android_imagen_customize_subject_java]
 
     // [START android_imagen_customize_control_java]
-    public Task<ImagenGenerationResponse> customizeCatImageByControl(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> customizeCatImageByControl(
+            ImagenModelFutures model,
             Bitmap referenceImage) {
 
         // Define the subject reference using the reference image.
         ImagenControlReference controlReference = new ImagenControlReference.Builder(
-                ImagenInlineImage.fromBitmap(referenceImage))
+                ImagenInlineImageKt.toImagenInlineImage(referenceImage))
                 .setReferenceId(1)
                 .setType(ImagenControlType.SCRIBBLE)
                 .build();
@@ -264,13 +286,13 @@ public class ImagenSnippetsJava {
     // [END android_imagen_customize_control_java]
 
     // [START android_imagen_customize_style_java]
-    public Task<ImagenGenerationResponse> customizeImageByStyle(
-            ImagenModel model,
+    public ListenableFuture<ImagenGenerationResponse<ImagenInlineImage>> customizeImageByStyle(
+            ImagenModelFutures model,
             Bitmap referenceVanGoghImage) {
 
         // Define the style reference using the reference image.
         ImagenStyleReference styleReference = new ImagenStyleReference.Builder(
-                ImagenInlineImage.fromBitmap(referenceVanGoghImage))
+                ImagenInlineImageKt.toImagenInlineImage(referenceVanGoghImage))
                 .setReferenceId(1)
                 .setDescription("Van Gogh style")
                 .build();
@@ -290,4 +312,3 @@ public class ImagenSnippetsJava {
     }
     // [END android_imagen_customize_style_java]
 }
-
