@@ -1,13 +1,13 @@
 [versions]
 accompanist = "0.36.0"
-activityKtx = "1.12.2"
-android-googleid = "1.1.1"
-androidGradlePlugin = "8.13.2"
-androidx-activity-compose = "1.12.2"
+activityKtx = "1.12.3"
+android-googleid = "1.2.0"
+androidGradlePlugin = "9.0.0"
+androidx-activity-compose = "1.12.3"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2026.01.00"
+androidx-compose-bom = "2026.01.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.11.0-alpha03"
+androidx-compose-ui-test-junit4-accessibility = "1.11.0-alpha04"
 androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
@@ -19,9 +19,9 @@ androidx-fragment = "1.8.9"
 androidx-glance-appwidget = "1.1.1"
 androidx-lifecycle-compose = "2.10.0"
 androidx-lifecycle-runtime-compose = "2.10.0"
-androidx-navigation = "2.9.6"
-androidx-navigation3 = "1.1.0-alpha02"
-androidx-paging = "3.3.6"
+androidx-navigation = "2.9.7"
+androidx-navigation3 = "1.1.0-alpha03"
+androidx-paging = "3.4.0"
 androidx-startup-runtime = "1.2.0"
 androidx-test = "1.7.0"
 androidx-test-espresso = "3.7.0"
@@ -29,18 +29,17 @@ androidx-test-junit = "1.3.0"
 androidx-window = "1.5.1"
 androidx-window-core = "1.5.1"
 androidx-window-java = "1.5.1"
-androidx-work-runtime = "2.11.0"
+androidx-work-runtime = "2.11.1"
 androidx-xr-arcore = "1.0.0-alpha10"
 androidx-xr-compose = "1.0.0-alpha10"
 androidx-xr-scenecore = "1.0.0-alpha11"
 androidxHiltNavigationCompose = "1.3.0"
 appcompat = "1.7.1"
-arcorePlayServices = "1.0.0-alpha09"
-playbilling = "8.3.0"
+arcorePlayServices = "1.0.0-alpha10"
 coil = "2.7.0"
 # @keep
 compileSdk = "36"
-compose-latest = "1.10.1"
+compose-latest = "1.10.2"
 composeUiTooling = "1.5.6"
 coreSplashscreen = "1.2.0"
 coroutines = "1.10.2"
@@ -48,46 +47,47 @@ dataStore = "1.2.0"
 datastoreCore = "1.2.0"
 datastorePreferencesRxjava2 = "1.2.0"
 datastorePreferencesRxjava3 = "1.2.0"
-firebase-bom = "34.7.0"
+firebase-bom = "34.8.0"
 glide = "1.0.0-beta08"
 google-ar-core = "1.52.0"
 google-maps = "20.0.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
 guava-android = "33.5.0-jre"
-hilt = "2.57.2"
+hilt = "2.59.1"
 horologist = "0.8.3-alpha"
 junit = "4.13.2"
 kotlin = "2.3.0"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.10.2"
-kotlinxSerializationJson = "1.9.0"
-ksp = "2.3.4"
+kotlinxSerializationJson = "1.10.0"
+ksp = "2.3.5"
 ktlint = "1.5.0"
 lifecycleService = "2.10.0"
-maps-compose = "7.0.0"
-material = "1.14.0-alpha08"
+maps-compose = "8.0.1"
+material = "1.14.0-alpha09"
 material3-adaptive = "1.2.0"
 material3-adaptive-navigation-suite = "1.4.0"
-media3 = "1.8.0"
-media3Ui = "1.8.0"
+media3 = "1.9.1"
+media3Ui = "1.9.1"
 # @keep
 minSdk = "36"
 okHttp = "5.3.2"
 playServicesWearable = "19.0.0"
-protobuf = "4.33.4"
+playbilling = "8.3.0"
+protobuf = "4.33.5"
 protoc = "0.9.6"
 protolayout = "1.3.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
-robolectric = "4.16"
-roborazzi = "1.56.0"
-spotless = "8.1.0"
+robolectric = "4.16.1"
+roborazzi = "1.58.0"
+spotless = "8.2.1"
 targetSdk = "36"
 tiles = "1.5.0"
 tracing = "1.3.0"
 tvComposeMaterial3 = "1.1.0-alpha01"
-validatorPush = "1.0.0-alpha08"
+validatorPush = "1.0.0-alpha09"
 version-catalog-update = "1.0.1"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
 wear = "1.3.0"
@@ -101,8 +101,8 @@ wearRemoteInteractions = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.15.0"
 wfp = "1.0.0-beta01"
-xrGlimmer = "1.0.0-alpha03"
-xrProjected = "1.0.0-alpha03"
+xrGlimmer = "1.0.0-alpha05"
+xrProjected = "1.0.0-alpha04"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -160,6 +160,7 @@ androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", versi
 androidx-glance-appwidget-testing = { module = "androidx.glance:glance-appwidget-testing", version.ref = "androidx-glance-appwidget" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance-appwidget" }
 androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
+androidx-glimmer = { module = "androidx.xr.glimmer:glimmer", version.ref = "xrGlimmer" }
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-compose" }
@@ -176,6 +177,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
+androidx-projected = { module = "androidx.xr.projected:projected", version.ref = "xrProjected" }
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
@@ -247,12 +249,10 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
-tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
-androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "xrGlimmer" }
-androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "xrProjected" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
