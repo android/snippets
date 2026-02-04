@@ -21,7 +21,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import com.google.firebase.Firebase;
+
 import com.google.firebase.ai.FirebaseAi;
 import com.google.firebase.ai.ImagenModel;
 import com.google.firebase.ai.type.Dimensions;
@@ -47,12 +47,8 @@ import com.google.firebase.ai.type.ImagenStyleReference;
 import com.google.firebase.ai.type.ImagenSubjectReference;
 import com.google.firebase.ai.type.ImagenSubjectReferenceType;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class ImagenSnippetsJava {
 
@@ -92,8 +88,10 @@ public class ImagenSnippetsJava {
         );
 
         task.addOnSuccessListener(imageResponse -> {
-            ImagenInlineImage image = imageResponse.getImages().get(0);
-            Bitmap bitmapImage = image.asBitmap();
+            if (!imageResponse.getImages().isEmpty()) {
+                ImagenInlineImage image = imageResponse.getImages().get(0);
+                Bitmap bitmapImage = image.asBitmap();
+            }
         });
         // [END android_imagen_generate_images_java]
     }
