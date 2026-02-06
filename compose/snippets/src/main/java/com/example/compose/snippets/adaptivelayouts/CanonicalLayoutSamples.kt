@@ -19,9 +19,14 @@ package com.example.compose.snippets.adaptivelayouts
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.SupportingPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.glance.text.Text
 
 
 // [START android_compose_canonical_layouts_sample_my_feed]
@@ -37,3 +42,41 @@ fun MyFeed(names: List<String>) {
     }
 }
 // [END android_compose_canonical_layouts_sample_my_feed]
+
+// [START android_compose_canonical_layouts_list_detail_pane_scaffold]
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+fun MyListDetailPaneScaffold() {
+    val navigator = rememberListDetailPaneScaffoldNavigator()
+    ListDetailPaneScaffold(
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            // Listing Pane
+        },
+        detailPane = {
+            // Details Pane
+        }
+    )
+}
+// [END android_compose_canonical_layouts_list_detail_pane_scaffold]
+
+// [START android_compose_canonical_layouts_supporting_pane_scaffold]
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+fun MySupportingPaneScaffold() {
+    // Creates and remembers a navigator to control pane visibility and navigation
+    val navigator = rememberSupportingPaneScaffoldNavigator()
+    SupportingPaneScaffold(
+        // Directive and value help control pane visibility based on screen size and state
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        mainPane = {
+            // Main Pane for the primary content
+        },
+        supportingPane = {
+            //Supporting Pane for supplementary content
+        }
+    )
+}
+// [END android_compose_canonical_layouts_supporting_pane_scaffold]
