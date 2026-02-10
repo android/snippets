@@ -29,7 +29,6 @@ class RestoreCredentialsFunctions(
     private val credentialManager: CredentialManager,
 ) {
     suspend fun createRestoreKey(
-        val credentialManager = CredentialManager.create(context)
         createRestoreRequest: CreateRestoreCredentialRequest
     ) {
         // [START android_identity_restore_cred_create]
