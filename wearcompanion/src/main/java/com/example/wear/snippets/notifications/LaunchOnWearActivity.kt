@@ -26,5 +26,6 @@ class LaunchOnWearActivity : ComponentActivity() {
         // At this point the Activity would launch the activity remotely on Wear OS via data layer
 
         // Then the Activity would exit
+        finish()
     }
 }
