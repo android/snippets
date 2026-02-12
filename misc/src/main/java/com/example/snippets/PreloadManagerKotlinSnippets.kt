@@ -37,7 +37,7 @@ class MyTargetPreloadStatusControl(
     currentPlayingIndex: Int = C.INDEX_UNSET
 ) : TargetPreloadStatusControl<Int, DefaultPreloadManager.PreloadStatus> {
 
-    override fun getTargetPreloadStatus(index: Int): DefaultPreloadManager.PreloadStatus? {
+    override fun getTargetPreloadStatus(index: Int): DefaultPreloadManager.PreloadStatus {
         if (index - currentPlayingIndex == 1) { // next track
             // return a PreloadStatus that is labelled by STAGE_SPECIFIED_RANGE_LOADED and
             // suggest loading 3000ms from the default start position
@@ -48,12 +48,12 @@ class MyTargetPreloadStatusControl(
             return DefaultPreloadManager.PreloadStatus.specifiedRangeLoaded(3000L)
         } else if (abs(index - currentPlayingIndex) == 2) {
             // return a PreloadStatus that is labelled by STAGE_TRACKS_SELECTED
-            return DefaultPreloadManager.PreloadStatus.TRACKS_SELECTED
+            return DefaultPreloadManager.PreloadStatus.PRELOAD_STATUS_TRACKS_SELECTED
         } else if (abs(index - currentPlayingIndex) <= 4) {
             // return a PreloadStatus that is labelled by STAGE_SOURCE_PREPARED
-            return DefaultPreloadManager.PreloadStatus.SOURCE_PREPARED
+            return DefaultPreloadManager.PreloadStatus.PRELOAD_STATUS_SOURCE_PREPARED
         }
-        return null
+        return DefaultPreloadManager.PreloadStatus.PRELOAD_STATUS_NOT_PRELOADED
     }
 }
 // [END android_defaultpreloadmanager_MyTargetPreloadStatusControl]
