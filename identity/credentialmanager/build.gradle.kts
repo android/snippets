@@ -1,9 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
-    // [START android_identity_fido2_migration_dependency]
-    alias(libs.plugins.kotlin.android)
-    // [END android_identity_fido2_migration_dependency]
     alias(libs.plugins.compose.compiler)
 }
 
@@ -33,11 +30,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget("11")
-        }
     }
     buildFeatures {
         compose = true
