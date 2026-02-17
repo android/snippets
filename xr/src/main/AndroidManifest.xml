@@ -25,7 +25,7 @@
         <activity
             android:name="com.example.xr.projected.GlassesMainActivity"
             android:exported="true"
-            android:requiredDisplayCategory="@string/display_category_xr_projected">
+            android:requiredDisplayCategory="xr_projected">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
