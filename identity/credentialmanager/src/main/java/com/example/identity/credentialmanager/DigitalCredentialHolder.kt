@@ -30,15 +30,15 @@ import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import androidx.credentials.registry.digitalcredentials.mdoc.MdocEntry
 import androidx.credentials.registry.digitalcredentials.mdoc.MdocField
-import androidx.credentials.registry.provider.RegistryManager
 import androidx.credentials.registry.digitalcredentials.openid4vp.OpenId4VpRegistry
 import androidx.credentials.registry.digitalcredentials.sdjwt.SdJwtClaim
-import androidx.credentials.registry.provider.digitalcredentials.DigitalCredentialEntry
 import androidx.credentials.registry.digitalcredentials.sdjwt.SdJwtEntry
+import androidx.credentials.registry.provider.RegistryManager
+import androidx.credentials.registry.provider.digitalcredentials.DigitalCredentialEntry
 import androidx.credentials.registry.provider.digitalcredentials.EntryDisplayProperties
 import java.security.MessageDigest
 
-class DigitalCredentialHolderActivity: Activity() {
+class DigitalCredentialHolderActivity : Activity() {
     suspend fun createRegistryAndOutlineRegisterCredentials(context: Context) {
         val credentialEntries = listOf<DigitalCredentialEntry>()
         val id = "123"
@@ -94,13 +94,13 @@ class DigitalCredentialHolderActivity: Activity() {
     }
     // [END android_identity_mapto_mdoc_entries]
 
-    suspend fun registerCredentials (sdJwtsFromStorage: List<StoredSdJwtEntry>, mdocsFromStorage: List<StoredMdocEntry>, registryManager: RegistryManager) {
+    suspend fun registerCredentials(sdJwtsFromStorage: List<StoredSdJwtEntry>, mdocsFromStorage: List<StoredMdocEntry>, registryManager: RegistryManager) {
         // [START android_identity_register_credential_entries]
         val credentialEntries = mapToSdJwtEntries(sdJwtsFromStorage) + mapToMdocEntries(mdocsFromStorage)
 
         val openidRegistryRequest = OpenId4VpRegistry(
             credentialEntries = credentialEntries,
-            id = "my-wallet-openid-registry-v1"  // A stable, unique ID to identify your registry record.
+            id = "my-wallet-openid-registry-v1" // A stable, unique ID to identify your registry record.
         )
         // [END android_identity_register_credential_entries]
 
@@ -127,7 +127,7 @@ class DigitalCredentialHolderActivity: Activity() {
 
     fun checkVerifierIdentity(intent: Intent): String {
         // [START android_identity_retrieve_getcredential_intent]
-        val request= PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
+        val request = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
         // [END android_identity_retrieve_getcredential_intent]
 
         val privilegedAppsJson = ""
@@ -170,17 +170,33 @@ class DigitalCredentialHolderActivity: Activity() {
 }
 
 sealed class StoredSdJwtEntry {
-    fun getVCT(): String { return "" }
-    fun getClaimsList(): List<SdJwtClaim> { return emptyList() }
-    fun toDisplayProperties(): Set<EntryDisplayProperties> {return emptySet() }
-    fun getId(): String { return "" }
+    fun getVCT(): String {
+        return ""
+    }
+    fun getClaimsList(): List<SdJwtClaim> {
+        return emptyList()
+    }
+    fun toDisplayProperties(): Set<EntryDisplayProperties> {
+        return emptySet()
+    }
+    fun getId(): String {
+        return ""
+    }
 }
 
 sealed class StoredMdocEntry {
-    fun retrieveDocType(): String { return "" }
-    fun getFields(): List<MdocField> { return emptyList() }
-    fun toDisplayProperties(): Set<EntryDisplayProperties> {return emptySet() }
-    fun getId(): String { return "" }
+    fun retrieveDocType(): String {
+        return ""
+    }
+    fun getFields(): List<MdocField> {
+        return emptyList()
+    }
+    fun toDisplayProperties(): Set<EntryDisplayProperties> {
+        return emptySet()
+    }
+    fun getId(): String {
+        return ""
+    }
 }
 
 sealed class HolderCredentialResponse {
