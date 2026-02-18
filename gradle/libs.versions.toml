@@ -103,6 +103,7 @@ webkit = "1.15.0"
 wfp = "1.0.0-beta01"
 xrGlimmer = "1.0.0-alpha03"
 xrProjected = "1.0.0-alpha03"
+registryDigitalCredentials = "1.0.0-alpha02"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -253,6 +254,9 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
 androidx-glimmer = { group = "androidx.xr.glimmer", name = "glimmer", version.ref = "xrGlimmer" }
 androidx-projected = { group = "androidx.xr.projected", name = "projected", version.ref = "xrProjected" }
+androidx-registry-digitalcredentials = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
+androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
+androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
