@@ -23,42 +23,45 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 
-class NetworkSnippets(val context: Context) {
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+class NetworkSnippets(val connectivityManager: ConnectivityManager) {
+
+    // [START android_wear_request_network]
+    val callback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            // The Wi-Fi network has been acquired. Bind it to use this network by default.
+            connectivityManager.bindProcessToNetwork(network)
+        }
+
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            // Called when a network disconnects or otherwise no longer satisfies this request
+            // or callback.
+        }
+    }
 
     fun requestWifiNetwork() {
-        // [START android_wear_request_network]
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                super.onAvailable(network)
-                // The Wi-Fi network has been acquired. Bind it to use this network by default.
-                connectivityManager.bindProcessToNetwork(network)
-            }
-
-            override fun onLost(network: Network) {
-                super.onLost(network)
-                // Called when a network disconnects or otherwise no longer satisfies this request
-                // or callback.
-            }
-        }
         connectivityManager.requestNetwork(
             NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build(),
             callback
         )
-        // [END android_wear_request_network]
     }
+    // [END android_wear_request_network]
 
-    fun unregisterNetwork(callback: ConnectivityManager.NetworkCallback) {
+    fun unregisterNetwork() {
         // [START android_wear_unregister_network]
         connectivityManager.bindProcessToNetwork(null)
         connectivityManager.unregisterNetworkCallback(callback)
         // [END android_wear_unregister_network]
     }
 
-    fun launchSettings() {
+    fun launchSettings(context: Context) {
         // [START android_wear_launch_settings]
-        context.startActivity(Intent("com.google.android.clockwork.settings.connectivity.wifi.ADD_NETWORK_SETTINGS"))
+        val networkSettingsAction = "com.google.android.clockwork.settings.connectivity.wifi.ADD_NETWORK_SETTINGS"
+        val intent = Intent(networkSettingsAction).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
         // [END android_wear_launch_settings]
     }
 }
