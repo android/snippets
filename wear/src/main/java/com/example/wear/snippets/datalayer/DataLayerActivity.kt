@@ -40,7 +40,7 @@ import java.io.InputStream
 import java.util.concurrent.ExecutionException
 import kotlinx.coroutines.tasks.await
 
-const val TAG = "DataLayer"
+private const val TAG = "DataLayer"
 
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
 
