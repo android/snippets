@@ -21,6 +21,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.activity.ComponentActivity
 import com.example.wear.R
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Asset
@@ -37,16 +40,20 @@ import java.io.InputStream
 import java.util.concurrent.ExecutionException
 import kotlinx.coroutines.tasks.await
 
+private const val TAG = "DataLayer"
+
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
-    private val dataClient by lazy { Wearable.getDataClient(this) }
-    private val messageClient by lazy { Wearable.getMessageClient(this) }
-    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
 
     private var count = 0
 
     override fun onResume() {
         super.onResume()
-        Wearable.getDataClient(this).addListener(this)
+
+        // [START android_wear_datalayer_create_client]
+        val dataClient = Wearable.getDataClient(this)
+        // [END android_wear_datalayer_create_client]
+
+        dataClient.addListener(this)
     }
 
     override fun onPause() {
@@ -54,13 +61,29 @@ class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener 
         Wearable.getDataClient(this).removeListener(this)
     }
 
+    private suspend fun isAvailable(client: GoogleApi<*>): Boolean {
+        // [START android_wear_datalayer_isavailable]
+        val available = try {
+            GoogleApiAvailability.getInstance()
+                .checkApiAvailability(client)
+                .await()
+            true
+        } catch (e: AvailabilityException) {
+            // API is not available in this device.
+            false
+        }
+        // [END android_wear_datalayer_isavailable]
+        return available
+    }
+
     // [START android_wear_datalayer_increasecounter]
-    private fun increaseCounter() {
+    private fun increaseCounter(): Task<DataItem> {
         val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
             dataMap.putInt(COUNT_KEY, count++)
             asPutDataRequest()
         }
-        val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
+        return Wearable.getDataClient(this)
+            .putDataItem(putDataReq)
     }
     // [END android_wear_datalayer_increasecounter]
 
