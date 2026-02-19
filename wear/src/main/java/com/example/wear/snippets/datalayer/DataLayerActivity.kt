@@ -19,7 +19,6 @@ package com.example.wear.snippets.datalayer
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.activity.ComponentActivity
 import com.example.wear.R
 import com.google.android.gms.common.GoogleApiAvailability
