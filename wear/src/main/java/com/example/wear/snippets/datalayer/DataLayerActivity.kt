@@ -77,12 +77,12 @@ class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener 
     }
 
     // [START android_wear_datalayer_increasecounter]
-    private fun increaseCounter() {
+    private fun increaseCounter(): Task<DataItem> {
         val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
             dataMap.putInt(COUNT_KEY, count++)
             asPutDataRequest()
         }
-        val putDataTask: Task<DataItem> = Wearable.getDataClient(this)
+        return Wearable.getDataClient(this)
             .putDataItem(putDataReq)
     }
     // [END android_wear_datalayer_increasecounter]
