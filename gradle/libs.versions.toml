@@ -101,8 +101,9 @@ wearRemoteInteractions = "1.1.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.15.0"
 wfp = "1.0.0-beta01"
-xrGlimmer = "1.0.0-alpha05"
-xrProjected = "1.0.0-alpha04"
+xrGlimmer = "1.0.0-alpha03"
+xrProjected = "1.0.0-alpha03"
+registryDigitalCredentials = "1.0.0-alpha02"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -253,6 +254,9 @@ tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvCom
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+androidx-registry-digitalcredentials = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
+androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
+androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
