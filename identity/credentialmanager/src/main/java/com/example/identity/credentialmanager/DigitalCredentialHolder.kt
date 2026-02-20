@@ -68,7 +68,7 @@ class DigitalCredentialHolderActivity : Activity() {
                     verifiableCredentialType = sdJwt.getVCT(),
                     claims = sdJwt.getClaimsList(),
                     entryDisplayPropertySet = sdJwt.toDisplayProperties(),
-                    id = sdJwt.getId() // Make sure this cannot be easily guessed
+                    id = sdJwt.getId() // Make sure this cannot be readily guessed
                 )
             )
         }
@@ -86,7 +86,7 @@ class DigitalCredentialHolderActivity : Activity() {
                     docType = mdoc.retrieveDocType(),
                     fields = mdoc.getFields(),
                     entryDisplayPropertySet = mdoc.toDisplayProperties(),
-                    id = mdoc.getId() // Make sure this cannot be easily guessed
+                    id = mdoc.getId() // Make sure this cannot be readily guessed
                 )
             )
         }
