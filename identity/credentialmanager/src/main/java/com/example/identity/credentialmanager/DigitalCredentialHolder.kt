@@ -115,12 +115,14 @@ class DigitalCredentialHolderActivity : Activity() {
 
     @OptIn(ExperimentalDigitalCredentialApi::class)
     suspend fun handleSelectedCredential(request: ProviderGetCredentialRequest) {
+        // [START android_identity_process_selected_credential]
         request.credentialOptions.forEach { option ->
             if (option is GetDigitalCredentialOption) {
                 Log.i(TAG, "Got DC request: ${option.requestJson}")
                 processRequest(option.requestJson)
             }
         }
+        // [END android_identity_process_selected_credential]
     }
 
     fun processRequest(requestJson: String) {}
