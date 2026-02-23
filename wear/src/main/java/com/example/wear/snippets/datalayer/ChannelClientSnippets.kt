@@ -21,6 +21,8 @@ import android.net.Uri
 import com.google.android.gms.wearable.ChannelClient
 import com.google.android.gms.wearable.Wearable
 import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +51,23 @@ suspend fun sendFileToNode(context: Context, nodeId: String, fileUri: Uri) {
     }
 }
 // [END android_wear_datalayer_send_file]
+
+// [START android_wear_datalayer_stream]
+suspend fun handleDataStream(channelClient: ChannelClient, channel: ChannelClient.Channel) {
+    withContext(Dispatchers.IO) {
+        try {
+            // Await the creation of the Output/Input streams
+            val outputStream: OutputStream = channelClient.getOutputStream(channel).await()
+            val inputStream: InputStream = channelClient.getInputStream(channel).await()
+
+            // You can now read from inputStream and write to outputStream
+            // Make sure to manage your stream loops and close them when finished
+        } catch (e: Exception) {
+            // Handle failures
+        }
+    }
+}
+// [END android_wear_datalayer_stream]
 
 class FileReceiver(
     private val context: Context,
