@@ -83,6 +83,7 @@ fun WrapWithGrow() {
     // [END android_compose_layouts_flexbox_basic_2]
 }
 
+@Preview
 @Composable
 fun ContainerSnippet(){
     // [START android_compose_layouts_flexbox_container_1]
