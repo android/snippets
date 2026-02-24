@@ -177,4 +177,12 @@ class SignInWithGoogleFunctions(
             .build()
         // [END android_identity_siwg_instantiate_request_2]
     }
+
+    // [START android_identity_create_nonce]
+    fun generateSecureRandomNonce(byteLength: Int = 32): String {
+        val randomBytes = ByteArray(byteLength)
+        SecureRandom.getInstanceStrong().nextBytes(randomBytes)
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes)
+    }
+    // [END android_identity_create_nonce]
 }
