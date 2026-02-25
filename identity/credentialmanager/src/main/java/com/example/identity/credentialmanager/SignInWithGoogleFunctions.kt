@@ -141,7 +141,7 @@ class SignInWithGoogleFunctions(
     }
 
     // [START android_identity_handle_siwg_option]
-    fun handleSignInWithGoogleOption(result: GetCredentialResponse) {
+    fun handleSign(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         val credential = result.credential
 
@@ -149,8 +149,7 @@ class SignInWithGoogleFunctions(
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
-                        // Use googleIdTokenCredential and extract id to validate and
-                        // authenticate on your server.
+                        // Use googleIdTokenCredential and extract the ID for server-side validation.
                         val googleIdTokenCredential = GoogleIdTokenCredential
                             .createFrom(credential.data)
                     } catch (e: GoogleIdTokenParsingException) {
@@ -175,6 +174,7 @@ class SignInWithGoogleFunctions(
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(WEB_CLIENT_ID)
+            .setNonce(nonce)
             .build()
         // [END android_identity_siwg_instantiate_request_2]
     }
