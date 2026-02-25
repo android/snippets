@@ -55,7 +55,7 @@ class SignInWithGoogleFunctions(
         return googleIdOption
     }
 
-    private val googleIdOption = createGoogleIdOption("")
+    private val googleIdOption = createGoogleIdOption()
 
     suspend fun signInUser() {
         // [START android_identity_siwg_signin_flow_create_request]
