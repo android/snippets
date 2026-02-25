@@ -125,8 +125,12 @@ annotation class FlexBasisPreview
 fun BasisAuto() {
     // [START android_compose_layouts_flexbox_item_basis_1]
     FlexBox {
-        RedRoundedBox(modifier = Modifier.flex { basis = FlexBasis.Auto })
-        BlueRoundedBox(modifier = Modifier.flex { basis = FlexBasis.Auto })
+        RedRoundedBox(
+            Modifier.flex { basis = FlexBasis.Auto }
+        )
+        BlueRoundedBox(
+            Modifier.flex { basis = FlexBasis.Auto }
+        )
     }
     // [END android_compose_layouts_flexbox_item_basis_1]
 }
@@ -136,8 +140,12 @@ fun BasisAuto() {
 fun BasisDp() {
     // [START android_compose_layouts_flexbox_item_basis_2]
     FlexBox {
-        RedRoundedBox(modifier = Modifier.flex { basis(200.dp) })
-        BlueRoundedBox(modifier = Modifier.flex { basis(100.dp) })
+        RedRoundedBox(
+            Modifier.flex { basis(200.dp) }
+        )
+        BlueRoundedBox(
+            Modifier.flex { basis(100.dp) }
+        )
     }
     // [END android_compose_layouts_flexbox_item_basis_2]
 }
@@ -147,8 +155,12 @@ fun BasisDp() {
 fun BasisPercent() {
     // [START android_compose_layouts_flexbox_item_basis_3]
     FlexBox {
-        RedRoundedBox(modifier = Modifier.flex { basis(0.7f) })
-        BlueRoundedBox(modifier = Modifier.flex { basis(0.3f) })
+        RedRoundedBox(
+            Modifier.flex { basis(0.7f) }
+        )
+        BlueRoundedBox(
+            Modifier.flex { basis(0.3f) }
+        )
     }
     // [END android_compose_layouts_flexbox_item_basis_3]
 }
@@ -172,7 +184,10 @@ fun FlexGrowSingleBefore() {
 fun FlexGrowSingle() {
     // [START android_compose_layouts_flexbox_item_grow_1]
     FlexBox {
-        RedRoundedBox(title = "400dp", modifier = Modifier.flex { grow = 1f })
+        RedRoundedBox(
+            title = "400dp",
+            modifier = Modifier.flex { grow = 1f }
+        )
         BlueRoundedBox(title = "100dp")
         GreenRoundedBox(title = "100dp")
     }
