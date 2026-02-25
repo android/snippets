@@ -30,6 +30,8 @@ import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.coroutineScope
+import java.security.SecureRandom
+import android.util.Base64
 
 const val WEB_CLIENT_ID = ""
 class SignInWithGoogleFunctions(
@@ -46,7 +48,6 @@ class SignInWithGoogleFunctions(
             .setFilterByAuthorizedAccounts(true)
             .setServerClientId(WEB_CLIENT_ID)
             .setAutoSelectEnabled(true)
-            // nonce string to use when generating a Google ID token
             .setNonce(nonce)
             .build()
         // [END android_identity_siwg_instantiate_request]
@@ -70,7 +71,7 @@ class SignInWithGoogleFunctions(
                 )
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
-                // Handle failure
+                handleFailure(e, activityContext)
             }
         }
         // [END android_identity_siwg_signin_flow_create_request]
@@ -181,8 +182,8 @@ class SignInWithGoogleFunctions(
     // [START android_identity_create_nonce]
     fun generateSecureRandomNonce(byteLength: Int = 32): String {
         val randomBytes = ByteArray(byteLength)
-        SecureRandom.getInstanceStrong().nextBytes(randomBytes)
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes)
+        SecureRandom().nextBytes(randomBytes)
+        return Base64.encodeToString(randomBytes, Base64.NO_WRAP or Base64.URL_SAFE or Base64.NO_PADDING)
     }
     // [END android_identity_create_nonce]
 }
