@@ -48,7 +48,7 @@ class SignInWithGoogleFunctions(
             .setFilterByAuthorizedAccounts(true)
             .setServerClientId(WEB_CLIENT_ID)
             .setAutoSelectEnabled(true)
-            .setNonce(nonce)
+            .setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_instantiate_request]
 
@@ -71,7 +71,7 @@ class SignInWithGoogleFunctions(
                 )
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
-                handleFailure(e, activityContext)
+                // Handle failures
             }
         }
         // [END android_identity_siwg_signin_flow_create_request]
@@ -133,7 +133,7 @@ class SignInWithGoogleFunctions(
         // [START android_identity_siwg_get_siwg_option]
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(
             serverClientId = WEB_CLIENT_ID
-        ).setNonce(nonce)
+        ).setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_get_siwg_option]
 
@@ -174,7 +174,7 @@ class SignInWithGoogleFunctions(
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(WEB_CLIENT_ID)
-            .setNonce(nonce)
+            .setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_instantiate_request_2]
     }
