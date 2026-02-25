@@ -42,7 +42,7 @@ class SignInWithGoogleFunctions(
     // Placeholder for TAG log value.
     val TAG = ""
 
-    fun createGoogleIdOption(nonce: String): GetGoogleIdOption {
+    fun createGoogleIdOption(): GetGoogleIdOption {
         // [START android_identity_siwg_instantiate_request]
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(true)
@@ -129,7 +129,7 @@ class SignInWithGoogleFunctions(
     }
     // [END android_identity_siwg_signin_flow_handle_signin]
 
-    fun createGoogleSignInWithGoogleOption(nonce: String): GetSignInWithGoogleOption {
+    fun createGoogleSignInWithGoogleOption(): GetSignInWithGoogleOption {
         // [START android_identity_siwg_get_siwg_option]
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(
             serverClientId = WEB_CLIENT_ID
