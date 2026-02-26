@@ -26,6 +26,10 @@ import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.VpsAvailabilityAvailable
+import androidx.xr.runtime.VpsAvailabilityErrorInternal
+import androidx.xr.runtime.VpsAvailabilityNetworkError
+import androidx.xr.runtime.VpsAvailabilityNotAuthorized
+import androidx.xr.runtime.VpsAvailabilityResourceExhausted
 import androidx.xr.runtime.VpsAvailabilityUnavailable
 import androidx.xr.runtime.math.GeospatialPose
 import androidx.xr.runtime.math.Pose
@@ -70,10 +74,25 @@ private suspend fun checkVpsAvailability(geospatial: Geospatial) {
 
     // Use the geospatial instance to check VPS availability for a specific location.
     val result = geospatial.checkVpsAvailability(latitude, longitude)
-    if (result is VpsAvailabilityAvailable) {
-        // VPS is available at this location.
-    } else if (result is VpsAvailabilityUnavailable) {
-        // VPS is not available at this location.
+    when (result) {
+        is VpsAvailabilityAvailable -> {
+            // VPS is available at this location.
+        }
+        is VpsAvailabilityErrorInternal -> {
+            // VPS availability check failed with an internal error.
+        }
+        is VpsAvailabilityNetworkError -> {
+            // VPS availability check failed due to a network error.
+        }
+        is VpsAvailabilityNotAuthorized -> {
+            // VPS availability check failed due to an authorization error.
+        }
+        is VpsAvailabilityResourceExhausted -> {
+            // VPS availability check failed due to resource exhaustion.
+        }
+        is VpsAvailabilityUnavailable -> {
+            // VPS is not available at this location.
+        }
     }
     // [END androidxr_arcore_geospatial_check_vps]
 }
