@@ -31,16 +31,15 @@ android {
 
 dependencies {
     implementation(libs.androidx.xr.arcore)
-    implementation(libs.androidx.arcore.play.services)
-    implementation(libs.google.ar.core)
+    implementation(libs.androidx.xr.arcore.play.services)
+    implementation(libs.androidx.xr.glimmer)
+    implementation(libs.androidx.xr.projected)
     implementation(libs.androidx.xr.scenecore)
     implementation(libs.androidx.xr.compose)
+    implementation(libs.google.ar.core)
 
     implementation(libs.androidx.activity.ktx)
-
     implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.glimmer)
-    implementation(libs.androidx.projected)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)

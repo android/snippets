@@ -19,7 +19,7 @@ package com.example.xr.arcore
 import androidx.xr.arcore.Anchor
 import androidx.xr.arcore.AnchorCreateSuccess
 import androidx.xr.arcore.Trackable
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.AnchorPersistenceMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
@@ -30,7 +30,7 @@ import androidx.xr.scenecore.scene
 fun configureAnchoring(session: Session) {
     // [START androidxr_arcore_anchoring_configure]
     val newConfig = session.config.copy(
-        anchorPersistence = Config.AnchorPersistenceMode.LOCAL,
+        anchorPersistence = AnchorPersistenceMode.LOCAL,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
