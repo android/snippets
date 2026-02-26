@@ -17,7 +17,7 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.DeviceTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
@@ -26,7 +26,7 @@ private fun configureDevicePose(session: Session) {
     // [START androidxr_arcore_device_pose_configure]
     // Define the configuration object to enable tracking device pose.
     val newConfig = session.config.copy(
-        deviceTrackingMode = Config.DeviceTrackingMode.LAST_KNOWN
+        deviceTrackingMode = DeviceTrackingMode.LAST_KNOWN
     )
     // Apply the configuration to the session.
     try {
