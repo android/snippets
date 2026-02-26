@@ -5,7 +5,7 @@ android-googleid = "1.2.0"
 androidGradlePlugin = "9.0.0"
 androidx-activity-compose = "1.12.3"
 androidx-appcompat = "1.7.0"
-androidx-compose-bom = "2026.01.01"
+androidx-compose-bom = "2026.02.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.11.0-alpha04"
 androidx-constraintlayout = "2.2.1"
@@ -118,7 +118,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-arcore-play-services = { module = "androidx.xr.arcore:arcore-play-services", version.ref = "arcorePlayServices" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version = "1.11.0-alpha06" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-latest" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-latest" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }

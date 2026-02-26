@@ -99,6 +99,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
 
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.material.ripple)
