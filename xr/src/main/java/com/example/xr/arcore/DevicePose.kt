@@ -48,15 +48,18 @@ private suspend fun obtainDevicePose(session: Session) {
     // [START androidxr_arcore_device_pose_get]
     // Get the ArDevice instance
     val arDevice = ArDevice.getInstance(session)
-    // Collect the state to process the device pose
+    // There are two ways to get the device pose.
+
+    // 1. Get the current device pose once.
+    // This is the device's position and orientation relative to the tracking origin.
+    val devicePose = arDevice.state.value.devicePose
+    processDevicePose(devicePose)
+
+    // 2. Continuously receive updates for the device pose.
+    // `collect` is a suspending function that will run indefinitely and process new poses.
     arDevice.state.collect { state ->
-        // processDevicePose gets called automatically when a new pose is available.
         processDevicePose(state.devicePose)
     }
-
-    // Or, get the current device Pose from the AR Device's state.
-    // This is the device's position and orientation relative to the tracking origin.
-    val devicePose = ArDevice.getInstance(session).state.value.devicePose
     // [END androidxr_arcore_device_pose_get]
 }
 
