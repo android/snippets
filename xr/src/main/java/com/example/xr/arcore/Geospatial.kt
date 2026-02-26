@@ -22,7 +22,8 @@ import androidx.xr.arcore.CreateGeospatialPoseFromPoseSuccess
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseNotTracking
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseSuccess
 import androidx.xr.arcore.Geospatial
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.DeviceTrackingMode
+import androidx.xr.runtime.GeospatialMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.VpsAvailabilityAvailable
@@ -39,9 +40,9 @@ private fun configureGeospatialSession(session: Session) {
     // Define the configuration object to enable Geospatial features.
     val newConfig = session.config.copy(
         // Set the GeospatialMode to VPS_AND_GPS.
-        geospatialMode = Config.GeospatialMode.VPS_AND_GPS,
+        geospatialMode = GeospatialMode.VPS_AND_GPS,
         // Set the DeviceTrackingMode to LAST_KNOWN.
-        deviceTrackingMode = Config.DeviceTrackingMode.LAST_KNOWN
+        deviceTrackingMode = DeviceTrackingMode.LAST_KNOWN
     )
     // Apply the configuration to the session.
     try {
