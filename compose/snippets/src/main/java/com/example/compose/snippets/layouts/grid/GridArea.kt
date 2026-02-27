@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalGridApi::class)
+
 package com.example.compose.snippets.layouts.grid
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridArea() {
     // [START android_compose_layout_grid_area]
@@ -49,7 +53,7 @@ fun GridArea() {
     // [END android_compose_layout_grid_area]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun Alignment() {
     // [START android_compose_layout_grid_alignment]
@@ -67,27 +71,17 @@ fun Alignment() {
     ) {
         Text(
             text = "#1",
-            modifier = Modifier.gridItem(
-                rowSpan = 2,
-                columnSpan = 2,
-                alignment = Alignment.Center
-            ),
+            modifier = Modifier
+                .background(color = Color.LightGray)
+                .gridItem(
+                    rowSpan = 2,
+                    columnSpan = 2,
+                    alignment = Alignment.Center
+                ),
         )
         Card2()
         Card3()
         Card4(modifier = Modifier.gridItem(columnSpan = 3))
     }
     // [END android_compose_layout_grid_alignment]
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridAreaPreview() {
-    GridArea()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun AlignmentPreview() {
-    Alignment()
 }
