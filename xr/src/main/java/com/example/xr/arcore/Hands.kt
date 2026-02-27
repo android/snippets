@@ -21,7 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.arcore.Hand
 import androidx.xr.arcore.HandJointType
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.HandTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 fun ComponentActivity.configureSession(session: Session) {
     // [START androidxr_arcore_hand_configure]
     val newConfig = session.config.copy(
-        handTracking = Config.HandTrackingMode.BOTH
+        handTracking = HandTrackingMode.BOTH
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
