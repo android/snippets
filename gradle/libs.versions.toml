@@ -5,6 +5,7 @@ android-googleid = "1.2.0"
 androidGradlePlugin = "9.0.0"
 androidx-activity-compose = "1.12.3"
 androidx-appcompat = "1.7.0"
+androidx-cameraX = "1.5.3"
 androidx-compose-bom = "2026.01.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.11.0-alpha04"
@@ -104,8 +105,6 @@ wearToolingPreview = "1.0.0"
 webkit = "1.15.0"
 wfp = "1.0.0-beta01"
 registryDigitalCredentials = "1.0.0-alpha02"
-cameraLifecycle = "1.5.3"
-cameraCamera2 = "1.5.3"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -117,6 +116,8 @@ android-identity-googleid = { module = "com.google.android.libraries.identity.go
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-cameraX" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidx-cameraX" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
@@ -259,8 +260,6 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 androidx-registry-digitalcredentials = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
-androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
-androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraCamera2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

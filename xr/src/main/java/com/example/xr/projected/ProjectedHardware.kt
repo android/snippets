@@ -32,7 +32,6 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 
@@ -49,7 +48,7 @@ private fun getGlassesContext(context: Context): Context? {
         // From a phone Activity or Service, get a context for the AI glasses.
         ProjectedContext.createProjectedDeviceContext(context)
     } catch (e: IllegalStateException) {
-        // Projected device was not found or connected.
+        Log.e(TAG, "Failed to create projected device context", e)
         null
     }
 }
@@ -61,13 +60,14 @@ private fun getGlassesContext(context: Context): Context? {
  */
 // [START androidxr_projected_context_get_host]
 @OptIn(ExperimentalProjectedApi::class)
-private fun getPhoneContext(activity: ComponentActivity): Context {
-    // From an AI glasses Activity, get a context for the phone.
-    val phoneContext = ProjectedContext.createHostDeviceContext(activity)
-
-    // Now use phoneContext to access the phone's hardware,
-    // such as sensors or location services.
-    return phoneContext
+private fun getPhoneContext(activity: ComponentActivity): Context? {
+    return try {
+        // From an AI glasses Activity, get a context for the phone.
+        ProjectedContext.createHostDeviceContext(activity)
+    } catch (e: IllegalStateException) {
+        Log.e(TAG, "Failed to create host device context", e)
+        null
+    }
 }
 // [END androidxr_projected_context_get_host]
 
@@ -80,7 +80,13 @@ private fun getPhoneContext(activity: ComponentActivity): Context {
 private fun startCameraOnGlasses(activity: ComponentActivity) {
     // 1. Get the CameraProvider using the projected context.
     // When using the projected context, DEFAULT_BACK_CAMERA maps to the AI glasses' camera.
-    val projectedContext = ProjectedContext.createProjectedDeviceContext(activity)
+    val projectedContext = try {
+        ProjectedContext.createProjectedDeviceContext(activity)
+    } catch (e: IllegalStateException) {
+        Log.e(TAG, "AI Glasses context could not be created", e)
+        return
+    }
+
     val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
 
     cameraProviderFuture.addListener({
@@ -112,7 +118,7 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
 
         // 5. If you have other continuous use cases bound, such as Preview or ImageAnalysis,
         // you can use  Camera2 Interop's CaptureRequestOptions to set the FPS
-        val fpsRange = Range(30, 30)
+        val fpsRange = Range(30, 60)
         val captureRequestOptions = CaptureRequestOptions.Builder()
             .setCaptureRequestOption(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
             .build()
@@ -129,7 +135,7 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
 
             // Bind use cases to camera using the Activity as the LifecycleOwner.
             cameraProvider.bindToLifecycle(
-                activity as LifecycleOwner,
+                activity,
                 cameraSelector,
                 imageCapture
             )
