@@ -30,6 +30,8 @@ import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.coroutineScope
+import java.security.SecureRandom
+import android.util.Base64
 
 const val WEB_CLIENT_ID = ""
 class SignInWithGoogleFunctions(
@@ -40,21 +42,20 @@ class SignInWithGoogleFunctions(
     // Placeholder for TAG log value.
     val TAG = ""
 
-    fun createGoogleIdOption(nonce: String): GetGoogleIdOption {
+    fun createGoogleIdOption(): GetGoogleIdOption {
         // [START android_identity_siwg_instantiate_request]
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(true)
             .setServerClientId(WEB_CLIENT_ID)
             .setAutoSelectEnabled(true)
-            // nonce string to use when generating a Google ID token
-            .setNonce(nonce)
+            .setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_instantiate_request]
 
         return googleIdOption
     }
 
-    private val googleIdOption = createGoogleIdOption("")
+    private val googleIdOption = createGoogleIdOption()
 
     suspend fun signInUser() {
         // [START android_identity_siwg_signin_flow_create_request]
@@ -70,7 +71,7 @@ class SignInWithGoogleFunctions(
                 )
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
-                // Handle failure
+                // Handle failures
             }
         }
         // [END android_identity_siwg_signin_flow_create_request]
@@ -128,11 +129,11 @@ class SignInWithGoogleFunctions(
     }
     // [END android_identity_siwg_signin_flow_handle_signin]
 
-    fun createGoogleSignInWithGoogleOption(nonce: String): GetSignInWithGoogleOption {
+    fun createGoogleSignInWithGoogleOption(): GetSignInWithGoogleOption {
         // [START android_identity_siwg_get_siwg_option]
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder(
             serverClientId = WEB_CLIENT_ID
-        ).setNonce(nonce)
+        ).setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_get_siwg_option]
 
@@ -140,7 +141,7 @@ class SignInWithGoogleFunctions(
     }
 
     // [START android_identity_handle_siwg_option]
-    fun handleSignInWithGoogleOption(result: GetCredentialResponse) {
+    fun handleSign(result: GetCredentialResponse) {
         // Handle the successfully returned credential.
         val credential = result.credential
 
@@ -148,8 +149,7 @@ class SignInWithGoogleFunctions(
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
-                        // Use googleIdTokenCredential and extract id to validate and
-                        // authenticate on your server.
+                        // Use googleIdTokenCredential and extract the ID for server-side validation.
                         val googleIdTokenCredential = GoogleIdTokenCredential
                             .createFrom(credential.data)
                     } catch (e: GoogleIdTokenParsingException) {
@@ -174,7 +174,16 @@ class SignInWithGoogleFunctions(
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(WEB_CLIENT_ID)
+            .setNonce(generateSecureRandomNonce())
             .build()
         // [END android_identity_siwg_instantiate_request_2]
     }
+
+    // [START android_identity_create_nonce]
+    fun generateSecureRandomNonce(byteLength: Int = 32): String {
+        val randomBytes = ByteArray(byteLength)
+        SecureRandom().nextBytes(randomBytes)
+        return Base64.encodeToString(randomBytes, Base64.NO_WRAP or Base64.URL_SAFE or Base64.NO_PADDING)
+    }
+    // [END android_identity_create_nonce]
 }
