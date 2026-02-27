@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalGridApi::class)
+
 package com.example.compose.snippets.layouts.grid
 
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -22,7 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridColumnGapAndRowGap() {
     // [START android_compose_layout_grid_column_gap_and_row_gap]
@@ -48,7 +50,7 @@ fun GridColumnGapAndRowGap() {
     // [END android_compose_layout_grid_column_gap_and_row_gap]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridGap() {
     // [START android_compose_layout_grid_gap]
@@ -71,16 +73,4 @@ fun GridGap() {
         Card6()
     }
     // [END android_compose_layout_grid_gap]
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridColumnGapAndRowGapPreview() {
-    GridColumnGapAndRowGap()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridGapPreview() {
-    GridGap()
 }

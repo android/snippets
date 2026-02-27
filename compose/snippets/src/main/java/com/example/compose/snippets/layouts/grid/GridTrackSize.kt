@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalGridApi::class)
+
 package com.example.compose.snippets.layouts.grid
 
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -27,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridTrackSizeInDp() {
     // [START android_compose_layout_grid_track_size_in_dp]
@@ -51,7 +53,7 @@ fun GridTrackSizeInDp() {
     // [END android_compose_layout_grid_track_size_in_dp]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridTrackSizeInPercentage() {
     // [START android_compose_layout_grid_track_size_in_percentage]
@@ -75,7 +77,7 @@ fun GridTrackSizeInPercentage() {
     // [END android_compose_layout_grid_track_size_in_percentage]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridTrackSizeInFr() {
     // [START android_compose_layout_grid_track_size_in_fr]
@@ -99,7 +101,7 @@ fun GridTrackSizeInFr() {
     // [END android_compose_layout_grid_track_size_in_fr]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun IntrinsicGridTrackSize() {
     // [START android_compose_layout_grid_intrinsic_grid_track_size]
@@ -115,28 +117,4 @@ fun IntrinsicGridTrackSize() {
         Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras imperdiet." )
     }
     // [END android_compose_layout_grid_intrinsic_grid_track_size]
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridTrackSizeInDpPreview() {
-    GridTrackSizeInDp()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridTrackSizeInPercentagePreview() {
-    GridTrackSizeInPercentage()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridTrackSizeInFrPreview() {
-    GridTrackSizeInFr()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun IntrinsicGridTrackSizePreview() {
-    IntrinsicGridTrackSize()
 }
