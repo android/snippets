@@ -5,6 +5,7 @@ android-googleid = "1.2.0"
 androidGradlePlugin = "9.0.0"
 androidx-activity-compose = "1.12.3"
 androidx-appcompat = "1.7.0"
+androidx-cameraX = "1.5.3"
 androidx-compose-bom = "2026.01.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.11.0-alpha04"
@@ -115,6 +116,8 @@ android-identity-googleid = { module = "com.google.android.libraries.identity.go
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-cameraX" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidx-cameraX" }
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }

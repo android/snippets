@@ -16,9 +16,12 @@
 
 package com.example.xr.projected
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -27,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +43,8 @@ import androidx.xr.projected.ProjectedDisplayController
 import androidx.xr.projected.ProjectedDeviceController
 import androidx.xr.projected.ProjectedDeviceController.Capability.Companion.CAPABILITY_VISUAL_UI
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import androidx.xr.projected.permissions.ProjectedPermissionsRequestParams
+import androidx.xr.projected.permissions.ProjectedPermissionsResultContract
 import kotlinx.coroutines.launch
 
 // [START androidxr_projected_ai_glasses_activity]
@@ -48,6 +54,19 @@ class GlassesMainActivity : ComponentActivity() {
     private var displayController: ProjectedDisplayController? = null
     private var isVisualUiSupported by mutableStateOf(false)
     private var areVisualsOn by mutableStateOf(true)
+
+    // [START androidxr_projected_permissions_launcher]
+    // Register the permissions launcher using the ProjectedPermissionsResultContract.
+    private val requestPermissionLauncher: ActivityResultLauncher<List<ProjectedPermissionsRequestParams>> =
+        registerForActivityResult(ProjectedPermissionsResultContract()) { results ->
+            if (results[Manifest.permission.CAMERA] == true) {
+                // Permission granted, initialize the session/features.
+                initializeGlassesFeatures()
+            } else {
+                // Handle permission denial.
+            }
+        }
+    // [END androidxr_projected_permissions_launcher]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +78,26 @@ class GlassesMainActivity : ComponentActivity() {
             }
         })
 
+        // [START androidxr_projected_permissions_check_and_request]
+        if (hasCameraPermission()) {
+            initializeGlassesFeatures()
+        } else {
+            requestHardwarePermissions()
+        }
+        // [END androidxr_projected_permissions_check_and_request]
+
+        setContent {
+            GlimmerTheme {
+                HomeScreen(
+                    areVisualsOn = areVisualsOn,
+                    isVisualUiSupported = isVisualUiSupported,
+                    onClose = { finish() }
+                )
+            }
+        }
+    }
+
+    private fun initializeGlassesFeatures() {
         lifecycleScope.launch {
             // [START androidxr_projected_device_capabilities_check]
             // Check device capabilities
@@ -75,17 +114,24 @@ class GlassesMainActivity : ComponentActivity() {
             )
             lifecycle.addObserver(observer)
         }
-
-        setContent {
-            GlimmerTheme {
-                HomeScreen(
-                    areVisualsOn = areVisualsOn,
-                    isVisualUiSupported = isVisualUiSupported,
-                    onClose = { finish() }
-                )
-            }
-        }
     }
+
+    // [START androidxr_projected_permissions_has_check]
+    private fun hasCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
+    }
+    // [END androidxr_projected_permissions_has_check]
+
+    // [START androidxr_projected_permissions_request]
+    private fun requestHardwarePermissions() {
+        val params = ProjectedPermissionsRequestParams(
+            permissions = listOf(Manifest.permission.CAMERA),
+            rationale = "Camera access is required to overlay digital content on your physical environment."
+        )
+        requestPermissionLauncher.launch(listOf(params))
+    }
+    // [END androidxr_projected_permissions_request]
 }
 // [END androidxr_projected_ai_glasses_activity]
 
