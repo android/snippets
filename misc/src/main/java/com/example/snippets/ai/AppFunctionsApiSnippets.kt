@@ -83,7 +83,8 @@ data class Note(
     /** The note's title */
     val title: String,
     /** The note's content */
-    val content: String)
+    val content: String
+)
 // [END android_ai_agentic_appfunctions]
 
 /**
