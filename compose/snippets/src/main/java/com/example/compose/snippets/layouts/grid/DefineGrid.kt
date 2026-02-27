@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalGridApi::class)
+
 package com.example.compose.snippets.layouts.grid
 
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -22,8 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalGridApi::class)
+
 @Composable
+@Preview(showBackground = true)
 fun DefineGrid() {
     // [START android_compose_layout_grid_define_grid]
     Grid(
@@ -40,8 +43,9 @@ fun DefineGrid() {
     // [END android_compose_layout_grid_define_grid]
 }
 
-@OptIn(ExperimentalGridApi::class)
+
 @Composable
+@Preview(showBackground = true)
 fun DefineGridAndPlaceItems() {
     // [START android_compose_layout_grid_define_grid_and_place_items]
     Grid(
@@ -64,7 +68,8 @@ fun DefineGridAndPlaceItems() {
     // [END android_compose_layout_grid_define_grid_and_place_items]
 }
 
-@OptIn(ExperimentalGridApi::class)
+
+@Preview(showBackground = true)
 @Composable
 fun DefineExplicitAndImplicitGridTracks() {
     // [START android_compose_layout_grid_define_explicit_and_implicit_grid_tracks]
@@ -85,16 +90,4 @@ fun DefineExplicitAndImplicitGridTracks() {
         Card6()
     }
     // [END android_compose_layout_grid_define_explicit_and_implicit_grid_tracks]
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefineGridAndPlaceItemsPreview() {
-    DefineGridAndPlaceItems()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefineExplicitAndImplicitGridTracksPreview() {
-    DefineExplicitAndImplicitGridTracks()
 }

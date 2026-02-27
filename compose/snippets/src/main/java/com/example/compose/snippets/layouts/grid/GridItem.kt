@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalGridApi::class)
+
 package com.example.compose.snippets.layouts.grid
 
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -24,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridFlow() {
     // [START android_compose_layout_grid_flow]
@@ -50,7 +52,7 @@ fun GridFlow() {
     // [END android_compose_layout_grid_flow]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridItem() {
     // [START android_compose_layout_grid_item]
@@ -73,7 +75,7 @@ fun GridItem() {
     // [END android_compose_layout_grid_item]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun GridItemWithNegativeIndex() {
     // [START android_compose_layout_grid_item_with_negative_index]
@@ -96,7 +98,7 @@ fun GridItemWithNegativeIndex() {
     // [END android_compose_layout_grid_item_with_negative_index]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun MixedWithAutoPlacement() {
     // [START android_compose_layout_grid_mixed_with_auto_placement]
@@ -122,7 +124,7 @@ fun MixedWithAutoPlacement() {
     // [END android_compose_layout_grid_mixed_with_auto_placement]
 }
 
-@OptIn(ExperimentalGridApi::class)
+@Preview(showBackground = true)
 @Composable
 fun CounterIntuitiveKeyboardTraversal() {
     // [START android_compose_layout_grid_counter_intuitive_keyboard_traversal]
@@ -146,34 +148,4 @@ fun CounterIntuitiveKeyboardTraversal() {
         Card1(modifier = Modifier.gridItem(row = 1, column = 1))
     }
     // [END android_compose_layout_grid_counter_intuitive_keyboard_traversal]
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun GridFlowPreview() {
-    GridFlow()
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun GridItemPreview() {
-    GridItem()
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun GridItemWithNegativeIndexPreview() {
-    GridItemWithNegativeIndex()
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun MixedWithAutoPlacementPreview() {
-    MixedWithAutoPlacement()
-}
-
-@Composable
-@Preview(showBackground = true)
-private fun CounterIntuitiveKeyboardTraversalPreview() {
-    CounterIntuitiveKeyboardTraversal()
 }
