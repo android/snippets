@@ -106,7 +106,7 @@ dependencies {
 // [START android_datastore_proto_task]
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.32.1"
+        artifact = "com.google.protobuf:protoc:4.34.0"
     }
     generateProtoTasks {
         all().forEach { task ->

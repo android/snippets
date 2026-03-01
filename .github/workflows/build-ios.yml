@@ -39,7 +39,7 @@ jobs:
           xcode-version: latest-stable
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Build iOS app
         uses: mxcl/xcodebuild@v3
