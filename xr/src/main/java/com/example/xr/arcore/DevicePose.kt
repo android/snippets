@@ -26,7 +26,7 @@ private fun configureDevicePose(session: Session) {
     // [START androidxr_arcore_device_pose_configure]
     // Define the configuration object to enable tracking device pose.
     val newConfig = session.config.copy(
-        deviceTrackingMode = DeviceTrackingMode.LAST_KNOWN
+        deviceTracking = DeviceTrackingMode.LAST_KNOWN
     )
     // Apply the configuration to the session.
     try {
