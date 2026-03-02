@@ -1,9 +1,9 @@
 *               @yrezgui @kkuan2011
-/compose/       @android/devrel-compose
+/ai/            @android/devrel-adaptive-apps
 /car/           @android/devrel-car
+/compose/       @android/devrel-compose
+/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/ @android/devrel-adaptive-apps
 /watchface/     @android/devrel-wear
 /wear/          @android/devrel-wear
 /wearcompanion/ @android/devrel-wear
 /xr/            @android/devrel-xr
-/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/ @android/devrel-adaptive-apps
-/misc/src/main/java/com/example/snippets/ai/ @android/devrel-ai
