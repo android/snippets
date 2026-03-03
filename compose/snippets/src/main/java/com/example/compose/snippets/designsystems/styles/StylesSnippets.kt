@@ -15,6 +15,7 @@
  */
 
 @file:OptIn(ExperimentalFoundationStyleApi::class)
+@file:Suppress("Unused", "UnusedVariable")
 
 package com.example.compose.snippets.designsystems.styles
 
@@ -23,7 +24,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -46,8 +46,6 @@ import androidx.compose.foundation.style.hovered
 import androidx.compose.foundation.style.pressed
 import androidx.compose.foundation.style.styleable
 import androidx.compose.foundation.style.then
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -367,7 +365,7 @@ fun CustomButton(
             .clickable(interactionSource = interactionSource, onClick = { })
             .styleable(styleState, LocalAppStyles.current.baseButtonStyle, style)
     ) {
-        Text(text)
+        BaseText(text)
     }
 }
 // [END android_compose_styles_theme_integration]
@@ -419,7 +417,7 @@ fun SpecialGradientButton(
 @Composable
 fun BadButton(
     modifier: Modifier = Modifier,
-    // ❌ DONT set a default style here as a parameter 
+    // ❌ DON'T set a default style here as a parameter
     style: Style = Style { background(Color.Red) }
 ) {
 }
@@ -494,7 +492,7 @@ fun Button52() {
                 }
             }
         ) {
-            Text("Button 52")
+            BaseText("Button 52")
         }
     }
 }
@@ -545,7 +543,7 @@ fun Button74() {
         onClick = {},
         style = buttonStyle
     ) {
-        Text("Button 74")
+        BaseText("Button 74")
     }
 }
 // [END android_compose_styles_rounded_depth_button]
@@ -675,7 +673,7 @@ fun Button85() {
                 border(width = 0.dp, color = Color.Transparent)
             }
         ) {
-            Text(text = "Button 85")
+            BaseText(text = "Button 85")
         }
     }
 }
