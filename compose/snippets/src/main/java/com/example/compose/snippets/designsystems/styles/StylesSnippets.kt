@@ -423,36 +423,6 @@ fun BadButton(
 }
 // [END android_compose_styles_donts_default_style]
 
-// [START android_compose_styles_base_button]
-@Composable
-fun MyBaseButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    style: Style = Style,
-    enabled: Boolean = true,
-    interactionSource: MutableInteractionSource? = null,
-    content: @Composable RowScope.() -> Unit
-) {
-    val effectiveInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val styleState = remember(effectiveInteractionSource) {
-        MutableStyleState(effectiveInteractionSource)
-    }
-    styleState.isEnabled = enabled
-    Row(
-        modifier = modifier
-            .clickable(
-                enabled = enabled,
-                onClick = onClick,
-                interactionSource = effectiveInteractionSource,
-                indication = null,
-            )
-            .styleable(styleState, Style, style), // Assuming some base style
-        content = content,
-        verticalAlignment = Alignment.CenterVertically
-    )
-}
-// [END android_compose_styles_base_button]
-
 // [START android_compose_styles_hover_button]
 @Preview
 @Composable
@@ -461,7 +431,7 @@ fun Button52() {
         modifier = Modifier.padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        MyBaseButton(
+        BaseButton(
             onClick = {},
             style = Style {
                 background(Color.Transparent)
@@ -539,7 +509,7 @@ fun Button74() {
             }
         }
     }
-    MyBaseButton(
+    BaseButton(
         onClick = {},
         style = buttonStyle
     ) {
@@ -643,7 +613,7 @@ fun Button85() {
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        MyBaseButton(
+        BaseButton(
             onClick = { },
             style = Style {
                 dropShadow(

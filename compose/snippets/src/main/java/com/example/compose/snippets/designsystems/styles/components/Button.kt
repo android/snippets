@@ -21,6 +21,7 @@ val baseButtonStyle = Style {
 
 
 @ExperimentalFoundationStyleApi
+// [START android_compose_styles_base_button]
 @Composable
 fun BaseButton(
     onClick: () -> Unit,
@@ -50,3 +51,4 @@ fun BaseButton(
         verticalAlignment = Alignment.CenterVertically
     )
 }
+// [END android_compose_styles_base_button]
