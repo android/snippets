@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.designsystems
+@file:OptIn(ExperimentalFoundationStyleApi::class)
+
+package com.example.compose.snippets.designsystems.styles
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
@@ -35,6 +37,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
+import androidx.compose.foundation.style.MutableStyleState
+import androidx.compose.foundation.style.Style
+import androidx.compose.foundation.style.StyleScope
+import androidx.compose.foundation.style.fillSize
+import androidx.compose.foundation.style.hovered
+import androidx.compose.foundation.style.pressed
+import androidx.compose.foundation.style.styleable
+import androidx.compose.foundation.style.then
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,11 +56,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradientShader
+import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
@@ -59,15 +75,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.snippets.designsystems.styles.components.BaseButton
+import com.example.compose.snippets.designsystems.styles.components.BaseText
 
 // [START android_compose_styles_basic_button]
 @Composable
 fun BasicButtonStyle() {
-    Button(
+    BaseButton(
         onClick = { },
         style = { }
     ) {
-        Text("Click me")
+        BaseText("Click me")
     }
 }
 // [END android_compose_styles_basic_button]
@@ -75,11 +93,11 @@ fun BasicButtonStyle() {
 // [START android_compose_styles_button_background]
 @Composable
 fun ButtonBackgroundStyle() {
-    Button(
+    BaseButton(
         onClick = { },
         style = { background(Color.Blue) }
     ) {
-        Text("Click me")
+        BaseText("Click me")
     }
 }
 // [END android_compose_styles_button_background]
@@ -90,7 +108,7 @@ fun RowStyleable() {
     Row(
         modifier = Modifier.styleable { }
     ) {
-        Text("Content")
+        BaseText("Content")
     }
 }
 // [END android_compose_styles_row_styleable]
@@ -103,7 +121,7 @@ fun RowStyleableBackground() {
             background(Color.Blue)
         }
     ) {
-        Text("Content")
+        BaseText("Content")
     }
 }
 // [END android_compose_styles_row_styleable_background]
@@ -118,8 +136,8 @@ fun StandaloneStyleUsage() {
     val style = Style { background(Color.Blue) }
 
     // built in parameter
-    Button(onClick = { }, style = style) {
-        Text("Button")
+    BaseButton(onClick = { }, style = style) {
+        BaseText("Button")
     }
 
     // modifier styleable
@@ -127,7 +145,7 @@ fun StandaloneStyleUsage() {
     Column(
         Modifier.styleable(styleState, style)
     ) {
-        Text("Column content")
+        BaseText("Column content")
     }
 }
 // [END android_compose_styles_standalone_usage]
@@ -138,23 +156,23 @@ fun MultipleComponentsStyle() {
     val style = Style { background(Color.Blue) }
 
     // built in parameter
-    Button(onClick = { }, style = style) {
-        Text("Button")
+    BaseButton(onClick = { }, style = style) {
+        BaseText("Button")
     }
-    Checkbox(checked = true, onCheckedChange = { }, style = style)
+    BaseText("Different text that uses the same style parameter", style = style)
 
     // modifier styleable
     val columnStyleState = remember { MutableStyleState(null) }
     Column(
         Modifier.styleable(columnStyleState, style)
     ) {
-        Text("Column")
+        BaseText("Column")
     }
     val rowStyleState = remember { MutableStyleState(null) }
     Row(
         Modifier.styleable(rowStyleState, style)
     ) {
-        Text("Row")
+        BaseText("Row")
     }
 }
 // [END android_compose_styles_multiple_components]
@@ -162,14 +180,14 @@ fun MultipleComponentsStyle() {
 // [START android_compose_styles_multiple_properties]
 @Composable
 fun MultiplePropertiesStyle() {
-    Button(
+    BaseButton(
         onClick = { },
         style = {
             background(Color.Blue)
             contentPaddingStart(16.dp)
         }
     ) {
-        Text("Button")
+        BaseText("Button")
     }
 }
 // [END android_compose_styles_multiple_properties]
@@ -179,7 +197,7 @@ val TealColor = Color(0xFF008080)
 // [START android_compose_styles_overwrite_properties]
 @Composable
 fun OverwritePropertiesStyle() {
-    Button(
+    BaseButton(
         style = {
             background(Color.Red)
             // Background of Red is now overridden with TealColor instead
@@ -193,7 +211,7 @@ fun OverwritePropertiesStyle() {
             //
         }
     ) {
-        Text("Click me!")
+        BaseText("Click me!")
     }
 }
 // [END android_compose_styles_overwrite_properties]
@@ -204,13 +222,13 @@ fun MergeStyles() {
     val style1 = Style { background(TealColor) }
     val style2 = Style { contentPaddingTop(16.dp) }
 
-    Button(
+    BaseButton(
         style = style1 then style2,
         onClick = {
 
         },
     ) {
-        Text("Click me!")
+        BaseText("Click me!")
     }
 }
 // [END android_compose_styles_merge_styles]
@@ -228,13 +246,13 @@ fun MergeOverwriteStyles() {
         background(Color.LightGray)
     }
 
-    Button(
+    BaseButton(
         style = style1 then style2,
         onClick = {
 
         },
     ) {
-        Text("Click me!")
+        BaseText("Click me!")
     }
 }
 // [END android_compose_styles_merge_overwrite]
@@ -252,9 +270,9 @@ fun ParentStyling() {
             contentBrush(Brush.linearGradient(colors))
         },
     ) {
-        Text("Children inherit", style = { width(60.dp) })
-        Text("certain properties")
-        Text("from their parents")
+        BaseText("Children inherit", style = { width(60.dp) })
+        BaseText("certain properties")
+        BaseText("from their parents")
     }
 }
 // [END android_compose_styles_parent_styling]
@@ -272,11 +290,11 @@ fun ChildOverrideStyling() {
             contentBrush(Brush.linearGradient(colors))
         },
     ) {
-        Text("Children can ", style = {
+        BaseText("Children can ", style = {
             contentBrush(Brush.linearGradient(listOf(Color.Red, Color.Blue)))
         })
-        Text("override properties")
-        Text("set by their parents")
+        BaseText("override properties")
+        BaseText("set by their parents")
     }
 }
 // [END android_compose_styles_child_override]
@@ -572,7 +590,7 @@ fun Button19() {
                     .styleable(styleState, frontStyle),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                BaseText(
                     "Button 19".toUpperCase(Locale.current),
                     style = Style {
                         contentColor(Color.White)
@@ -608,13 +626,13 @@ fun Button85() {
 
     val glowingBrush = remember(animatedProgress) {
         object : ShaderBrush() {
-            override fun createShader(size: androidx.compose.ui.geometry.Size): androidx.compose.ui.graphics.Shader {
+            override fun createShader(size: Size): Shader {
                 val width = size.width * 4
                 val brushSize = width * animatedProgress
-                return androidx.compose.ui.graphics.LinearGradientShader(
+                return LinearGradientShader(
                     colors = gradientColors,
-                    from = androidx.compose.ui.geometry.Offset(brushSize, 0f),
-                    to = androidx.compose.ui.geometry.Offset(brushSize + width, 0f),
+                    from = Offset(brushSize, 0f),
+                    to = Offset(brushSize + width, 0f),
                     tileMode = TileMode.Repeated
                 )
             }
@@ -662,46 +680,3 @@ fun Button85() {
     }
 }
 // [END android_compose_styles_gradient_glow_button]
-
-// Dummy classes to satisfy the compiler/snippets if they were ever built
-class Style
-fun Style(block: StyleScope.() -> Unit): Style = Style()
-interface StyleScope {
-    fun background(color: Color)
-    fun background(brush: Brush)
-    fun shape(shape: RoundedCornerShape)
-    fun border(width: androidx.compose.ui.unit.Dp, color: Color)
-    fun contentColor(color: Color)
-    fun fontSize(size: androidx.compose.ui.unit.TextUnit)
-    fun fontWeight(weight: FontWeight)
-    fun letterSpacing(spacing: androidx.compose.ui.unit.TextUnit)
-    fun contentPadding(all: androidx.compose.ui.unit.Dp)
-    fun contentPadding(vertical: androidx.compose.ui.unit.Dp, horizontal: androidx.compose.ui.unit.Dp)
-    fun contentPaddingStart(padding: androidx.compose.ui.unit.Dp)
-    fun contentPaddingTop(padding: androidx.compose.ui.unit.Dp)
-    fun contentPaddingHorizontal(padding: androidx.compose.ui.unit.Dp)
-    fun externalPadding(padding: androidx.compose.ui.unit.Dp)
-    fun dropShadow(shadow: Shadow)
-    fun hovered(block: StyleScope.() -> Unit)
-    fun pressed(block: StyleScope.() -> Unit)
-    fun animate(spec: androidx.compose.animation.core.AnimationSpec<Float> = tween(), block: StyleScope.() -> Unit)
-    fun animate(block: StyleScope.() -> Unit)
-    fun width(width: androidx.compose.ui.unit.Dp)
-    fun height(height: androidx.compose.ui.unit.Dp)
-    fun size(size: androidx.compose.ui.unit.Dp)
-    fun size(width: androidx.compose.ui.unit.Dp, height: androidx.compose.ui.unit.Dp)
-    fun fillSize()
-    fun translation(x: Float, y: Float)
-    fun translationY(y: Float)
-    fun scale(scale: Float)
-    fun transformOrigin(origin: TransformOrigin)
-    fun textAlign(align: TextAlign)
-    fun contentBrush(brush: Brush)
-}
-infix fun Style.then(other: Style): Style = Style()
-fun Modifier.styleable(state: MutableStyleState, style: Style = Style, overrideStyle: Style = Style): Modifier = this
-fun Modifier.styleable(block: StyleScope.() -> Unit): Modifier = this
-class MutableStyleState(interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource?) {
-    var isEnabled: Boolean = true
-}
-class Shadow(val color: Color = Color.Unspecified, val brush: Brush? = null, val offset: DpOffset = DpOffset.Zero, val radius: androidx.compose.ui.unit.Dp = 0.dp, val spread: androidx.compose.ui.unit.Dp = 0.dp)
