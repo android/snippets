@@ -48,6 +48,7 @@ import com.example.compose.snippets.designsystems.styles.components.BaseButton
 import com.example.compose.snippets.designsystems.styles.components.BaseText
 
 // [START android_compose_styles_state_basic]
+@Preview
 @Composable
 private fun OpenButton() {
     BaseButton(
@@ -282,7 +283,7 @@ fun MediaPlayer(
         ///..
     }
 }
-// [END android_compose_styels_link_to_custom_state]
+// [END android_compose_styles_link_to_custom_state]
 
 private object Step2StyleState {
     // [START android_compose_styles_link_to_custom_state_pass]
