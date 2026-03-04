@@ -168,7 +168,7 @@ private fun GridWithIndices(
 ) {
     Grid(
         config = {
-            column(GridTrackSize.Auto)
+            column(GridTrackSize.MaxContent)
             column(160.dp)
             column(160.dp)
 
@@ -179,37 +179,26 @@ private fun GridWithIndices(
             gap(8.dp)
         }
     ) {
-        Text(
-            "#1",
-            style = style,
-            modifier = Modifier
-                .gridItem(row = 2, alignment = Alignment.CenterStart)
-                .padding(end = margin)
-        )
-        Text(
-            "#2",
-            style = style,
-            modifier = Modifier
-                .gridItem(row = 3, alignment = Alignment.CenterStart)
-        )
-        Text(
-            "#3",
-            style = style,
-            modifier = Modifier
-                .gridItem(row = 4, alignment = Alignment.CenterStart)
-        )
-        Text(
-            "#1",
-            style = style,
-            modifier = Modifier
-                .gridItem(column = 2, alignment = Alignment.TopCenter)
-                .padding(bottom = margin)
-        )
-        Text(
-            "#2",
-            style = style,
-            modifier = Modifier.gridItem(column = 3, alignment = Alignment.TopCenter)
-        )
+        repeat(3) {
+            val index = it + 1
+            Text(
+                "row = $index",
+                style = style,
+                modifier = Modifier
+                    .gridItem(row = index + 1, alignment = Alignment.CenterStart)
+                    .padding(end = margin)
+            )
+        }
+        repeat(2) {
+            val index = it + 1
+            Text(
+                "column = $index",
+                style = style,
+                modifier = Modifier
+                    .gridItem(column = index + 1, alignment = Alignment.TopCenter)
+                    .padding(bottom = margin)
+            )
+        }
         Box(modifier = Modifier.gridItem(row = 2, column = 2, rowSpan = 3, columnSpan = 2)) {
             innerGrid()
         }
