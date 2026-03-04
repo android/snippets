@@ -18,12 +18,20 @@
 
 package com.example.compose.snippets.layouts.grid
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.GridFlow
+import androidx.compose.foundation.layout.GridTrackSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Preview(showBackground = true)
@@ -55,47 +63,49 @@ fun GridFlow() {
 @Preview(showBackground = true)
 @Composable
 fun GridItem() {
-    // [START android_compose_layout_grid_item]
-    Grid(
-        config = {
-            repeat(2) {
-                column(160.dp)
+    GridWithIndices {
+        // [START android_compose_layout_grid_item]
+        Grid(
+            config = {
+                repeat(2) {
+                    column(160.dp)
+                }
+                repeat(3) {
+                    row(90.dp)
+                }
+                gap(8.dp)
             }
-            repeat(3) {
-                row(90.dp)
-            }
-            rowGap(16.dp)
-            columnGap(8.dp)
+        ) {
+            Card1()
+            Card2(modifier = Modifier.gridItem(row = 2, column = 2))
+            Card3(modifier = Modifier.gridItem(row = 3))
         }
-    ) {
-        Card1()
-        Card2(modifier = Modifier.gridItem(row = 2, column = 2))
-        Card3(modifier = Modifier.gridItem(row = 3))
+        // [END android_compose_layout_grid_item]
     }
-    // [END android_compose_layout_grid_item]
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GridItemWithNegativeIndex() {
-    // [START android_compose_layout_grid_item_with_negative_index]
-    Grid(
-        config = {
-            repeat(2) {
-                column(160.dp)
+    GridWithIndices {
+        // [START android_compose_layout_grid_item_with_negative_index]
+        Grid(
+            config = {
+                repeat(2) {
+                    column(160.dp)
+                }
+                repeat(3) {
+                    row(90.dp)
+                }
+                gap(8.dp)
             }
-            repeat(3) {
-                row(90.dp)
-            }
-            rowGap(16.dp)
-            columnGap(8.dp)
+        ) {
+            Card1()
+            Card2(modifier = Modifier.gridItem(row = 2))
+            Card3(modifier = Modifier.gridItem(row = -1, column = -1))
         }
-    ) {
-        Card1()
-        Card2(modifier = Modifier.gridItem(row = 2))
-        Card3(modifier = Modifier.gridItem(row = -1, column = -1))
+        // [END android_compose_layout_grid_item_with_negative_index]
     }
-    // [END android_compose_layout_grid_item_with_negative_index]
 }
 
 @Preview(showBackground = true)
@@ -148,4 +158,60 @@ fun CounterIntuitiveKeyboardTraversal() {
         Card1(modifier = Modifier.gridItem(row = 1, column = 1))
     }
     // [END android_compose_layout_grid_counter_intuitive_keyboard_traversal]
+}
+
+@Composable
+private fun GridWithIndices(
+    margin: Dp = 16.dp,
+    style: TextStyle = MaterialTheme.typography.bodySmall,
+    innerGrid: @Composable () -> Unit = {}
+) {
+    Grid(
+        config = {
+            column(GridTrackSize.Auto)
+            column(160.dp)
+            column(160.dp)
+
+            row(GridTrackSize.Auto)
+            row(90.dp)
+            row(90.dp)
+            row(90.dp)
+            gap(8.dp)
+        }
+    ) {
+        Text(
+            "#1",
+            style = style,
+            modifier = Modifier
+                .gridItem(row = 2, alignment = Alignment.CenterStart)
+                .padding(end = margin)
+        )
+        Text(
+            "#2",
+            style = style,
+            modifier = Modifier
+                .gridItem(row = 3, alignment = Alignment.CenterStart)
+        )
+        Text(
+            "#3",
+            style = style,
+            modifier = Modifier
+                .gridItem(row = 4, alignment = Alignment.CenterStart)
+        )
+        Text(
+            "#1",
+            style = style,
+            modifier = Modifier
+                .gridItem(column = 2, alignment = Alignment.TopCenter)
+                .padding(bottom = margin)
+        )
+        Text(
+            "#2",
+            style = style,
+            modifier = Modifier.gridItem(column = 3, alignment = Alignment.TopCenter)
+        )
+        Box(modifier = Modifier.gridItem(row = 2, column = 2, rowSpan = 3, columnSpan = 2)) {
+            innerGrid()
+        }
+    }
 }
