@@ -19,18 +19,18 @@
 package com.example.compose.snippets.predictiveback
 
 import androidx.annotation.MainThread
-import androidx.navigationevent.NavigationEvent
-import androidx.navigationevent.NavigationEventHandler
-import androidx.navigationevent.NavigationEventInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.navigationevent.NavigationEvent
 import androidx.navigationevent.NavigationEventDispatcher
 import androidx.navigationevent.NavigationEventDispatcherOwner
+import androidx.navigationevent.NavigationEventHandler
+import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.NavigationEventInput
+import androidx.navigationevent.NavigationEventTransitionState
 import androidx.navigationevent.compose.NavigationEventState
+import androidx.navigationevent.compose.rememberNavigationEventState
 
-@Composable
-private fun HandlingBackEvents() {
+private fun handlingBackEvents() {
     // [START android_compose_predictiveback_navevent_handler]
     val myHandler = object: NavigationEventHandler<NavigationEventInfo>(
         initialInfo = NavigationEventInfo.None,
@@ -57,17 +57,12 @@ private fun HandlingBackEvents() {
 }
 
 // [START android_compose_predictiveback_navevent_register_handler]
-@Composable
-fun RegisterHandler(
+fun registerHandler(
     navigationEventDispatcher: NavigationEventDispatcher,
     myHandler: NavigationEventHandler<*>
 ) {
-    DisposableEffect(navigationEventDispatcher, myHandler) {
-        navigationEventDispatcher.addHandler(myHandler)
-        onDispose {
-            myHandler.remove()
-        }
-    }
+    navigationEventDispatcher.addHandler(myHandler)
+    myHandler.remove()
 }
 // [END android_compose_predictiveback_navevent_register_handler]
 
@@ -85,6 +80,41 @@ public fun NavigationBackHandler(
 }
 // [END android_compose_predictiveback_navevent_NavigationEventHandler]
 
+// [START android_compose_predictiveback_navevent_transitionstate_with_backhandler]
+@Composable
+fun HandlingBackWithTransitionState(
+    onNavigateUp: () -> Unit
+) {
+    val navigationState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+
+    val transitionState = navigationState.transitionState
+
+    // React to predictive back transition updates
+    when (transitionState) {
+        is NavigationEventTransitionState.InProgress -> {
+            val progress = transitionState.latestEvent.progress
+            // Use progress (0f..1f) to update UI during the gesture
+        }
+
+        is NavigationEventTransitionState.Idle -> {
+            // Reset any temporary UI state if the gesture is cancelled
+        }
+    }
+
+    NavigationBackHandler(
+        state = navigationState,
+        onBackCancelled = {
+            // Called if the back gesture is cancelled
+        },
+        onBackCompleted = {
+            // Called when the back gesture fully completes
+            onNavigateUp()
+        }
+    )
+}
+// [END android_compose_predictiveback_navevent_transitionstate_with_backhandler]
 
 // [START android_compose_predictiveback_navevent_NavigationEvent_dispatcher_owner]
 class MyComponent: NavigationEventDispatcherOwner {
@@ -117,7 +147,6 @@ public class MyInput : NavigationEventInput() {
 }
 // [END android_compose_predictiveback_navevent_navigation_event_input]
 
-// TODO: We then need to provide that input to our dispatcher:
 // [START android_compose_predictiveback_navevent_register_input]
 fun setupDispatcher() {
     val myComponent = MyComponent()
@@ -134,5 +163,3 @@ fun cleanupDispatcher(myComponent: MyComponent) {
     myComponent.navigationEventDispatcher.dispose()
 }
 // [END android_compose_predictiveback_navevent_dispose]
-
-
