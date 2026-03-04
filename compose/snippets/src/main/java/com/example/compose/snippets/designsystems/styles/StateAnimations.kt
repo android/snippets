@@ -170,7 +170,7 @@ fun LoginButton() {
 }
 // [END android_compose_styles_state_override]
 
-// [START android_compose_styles_animate_style_basic ]
+// [START android_compose_styles_animate_style_basic]
 val animatingStyle = Style {
     border(3.dp, Color.Black)
     background(Color.White)
@@ -202,9 +202,9 @@ private fun AnimatingStyleChanges() {
 
     }
 }
-// [END android_compose_styles_animate_style_basic ]
+// [END android_compose_styles_animate_style_basic]
 
-// [START android_compose_styles_animate_style_set_spec ]
+// [START android_compose_styles_animate_style_set_spec]
 val animatingStyleSpec = Style {
     externalPadding(8.dp)
     border(3.dp, Color.Black)
@@ -238,7 +238,7 @@ fun AnimatingStyleChangesSpec() {
         )
         .styleable(styleState, animatingStyleSpec))
 }
-// [END android_compose_styles_animate_style_set_spec ]
+// [END android_compose_styles_animate_style_set_spec]
 
 // [START android_compose_styles_custom_key_1]
 enum class PlayerState {
