@@ -183,7 +183,6 @@ fun MultipleStylesButton() {
 
     Box(
         modifier = Modifier
-            .windowInsetsPadding(WindowInsets.systemBars)
             .styleable(styleState) {
                 size(200.dp, 48.dp)
                 externalPadding(32.dp)
