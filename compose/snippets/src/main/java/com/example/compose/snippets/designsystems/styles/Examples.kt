@@ -28,7 +28,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -103,6 +102,17 @@ fun HoverButtonExample() {
                         )
                     }
                 }
+                pressed {
+                    animate(tween(200)) {
+                        dropShadow(
+                            Shadow(
+                                spread = 0.dp, color = Color(0xFFFFE54C),
+                                radius = 0.dp,
+                                offset = DpOffset(0.dp, 0.dp)
+                            )
+                        )
+                    }
+                }
             }
         ) {
             BaseText("Button 52")
@@ -114,49 +124,51 @@ fun HoverButtonExample() {
 // [START android_compose_styles_rounded_depth_button]
 @Preview
 @Composable
-fun RoundedDepthButtonExample() {
-    val density = LocalDensity.current
-    val buttonStyle = Style {
-        background(Color(0xFFFBEED0))
-        border(2.dp, Color(0xFF422800))
-        shape(RoundedCornerShape(30.dp))
-        dropShadow(
-            Shadow(
-                color = Color(0xFF422800), offset = DpOffset(4.dp, 4.dp),
-                radius = 0.dp, spread = 0.dp
-            )
-        )
-        contentColor(Color(0xFF422800))
-        fontWeight(FontWeight.SemiBold)
-        fontSize(18.sp)
-        contentPaddingHorizontal(25.dp)
-        externalPadding(8.dp)
-        height(50.dp)
-        textAlign(TextAlign.Center)
-        hovered {
-            animate {
-                background(Color.White)
-            }
-        }
-        pressed {
-            animate {
-                dropShadow(
-                    Shadow(
-                        color = Color(0xFF422800),
-                        offset = DpOffset(2.dp, 2.dp),
-                        radius = 0.dp,
-                        spread = 0.dp
-                    )
+fun ShadowAnimationButton() {
+    Box(modifier = Modifier.padding(32.dp)) {
+        val density = LocalDensity.current
+        val buttonStyle = Style {
+            background(Color(0xFFFBEED0))
+            border(2.dp, Color(0xFF422800))
+            shape(RoundedCornerShape(30.dp))
+            dropShadow(
+                Shadow(
+                    color = Color(0xFF422800), offset = DpOffset(4.dp, 4.dp),
+                    radius = 0.dp, spread = 0.dp
                 )
-                translation(with(density) { 2.dp.toPx() }, with(density) { 2.dp.toPx() })
+            )
+            contentColor(Color(0xFF422800))
+            fontWeight(FontWeight.SemiBold)
+            fontSize(18.sp)
+            contentPaddingHorizontal(25.dp)
+            externalPadding(8.dp)
+            height(50.dp)
+            textAlign(TextAlign.Center)
+            hovered {
+                animate {
+                    background(Color.White)
+                }
+            }
+            pressed {
+                animate {
+                    dropShadow(
+                        Shadow(
+                            color = Color(0xFF422800),
+                            offset = DpOffset(2.dp, 2.dp),
+                            radius = 0.dp,
+                            spread = 0.dp
+                        )
+                    )
+                    translation(with(density) { 2.dp.toPx() }, with(density) { 2.dp.toPx() })
+                }
             }
         }
-    }
-    BaseButton(
-        onClick = {},
-        style = buttonStyle
-    ) {
-        BaseText("Button 74")
+        BaseButton(
+            onClick = {},
+            style = buttonStyle
+        ) {
+            BaseText("Button 74")
+        }
     }
 }
 // [END android_compose_styles_rounded_depth_button]
@@ -164,16 +176,18 @@ fun RoundedDepthButtonExample() {
 // [START android_compose_styles_depth_pressed_button]
 @Preview
 @Composable
-fun DepthPressedButtonExample() {
+fun MultipleStylesButton() {
     val interactionSource = remember { MutableInteractionSource() }
     val styleState = remember(interactionSource) { MutableStyleState(interactionSource) }
     val density = LocalDensity.current
 
     Box(
         modifier = Modifier
-            .padding(100.dp)
             .windowInsetsPadding(WindowInsets.systemBars)
-            .size(200.dp, 50.dp)
+            .styleable(styleState) {
+                size(200.dp, 48.dp)
+                externalPadding(32.dp)
+            }
             .clickable(interactionSource, indication = null) {},
         contentAlignment = Alignment.Center
     ) {
@@ -187,7 +201,7 @@ fun DepthPressedButtonExample() {
             fillSize()
             background(Color(0xFF1899D6))
             shape(RoundedCornerShape(16.dp))
-            contentPadding(vertical = 13.dp, horizontal = 16.dp)
+            contentPadding(vertical = 12.dp, horizontal = 16.dp)
             translationY(with(density) { (-4).dp.toPx() })
             pressed {
                 animate {
