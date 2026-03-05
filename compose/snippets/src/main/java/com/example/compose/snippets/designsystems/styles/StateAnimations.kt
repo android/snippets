@@ -56,9 +56,12 @@ val outlinedButtonStyle = Style {
     border(2.dp, lightBlue)
 }
 
-// [START android_compose_styles_state_basic]
 val lightBlue = Color(0xFF03A9F4)
 val lightPurple = Color(0xFF9575CD)
+val lightOrange = Color(0xFFFFE0B2)
+val lightRed = Color(0xFFE57373)
+
+// [START android_compose_styles_state_basic]
 @Preview
 @Composable
 private fun OpenButton() {
@@ -86,30 +89,26 @@ private fun OpenButton() {
 
 // [END android_compose_styles_state_basic]
 
+@Preview
 // [START android_compose_styles_state_basic_combined_states]
 @Composable
 private fun OpenButton_CombinedStates() {
     BaseButton(
-        style = {
-            shape(RoundedCornerShape(0.dp))
+        style = outlinedButtonStyle then {
             background(Color.White)
             hovered {
                 // light purple
-                val lightPurple = Color(0xFFD1C4E9)
                 background(lightPurple)
                 pressed {
                     // When running on a device that can hover, whilst hovering and then pressing the button this would be invoked
-                    val lightOrange = Color(0xFFFFE0B2)
                     background(lightOrange)
                 }
             }
             pressed {
                 // when running on a device without a mouse attached, this would be invoked as you wouldn't be in a hovered state only
-                val lightRed = Color(0xFF66E7DC)
                 background(lightRed)
             }
             focused {
-                val lightBlue = Color(0xFF81D4FA)
                 background(lightBlue)
             }
         },
@@ -249,165 +248,3 @@ fun AnimatingStyleChangesSpec() {
         .styleable(styleState, animatingStyleSpec))
 }
 // [END android_compose_styles_animate_style_set_spec]
-
-// [START android_compose_styles_custom_key_1]
-enum class PlayerState {
-    Stopped,
-    Playing,
-    Paused
-}
-
-val playerStateKey = StyleStateKey(PlayerState.Stopped)
-// [END android_compose_styles_custom_key_1]
-
-// [START android_compose_styles_custom_key_2]
-// Extension Function on MutableStyleState to query and set the current playState
-var MutableStyleState.playerState
-    get() = this[playerStateKey]
-    set(value) { this[playerStateKey] = value }
-
-fun StyleScope.playerPlaying(value: Style) {
-    state(playerStateKey, value, { key, state -> state[key] == PlayerState.Playing })
-}
-fun StyleScope.playerPaused(value: Style) {
-    state(playerStateKey, value, { key, state -> state[key] == PlayerState.Paused })
-}
-// [END android_compose_styles_custom_key_2]
-
-// [START android_compose_styles_link_to_custom_state]
-@Composable
-fun MediaPlayer(
-    url: String,
-    modifier: Modifier = Modifier,
-    style: Style = Style,
-    state: PlayerState = remember { PlayerState.Paused }
-) {
-    // Hoist style state, set playerState as a parameter,
-    val styleState = remember { MutableStyleState(null) }
-    // Set equal to incoming state to link the two together
-    styleState.playerState = state
-    Box(
-        //..
-    ) {
-        ///..
-    }
-}
-// [END android_compose_styles_link_to_custom_state]
-
-private object Step2StyleState {
-    // [START android_compose_styles_link_to_custom_state_pass]
-    @Composable
-    fun MediaPlayer(
-        url: String,
-        modifier: Modifier = Modifier,
-        style: Style = Style,
-        state: PlayerState = remember { PlayerState.Paused }
-    ) {
-        // Hoist style state, set playstate as a parameter,
-        val styleState = remember { MutableStyleState(null) }
-        // Set equal to incoming state to link the two together
-        styleState.playerState = state
-        Box(
-            modifier = modifier.styleable(styleState, style)) {
-            ///..
-        }
-    }
-    // [END android_compose_styles_link_to_custom_state_pass]
-}
-private object Step3StyleState {
-    // [START android_compose_styles_link_to_custom_state_key]
-    @Composable
-    fun StyleStateKeySample() {
-        // Using the extension function to change the border color to green while playing
-        val style = Style {
-            borderColor(Color.Gray)
-            playerPlaying {
-                animate {
-                    borderColor(Color.Green)
-                }
-            }
-            playerPaused {
-                animate {
-                    borderColor(Color.Blue)
-                }
-            }
-        }
-        val styleState = remember { MutableStyleState(null) }
-        styleState[playerStateKey] = PlayerState.Playing
-
-        // Using the style in a composable that sets the state -> notice if you change the state parameter, the style changes. You can link this up to an ViewModel and change the state from there too.
-        MediaPlayer(url = "https://example.com/media/video",
-            style = style,
-            state = PlayerState.Stopped)
-    }
-    // [START android_compose_styles_link_to_custom_state_key]
-}
-
-private object Step4FullSnippetState {
-    // [START android_compose_styles_state_full_snippet]
-    enum class PlayerState {
-        Stopped,
-        Playing,
-        Paused
-    }
-    val playerStateKey = StyleStateKey<PlayerState>(PlayerState.Stopped)
-    var MutableStyleState.playerState
-        get() = this[playerStateKey]
-        set(value) { this[playerStateKey] = value }
-
-    fun StyleScope.playerPlaying(value: Style) {
-        state(playerStateKey, value, { key, state -> state[key] == PlayerState.Playing })
-    }
-    fun StyleScope.playerPaused(value: Style) {
-        state(playerStateKey, value, { key, state -> state[key] == PlayerState.Paused })
-
-    }
-
-    @Composable
-    fun MediaPlayer(
-        url: String,
-        modifier: Modifier = Modifier,
-        style: Style = Style,
-        state: PlayerState = remember { PlayerState.Paused }
-    ) {
-        // Hoist style state, set playstate as a parameter,
-        val styleState = remember { MutableStyleState(null) }
-        // Set equal to incoming state to link the two together
-        styleState.playerState = state
-        Box(
-            modifier = modifier.styleable(styleState, Style {
-                size(100.dp)
-                border(2.dp, Color.Red)
-
-            }, style, )) {
-
-            ///..
-        }
-    }
-    @Composable
-    fun StyleStateKeySample() {
-        // Using the extension function to change the border color to green while playing
-        val style = Style {
-            borderColor(Color.Gray)
-            playerPlaying {
-                animate {
-                    borderColor(Color.Green)
-                }
-            }
-            playerPaused {
-                animate {
-                    borderColor(Color.Blue)
-                }
-            }
-        }
-        val styleState = remember { MutableStyleState(null) }
-        styleState[playerStateKey] = PlayerState.Playing
-
-        // Using the style in a composable that sets the state -> notice if you change the state parameter, the style changes. You can link this up to an ViewModel and change the state from there too.
-        MediaPlayer(url = "https://example.com/media/video",
-            style = style,
-            state = PlayerState.Stopped)
-    }
-    // [END android_compose_styles_state_full_snippet]
-}
-
