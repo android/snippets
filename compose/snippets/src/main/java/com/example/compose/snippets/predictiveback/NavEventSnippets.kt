@@ -56,18 +56,6 @@ private fun handlingBackEvents() {
     // [END android_compose_predictiveback_navevent_handler]
 }
 
-// [START android_compose_predictiveback_navevent_register_handler]
-fun registerHandler(
-    navigationEventDispatcher: NavigationEventDispatcher,
-    myHandler: NavigationEventHandler<*>
-) {
-    navigationEventDispatcher.addHandler(myHandler)
-    myHandler.remove()
-}
-// [END android_compose_predictiveback_navevent_register_handler]
-
-
-
 // [START android_compose_predictiveback_navevent_NavigationEventHandler]
 @Composable
 public fun NavigationBackHandler(
@@ -136,6 +124,7 @@ public class MyInput : NavigationEventInput() {
         dispatchOnBackProgressed(event)
     }
 
+    @MainThread
     public fun backCancelled() {
         dispatchOnBackCancelled()
     }
@@ -146,20 +135,3 @@ public class MyInput : NavigationEventInput() {
     }
 }
 // [END android_compose_predictiveback_navevent_navigation_event_input]
-
-// [START android_compose_predictiveback_navevent_register_input]
-fun setupDispatcher() {
-    val myComponent = MyComponent()
-    val myInput = MyInput()
-
-    // Register the custom input with the dispatcher
-    myComponent.navigationEventDispatcher.addInput(myInput)
-}
-// [END android_compose_predictiveback_navevent_register_input]
-
-// [START android_compose_predictiveback_navevent_dispose]
-fun cleanupDispatcher(myComponent: MyComponent) {
-    // Explicitly remove the dispatcher from the hierarchy when the component is destroyed
-    myComponent.navigationEventDispatcher.dispose()
-}
-// [END android_compose_predictiveback_navevent_dispose]
