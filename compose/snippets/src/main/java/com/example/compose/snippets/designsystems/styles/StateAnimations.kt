@@ -35,6 +35,7 @@ import androidx.compose.foundation.style.focused
 import androidx.compose.foundation.style.hovered
 import androidx.compose.foundation.style.pressed
 import androidx.compose.foundation.style.styleable
+import androidx.compose.foundation.style.then
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -47,20 +48,28 @@ import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.designsystems.styles.components.BaseButton
 import com.example.compose.snippets.designsystems.styles.components.BaseText
 
+val outlinedButtonStyle = Style {
+    externalPadding(48.dp)
+    contentPadding(12.dp)
+    shape(RoundedCornerShape(8.dp))
+    clip(true)
+    border(2.dp, lightBlue)
+}
+
 // [START android_compose_styles_state_basic]
+val lightBlue = Color(0xFF03A9F4)
+val lightPurple = Color(0xFF9575CD)
 @Preview
 @Composable
 private fun OpenButton() {
     BaseButton(
-        style = {
-            shape(RoundedCornerShape(0.dp))
+        style = outlinedButtonStyle then {
             background(Color.White)
             hovered {
-                val lightPurple = Color(0xFFD1C4E9)
                 background(lightPurple)
+                border(2.dp, lightPurple)
             }
             focused {
-                val lightBlue = Color(0xFF81D4FA)
                 background(lightBlue)
             }
         },
