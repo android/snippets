@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -125,8 +126,14 @@ private fun OpenButton_CombinedStates() {
 // [END android_compose_styles_state_basic_combined_states]
 
 val baseGradientButtonStyle = Style {
-    contentPadding(8.dp)
-    background(Brush.verticalGradient(listOf(Color.Red, Color.Blue)))
+    contentPadding(16.dp)
+    externalPadding(64.dp)
+    fontSize(16.sp)
+   /* There is currently a known issue where combining a shape with gradient backgrounds doesn't render properly.
+   b/482308908
+    shape(RoundedCornerShape(16.dp))
+    clip(true)*/
+    background(Brush.linearGradient(listOf(lightPurple, lightBlue)))
 }
 
 // [START android_compose_styles_state_custom_state_gradient]
@@ -151,7 +158,7 @@ private fun GradientButton(
                     interactionSource = interactionSource,
                     indication = null,
                 )
-                .styleable(styleState, baseGradientButtonStyle, style),
+                .styleable(styleState, baseGradientButtonStyle then style),
         content = content,
     )
 }
@@ -162,7 +169,6 @@ private fun GradientButton(
 @Composable
 fun LoginButton() {
     val loginButtonStyle = Style {
-        externalPadding(8.dp)
         pressed {
             background(
                 Brush.linearGradient(
@@ -181,6 +187,7 @@ fun LoginButton() {
 
 // [START android_compose_styles_animate_style_basic]
 val animatingStyle = Style {
+    externalPadding(48.dp)
     border(3.dp, Color.Black)
     background(Color.White)
     size(100.dp)
@@ -215,18 +222,18 @@ private fun AnimatingStyleChanges() {
 
 // [START android_compose_styles_animate_style_set_spec]
 val animatingStyleSpec = Style {
-    externalPadding(8.dp)
+    externalPadding(48.dp)
     border(3.dp, Color.Black)
     background(Color.White)
     size(100.dp)
-
+    transformOrigin(TransformOrigin.Center)
     pressed {
         animate {
             borderColor(Color.Magenta)
             background(Color(0xFFB39DDB))
         }
         animate(spring(dampingRatio = Spring.DampingRatioMediumBouncy)) {
-            size(120.dp)
+            scale(1.2f)
         }
     }
 }
