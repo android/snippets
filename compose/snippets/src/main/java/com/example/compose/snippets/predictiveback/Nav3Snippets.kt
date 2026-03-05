@@ -99,8 +99,7 @@ fun ScreenB(
         label = "ScaleAnimation"
     )
 
-    // TODO: this should be hoisted up
-    val maxShift = (    LocalConfiguration.current.screenWidthDp / 20f) - 8
+    val maxShift = (LocalConfiguration.current.screenWidthDp / 20f) - 8
 
     val animatedOffsetX by animateDpAsState(
         targetValue = when (swipeEdge) {
