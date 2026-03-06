@@ -68,7 +68,7 @@ class MyApplication : Application() {
         super.onCreate()
     }
 }
-// [END android_compose_layout_mediaQuery_nenable_mediaQuery]
+// [END android_compose_layout_mediaQuery_enable_mediaQuery]
 
 @Preview(showBackground = true)
 @Composable
