@@ -209,9 +209,9 @@ fun ViewingDistance(
 @Preview
 @Composable
 fun PreviewLayout() {
-    // [START EXCLUDE]
+    // [START_EXCLUDE]
     ComposeUiFlags.isMediaQueryIntegrationEnabled = true
-    // [END EXCLUDE]
+    // [END_EXCLUDE]
     when {
         mediaQuery { windowPosture == UiMediaScope.Posture.Tabletop } -> TabletopLayout()
         else -> FlatLayout()
