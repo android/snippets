@@ -18,13 +18,13 @@
 
 package com.example.compose.snippets.predictiveback
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent.EDGE_LEFT
 import android.view.MotionEvent.EDGE_RIGHT
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -74,6 +74,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun ScreenB(
     backEventState: NavigationEventState<NavigationEventInfo>,
@@ -99,16 +100,16 @@ fun ScreenB(
         label = "ScaleAnimation"
     )
 
-    val maxShift = (LocalConfiguration.current.screenWidthDp / 20f) - 8
+    val configuration = LocalConfiguration.current
+    val maxShift = remember(configuration) {
+        (configuration.screenWidthDp / 20f) - 8
+    }
 
-    val animatedOffsetX by animateDpAsState(
-        targetValue = when (swipeEdge) {
-            EDGE_LEFT -> (backProgress * maxShift).dp
-            EDGE_RIGHT -> (-backProgress * maxShift).dp
-            else -> 0.dp
-        },
-        label = "OffsetXAnimation"
-    )
+    val offsetX = when (swipeEdge) {
+        EDGE_LEFT -> (backProgress * maxShift).dp
+        EDGE_RIGHT -> (-backProgress * maxShift).dp
+        else -> 0.dp
+    }
 
     NavigationBackHandler(
         state = backEventState,
