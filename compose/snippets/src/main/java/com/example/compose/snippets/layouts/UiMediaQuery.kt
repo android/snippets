@@ -40,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ComposeUiFlags
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -60,14 +61,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.window.core.layout.WindowSizeClass
 
-// [START ENABLE_MEDIA_QUERY_INTEGRATION]
+// [START android_compose_layout_mediaQuery_enable_mediaQuery]
 class MyApplication : Application() {
     override fun onCreate() {
         ComposeUiFlags.isMediaQueryIntegrationEnabled = true
         super.onCreate()
     }
 }
-// [END ENABLE_MEDIA_QUERY_INTEGRATION]
+// [END android_compose_layout_mediaQuery_nenable_mediaQuery]
 
 @Preview(showBackground = true)
 @Composable
@@ -76,13 +77,13 @@ fun MediaQueryUsage(
 ) {
     EnableMediaQueryIntegration {
         OverrideUiMediaScope(windowPosture = posture.value) {
-            // [START USE_MEDIA_QUERY]
+            // [START android_compose_layout_mediaQuery_use_mediaQuery]
             if (mediaQuery { windowPosture == UiMediaScope.Posture.Tabletop }) {
                 TabletopLayout()
             } else {
                 FlatLayout()
             }
-            // [END USE_MEDIA_QUERY]
+            // [END android_compose_layout_mediaQuery_use_mediaQuery]
         }
     }
 }
@@ -93,7 +94,7 @@ fun MediaQueryUsage(
 @Composable
 fun WindowSize() {
     EnableMediaQueryIntegration {
-        // [START WINDOW_SIZE]
+        // [START android_compose_layout_mediaQuery_window_size]
         val narrowerThanMedium by derivedMediaQuery {
             windowWidth < WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND.dp
         }
@@ -105,7 +106,7 @@ fun WindowSize() {
             narrowerThanExpanded -> TwoPaneLayout()
             else -> ThreePaneLayout()
         }
-        // [END WINDOW_SIZE]
+        // [END android_compose_layout_mediaQuery_window_size]
     }
 }
 
@@ -116,13 +117,13 @@ fun WindowPosture(
 ) {
     EnableMediaQueryIntegration {
         OverrideUiMediaScope(windowPosture = posture.value) {
-            // [START WINDOW_POSTURE]
+            // [START android_compose_layout_mediaQuery_window_posture]
             when {
                 mediaQuery { windowPosture == UiMediaScope.Posture.Tabletop } -> TabletopLayout()
                 mediaQuery { windowPosture == UiMediaScope.Posture.Book } -> BookLayout()
                 mediaQuery { windowPosture == UiMediaScope.Posture.Flat } -> FlatLayout()
             }
-            // [END WINDOW_POSTURE]
+            // [END android_compose_layout_mediaQuery_window_posture]
         }
     }
 }
@@ -132,14 +133,16 @@ fun WindowPosture(
 fun PointerPrecision(
     @PreviewParameter(PointerPrecisionProvider::class) precision: Precision
 ) {
-    OverrideUiMediaScope(pointerPrecision = precision.value) {
-        // [START POINTER_PRECISION]
-        if (mediaQuery { pointerPrecision == UiMediaScope.PointerPrecision.Blunt }) {
-            LargeSizeButton()
-        } else {
-            NormalSizeButton()
+    EnableMediaQueryIntegration {
+        OverrideUiMediaScope(pointerPrecision = precision.value) {
+            // [START android_compose_layout_mediaQuery_pointer_precision]
+            if (mediaQuery { pointerPrecision == UiMediaScope.PointerPrecision.Blunt }) {
+                LargeSizeButton()
+            } else {
+                NormalSizeButton()
+            }
+            // [END android_compose_layout_mediaQuery_pointer_precision]
         }
-        // [END POINTER_PRECISION]
     }
 }
 
@@ -148,12 +151,14 @@ fun PointerPrecision(
 fun KeyboardKind(
     @PreviewParameter(KeyboardKindProvider::class) keyboardKindHolder: KeyboardKindHolder
 ) {
-    OverrideUiMediaScope(keyboardKind = keyboardKindHolder.value) {
-        // [START KEYBOARD_KIND]
-        if (mediaQuery { keyboardKind == UiMediaScope.KeyboardKind.None }) {
-            SuggestKeyboardConnect()
+    EnableMediaQueryIntegration {
+        OverrideUiMediaScope(keyboardKind = keyboardKindHolder.value) {
+            // [START android_compose_layout_mediaQuery_keyboard_kind]
+            if (mediaQuery { keyboardKind == UiMediaScope.KeyboardKind.None }) {
+                SuggestKeyboardConnect()
+            }
+            // [END android_compose_layout_mediaQuery_keyboard_kind]
         }
-        // [END KEYBOARD_KIND]
     }
 }
 
@@ -164,7 +169,7 @@ fun CameraAndMicrophoneSupport(
 ) {
     EnableMediaQueryIntegration {
         OverrideUiMediaScope(hasCamera = support.camera, hasMicrophone = support.microphone) {
-            // [START CAMERA_AND_MICROPHONE_SUPPORT]
+            // [START android_compose_layout_mediaQuery_camera_and_microphone_support]
             Row {
                 OutlinedTextField(state = rememberTextFieldState())
                 // Show the MicButton when the device supports a microphone.
@@ -176,7 +181,7 @@ fun CameraAndMicrophoneSupport(
                     CameraButton()
                 }
             }
-            // [END CAMERA_AND_MICROPHONE_SUPPORT]
+            // [END android_compose_layout_mediaQuery_camera_and_microphone_support]
         }
     }
 }
@@ -188,19 +193,19 @@ fun ViewingDistance(
 ) {
     EnableMediaQueryIntegration {
         OverrideUiMediaScope(viewingDistance = viewingDistanceHolder.value) {
-            // [START VIEWING_DISTANCE]
+            // [START android_compose_layout_mediaQuery_viewing_distance]
             val fontSize = when {
                 mediaQuery { viewingDistance == UiMediaScope.ViewingDistance.Far } -> 20.sp
                 mediaQuery { viewingDistance == UiMediaScope.ViewingDistance.Medium } -> 18.sp
                 else -> 16.sp
             }
-            // [END VIEWING_DISTANCE]
+            // [END android_compose_layout_mediaQuery_viewing_distance]
             Text("A text with a font size of $fontSize", style = TextStyle(fontSize = fontSize))
         }
     }
 }
 
-// [START LAYOUT_PREVIEW]
+// [START android_compose_layout_mediaQuery_layout_preview]
 @Preview
 @Composable
 fun PreviewLayout() {
@@ -212,9 +217,9 @@ fun PreviewLayout() {
         else -> FlatLayout()
     }
 }
-// [END LAYOUT_PREVIEW]
+// [END android_compose_layout_mediaQuery_layout_preview]
 
-// [START LAYOUT_FOR_TABLETOP_PREVIEW]
+// [START android_compose_layout_mediaQuery_layout_preview_in_tabletop]
 @Preview
 @Composable
 fun PreviewLayoutForTabletop() {
@@ -225,9 +230,10 @@ fun PreviewLayoutForTabletop() {
     // Step 2: Define a custom object implementing the UiMediaScope interface.
     // The object overrides the windowPosture parameter.
     // The resolution of the remaining parameters is deferred to the currentUiMediaScope object.
-    val uiMediaScope = object : UiMediaScope by currentUiMediaScope {
-        override val windowPosture: UiMediaScope.Posture
-            get() = UiMediaScope.Posture.Tabletop
+    val uiMediaScope = remember(currentUiMediaScope) {
+        object : UiMediaScope by currentUiMediaScope {
+            override val windowPosture: UiMediaScope.Posture = UiMediaScope.Posture.Tabletop
+        }
     }
 
     // Step 3: Set the object to the LocalUiMediaScope.
@@ -240,7 +246,7 @@ fun PreviewLayoutForTabletop() {
         }
     }
 }
-// [END LAYOUT_FOR_TABLETOP_PREVIEW]
+// [END android_compose_layout_mediaQuery_layout_preview_in_tabletop]
 
 @Composable
 private fun FlatLayout() {
@@ -371,7 +377,7 @@ private fun OverrideUiMediaScope(
     content: @Composable () -> Unit,
 ) {
     OverrideUiMediaScope(
-        uiMediaScope = createUiMediaScope(
+        uiMediaScope = rememberUiMediaScope(
             windowWidth = windowWidth,
             windowHeight = windowHeight,
             windowPosture = windowPosture,
@@ -399,7 +405,8 @@ private fun EnableMediaQueryIntegration(content: @Composable () -> Unit) {
     content()
 }
 
-private fun createUiMediaScope(
+@Composable
+private fun rememberUiMediaScope(
     windowWidth: Dp,
     windowHeight: Dp,
     windowPosture: UiMediaScope.Posture,
@@ -409,52 +416,59 @@ private fun createUiMediaScope(
     pointerPrecision: UiMediaScope.PointerPrecision,
     keyboardKind: UiMediaScope.KeyboardKind,
 ): UiMediaScope {
-    return object : UiMediaScope {
-        override val windowPosture: UiMediaScope.Posture
-            get() = windowPosture
-        override val windowWidth: Dp
-            get() = windowWidth
-        override val windowHeight: Dp
-            get() = windowHeight
-        override val pointerPrecision: UiMediaScope.PointerPrecision
-            get() = pointerPrecision
-        override val keyboardKind: UiMediaScope.KeyboardKind
-            get() = keyboardKind
-        override val hasMicrophone: Boolean
-            get() = hasMicrophone
-        override val hasCamera: Boolean
-            get() = hasCamera
-        override val viewingDistance: UiMediaScope.ViewingDistance
-            get() = viewingDistance
+    return remember(
+        windowWidth,
+        windowHeight,
+        windowPosture,
+        viewingDistance,
+        hasMicrophone,
+        hasCamera,
+        pointerPrecision,
+        keyboardKind
+    ) {
+        object : UiMediaScope {
+            override val windowPosture: UiMediaScope.Posture = windowPosture
+            override val windowWidth: Dp = windowWidth
+            override val windowHeight: Dp = windowHeight
+            override val pointerPrecision: UiMediaScope.PointerPrecision = pointerPrecision
+            override val keyboardKind: UiMediaScope.KeyboardKind = keyboardKind
+            override val hasMicrophone: Boolean = hasMicrophone
+            override val hasCamera: Boolean = hasCamera
+            override val viewingDistance: UiMediaScope.ViewingDistance = viewingDistance
+        }
     }
 }
 
 // Workaround for the issue where PreviewParameterProvider doesn't work with UiMediaScope.Posture.
 sealed class Posture(val value: UiMediaScope.Posture) {
+
+    override fun toString(): String {
+        return value.toString()
+    }
     object Tabletop : Posture(UiMediaScope.Posture.Tabletop)
     object Book : Posture(UiMediaScope.Posture.Book)
     object Flat : Posture(UiMediaScope.Posture.Flat)
 }
 
 class PostureProvider : PreviewParameterProvider<Posture> {
-    private val postures = listOf(
+    private val all = listOf(
         Posture.Tabletop,
         Posture.Book,
         Posture.Flat,
     )
 
-    override val values: Sequence<Posture> = postures.asSequence()
+    override val values: Sequence<Posture> = all.asSequence()
 
     override fun getDisplayName(index: Int): String? {
-        return if (index < 0 || index >= postures.size) {
-            null
-        } else {
-            postures[index].value.toString()
-        }
+        return all.getOrNull(index)?.toString()
     }
 }
 
 sealed class Precision(val value: UiMediaScope.PointerPrecision) {
+
+    override fun toString(): String {
+        return value.toString()
+    }
     object Fine : Precision(UiMediaScope.PointerPrecision.Fine)
     object Coarse : Precision(UiMediaScope.PointerPrecision.Coarse)
     object Blunt : Precision(UiMediaScope.PointerPrecision.Blunt)
@@ -472,15 +486,15 @@ class PointerPrecisionProvider : PreviewParameterProvider<Precision> {
     override val values: Sequence<Precision> = all.asSequence()
 
     override fun getDisplayName(index: Int): String? {
-        return if (index < 0 || index >= all.size) {
-            null
-        } else {
-            all[index].value.toString()
-        }
+        return all.getOrNull(index)?.toString()
     }
 }
 
 sealed class KeyboardKindHolder(val value: UiMediaScope.KeyboardKind) {
+
+    override fun toString(): String {
+        return value.toString()
+    }
     object None : KeyboardKindHolder(UiMediaScope.KeyboardKind.None)
     object Virtual : KeyboardKindHolder(UiMediaScope.KeyboardKind.Virtual)
     object Physical : KeyboardKindHolder(UiMediaScope.KeyboardKind.Physical)
@@ -496,15 +510,15 @@ class KeyboardKindProvider : PreviewParameterProvider<KeyboardKindHolder> {
     override val values: Sequence<KeyboardKindHolder> = all.asSequence()
 
     override fun getDisplayName(index: Int): String? {
-        return if (index < 0 || index >= all.size) {
-            null
-        } else {
-            all[index].value.toString()
-        }
+        return all.getOrNull(index)?.toString()
     }
 }
 
 sealed class ViewingDistanceHolder(val value: UiMediaScope.ViewingDistance) {
+
+    override fun toString(): String {
+        return value.toString()
+    }
     object Near : ViewingDistanceHolder(UiMediaScope.ViewingDistance.Near)
     object Medium : ViewingDistanceHolder(UiMediaScope.ViewingDistance.Medium)
     object Far : ViewingDistanceHolder(UiMediaScope.ViewingDistance.Far)
@@ -520,11 +534,7 @@ class ViewingDistanceProvider : PreviewParameterProvider<ViewingDistanceHolder> 
     override val values: Sequence<ViewingDistanceHolder> = all.asSequence()
 
     override fun getDisplayName(index: Int): String? {
-        return if (index < 0 || index >= all.size) {
-            null
-        } else {
-            all[index].value.toString()
-        }
+        return all.getOrNull(index)?.toString()
     }
 }
 
@@ -557,10 +567,6 @@ class MediaDeviceSupportProvider : PreviewParameterProvider<MediaDeviceSupport> 
     override val values: Sequence<MediaDeviceSupport> = all.asSequence()
 
     override fun getDisplayName(index: Int): String? {
-        return if (index < 0 || index >= all.size) {
-            null
-        } else {
-            all[index].toString()
-        }
+        return all.getOrNull(index)?.toString()
     }
 }
