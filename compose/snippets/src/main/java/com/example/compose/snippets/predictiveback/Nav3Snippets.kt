@@ -26,6 +26,8 @@ import android.view.MotionEvent.EDGE_RIGHT
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -33,6 +35,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigationevent.NavigationEventInfo
@@ -80,19 +84,17 @@ fun ScreenB(
     backEventState: NavigationEventState<NavigationEventInfo>,
     onBackCompleted: () -> Unit = {},
 ) {
+    val transitionState = backEventState.transitionState
+    val latestEvent =
+        (transitionState as? NavigationEventTransitionState.InProgress)
+            ?.latestEvent
+    val backProgress = latestEvent?.progress ?: 0f
+    val swipeEdge = latestEvent?.swipeEdge ?: 0
 
-    var backProgress by remember { mutableFloatStateOf(0f) }
-    var swipeEdge by remember { mutableIntStateOf(0) }
-
-    when (val transitionState = backEventState.transitionState) {
-        is NavigationEventTransitionState.InProgress -> {
-            backProgress = transitionState.latestEvent.progress
-            swipeEdge = transitionState.latestEvent.swipeEdge
-            Log.d("BackGesture", "Progress: ${transitionState.latestEvent.progress}")
-        }
-        is NavigationEventTransitionState.Idle -> {
-            Log.d("BackGesture", "Idle")
-        }
+    if (transitionState is NavigationEventTransitionState.InProgress) {
+        Log.d("BackGesture", "Progress: ${transitionState.latestEvent.progress}")
+    } else if (transitionState is NavigationEventTransitionState.Idle) {
+        Log.d("BackGesture", "Idle")
     }
 
     val animatedScale by animateFloatAsState(
@@ -116,8 +118,13 @@ fun ScreenB(
         onBackCompleted = onBackCompleted,
         isBackEnabled = true
     )
-
-    // Rest of UI
+    Box(
+        modifier = Modifier
+            .offset(x = offsetX)
+            .scale(animatedScale)
+    ){
+        // Rest of UI
+    }
 }
 // [END android_compose_predictiveback_navevent_animation]
 
