@@ -54,16 +54,18 @@ class GlassesMainActivity : ComponentActivity() {
     private var displayController: ProjectedDisplayController? = null
     private var isVisualUiSupported by mutableStateOf(false)
     private var areVisualsOn by mutableStateOf(true)
+    private var isPermissionDenied by mutableStateOf(false)
 
     // [START androidxr_projected_permissions_launcher]
     // Register the permissions launcher using the ProjectedPermissionsResultContract.
     private val requestPermissionLauncher: ActivityResultLauncher<List<ProjectedPermissionsRequestParams>> =
         registerForActivityResult(ProjectedPermissionsResultContract()) { results ->
             if (results[Manifest.permission.CAMERA] == true) {
-                // Permission granted, initialize the session/features.
+                isPermissionDenied = false
                 initializeGlassesFeatures()
             } else {
                 // Handle permission denial.
+                isPermissionDenied = true
             }
         }
     // [END androidxr_projected_permissions_launcher]
@@ -91,6 +93,8 @@ class GlassesMainActivity : ComponentActivity() {
                 HomeScreen(
                     areVisualsOn = areVisualsOn,
                     isVisualUiSupported = isVisualUiSupported,
+                    isPermissionDenied = isPermissionDenied,
+                    onRetryPermission = { requestHardwarePermissions() },
                     onClose = { finish() }
                 )
             }
@@ -140,6 +144,8 @@ class GlassesMainActivity : ComponentActivity() {
 fun HomeScreen(
     areVisualsOn: Boolean,
     isVisualUiSupported: Boolean,
+    isPermissionDenied: Boolean,
+    onRetryPermission: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -149,7 +155,15 @@ fun HomeScreen(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (isVisualUiSupported) {
+        if (isPermissionDenied) {
+            Card(
+                title = { Text("Permission Required") },
+                action = { Button(onClick = onClose) { Text("Exit") } }
+            ) {
+                Text("Camera access is needed to use AI glasses features.")
+                Button(onClick = onRetryPermission) { Text("Retry") }
+            }
+        } else if (isVisualUiSupported) {
             Card(
                 title = { Text("Android XR") },
                 action = {
