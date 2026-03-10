@@ -15,10 +15,9 @@
  */
 
 package com.example.wear.snippets.m3.theme
-
+// [START android_wear_shape]
 import androidx.wear.compose.material3.Shapes
 
-// [START android_wear_shape]
 val Shapes = Shapes(
     // M3 Shapes parameters
 )

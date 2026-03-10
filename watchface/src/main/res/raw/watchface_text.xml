@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <!-- [START android_watch_face_text_bitmap_font_def] -->
+    <BitmapFonts>
+        <BitmapFont name="myhandwriting">
+            <Character name="1" resource="digit1" width="50" height="100" />
+            <Character name="2" resource="digit2" width="50" height="100" />
+            <Character name="3" resource="digit3" width="50" height="100" />
+            <Character name="4" resource="digit4" width="50" height="100" />
+            <!-- ... -->
+            <!-- Treat "12" specially, instead of a 1 followed by a 2-->
+            <Word name="12" resource="digit12" width="80" height="100" />
+        </BitmapFont>
+    </BitmapFonts>
+    <!-- [END android_watch_face_text_bitmap_font_def] -->
+
+    <Scene backgroundColor="#333333">
+        <!-- [START android_watch_face_text_font] -->
+        <PartText x="0" y="50" width="450" height="250">
+            <Text align="CENTER">
+                <Font family="pacifico" size="96">Hello!</Font>
+            </Text>
+        </PartText>
+        <!-- [END android_watch_face_text_font] -->
+
+        <!-- [START android_watch_face_text_bitmap_font_use] -->
+        <DigitalClock x="125" y="120" width="200" height="50">
+            <TimeText x="0" y="0" width="200" height="50" format="hh:mm">
+                <BitmapFont family="myhandwriting" size="48" color="#FF00FF"/>
+            </TimeText>
+        </DigitalClock>
+        <!-- [END android_watch_face_text_bitmap_font_use] -->
+
+        <PartText x="0" y="180" width="450" height="250">
+            <Text>
+                <!-- [START android_watch_face_text_effect] -->
+                <Font family="pacifico" size="96" color="#e2a0ff">
+                    <OutGlow color="#e8ffb7" radius="30">Hello!</OutGlow>
+                </Font>
+                <!-- [END android_watch_face_text_effect] -->
+            </Text>
+        </PartText>
+
+        <PartText x="100" y="210" width="300" height="120" >
+            <Text>
+                <!-- [START android_watch_face_text_template] -->
+                <Font family="pacifico" size="60" weight="BOLD" color="#ffffff">
+                    <Template>Day: %s<Parameter expression="[DAY_OF_WEEK_S]" /></Template>
+                </Font>
+                <!-- [END android_watch_face_text_template] -->
+            </Text>
+        </PartText>
+
+        <PartText x="100" y="240" width="300" height="120" >
+            <Text>
+                <!-- [START android_watch_face_text_resource] -->
+                <!-- greeting defined in res/values/strings.xml -->
+                <Font family="pacifico" size="60" weight="BOLD" color="#ffffff">greeting</Font>
+                <!-- [END android_watch_face_text_resource] -->
+            </Text>
+        </PartText>
+
+        <PartText x="100" y="280" width="250" height="120" >
+            <Text>
+                <!-- [START android_watch_face_text_cdata] -->
+                <Font family="pacifico" size="60" weight="BOLD" color="#ffffff">
+                    <![CDATA[Hello]]>
+                </Font>
+                <!-- [END android_watch_face_text_cdata] -->
+            </Text>
+        </PartText>
+
+        <PartText x="75" y="340" width="300" height="350" >
+            <!-- [START android_watch_face_text_multiline] -->
+            <Text align="CENTER" maxLines="2">
+                <Font family="pacifico" size="60" weight="BOLD" color="#ffffff">
+                    <![CDATA[Hello Wear OS world]]>
+                </Font>
+            </Text>
+            <!-- [END android_watch_face_text_multiline] -->
+        </PartText>
+    </Scene>
+</WatchFace>

@@ -1,7 +1,6 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
@@ -52,6 +51,11 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+
+    implementation(libs.androidx.appfunctions)
+    implementation(libs.androidx.appfunctions.service)
+    ksp(libs.androidx.appfunctions.compiler)
+
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.foundation.layout)
@@ -61,11 +65,13 @@ dependencies {
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.tracing)
+    implementation(libs.androidx.work.runtime)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlinx.metadata.jvm)
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime)

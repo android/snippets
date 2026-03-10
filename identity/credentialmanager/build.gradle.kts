@@ -1,8 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
-    // [START android_identity_fido2_migration_dependency]
-    alias(libs.plugins.kotlin.android)
-    // [END android_identity_fido2_migration_dependency]
     alias(libs.plugins.compose.compiler)
 }
 
@@ -32,9 +30,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -69,6 +64,13 @@ dependencies {
     // Android 13 and below.
     implementation(libs.androidx.credentials.play.services.auth)
     // [END android_identity_gradle_dependencies]
+
+    // In your app module's build.gradle:
+    implementation(libs.androidx.registry.digitalcredentials)
+    implementation(libs.androidx.registry.provider)
+    implementation(libs.androidx.registry.provider.play.services)
+
+
     // [START android_identity_siwg_gradle_dependencies]
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

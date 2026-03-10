@@ -2,7 +2,6 @@ import org.gradle.internal.classpath.Instrumented.systemProperty
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.roborazzi)
 }
@@ -13,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wear"
-        minSdk = 26
+        minSdk = 33
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -38,6 +37,9 @@ android {
     }
     kotlin {
         jvmToolchain(21)
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        }
     }
 
     buildFeatures {
@@ -49,10 +51,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -62,15 +60,21 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.credentials)
+    implementation((libs.androidx.credentials.play.services.auth))
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.wear.input)
+    implementation(libs.androidx.wear.phone.interactions)
+    implementation(libs.android.identity.googleid)
+    implementation(libs.androidx.wear.remote.interactions)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
     implementation(libs.compose.ui.tooling)
     implementation(libs.play.services.wearable)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.tiles)
     implementation(libs.androidx.wear)
     implementation(libs.androidx.wear.ongoing)
@@ -99,6 +103,7 @@ dependencies {
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.watchface.complications.data.source.ktx)
     implementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.androidx.watchfacepush)
 
     // Testing
     testImplementation(libs.androidx.compose.ui.test.junit4)

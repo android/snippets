@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <Scene>
+        <!-- [START android_watch_face_ambient_mode] -->
+        <Group name="logo_interactive" x="100" y="100" width="200" height="200">
+            <!-- Hide these elements in ambient mode -->
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <!-- Components to show in interactive mode -->
+            <!-- [START_EXCLUDE silent] -->
+            <PartText x="0" y="0" width="200" height="50">
+                <Text>
+                    <Font family="SYNC_TO_DEVICE" size="16">
+                        <![CDATA[Interactive]]>
+                    </Font>
+                </Text>
+            </PartText>
+            <!-- [END_EXCLUDE] -->
+        </Group>
+        <Group name="logo_ambient" x="100" y="100" width="200" height="200" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <!-- Components to show in ambient mode -->
+            <!-- [START_EXCLUDE silent] -->
+            <PartText x="0" y="0" width="200" height="50">
+                <Text>
+                    <Font family="SYNC_TO_DEVICE" size="16">
+                        <![CDATA[Ambient]]>
+                    </Font>
+                </Text>
+            </PartText>
+            <!-- [END_EXCLUDE] -->
+        </Group>
+        <!-- [END android_watch_face_ambient_mode] -->
+    </Scene>
+</WatchFace>

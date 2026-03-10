@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <Scene>
+        <!-- [START android_watch_face_optimize_arc] -->
+        <PartDraw angle="0" width="400" height="400" name="ProgressBar"
+            pivotX="0.5" pivotY="0.5" x="25" y="25">
+            <Arc centerX="200" centerY="200" width="400" height="400"
+                startAngle="0" endAngle="360">
+                <!-- Completes a "progress loop" every minute. -->
+                <Transform target="endAngle"
+                    value="0 + (clamp([SECOND], 0, 60) - 0) * 6" />
+                <Stroke cap="ROUND" color="#654456" thickness="10" />
+            </Arc>
+        </PartDraw>
+        <!-- [END android_watch_face_optimize_arc] -->
+    </Scene>
+</WatchFace>

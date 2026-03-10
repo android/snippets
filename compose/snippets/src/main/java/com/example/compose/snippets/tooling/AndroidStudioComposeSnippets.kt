@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.example.compose.snippets.R
-import com.example.compose.snippets.interop.User
 
 // [START android_compose_tooling_simple_composable]
 @Composable
@@ -167,6 +166,31 @@ fun UserProfilePreview2(
     UserProfile(user)
 }
 // [END android_compose_tooling_preview_parameter_provider_composable2]
+
+
+// [START android_compose_tooling_preview_parameter_provider_composable3]
+class UserAgePreviewParameterProvider : PreviewParameterProvider<User> {
+    // Using a List internally for efficient index-based access
+    private val userList = listOf(
+        User(name = "Elise", age = 30),
+        User(name = "Frank", age = 31),
+        User(name = "Julia", age = 40)
+    )
+
+    override val values = userList.asSequence()
+
+    override fun getDisplayName(index: Int): String? {
+        // Return null or an empty string to use the default index-based name
+        val user = userList.getOrNull(index) ?: return null
+        return "${user.name} - ${user.age}"
+    }
+}
+// [END android_compose_tooling_preview_parameter_provider_composable3]
+
+// [START_EXCLUDE silent]
+data class User(val name: String, val age: Int = 0)
+// [END_EXCLUDE]
+
 /*
 private object PreviewAnnotationEx {
     // [START android_compose_tooling_preview_annotation]

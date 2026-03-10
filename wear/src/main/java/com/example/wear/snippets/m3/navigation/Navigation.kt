@@ -39,6 +39,26 @@ import com.google.android.horologist.compose.layout.ColumnItemType
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 @Composable
+fun navController() {
+    // [START android_wear_nav_controller]
+    val navController = rememberSwipeDismissableNavController()
+    // [END android_wear_nav_controller]
+}
+
+@Composable
+fun navHost() {
+    // [START android_wear_nav_host]
+    val navController = rememberSwipeDismissableNavController()
+    SwipeDismissableNavHost(
+        navController = navController,
+        startDestination = "message_list"
+    ) {
+        // TODO: build navigation graph
+    }
+    // [END android_wear_nav_host]
+}
+
+@Composable
 fun navigation() {
     // [START android_wear_navigation]
     AppScaffold {

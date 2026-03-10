@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<WatchFace width="450" height="450">
+    <Scene>
+        <Condition>
+            <Expressions>
+                <Expression name="is_weekend_raw">
+                    <!-- [START android_watch_face_expression_raw] -->
+                    [DAY_OF_WEEK] == 6 || [DAY_OF_WEEK] == 7
+                    <!-- [END android_watch_face_expression_raw] -->
+                </Expression>
+                <Expression name="is_weekend_cdata">
+                    <!-- [START android_watch_face_expression_cdata] -->
+                    <![CDATA[[DAY_OF_WEEK] == 6 || [DAY_OF_WEEK] == 7]]>
+                    <!-- [END android_watch_face_expression_cdata] -->
+                </Expression>
+                <Expression name="function_example">
+                    <!-- [START android_watch_face_function] -->
+                    (5.0/90.0)*clamp([ACCELEROMETER_ANGLE_X],0,90) +
+                    (-5.0/90.0)*clamp([ACCELEROMETER_ANGLE_X],-90,0)
+                    <!-- [END android_watch_face_function] -->
+                </Expression>
+                <Expression name="afternoon_inefficient">
+                    <!-- [START android_watch_face_expression_inefficient] -->
+                    <!-- BAD: Re-evaluates every second -->
+                    [SECONDS_IN_DAY] > 43200
+                    <!-- [END android_watch_face_expression_inefficient] -->
+                </Expression>
+                <Expression name="afternoon_efficient">
+                    <!-- [START android_watch_face_expression_efficient] -->
+                    <!-- Good: Minimizes re-evaluation (1 = PM, 0 = AM) -->
+                    [AMPM_STATE] == 1
+                    <!-- [END android_watch_face_expression_efficient] -->
+                </Expression>
+                <Expression name="boolean_configuration_cdata">
+                    <!-- [START android_watch_face_expression_boolean_configuration_cdata] -->
+                    <![CDATA[[CONFIGURATION.showBackgroundInAfternoon] == "TRUE" && [AMPM_STATE] == 1]]>
+                    <!-- [END android_watch_face_expression_boolean_configuration_cdata] -->
+                </Expression>
+                <Expression name="boolean_configuration_raw">
+                    <!-- [START android_watch_face_expression_boolean_configuration_raw] -->
+                    [CONFIGURATION.showBackgroundInAfternoon] == "TRUE" &amp;&amp; [AMPM_STATE] == 1
+                    <!-- [END android_watch_face_expression_boolean_configuration_raw] -->
+                </Expression>
+            </Expressions>
+            <Compare expression="is_weekend_raw">
+                <!-- Weekend content here -->
+                <PartText x="0" y="50" width="450" height="250">
+                    <Text align="CENTER">
+                        <Font family="pacifico" size="96">Weekend!</Font>
+                    </Text>
+                </PartText>
+            </Compare>
+
+            <Default>
+                <!-- content -->
+            </Default>
+        </Condition>
+    </Scene>
+</WatchFace>

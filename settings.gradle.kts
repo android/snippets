@@ -1,4 +1,4 @@
-val snapshotVersion: String? = System.getenv("COMPOSE_SNAPSHOT_ID")
+val snapshotVersion: String? by settings
 
 pluginManagement {
     repositories {
@@ -8,7 +8,7 @@ pluginManagement {
     }
 }
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -34,12 +34,16 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":watchface",
     ":wear",
+    ":wearcompanion",
     ":views",
     ":misc",
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
     ":kmp:androidApp",
-    ":kmp:shared"
+    ":kmp:shared",
+    ":playbilling",
+    ":tv"
 )

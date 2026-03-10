@@ -32,10 +32,7 @@ class RestoreCredentialsFunctions(
         createRestoreRequest: CreateRestoreCredentialRequest
     ) {
         // [START android_identity_restore_cred_create]
-        val credentialManager = CredentialManager.create(context)
-
-        // On a successful authentication create a Restore Key
-        // Pass in the context and CreateRestoreCredentialRequest object
+        // createRestoreRequest contains the details sent by the server 
         val response = credentialManager.createCredential(context, createRestoreRequest)
         // [END android_identity_restore_cred_create]
     }
@@ -44,16 +41,13 @@ class RestoreCredentialsFunctions(
         fetchAuthenticationJson: () -> String,
     ) {
         // [START android_identity_restore_cred_get]
-        // Fetch the Authentication JSON from server
+        // Fetch the options required to get the restore key
         val authenticationJson = fetchAuthenticationJson()
 
         // Create the GetRestoreCredentialRequest object
         val options = GetRestoreCredentialOption(authenticationJson)
         val getRequest = GetCredentialRequest(listOf(options))
 
-        // The restore key can be fetched in two scenarios to
-        // 1. On the first launch of app on the device, fetch the Restore Key
-        // 2. In the onRestore callback (if the app implements the Backup Agent)
         val response = credentialManager.getCredential(context, getRequest)
         // [END android_identity_restore_cred_get]
     }
@@ -63,7 +57,7 @@ class RestoreCredentialsFunctions(
         // Create a ClearCredentialStateRequest object
         val clearRequest = ClearCredentialStateRequest(TYPE_CLEAR_RESTORE_CREDENTIAL)
 
-        // On user log-out, clear the restore key
+        // When the user logs out, delete the restore key
         val response = credentialManager.clearCredentialState(clearRequest)
         // [END android_identity_restore_cred_delete]
     }

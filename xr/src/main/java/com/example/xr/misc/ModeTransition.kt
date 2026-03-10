@@ -17,16 +17,17 @@
 package com.example.xr.misc
 
 import androidx.compose.runtime.Composable
-import androidx.xr.compose.platform.LocalSpatialConfiguration
+import androidx.xr.compose.platform.LocalSession
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.scene
 
 @Composable
 fun modeTransitionCompose() {
     // [START androidxr_misc_modeTransitionCompose]
-    LocalSpatialConfiguration.current.requestHomeSpaceMode()
+    val session = LocalSession.current ?: return
+    session.scene.requestHomeSpaceMode()
     // or
-    LocalSpatialConfiguration.current.requestFullSpaceMode()
+    session.scene.requestFullSpaceMode()
     // [END androidxr_misc_modeTransitionCompose]
 }
 
