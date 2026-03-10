@@ -18,9 +18,14 @@
 
 package com.example.compose.snippets.designsystems.styles
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
+import androidx.compose.foundation.style.MutableStyleState
 import androidx.compose.foundation.style.Style
+import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -77,3 +82,27 @@ fun BadButton(
 ) {
 }
 // [END android_compose_styles_donts_default_style]
+
+// [START android_compose_styles_do_default_style]
+@Composable
+fun GoodButton(
+    modifier: Modifier = Modifier,
+    // ✅ Do: always pass it as a Style, do not pass other defaults
+    style: Style = Style
+) {
+    // [START_EXCLUDE]
+    // this is a snippet of the BaseButton - see the full snippet in /components/Button.kt
+    val effectiveInteractionSource = remember {
+        MutableInteractionSource()
+    }
+    val styleState = remember(effectiveInteractionSource) {
+        MutableStyleState(effectiveInteractionSource)
+    }
+    // [END_EXCLUDE]
+    val defaultStyle = Style { background(Color.Red) }
+    // ✅ Do Combine defaults inside with incoming parameter
+    Box(modifier = modifier.styleable(styleState, defaultStyle, style)) {
+      // your logic
+    }
+}
+// [END android_compose_styles_do_default_style]
