@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.designsystems.FullyCustomDesignSystem.LocalCustomColors
 import com.example.compose.snippets.designsystems.styles.components.BaseButton
 import com.example.compose.snippets.designsystems.styles.components.BaseText
 
@@ -295,7 +296,7 @@ fun CompositionLocalStyle() {
     val buttonStyle = Style {
         contentPadding(12.dp)
         shape(RoundedCornerShape(50))
-        background(Color.Blue) // Simplified for snippet
+        background(Brush.verticalGradient(LocalCustomColors.currentValue.background))
     }
     // [END android_compose_styles_composition_local]
 }
