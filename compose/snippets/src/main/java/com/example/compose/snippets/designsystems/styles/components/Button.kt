@@ -30,11 +30,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsNode
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 
 val baseButtonStyle = Style {
 
 }
-
 
 @ExperimentalFoundationStyleApi
 // [START android_compose_styles_base_button]
@@ -56,6 +59,9 @@ fun BaseButton(
     styleState.isEnabled = enabled
     Row(
         modifier = modifier
+            .semantics(properties = {
+                role = Role.Button
+            })
             .clickable(
                 enabled = enabled,
                 onClick = onClick,

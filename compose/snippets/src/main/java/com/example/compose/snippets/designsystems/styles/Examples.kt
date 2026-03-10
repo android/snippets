@@ -53,6 +53,9 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
@@ -208,7 +211,9 @@ fun MultipleStylesButton() {
                 }
             }
         }
-        Box(modifier = Modifier.styleable(styleState, edgeStyle)) {
+        Box(modifier = Modifier.semantics(properties = {
+            role = Role.Button
+        }).styleable(styleState, edgeStyle)) {
             Box(
                 modifier = Modifier
                     .styleable(styleState, frontStyle),
