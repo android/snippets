@@ -142,8 +142,9 @@ private fun convertGeospatialToDeviceLocalPose(
         }
 
         is CreatePoseFromGeospatialPoseNotTracking -> {
+            // Creating the pose failed. This could be caused by the device not being ready, or
             // `geospatial.state.value` is not Geospatial.State.RUNNING.
-            // This could be caused by a configuration failure; see the Troubleshooting guide.
+            // If this continues to occur during a session, see the Troubleshooting guide.
         }
     }
     // [END androidxr_arcore_geospatial_pose_to_device]
@@ -159,7 +160,9 @@ private fun convertDevicePoseToGeospatialPose(session: Session, geospatial: Geos
             Log.i("Geospatial", "Device orientation is ${geospatialPose.eastUpSouthQuaternion}")
         }
         is CreateGeospatialPoseFromPoseNotTracking -> {
-            // Geospatial is not currently tracking
+            // Creating the pose failed. This could be caused by the device not being ready, or
+            // `geospatial.state.value` is not Geospatial.State.RUNNING.
+            // If this continues to occur during a session, see the Troubleshooting guide.
         }
     }
     // [END androidxr_arcore_geospatial_device_pose_to_geospatial_pose]
