@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.snippets.navigation.Destination
 import com.example.snippets.navigation.LandingScreen
 import com.example.snippets.ui.theme.SnippetsTheme
 import dagger.hilt.android.AndroidEntryPoint
