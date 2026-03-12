@@ -49,8 +49,8 @@ fun HelloWorld() {
     // [START android_compose_layouts_flexbox_basic_1]
     FlexBox(
         config = {
-            direction = FlexDirection.Column
-            alignItems = FlexAlignItems.Center
+            direction(FlexDirection.Column)
+            alignItems(FlexAlignItems.Center)
         }
     ) {
         Text(text = "Hello", fontSize = 48.sp)
@@ -70,15 +70,15 @@ fun WrapWithGrow() {
     // [START android_compose_layouts_flexbox_basic_2]
     FlexBox(
         config = {
-            wrap = FlexWrap.Wrap
+            wrap(FlexWrap.Wrap)
             gap(8.dp)
         }
     ) {
         RedRoundedBox()
         BlueRoundedBox()
-        GreenRoundedBox(modifier = Modifier.width(350.dp).flex { grow = 1.0f })
-        OrangeRoundedBox(modifier = Modifier.width(200.dp).flex { grow = 0.7f })
-        PinkRoundedBox(modifier = Modifier.width(200.dp).flex { grow = 0.3f })
+        GreenRoundedBox(modifier = Modifier.width(350.dp).flex { grow(1.0f) })
+        OrangeRoundedBox(modifier = Modifier.width(200.dp).flex { grow(0.7f) })
+        PinkRoundedBox(modifier = Modifier.width(200.dp).flex { grow(0.3f) })
     }
     // [END android_compose_layouts_flexbox_basic_2]
 }
@@ -89,11 +89,11 @@ fun ContainerSnippet(){
     // [START android_compose_layouts_flexbox_container_1]
     FlexBox(
         config = {
-            direction = FlexDirection.Column
-            wrap = FlexWrap.Wrap
-            alignItems = FlexAlignItems.Center
-            alignContent = FlexAlignContent.SpaceAround
-            justifyContent = FlexJustifyContent.Center
+            direction(FlexDirection.Column)
+            wrap(FlexWrap.Wrap)
+            alignItems(FlexAlignItems.Center)
+            alignContent(FlexAlignContent.SpaceAround)
+            justifyContent(FlexJustifyContent.Center)
             gap(16.dp)
         }
     ) { // child items
@@ -108,9 +108,9 @@ fun ItemSnippet(){
     FlexBox {
         RedRoundedBox(
             modifier = Modifier.flex {
-                basis = FlexBasis.Auto
-                grow = 1.0f
-                shrink = 0.5f
+                basis(FlexBasis.Auto)
+                grow(1.0f)
+                shrink(0.5f)
             }
         )
     }
@@ -126,10 +126,10 @@ fun BasisAuto() {
     // [START android_compose_layouts_flexbox_item_basis_1]
     FlexBox {
         RedRoundedBox(
-            Modifier.flex { basis = FlexBasis.Auto }
+            Modifier.flex { basis(FlexBasis.Auto) }
         )
         BlueRoundedBox(
-            Modifier.flex { basis = FlexBasis.Auto }
+            Modifier.flex { basis(FlexBasis.Auto) }
         )
     }
     // [END android_compose_layouts_flexbox_item_basis_1]
@@ -186,7 +186,7 @@ fun FlexGrowSingle() {
     FlexBox {
         RedRoundedBox(
             title = "400dp",
-            modifier = Modifier.flex { grow = 1f }
+            modifier = Modifier.flex { grow(1f) }
         )
         BlueRoundedBox(title = "100dp")
         GreenRoundedBox(title = "100dp")
@@ -202,15 +202,15 @@ fun FlexGrowMultiple() {
     FlexBox {
         RedRoundedBox(
             title = "150dp",
-            modifier = Modifier.flex { grow = 1f }
+            modifier = Modifier.flex { grow(1f) }
         )
         BlueRoundedBox(
             title = "200dp",
-            modifier = Modifier.flex { grow = 2f }
+            modifier = Modifier.flex { grow(2f) }
         )
         GreenRoundedBox(
             title = "250dp",
-            modifier = Modifier.flex { grow = 3f }
+            modifier = Modifier.flex { grow(3f) }
         )
     }
     // [END android_compose_layouts_flexbox_item_grow_2]
@@ -228,14 +228,14 @@ fun FlexShrink() {
             fontSize = 36.sp,
             modifier = Modifier
                 .background(PastelRed)
-                .flex { shrink = 1f }
+                .flex { shrink(1f) }
         )
         Text(
             "The quick brown fox",
             fontSize = 36.sp,
             modifier = Modifier
                 .background(PastelBlue)
-                .flex { shrink = 0f }
+                .flex { shrink(0f) }
         )
     }
     // [END android_compose_layouts_flexbox_item_shrink_1]
@@ -247,14 +247,14 @@ fun AlignSelfOverride() {
     // [START android_compose_layouts_flexbox_item_align_1]
     FlexBox(
         config = {
-            alignItems = FlexAlignItems.Start
+            alignItems(FlexAlignItems.Start)
         }
     ) {
         RedRoundedBox()
-        BlueRoundedBox(modifier = Modifier.flex { alignSelf = FlexAlignSelf.Center })
-        GreenRoundedBox(modifier = Modifier.flex { alignSelf = FlexAlignSelf.End })
-        PinkRoundedBox(modifier = Modifier.flex { alignSelf = FlexAlignSelf.Stretch })
-        OrangeRoundedBox(modifier = Modifier.flex { alignSelf = FlexAlignSelf.Baseline })
+        BlueRoundedBox(modifier = Modifier.flex { alignSelf(FlexAlignSelf.Center) })
+        GreenRoundedBox(modifier = Modifier.flex { alignSelf(FlexAlignSelf.End) })
+        PinkRoundedBox(modifier = Modifier.flex { alignSelf(FlexAlignSelf.Stretch) })
+        OrangeRoundedBox(modifier = Modifier.flex { alignSelf(FlexAlignSelf.Baseline) })
     }
     // [END android_compose_layouts_flexbox_item_align_1]
 }
@@ -273,7 +273,7 @@ fun OrderDefault() {
         BlueRoundedBox(
             title = "Hello",
             modifier = Modifier.flex {
-                order = -1
+                order(-1)
             }
         )
     }
