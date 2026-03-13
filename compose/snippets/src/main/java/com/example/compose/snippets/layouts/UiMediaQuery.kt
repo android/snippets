@@ -71,22 +71,28 @@ class MyApplication : Application() {
 // [END android_compose_layout_mediaQuery_enable_mediaQuery]
 
 @Preview(showBackground = true)
+// [START android_compose_layout_mediaQuery_use_mediaQuery]
 @Composable
-fun MediaQueryUsage(
+fun VideoPlayer(
+    // [START_EXCLUDE]
     @PreviewParameter(PostureProvider::class) posture: Posture
+    // [END_EXCLUDE]
 ) {
+    // [START_EXCLUDE]
     EnableMediaQueryIntegration {
         OverrideUiMediaScope(windowPosture = posture.value) {
-            // [START android_compose_layout_mediaQuery_use_mediaQuery]
+    // [END_EXCLUDE]
             if (mediaQuery { windowPosture == UiMediaScope.Posture.Tabletop }) {
                 TabletopLayout()
             } else {
                 FlatLayout()
             }
-            // [END android_compose_layout_mediaQuery_use_mediaQuery]
+    // [START_EXCLUDE]
         }
     }
+    // [END_EXCLUDE]
 }
+// [END android_compose_layout_mediaQuery_use_mediaQuery]
 
 @Preview(showBackground = true, widthDp = 480, heightDp = 320, name = "Compact")
 @Preview(showBackground = true, widthDp = 600, heightDp = 320, name = "Medium")
