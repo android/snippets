@@ -73,7 +73,9 @@ fun Scrollable2DSample() {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            // [START_EXCLUDE]
             .background(Color(0xFFF5F5F5)),
+            // [END_EXCLUDE]
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -89,7 +91,9 @@ fun Scrollable2DSample() {
                         delta
                     }
                 )
+                // [START_EXCLUDE]
                 .background(Color(0xFF6200EE), shape = RoundedCornerShape(16.dp)),
+                // [END_EXCLUDE]
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -116,7 +120,7 @@ fun Scrollable2DSample() {
 
 // [START android_compose_touchinput_scroll_scrollable2D_pan_large_viewport]
 @Composable
-fun ImageViewer2D(modifier: Modifier) {
+fun Panning2DImage(modifier: Modifier) {
 
     // Manually track the total distance the user has moved in both X and Y directions
     val offset = remember { mutableStateOf(Offset.Zero) }
@@ -131,9 +135,11 @@ fun ImageViewer2D(modifier: Modifier) {
     Box(
         modifier = modifier
             .size(600.dp, 400.dp) // The visible area dimensions
+            // [START_EXCLUDE]
             .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(0.dp))
             .background(color = Color.LightGray)
-            // Hide any parts of the large content that sit outside this container's boundarie
+            // [END_EXCLUDE]
+            // Hide any parts of the large content that sit outside this container's boundaries
             .clipToBounds()
             // Apply the 2D scroll modifier to intercept touch and fling gestures in all directions
             .scrollable2D(state = scrollState),
@@ -141,7 +147,7 @@ fun ImageViewer2D(modifier: Modifier) {
     ) {
         // The Content: An image given a much larger size than the container viewport
         Image(
-            painter = painterResource(R.drawable.pexels_demo),
+            painter = painterResource(R.drawable.cheese_5),
             contentDescription = null,
             modifier = Modifier
                 .requiredSize(1200.dp, 800.dp)
@@ -164,7 +170,6 @@ fun NestedScrollable2DSample() {
     val offset = remember { mutableStateOf(Offset.Zero) }
     val maxScroll = 300f
 
-    // The Parent: A standard vertical scroll container
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -202,7 +207,9 @@ fun NestedScrollable2DSample() {
                         consumed
                     }
                 )
+                // [START_EXCLUDE]
                 .background(Color(0xFF6200EE), shape = RoundedCornerShape(16.dp)),
+                // [END_EXCLUDE]
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -226,7 +233,7 @@ fun NestedScrollable2DSample() {
 
 // [START android_compose_touchinput_scroll_draggable2D_basic]
 @Composable
-fun DraggableComposableWindow() {
+fun DraggableComposableElement() {
     // 1. Track the position of the floating window
     var offset by remember { mutableStateOf(Offset.Zero) }
 
@@ -235,9 +242,11 @@ fun DraggableComposableWindow() {
             modifier = Modifier
                 // 2. Apply the offset to the box's position
                 .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
+                // [START_EXCLUDE]
                 .size(160.dp, 90.dp)
                 .background(Color.Black, RoundedCornerShape(8.dp))
                 .border(1.dp, Color.White, RoundedCornerShape(8.dp))
+                // [END_EXCLUDE]
                 // 3. Attach the 2D drag logic
                 .draggable2D(
                     state = rememberDraggable2DState { delta ->
@@ -256,10 +265,12 @@ fun DraggableComposableWindow() {
 
 // [START android_compose_touchinput_scroll_draggable2D_color_picker]
 @Composable
-fun ColorPicker2D(
+fun ExampleColorSelector(
+    // [START_EXCLUDE]
     hue: Float = 0f,
     onColorSelected: (Saturation: Float, Value: Float) -> Unit
-) {
+    // [END_EXCLUDE]
+)  {
     // 1. Maintain the 2D position of the selector in state.
     var selectorOffset by remember { mutableStateOf(Offset.Zero) }
 
@@ -279,17 +290,16 @@ fun ColorPicker2D(
                 }
             )
     ) {
-        // The Selector Knob
         Box(
             modifier = Modifier
                 .size(24.dp)
-                // 3. This applies the offset during the Drawing phase
                 .graphicsLayer {
                     // Center the selector on the finger by subtracting half its size.
                     translationX = selectorOffset.x - (24.dp.toPx() / 2)
                     translationY = selectorOffset.y - (24.dp.toPx() / 2)
                 }
-                // 4. Configure the shadow
+                // [START_EXCLUDE]
+                // Configure the shadow
                 .dropShadow(shape = CircleShape) {
                     color = Color.Black.copy(alpha = 0.2f)
                     radius = 4.dp.toPx()
@@ -297,22 +307,24 @@ fun ColorPicker2D(
                 }
                 .background(Color.Transparent, CircleShape)
                 .border(2.dp, Color.White, CircleShape)
-                // 5. Configure 2D touch dragging.
+                // [END_EXCLUDE]
+                // 3. Configure 2D touch dragging.
                 .draggable2D(
                     state = rememberDraggable2DState { delta ->
-                        // 6. Calculate the new position and clamp it to the container bounds
+                        // 4. Calculate the new position and clamp it to the container bounds
                         val newX = (selectorOffset.x + delta.x)
                             .coerceIn(0f, containerSize.width.toFloat())
                         val newY = (selectorOffset.y + delta.y)
                             .coerceIn(0f, containerSize.height.toFloat())
 
                         selectorOffset = Offset(newX, newY)
-
-                        // 7. Map pixel coordinates to Saturation and Value percentages (0f..1f).
+                        // [START_EXCLUDE]
+                        // Map pixel coordinates to Saturation and Value percentages (0f..1f).
                         onColorSelected(
                             newX / containerSize.width,
                             1f - (newY / containerSize.height)
                         )
+                        // [END_EXCLUDE]
                     }
                 )
         )
