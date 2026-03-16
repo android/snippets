@@ -27,7 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.NavMetadataKey
+import androidx.navigation3.runtime.contains
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.metadata
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
@@ -121,8 +124,8 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
         }
 
         val detailEntry =
-            entries.lastOrNull()?.takeIf { it.metadata.containsKey(DETAIL_KEY) } ?: return null
-        val listEntry = entries.findLast { it.metadata.containsKey(LIST_KEY) } ?: return null
+            entries.lastOrNull()?.takeIf { it.metadata.contains(DetailKey) } ?: return null
+        val listEntry = entries.findLast { it.metadata.contains(ListKey) } ?: return null
 
         // We use the list's contentKey to uniquely identify the scene.
         // This allows the detail panes to be displayed instantly through recomposition, rather than
@@ -137,21 +140,25 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
         )
     }
 
+    object ListKey : NavMetadataKey<Boolean>
+    object DetailKey : NavMetadataKey<Boolean>
     companion object {
-        internal const val LIST_KEY = "ListDetailScene-List"
-        internal const val DETAIL_KEY = "ListDetailScene-Detail"
 
         /**
          * Helper function to add metadata to a [NavEntry] indicating it can be displayed
          * as a list in the [ListDetailScene].
          */
-        fun listPane() = mapOf(LIST_KEY to true)
+        fun listPane() = metadata {
+            put(ListKey, true)
+        }
 
         /**
          * Helper function to add metadata to a [NavEntry] indicating it can be displayed
          * as a list in the [ListDetailScene].
          */
-        fun detailPane() = mapOf(DETAIL_KEY to true)
+        fun detailPane() = metadata {
+            put(DetailKey, true)
+        }
     }
 }
 // [END android_compose_navigation3_scenes_3]
@@ -172,7 +179,7 @@ fun MyAppContent() {
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
-        sceneStrategy = listDetailStrategy,
+        sceneStrategies = listOf(listDetailStrategy),
         entryProvider = entryProvider {
             entry<ConversationList>(
                 metadata = ListDetailSceneStrategy.listPane()

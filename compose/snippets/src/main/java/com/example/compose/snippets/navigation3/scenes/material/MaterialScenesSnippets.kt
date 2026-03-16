@@ -66,7 +66,7 @@ class MaterialListDetailActivity : ComponentActivity() {
                     backStack = backStack,
                     modifier = Modifier.padding(paddingValues),
                     onBack = { backStack.removeLastOrNull() },
-                    sceneStrategy = listDetailStrategy,
+                    sceneStrategies = listOf(listDetailStrategy),
                     entryProvider = entryProvider {
                         entry<ProductList>(
                             metadata = ListDetailSceneStrategy.listPane(
