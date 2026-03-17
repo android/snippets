@@ -34,6 +34,7 @@ import androidx.compose.foundation.style.StyleStateKey
 import androidx.compose.foundation.style.focused
 import androidx.compose.foundation.style.hovered
 import androidx.compose.foundation.style.pressed
+import androidx.compose.foundation.style.rememberUpdatedStyleState
 import androidx.compose.foundation.style.styleable
 import androidx.compose.foundation.style.then
 import androidx.compose.runtime.Composable
@@ -147,8 +148,9 @@ private fun GradientButton(
     content: @Composable RowScope.() -> Unit,
 ) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val styleState = remember(interactionSource) { MutableStyleState(interactionSource) }
-    styleState.isEnabled = enabled
+    val styleState = rememberUpdatedStyleState(interactionSource) {
+        it.isEnabled = enabled
+    }
     Row(
         modifier =
             modifier

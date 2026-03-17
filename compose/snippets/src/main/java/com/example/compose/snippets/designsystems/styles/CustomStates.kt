@@ -56,26 +56,6 @@ fun StyleScope.playerPaused(value: Style) {
 }
 // [END android_compose_styles_custom_key_2]
 
-// [START android_compose_styles_link_to_custom_state]
-@Composable
-fun MediaPlayer(
-    url: String,
-    modifier: Modifier = Modifier,
-    style: Style = Style,
-    state: PlayerState = remember { PlayerState.Paused }
-) {
-    // Hoist style state, set playerState as a parameter,
-    val styleState = remember { MutableStyleState(null) }
-    // Set equal to incoming state to link the two together
-    styleState.playerState = state
-    Box(
-        //..
-    ) {
-        ///..
-    }
-}
-// [END android_compose_styles_link_to_custom_state]
-
 private object Step2StyleState {
     // [START android_compose_styles_link_to_custom_state_pass]
     @Composable
@@ -95,8 +75,7 @@ private object Step2StyleState {
         }
     }
     // [END android_compose_styles_link_to_custom_state_pass]
-}
-private object Step3StyleState {
+
     // [START android_compose_styles_link_to_custom_state_key]
     @Composable
     fun StyleStateKeySample() {
