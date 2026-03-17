@@ -21,12 +21,16 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.screenshot)
 }
 
 android {
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
+
     compileSdk {
         version = release(libs.versions.compileSdk.get().toInt())
-        {minorApiLevel = 1}} // Android 16 QPR 2
+        { minorApiLevel = 1 }
+    } // Android 16 QPR 2
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -45,8 +49,10 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -167,4 +173,7 @@ dependencies {
 
     androidTestImplementation(libs.androidx.glance.testing)
     androidTestImplementation(libs.androidx.glance.appwidget.testing)
+
+    screenshotTestImplementation(libs.screenshot.validation.api)
+    screenshotTestImplementation(libs.androidx.ui.tooling)
 }

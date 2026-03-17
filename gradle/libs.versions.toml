@@ -1,4 +1,7 @@
 [versions]
+# Android Studio: Panda 1 Canary 4 or higher.
+# AGP: 9.0.0-alpha01 or higher is generally required for the latest experimental features.
+# Kotlin: 2.0.0 or higher is recommended
 accompanist = "0.36.0"
 activityKtx = "1.12.3"
 android-googleid = "1.2.0"
@@ -104,6 +107,8 @@ wfp = "1.0.0-beta01"
 xrGlimmer = "1.0.0-alpha03"
 xrProjected = "1.0.0-alpha03"
 registryDigitalCredentials = "1.0.0-alpha02"
+screenshot = "0.0.1-alpha13"
+
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -257,6 +262,8 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 androidx-registry-digitalcredentials = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
+screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "screenshot"}
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -275,3 +282,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
