@@ -57,6 +57,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -64,11 +65,12 @@ import androidx.compose.ui.unit.sp
 import com.example.compose.snippets.R
 import kotlin.math.roundToInt
 
+@Preview
 // [START android_compose_touchinput_scroll_scrollable2D_basic]
 @Composable
-fun Scrollable2DSample() {
+private fun Scrollable2DSample() {
     // 1. Manually track the total distance the user has moved in both X and Y directions
-    val offset = remember { mutableStateOf(Offset.Zero) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
 
     Box(
         modifier = Modifier
@@ -85,7 +87,7 @@ fun Scrollable2DSample() {
                 .scrollable2D(
                     state = rememberScrollable2DState { delta ->
                         // 3. Update the cumulative offset state with the new movement delta
-                        offset.value += delta
+                        offset += delta
 
                         // Return the delta to indicate the entire movement was handled by this box
                         delta
@@ -99,17 +101,21 @@ fun Scrollable2DSample() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 // 4. Display the current X and Y values from the offset state in real-time
                 Text(
-                    text = "X: ${offset.value.x.roundToInt()}",
+                    text = "X: ${offset.x.roundToInt()}",
                     color = Color.White,
                     fontSize = 20.sp,
+                    // [START_EXCLUDE]
                     fontWeight = FontWeight.Bold
+                    // [END_EXCLUDE]
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Y: ${offset.value.y.roundToInt()}",
+                    text = "Y: ${offset.y.roundToInt()}",
                     color = Color.White,
                     fontSize = 20.sp,
+                    // [START_EXCLUDE]
                     fontWeight = FontWeight.Bold
+                    // [END_EXCLUDE]
                 )
             }
         }
@@ -118,9 +124,10 @@ fun Scrollable2DSample() {
 // [END android_compose_touchinput_scroll_scrollable2D_basic]
 
 
+@Preview
 // [START android_compose_touchinput_scroll_scrollable2D_pan_large_viewport]
 @Composable
-fun Panning2DImage(modifier: Modifier) {
+private fun Panning2DImage(modifier: Modifier = Modifier) {
 
     // Manually track the total distance the user has moved in both X and Y directions
     val offset = remember { mutableStateOf(Offset.Zero) }
@@ -164,10 +171,11 @@ fun Panning2DImage(modifier: Modifier) {
 // [END android_compose_touchinput_scroll_scrollable2D_pan_large_viewport]
 
 
+@Preview
 // [START android_compose_touchinput_scroll_scrollable2D_nested_scrolling]
 @Composable
-fun NestedScrollable2DSample() {
-    val offset = remember { mutableStateOf(Offset.Zero) }
+private fun NestedScrollable2DSample() {
+    var offset by remember { mutableStateOf(Offset.Zero) }
     val maxScroll = 300f
 
     Column(
@@ -189,7 +197,7 @@ fun NestedScrollable2DSample() {
                 .size(250.dp)
                 .scrollable2D(
                     state = rememberScrollable2DState { delta ->
-                        val oldOffset = offset.value
+                        val oldOffset = offset
 
                         // Calculate new potential offset and clamp it to our boundaries
                         val newX = (oldOffset.x + delta.x).coerceIn(-maxScroll, maxScroll)
@@ -200,7 +208,7 @@ fun NestedScrollable2DSample() {
                         // Calculate exactly how much was consumed by the child
                         val consumed = newOffset - oldOffset
 
-                        offset.value = newOffset
+                        offset = newOffset
 
                         // IMPORTANT: Return ONLY the consumed delta.
                         // The remaining (unconsumed) delta propagates to the parent Column.
@@ -215,8 +223,8 @@ fun NestedScrollable2DSample() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("2D Panning Zone", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(Modifier.height(8.dp))
-                Text("X: ${offset.value.x.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
-                Text("Y: ${offset.value.y.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("X: ${offset.x.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Y: ${offset.y.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -231,20 +239,21 @@ fun NestedScrollable2DSample() {
 // [END android_compose_touchinput_scroll_scrollable2D_nested_scrolling]
 
 
+@Preview
 // [START android_compose_touchinput_scroll_draggable2D_basic]
 @Composable
-fun DraggableComposableElement() {
+private fun DraggableComposableElement() {
     // 1. Track the position of the floating window
     var offset by remember { mutableStateOf(Offset.Zero) }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color.DarkGray)) {
+    Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF5F5F5))) {
         Box(
             modifier = Modifier
                 // 2. Apply the offset to the box's position
                 .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
                 // [START_EXCLUDE]
                 .size(160.dp, 90.dp)
-                .background(Color.Black, RoundedCornerShape(8.dp))
+                .background(Color(0xFF6200EE), RoundedCornerShape(8.dp))
                 .border(1.dp, Color.White, RoundedCornerShape(8.dp))
                 // [END_EXCLUDE]
                 // 3. Attach the 2D drag logic
@@ -263,12 +272,12 @@ fun DraggableComposableElement() {
 // [END android_compose_touchinput_scroll_draggable2D_basic]
 
 
+@Preview
 // [START android_compose_touchinput_scroll_draggable2D_color_picker]
 @Composable
-fun ExampleColorSelector(
+private fun ExampleColorSelector(
     // [START_EXCLUDE]
     hue: Float = 0f,
-    onColorSelected: (Saturation: Float, Value: Float) -> Unit
     // [END_EXCLUDE]
 )  {
     // 1. Maintain the 2D position of the selector in state.
@@ -318,13 +327,6 @@ fun ExampleColorSelector(
                             .coerceIn(0f, containerSize.height.toFloat())
 
                         selectorOffset = Offset(newX, newY)
-                        // [START_EXCLUDE]
-                        // Map pixel coordinates to Saturation and Value percentages (0f..1f).
-                        onColorSelected(
-                            newX / containerSize.width,
-                            1f - (newY / containerSize.height)
-                        )
-                        // [END_EXCLUDE]
                     }
                 )
         )
