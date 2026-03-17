@@ -33,7 +33,7 @@ class NoteFunctions(
      *
      * @param appFunctionContext The context in which the AppFunction is executed.
      */
-    @AppFunction(isDescribedByKdoc = true)
+    @AppFunction(isDescribedByKDoc = true)
     suspend fun listNotes(appFunctionContext: AppFunctionContext): List<Note>? {
         return noteRepository.appNotes.ifEmpty { null }?.toList()
     }
@@ -45,7 +45,7 @@ class NoteFunctions(
      * @param title The title of the note.
      * @param content The note's content.
      */
-    @AppFunction(isDescribedByKdoc = true)
+    @AppFunction(isDescribedByKDoc = true)
     suspend fun createNote(
         appFunctionContext: AppFunctionContext,
         title: String,
@@ -62,7 +62,7 @@ class NoteFunctions(
      * @param title The note's title if it should be updated.
      * @param content The new content if it should be updated.
      */
-    @AppFunction(isDescribedByKdoc = true)
+    @AppFunction(isDescribedByKDoc = true)
     suspend fun editNote(
         appFunctionContext: AppFunctionContext,
         noteId: Int,
@@ -76,7 +76,7 @@ class NoteFunctions(
 /**
  * A note.
  */
-@AppFunctionSerializable(isDescribedByKdoc = true)
+@AppFunctionSerializable(isDescribedByKDoc = true)
 data class Note(
     /** The note's identifier */
     val id: Int,
