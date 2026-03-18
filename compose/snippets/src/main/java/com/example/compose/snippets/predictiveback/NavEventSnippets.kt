@@ -219,9 +219,12 @@ class MyComponent: NavigationEventDispatcherOwner {
 
 // [START android_compose_predictiveback_navevent_activity_own_dispatcher]
 class MyCustomActivity : ComponentActivity() {
+
+    lateinit var myNavigationEventHandler: NavigationEventHandler<NavigationEventInfo>
+
     fun addMyHandler() {
-        // navigationEventDispatcher provided from the ComponentActivity
-        navigationEventDispatcher.addHandler(TODO())
+        // navigationEventDispatcher provided by the ComponentActivity
+        navigationEventDispatcher.addHandler(myNavigationEventHandler)
     }
 }
 // [END android_compose_predictiveback_navevent_activity_own_dispatcher]
