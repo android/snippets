@@ -18,7 +18,6 @@
 
 package com.example.compose.snippets.predictiveback
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent.EDGE_LEFT
@@ -130,11 +129,11 @@ fun HandlingBackWithTransitionState(
 
 
 // [START android_compose_predictiveback_navevent_animation]
-
 object Routes {
     const val SCREEN_A = "Screen A"
     const val SCREEN_B = "Screen B"
 }
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,7 +157,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@SuppressLint("ConfigurationScreenWidthHeight")
+
 @Composable
 fun ScreenB(
     backEventState: NavigationEventState<NavigationEventInfo>,
@@ -219,9 +218,9 @@ class MyComponent: NavigationEventDispatcherOwner {
 
 // [START android_compose_predictiveback_navevent_activity_own_dispatcher]
 class MyCustomActivity : ComponentActivity() {
-
+    // [START_EXCLUDE silent]
     lateinit var myNavigationEventHandler: NavigationEventHandler<NavigationEventInfo>
-
+    // [END_EXCLUDE]
     fun addMyHandler() {
         // navigationEventDispatcher provided by the ComponentActivity
         navigationEventDispatcher.addHandler(myNavigationEventHandler)
