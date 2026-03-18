@@ -82,12 +82,12 @@ private fun StatusBarProtection(
                 .windowInsetsTopHeight(WindowInsets.statusBars)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(
-                            color.copy(alpha = 1f),
-                            color.copy(alpha = 0.8f),
-                            Color.Transparent
-                        )
+                        0.0f to color.copy(alpha = 1f),
+                        0.42f to color.copy(alpha = 0.8f), // 0.5 / 1.2
+                        0.83f to Color.Transparent,      // 1.0 / 1.2
+                        1.0f to Color.Transparent
                     )
+
                 )
         )
     }
