@@ -17,14 +17,14 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.DepthMap
-import androidx.xr.runtime.Config
+import androidx.xr.runtime.DepthEstimationMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 
 private fun configureDepthEstimation(session: Session) {
     // [START androidxr_arcore_depthmaps_configure]
     val newConfig = session.config.copy(
-        depthEstimation = Config.DepthEstimationMode.SMOOTH_ONLY,
+        depthEstimation = DepthEstimationMode.SMOOTH_ONLY,
     )
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
