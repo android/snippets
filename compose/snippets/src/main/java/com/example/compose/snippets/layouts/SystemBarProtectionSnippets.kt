@@ -41,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,19 +76,26 @@ class SystemBarProtectionSnippets : ComponentActivity() {
 private fun StatusBarProtection(
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
 ) {
+    val density = LocalDensity.current
+    val statusBars = WindowInsets.statusBars
+
     Box(Modifier.fillMaxSize()) {
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .height(
+                    with(density) {
+                        statusBars.getTop(this).times(1.2f).toDp()
+                    }
+                )
                 .background(
-                    Brush.verticalGradient(
-                        0.0f to color.copy(alpha = 1f),
-                        0.42f to color.copy(alpha = 0.8f), // 0.5 / 1.2
-                        0.83f to Color.Transparent,      // 1.0 / 1.2
-                        1.0f to Color.Transparent
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            color.copy(alpha = 1f),
+                            color.copy(alpha = 0.8f),
+                            Color.Transparent
+                        )
                     )
-
                 )
         )
     }
