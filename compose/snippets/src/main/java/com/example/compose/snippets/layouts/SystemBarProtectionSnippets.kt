@@ -76,29 +76,24 @@ class SystemBarProtectionSnippets : ComponentActivity() {
 private fun StatusBarProtection(
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
 ) {
-    val density = LocalDensity.current
-    val statusBars = WindowInsets.statusBars
-
-    Box(Modifier.fillMaxSize()) {
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(
-                    with(density) {
-                        statusBars.getTop(this).times(1.2f).toDp()
-                    }
-                )
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            color.copy(alpha = 1f),
-                            color.copy(alpha = 0.8f),
-                            Color.Transparent
-                        )
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(
+                with(LocalDensity.current) {
+                    (WindowInsets.statusBars.getTop(this) * 1.2f).toDp()
+                }
+            )
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        color.copy(alpha = 1f),
+                        color.copy(alpha = 0.8f),
+                        Color.Transparent
                     )
                 )
-        )
-    }
+            )
+    )
 }
 // [END android_compose_system_bar_protection]
 
