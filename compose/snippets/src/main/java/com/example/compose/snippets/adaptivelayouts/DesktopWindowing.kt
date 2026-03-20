@@ -16,7 +16,11 @@
 
 package com.example.compose.snippets.adaptivelayouts
 
+import android.content.ClipData
+import android.view.View
 import androidx.compose.foundation.background
+import androidx.compose.foundation.draganddrop.dragAndDropSource
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -32,6 +36,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.DragAndDropTransferData
+import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -62,3 +70,30 @@ fun CaptionBar() {
     }
 }
 // [END android_compose_desktop_window_insets_title]
+
+// [START android_compose_desktop_drag_drop_source]
+fun Modifier.dragAndDropSourceModifier(): Modifier {
+    return this.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            clipData = ClipData.newPlainText("COPIED_DATA_KEY", "Sample Copied Data"),
+            flags = View.DRAG_FLAG_GLOBAL_SAME_APPLICATION or View.DRAG_FLAG_START_INTENT_SENDER_ON_UNHANDLED_DRAG,
+        )
+    }
+}
+// [END android_compose_desktop_drag_drop_source]
+
+// [START android_compose_desktop_drag_drop_target]
+fun Modifier.dragAndDropTargetModifier(): Modifier {
+    return this.dragAndDropTarget(
+        shouldStartDragAndDrop = { event ->
+            event.toAndroidDragEvent().clipDescription.hasMimeType("text/plain")
+        },
+        target = object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val clipData = event.toAndroidDragEvent().clipData
+                return clipData != null
+            }
+        }
+    )
+}
+// [END android_compose_desktop_drag_drop_target]
