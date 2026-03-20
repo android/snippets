@@ -117,7 +117,7 @@ fun SnapAndFlingComposeList() {
             }
             // ... other items
             item {
-                IconButton(onClick = { }) {
+                IconButton(modifier = Modifier.transformedHeight(this, transformationSpec), onClick = { }) {
                     Icon(
                         imageVector = Icons.Default.Build,
                         contentDescription = "Example Button"
