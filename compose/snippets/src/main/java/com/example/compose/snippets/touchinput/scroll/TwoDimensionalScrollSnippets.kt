@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -102,18 +103,18 @@ private fun Scrollable2DSample() {
                 // 4. Display the current X and Y values from the offset state in real-time
                 Text(
                     text = "X: ${offset.x.roundToInt()}",
+                    // [START_EXCLUDE]
                     color = Color.White,
                     fontSize = 20.sp,
-                    // [START_EXCLUDE]
                     fontWeight = FontWeight.Bold
                     // [END_EXCLUDE]
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Y: ${offset.y.roundToInt()}",
+                    // [START_EXCLUDE]
                     color = Color.White,
                     fontSize = 20.sp,
-                    // [START_EXCLUDE]
                     fontWeight = FontWeight.Bold
                     // [END_EXCLUDE]
                 )
@@ -127,7 +128,7 @@ private fun Scrollable2DSample() {
 @Preview
 // [START android_compose_touchinput_scroll_scrollable2D_pan_large_viewport]
 @Composable
-private fun Panning2DImage(modifier: Modifier = Modifier) {
+private fun Panning2DImage() {
 
     // Manually track the total distance the user has moved in both X and Y directions
     val offset = remember { mutableStateOf(Offset.Zero) }
@@ -140,7 +141,7 @@ private fun Panning2DImage(modifier: Modifier = Modifier) {
 
     // The Viewport (Container): A fixed-size box that acts as a window into the larger content
     Box(
-        modifier = modifier
+        modifier = Modifier
             .size(600.dp, 400.dp) // The visible area dimensions
             // [START_EXCLUDE]
             .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(0.dp))
@@ -176,7 +177,8 @@ private fun Panning2DImage(modifier: Modifier = Modifier) {
 @Composable
 private fun NestedScrollable2DSample() {
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val maxScroll = 300f
+    val maxScrollDp = 250.dp
+    val maxScrollPx = with(LocalDensity.current) { maxScrollDp.toPx() }
 
     Column(
         modifier = Modifier
@@ -200,8 +202,8 @@ private fun NestedScrollable2DSample() {
                         val oldOffset = offset
 
                         // Calculate new potential offset and clamp it to our boundaries
-                        val newX = (oldOffset.x + delta.x).coerceIn(-maxScroll, maxScroll)
-                        val newY = (oldOffset.y + delta.y).coerceIn(-maxScroll, maxScroll)
+                        val newX = (oldOffset.x + delta.x).coerceIn(-maxScrollPx, maxScrollPx)
+                        val newY = (oldOffset.y + delta.y).coerceIn(-maxScrollPx, maxScrollPx)
 
                         val newOffset = Offset(newX, newY)
 
@@ -217,19 +219,20 @@ private fun NestedScrollable2DSample() {
                 )
                 // [START_EXCLUDE]
                 .background(Color(0xFF6200EE), shape = RoundedCornerShape(16.dp)),
-                // [END_EXCLUDE]
+            // [END_EXCLUDE]
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                val density = LocalDensity.current
                 Text("2D Panning Zone", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(Modifier.height(8.dp))
-                Text("X: ${offset.x.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
-                Text("Y: ${offset.y.roundToInt()}", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("X: ${with(density) { offset.x.toDp().value.roundToInt() }}dp", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Y: ${with(density) { offset.y.toDp().value.roundToInt() }}dp", color = Color.White, fontWeight = FontWeight.Bold)
             }
         }
 
         Text(
-            "Once the Purple Box hits Y: 300 or -300,\nthis parent list will take over the vertical scroll.",
+            "Once the Purple Box hits Y: 250 or -250,\nthis parent list will take over the vertical scroll.",
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 40.dp, bottom = 800.dp),
             style = TextStyle(fontSize = 14.sp, color = Color.Gray)
@@ -332,8 +335,4 @@ private fun ExampleColorSelector(
         )
     }
 }
-// [END android_compose_touchinput_scroll_draggable2D_color_picker]
-
-
-
-
+// [END android_compose_touchinput_scroll_draggable2D_color_picker
