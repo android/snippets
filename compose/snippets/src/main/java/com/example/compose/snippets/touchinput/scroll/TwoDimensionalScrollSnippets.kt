@@ -335,4 +335,4 @@ private fun ExampleColorSelector(
         )
     }
 }
-// [END android_compose_touchinput_scroll_draggable2D_color_picker
+// [END android_compose_touchinput_scroll_draggable2D_color_picker]
