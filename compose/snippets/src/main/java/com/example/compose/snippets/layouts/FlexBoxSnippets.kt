@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.FlexBox
 import androidx.compose.foundation.layout.FlexDirection
 import androidx.compose.foundation.layout.FlexJustifyContent
 import androidx.compose.foundation.layout.FlexWrap
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -63,8 +62,8 @@ fun HelloWorld() {
  * A FlexBox that wraps with variable width items that grow equally to fill the available space
  */
 @Preview(widthDp = 1200, showBackground = true, backgroundColor = 0xFF777777)
-@Preview(widthDp = 840, showBackground = true, backgroundColor = 0xFF777777)
-@Preview(widthDp = 600, showBackground = true, backgroundColor = 0xFF777777)
+@Preview(widthDp = 420, showBackground = true, backgroundColor = 0xFF777777)
+@Preview(widthDp = 350, showBackground = true, backgroundColor = 0xFF777777)
 @Composable
 fun WrapWithGrow() {
     // [START android_compose_layouts_flexbox_basic_2]
@@ -74,11 +73,13 @@ fun WrapWithGrow() {
             gap(8.dp)
         }
     ) {
+        // All boxes have an intrinsic width of 100.dp
+        // Some grow to fill any remaining space on the row.
         RedRoundedBox()
         BlueRoundedBox()
-        GreenRoundedBox(modifier = Modifier.width(350.dp).flex { grow(1.0f) })
-        OrangeRoundedBox(modifier = Modifier.width(200.dp).flex { grow(0.7f) })
-        PinkRoundedBox(modifier = Modifier.width(200.dp).flex { grow(0.3f) })
+        GreenRoundedBox(modifier = Modifier.flex { grow(1.0f) })
+        OrangeRoundedBox(modifier = Modifier.flex { grow(1.0f) })
+        PinkRoundedBox(modifier = Modifier.flex { grow(1.0f) })
     }
     // [END android_compose_layouts_flexbox_basic_2]
 }

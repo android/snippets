@@ -91,10 +91,9 @@ fun YellowRoundedBox(modifier: Modifier = Modifier, width: Dp = 100.dp, title: S
 @Preview
 @Composable
 fun OrangeRoundedBox(modifier: Modifier = Modifier, width: Dp = 100.dp, title: String = "") {
-    RoundedBox(modifier = Modifier
+    RoundedBox(modifier = modifier
         .width(width)
-        .background(PastelOrange)
-        .then(modifier),
+        .background(PastelOrange),
         title = title
     )
 }
