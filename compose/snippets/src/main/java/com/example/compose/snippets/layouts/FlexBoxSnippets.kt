@@ -63,7 +63,7 @@ fun HelloWorld() {
  */
 @Preview(widthDp = 1200, showBackground = true, backgroundColor = 0xFF777777)
 @Preview(widthDp = 420, showBackground = true, backgroundColor = 0xFF777777)
-@Preview(widthDp = 350, showBackground = true, backgroundColor = 0xFF777777)
+@Preview(widthDp = 350, showBackground = false, backgroundColor = 0xFF777777)
 @Composable
 fun WrapWithGrow() {
     // [START android_compose_layouts_flexbox_basic_2]
