@@ -108,7 +108,7 @@ fun ContactPickerScreen(modifier: Modifier) {
                 actions = {
                     TextButton(onClick = {
                         try {
-                            // [START android_contact_picker_single_selection_intent]
+                            // [START android_contact_picker_single_contact_selection_intent]
                             // Define the specific contact data fields you need
                             val requestedFields = arrayListOf(
                                 Email.CONTENT_ITEM_TYPE,
@@ -125,7 +125,7 @@ fun ContactPickerScreen(modifier: Modifier) {
     
                             // Launch the picker
                             pickContact.launch(pickContactIntent)
-                            // [END android_contact_picker_single_selection_intent]
+                            // [END android_contact_picker_single_contact_selection_intent]
                         } catch (_: ActivityNotFoundException) {
                             coroutine.launch {
                                 snackbarHostState.showSnackbar("The contact picker isn't available on your version of Android")
@@ -136,7 +136,7 @@ fun ContactPickerScreen(modifier: Modifier) {
                     }
                     TextButton(onClick = {
                         try {
-                            // [START android_contact_picker_multiple_selection_intent]
+                            // [START android_contact_picker_multiple_contacts_selection_intent]
                             val requestedFields = arrayListOf(
                                 Email.CONTENT_ITEM_TYPE,
                                 Phone.CONTENT_ITEM_TYPE,
@@ -159,7 +159,7 @@ fun ContactPickerScreen(modifier: Modifier) {
     
                             // Launch the picker
                             pickContact.launch(pickContactIntent)
-                            // [END android_contact_picker_multiple_selection_intent]
+                            // [END android_contact_picker_multiple_contacts_selection_intent]
                         } catch (_: ActivityNotFoundException) {
                             coroutine.launch {
                                 snackbarHostState.showSnackbar("The contact picker isn't available on your version of Android")
@@ -167,6 +167,33 @@ fun ContactPickerScreen(modifier: Modifier) {
                         }
                     }) {
                         Text("Multiple contacts")
+                    }
+                    TextButton(onClick = {
+                        try {
+                            // [START android_contact_picker_single_phone_selection_intent]
+
+                            // When the Contact Picker is launched with only one requested data field
+                            // (e.g. only Phone.CONTENT_ITEM_TYPE), its UI allows for the selection
+                            // of specific items (like a specific phone number or email) separately,
+                            // rather than selecting the whole contact.
+                            val pickContactIntent = Intent(ACTION_PICK_CONTACTS).apply {
+                                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                                putStringArrayListExtra(
+                                    EXTRA_PICK_CONTACTS_REQUESTED_DATA_FIELDS,
+                                    arrayListOf(Phone.CONTENT_ITEM_TYPE)
+                                )
+                            }
+
+                            // Launch the picker
+                            pickContact.launch(pickContactIntent)
+                            // [END android_contact_picker_single_phone_selection_intent]
+                        } catch (_: ActivityNotFoundException) {
+                            coroutine.launch {
+                                snackbarHostState.showSnackbar("The contact picker isn't available on your version of Android")
+                            }
+                        }
+                    }) {
+                        Text("Single phone only")
                     }
                 },
             )
