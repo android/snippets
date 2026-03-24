@@ -232,21 +232,22 @@ private suspend fun processContactPickerResultUri(
             val name = cursor.getString(nameIdx) ?: ""
             val data1 = cursor.getString(data1Idx) ?: ""
 
-            // Determine if the current row represents an email or a phone number
             val email = if (mimeType == Email.CONTENT_ITEM_TYPE) data1 else null
             val phone = if (mimeType == Phone.CONTENT_ITEM_TYPE) data1 else null
 
-            // Aggregate data by finding an existing contact via lookupKey or creating a new one
-            val contact = contactsMap.getOrPut(lookupKey) {
-                Contact(lookupKey, name, mutableListOf(), mutableListOf())
-            }
-
-            // Append unique email and phone number to the corresponding lists
-            if (email != null && !contact.emails.contains(email)) {
-                (contact.emails as MutableList<String>).add(email)
-            }
-            if (phone != null && !contact.phones.contains(phone)) {
-                (contact.phones as MutableList<String>).add(phone)
+            val existingContact = contactsMap[lookupKey]
+            if (existingContact != null) {
+                contactsMap[lookupKey] = existingContact.copy(
+                    emails = if (email != null) existingContact.emails + email else existingContact.emails,
+                    phones = if (phone != null) existingContact.phones + phone else existingContact.phones
+                )
+            } else {
+                contactsMap[lookupKey] = Contact(
+                    lookupKey = lookupKey,
+                    name = name,
+                    emails = if (email != null) listOf(email) else emptyList(),
+                    phones = if (phone != null) listOf(phone) else emptyList()
+                )
             }
         }
     }
