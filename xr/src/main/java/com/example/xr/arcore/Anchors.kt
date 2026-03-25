@@ -52,12 +52,12 @@ private fun createAnchorAtPose(session: Session, pose: Pose) {
 
 private fun createAnchorAtAnchorable(anchorable: Anchorable) {
     val pose = Pose()
-    // [START androidxr_arcore_anchor_create_anchorable]
+    // [START androidxr_arcore_anchor_create_trackable]
     when (val result = anchorable.createAnchor(pose)) {
         is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
         else -> { /* handle failure */ }
     }
-    // [END androidxr_arcore_anchor_create_anchorable]
+    // [END androidxr_arcore_anchor_create_trackable]
 }
 
 private fun attachEntityToAnchor(
