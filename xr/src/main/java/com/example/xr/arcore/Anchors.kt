@@ -18,7 +18,7 @@ package com.example.xr.arcore
 
 import androidx.xr.arcore.Anchor
 import androidx.xr.arcore.AnchorCreateSuccess
-import androidx.xr.arcore.Trackable
+import androidx.xr.arcore.runtime.Anchorable
 import androidx.xr.runtime.AnchorPersistenceMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -50,14 +50,14 @@ private fun createAnchorAtPose(session: Session, pose: Pose) {
     // [END androidxr_arcore_anchor_create]
 }
 
-private fun createAnchorAtTrackable(trackable: Trackable<*>) {
+private fun createAnchorAtAnchorable(anchorable: Anchorable) {
     val pose = Pose()
-    // [START androidxr_arcore_anchor_create_trackable]
-    when (val result = trackable.createAnchor(pose)) {
+    // [START androidxr_arcore_anchor_create_anchorable]
+    when (val result = anchorable.createAnchor(pose)) {
         is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
         else -> { /* handle failure */ }
     }
-    // [END androidxr_arcore_anchor_create_trackable]
+    // [END androidxr_arcore_anchor_create_anchorable]
 }
 
 private fun attachEntityToAnchor(

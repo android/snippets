@@ -21,17 +21,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import androidx.xr.runtime.ExperimentalXrDeviceLifecycleApi
-import androidx.xr.runtime.Session
 import androidx.xr.runtime.XrDevice
 import kotlinx.coroutines.flow.takeWhile
 
 @OptIn(ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class)
-suspend fun collectDeviceLifecycle(context: Context, session: Session) {
+suspend fun collectDeviceLifecycle(context: Context) {
 
     val projectedContext = ProjectedContext.createProjectedDeviceContext(context)
 
     // [START androidxr_device_lifecycle_collect]
-    val xrDevice = XrDevice.getCurrentDevice(projectedContext, session)
+    val xrDevice = XrDevice.getCurrentDevice(projectedContext)
 
     xrDevice.getLifecycle().currentStateFlow
         .takeWhile { it != Lifecycle.State.DESTROYED }
