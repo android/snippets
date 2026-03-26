@@ -68,21 +68,21 @@ fun SixCards() {
         }
     ) {
         Card1(containerColor = PastelRed)
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         EnableAlternativePattern {
             // [END_EXCLUDE]
-            Card2(containerColor = PastelGreen)
-            Card3(containerColor = PastelBlue)
-            // [START_EXCLUDE]
+        Card2(containerColor = PastelGreen)
+        Card3(containerColor = PastelBlue)
+            // [START_EXCLUDE silent]
         }
         // [END_EXCLUDE]
         Card4(containerColor = PastelPink)
         Card5(containerColor = PastelOrange)
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         EnableAlternativePattern {
             // [END_EXCLUDE]
-            Card6(containerColor = PastelYellow)
-            // [START_EXCLUDE]
+        Card6(containerColor = PastelYellow)
+            // [START_EXCLUDE silent]
         }
         // [END_EXCLUDE]
     }
