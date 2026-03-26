@@ -48,3 +48,4 @@ include(
     ":tv",
     ":contacts",
 )
+include(":cars")
