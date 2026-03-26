@@ -7,7 +7,7 @@ import androidx.car.app.model.Template
 
 class MainScreen(carContext: CarContext) : Screen(carContext) {
     override fun onGetTemplate(): Template {
-        // [START cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
+        // [START android_cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
         return PlaceListMapTemplate.Builder()
         // ...
             .setOnContentRefreshListener {
@@ -17,6 +17,6 @@ class MainScreen(carContext: CarContext) : Screen(carContext) {
                 invalidate()
             }
             .build()
-            // [END cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
+            // [END android_cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
     }
 }
