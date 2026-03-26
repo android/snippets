@@ -36,8 +36,32 @@ import androidx.compose.ui.unit.dp
 
 @Preview(showBackground = true)
 @Composable
-fun GridFlow() {
+fun GridFlowColumn() {
     // [START android_compose_layout_grid_flow]
+    Grid(
+        config = {
+            repeat(2) {
+                column(160.dp)
+            }
+            repeat(3) {
+                row(90.dp)
+            }
+            gap(8.dp)
+            flow = GridFlow.Column // Grid tries to place items to fill the row
+        },
+    ) {
+        Card1()
+        Card2()
+        Card3()
+        Card4()
+        Card5()
+        Card6()
+    }
+    // [END android_compose_layout_grid_flow]
+}
+
+@Composable
+fun GridFlowRow() {
     Grid(
         config = {
             repeat(2) {
@@ -57,12 +81,29 @@ fun GridFlow() {
         Card5()
         Card6()
     }
-    // [END android_compose_layout_grid_flow]
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 696, heightDp = 286)
 @Composable
-fun GridItem() {
+private fun GridFlowComparison() {
+    Grid(
+        config = {
+            repeat(2) {
+                column(320.dp)
+                column(320.dp)
+            }
+            row(1f)
+            gap(48.dp)
+        }
+    ) {
+        GridFlowRow()
+        GridFlowColumn()
+    }
+}
+
+@Preview(showBackground = true, widthDp = 454)
+@Composable
+fun GridItemPosition() {
     GridWithIndices {
         // [START android_compose_layout_grid_item]
         Grid(
@@ -78,7 +119,7 @@ fun GridItem() {
         ) {
             Card1()
             Card2(modifier = Modifier.gridItem(row = 2, column = 2))
-            Card3(modifier = Modifier.gridItem(row = 3))
+            Card3(modifier = Modifier.gridItem(row = -1, column = -2))
         }
         // [END android_compose_layout_grid_item]
     }
@@ -182,7 +223,7 @@ private fun GridWithIndices(
         repeat(3) {
             val index = it + 1
             Text(
-                "row = $index",
+                "row = $index / row = -${3 - it}",
                 style = style,
                 modifier = Modifier
                     .gridItem(row = index + 1, alignment = Alignment.CenterStart)
@@ -192,7 +233,7 @@ private fun GridWithIndices(
         repeat(2) {
             val index = it + 1
             Text(
-                "column = $index",
+                "column = $index / column = -${2 - it}",
                 style = style,
                 modifier = Modifier
                     .gridItem(column = index + 1, alignment = Alignment.TopCenter)
