@@ -47,7 +47,7 @@ fun GridFlowColumn() {
                 row(90.dp)
             }
             gap(8.dp)
-            flow = GridFlow.Column // Grid tries to place items to fill the row
+            flow = GridFlow.Column // Grid tries to place items to fill the column
         },
     ) {
         Card1()

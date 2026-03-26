@@ -29,11 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.compose.snippets.ui.theme.PastelBlue
-import com.example.compose.snippets.ui.theme.PastelGreen
-import com.example.compose.snippets.ui.theme.PastelOrange
-import com.example.compose.snippets.ui.theme.PastelRed
-import com.example.compose.snippets.ui.theme.PastelYellow
 
 @Preview(showBackground = true)
 @Composable
@@ -51,21 +46,21 @@ fun GridTrackSize() {
         modifier = Modifier.height(480.dp)
     ) {
         PastelRedCard("Fixed(100.dp)")
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         EnableAlternativePattern{
-            // [END_EXCLUDE]
-            PastelGreenCard("Percentage(0.2f)")
-            // [START_EXCLUDE]
+            // [END_EXCLUDE silent]
+        PastelGreenCard("Percentage(0.2f)")
+            // [START_EXCLUDE silent]
         }
-        // [END_EXCLUDE]
+        // [END_EXCLUDE silent]
         PastelBlueCard("Flex(1.fr)")
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         EnableAlternativePattern {
-        // [END_EXCLUDE]
-            PastelYellowCard("Auto")
-        // [START_EXCLUDE]
+        // [END_EXCLUDE silent]
+        PastelYellowCard("Auto")
+        // [START_EXCLUDE silent]
         }
-        // [END_EXCLUDE]
+        // [END_EXCLUDE silent]
 
     }
     // [END android_compose_layout_grid_track_size]
