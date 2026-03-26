@@ -21,12 +21,75 @@ package com.example.compose.snippets.layouts.grid
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.ui.theme.PastelBlue
+import com.example.compose.snippets.ui.theme.PastelGreen
+import com.example.compose.snippets.ui.theme.PastelOrange
+import com.example.compose.snippets.ui.theme.PastelPink
+import com.example.compose.snippets.ui.theme.PastelRed
+import com.example.compose.snippets.ui.theme.PastelYellow
 
+@Preview(showBackground = true, heightDp = 480)
+@Composable
+fun GridExample() {
+    Grid(
+        config = {
+            repeat(4) {
+                column(0.25f)
+            }
+            row(0.33f)
+            row(0.33f)
+            row(0.34f)
+            gap(8.dp)
+        }
+    ) {
+        Card1(modifier = Modifier.gridItem(columnSpan = 3, rowSpan = 2))
+        Card2()
+        Card3()
+        Card4()
+        Card5(modifier = Modifier.gridItem(columnSpan = 3))
+    }
+}
 
 @Composable
 @Preview(showBackground = true)
+fun SixCards() {
+    // [START android_compose_layout_grid_six_cards]
+    Grid(
+        config = {
+            repeat(2) {
+                column(100.dp)
+            }
+            repeat(3) {
+                row(100.dp)
+            }
+        }
+    ) {
+        Card1(containerColor = PastelRed)
+        // [START_EXCLUDE]
+        EnableAlternativePattern {
+            // [END_EXCLUDE]
+            Card2(containerColor = PastelGreen)
+            Card3(containerColor = PastelBlue)
+            // [START_EXCLUDE]
+        }
+        // [END_EXCLUDE]
+        Card4(containerColor = PastelPink)
+        Card5(containerColor = PastelOrange)
+        // [START_EXCLUDE]
+        EnableAlternativePattern {
+            // [END_EXCLUDE]
+            Card6(containerColor = PastelYellow)
+            // [START_EXCLUDE]
+        }
+        // [END_EXCLUDE]
+    }
+    // [END android_compose_layout_grid_six_cards]
+}
+
+@Composable
 fun DefineGrid() {
     // [START android_compose_layout_grid_define_grid]
     Grid(
