@@ -11,7 +11,7 @@ class MainScreen(carContext: CarContext) : Screen(carContext) {
         return PlaceListMapTemplate.Builder()
         // ...
             .setOnContentRefreshListener {
-                // Execute any desired lggic
+                // Execute any desired logic
                 // ...
                 // Then call invalidate() so onGetTemplate() is called again
                 invalidate()
