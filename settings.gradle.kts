@@ -47,5 +47,5 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":cars",
 )
-include(":cars")
