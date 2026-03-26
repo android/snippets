@@ -3,13 +3,13 @@ package com.example.cars.templated_apps
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
-import androidx.car.app.model.CarIcon;
+import androidx.car.app.model.CarIcon
 import androidx.car.app.model.GridItem
 import androidx.car.app.model.GridTemplate
 import androidx.car.app.model.Header
 import androidx.car.app.model.ItemList
 import androidx.car.app.model.Template
-import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.graphics.drawable.IconCompat
 import com.example.cars.R
 
 class IOTScreen(carContext: CarContext) : Screen(carContext) {
