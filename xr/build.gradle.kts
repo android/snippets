@@ -70,4 +70,12 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.androidx.xr.projected.testing)
+    testImplementation(libs.truth)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.core.ktx)
+    testImplementation(libs.mockito.kotlin)
 }
