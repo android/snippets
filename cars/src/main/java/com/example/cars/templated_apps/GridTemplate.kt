@@ -1,3 +1,19 @@
+/*
+ * Copyright 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.cars.templated_apps
 
 import androidx.car.app.CarContext
@@ -17,12 +33,18 @@ class IOTScreen(carContext: CarContext) : Screen(carContext) {
         // [START android_cars_templated_apps_gridtemplate_iot]
         val listBuilder = ItemList.Builder()
         val headerBuilder = Header.Builder()
-        val garageIcon = IconCompat.createWithResource(carContext, R.drawable.ic_garage)
+        val garageIcon = IconCompat.createWithResource(
+            carContext,
+            R.drawable.ic_garage
+        )
 
         listBuilder.addItem(
             GridItem.Builder()
                 .setTitle("Garage door")
-                .setImage(CarIcon.Builder(garageIcon).build(), GridItem.IMAGE_TYPE_ICON)
+                .setImage(
+                    CarIcon.Builder(garageIcon).build(),
+                    GridItem.IMAGE_TYPE_ICON
+                )
                 .setOnClickListener {
                     // Handle user interactions
                 }
@@ -39,7 +61,10 @@ class IOTScreen(carContext: CarContext) : Screen(carContext) {
         )
 
         return GridTemplate.Builder()
-            .setHeader(headerBuilder.setTitle("Devices").setStartHeaderAction(Action.APP_ICON).build())
+            .setHeader(
+                headerBuilder.setTitle("Devices")
+                    .setStartHeaderAction(Action.APP_ICON).build()
+            )
             .setSingleList(listBuilder.build())
             .build()
         // [END android_cars_templated_apps_gridtemplate_iot]
