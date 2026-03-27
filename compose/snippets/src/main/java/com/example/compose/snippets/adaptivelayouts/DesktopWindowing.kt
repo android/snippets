@@ -22,6 +22,7 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Intent
 import android.view.View
+import android.view.WindowInsetsController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
@@ -73,6 +74,20 @@ fun CaptionBar() {
     }
 }
 // [END android_compose_desktop_window_insets_title]
+
+/**
+ * Transparent System Caption Bar
+ */
+fun TransparentActionBar(activity: Activity) {
+    with(activity) {
+        // [START android_compose_desktop_window_transparent_caption]
+        window.insetsController?.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND,
+            WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND
+        )
+        // [END android_compose_desktop_window_transparent_caption]
+    }
+}
 
 /**
  * Simple drag source for plain text data.
