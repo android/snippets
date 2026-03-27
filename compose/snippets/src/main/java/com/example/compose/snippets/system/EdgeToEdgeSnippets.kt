@@ -137,7 +137,7 @@ fun ImeWithoutScaffoldsExamples(){
             modifier = Modifier.imePadding()
         ) { /* Content */ }
     }
-    // [END e2e_ime_no_scaffold_right_2]
+    // [END e2e_ime_no_scaffold_right_1]
 
     // [START e2e_ime_no_scaffold_right_2]
     // RIGHT
@@ -173,6 +173,7 @@ fun ImeWithoutScaffoldsExamples(){
             modifier = Modifier.imePadding()
         ) { /* Content */ }
     }
+    // [END e2e_ime_no_scaffold_wrong_1]
 }
 
 // [START e2e_system_bar_contrast]
