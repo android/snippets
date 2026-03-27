@@ -19,7 +19,7 @@ package com.example.xr.scenecore
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.Vector4
 import androidx.xr.scenecore.AlphaMode
-import androidx.xr.scenecore.GltfModelEntity
+import androidx.xr.scenecore.GltfModelNode
 import androidx.xr.scenecore.KhronosPbrMaterial
 import androidx.xr.scenecore.Texture
 import kotlin.io.path.Path
@@ -65,20 +65,17 @@ private class MaterialOverride(val xrSession: Session) {
         // [END androidxr_scenecore_material_override_setOcclusionTexture]
     }
 
-    private fun setMaterialOverride(gltfModelEntity: GltfModelEntity, pbrMaterial: KhronosPbrMaterial) {
+    private fun setMaterialOverride(gltfModelNode: GltfModelNode, pbrMaterial: KhronosPbrMaterial) {
         // [START androidxr_scenecore_material_override_setMaterialOverride]
-        gltfModelEntity.setMaterialOverride(
-            material = pbrMaterial,
-            nodeName = "Node Name"
+        gltfModelNode.setMaterialOverride(
+            material = pbrMaterial
         )
         // [END androidxr_scenecore_material_override_setMaterialOverride]
     }
 
-    private fun clearMaterialOverride(gltfModelEntity: GltfModelEntity) {
+    private fun clearMaterialOverride(gltfModelNode: GltfModelNode) {
         // [START androidxr_scenecore_material_override_clearMaterialOverride]
-        gltfModelEntity.clearMaterialOverride(
-            nodeName = "Node Name"
-        )
+        gltfModelNode.clearMaterialOverride()
         // [END androidxr_scenecore_material_override_clearMaterialOverride]
     }
 }
