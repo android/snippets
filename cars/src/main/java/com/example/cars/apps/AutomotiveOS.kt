@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package com.example.cars.misc
+package com.example.cars.apps
 
 import android.content.Intent
 import androidx.car.app.Screen
 import androidx.car.app.Session
+import com.example.cars.apps.library.MyStartScreen
 
-// [START android_cars_misc_helloworldsession]
-class HelloWorldSession : Session() {
+// [START android_cars_apps_automotive_os_handle_intents]
+class MySession : Session() {
     // ...
     override fun onCreateScreen(intent: Intent): Screen {
         // Handle the intent when the app is being started for the first time
-        return HelloWorldScreen(carContext)
+        return MyStartScreen(carContext)
     }
 
     override fun onNewIntent(intent: Intent) {
         // Handle the intent when the app is already running
     }
 }
-// [END android_cars_misc_helloworldsession]
+// [END android_cars_apps_automotive_os_handle_intents]

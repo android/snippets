@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.cars.templated_apps
+package com.example.cars.apps
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
@@ -30,7 +30,7 @@ import com.example.cars.R
 
 class IOTScreen(carContext: CarContext) : Screen(carContext) {
     override fun onGetTemplate(): Template {
-        // [START android_cars_templated_apps_gridtemplate_iot]
+        // [START android_cars_apps_iot_grid_template]
         val listBuilder = ItemList.Builder()
         val headerBuilder = Header.Builder()
         val garageIcon = IconCompat.createWithResource(
@@ -67,6 +67,6 @@ class IOTScreen(carContext: CarContext) : Screen(carContext) {
             )
             .setSingleList(listBuilder.build())
             .build()
-        // [END android_cars_templated_apps_gridtemplate_iot]
+        // [END android_cars_apps_iot_grid_template]
     }
 }

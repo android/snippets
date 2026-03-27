@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.cars.misc
+package com.example.cars.apps.library
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
@@ -25,8 +25,8 @@ import androidx.car.app.model.PaneTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
 
-// [START android_cars_misc_helloworldscreen]
-class HelloWorldScreen(carContext: CarContext) : Screen(carContext) {
+// [START android_cars_apps_library_start_screen]
+class MyStartScreen(carContext: CarContext) : Screen(carContext) {
     override fun onGetTemplate(): Template {
         val row = Row.Builder().setTitle("Hello world!").build()
         val pane = Pane.Builder().addRow(row).build()
@@ -38,4 +38,4 @@ class HelloWorldScreen(carContext: CarContext) : Screen(carContext) {
             .build()
     }
 }
-// [END android_cars_misc_helloworldscreen]
+// [END android_cars_apps_library_start_screen]

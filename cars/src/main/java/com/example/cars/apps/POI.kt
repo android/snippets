@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.cars.templated_apps
+package com.example.cars.apps
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
@@ -23,7 +23,7 @@ import androidx.car.app.model.Template
 
 class MainScreen(carContext: CarContext) : Screen(carContext) {
     override fun onGetTemplate(): Template {
-        // [START android_cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
+        // [START android_cars_apps_poi_refresh_content]
         return PlaceListMapTemplate.Builder()
             // ...
             .setOnContentRefreshListener {
@@ -33,6 +33,6 @@ class MainScreen(carContext: CarContext) : Screen(carContext) {
                 invalidate()
             }
             .build()
-        // [END android_cars_templated_apps_placelistmaptemplate_setOnContentRefreshListener]
+        // [END android_cars_apps_poi_refresh_content]
     }
 }
