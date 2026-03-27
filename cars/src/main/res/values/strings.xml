@@ -15,5 +15,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">com.example.cars</string>
+    <string name="app_name">Cars Snippets</string>
 </resources>
