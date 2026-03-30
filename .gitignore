@@ -8,6 +8,7 @@ build
 /captures
 .externalNativeBuild
 .kotlin
+gradle/gradle-daemon-jvm.properties
 
 ### Xcode ###
 ## User settings

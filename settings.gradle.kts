@@ -45,5 +45,6 @@ include(
     ":kmp:androidApp",
     ":kmp:shared",
     ":playbilling",
-    ":tv"
+    ":tv",
+    ":contacts",
 )
