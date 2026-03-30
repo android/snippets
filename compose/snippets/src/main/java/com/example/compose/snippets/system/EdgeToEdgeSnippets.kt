@@ -42,13 +42,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.view.WindowCompat
 import com.example.compose.snippets.touchinput.Button
 
 @Composable
 fun ScaffoldPaddingValues(){
-    // [START e2e_scaffold_padding_values]
+    // [START android_compose_e2e_scaffold_padding_values]
     Scaffold { innerPadding ->
         // innerPadding accounts for system bars and any Scaffold components
         LazyColumn(
@@ -58,9 +59,12 @@ fun ScaffoldPaddingValues(){
             contentPadding = innerPadding
         ) { /* Content */ }
     }
-    // [END e2e_scaffold_padding_values]
+    // [END android_compose_e2e_scaffold_padding_values]
+}
 
-    // [START e2e_outside_scaffold]
+@Composable
+fun ComposableWithoutScaffold(){
+    // [START android_compose_e2e_outside_scaffold]
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,14 +77,14 @@ fun ScaffoldPaddingValues(){
             Text("Login")
         }
     }
-    // [END e2e_outside_scaffold]
+    // [END android_compose_e2e_outside_scaffold]
 }
 
 @Composable
 fun ImeWithScaffoldsExamples(){
-    // [START e2e_ime_right_1]
+    // [START android_compose_e2e_ime_right_1]
     // RIGHT
-    Scaffold( contentWindowInsets = WindowInsets.safeDrawing ) { innerPadding ->
+    Scaffold(contentWindowInsets = WindowInsets.safeDrawing) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -88,9 +92,9 @@ fun ImeWithScaffoldsExamples(){
                 .verticalScroll(rememberScrollState())
         ) { /* Content */ }
     }
-    // [END e2e_ime_right_1]
+    // [END android_compose_e2e_ime_right_1]
 
-    // [START e2e_ime_right_2]
+    // [START android_compose_e2e_ime_right_2]
     // RIGHT
     Scaffold() { innerPadding ->
         Column(
@@ -101,9 +105,9 @@ fun ImeWithScaffoldsExamples(){
                 .verticalScroll(rememberScrollState())
         ) { /* Content */ }
     }
-    // [END e2e_ime_right_2]
+    // [END android_compose_e2e_ime_right_2]
 
-    // [START e2e_ime_right_3]
+    // [START android_compose_e2e_ime_right_3]
     // RIGHT
     Scaffold() { innerPadding ->
         Column(
@@ -114,9 +118,9 @@ fun ImeWithScaffoldsExamples(){
                 .verticalScroll(rememberScrollState())
         ) { /* Content */ }
     }
-    // [END e2e_ime_right_3]
+    // [END android_compose_e2e_ime_right_3]
 
-    // [START e2e_ime_wrong_1]
+    // [START android_compose_e2e_ime_wrong_1]
     // WRONG
     Scaffold( contentWindowInsets = WindowInsets.safeDrawing ) { innerPadding ->
         Column(
@@ -126,9 +130,9 @@ fun ImeWithScaffoldsExamples(){
                 .verticalScroll(rememberScrollState())
         ) { /* Content */ }
     }
-    // [END e2e_ime_wrong_1]
+    // [END android_compose_e2e_ime_wrong_1]
 
-    // [START e2e_ime_wrong_2]
+    // [START android_compose_e2e_ime_wrong_2]
     // WRONG
     Scaffold() { innerPadding ->
         Column(
@@ -137,13 +141,13 @@ fun ImeWithScaffoldsExamples(){
                 .verticalScroll(rememberScrollState())
         ) { /* Content */ }
     }
-    // [END e2e_ime_wrong_2]
+    // [END android_compose_e2e_ime_wrong_2]
 }
 
 @Composable
 fun ImeWithoutScaffoldsExamples(){
 
-    // [START e2e_ime_no_scaffold_right_1]
+    // [START android_compose_e2e_ime_no_scaffold_right_1]
     // RIGHT
     Box(
         // Insets consumed
@@ -153,9 +157,9 @@ fun ImeWithoutScaffoldsExamples(){
             modifier = Modifier.imePadding()
         ) { /* Content */ }
     }
-    // [END e2e_ime_no_scaffold_right_1]
+    // [END android_compose_e2e_ime_no_scaffold_right_1]
 
-    // [START e2e_ime_no_scaffold_right_2]
+    // [START android_compose_e2e_ime_no_scaffold_right_2]
     // RIGHT
     Box(
         // Insets consumed
@@ -165,21 +169,23 @@ fun ImeWithoutScaffoldsExamples(){
             modifier = Modifier.imePadding()
         ) { /* Content */ }
     }
-    // [END e2e_ime_no_scaffold_right_2]
+    // [END android_compose_e2e_ime_no_scaffold_right_2]
 
-    // [START e2e_ime_no_scaffold_right_3]
+    // [START android_compose_e2e_ime_no_scaffold_right_3]
     // RIGHT
     Box(
         // Insets not consumed, but irrelevant due to fitInside
         modifier = Modifier.padding(WindowInsets.safeDrawing.asPaddingValues()) // or WindowInsets.ime.asPaddingValues(), WindowInsets.safeContent.asPaddingValues(), WindowInsets.safeGestures.asPaddingValues()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().fitInside(WindowInsetsRulers.Ime.current)
+            modifier = Modifier
+                .fillMaxSize()
+                .fitInside(WindowInsetsRulers.Ime.current)
         ) { /* Content */ }
     }
-    // [END e2e_ime_no_scaffold_right_3]
+    // [END android_compose_e2e_ime_no_scaffold_right_3]
 
-    // [START e2e_ime_no_scaffold_wrong_1]
+    // [START android_compose_e2e_ime_no_scaffold_wrong_1]
     // WRONG
     Box(
         // Insets not consumed
@@ -189,10 +195,10 @@ fun ImeWithoutScaffoldsExamples(){
             modifier = Modifier.imePadding()
         ) { /* Content */ }
     }
-    // [END e2e_ime_no_scaffold_wrong_1]
+    // [END android_compose_e2e_ime_no_scaffold_wrong_1]
 }
 
-// [START e2e_system_bar_contrast]
+// [START android_compose_e2e_system_bar_contrast]
 // Only use if calling `enableEdgeToEdge` from `WindowCompat`.
 // Apply to your theme file.
 @Composable
@@ -203,7 +209,7 @@ fun MyTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
+            val window = (view.context as? Activity)?.window ?: return@SideEffect
             val controller = WindowCompat.getInsetsController(window, view)
 
             // Dark icons for Light Mode (!darkTheme), Light icons for Dark Mode
@@ -214,16 +220,19 @@ fun MyTheme(
 
     MaterialTheme(content = content)
 }
-// [END e2e_system_bar_contrast]
+// [END android_compose_e2e_system_bar_contrast]
 
 @Composable
 fun DialogExample(){
-    // [START e2e_dialog]
-    DialogProperties(
-        // 1. Allows the dialog to span the full width of the screen
-        usePlatformDefaultWidth = false,
-        // 2. Allows the dialog to draw behind status and navigation bars
-        decorFitsSystemWindows = false
-    )
-    // [END e2e_dialog]
+    // [START android_compose_e2e_dialog]
+    Dialog(
+        onDismissRequest = { /* Handle dismiss */ },
+        properties = DialogProperties(
+            // 1. Allows the dialog to span the full width of the screen
+            usePlatformDefaultWidth = false,
+            // 2. Allows the dialog to draw behind status and navigation bars
+            decorFitsSystemWindows = false
+        )
+    ) { /* Content */ }
+    // [END android_compose_e2e_dialog]
 }
