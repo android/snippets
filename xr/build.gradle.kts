@@ -76,6 +76,6 @@ dependencies {
     testImplementation(libs.androidx.xr.projected.testing)
     testImplementation(libs.truth)
     testImplementation(libs.robolectric)
-    testImplementation(libs.core.ktx)
+    testImplementation(libs.androidx.test.core.ktx)
     testImplementation(libs.mockito.kotlin)
 }

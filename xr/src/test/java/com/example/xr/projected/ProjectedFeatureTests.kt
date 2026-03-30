@@ -35,7 +35,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.UPSIDE_DOWN_CAKE])
 @OptIn(ExperimentalProjectedApi::class)
-class ProjectedFeatureTest {
+class ProjectedFeatureTests {
     // [START androidxr_projected_test_basic_setup]
 
     @get:Rule
