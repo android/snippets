@@ -47,4 +47,5 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":cars",
 )
