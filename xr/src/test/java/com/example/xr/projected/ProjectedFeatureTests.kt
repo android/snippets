@@ -48,7 +48,7 @@ class ProjectedFeatureTests {
     fun testWithConnectedDevice() {
         val projectedContext = ProjectedContext.createProjectedDeviceContext(context)
 
-        assertThat(projectedContext).isNotNull()
+        assertThat(ProjectedContext.isProjectedDeviceContext(projectedContext)).isTrue()
     }
 
     // [END androidxr_projected_test_basic_setup]
@@ -67,15 +67,15 @@ class ProjectedFeatureTests {
 
     // [START androidxr_projected_test_device_capabilities]
     @Test
-    fun testAppBehaviorWithEmptyCapabilities() = projectedTestRule.launchTestProjectedDeviceActivity { activity ->
-        // disable all capabilities
+    fun testAppBehaviorWithoutDisplayCapabilities() = projectedTestRule.launchTestProjectedDeviceActivity { activity ->
+        // disable display capability
         projectedTestRule.capabilities = setOf()
 
         runBlocking {
             // create the controller
             val controller = ProjectedDeviceController.create(activity)
 
-            // verify the app recognizes the lack of Visual UI support
+            // verify the app recognizes the lack of visual UI support
             assertThat(controller.capabilities).doesNotContain(ProjectedDeviceController.Capability.CAPABILITY_VISUAL_UI)
         }
     }
