@@ -150,12 +150,14 @@ class GeminiLiveViewModel(application: Application) : AndroidViewModel(applicati
             liveSession?.let { session ->
                 // [START android_ai_gemini_live_function_call_handler]
     session.startAudioConversation(::functionCallHandler)
-                // [START_EXCLUDE]
+
+    // [START_EXCLUDE]
             }
         }
     }
 
     // [END_EXCLUDE]
+
     fun functionCallHandler(functionCall: FunctionCallPart): FunctionResponsePart {
         return when (functionCall.name) {
             "addList" -> {
