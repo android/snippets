@@ -67,6 +67,12 @@
                 android:resource="@xml/my_app_widget_info" />
         </receiver>
         <!-- [END android_compose_glance_declare] -->
+
+        <!--    [START android_compose_multi_instance_system_ui_property]-->
+        <property
+            android:name="android.window.PROPERTY_SUPPORTS_MULTI_INSTANCE_SYSTEM_UI"
+            android:value="true" />
+        <!--    [END android_compose_multi_instance_system_ui_property]-->
     </application>
 
 </manifest>
