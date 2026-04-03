@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 36
+    compileSdkPreview = "CinnamonBun"
 
     defaultConfig {
         applicationId = "com.example.wear"
@@ -35,6 +35,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+    useLibrary("wear-sdk")
     kotlin {
         jvmToolchain(21)
         compilerOptions {
@@ -64,6 +65,7 @@ dependencies {
     implementation((libs.androidx.credentials.play.services.auth))
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.session)
     implementation(libs.androidx.wear.input)
     implementation(libs.androidx.wear.phone.interactions)
     implementation(libs.android.identity.googleid)
