@@ -17,13 +17,16 @@
 package com.example.compose.snippets.navigation3.savingstate
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSerializable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 // [START android_compose_navigation3_savingstate_1]
 @Serializable
@@ -53,3 +56,29 @@ fun ScopingViewModels() {
     )
     // [END android_compose_navigation3_savingstate_2]
 }
+
+// [START android_compose_navigation3_savingstate_3]
+@Serializable
+sealed interface MyAppNavKey : NavKey
+
+@Serializable
+data object ScreenA: MyAppNavKey
+
+@Serializable
+data class ScreenB(val id: String): MyAppNavKey
+
+@Composable
+fun rememberMyAppNavBackStack(vararg elements: MyAppNavKey): NavBackStack<MyAppNavKey> {
+    return rememberSerializable(serializer = serializer()) {
+        NavBackStack(*elements)
+    }
+}
+
+@Composable
+fun MyApp() {
+    // defaultNavBackStack is NavBackStack<NavKey>
+    val defaultNavBackStack = rememberNavBackStack(ScreenA)
+    // myAppNavBackStack is NavBackStack<MyAppNavKey>
+    val myAppNavBackStack = rememberMyAppNavBackStack(ScreenA)
+}
+// [END android_compose_navigation3_savingstate_3]
