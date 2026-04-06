@@ -14,8 +14,14 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-    <string name="app_name">TV Snippets</string>
-    <string name="title_activity_tv_movies">TvMoviesActivity</string>
-    <string name="startPlayback">Start Playback</string>
-</resources>
+<!-- [START android_tv_navigation_selector] -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+          android:drawable="@drawable/button_pressed" /> <!-- pressed -->
+    <item android:state_focused="true"
+          android:drawable="@drawable/button_focused" /> <!-- focused -->
+    <item android:state_hovered="true"
+          android:drawable="@drawable/button_focused" /> <!-- hovered -->
+    <item android:drawable="@drawable/button_normal" /> <!-- default -->
+</selector>
+<!-- [END android_tv_navigation_selector] -->
