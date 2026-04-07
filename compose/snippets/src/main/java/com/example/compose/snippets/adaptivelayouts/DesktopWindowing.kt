@@ -21,6 +21,7 @@ import android.app.PendingIntent
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.compose.foundation.background
@@ -78,8 +79,9 @@ fun CaptionBar() {
 /**
  * Transparent System Caption Bar
  */
-fun TransparentActionBar(activity: Activity) {
-    with(activity) {
+class TransparentActionBarActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         // [START android_compose_desktop_window_transparent_caption]
         window.insetsController?.setSystemBarsAppearance(
             WindowInsetsController.APPEARANCE_TRANSPARENT_CAPTION_BAR_BACKGROUND,
@@ -89,23 +91,26 @@ fun TransparentActionBar(activity: Activity) {
     }
 }
 
+
 /**
  * Simple drag source for plain text data.
  */
-// [START android_compose_desktop_drag_drop_source]
-fun Modifier.dragAndDropSourceModifier(): Modifier = this.dragAndDropSource { _ ->
-    DragAndDropTransferData(
-        clipData = ClipData.newPlainText("label", "Your data"),
-        flags = View.DRAG_FLAG_GLOBAL_SAME_APPLICATION
-    )
+fun dragAndDropSourceModifier() {
+    // [START android_compose_desktop_drag_drop_source]
+    Modifier.dragAndDropSource { _ ->
+        DragAndDropTransferData(
+            clipData = ClipData.newPlainText("label", "Your data"),
+            flags = View.DRAG_FLAG_GLOBAL_SAME_APPLICATION
+        )
+    }
+    // [END android_compose_desktop_drag_drop_source]
 }
-// [END android_compose_desktop_drag_drop_source]
 
 /**
  * Custom drag source that launches a new Activity instance when dropped.
  */
-// [START android_compose_desktop_drag_drop_source_unhandled_flag]
-fun Modifier.customDragAndDropSource(activity: Activity, itemId: String): Modifier = this.then(
+fun customDragAndDropSource(activity: Activity, itemId: String) {
+    // [START android_compose_desktop_drag_drop_source_unhandled_flag]
     Modifier.dragAndDropSource { _ ->
         val intent = Intent.makeMainActivity(activity.componentName).apply {
             putExtra("EXTRA_ITEM_ID", itemId)
@@ -130,27 +135,29 @@ fun Modifier.customDragAndDropSource(activity: Activity, itemId: String): Modifi
                     View.DRAG_FLAG_START_INTENT_SENDER_ON_UNHANDLED_DRAG,
         )
     }
-)
-// [END android_compose_desktop_drag_drop_source_unhandled_flag]
+    // [END android_compose_desktop_drag_drop_source_unhandled_flag]
+}
 
 /**
  * A target modifier configured to receive plain text drag events.
  */
-// [START android_compose_desktop_drag_drop_target]
-fun Modifier.dragAndDropTargetModifier(activity: Activity): Modifier = this.dragAndDropTarget(
-    shouldStartDragAndDrop = { event ->
-        event.toAndroidDragEvent().clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-    },
-    target = object : DragAndDropTarget {
-        override fun onDrop(event: DragAndDropEvent): Boolean {
-            requestDragAndDropPermissions(activity, event.toAndroidDragEvent())
-            val clipData = event.toAndroidDragEvent().clipData
-            val item = clipData?.getItemAt(0)?.text
-            if (item != null) {
-                // Process the dropped text item here
+fun dragAndDropTargetModifier(activity: Activity) {
+    // [START android_compose_desktop_drag_drop_target]
+    Modifier.dragAndDropTarget(
+        shouldStartDragAndDrop = { event ->
+            event.toAndroidDragEvent().clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+        },
+        target = object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                requestDragAndDropPermissions(activity, event.toAndroidDragEvent())
+                val clipData = event.toAndroidDragEvent().clipData
+                val item = clipData?.getItemAt(0)?.text
+                if (item != null) {
+                    // Process the dropped text item here
+                }
+                return item != null
             }
-            return item != null
         }
-    }
-)
-// [END android_compose_desktop_drag_drop_target]
+    )
+    // [END android_compose_desktop_drag_drop_target]
+}
