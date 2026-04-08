@@ -47,5 +47,6 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":healthconnect",
     ":installprompt",
 )
