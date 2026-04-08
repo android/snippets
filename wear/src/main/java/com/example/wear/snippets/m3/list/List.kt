@@ -24,10 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnDefaults
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
@@ -35,30 +39,15 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.ScalingLazyColumn
-import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
-import com.google.android.horologist.compose.layout.ScalingLazyColumnState
-import com.google.android.horologist.compose.layout.ScreenScaffold
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import com.google.android.horologist.compose.material.Button
-import com.google.android.horologist.compose.material.ListHeaderDefaults.firstItemPadding
-import com.google.android.horologist.compose.material.ResponsiveListHeader
+
 
 @Composable
 fun ComposeList() {
     // [START android_wear_list]
     val columnState = rememberTransformingLazyColumnState()
-    val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Button,
-    )
     val transformationSpec = rememberTransformationSpec()
     ScreenScaffold(
-        scrollState = columnState,
-        contentPadding = contentPadding
+        scrollState = columnState
     ) { contentPadding ->
         TransformingLazyColumn(
             state = columnState,
@@ -66,7 +55,10 @@ fun ComposeList() {
         ) {
             item {
                 ListHeader(
-                    modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
                     transformation = SurfaceTransformation(transformationSpec)
                 ) {
                     Text(text = "Header")
@@ -75,7 +67,10 @@ fun ComposeList() {
             // ... other items
             item {
                 Button(
-                    modifier = Modifier.fillMaxWidth().transformedHeight(this, transformationSpec),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                     transformation = SurfaceTransformation(transformationSpec),
                     onClick = { /* ... */ },
                     icon = {
@@ -97,38 +92,37 @@ fun ComposeList() {
     // [END android_wear_list]
 }
 
-@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun SnapAndFlingComposeList() {
+    val transformationSpec = rememberTransformationSpec()
     // [START android_wear_snap]
-    val columnState = rememberResponsiveColumnState(
-        // ...
-        // [START_EXCLUDE]
-        contentPadding = ScalingLazyColumnDefaults.padding(
-            first = ScalingLazyColumnDefaults.ItemType.Text,
-            last = ScalingLazyColumnDefaults.ItemType.SingleButton
-        ),
-        // [END_EXCLUDE]
-        rotaryMode = ScalingLazyColumnState.RotaryMode.Snap
-    )
+    val columnState = rememberTransformingLazyColumnState()
     ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
-            columnState = columnState
+        TransformingLazyColumn(
+            state = columnState,
+            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState)
         ) {
             // ...
             // [START_EXCLUDE]
             item {
-                ResponsiveListHeader(contentPadding = firstItemPadding()) {
-                    androidx.wear.compose.material.Text(text = "Header")
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ) {
+                    Text(text = "Header")
                 }
             }
             // ... other items
             item {
-                Button(
-                    imageVector = Icons.Default.Build,
-                    contentDescription = "Example Button",
-                    onClick = { }
-                )
+                IconButton(modifier = Modifier.transformedHeight(this, transformationSpec), onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Default.Build,
+                        contentDescription = "Example Button"
+                    )
+                }
             }
             // [END_EXCLUDE]
         }
