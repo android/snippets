@@ -1,6 +1,7 @@
 *               @yrezgui @kkuan2011
 /compose/       @android/devrel-compose
 /car/           @android/devrel-car
+/identity/      @android/devrel-identity
 /watchface/     @android/devrel-wear
 /wear/          @android/devrel-wear
 /wearcompanion/ @android/devrel-wear
