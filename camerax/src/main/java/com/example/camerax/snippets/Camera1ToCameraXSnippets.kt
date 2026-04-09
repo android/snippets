@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.camerax
+package com.example.camerax.snippets
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -42,35 +41,41 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import java.util.concurrent.Executor
 
-fun InitializeCameraSnippet(context: Context, lifecycleOwner: LifecycleOwner) {
+@Composable
+fun InitializeCameraSnippet() {
   // [START android_camerax_initialize_provider]
-  val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-  cameraProviderFuture.addListener({
-                                     val cameraProvider = cameraProviderFuture.get()
+  val context = LocalContext.current
+  val lifecycleOwner = LocalLifecycleOwner.current
+  LaunchedEffect(context, lifecycleOwner) {
+    val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+    cameraProviderFuture.addListener({
+                                       val cameraProvider = cameraProviderFuture.get()
 
-                                     val cameraSelector = CameraSelector.Builder()
-                                       .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                                       .build()
+                                       val cameraSelector = CameraSelector.Builder()
+                                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                                         .build()
 
-                                     val preview = Preview.Builder().build()
-                                     val imageCapture = ImageCapture.Builder()
-                                       .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                                       .build()
+                                       val preview = Preview.Builder().build()
+                                       val imageCapture = ImageCapture.Builder()
+                                         .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                                         .build()
 
-                                     cameraProvider.unbindAll() // Unbind before rebinding
+                                       cameraProvider.unbindAll() // Unbind before rebinding
 
-                                     val camera = cameraProvider.bindToLifecycle(
-                                       lifecycleOwner,
-                                       cameraSelector,
-                                       preview,
-                                       imageCapture
-                                     )
-                                     val cameraControl = camera.cameraControl
-                                   }, ContextCompat.getMainExecutor(context))
+                                       val camera = cameraProvider.bindToLifecycle(
+                                         lifecycleOwner,
+                                         cameraSelector,
+                                         preview,
+                                         imageCapture
+                                       )
+                                       val cameraControl = camera.cameraControl
+                                     }, ContextCompat.getMainExecutor(context))
+  }
   // [END android_camerax_initialize_provider]
 }
 
