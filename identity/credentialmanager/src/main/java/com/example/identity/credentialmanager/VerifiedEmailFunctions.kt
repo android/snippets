@@ -221,7 +221,6 @@ class VerifiedEmailFunctions(
             Base64.NO_WRAP or Base64.URL_SAFE or Base64.NO_PADDING
         )
     }
-    // [END android_identity_create_nonce]
 }
 
 // Placeholder for a data class that would typically be defined elsewhere
