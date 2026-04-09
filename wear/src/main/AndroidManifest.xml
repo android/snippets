@@ -424,6 +424,22 @@
         </service>
         <!-- [END android_wear_datalayer_mywearablelistenerservice_manifest] -->
 
+        <activity
+            android:name=".snippets.audio.RemoteMediaSessionActivity"
+            android:exported="true"
+            android:taskAffinity="">
+            <!-- [START android_wear_remote_media_session_manifest] -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- [END android_wear_remote_media_session_manifest] -->
+            <intent-filter>
+                <action android:name="com.google.wear.services.media.action.REMOTE_MEDIA_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
