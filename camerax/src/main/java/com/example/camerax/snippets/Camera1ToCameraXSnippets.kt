@@ -54,27 +54,28 @@ fun InitializeCameraSnippet() {
   LaunchedEffect(context, lifecycleOwner) {
     val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
     cameraProviderFuture.addListener({
-                                       val cameraProvider = cameraProviderFuture.get()
+        val cameraProvider = cameraProviderFuture.get()
 
-                                       val cameraSelector = CameraSelector.Builder()
-                                         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                                         .build()
+        val cameraSelector = CameraSelector.Builder()
+          .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+          .build()
 
-                                       val preview = Preview.Builder().build()
-                                       val imageCapture = ImageCapture.Builder()
-                                         .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                                         .build()
+        val preview = Preview.Builder().build()
+        val imageCapture = ImageCapture.Builder()
+          .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+          .build()
 
-                                       cameraProvider.unbindAll() // Unbind before rebinding
+        cameraProvider.unbindAll() // Unbind before rebinding
 
-                                       val camera = cameraProvider.bindToLifecycle(
-                                         lifecycleOwner,
-                                         cameraSelector,
-                                         preview,
-                                         imageCapture
-                                       )
-                                       val cameraControl = camera.cameraControl
-                                     }, ContextCompat.getMainExecutor(context))
+        val camera = cameraProvider.bindToLifecycle(
+          lifecycleOwner,
+          cameraSelector,
+          preview,
+          imageCapture
+        )
+        val cameraControl = camera.cameraControl
+      }, ContextCompat.getMainExecutor(context)
+    )
   }
   // [END android_camerax_initialize_provider]
 }
@@ -85,7 +86,12 @@ fun ViewPreviewSnippet(preview: Preview, previewView: androidx.camera.view.Previ
   // [END android_camerax_view_preview]
 }
 
-fun ViewTapToFocusSnippet(previewView: androidx.camera.view.PreviewView, x: Float, y: Float, cameraControl: androidx.camera.core.CameraControl?) {
+fun ViewTapToFocusSnippet(
+  previewView: androidx.camera.view.PreviewView,
+  x: Float,
+  y: Float,
+  cameraControl: androidx.camera.core.CameraControl?,
+) {
   // [START android_camerax_view_tap_to_focus]
   val factory = previewView.meteringPointFactory
   val point = factory.createPoint(x, y) // x, y from touch event
@@ -107,7 +113,10 @@ fun ComposePreviewSnippet() {
 }
 
 @Composable
-fun ComposeRenderViewfinderSnippet(surfaceRequest: SurfaceRequest?, coordinateTransformer: MutableCoordinateTransformer) {
+fun ComposeRenderViewfinderSnippet(
+  surfaceRequest: SurfaceRequest?,
+  coordinateTransformer: MutableCoordinateTransformer,
+) {
   // [START android_camerax_compose_viewfinder]
   surfaceRequest?.let { request ->
     CameraXViewfinder(
@@ -120,7 +129,12 @@ fun ComposeRenderViewfinderSnippet(surfaceRequest: SurfaceRequest?, coordinateTr
 }
 
 @Composable
-fun ComposeTapToFocusSnippet(coordinateTransformer: MutableCoordinateTransformer, offset: Offset, request: SurfaceRequest, cameraControl: androidx.camera.core.CameraControl?) {
+fun ComposeTapToFocusSnippet(
+  coordinateTransformer: MutableCoordinateTransformer,
+  offset: Offset,
+  request: SurfaceRequest,
+  cameraControl: androidx.camera.core.CameraControl?,
+) {
   // [START android_camerax_compose_tap_to_focus]
   // Inside your tap gesture handler...
   val surfaceCoords = with(coordinateTransformer) { offset.transform() }
@@ -135,7 +149,12 @@ fun ComposeTapToFocusSnippet(coordinateTransformer: MutableCoordinateTransformer
 }
 
 @Composable
-fun ComposeRotationSnippet(view: View, imageCapture: ImageCapture, preview: Preview, configuration: Any) {
+fun ComposeRotationSnippet(
+  view: View,
+  imageCapture: ImageCapture,
+  preview: Preview,
+  configuration: Any,
+) {
   // [START android_camerax_compose_rotation]
   LaunchedEffect(configuration) {
     if (!view.isInEditMode) {
