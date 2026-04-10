@@ -10,12 +10,10 @@
 
 package com.example.healthconnect
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,16 +32,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
 import com.example.healthconnect.ui.theme.SnippetsTheme
-import java.time.*
 import kotlinx.coroutines.launch
 import java.time.Clock
+import java.time.Instant
+import java.time.Duration
 
 class HealthConnectActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+        
         setContent {
             SnippetsTheme {
                 HealthConnectScreen(Modifier.fillMaxSize())
@@ -52,7 +50,6 @@ class HealthConnectActivity : ComponentActivity() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HealthConnectScreen(modifier: Modifier) {
@@ -60,10 +57,10 @@ fun HealthConnectScreen(modifier: Modifier) {
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // [START health_connect_get_client]
+    // [START android_get_client]
     val availabilityStatus = HealthConnectClient.getSdkStatus(context)
     if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE) {
-        // Early return as there is no viable integration
+        // SDK is unavailable; subsequent features will be disabled via the null client state.
     }
 
     val healthConnectClient = remember {
@@ -73,11 +70,11 @@ fun HealthConnectScreen(modifier: Modifier) {
             null
         }
     }
-    // [END health_connect_get_client]
+    // [END android_get_client]
 
     // Initialize our snippet manager
     val manager = remember(healthConnectClient) {
-        healthConnectClient?.let { HealthConnectManager(it, context) }
+        healthConnectClient?.let { HealthConnectManager(it) }
     }
 
     Scaffold(

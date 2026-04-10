@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.contacts.ui.theme
+package com.example.healthconnect.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

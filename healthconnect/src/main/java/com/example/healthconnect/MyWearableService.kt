@@ -13,12 +13,13 @@ import androidx.annotation.RequiresPermission
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
-// [START health_connect_companion_service]
+// [START android_companion_service]
 class MyWearableService : CompanionDeviceService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var healthConnectClient: HealthConnectClient? = null
     private var bluetoothGatt: BluetoothGatt? = null
 
+    @Deprecated("Deprecated in Java")
     override fun onDeviceAppeared(address: String) {
         super.onDeviceAppeared(address)
         healthConnectClient = HealthConnectClient.getOrCreate(this)
@@ -29,10 +30,11 @@ class MyWearableService : CompanionDeviceService() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     override fun onDeviceDisappeared(address: String) {
         super.onDeviceDisappeared(address)
         bluetoothGatt?.close()
     }
 }
-// [END health_connect_companion_service]
+// [END android_companion_service]

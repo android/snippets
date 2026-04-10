@@ -7,18 +7,18 @@ import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.records.WeightRecord
 import android.content.Context
 
-class ChangesManager(private val healthConnectClient: HealthConnectClient, private val context: Context) {
+class ChangesManager(private val healthConnectClient: HealthConnectClient) {
 
     suspend fun getChangesToken(): String {
-        // [START health_connect_get_changes_token]
+        // [START android_get_changes_token]
         val changesToken = healthConnectClient.getChangesToken(
             ChangesTokenRequest(recordTypes = setOf(WeightRecord::class))
         )
-        // [END health_connect_get_changes_token]
+        // [END android_get_changes_token]
         return changesToken
     }
 
-    // [START health_connect_process_changes]
+    // [START android_process_changes]
     suspend fun processChanges(token: String): String {
         var nextChangesToken = token
         do {
@@ -33,5 +33,5 @@ class ChangesManager(private val healthConnectClient: HealthConnectClient, priva
         } while (response.hasMore)
         return nextChangesToken
     }
-    // [END health_connect_process_changes]
+    // [END android_process_changes]
 }
