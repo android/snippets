@@ -47,7 +47,7 @@ class VerifiedEmailFunctions(
      */
     @OptIn(ExperimentalDigitalCredentialApi::class)
     suspend fun getVerifiedUserInfo(activity: Activity) {
-        // [START android_credentials_get_verified_user_info_request]
+        // [START android_identity_get_verified_user_info_request]
         val nonce = generateSecureRandomNonce()
 
         // This request follows the OpenID4VP spec
@@ -88,9 +88,9 @@ class VerifiedEmailFunctions(
 
         val getDigitalCredentialOption = GetDigitalCredentialOption(requestJson = openId4vpRequest)
         val request = GetCredentialRequest(listOf(getDigitalCredentialOption))
-        // [END android_credentials_get_verified_user_info_request]
+        // [END android_identity_get_verified_user_info_request]
 
-        // [START android_credentials_get_verified_user_info_response]
+        // [START android_identity_get_verified_user_info_response]
         try {
             // Requesting Digital Credential from user...
             val result = credentialManager.getCredential(activity, request)
@@ -134,7 +134,7 @@ class VerifiedEmailFunctions(
         } catch (e: Exception) {
             // handle exceptions - Up to the developer
         }
-        // [END android_credentials_get_verified_user_info_response]
+        // [END android_identity_get_verified_user_info_response]
     }
 
     /**
@@ -143,7 +143,7 @@ class VerifiedEmailFunctions(
      * @param responseJsonString The raw digital credential response JSON.
      */
     fun parseVerifiedUserInfoResponse(responseJsonString: String) {
-        // [START android_credentials_parse_response]
+        // [START android_identity_parse_response]
         // 1. Parse the outer JSON wrapper to get the `vp_token`
         val responseData = JSONObject(responseJsonString)
         val vpToken = responseData.getJSONObject("vp_token")
@@ -164,7 +164,7 @@ class VerifiedEmailFunctions(
             email = claims.getString("email"),
             displayName = claims.optString("name", claims.getString("email"))
         )
-        // [END android_credentials_parse_response]
+        // [END android_identity_parse_response]
     }
 
     /**
@@ -175,7 +175,7 @@ class VerifiedEmailFunctions(
      * @param nonce The original nonce used in the OpenID4VP request.
      */
     fun createAccountWithVerifiedEmail(responseJsonString: String, nonce: String) {
-        // [START android_credentials_create_account_verified_email_client]
+        // [START android_identity_create_account_verified_email_client]
         try {
             // Send the raw credential response and the original nonce to your server.
             // Your server must validate the response. createAccountWithVerifiedCredentials
@@ -194,8 +194,42 @@ class VerifiedEmailFunctions(
         } catch (e: Exception) {
             // handle exceptions - Up to the developer
         }
-        // [END android_credentials_create_account_verified_email_client]
+        // [END android_identity_create_account_verified_email_client]
     }
+
+    // [START android_identity_response_and_claims_example]
+    /*
+    // Example of the raw JSON response from credential.credentialJson:
+    {
+      "vp_token": {
+        // This key matches the 'id' you set in your dcql_query
+        "user_info_query": [
+          // The SD-JWT string (Issuer JWT ~ Disclosures ~ Key Binding JWT)
+          "eyJhbGciOiJ...~WyI...IiwgImVtYWlsIiwgInVzZXJAZXhhbXBsZS5jb20iXQ~...~eyJhbGciOiJ..."
+        ]
+      }
+    }
+
+    // Example of the parsed and verified claims from the SD-JWT on your server:
+    {
+      "cnf": {
+        "jwk": {..}
+      },
+      "exp": 1775688222,
+      "iat": 1775083422,
+      "iss": "https://verifiablecredentials-pa.googleapis.com",
+      "vct": "UserInfoCredential",
+      "email": "jane.doe.246745@gmail.com",
+      "email_verified": true,
+      "given_name": "Jane",
+      "family_name": "Doe",
+      "name": "Jane Doe",
+      "picture": "http://example.com/janedoe/me.jpg",
+      "hd": ""
+    }
+     */
+// [END android_identity_response_and_claims_example]
+
     /**
      * A placeholder function for server-side validation of the digital credential response.
      *
