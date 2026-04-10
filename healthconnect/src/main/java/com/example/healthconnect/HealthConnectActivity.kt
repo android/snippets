@@ -61,7 +61,7 @@ fun HealthConnectScreen(modifier: Modifier) {
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // [START android_get_client]
+    // [START android_healthconnect_get_client]
     val availabilityStatus = HealthConnectClient.getSdkStatus(context)
     if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE) {
         Box(modifier = modifier.padding(16.dp), contentAlignment = Alignment.Center) {
@@ -81,7 +81,7 @@ fun HealthConnectScreen(modifier: Modifier) {
             null
         }
     }
-    // [END android_get_client]
+    // [END android_healthconnect_get_client]
 
     // Initialize our snippet manager
     val manager = remember(healthConnectClient) {

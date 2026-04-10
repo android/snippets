@@ -11,7 +11,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
-// [START android_background_read_worker]
+// [START android_healthconnect_background_read_worker]
 class ScheduleWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams) {
 
@@ -21,9 +21,9 @@ class ScheduleWorker(appContext: Context, workerParams: WorkerParameters):
         return Result.success()
     }
 }
-// [END android_background_read_worker]
+// [END android_healthconnect_background_read_worker]
 
-// [START android_background_read_workmanager]
+// [START android_healthconnect_background_read_workmanager]
 @OptIn(ExperimentalFeatureAvailabilityApi::class)
 fun enqueueBackgroundReadWorker(context: Context, healthConnectClient: HealthConnectClient) {
     if (healthConnectClient
@@ -42,4 +42,4 @@ fun enqueueBackgroundReadWorker(context: Context, healthConnectClient: HealthCon
         )
     }
 }
-// [END android_background_read_workmanager]
+// [END android_healthconnect_background_read_workmanager]

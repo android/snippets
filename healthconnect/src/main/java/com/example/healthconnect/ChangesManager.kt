@@ -10,15 +10,15 @@ import android.content.Context
 class ChangesManager(private val healthConnectClient: HealthConnectClient) {
 
     suspend fun getChangesToken(): String {
-        // [START android_get_changes_token]
+        // [START android_healthconnect_get_changes_token]
         val changesToken = healthConnectClient.getChangesToken(
             ChangesTokenRequest(recordTypes = setOf(WeightRecord::class))
         )
-        // [END android_get_changes_token]
+        // [END android_healthconnect_get_changes_token]
         return changesToken
     }
 
-    // [START android_process_changes]
+    // [START android_healthconnect_process_changes]
     suspend fun processChanges(token: String): String {
         var nextChangesToken = token
         do {
@@ -33,5 +33,5 @@ class ChangesManager(private val healthConnectClient: HealthConnectClient) {
         } while (response.hasMore)
         return nextChangesToken
     }
-    // [END android_process_changes]
+    // [END android_healthconnect_process_changes]
 }

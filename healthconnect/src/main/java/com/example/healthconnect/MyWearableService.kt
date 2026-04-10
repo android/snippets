@@ -13,7 +13,7 @@ import androidx.annotation.RequiresPermission
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.S)
-// [START android_companion_service]
+// [START android_healthconnect_companion_service]
 class MyWearableService : CompanionDeviceService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var healthConnectClient: HealthConnectClient? = null
@@ -37,4 +37,4 @@ class MyWearableService : CompanionDeviceService() {
         bluetoothGatt?.close()
     }
 }
-// [END android_companion_service]
+// [END android_healthconnect_companion_service]

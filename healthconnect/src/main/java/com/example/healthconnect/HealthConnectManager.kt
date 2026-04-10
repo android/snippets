@@ -30,7 +30,7 @@ class HealthConnectManager(
 ) {
 
     suspend fun insertSteps(startTime: Instant, endTime: Instant) {
-        // [START android_insert_steps]
+        // [START android_healthconnect_insert_steps]
         val zoneOffset = ZoneOffset.systemDefault().rules.getOffset(startTime)
         val stepsRecord = StepsRecord(
             count = 120,
@@ -43,12 +43,12 @@ class HealthConnectManager(
                 recordingMethod = Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED
             )
         )
-        // [END android_insert_steps]
+        // [END android_healthconnect_insert_steps]
         healthConnectClient.insertRecords(listOf(stepsRecord))
     }
 
     suspend fun readStepsAggregate(startTime: Instant, endTime: Instant): Long {
-        // [START android_read_steps_aggregate]
+        // [START android_healthconnect_read_steps_aggregate]
         val response = healthConnectClient.aggregate(
              AggregateRequest(
                 metrics = setOf(StepsRecord.COUNT_TOTAL),
@@ -56,11 +56,11 @@ class HealthConnectManager(
             )
         )
         return response[StepsRecord.COUNT_TOTAL] ?: 0L
-        // [END android_read_steps_aggregate]
+        // [END android_healthconnect_read_steps_aggregate]
     }
 
     suspend fun readHeartRateByTimeRange(startTime: Instant, endTime: Instant) {
-        // [START android_read_heart_rate]
+        // [START android_healthconnect_read_heart_rate]
         val response = healthConnectClient.readRecords(
             ReadRecordsRequest(
                 HeartRateRecord::class,
@@ -70,12 +70,12 @@ class HealthConnectManager(
         response.records.forEach { record ->
             /* Process records */
         }
-        // [END android_read_heart_rate]
+        // [END android_healthconnect_read_heart_rate]
     }
 
     @SuppressLint("RestrictedApi")
     suspend fun insertExerciseRoute(startTime: Instant, endTime: Instant) {
-        // [START android_write_exercise_route]
+        // [START android_healthconnect_write_exercise_route]
         val exerciseRoute = ExerciseRoute(
             listOf(
                 ExerciseRoute.Location(time = startTime, latitude = 6.5483, longitude = 0.5488),
@@ -97,6 +97,6 @@ class HealthConnectManager(
             )
         )
         healthConnectClient.insertRecords(listOf(session))
-        // [END android_write_exercise_route]
+        // [END android_healthconnect_write_exercise_route]
     }
 }
