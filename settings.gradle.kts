@@ -34,6 +34,7 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":camerax",
     ":watchface",
     ":wear",
     ":wearcompanion",
@@ -48,4 +49,5 @@ include(
     ":tv",
     ":contacts",
     ":cars",
+    ":installprompt",
 )
