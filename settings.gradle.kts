@@ -49,5 +49,6 @@ include(
     ":tv",
     ":contacts",
     ":healthconnect",
+    ":cars",
     ":installprompt",
 )
