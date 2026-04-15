@@ -48,5 +48,6 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":cars",
     ":installprompt",
 )
