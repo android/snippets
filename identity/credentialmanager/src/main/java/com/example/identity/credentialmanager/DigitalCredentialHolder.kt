@@ -98,9 +98,14 @@ class DigitalCredentialHolderActivity : Activity() {
     }
     // [END android_identity_mapto_mdoc_entries]
 
-    suspend fun registerCredentials(sdJwtsFromStorage: List<StoredSdJwtEntry>, mdocsFromStorage: List<StoredMdocEntry>, registryManager: RegistryManager) {
+    suspend fun registerCredentials(
+        sdJwtsFromStorage: List<StoredSdJwtEntry>,
+        mdocsFromStorage: List<StoredMdocEntry>,
+        registryManager: RegistryManager
+    ) {
         // [START android_identity_register_credential_entries]
-        val credentialEntries = mapToSdJwtEntries(sdJwtsFromStorage) + mapToMdocEntries(mdocsFromStorage)
+        val credentialEntries =
+            mapToSdJwtEntries(sdJwtsFromStorage) + mapToMdocEntries(mdocsFromStorage)
 
         val openidRegistryRequest = OpenId4VpRegistry(
             credentialEntries = credentialEntries,
@@ -144,9 +149,11 @@ class DigitalCredentialHolderActivity : Activity() {
         // [END android_identity_get_credential_origin]
 
         // [START android_identity_get_signing_cert_hash]
-        val appSigningInfo = request?.callingAppInfo?.signingInfoCompat?.signingCertificateHistory[0]?.toByteArray()
+        val appSigningInfo =
+            request?.callingAppInfo?.signingInfoCompat?.signingCertificateHistory[0]?.toByteArray()
         val md = MessageDigest.getInstance("SHA-256")
-        val certHash = Base64.encodeToString(md.digest(appSigningInfo), Base64.NO_WRAP or Base64.NO_PADDING)
+        val certHash =
+            Base64.encodeToString(md.digest(appSigningInfo), Base64.NO_WRAP or Base64.NO_PADDING)
         return "android:apk-key-hash:$certHash"
         // [END android_identity_get_signing_cert_hash]
     }
@@ -186,14 +193,16 @@ class DigitalCredentialHolderActivity : Activity() {
                     matcher = loadIssuanceMatcher(),
                     type = DigitalCredential.TYPE_DIGITAL_CREDENTIAL,
                     id = "openid4vci",
-                ) {})
+                ) {}
+            )
         } catch (e: Exception) {
             Log.e(TAG, "Issuance registration failed.", e)
         }
         // [END android_identity_register_issuance_create_options]
 
         // [START android_identity_handle_issuance_create_option_selected]
-        val pendingIntentRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
+        val pendingIntentRequest =
+            PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
         val request = pendingIntentRequest!!.callingRequest
         if (request is CreateDigitalCredentialRequest) {
             Log.i(TAG, "Got DC creation request: ${request.requestJson}")
@@ -242,12 +251,15 @@ sealed class StoredSdJwtEntry {
     fun getVCT(): String {
         return ""
     }
+
     fun getClaimsList(): List<SdJwtClaim> {
         return emptyList()
     }
+
     fun toDisplayProperties(): Set<EntryDisplayProperties> {
         return emptySet()
     }
+
     fun getId(): String {
         return ""
     }
@@ -257,12 +269,15 @@ sealed class StoredMdocEntry {
     fun retrieveDocType(): String {
         return ""
     }
+
     fun getFields(): List<MdocField> {
         return emptyList()
     }
+
     fun toDisplayProperties(): Set<EntryDisplayProperties> {
         return emptySet()
     }
+
     fun getId(): String {
         return ""
     }
