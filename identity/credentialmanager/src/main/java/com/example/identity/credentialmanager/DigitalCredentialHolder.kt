@@ -21,10 +21,13 @@ import android.content.Context
 import android.content.Intent
 import android.util.Base64
 import android.util.Log
+import androidx.credentials.CreateDigitalCredentialRequest
+import androidx.credentials.CreateDigitalCredentialResponse
 import androidx.credentials.DigitalCredential
 import androidx.credentials.ExperimentalDigitalCredentialApi
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.GetDigitalCredentialOption
+import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderGetCredentialRequest
@@ -33,9 +36,11 @@ import androidx.credentials.registry.digitalcredentials.mdoc.MdocField
 import androidx.credentials.registry.digitalcredentials.openid4vp.OpenId4VpRegistry
 import androidx.credentials.registry.digitalcredentials.sdjwt.SdJwtClaim
 import androidx.credentials.registry.digitalcredentials.sdjwt.SdJwtEntry
+import androidx.credentials.registry.provider.RegisterCreationOptionsRequest
 import androidx.credentials.registry.provider.RegistryManager
 import androidx.credentials.registry.provider.digitalcredentials.DigitalCredentialEntry
 import androidx.credentials.registry.provider.digitalcredentials.EntryDisplayProperties
+import kotlinx.coroutines.Dispatchers
 import java.security.MessageDigest
 
 class DigitalCredentialHolderActivity : Activity() {
@@ -168,6 +173,69 @@ class DigitalCredentialHolderActivity : Activity() {
             finish()
             // [END android_identity_get_credential_response_exception]
         }
+    }
+
+    @OptIn(ExperimentalDigitalCredentialApi::class)
+    suspend fun registerIssuance(context: Context) {
+        // [START android_identity_register_issuance_create_options]
+        val registryManager = RegistryManager.create(context)
+
+        try {
+            registryManager.registerCreationOptions(object :
+                RegisterCreationOptionsRequest(
+                    creationOptions = buildIssuanceData(),
+                    matcher = loadIssuanceMatcher(),
+                    type = DigitalCredential.TYPE_DIGITAL_CREDENTIAL,
+                    id = "openid4vci",
+                ) {})
+        } catch (e: Exception) {
+            Log.e(TAG, "Issuance registration failed.", e)
+        }
+        // [END android_identity_register_issuance_create_options]
+
+        // [START android_identity_handle_issuance_create_option_selected]
+        val pendingIntentRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
+        val request = pendingIntentRequest!!.callingRequest
+        if (request is CreateDigitalCredentialRequest) {
+            Log.i(TAG, "Got DC creation request: ${request.requestJson}")
+            processCreationRequest(request.requestJson)
+        }
+        // [END android_identity_handle_issuance_create_option_selected]
+    }
+
+    fun buildIssuanceData(): ByteArray {
+        return byteArrayOf()
+    }
+
+    fun loadIssuanceMatcher() : ByteArray {
+        return byteArrayOf()
+    }
+
+    fun processCreationRequest(requestJson: String) {}
+
+    @OptIn(ExperimentalDigitalCredentialApi::class)
+    fun processIssuanceCreationResponse(response: CreateDigitalCredentialResponse) {
+        // [START android_identity_issuance_return_credential_response]
+        val resultData = Intent()
+        PendingIntentHandler.setCreateCredentialResponse(
+            resultData,
+            CreateDigitalCredentialResponse(response.responseJson)
+        )
+        setResult(RESULT_OK, resultData)
+        finish()
+        // [END android_identity_issuance_return_credential_response]
+    }
+
+    fun processIssuanceCreationResponseException() {
+        // [START android_identity_issuance_handle_credential_exception]
+        val resultData = Intent()
+        PendingIntentHandler.setCreateCredentialException(
+            resultData,
+            CreateCredentialUnknownException() // Configure the proper exception
+        )
+        setResult(RESULT_OK, resultData)
+        finish()
+        // [END android_identity_issuance_handle_credential_exception]
     }
 }
 
