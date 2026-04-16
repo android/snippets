@@ -40,7 +40,6 @@ import androidx.credentials.registry.provider.RegisterCreationOptionsRequest
 import androidx.credentials.registry.provider.RegistryManager
 import androidx.credentials.registry.provider.digitalcredentials.DigitalCredentialEntry
 import androidx.credentials.registry.provider.digitalcredentials.EntryDisplayProperties
-import kotlinx.coroutines.Dispatchers
 import java.security.MessageDigest
 
 class DigitalCredentialHolderActivity : Activity() {
@@ -207,7 +206,7 @@ class DigitalCredentialHolderActivity : Activity() {
         return byteArrayOf()
     }
 
-    fun loadIssuanceMatcher() : ByteArray {
+    fun loadIssuanceMatcher(): ByteArray {
         return byteArrayOf()
     }
 
