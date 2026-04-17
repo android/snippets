@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.contacts"
-    compileSdkPreview = "CinnamonBun"
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.contacts"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

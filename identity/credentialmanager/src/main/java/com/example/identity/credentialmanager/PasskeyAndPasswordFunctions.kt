@@ -136,6 +136,43 @@ class PasskeyAndPasswordFunctions(
         }
     }
 
+    fun signInWithPassword() {
+        // [START android_identity_password_get_request]
+        val getPasswordOption = GetPasswordOption()
+
+        val credentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(getPasswordOption)
+            .build()
+        // [END android_identity_password_get_request]
+
+        runBlocking {
+            // [START android_identity_password_get_credential]
+            coroutineScope {
+                try {
+                    val result = credentialManager.getCredential(
+                        context = activityContext,
+                        request = credentialRequest
+                    )
+                    handlePasswordSignIn(result)
+                } catch (e: GetCredentialException) {
+                    // Handle failure
+                }
+            }
+            // [END android_identity_password_get_credential]
+        }
+    }
+
+    // [START android_identity_password_handle_sign_in]
+    fun handlePasswordSignIn(result: GetCredentialResponse) {
+        val credential = result.credential
+        if (credential is PasswordCredential) {
+            val username = credential.id
+            val password = credential.password
+            // Use id and password to send to your server to validate and authenticate
+        }
+    }
+    // [END android_identity_password_handle_sign_in]
+
     fun autofillImplementation(
         requestJson: String
     ) {
