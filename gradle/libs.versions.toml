@@ -62,6 +62,7 @@ google-maps = "20.0.0"
 gradle-versions = "0.53.0"
 guava = "33.5.0-jre"
 guava-android = "33.5.0-jre"
+health-connect = "1.1.0-alpha11"
 hilt = "2.59.2"
 horologist = "0.8.3-alpha"
 junit = "4.13.2"
@@ -182,6 +183,7 @@ androidx-glance-appwidget-testing = { module = "androidx.glance:glance-appwidget
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance-appwidget" }
 androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
+androidx-health-connect = { group = "androidx.health.connect", name = "connect-client", version.ref = "health-connect" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-runtime-compose" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }

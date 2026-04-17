@@ -48,6 +48,7 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":healthconnect",
     ":cars",
     ":installprompt",
 )
