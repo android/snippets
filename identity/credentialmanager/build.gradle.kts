@@ -66,7 +66,9 @@ dependencies {
     // [END android_identity_gradle_dependencies]
 
     // In your app module's build.gradle:
-    implementation(libs.androidx.registry.digitalcredentials)
+    implementation(libs.androidx.registry.digitalcredentials.openid)
+    implementation(libs.androidx.registry.digitalcredentials.mdoc)
+    implementation(libs.androidx.registry.digitalcredentials.sdjwtvc)
     implementation(libs.androidx.registry.provider)
     implementation(libs.androidx.registry.provider.play.services)
 
