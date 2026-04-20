@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    [START android_telecom_own_calls_permission_entry]-->
+    <!-- Required permission for Jetpack Telecom -->
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <!--    [END android_telecom_own_calls_permission_entry]-->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Snippets">
+
+        <!--    [START android_telecom_activity_callback_handle_entry]-->
+        <!-- Activity to handle the callback intent from the system dialer -->
+        <activity
+            android:name=".VoipCallbackActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.telecom.action.CALL_BACK" />
+            </intent-filter>
+        </activity>
+        <!--    [END android_telecom_activity_callback_handle_entry]-->
+    </application>
+
+</manifest>
