@@ -59,7 +59,7 @@ private val bufferSize = AudioRecord.getMinBufferSize(
     16000,
     AudioFormat.CHANNEL_IN_MONO,
     AudioFormat.ENCODING_PCM_16BIT
-)
+).coerceAtLeast(1024)
 
 /**
  * Demonstrates how to obtain a context for the projected device (AI glasses)
@@ -189,12 +189,16 @@ private fun startBluetoothAudioRecording(context: Context) {
 
         // Route recording to the Bluetooth device
         audioRecord.setPreferredDevice(device)
-        audioManager.setCommunicationDevice(device)
+        audioManager?.setCommunicationDevice(device)
 
         audioRecord.startRecording()
+        // [END androidxr_bluetooth_audio_record]
+        
+        // Stop and release when done.
+        audioRecord.stop()
+        audioRecord.release()
     }
 }
-// [END androidxr_bluetooth_audio_record]
 
 /**
  * Demonstrates how to record audio using the projected device context.
@@ -220,5 +224,9 @@ private fun startProjectedAudioRecording(context: Context) {
         .build()
 
     audioRecord.startRecording()
+    // [END androidxr_projected_context_audio_record]
+
+    // Stop and release when done.
+    audioRecord.stop()
+    audioRecord.release()
 }
-// [END androidxr_projected_context_audio_record]
