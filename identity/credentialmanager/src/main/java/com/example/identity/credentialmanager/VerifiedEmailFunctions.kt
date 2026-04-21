@@ -48,10 +48,10 @@ class VerifiedEmailFunctions(
     @OptIn(ExperimentalDigitalCredentialApi::class)
     suspend fun getVerifiedUserInfo(activity: Activity) {
         // [START android_identity_get_verified_user_info_request]
-        val nonce = generateSecureRandomNonce()
+val nonce = generateSecureRandomNonce()
 
-        // This request follows the OpenID4VP spec
-        val openId4vpRequest = """
+// This request follows the OpenID4VP spec
+ val openId4vpRequest = """
     {
       "requests": [
         {
@@ -86,8 +86,8 @@ class VerifiedEmailFunctions(
     }
     """
 
-        val getDigitalCredentialOption = GetDigitalCredentialOption(requestJson = openId4vpRequest)
-        val request = GetCredentialRequest(listOf(getDigitalCredentialOption))
+val getDigitalCredentialOption = GetDigitalCredentialOption(requestJson = openId4vpRequest)
+val request = GetCredentialRequest(listOf(getDigitalCredentialOption))
         // [END android_identity_get_verified_user_info_request]
 
         // [START android_identity_get_verified_user_info_response]
