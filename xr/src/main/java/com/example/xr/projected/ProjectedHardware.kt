@@ -16,13 +16,20 @@
 
 package com.example.xr.projected
 
+import android.Manifest
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CaptureRequest
+import android.media.AudioDeviceInfo
+import android.media.AudioFormat
+import android.media.AudioManager
+import android.media.AudioRecord
+import android.media.MediaRecorder
 import android.util.Log
 import android.util.Range
 import android.util.Size
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresPermission
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.camera2.interop.CaptureRequestOptions
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
@@ -32,10 +39,27 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 
 private const val TAG = "ProjectedHardware"
+
+// Define the audio format
+// the sample rate is limited to 16kHz, with support for mono or stereo channel configurations.
+private val audioFormat = AudioFormat.Builder()
+    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+    .setSampleRate(16000)
+    .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
+    .build()
+
+// Fetch the minimum required size and use it (or a small multiple)
+// to ensure the "shorter chunks" recommended for low latency.
+private val bufferSize = AudioRecord.getMinBufferSize(
+    16000,
+    AudioFormat.CHANNEL_IN_MONO,
+    AudioFormat.ENCODING_PCM_16BIT
+).coerceAtLeast(1024)
 
 /**
  * Demonstrates how to obtain a context for the projected device (AI glasses)
@@ -145,3 +169,64 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
     }, ContextCompat.getMainExecutor(activity))
 }
 // [END androidxr_projected_camera_capture]
+
+/**
+ * Demonstrates how to record audio using Bluetooth HFP
+ */
+@RequiresPermission(allOf = [Manifest.permission.RECORD_AUDIO, Manifest.permission.BLUETOOTH_CONNECT])
+private fun startBluetoothAudioRecording(context: Context) {
+    // [START androidxr_bluetooth_audio_record]
+    val audioManager = context.getSystemService(AudioManager::class.java) ?: return
+    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
+    val hfpDevice = devices.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+
+    hfpDevice?.let { device ->
+        val audioRecord = AudioRecord.Builder()
+            .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
+            .setAudioFormat(audioFormat)
+            .setBufferSizeInBytes(bufferSize)
+            .build()
+
+        // Route recording to the Bluetooth device
+        audioRecord.setPreferredDevice(device)
+        audioManager.setCommunicationDevice(device)
+
+        audioRecord.startRecording()
+        // [END androidxr_bluetooth_audio_record]
+        
+        // Stop and release when done.
+        audioRecord.stop()
+        audioRecord.release()
+    }
+}
+
+/**
+ * Demonstrates how to record audio using the projected device context.
+ */
+@RequiresPermission(Manifest.permission.RECORD_AUDIO)
+@OptIn(ExperimentalProjectedApi::class)
+private fun startProjectedAudioRecording(context: Context) {
+    val projectedDeviceContext = try {
+        ProjectedContext.createProjectedDeviceContext(context)
+    } catch (e: IllegalStateException) {
+        Log.e(TAG, "Projected device context could not be created", e)
+        return
+    }
+
+    // [START androidxr_projected_context_audio_record]
+    // Initialize AudioRecord with projected device context
+    val audioRecord = AudioRecord.Builder()
+        .setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+        .setAudioFormat(audioFormat)
+        .setBufferSizeInBytes(bufferSize)
+        // pass in the projected device context
+        .setContext(projectedDeviceContext)
+        .build()
+
+    audioRecord.startRecording()
+    // [END androidxr_projected_context_audio_record]
+
+    // Stop and release when done.
+    audioRecord.stop()
+    audioRecord.release()
+}
