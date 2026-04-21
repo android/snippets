@@ -39,19 +39,19 @@ class VerifiedEmailFunctions(
 ) {
 
 /**
-    * Constructs an OpenID4VP request for a UserInfoCredential, sends it to the
-    * CredentialManager, and extracts the verified email and user profile claims
-    * from the returned SD-JWT.
-    *
-    * @param activity The current Activity context.
-    */
-@OptIn(ExperimentalDigitalCredentialApi::class)
-suspend fun getVerifiedUserInfo(activity: Activity) {
+     * Constructs an OpenID4VP request for a UserInfoCredential, sends it to the
+     * CredentialManager, and extracts the verified email and user profile claims
+     * from the returned SD-JWT.
+     *
+     * @param activity The current Activity context.
+     */
+    @OptIn(ExperimentalDigitalCredentialApi::class)
+    suspend fun getVerifiedUserInfo(activity: Activity) {
 // [START android_identity_get_verified_user_info_request]
-val nonce = generateSecureRandomNonce()
+        val nonce = generateSecureRandomNonce()
 
 // This request follows the OpenID4VP spec
-val openId4vpRequest = """
+        val openId4vpRequest = """
     {
       "requests": [
         {
