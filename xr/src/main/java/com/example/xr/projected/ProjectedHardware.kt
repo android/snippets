@@ -176,9 +176,9 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
 @RequiresPermission(allOf = [Manifest.permission.RECORD_AUDIO, Manifest.permission.BLUETOOTH_CONNECT])
 private fun startBluetoothAudioRecording(context: Context) {
     // [START androidxr_bluetooth_audio_record]
-    val audioManager = getSystemService(context, AudioManager::class.java)
-    val devices = audioManager?.getDevices(AudioManager.GET_DEVICES_INPUTS)
-    val hfpDevice = devices?.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+    val audioManager = context.getSystemService(AudioManager::class.java) ?: return
+    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
+    val hfpDevice = devices.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
 
     hfpDevice?.let { device ->
         val audioRecord = AudioRecord.Builder()
@@ -189,7 +189,7 @@ private fun startBluetoothAudioRecording(context: Context) {
 
         // Route recording to the Bluetooth device
         audioRecord.setPreferredDevice(device)
-        audioManager?.setCommunicationDevice(device)
+        audioManager.setCommunicationDevice(device)
 
         audioRecord.startRecording()
         // [END androidxr_bluetooth_audio_record]
