@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val callLogUri = getContentUriForVoIPCallLogs()
         telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
 
         setContent {

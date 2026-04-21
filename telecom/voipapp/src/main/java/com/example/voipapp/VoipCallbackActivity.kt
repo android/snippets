@@ -17,32 +17,31 @@
 package com.example.voipapp
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.ui.Modifier
 import androidx.core.telecom.CallAttributesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.voipapp.ui.main.MainFragment
 
-class VoipCallbackActivity : AppCompatActivity() {
+class VoipCallbackActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main, MainFragment.newInstance())
-                .commitNow()
+        setContent {
+            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Text(
+                    text = "Telecom VoIP snippets",
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
         }
     }
 
@@ -66,7 +65,7 @@ class VoipCallbackActivity : AppCompatActivity() {
         )
     // END android_telecom_call_attributes_call_log_exclusion
 
-    @RequiresApi(Build.VERSION_CODES_FULL.BAKLAVA_1)
+    @RequiresApi(37)
     private fun handleCallBack() {
         // START android_telecom_call_back_intent_handling
         // check the intent action for CALL_BACK
@@ -74,7 +73,7 @@ class VoipCallbackActivity : AppCompatActivity() {
             launchCall(
                 // fetching stored call details for the UUID to initiate callback
                 callDetails = getCallDetails(
-                    intent.getStringExtra(TelecomManager.EXTRA_UUID)
+                    uuid = intent.getStringExtra(TelecomManager.EXTRA_UUID)
                 )
             )
         }
