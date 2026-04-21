@@ -118,6 +118,7 @@ dependencies {
     implementation(libs.androidx.glance.material3)
 
     implementation(libs.androidx.window.core)
+    implementation(libs.androidx.window)
 
     implementation(libs.accompanist.theme.adapter.appcompat)
     implementation(libs.accompanist.theme.adapter.material3)
