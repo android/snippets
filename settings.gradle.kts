@@ -50,4 +50,6 @@ include(
     ":contacts",
     ":cars",
     ":installprompt",
+    ":telecom:voipapp",
+    ":telecom:dialer"
 )
