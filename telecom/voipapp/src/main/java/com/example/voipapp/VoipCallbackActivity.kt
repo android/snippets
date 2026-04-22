@@ -40,7 +40,9 @@ class VoipCallbackActivity : ComponentActivity() {
         setContent {
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 Box(
-                    modifier = Modifier.padding(innerPadding),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

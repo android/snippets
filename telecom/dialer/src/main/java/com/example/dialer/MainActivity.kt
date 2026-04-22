@@ -47,7 +47,9 @@ class MainActivity : ComponentActivity() {
             SnippetsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(
-                        modifier = Modifier.padding(innerPadding),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
                         contentAlignment = Alignment.Center
                     ) {
                         Text("Telecom Dialer Snippets")
@@ -62,7 +64,7 @@ class MainActivity : ComponentActivity() {
         CallLog.Calls.CONTENT_URI.buildUpon()
             .appendQueryParameter("include_voip_calls", "true")
             .build()
-        // [END android_telecom_call_log_uri_with_voip_logs]
+    // [END android_telecom_call_log_uri_with_voip_logs]
 
     @RequiresPermission(Manifest.permission.CALL_PHONE)
     fun initiateCallback(callId: Long) {
