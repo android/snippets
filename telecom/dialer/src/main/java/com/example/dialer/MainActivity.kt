@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("Telecom Dialer")
+                        Text("Telecom Dialer Snippets")
                     }
                 }
             }
@@ -58,15 +58,15 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getContentUriForVoIPCallLogs() =
-        // START android_telecom_call_log_uri_with_voip_logs
+        // [START android_telecom_call_log_uri_with_voip_logs]
         CallLog.Calls.CONTENT_URI.buildUpon()
             .appendQueryParameter("include_voip_calls", "true")
             .build()
-    // END android_telecom_call_log_uri_with_voip_logs
+        // [END android_telecom_call_log_uri_with_voip_logs]
 
     @RequiresPermission(Manifest.permission.CALL_PHONE)
     fun initiateCallback(callId: Long) {
-        // START android_telecom_dialer_callback
+        // [START android_telecom_dialer_callback]
         // Uri generated with unique ID of the call log entry to launch the respective VoIP app for callback
         val address = ContentUris.withAppendedId(CallLog.Calls.CONTENT_URI, callId)
 
@@ -74,6 +74,6 @@ class MainActivity : ComponentActivity() {
         val extras = Bundle()
 
         telecomManager.placeCall(address, extras)
-        // END android_telecom_dialer_callback
+        // [END android_telecom_dialer_callback]
     }
 }

@@ -23,10 +23,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.telecom.CallAttributesCompat
 
@@ -37,16 +39,21 @@ class VoipCallbackActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                Text(
-                    text = "Telecom VoIP snippets",
-                    modifier = Modifier.padding(innerPadding)
-                )
+                Box(
+                    modifier = Modifier.padding(innerPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Telecom VoIP snippets",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
 
     private fun getCallAttributes(displayName: String, address: Uri, excludeCallLogging: Boolean, isIncoming: Boolean) =
-        // START android_telecom_call_attributes_call_log_exclusion
+        // [START android_telecom_call_attributes_call_log_exclusion]
         CallAttributesCompat(
             displayName = displayName,
             address = address,
@@ -63,11 +70,11 @@ class VoipCallbackActivity : ComponentActivity() {
                     or CallAttributesCompat.SUPPORTS_TRANSFER
                 ),
         )
-    // END android_telecom_call_attributes_call_log_exclusion
+    // [END android_telecom_call_attributes_call_log_exclusion]
 
     @RequiresApi(37)
     private fun handleCallBack() {
-        // START android_telecom_call_back_intent_handling
+        // [START android_telecom_call_back_intent_handling]
         // check the intent action for CALL_BACK
         if (intent.action == TelecomManager.ACTION_CALL_BACK) {
             launchCall(
@@ -77,7 +84,7 @@ class VoipCallbackActivity : ComponentActivity() {
                 )
             )
         }
-        // END android_telecom_call_back_intent_handling
+        // [END android_telecom_call_back_intent_handling]
     }
 
     private fun getCallDetails(uuid: String?) { }
