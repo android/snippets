@@ -51,4 +51,6 @@ include(
     ":healthconnect",
     ":cars",
     ":installprompt",
+    ":telecom:voipapp",
+    ":telecom:dialer"
 )
