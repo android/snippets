@@ -40,22 +40,12 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.google.android.material)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-
-    implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx)
 
     // telecom dependency
     implementation(libs.androidx.core.telecom)
 
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.google.android.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.ext.junit)

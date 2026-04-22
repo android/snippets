@@ -25,13 +25,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresPermission
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.dialer.ui.theme.SnippetsTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,10 +46,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnippetsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(
+                        modifier = Modifier.padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Telecom Dialer")
+                    }
                 }
             }
         }
@@ -60,7 +62,7 @@ class MainActivity : ComponentActivity() {
         CallLog.Calls.CONTENT_URI.buildUpon()
             .appendQueryParameter("include_voip_calls", "true")
             .build()
-        // END android_telecom_call_log_uri_with_voip_logs
+    // END android_telecom_call_log_uri_with_voip_logs
 
     @RequiresPermission(Manifest.permission.CALL_PHONE)
     fun initiateCallback(callId: Long) {
@@ -73,21 +75,5 @@ class MainActivity : ComponentActivity() {
 
         telecomManager.placeCall(address, extras)
         // END android_telecom_dialer_callback
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SnippetsTheme {
-        Greeting("Android")
     }
 }
