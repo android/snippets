@@ -142,7 +142,7 @@
         "description": "An array of certificate chains. Each chain attests a single key.",
         "items": {
           "type": "array",
-          "description": "An X.509 certificate chain. Each certificate is a Base64-encoded string. The first element in the chain is the leaf certificate with the extension, the last is android keystore root certificate",
+          "description": "An X.509 certificate chain. Each certificate is a Base64-encoded string. The first element in the chain is the leaf certificate with the extension, the last is the Android Keystore root certificate.",
           "items": {
             "type": "string",
             "description": "A single X.509 certificate (Base64-NoWrap padded DER encoded)."
