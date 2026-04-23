@@ -231,7 +231,6 @@
               "android_keystore_attestation": {
                 "proof_signing_alg_values_supported": [
                   "ES256" // ecdsaWithSHA256
-                  ...
                 ],
                 "key_attestations_required" : {
                   // OPTIONAL String - Representing the minimum accepted value for keyMintSecurityLevel values
