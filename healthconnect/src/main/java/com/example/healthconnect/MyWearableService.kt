@@ -35,7 +35,6 @@ class MyWearableService : CompanionDeviceService() {
     private var healthConnectClient: HealthConnectClient? = null
     private var bluetoothGatt: BluetoothGatt? = null
 
-    @Deprecated("Deprecated in Java")
     override fun onDeviceAppeared(address: String) {
         super.onDeviceAppeared(address)
         healthConnectClient = HealthConnectClient.getOrCreate(this)
@@ -46,7 +45,6 @@ class MyWearableService : CompanionDeviceService() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     override fun onDeviceDisappeared(address: String) {
         super.onDeviceDisappeared(address)

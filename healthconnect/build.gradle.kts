@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.healthconnect"
-    compileSdkPreview = "CinnamonBun"
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.healthconnect"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
