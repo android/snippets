@@ -22,16 +22,18 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.core.content.getSystemService
 
-fun isDeviceCredentialSet(context: Context): Boolean {
+fun isDeviceCredentialSet(context: Context) {
     // [START android_cars_parked_browser_device_credential]
     val keyguardManager = context.getSystemService<KeyguardManager>()
     val isDeviceSecure = keyguardManager?.isDeviceSecure == true
     // [END android_cars_parked_browser_device_credential]
-    return isDeviceSecure
 }
 
 fun openSecurityScreen(context: Context) {
     // [START android_cars_parked_browser_security_settings]
-    context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
+    context.startActivity(
+        Intent(Settings.ACTION_SECURITY_SETTINGS)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    )
     // [END android_cars_parked_browser_security_settings]
 }
