@@ -198,7 +198,7 @@
               },
               "user_auth_types": {
                 "type": "array",
-                "description": "OPTIONAL. A list of authentication types which can authorize the use of the key. If empty, no authentication is required. If multipe, any are allowed.",
+                "description": "OPTIONAL. A list of authentication types which can authorize the use of the key. If empty, no authentication is required. If multiple, any are allowed.",
                 "items": {
                   "type": "string",
                   "description": "Allowed values are 'LSKF' and 'BIOMETRIC'. These values are meant to mimic the values used during the key generation process here.",
