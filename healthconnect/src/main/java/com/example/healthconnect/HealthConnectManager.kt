@@ -48,8 +48,8 @@ class HealthConnectManager(
                 recordingMethod = Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED
             )
         )
-        // [END android_healthconnect_insert_steps]
         healthConnectClient.insertRecords(listOf(stepsRecord))
+        // [END android_healthconnect_insert_steps]
     }
 
     suspend fun readStepsAggregate(startTime: Instant, endTime: Instant): Long {
