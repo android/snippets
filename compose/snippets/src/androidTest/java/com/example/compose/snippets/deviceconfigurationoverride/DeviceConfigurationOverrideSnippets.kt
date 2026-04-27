@@ -21,7 +21,7 @@ import androidx.compose.ui.test.DeviceConfigurationOverride
 import androidx.compose.ui.test.FontScale
 import androidx.compose.ui.test.FontWeightAdjustment
 import androidx.compose.ui.test.ForcedSize
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.then
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
