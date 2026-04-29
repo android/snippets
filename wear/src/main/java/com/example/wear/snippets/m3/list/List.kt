@@ -146,16 +146,6 @@ fun EnhancedComposeList() {
             rotaryScrollableBehavior = RotaryScrollableDefaults.snapBehavior(columnState),
             modifier = Modifier.fillMaxWidth()
         ) {
-            item {
-                ListHeader(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .transformedHeight(this, transformationSpec),
-                    transformation = SurfaceTransformation(transformationSpec)
-                ) {
-                    Text("Header")
-                }
-            }
             items(10) { index ->
                 Button(
                     label = {
@@ -167,9 +157,21 @@ fun EnhancedComposeList() {
                     onClick = {},
                     modifier = Modifier
                         .fillMaxWidth()
-                        .transformedHeight(this, transformationSpec),
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                     transformation = SurfaceTransformation(transformationSpec)
                 )
+            }
+            item {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ) {
+                    Text("Header")
+                }
             }
         }
     }
