@@ -54,13 +54,13 @@ class DeviceScanActivity : ListActivity() {
         if (!mScanning) { // Stops scanning after a pre-defined scan period.
             handler.postDelayed({
                 mScanning = false
-                bluetoothLeScanner.stopScan(leScanCallback)
+                bluetoothLeScanner?.stopScan(leScanCallback)
             }, SCAN_PERIOD)
             mScanning = true
-            bluetoothLeScanner.startScan(leScanCallback)
+            bluetoothLeScanner?.startScan(leScanCallback)
         } else {
             mScanning = false
-            bluetoothLeScanner.stopScan(leScanCallback)
+            bluetoothLeScanner?.stopScan(leScanCallback)
         }
     }
     // [END start_and_stop_scan]
