@@ -51,19 +51,6 @@ fun SpatialGltfModelExample(){
     )
     // [END androidxr_compose_SpatialGltfModelState]
 
-    // [START androidxr_compose_SpatialGltfModelAnimation]
-    val gltfAnimation =
-        modelState.animations.find { it.name == "animation_name" }
-
-    DisposableEffect(gltfAnimation) {
-        gltfAnimation?.loop()
-
-        onDispose {
-            gltfAnimation?.stop()
-        }
-    }
-    // [END androidxr_compose_SpatialGltfModelAnimation]
-
     // [START androidxr_compose_SpatialGltfModelMaterial]
     // Retrieve the list of nodes (individual components/meshes) defined within the glTF model.
     val entityNodes = modelState.nodes
@@ -75,44 +62,39 @@ fun SpatialGltfModelExample(){
     var pbrMaterial by remember { mutableStateOf<KhronosPbrMaterial?>(null) }
 
     // Create and apply the custom material once the session is ready and the target node is available.
-    LaunchedEffect( node) {
-        try {
-            val material = pbrMaterial ?: KhronosPbrMaterial.create(
+    LaunchedEffect(node) {
+        val material = pbrMaterial ?: KhronosPbrMaterial.create(
+            session = xrSession,
+            alphaMode = AlphaMode.OPAQUE
+        ).also {
+            pbrMaterial = it
+            // Load a texture
+            val texture = Texture.create(
                 session = xrSession,
-                alphaMode = AlphaMode.OPAQUE
-            ).also {
-                pbrMaterial = it
-                // Load a texture
-                val texture = Texture.create(
-                    session = xrSession,
-                    path = Path("textures/texture_name.png")
-                )
-
-                // Configure occlusion to define how the material surface handles ambient lighting.
-                it.setOcclusionTexture(
-                    texture = texture,
-                    strength = 1.0f
-                )
-
-                // Apply a base color factor (RGBA) to tint the model.
-                it.setBaseColorFactor(
-                    Vector4(
-                        x = 0.5f,
-                        y = 0.5f,
-                        z = 1.0f,
-                        w = 1.0f
-                    )
-                )
-            }
-
-            // Apply the custom PBR material to the specific node, overriding its original glTF material.
-            node?.setMaterialOverride(
-                material = material
+                path = Path("textures/texture_name.png")
             )
 
-        } catch (e: Exception) {
-            Log.e("SpatialGltfModel", "Error creating material", e)
+            // Configure occlusion to define how the material surface handles ambient lighting.
+            it.setOcclusionTexture(
+                texture = texture,
+                strength = 1.0f
+            )
+
+            // Apply a base color factor (RGBA) to tint the model.
+            it.setBaseColorFactor(
+                Vector4(
+                    x = 0.5f,
+                    y = 0.5f,
+                    z = 1.0f,
+                    w = 1.0f
+                )
+            )
         }
+
+        // Apply the custom PBR material to the specific node, overriding its original glTF material.
+        node?.setMaterialOverride(
+            material = material
+        )
     }
     // [END androidxr_compose_SpatialGltfModelMaterial]
 
