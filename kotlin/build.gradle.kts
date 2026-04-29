@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.android.kotlin"
@@ -13,10 +17,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    kotlin {
-        jvmToolchain(17)
     }
 
     buildTypes {
@@ -40,7 +40,6 @@ android {
         // Disable unused AGP features
         buildConfig = false
         aidl = false
-        renderScript = false
         resValues = false
         shaders = false
     }
