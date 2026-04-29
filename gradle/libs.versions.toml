@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.37.3"
+accompanist = "0.36.0"
 activityKtx = "1.13.0"
 android-googleid = "1.2.0"
 androidGradlePlugin = "9.2.0"
