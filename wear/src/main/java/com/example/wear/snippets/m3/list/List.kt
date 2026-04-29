@@ -142,8 +142,6 @@ fun EnhancedComposeList() {
             state = columnState,
             contentPadding = contentPadding,
             reverseLayout = true,
-            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState),
-            rotaryScrollableBehavior = RotaryScrollableDefaults.snapBehavior(columnState),
             modifier = Modifier.fillMaxWidth()
         ) {
             items(10) { index ->
