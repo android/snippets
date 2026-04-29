@@ -23,10 +23,14 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     compileSdk {
         version = release(libs.versions.compileSdk.get().toInt())
-        {minorApiLevel = 1}} // Android 16 QPR 2
+    }
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -45,6 +49,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
         }
@@ -53,10 +58,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        jvmToolchain(17)
     }
 
     buildFeatures {
