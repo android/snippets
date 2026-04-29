@@ -163,6 +163,7 @@ fun EnhancedComposeList() {
                 )
             }
             item {
+                // With reverseLayout = true, the last item declared appears at the top.
                 ListHeader(
                     modifier = Modifier
                         .fillMaxWidth()
