@@ -150,8 +150,7 @@ fun EnhancedComposeList() {
                 Button(
                     label = {
                         Text(
-                            text = "Item ${index + 1}",
-                            modifier = Modifier.fillMaxWidth()
+                            text = "Item ${index + 1}"
                         )
                     },
                     onClick = {},
