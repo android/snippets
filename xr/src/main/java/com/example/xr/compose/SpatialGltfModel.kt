@@ -97,10 +97,10 @@ fun SpatialGltfModelExample(){
                 // Apply a base color factor (RGBA) to tint the model.
                 it.setBaseColorFactor(
                     Vector4(
-                        x = .5f,
-                        y = .5f,
-                        z = 1f,
-                        w = 0f
+                        x = 0.5f,
+                        y = 0.5f,
+                        z = 1.0f,
+                        w = 1.0f
                     )
                 )
             }
