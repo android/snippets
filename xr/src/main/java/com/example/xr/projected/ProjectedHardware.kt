@@ -227,4 +227,8 @@ private fun startProjectedAudioRecording(context: Context, outputFile: File) {
         start()
         // [END androidxr_projected_context_audio_record]
     }
+
+    // Stop and release when done.
+    recorder.stop()
+    recorder.release()
 }
