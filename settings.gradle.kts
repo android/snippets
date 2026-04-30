@@ -34,6 +34,7 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":camerax",
     ":watchface",
     ":wear",
     ":wearcompanion",
@@ -45,5 +46,10 @@ include(
     ":kmp:androidApp",
     ":kmp:shared",
     ":playbilling",
-    ":tv"
+    ":tv",
+    ":contacts",
+    ":healthconnect",
+    ":cars",
+    ":installprompt",
+    ":telecom"
 )

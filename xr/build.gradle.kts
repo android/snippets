@@ -40,6 +40,8 @@ dependencies {
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.camera2)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -68,4 +70,12 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.androidx.xr.projected.testing)
+    testImplementation(libs.truth)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.mockito.kotlin)
 }

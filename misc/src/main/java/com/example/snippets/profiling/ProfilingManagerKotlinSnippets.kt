@@ -135,7 +135,7 @@ class ProfilingManagerKotlinSnippets {
                 // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
                 reportFullyDrawn()
             }
-            // [END_EXCLUDE silent]
+            // [END_EXCLUDE]
         }
         // [END android_profiling_manager_triggered_trace]
 

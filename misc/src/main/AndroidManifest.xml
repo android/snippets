@@ -20,6 +20,7 @@
     <!--[START android_broadcast_receiver_10_manifest_permission]-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--[END android_broadcast_receiver_10_manifest_permission]-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".MyApplication"
