@@ -24,9 +24,7 @@ plugins {
 }
 
 android {
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt())
-        {minorApiLevel = 1}} // Android 16 QPR 2
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
