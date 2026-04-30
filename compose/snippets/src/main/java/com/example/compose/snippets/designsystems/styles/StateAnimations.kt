@@ -130,10 +130,8 @@ val baseGradientButtonStyle = Style {
     contentPadding(16.dp)
     externalPadding(64.dp)
     fontSize(16.sp)
-   /* There is currently a known issue where combining a shape with gradient backgrounds doesn't render properly.
-   b/482308908
     shape(RoundedCornerShape(16.dp))
-    clip(true)*/
+    clip(true)
     background(Brush.linearGradient(listOf(lightPurple, lightBlue)))
 }
 
