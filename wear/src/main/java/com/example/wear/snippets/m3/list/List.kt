@@ -39,6 +39,7 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 
 
 @Composable
@@ -100,7 +101,8 @@ fun SnapAndFlingComposeList() {
     ScreenScaffold(scrollState = columnState) {
         TransformingLazyColumn(
             state = columnState,
-            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState)
+            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState),
+            rotaryScrollableBehavior = RotaryScrollableDefaults.snapBehavior(columnState)
         ) {
             // ...
             // [START_EXCLUDE]
@@ -128,6 +130,50 @@ fun SnapAndFlingComposeList() {
         }
     }
     // [END android_wear_snap]
+}
+
+@Composable
+fun EnhancedComposeList() {
+    // [START android_wear_tlc_reverse]
+    val columnState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
+    ScreenScaffold(scrollState = columnState) { contentPadding ->
+        TransformingLazyColumn(
+            state = columnState,
+            contentPadding = contentPadding,
+            reverseLayout = true,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(10) { index ->
+                Button(
+                    label = {
+                        Text(
+                            text = "Item ${index + 1}"
+                        )
+                    },
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec)
+                )
+            }
+            item {
+                // With reverseLayout = true, the last item declared appears at the top.
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ) {
+                    Text("Header")
+                }
+            }
+        }
+    }
+    // [END android_wear_tlc_reverse]
 }
 
 // [START android_wear_list_breakpoint]
