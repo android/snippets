@@ -55,7 +55,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
             )
             .build()
 
-        val pointSource = PointSourceParams(entity)
+        val pointSource = PointSourceParams()
 
         val soundEffect = appContext.assets.openFd("sounds/tiger_16db.mp3")
         val pointSoundId = soundPool.load(soundEffect, lowPriority)
@@ -65,6 +65,7 @@ private fun playSpatialAudioAtEntity(session: Session, appContext: Context, enti
             if (status == 0) {
                 SpatialSoundPool.play(
                     session = session,
+                    entity = entity,
                     soundPool = soundPool,
                     soundID = pointSoundId,
                     params = pointSource,
@@ -87,7 +88,7 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
     if (session.scene.spatialCapabilities.contains(SpatialCapability.SPATIAL_AUDIO)) {
         // The session has spatial audio capabilities
 
-        val pointSourceAttributes = PointSourceParams(session.scene.mainPanelEntity)
+        val pointSourceAttributes = PointSourceParams()
 
         val mediaPlayer = MediaPlayer()
 
@@ -104,7 +105,8 @@ private fun playSpatialAudioAtEntitySurround(session: Session, appContext: Conte
         SpatialMediaPlayer.setPointSourceParams(
             session,
             mediaPlayer,
-            pointSourceAttributes
+            pointSourceAttributes,
+            entity = session.scene.mainPanelEntity,
         )
 
         mediaPlayer.setAudioAttributes(audioAttributes)
