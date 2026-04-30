@@ -285,6 +285,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+tv-compose-foundation = { module = "androidx.tv:tv-foundation", version = "1.0.0-rc01" }
 tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
