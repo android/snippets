@@ -24,6 +24,7 @@ import androidx.xr.compose.subspace.SceneCoreEntity
 import androidx.xr.compose.subspace.SceneCoreEntitySizeAdapter
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.offset
+import androidx.xr.compose.unit.IntVolumeSize
 import androidx.xr.runtime.math.IntSize2d
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.SurfaceEntity
@@ -49,9 +50,14 @@ fun SceneCoreEntityExample() {
                     entity.stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE
                 },
                 sizeAdapter =
-                    SceneCoreEntitySizeAdapter({
-                        IntSize2d(it.width, it.height)
-                    }),
+                    object : SceneCoreEntitySizeAdapter<SurfaceEntity> {
+                        override fun onLayoutSizeChanged(
+                            entity: SurfaceEntity,
+                            size: IntVolumeSize
+                        ) {
+                            TODO("Not yet implemented")
+                        }
+                    } ,
             ) {
                 // Content here will be children of the SceneCoreEntity
                 // in the scene graph.

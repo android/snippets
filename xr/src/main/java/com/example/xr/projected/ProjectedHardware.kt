@@ -39,7 +39,6 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 
@@ -197,6 +196,7 @@ private fun startBluetoothAudioRecording(context: Context) {
         // Stop and release when done.
         audioRecord.stop()
         audioRecord.release()
+        audioManager.clearCommunicationDevice()
     }
 }
 
