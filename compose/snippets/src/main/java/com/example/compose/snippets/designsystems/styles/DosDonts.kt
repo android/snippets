@@ -183,7 +183,7 @@ private object ThemingDoDonts {
         background(colors.brandSecondary)
         shape(shapes.small)
     }
-    // [END android_compose_styles_theming_dos_composition ]
+    // [END android_compose_styles_theming_dos_composition]
 
     // [START android_compose_styles_themed_values]
     // Do: Use CompositionLocals or themed values to create a single style

@@ -35,7 +35,7 @@ import com.example.compose.snippets.designsystems.styles.CustomThemingWithStyles
 
 
 object ThemingStyles {
-    // [START android_compose_styles_theming_atomic_styles ]
+    // [START android_compose_styles_theming_atomic_styles]
 
     // Define single-purpose "atomic" styles
     val paddingAtomic = Style {
@@ -68,7 +68,7 @@ object ThemingStyles {
         }
     }
 
-    // [END android_compose_styles_theming_atomic_styles ]
+    // [END android_compose_styles_theming_atomic_styles]
 
     // [START android_compose_styles_theming_traditional_non_atomic]
     // One large monolithic style
@@ -88,7 +88,7 @@ object ThemingStyles {
 }
 
 object CustomThemingWithStyles {
-    // [START android_compose_styles_default_object ]
+    // [START android_compose_styles_default_object]
     object JetsnackStyles{
         val buttonStyle: Style = Style {
             shape(shapes.medium)
@@ -109,7 +109,7 @@ object CustomThemingWithStyles {
             contentColor(colors.textPrimary)
         }
     }
-    // [END android_compose_styles_default_object ]
+    // [END android_compose_styles_default_object]
 
     @Immutable
     data class JetsnackColors(
