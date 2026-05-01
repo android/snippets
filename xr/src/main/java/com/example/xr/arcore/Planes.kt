@@ -18,6 +18,7 @@ package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
 import androidx.xr.arcore.Plane
+import androidx.xr.arcore.PlaneLabel
 import androidx.xr.runtime.PlaneTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -44,6 +45,7 @@ private suspend fun subscribePlanes(session: Session) {
     // [END androidxr_arcore_planes_subscribe]
 }
 
+@Suppress("DEPRECATION") // b/508214289
 private fun hitTestTable(session: Session) {
     val devicePose = ArDevice.getInstance(session).state.value.devicePose
     val ray = Ray(devicePose.translation, devicePose.forward)
@@ -52,7 +54,7 @@ private fun hitTestTable(session: Session) {
     // When interested in the first Table hit:
     val tableHit = results.firstOrNull {
         val trackable = it.trackable
-        trackable is Plane && trackable.state.value.label == Plane.Label.TABLE
+        trackable is Plane && trackable.state.value.label == PlaneLabel.TABLE
     }
     // [END androidxr_arcore_hitTest]
 }
