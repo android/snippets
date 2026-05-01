@@ -37,15 +37,6 @@ application {
 
 }
 
-sourceSets {
-    named("main") {
-        java {
-            srcDir("src/main/java")
-        }
-    }
-
-}
-
 dependencies {
     implementation(libs.validator.push)
 }
