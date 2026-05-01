@@ -137,10 +137,10 @@ androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:view
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
-androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-latest" }
-androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-latest" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "androidx-compose-bom" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-latest" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -152,7 +152,7 @@ androidx-compose-material3-adaptive-navigation3 = { module = "androidx.compose.m
 androidx-compose-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class-android", version.ref = "material3-adaptive-navigation-suite" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-latest" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-googlefonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test", version.ref = "compose-latest" }
