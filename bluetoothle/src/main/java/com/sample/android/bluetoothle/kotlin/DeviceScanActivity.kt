@@ -19,6 +19,7 @@ package com.sample.android.bluetoothle.kotlin
 import android.Manifest
 import android.app.ListActivity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.os.Handler
@@ -42,7 +43,7 @@ class DeviceScanActivity : ListActivity() {
     // [END process_scan_result]
 
     // [START start_and_stop_scan]
-    private val bluetoothLeScanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
+    private val bluetoothLeScanner: BluetoothLeScanner? = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
     private var mScanning = false
     private val handler = Handler()
 

@@ -28,9 +28,7 @@ kotlin {
 }
 
 android {
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt())
-    }
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
