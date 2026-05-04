@@ -210,3 +210,37 @@ fun SwitchCamerasSnippet() {
   }
   // [END android_camerax_switch_cameras]
 }
+
+const val CAMERA_X_DEPENDENCIES_TOML = """
+// [START android_camerax_dependencies_toml]
+[versions]
+camerax = "<minimum_version_needed>"
+
+[libraries]
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+androidx-camera-compose = { group = "androidx.camera", name = "camera-compose", version.ref = "camerax" }
+// [END android_camerax_dependencies_toml]
+"""
+
+const val CAMERA_X_DEPENDENCIES_KTS = """
+// [START android_camerax_dependencies_kts]
+implementation(libs.androidx.camera.core)
+implementation(libs.androidx.camera.camera2)
+implementation(libs.androidx.camera.lifecycle)
+implementation(libs.androidx.camera.view)
+implementation(libs.androidx.camera.compose)
+// [END android_camerax_dependencies_kts]
+"""
+
+const val CAMERA_X_DEPENDENCIES_GRADLE = """
+// [START android_camerax_dependencies_gradle]
+implementation "androidx.camera:camera-core:<minimum_version_needed>"
+implementation "androidx.camera:camera-camera2:<minimum_version_needed>"
+implementation "androidx.camera:camera-lifecycle:<minimum_version_needed>"
+implementation "androidx.camera:camera-view:<minimum_version_needed>"
+implementation "androidx.camera:camera-compose:<minimum_version_needed>"
+// [END android_camerax_dependencies_gradle]
+"""
