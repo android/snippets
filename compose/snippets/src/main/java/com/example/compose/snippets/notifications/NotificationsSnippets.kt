@@ -16,11 +16,11 @@
 
 package com.example.compose.snippets.notifications
 
-import android.content.Context;
-import android.content.Intent;
+import android.content.Context
+import android.content.Intent
 import android.app.PendingIntent;
 import androidx.compose.runtime.Composable
-import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat
 import androidx.core.app.PendingIntentCompat
 
 @Composable
