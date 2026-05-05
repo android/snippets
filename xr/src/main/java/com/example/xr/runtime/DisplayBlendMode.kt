@@ -30,11 +30,13 @@ fun getPreferredBlendMode(context: Context) {
         XrDevice.getCurrentDevice(context).getPreferredDisplayBlendMode()
     when (preferredDisplayBlendMode) {
         ADDITIVE -> {
+            // This is a common blend mode for optical see through (OST) devices like Wired XR Glasses
             // Virtual content is added to the real world by adding the pixel values for each of
             // Red, Green, and Blue components. Alpha is ignored. Black pixels will appear transparent.
         }
 
         ALPHA_BLEND -> {
+            // This is a common blend mode for virtual see through (VST) devices like XR Headsets
             // Virtual content is added to the real world by alpha blending the pixel values based
             // on the Alpha component.
         }
