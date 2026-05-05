@@ -128,6 +128,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.pip)
+    implementation(libs.androidx.core.telecom)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)

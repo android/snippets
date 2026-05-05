@@ -24,6 +24,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.util.Rational
 import androidx.activity.ComponentActivity
@@ -45,6 +46,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.PictureInPictureModeChangedInfo
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.core.graphics.toRect
 import androidx.core.util.Consumer
 import androidx.media3.common.Player
@@ -404,3 +406,4 @@ fun EnterPiPPre12(shouldEnterPipMode: Boolean) {
     }
     // [END android_compose_pip_pre12_should_enter_pip]
 }
+
