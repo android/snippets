@@ -20,6 +20,8 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.core.content.ContextCompat
 import androidx.core.pip.PictureInPictureDelegate
 import androidx.core.pip.VideoPlaybackPictureInPicture
@@ -35,6 +37,7 @@ class VideoPlaybackJpipActivity : ComponentActivity(), PictureInPictureDelegate.
             this
         )
         setContent {
+            ContentScreen(pictureInPictureImpl)
         }
     }
     override fun onPictureInPictureEvent(
@@ -51,9 +54,13 @@ class VideoPlaybackJpipActivity : ComponentActivity(), PictureInPictureDelegate.
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        pictureInPictureImpl.close()
+    @Composable
+    fun ContentScreen(pipController: VideoPlaybackPictureInPicture) {
+        DisposableEffect(pipController) {
+            onDispose {
+                pipController.close()
+            }
+        }
     }
 }
 // [END android_jpip_video_playback_impl]
