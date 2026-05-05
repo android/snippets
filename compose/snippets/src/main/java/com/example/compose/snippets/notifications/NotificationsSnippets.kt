@@ -26,7 +26,10 @@ import androidx.core.app.PendingIntentCompat
 @Composable
 fun NotificationSnippets(context: Context) {
     // [START android_notification_authenticated_action]
-    val intent = Intent(context, null)
+    val intent = Intent(
+        context, null
+        /** Replace with a valid target activity */
+    )
     val moreSecureNotification = NotificationCompat.Action.Builder(
         0, "Reply",
         PendingIntentCompat.getActivity(context, 0, intent, PendingIntent.FLAG_NO_CREATE, false)
