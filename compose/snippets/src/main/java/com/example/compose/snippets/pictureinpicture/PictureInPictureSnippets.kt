@@ -45,7 +45,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.PictureInPictureModeChangedInfo
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getMainExecutor
 import androidx.core.graphics.toRect
 import androidx.core.util.Consumer
 import androidx.media3.common.Player
