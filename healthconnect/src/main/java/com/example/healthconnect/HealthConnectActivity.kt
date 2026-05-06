@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
 import com.example.healthconnect.ui.theme.SnippetsTheme
 import kotlinx.coroutines.launch
-import java.time.Clock
 import java.time.Instant
 import java.time.Duration
 
@@ -137,6 +136,22 @@ fun HealthConnectScreen(modifier: Modifier) {
                             }
                         }) {
                         Text("Run: Read Steps Aggregate")
+                    }
+                }
+
+                item {
+                    Button(
+                        modifier = Modifier.padding(top = 8.dp),
+                        onClick = {
+                            coroutineScope.launch {
+                                val startTime = Instant.now().minus(Duration.ofDays(1))
+                                val endTime = Instant.now()
+
+                                val total = manager.readDistanceAggregate(startTime, endTime)
+                                snackbarHostState.showSnackbar("Total Distance: $total")
+                            }
+                        }) {
+                        Text("Run: Read Distance Aggregate")
                     }
                 }
             }
