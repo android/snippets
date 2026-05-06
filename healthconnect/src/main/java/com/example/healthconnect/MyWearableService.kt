@@ -18,6 +18,8 @@ package com.example.healthconnect
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
+import android.bluetooth.BluetoothGattCallback
+import android.bluetooth.BluetoothGattCharacteristic
 import android.companion.CompanionDeviceService
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -27,6 +29,7 @@ import androidx.health.connect.client.records.ExerciseRouteResult
 import androidx.health.connect.client.records.ExerciseRoute
 import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.records.ExerciseSessionRecord
+import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.metadata.Device
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -41,6 +44,7 @@ import java.time.ZoneOffset
 
 @RequiresApi(Build.VERSION_CODES.S)
 class MyWearableService : CompanionDeviceService() {
+    // [START android_healthconnect_companion_device_service]
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var healthConnectClient: HealthConnectClient? = null
     private var bluetoothGatt: BluetoothGatt? = null
@@ -52,13 +56,35 @@ class MyWearableService : CompanionDeviceService() {
         serviceScope.launch {
             val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
 
-            // New logic: Read session and route
+            // 1. Check permissions ONCE when the device connects
+            if (granted?.contains(HealthPermission.getWritePermission(HeartRateRecord::class)) == true) {
+                // This is where you'd actually start the Bluetooth connection
+                // bluetoothGatt = gattCallback.connect(...)
+            }
+
+            // 2. Do your initial database read
             readExerciseSessionAndRoute()
-
-            // ... set up GATT and subscribe ...
         }
-
     }
+
+    private val gattCallback = object : BluetoothGattCallback() {
+        override fun onCharacteristicChanged(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            value: ByteArray
+        ) {
+            super.onCharacteristicChanged(gatt, characteristic, value)
+
+            // 3. ONLY process the incoming data here
+            val rawData = value
+
+            serviceScope.launch {
+                // parseWearableData(rawData)
+                // insertExerciseRoute() or writeToHealthConnect()
+            }
+        }
+    }
+    // [END android_healthconnect_companion_device_service]
 
     // [START android_healthconnect_read_exercise_route]
     private suspend fun readExerciseSessionAndRoute() {

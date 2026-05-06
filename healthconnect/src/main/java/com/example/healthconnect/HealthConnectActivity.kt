@@ -16,10 +16,14 @@
 
 package com.example.healthconnect
 
+import android.Manifest
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -42,6 +46,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
 import com.example.healthconnect.ui.theme.SnippetsTheme
+import com.google.android.gms.fitness.FitnessLocal
+import com.google.android.gms.fitness.data.LocalDataType
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.Duration
@@ -56,6 +62,22 @@ class HealthConnectActivity : ComponentActivity() {
                 HealthConnectScreen(Modifier.fillMaxSize())
             }
         }
+    }
+
+    @RequiresPermission(Manifest.permission.ACTIVITY_RECOGNITION)
+    fun subscribeToSteps(context: Context, onResult: (String) -> Unit) {
+        // [START android_healthconnect_subscribe_fitness_data]
+        val localRecordingClient = FitnessLocal.getLocalRecordingClient(context)
+        localRecordingClient.subscribe(LocalDataType.TYPE_STEP_COUNT_DELTA)
+            .addOnSuccessListener {
+                Log.i("HealthConnectManager", "Successfully subscribed!")
+                onResult("Successfully subscribed!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("HealthConnectManager", "There was a problem subscribing.", e)
+                onResult("Subscription failed: ${e.message}")
+            }
+        // [END android_healthconnect_subscribe_fitness_data]
     }
 }
 
