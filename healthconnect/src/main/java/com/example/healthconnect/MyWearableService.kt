@@ -57,7 +57,7 @@ class MyWearableService : CompanionDeviceService() {
             val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
 
             // 1. Check permissions ONCE when the device connects
-            if (granted?.contains(HealthPermission.getWritePermission(HeartRateRecord::class)) == true) {
+            if (granted?.contains(HealthPermission.getWritePermission(HeartRateRecord::class))?: false) {
                 // This is where you'd actually start the Bluetooth connection
                 // bluetoothGatt = gattCallback.connect(...)
             }
@@ -114,17 +114,15 @@ class MyWearableService : CompanionDeviceService() {
 
         // 3. Read the specific record to check for the route
         val sessionResponse = client.readRecord(ExerciseSessionRecord::class, recordId)
-        val exerciseSessionRecord = sessionResponse.record
 
-        // 4. Handle the Route Result
-        when (val routeResult = exerciseSessionRecord.exerciseRouteResult) {
+        // 4. Handle the Route Result directly from the response
+        when (val routeResult = sessionResponse.record.exerciseRouteResult) {
             is ExerciseRouteResult.Data -> {
                 displayExerciseRoute(routeResult.exerciseRoute)
             }
             is ExerciseRouteResult.ConsentRequired -> {
-                // NOTE: Since you are in a Service, you cannot launch the ActivityResultLauncher here.
-                // You would typically send a notification to the user to open the app
-                // and grant route-specific consent.
+                // Since you are in a Service, you cannot launch ActivityResultLauncher.
+                // Send a notification to the user to grant route-specific consent.
                 handleConsentRequired(recordId)
             }
             is ExerciseRouteResult.NoData -> Unit
