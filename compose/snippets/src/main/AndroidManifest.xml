@@ -48,6 +48,13 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".pictureinpicture.NavOrVideoCallJpipActivity"
+            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
+            android:exported="false"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/Theme.Snippets" />
+
         <activity android:name=".layouts.InsetSnippetActivity"
             android:exported="false"/>
 
