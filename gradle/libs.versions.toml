@@ -2,7 +2,7 @@
 accompanist = "0.36.0"
 activityKtx = "1.13.0"
 android-googleid = "1.2.0"
-androidGradlePlugin = "9.1.0"
+androidGradlePlugin = "9.1.1"
 androidx-activity-compose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha08"
@@ -15,6 +15,7 @@ androidx-constraintlayout = "2.2.1"
 androidx-constraintlayout-compose = "1.1.1"
 androidx-coordinator-layout = "1.3.0"
 androidx-corektx = "1.18.0"
+androidx-corepip = "1.0.0-alpha02"
 androidx-credentials = "1.6.0-rc02"
 androidx-credentials-play-services-auth = "1.6.0-rc02"
 androidx-emoji2-views = "1.6.0"
@@ -168,6 +169,7 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout-compose" }
 androidx-coordinator-layout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinator-layout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
+androidx-core-pip = { module = "androidx.core:core-pip", version.ref = "androidx-corepip"}
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials-play-services-auth" }
