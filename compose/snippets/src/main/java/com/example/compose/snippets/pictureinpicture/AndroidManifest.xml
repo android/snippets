@@ -16,11 +16,11 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application>
-        // [START android_jpip_manifest_config]
+        <!-- [START android_jpip_manifest_config] -->
         <activity
             android:name="com.example.compose.snippets.pictureinpicture.NavOrVideoCallJpipActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:supportsPictureInPicture="true" />
-        // [END android_jpip_manifest_config]
+        <!-- [END android_jpip_manifest_config] -->
     </application>
 </manifest>

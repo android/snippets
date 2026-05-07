@@ -22,7 +22,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -85,14 +84,18 @@ fun NotificationSnippetRequestPostPermission() {
     // [END android_notification_request_post_permission]
 }
 
-// [START android_notification_delete_channel]
+
 @Composable
-fun deleteNotificationId(channelId: String) {
+fun deleteNotificationChannelId(channelId: String) {
+    // Side effects like deleting a channel should be triggered by events or wrapped in a
+    // LaunchedEffect to avoid executing them on every recomposition. This is only
+    // for demonstrative purposes
+    // [START android_notification_delete_channel]
     val notificationManager =
         LocalContext.current.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     notificationManager.deleteNotificationChannel(channelId)
+    // [END android_notification_delete_channel]
 }
-// [END android_notification_delete_channel]
 
 // [START android_notification_create_group_channel]
 @Composable
@@ -109,7 +112,7 @@ fun notificationStyles() {
     val context = LocalContext.current
     val bitmapImage = BitmapFactory.decodeResource(
         context.resources,
-        com.example.compose.snippets.R.drawable.dog
+        R.drawable.dog
     )
     val CHANNEL_ID = "channelId"
     val someVeryLongMessage = "This is a very long message"
@@ -135,7 +138,7 @@ fun notificationStyles() {
         .setStyle(
             NotificationCompat.BigPictureStyle()
                 .bigPicture(bitmapImage)
-                .bigLargeIcon(null as Bitmap?)
+                .bigLargeIcon(null)
         )
         .build()
     // [END android_notification_big_picture_style_thumbnail]
@@ -170,14 +173,14 @@ fun notificationStyles() {
 
     // [START android_notification_messaging_style]
     val message1 = NotificationCompat.MessagingStyle.Message(
-        messages[0].getText(),
-        messages[0].getTime(),
-        messages[0].getSender()
+        messages[0].text,
+        messages[0].time,
+        messages[0].sender
     )
     val message2 = NotificationCompat.MessagingStyle.Message(
-        messages[1].getText(),
-        messages[1].getTime(),
-        messages[1].getSender()
+        messages[1].text,
+        messages[1].time,
+        messages[1].sender
     )
     notification = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_logo)
@@ -202,7 +205,7 @@ fun notificationStyles() {
         .addAction(R.drawable.next, "Next", null /* Add valid intent */) // #2
         // Apply the media style template.
         .setStyle(MediaStyleNotificationHelper.MediaStyle(mediaSession)
-            .setShowActionsInCompactView(1 /* #1: pause button \*/))
+            .setShowActionsInCompactView(1 /* #1: pause button */))
         .setContentTitle("Wonderful music")
         .setContentText("My Awesome Band")
         .setLargeIcon(bitmapImage)
@@ -210,15 +213,11 @@ fun notificationStyles() {
     // [END android_notification_media_style]
 }
 
-class Message(
-    private val text: String,
-    private val time: Long,
-    private val sender: Person
-) {
-    fun getText(): String = text
-    fun getTime(): Long = time
-    fun getSender(): Person = sender
-}
+data class Message(
+    val text: String,
+    val time: Long,
+    val sender: Person
+)
 
 val messages = listOf(
     Message(
