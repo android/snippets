@@ -17,22 +17,24 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
+import androidx.xr.arcore.CreateGeospatialPoseFromPoseErrorInternal
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseNotTracking
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseSuccess
+import androidx.xr.arcore.CreatePoseFromGeospatialPoseErrorInternal
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseNotTracking
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseSuccess
 import androidx.xr.arcore.Geospatial
+import androidx.xr.arcore.VpsAvailabilityAvailable
+import androidx.xr.arcore.VpsAvailabilityErrorInternal
+import androidx.xr.arcore.VpsAvailabilityNetworkError
+import androidx.xr.arcore.VpsAvailabilityNotAuthorized
+import androidx.xr.arcore.VpsAvailabilityResourceExhausted
+import androidx.xr.arcore.VpsAvailabilityUnavailable
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.DeviceTrackingMode
 import androidx.xr.runtime.GeospatialMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
-import androidx.xr.runtime.VpsAvailabilityAvailable
-import androidx.xr.runtime.VpsAvailabilityErrorInternal
-import androidx.xr.runtime.VpsAvailabilityNetworkError
-import androidx.xr.runtime.VpsAvailabilityNotAuthorized
-import androidx.xr.runtime.VpsAvailabilityResourceExhausted
-import androidx.xr.runtime.VpsAvailabilityUnavailable
 import androidx.xr.runtime.math.GeospatialPose
 import androidx.xr.runtime.math.Pose
 
@@ -42,8 +44,8 @@ private fun configureGeospatialSession(session: Session) {
     val newConfig = Config(
         // Set the GeospatialMode to VPS_AND_GPS.
         geospatial = GeospatialMode.VPS_AND_GPS,
-        // Set the DeviceTrackingMode to LAST_KNOWN.
-        deviceTracking = DeviceTrackingMode.LAST_KNOWN
+        // Set the DeviceTrackingMode to SPATIAL_LAST_KNOWN.
+        deviceTracking = DeviceTrackingMode.SPATIAL_LAST_KNOWN
     )
     // Apply the configuration to the session.
     try {
@@ -117,6 +119,8 @@ private fun convertDeviceToGeospatial(session: Session, geospatial: Geospatial) 
         is CreateGeospatialPoseFromPoseNotTracking -> {
             // Geospatial is not currently tracking.
         }
+
+        is CreateGeospatialPoseFromPoseErrorInternal -> TODO()
     }
     // [END androidxr_arcore_geospatial_device_to_geospatial]
 }
@@ -131,6 +135,9 @@ private fun convertGeospatialToDevice(geospatial: Geospatial, geoPose: Geospatia
         }
         is CreatePoseFromGeospatialPoseNotTracking -> {
             // Geospatial is not currently tracking.
+        }
+        is CreatePoseFromGeospatialPoseErrorInternal -> {
+            // An internal error occurred.
         }
     }
     // [END androidxr_arcore_geospatial_pose_to_device]

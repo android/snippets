@@ -22,7 +22,7 @@ import androidx.xr.runtime.Session
 import androidx.xr.scenecore.scene
 
 @Composable
-fun modeTransitionCompose() {
+fun ModeTransitionCompose() {
     // [START androidxr_misc_modeTransitionCompose]
     val session = LocalSession.current ?: return
     session.scene.requestHomeSpaceMode()
@@ -31,7 +31,7 @@ fun modeTransitionCompose() {
     // [END androidxr_misc_modeTransitionCompose]
 }
 
-fun modeTransitionScenecore(xrSession: Session) {
+fun ModeTransitionScenecore(xrSession: Session) {
     // [START androidxr_misc_modeTransitionScenecore]
     xrSession.scene.requestHomeSpaceMode()
     // [END androidxr_misc_modeTransitionScenecore]

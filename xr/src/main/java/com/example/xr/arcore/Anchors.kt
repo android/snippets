@@ -17,8 +17,7 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.Anchor
-import androidx.xr.arcore.AnchorCreateSuccess
-import androidx.xr.arcore.runtime.Anchorable
+import androidx.xr.arcore.Plane
 import androidx.xr.runtime.AnchorPersistenceMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -41,22 +40,15 @@ fun configureAnchoring(session: Session) {
 }
 
 private fun createAnchorAtPose(session: Session, pose: Pose) {
-    val pose = Pose()
     // [START androidxr_arcore_anchor_create]
-    when (val result = Anchor.create(session, pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
-    }
+    val anchor = Anchor.create(session, pose)
     // [END androidxr_arcore_anchor_create]
 }
 
-private fun createAnchorAtAnchorable(anchorable: Anchorable) {
+private fun createAnchorAtAnchorable(plane: Plane) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create_trackable]
-    when (val result = anchorable.createAnchor(pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
-    }
+    val anchor = plane.createAnchor(pose)
     // [END androidxr_arcore_anchor_create_trackable]
 }
 
