@@ -31,9 +31,9 @@ import kotlinx.coroutines.flow.flowOf
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @OptIn(
-    ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class,
+    ExperimentalXrDeviceLifecycleApi::class,
+    ExperimentalProjectedApi::class,
     ExperimentalCoroutinesApi::class,
-
 )
 suspend fun collectDeviceLifecycle(context: Context) {
     // [START androidxr_device_lifecycle_collect]
@@ -49,7 +49,7 @@ suspend fun collectDeviceLifecycle(context: Context) {
 
                     // Get the device lifecycle
                     xrDevice.getLifecycle().currentStateFlow
-                } catch (e: Exception) {
+                } catch (e: IllegalStateException) {
                     flowOf(Lifecycle.State.DESTROYED)
                 }
             } else {
