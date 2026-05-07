@@ -30,7 +30,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
-@OptIn(ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class,
+@OptIn(
+    ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class,
     ExperimentalCoroutinesApi::class,
 
 )
