@@ -15,9 +15,9 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- [START android_jpip_manifest_config] -->
+    <!-- [START android_manifest_config] -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application>
     </application>
-    <!-- [END android_jpip_manifest_config] -->
+    <!-- [END android_manifest_config] -->
 </manifest>
