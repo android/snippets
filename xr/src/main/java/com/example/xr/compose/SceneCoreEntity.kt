@@ -17,6 +17,7 @@
 package com.example.xr.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.Subspace
@@ -24,39 +25,49 @@ import androidx.xr.compose.subspace.SceneCoreEntity
 import androidx.xr.compose.subspace.SceneCoreEntitySizeAdapter
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.offset
+import androidx.xr.compose.unit.IntVolumeSize
+import androidx.xr.compose.unit.Meter
+import androidx.xr.runtime.math.FloatSize2d
 import androidx.xr.runtime.math.IntSize2d
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.SurfaceEntity
 
 @Composable
 fun SceneCoreEntityExample() {
-    val session = LocalSession.current
-    if (session !== null) {
-        // [START androidxr_compose_SceneCoreEntity]
-        Subspace {
-            SceneCoreEntity(
-                modifier = SubspaceModifier.offset(x = 50.dp),
-                factory = {
-                    SurfaceEntity.create(
-                        session = session,
-                        pose = Pose.Identity,
-                        stereoMode = SurfaceEntity.StereoMode.MONO
-                    )
+    val session = LocalSession.current ?: return
+    // [START androidxr_compose_SceneCoreEntity]
+    val density = LocalDensity.current
+    Subspace {
+        SceneCoreEntity(
+            modifier = SubspaceModifier.offset(x = 50.dp),
+            factory = {
+                SurfaceEntity.create(
+                    session = session,
+                    pose = Pose.Identity,
+                    stereoMode = SurfaceEntity.StereoMode.MONO
+                )
+            },
+            update = { entity ->
+                // Compose state changes may be applied to the SceneCore entity here.
+                entity.stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE
+            },
+            sizeAdapter =
+                object : SceneCoreEntitySizeAdapter<SurfaceEntity> {
+                    override fun onLayoutSizeChanged(
+                        entity: SurfaceEntity,
+                        size: IntVolumeSize
+                    ) {
+                        val extents = FloatSize2d(
+                            Meter.fromPixel(size.width.toFloat(), density).toM(),
+                            Meter.fromPixel(size.height.toFloat(), density).toM(),
+                        )
+                        entity.shape = SurfaceEntity.Shape.Quad(extents)
+                    }
                 },
-                update = { entity ->
-                    // compose state changes may be applied to the
-                    // SceneCore entity here.
-                    entity.stereoMode = SurfaceEntity.StereoMode.SIDE_BY_SIDE
-                },
-                sizeAdapter =
-                    SceneCoreEntitySizeAdapter({
-                        IntSize2d(it.width, it.height)
-                    }),
-            ) {
-                // Content here will be children of the SceneCoreEntity
-                // in the scene graph.
-            }
+        ) {
+            // Content here will be children of the SceneCoreEntity
+            // in the scene graph.
         }
-        // [END androidxr_compose_SceneCoreEntity]
     }
+    // [END androidxr_compose_SceneCoreEntity]
 }
