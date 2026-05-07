@@ -22,6 +22,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -134,7 +135,7 @@ fun notificationStyles(context: Context) {
         .setStyle(
             NotificationCompat.BigPictureStyle()
                 .bigPicture(bitmapImage)
-                .bigLargeIcon(null)
+                .bigLargeIcon(null as Bitmap?)
         )
         .build()
     // [END android_notification_big_picture_style_thumbnail]
