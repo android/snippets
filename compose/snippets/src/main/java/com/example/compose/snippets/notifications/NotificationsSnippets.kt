@@ -154,7 +154,7 @@ fun notificationStyles(context: Context) {
 
     // [START android_notification_inbox_style]
     notification = NotificationCompat.Builder(context, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_logo)
+        .setSmallIcon(R.drawable.mail)
         .setContentTitle("5 New mails from Frank")
         .setContentText("Check them out")
         .setLargeIcon(bitmapImage)
