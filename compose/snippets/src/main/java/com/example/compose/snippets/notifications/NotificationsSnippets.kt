@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import androidx.core.app.PendingIntentCompat
 import androidx.core.app.Person
+import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
@@ -84,32 +85,27 @@ fun NotificationSnippetRequestPostPermission() {
     // [END android_notification_request_post_permission]
 }
 
-
-@Composable
-fun deleteNotificationChannelId(channelId: String) {
+fun deleteNotificationChannelId(context: Context, channelId: String) {
     // Side effects like deleting a channel should be triggered by events or wrapped in a
     // LaunchedEffect to avoid executing them on every recomposition. This is only
     // for demonstrative purposes
     // [START android_notification_delete_channel]
     val notificationManager =
-        LocalContext.current.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.deleteNotificationChannel(channelId)
+        ContextCompat.getSystemService<NotificationManager>(context, NotificationManager::class.java)
+    notificationManager?.deleteNotificationChannel(channelId)
     // [END android_notification_delete_channel]
 }
 
 // [START android_notification_create_group_channel]
-@Composable
-fun createNotificationChannelGroup(groupId: String, groupName: String) {
+fun createNotificationChannelGroup(context: Context, groupId: String, groupName: String) {
     val notificationManager =
-        LocalContext.current.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.createNotificationChannelGroup(NotificationChannelGroup(groupId, groupName))
+        ContextCompat.getSystemService(context, NotificationManager::class.java)
+    notificationManager?.createNotificationChannelGroup(NotificationChannelGroup(groupId, groupName))
 }
 // [END android_notification_create_group_channel]
 
 @OptIn(UnstableApi::class)
-@Composable
-fun notificationStyles() {
-    val context = LocalContext.current
+fun notificationStyles(context: Context) {
     val bitmapImage = BitmapFactory.decodeResource(
         context.resources,
         R.drawable.dog
