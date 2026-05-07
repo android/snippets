@@ -18,7 +18,6 @@ package com.example.xr.scenecore
 
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.SpatialCapability
-import androidx.xr.scenecore.SpatialCapability.Companion.SPATIAL_3D_CONTENT
 import androidx.xr.scenecore.scene
 
 fun checkMultipleCapabilities(xrSession: Session) {
