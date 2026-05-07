@@ -25,22 +25,22 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.ExerciseRouteResult
 import androidx.health.connect.client.records.ExerciseRoute
-import androidx.health.connect.client.records.metadata.Metadata
+import androidx.health.connect.client.records.ExerciseRouteResult
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.metadata.Device
+import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Length
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneOffset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.time.Duration
-import java.time.Instant
-import java.time.ZoneOffset
 
 @RequiresApi(Build.VERSION_CODES.S)
 class MyWearableService : CompanionDeviceService() {
@@ -57,7 +57,7 @@ class MyWearableService : CompanionDeviceService() {
             val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
 
             // 1. Check permissions ONCE when the device connects
-            if (granted?.contains(HealthPermission.getWritePermission(HeartRateRecord::class))?: false) {
+            if (granted?.contains(HealthPermission.getWritePermission(HeartRateRecord::class)) ?: false) {
                 // This is where you'd actually start the Bluetooth connection
                 // bluetoothGatt = gattCallback.connect(...)
             }
@@ -97,7 +97,9 @@ class MyWearableService : CompanionDeviceService() {
 
         // 1. Verify basic Exercise Session permissions
         if (!grantedPermissions.contains(
-                HealthPermission.getReadPermission(ExerciseSessionRecord::class))) {
+                HealthPermission.getReadPermission(ExerciseSessionRecord::class)
+            )
+        ) {
             return
         }
 
@@ -133,7 +135,7 @@ class MyWearableService : CompanionDeviceService() {
     private fun displayExerciseRoute(route: ExerciseRoute) {
         val locations = route.route.orEmpty()
         for (location in locations) {
-           println(location)
+            println(location)
         }
     }
     // [END android_healthconnect_read_exercise_route]
