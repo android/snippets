@@ -17,27 +17,49 @@
 package com.example.xr.runtime
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import androidx.xr.runtime.ExperimentalXrDeviceLifecycleApi
 import androidx.xr.runtime.XrDevice
-import kotlinx.coroutines.flow.takeWhile
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 
-@OptIn(ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class)
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
+@OptIn(ExperimentalXrDeviceLifecycleApi::class, ExperimentalProjectedApi::class,
+    ExperimentalCoroutinesApi::class,
+
+)
 suspend fun collectDeviceLifecycle(context: Context) {
-
-    val projectedContext = ProjectedContext.createProjectedDeviceContext(context)
-
     // [START androidxr_device_lifecycle_collect]
-    val xrDevice = XrDevice.getCurrentDevice(projectedContext)
+    // In your phone activity or service, check for projected device connection state before
+    // attempting to create a projected device context and get the device lifecycle.
+    ProjectedContext.isProjectedDeviceConnected(context, currentCoroutineContext())
+        .flatMapLatest { isConnected ->
+            if (isConnected) {
+                try {
+                    // Create the projected device context on connection
+                    val projectedContext = ProjectedContext.createProjectedDeviceContext(context)
+                    val xrDevice = XrDevice.getCurrentDevice(projectedContext)
 
-    xrDevice.getLifecycle().currentStateFlow
-        .takeWhile { it != Lifecycle.State.DESTROYED }
+                    // Get the device lifecycle
+                    xrDevice.getLifecycle().currentStateFlow
+                } catch (e: Exception) {
+                    flowOf(Lifecycle.State.DESTROYED)
+                }
+            } else {
+                flowOf(Lifecycle.State.DESTROYED)
+            }
+        }
         .collect { state ->
             when (state) {
-                Lifecycle.State.STARTED -> { /* Device is ACTIVE (worn) */ }
-                Lifecycle.State.CREATED -> { /* Device is INACTIVE (not worn) */ }
+                Lifecycle.State.STARTED -> { /* Device is available (worn) */ }
+                Lifecycle.State.CREATED -> { /* Device is unavailable (not worn) */ }
+                Lifecycle.State.DESTROYED -> { /* Device is disconnected from host phone */ }
                 else -> { /* Handle other states */ }
             }
         }
