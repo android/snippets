@@ -117,6 +117,7 @@ webkit = "1.15.0"
 wfp = "1.0.0-rc01"
 androidx-core-telecom = "1.1.0-alpha04"
 media3Session = "1.10.0"
+playServicesFitness = "21.3.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -295,6 +296,7 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 androidx-core-telecom = { group = "androidx.core", name = "core-telecom", version.ref = "androidx-core-telecom" }
 androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
+play-services-fitness = { group = "com.google.android.gms", name = "play-services-fitness", version.ref = "playServicesFitness" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
