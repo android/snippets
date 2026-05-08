@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.health.connect)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.play.services.fitness)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
