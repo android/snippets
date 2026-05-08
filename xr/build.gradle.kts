@@ -44,15 +44,15 @@ val isUsingSnapshot = snapshotVersion != null
 
 
 val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
-    libs.androidx.xr.arcore.asProvider(),
-    libs.androidx.xr.arcore.play.services,
-    libs.androidx.xr.glimmer,
-    libs.androidx.xr.projected.asProvider(),
-    libs.androidx.xr.scenecore,
-    libs.androidx.xr.compose,
+    xrLibs.androidx.xr.arcore.asProvider(),
+    xrLibs.androidx.xr.arcore.play.services,
+    xrLibs.androidx.xr.glimmer,
+    xrLibs.androidx.xr.projected.asProvider(),
+    xrLibs.androidx.xr.scenecore,
+    xrLibs.androidx.xr.compose,
 )
 val testImplementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
-    libs.androidx.xr.projected.testing,
+    xrLibs.androidx.xr.projected.testing,
 )
 
 dependencies {

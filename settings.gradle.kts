@@ -26,6 +26,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("xrLibs") {
+            from(files("xr/libs.versions.toml"))
+        }
+    }
 }
 rootProject.name = "snippets"
 include(
