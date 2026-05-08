@@ -17,7 +17,7 @@
 package com.example.identity.credentialmanager
 
 import android.app.Activity
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.credentials.CreateDigitalCredentialRequest
 import androidx.credentials.CreateDigitalCredentialResponse
 import androidx.credentials.CredentialManager
@@ -31,9 +31,9 @@ import androidx.credentials.exceptions.CreateCredentialProviderConfigurationExce
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.CreateCredentialUnsupportedException
 
-class DigitalCredentialIssuer : Activity() {
+class DigitalCredentialIssuer : ComponentActivity() {
     @OptIn(ExperimentalDigitalCredentialApi::class)
-    suspend fun issueToWallet(context: Context) {
+    suspend fun issueToWallet(context: Activity) {
         // [START android_identity_issuance_create_credentialmanager]
         val credentialManager = CredentialManager.create(context)
         // [END android_identity_issuance_create_credentialmanager]
