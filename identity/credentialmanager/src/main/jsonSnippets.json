@@ -246,6 +246,29 @@
         }
       }
       // [END android_identity_android_keystore_attestation_proof_types_supported]
+    },
+    {
+      "IssuanceRequest":
+      {
+        // [START android_identity_issuance_openid4vci_request]
+        "requests": [
+          {
+            "protocol": "openid4vci1.0",
+            "data": {
+              "credential_issuer": "https://digital-credentials.dev",
+              "credential_configuration_ids": [
+                "com.emvco.payment_card"
+              ],
+              "grants": {
+                "urn:ietf:params:oauth:grant-type:pre-authorized_code": {
+                  "pre-authorized_code": "..."
+                }
+              }
+            }
+          }
+        ]
+        // [END android_identity_issuance_openid4vci_request]
+      }
     }
   ]
 }
