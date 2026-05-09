@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.wear.snippets"
-    compileSdk = 36
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.wear.snippets"
         minSdk = 28
-        targetSdk = 36
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
