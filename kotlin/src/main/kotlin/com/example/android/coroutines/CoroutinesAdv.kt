@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
 
 fun show(doc: String) {}
 suspend fun fetchDoc(id: Int): String = "Doc $id"
+private fun placeholder(): Boolean = true
 
 // [START android_kotlin_coroutines_adv_suspend]
 suspend fun fetchDocs() { // Dispatchers.Main
@@ -37,10 +38,7 @@ suspend fun fetchDocs() { // Dispatchers.Main
 }
 
 suspend fun get(url: String) = withContext(Dispatchers.IO) {
-    /* ... */
-    // [START_EXCLUDE silent]
-    "result"
-    // [END_EXCLUDE]
+    /* ... */ /* [START_EXCLUDE silent] */ ; "result" /* [END_EXCLUDE] */
 }
 // [END android_kotlin_coroutines_adv_suspend]
 
