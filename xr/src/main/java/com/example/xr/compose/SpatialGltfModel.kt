@@ -16,7 +16,9 @@
 
 package com.example.xr.compose
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,13 +51,23 @@ fun SpatialGltfModelExample(){
     )
     // [END androidxr_compose_SpatialGltfModelState]
 
-    // [START androidxr_compose_SpatialGltfModelMaterial]
+    // [START androidxr_compose_SpatialGltfModelNode]
     // Retrieve the list of nodes (individual components/meshes) defined within the glTF model.
     val entityNodes = modelState.nodes
 
     // Find a specific node by name to apply modifications, such as material overrides.
     val node = entityNodes.find { it.name == "node_name" }
+    // [END androidxr_compose_SpatialGltfModelNode]
 
+    // [START androidxr_compose_SpatialGltfModelIntrospection]
+    LaunchedEffect(node, degrees) {
+        val rotation = Quaternion.fromEulerAngles(degrees, 0f, degrees)
+        node?.localPose =
+            Pose(node.localPose.translation, rotation)
+    }
+    // [END androidxr_compose_SpatialGltfModelIntrospection]
+
+    // [START androidxr_compose_SpatialGltfModelMaterial]
     // Maintain a reference to the custom material to avoid re-creating it on every recomposition.
     var pbrMaterial by remember { mutableStateOf<KhronosPbrMaterial?>(null) }
 
@@ -66,19 +78,7 @@ fun SpatialGltfModelExample(){
             alphaMode = AlphaMode.OPAQUE
         ).also {
             pbrMaterial = it
-            // Load a texture
-            val texture = Texture.create(
-                session = xrSession,
-                path = Path("textures/texture_name.png")
-            )
-
-            // Configure occlusion to define how the material surface handles ambient lighting.
-            it.setOcclusionTexture(
-                texture = texture,
-                strength = 1.0f
-            )
-
-            // Apply a base color factor (RGBA) to tint the model.
+            // Apply a base color factor (RGBA) to change the color of the model.
             it.setBaseColorFactor(
                 Vector4(
                     x = 0.5f,
@@ -96,17 +96,45 @@ fun SpatialGltfModelExample(){
     }
     // [END androidxr_compose_SpatialGltfModelMaterial]
 
-    // [START androidxr_compose_SpatialGltfModelIntrospection]
-    val arrows = modelState.nodes.find {
-        it.name == "Arrows"
+    // [START androidxr_compose_SpatialGltfModelTexture]
+    LaunchedEffect(node) {
+        val material = pbrMaterial ?: KhronosPbrMaterial.create(
+            session = xrSession,
+            alphaMode = AlphaMode.OPAQUE
+        ).also {
+            pbrMaterial = it
+
+            // Load a texture
+            val texture = Texture.create(
+                session = xrSession,
+                path = Path("textures/texture_name.png")
+            )
+
+            // Set the texture and configure occlusion to define how the material surface handles ambient lighting.
+            it.setOcclusionTexture(
+                texture = texture,
+                strength = 1.0f
+            )
+        }
+    }
+    // [END androidxr_compose_SpatialGltfModelTexture]
+
+    // [START androidxr_compose_SpatialGltfModelAnimation]
+    val animation = modelState.animations.find { it.name == "Walk" }
+
+    animation?.animationState?.let { state ->
+        LaunchedEffect(state) {
+            Log.i("SpatialGltfModelAnimationSample", "Animation State: $state")
+        }
     }
 
-    LaunchedEffect(arrows, degrees) {
-        val rotation = Quaternion.fromEulerAngles(degrees, 0f, degrees)
-        arrows?.localPose =
-            Pose(arrows.localPose.translation, rotation)
+    DisposableEffect(animation) {
+        animation?.loop()
+        onDispose {
+            animation?.stop()
+        }
     }
-    // [END androidxr_compose_SpatialGltfModelIntrospection]
+    // [END androidxr_compose_SpatialGltfModelAnimation]
 
     // [START androidxr_compose_SpatialGltfModelLoad]
     SpatialGltfModel(state = modelState, modifier = SubspaceModifier)
