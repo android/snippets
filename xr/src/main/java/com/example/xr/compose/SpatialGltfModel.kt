@@ -88,13 +88,18 @@ fun SpatialGltfModelExample(){
                 )
             )
         }
+        // [END androidxr_compose_SpatialGltfModelMaterial]
 
-        // Apply the custom PBR material to the specific node, overriding its original glTF material.
+        // [START androidxr_compose_SpatialGltfModelMaterialOverride]
         node?.setMaterialOverride(
             material = material
         )
+        // [END androidxr_compose_SpatialGltfModelMaterialOverride]
+
+        // [START androidxr_compose_SpatialGltfModelMaterialClear]
+        node?.clearMaterialOverride()
+        // [END androidxr_compose_SpatialGltfModelMaterialClear]
     }
-    // [END androidxr_compose_SpatialGltfModelMaterial]
 
     // [START androidxr_compose_SpatialGltfModelTexture]
     LaunchedEffect(node) {
