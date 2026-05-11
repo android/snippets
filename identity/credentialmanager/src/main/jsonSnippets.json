@@ -253,7 +253,7 @@
         // [START android_identity_issuance_openid4vci_request]
         "requests": [
           {
-            "protocol": "openid4vci1.0",
+            "protocol": "openid4vci-v1",
             "data": {
               "credential_issuer": "https://digital-credentials.dev",
               "credential_configuration_ids": [
