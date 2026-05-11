@@ -24,7 +24,7 @@ import androidx.xr.runtime.Session
 fun accessMobileRuntime(session: Session) {
     // [START androidxr_arcore_mobile_runtime]
     val arCoreRuntime = session.runtimes.firstNotNullOfOrNull { it as? ArCoreRuntime } ?: return
-    val originalSession = arCoreRuntime.lifecycleManager.session()
+    val originalSession = arCoreRuntime.session()
     val originalFrame = arCoreRuntime.perceptionManager.lastFrame()
     // [END androidxr_arcore_mobile_runtime]
 }

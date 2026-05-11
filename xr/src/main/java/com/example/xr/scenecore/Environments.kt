@@ -18,8 +18,8 @@ package com.example.xr.scenecore
 
 import android.content.Context
 import androidx.xr.runtime.Session
-import androidx.xr.scenecore.ExrImage
 import androidx.xr.scenecore.GltfModel
+import androidx.xr.scenecore.ImageBasedLightingAsset
 import androidx.xr.scenecore.SpatialEnvironment
 import androidx.xr.scenecore.scene
 import java.nio.file.Paths
@@ -33,11 +33,11 @@ private class Environments(val session: Session) {
 
     suspend fun loadEnvironmentSkybox() {
         // [START androidxr_scenecore_environment_loadEnvironmentSkybox]
-        val lightingForSkybox = ExrImage.createFromZip(session, Paths.get("BlueSkyboxLighting.zip"))
+        val lightingForSkybox = ImageBasedLightingAsset.createFromZip(session, Paths.get("BlueSkyboxLighting.zip"))
         // [END androidxr_scenecore_environment_loadEnvironmentSkybox]
     }
 
-    fun setEnvironmentPreference(environmentGeometry: GltfModel, lightingForSkybox: ExrImage) {
+    fun setEnvironmentPreference(environmentGeometry: GltfModel, lightingForSkybox: ImageBasedLightingAsset) {
         // [START androidxr_scenecore_environment_setEnvironmentPreference]
         val spatialEnvironmentPreference =
             SpatialEnvironment.SpatialEnvironmentPreference(lightingForSkybox, environmentGeometry)

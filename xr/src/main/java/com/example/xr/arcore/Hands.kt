@@ -50,7 +50,7 @@ fun ComponentActivity.configureSession(session: Session) {
 fun ComponentActivity.collectHands(session: Session) {
     lifecycleScope.launch {
         // [START androidxr_arcore_hand_collect]
-        Hand.left(session)?.state?.collect { handState -> // or Hand.right(session)
+        Hand.left(session).state.collect { handState -> // or Hand.right(session)
             // Hand state has been updated.
             // Use the state of hand joints to update an entity's position.
             renderPlanetAtHandPalm(handState)
@@ -58,7 +58,7 @@ fun ComponentActivity.collectHands(session: Session) {
         // [END androidxr_arcore_hand_collect]
     }
     lifecycleScope.launch {
-        Hand.right(session)?.state?.collect { rightHandState ->
+        Hand.right(session).state.collect { rightHandState ->
             renderPlanetAtFingerTip(rightHandState)
         }
     }
@@ -69,7 +69,7 @@ fun secondaryHandDetection(activity: Activity, session: Session) {
     // [START androidxr_arcore_hand_handedness]
     val handedness = Hand.getPrimaryHandSide(activity.contentResolver)
     val secondaryHand = if (handedness == HandSide.LEFT) Hand.right(session) else Hand.left(session)
-    val handState = secondaryHand?.state ?: return
+    val handState = secondaryHand.state
     detectGesture(handState)
     // [END androidxr_arcore_hand_handedness]
 }

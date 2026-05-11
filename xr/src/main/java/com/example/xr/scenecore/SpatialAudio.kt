@@ -158,7 +158,13 @@ private fun playSpatialAudioAtEntityAmbionics(session: Session, appContext: Cont
 @OptIn(UnstableApi::class)
 private fun detectSupport(context: Context) {
     // [START androidxr_scenecore_dolby_detect_support]
-    val audioCapabilities = AudioCapabilities.getCapabilities(context, androidx.media3.common.AudioAttributes.DEFAULT, null, emptyList())
+    val audioCapabilities = AudioCapabilities.getCapabilities(
+        context,
+        androidx.media3.common.AudioAttributes.DEFAULT,
+        null,
+        emptyList()
+    )
+
     if (audioCapabilities.supportsEncoding(C.ENCODING_AC3)) {
         // Device supports playback of the Dolby Digital media format.
     }

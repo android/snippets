@@ -16,7 +16,7 @@
 
 package com.example.xr.arcore
 
-import androidx.xr.arcore.DepthMap
+import androidx.xr.arcore.Depth
 import androidx.xr.runtime.DepthEstimationMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -37,7 +37,7 @@ private fun configureDepthEstimation(session: Session) {
 @Suppress("UnusedVariable")
 private suspend fun getDepthMap(session: Session) {
     // [START androidxr_arcore_depthmaps_obtain_depth_map]
-    val depthMap = DepthMap.left(session) ?: return
+    val depthMap = Depth.left(session)
     // [END androidxr_arcore_depthmaps_obtain_depth_map]
 
     // [START androidxr_arcore_depthmaps_calculate_results]
