@@ -20,10 +20,10 @@ import android.annotation.SuppressLint
 import androidx.xr.arcore.Face
 import androidx.xr.arcore.FaceBlendShapeType
 import androidx.xr.arcore.FaceConfidenceRegion
+import androidx.xr.arcore.TrackingState
 import androidx.xr.runtime.FaceTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
-import androidx.xr.runtime.TrackingState
 
 // TODO(dbridie): Remove in next release. This was fixed in aosp/508d564ca343bfc190ecaddc07209e8a9c4bdaab.
 @SuppressLint("RestrictedApi")
@@ -43,7 +43,7 @@ private fun configureFaceTracking(session: Session) {
 @Suppress("UnusedVariable")
 private suspend fun getUserFace(session: Session) {
     // [START androidxr_arcore_faceTracking_getFace]
-    val face = Face.getUserFace(session) ?: return
+    val face = Face.getUserFace(session)
     face.state.collect { state ->
         if (state.trackingState != TrackingState.TRACKING) return@collect
 
