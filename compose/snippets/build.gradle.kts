@@ -24,9 +24,7 @@ plugins {
 }
 
 android {
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt())
-        {minorApiLevel = 1}} // Android 16 QPR 2
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -78,6 +76,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.media3.session)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -130,6 +129,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.pip)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)

@@ -16,9 +16,7 @@
 
 package com.example.xr.compose
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +44,7 @@ fun SpatialGltfModelExample(){
     // [START androidxr_compose_SpatialGltfModelState]
     val modelState = rememberSpatialGltfModelState(
         source = SpatialGltfModelSource.fromPath(
-            Paths.get("models/bugdroid_animated_wave.glb")
+            Paths.get("models/model_name.glb")
         )
     )
     // [END androidxr_compose_SpatialGltfModelState]
@@ -84,8 +82,8 @@ fun SpatialGltfModelExample(){
             it.setBaseColorFactor(
                 Vector4(
                     x = 0.5f,
-                    y = 0.5f,
-                    z = 1.0f,
+                    y = 0.0f,
+                    z = 0.5f,
                     w = 1.0f
                 )
             )
@@ -111,7 +109,6 @@ fun SpatialGltfModelExample(){
     // [END androidxr_compose_SpatialGltfModelIntrospection]
 
     // [START androidxr_compose_SpatialGltfModelLoad]
-    // Render the 3D model into the spatial subspace.
     SpatialGltfModel(state = modelState, modifier = SubspaceModifier)
     // [END androidxr_compose_SpatialGltfModelLoad]
 }

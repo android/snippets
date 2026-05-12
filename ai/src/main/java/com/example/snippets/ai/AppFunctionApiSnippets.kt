@@ -20,18 +20,21 @@ import androidx.appfunctions.AppFunctionContext
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.service.AppFunction
 import java.util.concurrent.atomic.AtomicInteger
+import javax.inject.Inject
+import javax.inject.Singleton
 
-// [START android_ai_agentic_appfunctions]
+// [START android_appfunction_snippet]
 /**
  * A note app's [AppFunction]s.
  */
-class NoteFunctions(
+class NoteFunctions @Inject constructor(
     private val noteRepository: NoteRepository
 ) {
     /**
-     * Lists all available notes.
+     * List all available notes in the app.
      *
-     * @param appFunctionContext The context in which the AppFunction is executed.
+     * @param appFunctionContext The execution context.
+     * @return A list of [Note] objects, or null if no notes exist.
      */
     @AppFunction(isDescribedByKDoc = true)
     suspend fun listNotes(appFunctionContext: AppFunctionContext): List<Note>? {
@@ -39,11 +42,12 @@ class NoteFunctions(
     }
 
     /**
-     * Adds a new note to the app.
+     * Create a new note with a title and body content.
      *
-     * @param appFunctionContext The context in which the AppFunction is executed.
+     * @param appFunctionContext The execution context.
      * @param title The title of the note.
-     * @param content The note's content.
+     * @param content The body content of the note.
+     * @return The created [Note] object including its generated ID.
      */
     @AppFunction(isDescribedByKDoc = true)
     suspend fun createNote(
@@ -55,12 +59,14 @@ class NoteFunctions(
     }
 
     /**
-     * Edits a single note.
+     * Update the title or content of an existing note.
+     * Required workflow: Call [listNotes] first to obtain valid note IDs.
      *
-     * @param appFunctionContext The context in which the AppFunction is executed.
-     * @param noteId The target note's ID.
-     * @param title The note's title if it should be updated.
-     * @param content The new content if it should be updated.
+     * @param appFunctionContext The execution context.
+     * @param noteId The unique identifier of the note to edit.
+     * @param title The new title. If null, the existing title is preserved.
+     * @param content The new content. If null, the existing content is preserved.
+     * @return The updated [Note], or null if the [noteId] was not found.
      */
     @AppFunction(isDescribedByKDoc = true)
     suspend fun editNote(
@@ -72,7 +78,9 @@ class NoteFunctions(
         return noteRepository.updateNote(noteId, title, content)
     }
 }
+// [END android_appfunction_snippet]
 
+// [START android_appfunction_serializable]
 /**
  * A note.
  */
@@ -85,12 +93,13 @@ data class Note(
     /** The note's content */
     val content: String
 )
-// [END android_ai_agentic_appfunctions]
+// [END android_appfunction_serializable]
 
 /**
  * Repository for [NoteFunctions].
  */
-class NoteRepository {
+@Singleton
+class NoteRepository @Inject constructor() {
     private val _appNotes = mutableListOf<Note>()
     val appNotes: List<Note> = _appNotes
 

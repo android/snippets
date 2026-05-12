@@ -41,7 +41,7 @@ private class MaterialOverride(val xrSession: Session) {
                 x = 0.5f,
                 y = 0.0f,
                 z = 0.5f,
-                w = 0.0f
+                w = 1.0f
             )
         )
         // [END androidxr_scenecore_material_override_setBaseColor]
