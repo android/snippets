@@ -58,31 +58,16 @@ class EngageBroadcastReceiver : BroadcastReceiver() {
             val appContext = context.applicationContext
             val receiver = EngageBroadcastReceiver()
 
-            // Register Recommendation Cluster Publish Intent
+            // Register Cluster Publish Intents
+            val filter = IntentFilter().apply {
+                addAction(com.google.android.engage.service.Intents.ACTION_PUBLISH_RECOMMENDATION)
+                addAction(com.google.android.engage.service.Intents.ACTION_PUBLISH_FEATURED)
+                addAction(com.google.android.engage.service.Intents.ACTION_PUBLISH_CONTINUATION)
+            }
             ContextCompat.registerReceiver(
                 appContext,
                 receiver,
-                IntentFilter(com.google.android.engage.service.Intents.ACTION_PUBLISH_RECOMMENDATION),
-                BroadcastReceiverPermissions.BROADCAST_REQUEST_DATA_PUBLISH_PERMISSION,
-                null,
-                ContextCompat.RECEIVER_EXPORTED
-            )
-
-            // Register Featured Cluster Publish Intent
-            ContextCompat.registerReceiver(
-                appContext,
-                receiver,
-                IntentFilter(com.google.android.engage.service.Intents.ACTION_PUBLISH_FEATURED),
-                BroadcastReceiverPermissions.BROADCAST_REQUEST_DATA_PUBLISH_PERMISSION,
-                null,
-                ContextCompat.RECEIVER_EXPORTED
-            )
-
-            // Register Continuation Cluster Publish Intent
-            ContextCompat.registerReceiver(
-                appContext,
-                receiver,
-                IntentFilter(com.google.android.engage.service.Intents.ACTION_PUBLISH_CONTINUATION),
+                filter,
                 BroadcastReceiverPermissions.BROADCAST_REQUEST_DATA_PUBLISH_PERMISSION,
                 null,
                 ContextCompat.RECEIVER_EXPORTED

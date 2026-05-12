@@ -20,6 +20,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import com.example.snippets.R
+import com.google.android.engage.common.datamodel.AccountProfile
+import java.util.Locale
 
 class AppData {
     // Example data class using in the app like Post, Movie, Music etc.
@@ -89,9 +91,11 @@ val platformSpecificPlaybackUris = listOf(
 // [END android_engage_platform_specific_playback_uris]
 
 // [START android_engage_account_profile_example]
-val accountProfile = com.google.android.engage.common.datamodel.AccountProfile.Builder()
-    .setAccountId("user_123")
-    .setProfileId("profile_456")
-    .setLocale("en-US")
-    .build()
+val accountProfile: AccountProfile
+    get() = AccountProfile.Builder()
+        .setAccountId("user_123")
+        .setProfileId("profile_456")
+        // AppCompatDelegate.getApplicationLocales().get(0) for Per-App Language Preferences
+        .setLocale(Locale.getDefault().toLanguageTag())
+        .build()
 // [END android_engage_account_profile_example]

@@ -182,7 +182,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             AppEngageErrorCode.SERVICE_CALL_INVALID_ARGUMENT,
             AppEngageErrorCode.SERVICE_CALL_PERMISSION_DENIED,
             AppEngageErrorCode.SERVICE_NOT_AVAILABLE -> false
-            else -> throw IllegalArgumentException(publishingException.localizedMessage)
+            else -> false
         }
     }
 }
