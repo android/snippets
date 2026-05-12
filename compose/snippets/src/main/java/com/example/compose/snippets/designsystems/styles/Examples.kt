@@ -18,18 +18,11 @@
 
 package com.example.compose.snippets.designsystems.styles
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
 import androidx.compose.foundation.style.MutableStyleState
@@ -39,18 +32,10 @@ import androidx.compose.foundation.style.hovered
 import androidx.compose.foundation.style.pressed
 import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradientShader
-import androidx.compose.ui.graphics.Shader
-import androidx.compose.ui.graphics.ShaderBrush
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
@@ -211,9 +196,11 @@ fun MultipleStylesButton() {
                 }
             }
         }
-        Box(modifier = Modifier.semantics(properties = {
-            role = Role.Button
-        }).styleable(styleState, edgeStyle)) {
+        Box(modifier = Modifier
+            .semantics(properties = {
+                role = Role.Button
+            })
+            .styleable(styleState, edgeStyle)) {
             Box(
                 modifier = Modifier
                     .styleable(styleState, frontStyle),
@@ -233,79 +220,3 @@ fun MultipleStylesButton() {
     }
 }
 // [END android_compose_styles_depth_pressed_button]
-
-// [START android_compose_styles_gradient_glow_button]
-@Preview
-@Composable
-fun GradientGlowButtonExample() {
-    val infiniteTransition = rememberInfiniteTransition(label = "glowing_button_85_animation")
-    val animatedProgress by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 20000, easing = LinearEasing),
-        ), label = "progress"
-    )
-
-    val gradientColors = listOf(
-        Color(0xffff0000), Color(0xffff7300), Color(0xfffffb00), Color(0xff48ff00),
-        Color(0xff00ffd5), Color(0xff002bff), Color(0xff7a00ff), Color(0xffff00c8),
-        Color(0xffff0000)
-    )
-
-    val glowingBrush = remember(animatedProgress) {
-        object : ShaderBrush() {
-            override fun createShader(size: Size): Shader {
-                val width = size.width * 4
-                val brushSize = width * animatedProgress
-                return LinearGradientShader(
-                    colors = gradientColors,
-                    from = Offset(brushSize, 0f),
-                    to = Offset(brushSize + width, 0f),
-                    tileMode = TileMode.Repeated
-                )
-            }
-        }
-    }
-
-
-    Box(
-        modifier = Modifier
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        BaseButton(
-            onClick = { },
-            style = Style {
-                dropShadow(
-                    Shadow(
-                        brush = glowingBrush,
-                        radius = 5.dp
-                    )
-                )
-                transformOrigin(TransformOrigin.Center)
-                pressed {
-                    animate {
-                        dropShadow(
-                            Shadow(
-                                brush = glowingBrush,
-                                radius = 10.dp
-                            )
-                        )
-                        scale(0.95f)
-                    }
-
-                }
-                size(width = 200.dp, height = 50.dp)
-                background(Color(0xFF111111))
-                shape(RoundedCornerShape(10.dp))
-                contentColor(Color.White)
-                contentPadding(vertical = (0.6f * 14).dp, horizontal = (2f * 14).dp)
-                border(width = 0.dp, color = Color.Transparent)
-            }
-        ) {
-            BaseText(text = "Button 85")
-        }
-    }
-}
-// [END android_compose_styles_gradient_glow_button]
