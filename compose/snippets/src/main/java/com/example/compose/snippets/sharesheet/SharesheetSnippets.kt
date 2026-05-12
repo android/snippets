@@ -20,6 +20,7 @@ import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
@@ -27,10 +28,10 @@ import android.os.Parcelable
 import android.service.chooser.ChooserAction
 import android.service.chooser.ChooserTarget
 import androidx.activity.ComponentActivity
+import androidx.core.content.IntentCompat
 import com.example.compose.snippets.R
 
 class SharesheetSnippets : ComponentActivity() {
-    // [START
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // [START android_handle_intent_action_data_sent]
@@ -44,9 +45,9 @@ class SharesheetSnippets : ComponentActivity() {
             }
 
             Intent.ACTION_SEND_MULTIPLE
-            if intent.type?.startsWith("image/") == true -> {
-                handleSendMultipleImages(intent) // Handle multiple images being sent
-            }
+                if intent.type?.startsWith("image/") == true -> {
+                    handleSendMultipleImages(intent) // Handle multiple images being sent
+                }
 
             else -> {
                 // Handle other intents, such as being started from the home screen
@@ -61,27 +62,27 @@ class SharesheetSnippets : ComponentActivity() {
     }
 
     private fun handleSendImage(intent: Intent) {
-        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+        IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
             // Update UI to reflect image being shared
         }
     }
 
     private fun handleSendMultipleImages(intent: Intent) {
-        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)?.let {
+        IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
             // Update UI to reflect multiple images being shared
         }
     }
     // [END android_handle_intent_action_data_sent]
 
-    // [END android_handle_intent_handle_extra_text]
+    // [START android_handle_intent_handle_extra_text]
     private fun handleSendAndExtraText(intent: Intent) {
         (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
             // Handle the EXTRA_TEXT as well
-            intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
+            val extraText = intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
             // Update UI to reflect image being shared and the EXTRA_TEXT
             // if available
         }
-        // [END android_handle_intent_handle_extra_text]
+    // [END android_handle_intent_handle_extra_text]
     }
 
     private fun shareText() {
@@ -213,13 +214,13 @@ class SharesheetSnippets : ComponentActivity() {
 
     fun excludeSpecificTargets() {
         // [START android_exclude_specific_targets]
-        val share = Intent.createChooser(Intent(), null).apply {
+        val share = Intent.createChooser(Intent(ACTION_SEND), null).apply {
             // Only use for components you have control over
             val excludedComponentNames =
                 arrayOf(ComponentName("com.example.android", "ExampleClass"))
             putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, excludedComponentNames)
         }
-        // [START android_exclude_specific_targets]
+        // [END android_exclude_specific_targets]
     }
 
     fun infoAboutSharing(context: Context, requestCode: Int) {
