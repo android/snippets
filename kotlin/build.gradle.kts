@@ -53,8 +53,22 @@ android {
     }
 }
 dependencies {
+    // AndroidX
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.room.common)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+
+    // KotlinX
     implementation(libs.kotlinx.coroutines.android)
-    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Testing
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
 }
