@@ -20,7 +20,6 @@ package com.example.snippets.engage
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
-import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.google.android.engage.service.AppEngageErrorCode
 import com.google.android.engage.service.AppEngageException
@@ -125,17 +124,17 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         if (appEngageException != null) {
             logPublishing(appEngageException)
 
-                // Map AppEngageException error codes to PublishStatusCodes
-                val errorStatusCode = when (appEngageException.errorCode) {
-                    AppEngageErrorCode.SERVICE_CALL_INVALID_ARGUMENT ->
-                        AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
+            // Map AppEngageException error codes to PublishStatusCodes
+            val errorStatusCode = when (appEngageException.errorCode) {
+                AppEngageErrorCode.SERVICE_CALL_INVALID_ARGUMENT ->
+                    AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
 
-                    AppEngageErrorCode.SERVICE_CALL_PERMISSION_DENIED ->
-                        AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
+                AppEngageErrorCode.SERVICE_CALL_PERMISSION_DENIED ->
+                    AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
 
-                    else ->
-                        AppEngagePublishStatusCode.NOT_PUBLISHED_SERVICE_ERROR
-                }
+                else ->
+                    AppEngagePublishStatusCode.NOT_PUBLISHED_SERVICE_ERROR
+            }
             updatePublishStatus(errorStatusCode)
 
             // Some errors are recoverable, such as a threading issue, some are unrecoverable
