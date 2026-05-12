@@ -61,6 +61,7 @@ import com.example.compose.snippets.ui.theme.SnippetsTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.platform.LocalLocale
 
 @Preview
 @Composable
@@ -105,7 +106,7 @@ fun DatePickerExamples() {
 // [END_EXCLUDE]
         if (selectedDate != null) {
             val date = Date(selectedDate!!)
-            val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
+            val formattedDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(date)
             Text("Selected date: $formattedDate")
         } else {
             Text("No date selected")
@@ -121,8 +122,8 @@ fun DatePickerExamples() {
         if (selectedDateRange.first != null && selectedDateRange.second != null) {
             val startDate = Date(selectedDateRange.first!!)
             val endDate = Date(selectedDateRange.second!!)
-            val formattedStartDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(startDate)
-            val formattedEndDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(endDate)
+            val formattedStartDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(startDate)
+            val formattedEndDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(endDate)
             Text("Selected date range: $formattedStartDate - $formattedEndDate")
         } else {
             Text("No date range selected")
