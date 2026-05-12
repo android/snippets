@@ -24,7 +24,6 @@ import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.service.chooser.ChooserAction
 import android.service.chooser.ChooserTarget
 import androidx.activity.ComponentActivity
@@ -45,9 +44,9 @@ class SharesheetSnippets : ComponentActivity() {
             }
 
             Intent.ACTION_SEND_MULTIPLE
-                if intent.type?.startsWith("image/") == true -> {
-                    handleSendMultipleImages(intent) // Handle multiple images being sent
-                }
+            if intent.type?.startsWith("image/") == true -> {
+                handleSendMultipleImages(intent) // Handle multiple images being sent
+            }
 
             else -> {
                 // Handle other intents, such as being started from the home screen
@@ -74,15 +73,15 @@ class SharesheetSnippets : ComponentActivity() {
     }
     // [END android_handle_intent_action_data_sent]
 
-    // [START android_handle_intent_handle_extra_text]
     private fun handleSendAndExtraText(intent: Intent) {
-        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+        // [START android_handle_intent_handle_extra_text]
+        IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
             // Handle the EXTRA_TEXT as well
             val extraText = intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
             // Update UI to reflect image being shared and the EXTRA_TEXT
             // if available
         }
-    // [END android_handle_intent_handle_extra_text]
+        // [END android_handle_intent_handle_extra_text]
     }
 
     private fun shareText() {
