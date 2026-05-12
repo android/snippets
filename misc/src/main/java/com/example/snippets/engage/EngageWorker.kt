@@ -20,6 +20,7 @@ package com.example.snippets.engage
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.google.android.engage.service.AppEngageErrorCode
 import com.google.android.engage.service.AppEngageException
@@ -120,24 +121,30 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
     }
 
     private fun handlePublishException(publishException: Exception): Result {
-        logPublishing(publishException as AppEngageException)
+        val appEngageException = publishException as? AppEngageException
+        if (appEngageException != null) {
+            logPublishing(appEngageException)
 
-        // Map AppEngageException error codes to PublishStatusCodes
-        val errorStatusCode = when (publishException.errorCode) {
-            AppEngageErrorCode.SERVICE_CALL_INVALID_ARGUMENT ->
-                AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
-            AppEngageErrorCode.SERVICE_CALL_PERMISSION_DENIED ->
-                AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
-            else ->
-                AppEngagePublishStatusCode.NOT_PUBLISHED_SERVICE_ERROR
+                // Map AppEngageException error codes to PublishStatusCodes
+                val errorStatusCode = when (appEngageException.errorCode) {
+                    AppEngageErrorCode.SERVICE_CALL_INVALID_ARGUMENT ->
+                        AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
+
+                    AppEngageErrorCode.SERVICE_CALL_PERMISSION_DENIED ->
+                        AppEngagePublishStatusCode.NOT_PUBLISHED_CLIENT_ERROR
+
+                    else ->
+                        AppEngagePublishStatusCode.NOT_PUBLISHED_SERVICE_ERROR
+                }
+            updatePublishStatus(errorStatusCode)
+
+            // Some errors are recoverable, such as a threading issue, some are unrecoverable
+            // such as a cluster not containing all necessary fields. If an error is recoverable, we
+            // should attempt to publish again. Setting the result to retry means WorkManager will
+            // attempt to run the worker again, thus attempting to publish again.
+            return if (isErrorRecoverable(appEngageException)) Result.retry() else Result.failure()
         }
-        updatePublishStatus(errorStatusCode)
-
-        // Some errors are recoverable, such as a threading issue, some are unrecoverable
-        // such as a cluster not containing all necessary fields. If an error is recoverable, we
-        // should attempt to publish again. Setting the result to retry means WorkManager will
-        // attempt to run the worker again, thus attempting to publish again.
-        return if (isErrorRecoverable(publishException)) Result.retry() else Result.failure()
+        return Result.failure()
     }
 
     private fun updatePublishStatus(statusCode: Int) {
@@ -151,8 +158,8 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             }
     }
 
-    private fun logPublishing(exception: AppEngageException) {
-        val message = when (exception.errorCode) {
+    private fun logPublishing(publishingException: AppEngageException) {
+        val message = when (publishingException.errorCode) {
             AppEngageErrorCode.SERVICE_NOT_FOUND -> "Service not found"
             AppEngageErrorCode.SERVICE_CALL_EXECUTION_FAILURE -> "Execution failure"
             AppEngageErrorCode.SERVICE_NOT_AVAILABLE -> "Service not available"

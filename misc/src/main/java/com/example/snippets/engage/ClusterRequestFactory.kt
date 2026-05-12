@@ -86,7 +86,7 @@ val platformSpecificPlaybackUris = listOf(
         .setActionUri(Uri.parse("https://www.example.com/mobile/play/123"))
         .build()
 )
-// [START android_engage_platform_specific_playback_uris]
+// [END android_engage_platform_specific_playback_uris]
 
 // [START android_engage_account_profile_example]
 val accountProfile = com.google.android.engage.common.datamodel.AccountProfile.Builder()
