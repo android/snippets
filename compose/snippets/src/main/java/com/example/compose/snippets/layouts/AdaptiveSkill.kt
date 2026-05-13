@@ -89,9 +89,12 @@ fun GridWithDynamicColumnWidth(){
     Grid(
         config = {
             val maxWidthDp = constraints.maxWidth.toDp()
-            val isCompact = maxWidthDp < 800.dp
-            val cols = if (isCompact) 2 else 4
-            val rows = if (isCompact) 4 else 2
+            val (cols, rows) = if (maxWidthDp < 800.dp){
+                2 to 4
+            } else{
+                4 to 2
+            }
+
             val gapSizeDp = 8.dp
             val cellSize = ((maxWidthDp - (gapSizeDp * (cols - 1))) / cols).coerceAtLeast(0.dp)
             repeat(cols) { column(cellSize) }
