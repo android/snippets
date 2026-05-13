@@ -1278,4 +1278,112 @@ class HealthConnectManager(
             healthConnectClient.insertRecords(listOf(exerciseSessionRecord))
         // [END android_healthconnect_insert_segment_exercise_session]
     }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSessionWithHandler(sessionStartTime: Instant, sessionEndTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session_with_handler]
+// Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.contains(
+                HealthPermission.getWritePermission(HeartRateRecord::class))) {
+            // The user doesn't granted the app permission to write heart rate record data.
+            return
+        }
+
+        val samples = mutableListOf<HeartRateRecord.Sample>()
+        var currentTime = sessionStartTime
+        while (currentTime.isBefore(sessionEndTime)) {
+            val bpm = Random.nextInt(21) + 90
+            val heartRateRecord = HeartRateRecord.Sample(
+                time = currentTime,
+                beatsPerMinute = bpm.toLong(),
+            )
+            samples.add(heartRateRecord)
+            currentTime = currentTime.plusSeconds(180)
+        }
+
+        val heartRateRecord = HeartRateRecord(
+            startTime = sessionStartTime,
+            startZoneOffset = ZoneOffset.UTC,
+            endTime = sessionEndTime,
+            endZoneOffset = ZoneOffset.UTC,
+            samples = samples,
+            metadata = Metadata(
+                device = Device(type = Device.Companion.TYPE_WATCH)
+            )
+        )
+        val insertedHeartRateRecords = healthConnectClient.insertRecords(listOf(heartRateRecord))
+        // [END android_healthconnect_insert_segment_exercise_session_with_handler]
+    }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSessionPeriodic(sessionStartTime: Instant, sessionEndTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session_periodic]
+        // Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.containsAll(
+                listOf(
+                    HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                    HealthPermission.getReadPermission(PlannedExerciseSessionRecord::class),
+                    HealthPermission.getReadPermission(HeartRateRecord::class)
+                )
+            )
+        ) {
+            // The user doesn't granted the app permission to read exercise session record data.
+            return
+        }
+
+        val searchDuration = Duration.ofDays(1)
+        val searchEndTime = Instant.now()
+        val searchStartTime = searchEndTime.minus(searchDuration)
+
+        val response = healthConnectClient.readRecords(
+            ReadRecordsRequest<ExerciseSessionRecord>(
+                timeRangeFilter = TimeRangeFilter.between(searchStartTime, searchEndTime)
+            )
+        )
+        for (exerciseRecord in response.records) {
+            val plannedExerciseRecordId = exerciseRecord.plannedExerciseSessionId
+            val plannedExerciseRecord =
+                if (plannedExerciseRecordId == null) null else healthConnectClient.readRecord(
+                    PlannedExerciseSessionRecord::class, plannedExerciseRecordId
+                ).record
+            if (plannedExerciseRecord != null) {
+                val aggregateRequest = AggregateRequest(
+                    metrics = setOf(HeartRateRecord.BPM_AVG),
+                    timeRangeFilter = TimeRangeFilter.between(
+                        exerciseRecord.startTime, exerciseRecord.endTime
+                    ),
+                )
+                val aggregationResult = healthConnectClient.aggregate(aggregateRequest)
+
+                val maxBpm = aggregationResult[HeartRateRecord.BPM_MAX]
+                val minBpm = aggregationResult[HeartRateRecord.BPM_MIN]
+                if (maxBpm != null && minBpm != null) {
+                    plannedExerciseRecord.blocks.forEach { block ->
+                        block.steps.forEach { step ->
+                            step.performanceTargets.forEach { target ->
+                                when (target) {
+                                    is ExercisePerformanceTarget.HeartRateTarget -> {
+                                        val minTarget = target.minHeartRate
+                                        val maxTarget = target.maxHeartRate
+                                        if(
+                                            minBpm >= minTarget && maxBpm <= maxTarget
+                                        ) {
+                                            // Success!
+                                        }
+                                    }
+                                    // Handle more target types
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+        // [END android_healthconnect_insert_segment_exercise_session_periodic]
 }
+
