@@ -19,6 +19,10 @@ package com.example.xr.compose
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +39,7 @@ import androidx.xr.runtime.math.Vector4
 import androidx.xr.scenecore.AlphaMode
 import androidx.xr.scenecore.KhronosPbrMaterial
 import androidx.xr.scenecore.Texture
+import kotlinx.coroutines.awaitCancellation
 import java.nio.file.Paths
 import kotlin.io.path.Path
 
@@ -42,6 +47,7 @@ import kotlin.io.path.Path
 fun SpatialGltfModelExample(){
     val xrSession = checkNotNull(LocalSession.current)
     val degrees = 1f
+    val removeMaterial = false
 
     // [START androidxr_compose_SpatialGltfModelState]
     val modelState = rememberSpatialGltfModelState(
@@ -73,7 +79,7 @@ fun SpatialGltfModelExample(){
 
     // Create and apply the custom material once the session is ready and the target node is available.
     LaunchedEffect(node) {
-        val material = pbrMaterial ?: KhronosPbrMaterial.create(
+        val material = KhronosPbrMaterial.create(
             session = xrSession,
             alphaMode = AlphaMode.OPAQUE
         ).also {
@@ -97,13 +103,15 @@ fun SpatialGltfModelExample(){
         // [END androidxr_compose_SpatialGltfModelMaterialOverride]
 
         // [START androidxr_compose_SpatialGltfModelMaterialClear]
-        node?.clearMaterialOverride()
+        if (removeMaterial) {
+            node?.clearMaterialOverride()
+        }
         // [END androidxr_compose_SpatialGltfModelMaterialClear]
     }
 
     // [START androidxr_compose_SpatialGltfModelTexture]
     LaunchedEffect(node) {
-        val material = pbrMaterial ?: KhronosPbrMaterial.create(
+        val material = KhronosPbrMaterial.create(
             session = xrSession,
             alphaMode = AlphaMode.OPAQUE
         ).also {
@@ -121,6 +129,9 @@ fun SpatialGltfModelExample(){
                 strength = 1.0f
             )
         }
+        node?.setMaterialOverride(
+            material = material
+        )
     }
     // [END androidxr_compose_SpatialGltfModelTexture]
 
