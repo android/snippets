@@ -78,7 +78,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.screenshot.validation.api)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -167,6 +166,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4.accessibility)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.screenshot.validation.api)
 
     androidTestImplementation(libs.androidx.glance.testing)
     androidTestImplementation(libs.androidx.glance.appwidget.testing)
