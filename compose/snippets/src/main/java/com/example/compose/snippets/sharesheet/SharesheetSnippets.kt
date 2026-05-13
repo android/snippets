@@ -56,19 +56,19 @@ class SharesheetSnippets : ComponentActivity() {
 
     private fun handleSendText(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            // Update UI to reflect text being shared
+            // Update ViewModel state to change state of text being shared
         }
     }
 
     private fun handleSendImage(intent: Intent) {
         IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-            // Update UI to reflect image being shared
+            // Update ViewModel state to change state of image being shared
         }
     }
 
     private fun handleSendMultipleImages(intent: Intent) {
         IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-            // Update UI to reflect multiple images being shared
+            // Update ViewModel state to change state of image(s) being shared
         }
     }
     // [END android_handle_intent_action_data_sent]
@@ -78,7 +78,7 @@ class SharesheetSnippets : ComponentActivity() {
         IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
             // Handle the EXTRA_TEXT as well
             val extraText = intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
-            // Update UI to reflect image being shared and the EXTRA_TEXT
+            // Update ViewModel state to change state image being shared and the EXTRA_TEXT
             // if available
         }
         // [END android_handle_intent_handle_extra_text]
