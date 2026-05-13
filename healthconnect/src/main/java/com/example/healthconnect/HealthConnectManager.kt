@@ -1237,4 +1237,45 @@ class HealthConnectManager(
         healthConnectClient.insertRecords(listOf(session))
         // [END android_healthconnect_write_exercise_route]
     }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSession(startTime: Instant, endTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session]
+        // Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.contains(
+                HealthPermission.getWritePermission(ExerciseSessionRecord::class))) {
+            // The user doesn't granted the app permission to write exercise session data.
+            return
+        }
+
+        val sessionDuration = Duration.ofMinutes(90)
+        val sessionEndTime = Instant.now()
+        val sessionStartTime = sessionEndTime.minus(sessionDuration)
+
+        val exerciseSessionRecord = ExerciseSessionRecord(
+            startTime = sessionStartTime,
+            startZoneOffset = ZoneOffset.UTC,
+            endTime = sessionEndTime,
+            endZoneOffset = ZoneOffset.UTC,
+            exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
+            segments = listOf(
+                ExerciseSegment(
+                    startTime = sessionStartTime,
+                    endTime = sessionEndTime,
+                    repetitions = 3,
+                    segmentType = ExerciseSegment.EXERCISE_SEGMENT_TYPE_RUNNING
+                )
+            ),
+            title = "Run at lake",
+            plannedExerciseSessionId = insertedPlannedExerciseSessionId,
+            metadata = Metadata(
+                device = Device(type = Device.Companion.TYPE_PHONE)
+            )
+        )
+        val insertedExerciseSessions =
+            healthConnectClient.insertRecords(listOf(exerciseSessionRecord))
+        // [END android_healthconnect_insert_segment_exercise_session]
+    }
 }
