@@ -11,6 +11,7 @@ androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "andr
 androidx-xr-arcore-play-services = { module = "androidx.xr.arcore:arcore-play-services", version.ref = "androidx-xr-arcore-play-services" }
 androidx-xr-compose = { module = "androidx.xr.compose:compose", version.ref = "androidx-xr-compose" }
 androidx-xr-glimmer = { module = "androidx.xr.glimmer:glimmer", version.ref = "androidx-xr-glimmer" }
+androidx-xr-glimmer-googlefonts = { module = "androidx.xr.glimmer:glimmer-google-fonts", version.ref = "androidx-xr-glimmer" }
 androidx-xr-projected = { module = "androidx.xr.projected:projected", version.ref = "androidx-xr-projected" }
 androidx-xr-projected-testing = { module = "androidx.xr.projected:projected-testing", version.ref = "androidx-xr-projected" }
 androidx-xr-scenecore = { module = "androidx.xr.scenecore:scenecore", version.ref = "androidx-xr-scenecore" }
