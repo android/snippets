@@ -104,6 +104,7 @@ wearToolingPreview = "1.0.0"
 webkit = "1.15.0"
 wfp = "1.0.0-beta01"
 registryDigitalCredentials = "1.0.0-alpha02"
+screenshotValidationApi = "0.0.1-alpha14"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -257,6 +258,7 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 androidx-registry-digitalcredentials = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
+screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "screenshotValidationApi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
