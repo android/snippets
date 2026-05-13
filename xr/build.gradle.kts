@@ -46,7 +46,8 @@ val isUsingSnapshot = snapshotVersion != null
 val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
     xrLibs.androidx.xr.arcore.asProvider(),
     xrLibs.androidx.xr.arcore.play.services,
-    xrLibs.androidx.xr.glimmer,
+    xrLibs.androidx.xr.glimmer.asProvider(),
+    xrLibs.androidx.xr.glimmer.googlefonts,
     xrLibs.androidx.xr.projected.asProvider(),
     xrLibs.androidx.xr.scenecore,
     xrLibs.androidx.xr.compose,
