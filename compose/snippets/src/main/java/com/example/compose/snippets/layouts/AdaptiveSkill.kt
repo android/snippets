@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.adaptivelayouts
+package com.example.compose.snippets.layouts
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.android.tools.screenshot.PreviewTest
 import com.example.compose.snippets.ui.theme.SnippetsTheme
 
-// [START android_compose_adaptive_skill_previews]
+// [START android_compose_layouts_adaptive_skill_previews]
 @Preview(name = "Phone", device = Devices.PHONE, showBackground = true)
 @Preview(name = "Foldable", device = Devices.FOLDABLE, showBackground = true)
 @Preview(name = "Tablet", device = Devices.TABLET, showBackground = true)
@@ -52,14 +52,14 @@ fun FeedScreenPreview() {
         }
     }
 }
-// [END android_compose_adaptive_skill_previews]
+// [END android_compose_layouts_adaptive_skill_previews]
 
 val navItems : NavigationSuiteScope.() -> Unit = {}
 
 @Composable
 fun AdaptiveNavigationArea(){
 
-// [START android_compose_adaptive_skill_navigation_area]
+// [START android_compose_layouts_adaptive_skill_navigation_area]
 
     // Pass this variable to any composable that needs to control the navigation area visibility
     var isNavBarVisible by remember { mutableStateOf(true) }
@@ -79,13 +79,13 @@ fun AdaptiveNavigationArea(){
             scaffoldVisibilityState.hide()
         }
     }
-// [END android_compose_adaptive_skill_navigation_area]
+// [END android_compose_layouts_adaptive_skill_navigation_area]
 }
 
 @OptIn(ExperimentalGridApi::class)
 @Composable
 fun GridWithDynamicColumnWidth(){
-// [START android_compose_adaptive_skill_dynamic_grid]
+// [START android_compose_layouts_adaptive_skill_dynamic_grid]
     Grid(
         config = {
             val maxWidthDp = constraints.maxWidth.toDp()
@@ -104,5 +104,5 @@ fun GridWithDynamicColumnWidth(){
             gap(gapSizeDp)
         }
     ) { /** items **/ }
-// [END android_compose_adaptive_skill_dynamic_grid]
+// [END android_compose_layouts_adaptive_skill_dynamic_grid]
 }
