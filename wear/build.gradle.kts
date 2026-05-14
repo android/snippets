@@ -15,12 +15,12 @@ kotlin {
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.wear"
         minSdk = 33
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         vectorDrawables {
@@ -105,6 +105,14 @@ dependencies {
     implementation(libs.androidx.watchface.complications.data.source.ktx)
     implementation(libs.androidx.compose.ui.test.manifest)
     implementation(libs.androidx.watchfacepush)
+
+    // Wear Widgets / Remote Compose
+    implementation(libs.androidx.compose.remote.creation)
+    implementation(libs.androidx.compose.remote.core)
+    implementation(libs.androidx.glance.wear)
+    implementation(libs.androidx.glance.wear.core)
+    implementation(libs.androidx.wear.compose.remote.material3)
+    debugImplementation(libs.androidx.compose.remote.tooling.preview)
 
     // Testing
     testImplementation(libs.androidx.compose.ui.test.junit4)
