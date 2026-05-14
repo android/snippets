@@ -16,7 +16,10 @@
 
 package com.example.wear.snippets.m3.list
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.Composable
@@ -24,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
-import androidx.wear.compose.foundation.lazy.TransformingLazyColumnDefaults
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
@@ -39,7 +41,7 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
+import androidx.wear.compose.material3.EdgeButton
 
 
 @Composable
@@ -98,11 +100,10 @@ fun SnapAndFlingComposeList() {
     val transformationSpec = rememberTransformationSpec()
     // [START android_wear_snap]
     val columnState = rememberTransformingLazyColumnState()
-    ScreenScaffold(scrollState = columnState) {
+    ScreenScaffold(scrollState = columnState) { contentPadding ->
         TransformingLazyColumn(
             state = columnState,
-            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState),
-            rotaryScrollableBehavior = RotaryScrollableDefaults.snapBehavior(columnState)
+            contentPadding = contentPadding
         ) {
             // ...
             // [START_EXCLUDE]
@@ -130,6 +131,60 @@ fun SnapAndFlingComposeList() {
         }
     }
     // [END android_wear_snap]
+}
+
+@Composable
+fun EdgeButtonComposeList() {
+    val transformationSpec = rememberTransformationSpec()
+    // [START android_wear_list_edge_button]
+    val columnState = rememberTransformingLazyColumnState()
+    ScreenScaffold(
+        scrollState = columnState,
+        edgeButton = {
+            EdgeButton(
+                onClick = { /* TODO */ },
+                modifier = Modifier.scrollable(
+                    columnState,
+                    orientation = Orientation.Vertical,
+                    reverseDirection = true,
+                    // Apply overscroll to the EdgeButton for proper scrolling behavior.
+                    overscrollEffect = rememberOverscrollEffect(),
+                )
+            ) {
+                Text("More")
+            }
+        }
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            contentPadding = contentPadding,
+            state = columnState,
+        ) {
+            // ...
+            // [START_EXCLUDE]
+            item {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding),
+                    transformation = SurfaceTransformation(transformationSpec)
+                ) {
+                    Text(text = "Header")
+                }
+            }
+            // ... other items
+            item {
+                IconButton(modifier = Modifier.transformedHeight(this, transformationSpec), onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Default.Build,
+                        contentDescription = "Example Button"
+                    )
+                }
+            }
+            // [END_EXCLUDE]
+        }
+    }
+    // [END android_wear_list_edge_button]
 }
 
 @Composable
