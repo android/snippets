@@ -114,6 +114,9 @@ androidx-core-telecom = "1.1.0-alpha04"
 media3Session = "1.10.0"
 playServicesFitness = "21.3.0"
 engageCore = "1.5.12"
+compose-remote = "1.0.0-alpha010"
+glance-wear = "1.0.0-alpha09"
+remote-material3 = "1.0.0-alpha03"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -287,6 +290,12 @@ androidx-core-telecom = { group = "androidx.core", name = "core-telecom", versio
 androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
 play-services-fitness = { group = "com.google.android.gms", name = "play-services-fitness", version.ref = "playServicesFitness" }
 engage-core = { group = "com.google.android.engage", name = "engage-core", version.ref = "engageCore" }
+androidx-compose-remote-creation = { module = "androidx.compose.remote:remote-creation-compose", version.ref = "compose-remote" }
+androidx-compose-remote-core = { module = "androidx.compose.remote:remote-core", version.ref = "compose-remote" }
+androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "glance-wear" }
+androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
+androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
+androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
