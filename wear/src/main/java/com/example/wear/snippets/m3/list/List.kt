@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnDefaults
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
@@ -41,7 +42,12 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.EdgeButton
+import com.example.wear.snippets.list.ComposeList
+import com.example.wear.snippets.list.LARGE_DISPLAY_BREAKPOINT
+import com.example.wear.snippets.list.SnapAndFlingComposeList
+import com.example.wear.snippets.list.isLargeDisplay
 
 
 @Composable
@@ -103,7 +109,8 @@ fun SnapAndFlingComposeList() {
     ScreenScaffold(scrollState = columnState) { contentPadding ->
         TransformingLazyColumn(
             state = columnState,
-            contentPadding = contentPadding
+            flingBehavior = TransformingLazyColumnDefaults.snapFlingBehavior(columnState),
+            rotaryScrollableBehavior = RotaryScrollableDefaults.snapBehavior(columnState)
         ) {
             // ...
             // [START_EXCLUDE]
