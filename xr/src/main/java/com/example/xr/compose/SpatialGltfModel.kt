@@ -19,11 +19,11 @@ package com.example.xr.compose
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.LaunchedEffect
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.subspace.SpatialGltfModel
 import androidx.xr.compose.subspace.SpatialGltfModelSource
@@ -63,8 +63,9 @@ fun SpatialGltfModelExample(){
     // [START androidxr_compose_SpatialGltfModelIntrospection]
     LaunchedEffect(node, degrees) {
         val rotation = Quaternion.fromEulerAngles(degrees, 0f, degrees)
-        node?.localPose =
-            Pose(node.localPose.translation, rotation)
+        node?.let {
+            it.localPose = Pose(it.localPose.translation, rotation)
+        }
     }
     // [END androidxr_compose_SpatialGltfModelIntrospection]
 
