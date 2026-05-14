@@ -30,8 +30,6 @@ import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.Text
 
 // [START xr_glimmer_focus_activity]
-
-// [START xr_glimmer_focus_activity]
 class GlassesActivityExample : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         @OptIn(ExperimentalComposeUiApi::class)
