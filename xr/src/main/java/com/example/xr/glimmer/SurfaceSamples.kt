@@ -36,7 +36,7 @@ fun FocusableSurfaceSample() {
     Box(
         modifier = Modifier
             .size(100.dp)
-            .surface(interactionSource = interactionSource, focusable = false) // Manual handling
+            .surface(interactionSource = interactionSource)
             .focusable(interactionSource = interactionSource),
         contentAlignment = Alignment.Center
     ) {
@@ -50,7 +50,7 @@ fun ClickableSurfaceSample() {
     Box(
         modifier = Modifier
             .size(100.dp)
-            .surface(interactionSource = interactionSource, focusable = false) // Manual handling
+            .surface(interactionSource = interactionSource)
             .focusable(interactionSource = interactionSource)
             .clickable(
                 interactionSource = interactionSource,
