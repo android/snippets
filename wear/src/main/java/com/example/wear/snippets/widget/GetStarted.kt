@@ -36,14 +36,14 @@ import androidx.glance.wear.WearWidgetBrush
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
 
-// [START wear_widget_service]
+// [START android_wear_widget_service]
 @SuppressLint("RestrictedApi")
 class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
 }
-// [END wear_widget_service]
+// [END android_wear_widget_service]
 
-// [START wear_widget_glance]
+// [START android_wear_widget_glance]
 @SuppressLint("RestrictedApi")
 class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
@@ -55,9 +55,9 @@ class HelloWidget : GlanceWearWidget() {
         }
     }
 }
-// [END wear_widget_glance]
+// [END android_wear_widget_glance]
 
-// [START wear_widget_content]
+// [START android_wear_widget_content]
 @SuppressLint("RestrictedApi")
 @RemoteComposable @Composable
 fun HelloWidgetContent() {
@@ -71,4 +71,4 @@ fun HelloWidgetContent() {
         )
     }
 }
-// [END wear_widget_content]
+// [END android_wear_widget_content]

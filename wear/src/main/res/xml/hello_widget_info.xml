@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- [START wear_widget_info] -->
+<!-- [START android_wear_widget_info] -->
 <wearwidget-provider
     description="@string/hello_widget_description"
     icon="@mipmap/ic_launcher"
@@ -28,4 +28,4 @@
         type="LARGE"
         previewImage="@drawable/widget_preview_large" />
 </wearwidget-provider>
-<!-- [END wear_widget_info] -->
+<!-- [END android_wear_widget_info] -->

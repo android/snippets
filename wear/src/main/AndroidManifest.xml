@@ -424,7 +424,7 @@
         </service>
         <!-- [END android_wear_datalayer_mywearablelistenerservice_manifest] -->
 
-        <!-- [START wear_widget_manifest] -->
+        <!-- [START android_wear_widget_manifest] -->
         <service
             android:name=".snippets.widget.HelloWidgetService"
             android:exported="true"
@@ -446,7 +446,7 @@
                 android:name="androidx.wear.tiles.PREVIEW"
                 android:resource="@drawable/tile_preview" />
         </service>
-        <!-- [END wear_widget_manifest] -->
+        <!-- [END android_wear_widget_manifest] -->
 
     </application>
 
