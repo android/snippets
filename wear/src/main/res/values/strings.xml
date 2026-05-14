@@ -27,4 +27,6 @@
     <string name="configuration_activity_label">Configuration activity</string>
     <string name="show">Show</string>
     <string name="default_wf_token">abcdef123456</string>
+    <string name="hello_widget_label">Hello Widget</string>
+    <string name="hello_widget_description">A simple hello world widget.</string>
 </resources>

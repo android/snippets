@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [START wear_widget_info] -->
+<wearwidget-provider
+    description="@string/hello_widget_description"
+    icon="@mipmap/ic_launcher"
+    label="@string/hello_widget_label"
+    preferredType="SMALL">
+
+    <container
+        type="SMALL"
+        previewImage="@drawable/tile_preview" />
+    <container
+        type="LARGE"
+        previewImage="@drawable/tile_preview" />
+</wearwidget-provider>
+<!-- [END wear_widget_info] -->
