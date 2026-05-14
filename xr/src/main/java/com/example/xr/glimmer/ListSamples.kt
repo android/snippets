@@ -23,13 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.xr.glimmer.ListItem
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.TitleChip
-import androidx.xr.glimmer.list.VerticalList
-import androidx.xr.glimmer.list.items
+import androidx.xr.glimmer.list.GlimmerLazyColumn
 
 // [START xr_glimmer_list]
 @Composable
 fun VerticalListSample() {
-    VerticalList(
+    GlimmerLazyColumn(
         title = { TitleChip { Text("List Section Header") } },
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)

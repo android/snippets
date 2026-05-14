@@ -20,13 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.xr.glimmer.ListItem
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.TitleChip
-import androidx.xr.glimmer.list.VerticalList
+import androidx.xr.glimmer.list.GlimmerLazyColumn
 import androidx.xr.glimmer.list.items
 
 // [START xr_glimmer_lazy_column]
 @Composable
 fun GlimmerLazyColumnSample() {
-    VerticalList {
+    GlimmerLazyColumn {
         item { ListItem { Text("Header") } }
         items(count = 10) { index -> ListItem { Text("Item-$index") } }
         item { ListItem { Text("Footer") } }
@@ -37,7 +37,7 @@ fun GlimmerLazyColumnSample() {
 fun GlimmerLazyColumnWithTitleChipSample() {
     val ingredientItems =
         listOf("Milk", "Flour", "Egg", "Salt", "Apples", "Butter", "Vanilla", "Sugar", "Cinnamon")
-    VerticalList(title = { TitleChip { Text("Ingredients") } }) {
+    GlimmerLazyColumn(title = { TitleChip { Text("Ingredients") } }) {
         items(ingredientItems) { text -> ListItem { Text(text) } }
     }
 }
