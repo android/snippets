@@ -8,9 +8,9 @@
 
     <container
         type="SMALL"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/widget_preview_small" />
     <container
         type="LARGE"
-        previewImage="@drawable/tile_preview" />
+        previewImage="@drawable/widget_preview_large" />
 </wearwidget-provider>
 <!-- [END wear_widget_info] -->
