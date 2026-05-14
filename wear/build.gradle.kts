@@ -112,7 +112,7 @@ dependencies {
     implementation(libs.androidx.glance.wear)
     implementation(libs.androidx.glance.wear.core)
     implementation(libs.androidx.wear.compose.remote.material3)
-    implementation(libs.androidx.compose.remote.tooling.preview)
+    debugImplementation(libs.androidx.compose.remote.tooling.preview)
 
     // Testing
     testImplementation(libs.androidx.compose.ui.test.junit4)
