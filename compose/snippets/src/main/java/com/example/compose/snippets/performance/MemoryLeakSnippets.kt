@@ -28,6 +28,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
+// Pattern 3: Example 1 - Compose registers a system service listener without cleanup
+
 @SuppressLint("MissingPermission")
 // [START android_compose_performance_memory_leak_location_with_leak]
 @Composable
