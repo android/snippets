@@ -58,10 +58,6 @@ class UserFragmentBinding {
     }
 }
 val binding = UserFragmentBinding()
-class UserViewModel {
-    val user: Flow<User> = flow {}
-}
-val viewModel = UserViewModel()
 annotation class Singleton
 annotation class Inject
 annotation class ApplicationContext
@@ -82,15 +78,16 @@ class UserRepositoryWithLeak {
     }
 }
 
-class UserViewModelWithLeak(private val repository: UserRepositoryWithLeak) : ViewModel() {
-    private val _userState = MutableStateFlow<User?>(null)
-    val userState: StateFlow<User?> = _userState.asStateFlow()
+class UserFragmentCallbackWithLeak : Fragment() {
+    private val repository = UserRepositoryWithLeak()
 
-    fun loadUser() {
-        // The ViewModel passes a callback that retains a reference to itself.
-        // The repository holds this callback even after the ViewModel is cleared.
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = UserFragmentBinding.bind(view)
+
+        // The Fragment passes a callback that retains a reference to the binding.
+        // The repository holds this callback even after the Fragment's view is destroyed.
         repository.fetchUser { user ->
-            _userState.value = user
+            binding.name?.text = user.name
         }
     }
 }
@@ -104,13 +101,13 @@ class UserRepositoryRecommended {
 }
 // [END android_memory_leak_repository_callback_recommended_pt1]
 
-class UserViewModelRecommended(private val repository: UserRepositoryRecommended) : ViewModel() {
+class UserViewModel(private val repository: UserRepositoryRecommended) : ViewModel() {
     private val _userState = MutableStateFlow<User?>(null)
     val userState: StateFlow<User?> = _userState.asStateFlow()
 
 // [START android_memory_leak_repository_callback_recommended_pt2]
     fun loadUser() {
-        // viewModelScope automatically cancels if the ViewModel is cleared
+        // viewModelScope automatically cancels if the user leaves the screen
         viewModelScope.launch {
             val user = repository.fetchUser()
             _userState.value = user
@@ -118,6 +115,8 @@ class UserViewModelRecommended(private val repository: UserRepositoryRecommended
     }
 // [END android_memory_leak_repository_callback_recommended_pt2]
 }
+
+val viewModel = UserViewModel(UserRepositoryRecommended())
 
 // Pattern 1: Example 2 - Singleton depends on a UI-scoped object
 
@@ -136,13 +135,13 @@ class ActivityImagePickerWithLeak @Inject constructor(
 // [START android_memory_leak_singleton_dependency_recommended]
 // Option 1: Pass the Activity dynamically for UI-scoped tasks (like image picking)
 @Singleton
-class ImageLoaderRecommended1 @Inject constructor() {
+class ImagePickerRecommended @Inject constructor() {
     fun pickImage(activity: Activity) { /* ... */ }
 }
 
 // Option 2: Inject Application Context for non-UI/background tasks (like disk caching or sharedPreferences)
 @Singleton
-class ImageLoaderRecommended2 @Inject constructor(
+class ImageCacheRecommended @Inject constructor(
     @ApplicationContext private val context: Context
 )
 // [END android_memory_leak_singleton_dependency_recommended]
@@ -156,8 +155,8 @@ class UserFragmentWithLeak : Fragment() {
 
         lifecycleScope.launch {
             // This coroutine is tied to the fragment lifecycle, not the view lifecycle.
-            viewModel.user.collect { user ->
-                binding.name?.text = user.name
+            viewModel.userState.collect { user ->
+                binding.name?.text = user?.name
             }
         }
     }
@@ -171,8 +170,8 @@ class UserFragmentRecommended : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.user.collect { user ->
-                    binding.name?.text = user.name
+                viewModel.userState.collect { user ->
+                    binding.name?.text = user?.name
                 }
             }
         }
@@ -188,10 +187,13 @@ object UserRepositoryDelayedWithLeak {
     private val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     // Accepts a callback that might capture a destroyed UI Context
-    fun fetchUserDataWithDelay(onComplete: (String) -> Unit) {
+    fun fetchUserData(onComplete: (String) -> Unit) {
         repositoryScope.launch {
-            delay(5_000) // Emulate network or long processing
-            onComplete("User Data") // If onComplete references the Activity, it leaks!
+            // network or database call that suspends
+            val user = api.getUser()
+            // If the Activity was destroyed while waiting for the API,
+            // invoking this callback will leak the Activity!
+            onComplete(user.name)
         }
     }
 }
@@ -201,7 +203,7 @@ class MainActivityWithLeak : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // The trailing lambda implicitly captures 'this' (MainActivity) to update the title
-        UserRepositoryDelayedWithLeak.fetchUserDataWithDelay { data ->
+        UserRepositoryDelayedWithLeak.fetchUserData { data ->
             title = data 
         }
     }
@@ -213,8 +215,8 @@ class MainActivityWithLeak : AppCompatActivity() {
 object UserRepositoryDelayedRecommended {
     // A clean, stateless flow with no callback parameters
     fun getUserData(): Flow<String> = flow {
-        delay(5_000) // Emulate network or long processing
-        emit("User Data")
+        val user = api.getUser()
+        emit(user.name)
     }
 }
 
@@ -224,8 +226,10 @@ class MainActivityRecommended : AppCompatActivity() {
 
         // Automatically cancels collection and releases MainActivity when destroyed
         lifecycleScope.launch {
-            UserRepositoryDelayedRecommended.getUserData().collect { data ->
-                title = data
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                UserRepositoryDelayedRecommended.getUserData().collect { data ->
+                    title = data
+                }
             }
         }
     }
