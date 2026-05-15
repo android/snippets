@@ -19,6 +19,7 @@ package com.example.healthconnect
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectFeatures
 import androidx.health.connect.client.feature.ExperimentalFeatureAvailabilityApi
@@ -38,8 +39,23 @@ import java.time.ZoneOffset
 import androidx.health.connect.client.HealthConnectFeatures.Companion.FEATURE_MINDFULNESS_SESSION
 import androidx.health.connect.client.changes.DeletionChange
 import androidx.health.connect.client.changes.UpsertionChange
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.BloodPressureRecord
+import androidx.health.connect.client.records.BodyTemperatureRecord
+import androidx.health.connect.client.records.ExerciseCompletionGoal
+import androidx.health.connect.client.records.ExercisePerformanceTarget
+import androidx.health.connect.client.records.ExerciseSegment
 import androidx.health.connect.client.records.NutritionRecord
+import androidx.health.connect.client.records.OxygenSaturationRecord
+import androidx.health.connect.client.records.PlannedExerciseBlock
+import androidx.health.connect.client.records.PlannedExerciseSessionRecord
+import androidx.health.connect.client.records.PlannedExerciseStep
+import androidx.health.connect.client.records.Record
+import androidx.health.connect.client.records.RespiratoryRateRecord
+import androidx.health.connect.client.records.SkinTemperatureRecord
 import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.SpeedRecord
+import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
 import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.records.metadata.DataOrigin
 import androidx.health.connect.client.request.AggregateGroupByDurationRequest
@@ -55,10 +71,12 @@ import java.time.Duration
 import com.google.android.gms.fitness.data.LocalDataSet
 import com.google.android.gms.fitness.data.LocalDataType
 import com.google.android.gms.fitness.request.LocalDataReadRequest
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Period
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
@@ -252,6 +270,247 @@ class HealthConnectManager(
         } catch (e: Exception) {
             // Run error handling here
         }
+    }
+
+    suspend fun  createSetOfPermissionSleep(
+        healthConnectClient: HealthConnectClient,
+        record: StepsRecord
+    ): Set<String> {
+            // [START android_healthconnect_create_set_of_permissions_sleep]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(SleepSessionRecord::class),
+                HealthPermission.getWritePermission(SleepSessionRecord::class),
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(OxygenSaturationRecord::class),
+                HealthPermission.getWritePermission(OxygenSaturationRecord::class),
+                HealthPermission.getReadPermission(RespiratoryRateRecord::class),
+                HealthPermission.getWritePermission(RespiratoryRateRecord::class)
+            )
+            // [END android_healthconnect_create_set_of_permissions_sleep]
+        return permissions
+    }
+
+    suspend fun  createSetOfPermissionVitals(
+        healthConnectClient: HealthConnectClient,
+        record: StepsRecord
+    ): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_vitals]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(BloodPressureRecord::class),
+                HealthPermission.getWritePermission(BloodPressureRecord::class),
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(BodyTemperatureRecord::class),
+                HealthPermission.getWritePermission(BodyTemperatureRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_vitals]
+        return permissions
+    }
+
+    suspend fun  createSetOfPermissionWorkout(
+        healthConnectClient: HealthConnectClient,
+        record: StepsRecord
+    ): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_workout]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                HealthPermission.getWritePermission(ExerciseSessionRecord::class),
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(SpeedRecord::class),
+                HealthPermission.getWritePermission(SpeedRecord::class),
+                HealthPermission.getReadPermission(DistanceRecord::class),
+                HealthPermission.getWritePermission(DistanceRecord::class),
+                HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
+                HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
+                HealthPermission.getReadPermission(StepsRecord::class),
+                HealthPermission.getWritePermission(StepsRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_workout]
+
+        val granted = healthConnectClient.permissionController.getGrantedPermissions()
+        // [START android_healthconnect_check_permission_granted]
+        if (!granted.containsAll(permissions)) {
+            // Check if required permissions are not granted, and return
+        }
+        // Permissions already granted; proceed with inserting or reading data
+        // [START android_healthconnect_check_permission_granted]
+        return permissions
+    }
+
+    suspend fun  createSetOfPermissionGetStarted(
+        healthConnectClient: HealthConnectClient,
+        record: StepsRecord
+    ): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_user]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(StepsRecord::class),
+                HealthPermission.getWritePermission(StepsRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_user]
+        return permissions
+    }
+
+    suspend fun  createPermissionStep(
+        healthConnectClient: HealthConnectClient,
+        record: StepsRecord
+    ): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_step]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(StepsRecord::class),
+                HealthPermission.getWritePermission(StepsRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_step]
+        return permissions
+    }
+
+    suspend fun  createPermissionHeartRate(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_heart_rate]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_heart_rate]
+        return permissions
+    }
+
+    suspend fun  createPermissionSleepSession(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_sleep_session]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(SleepSessionRecord::class),
+                HealthPermission.getWritePermission(SleepSessionRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_sleep_session]
+        return permissions
+    }
+
+    suspend fun  createPermissionExcerciseSession(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_excercise_session]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                HealthPermission.getWritePermission(ExerciseSessionRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_excercise_session]
+        return permissions
+    }
+
+    suspend fun  createPermissionMindfulness(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_mindfulness]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(MindfulnessSessionRecord::class),
+                HealthPermission.getWritePermission(MindfulnessSessionRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_mindfulness]
+        return permissions
+    }
+
+    suspend fun  createPermissionTrainingPlan(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_training_plan]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(PlannedExerciseSessionRecord::class),
+                HealthPermission.getWritePermission(PlannedExerciseSessionRecord::class),
+                HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                HealthPermission.getWritePermission(ExerciseSessionRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_training_plan]
+        return permissions
+    }
+
+
+    suspend fun  createPermissionSkinTemperature(): Set<String> {
+        // [START android_healthconnect_create_set_of_permissions_skin_temperature]
+        val permissions =
+            setOf(
+                HealthPermission.getReadPermission(SkinTemperatureRecord::class),
+                HealthPermission.getWritePermission(SkinTemperatureRecord::class)
+            )
+        // [END android_healthconnect_create_set_of_permissions_skin_temperature]
+        return permissions
+    }
+
+    suspend fun  checkPermissionPlannedExceriseSession() {
+        // [START android_healthconnect_check_permission_planned_excerise_session]
+        // Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.contains(
+                HealthPermission.getWritePermission(PlannedExerciseSessionRecord::class))) {
+            // The user hasn't granted the app permission to write planned exercise session data.
+            return
+        }
+
+        val plannedDuration = Duration.ofMinutes(90)
+        val plannedStartDate = LocalDate.now().plusDays(2)
+
+        val plannedExerciseSessionRecord = PlannedExerciseSessionRecord(
+            startDate = plannedStartDate,
+            duration = plannedDuration,
+            exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
+            blocks = listOf(
+                PlannedExerciseBlock(
+                    repetitions = 1, steps = listOf(
+                        PlannedExerciseStep(
+                            exerciseType = ExerciseSegment.EXERCISE_SEGMENT_TYPE_RUNNING,
+                            exercisePhase = PlannedExerciseStep.EXERCISE_PHASE_ACTIVE,
+                            completionGoal = ExerciseCompletionGoal.RepetitionsGoal(repetitions = 3),
+                            performanceTargets = listOf(
+                                ExercisePerformanceTarget.HeartRateTarget(
+                                    minHeartRate = 90.0, maxHeartRate = 110.0
+                                )
+                            )
+                        ),
+                    ), description = "Three laps around the lake"
+                )
+            ),
+            title = "Run at lake",
+            notes = null,
+            metadata = Metadata(
+                device = Device(type = Device.Companion.TYPE_PHONE)
+            )
+        )
+        val insertedPlannedExerciseSessions =
+            healthConnectClient.insertRecords(listOf(plannedExerciseSessionRecord)).recordIdsList
+        val insertedPlannedExerciseSessionId = insertedPlannedExerciseSessions.first()
+        // [END android_healthconnect_check_permission_planned_excerise_session]
+    }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun  insertRecords(
+        healthConnectClient: HealthConnectClient,
+        record: ExerciseSessionRecord,
+        startTime: Instant
+    ){
+        // [START android_healthconnect_create_insert_record]
+        val sessionId = UUID.randomUUID().toString()
+        val sessionClientId = UUID.randomUUID().toString()
+        val zoneOffset = ZoneOffset.systemDefault().rules.getOffset(startTime)
+
+        val session = ExerciseSessionRecord(
+            startTime = startTime,
+            startZoneOffset = zoneOffset,
+            endTime = startTime.plusSeconds(3600),
+            endZoneOffset = zoneOffset,
+            exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
+            metadata = Metadata(clientRecordId = sessionClientId),
+        )
+
+        healthConnectClient.insertRecords(listOf(session))
+        // [END android_healthconnect_create_insert_record]
     }
 
     suspend fun  heartRateRecordExample(
@@ -978,4 +1237,153 @@ class HealthConnectManager(
         healthConnectClient.insertRecords(listOf(session))
         // [END android_healthconnect_write_exercise_route]
     }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSession(startTime: Instant, endTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session]
+        // Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.contains(
+                HealthPermission.getWritePermission(ExerciseSessionRecord::class))) {
+            // The user doesn't granted the app permission to write exercise session data.
+            return
+        }
+
+        val sessionDuration = Duration.ofMinutes(90)
+        val sessionEndTime = Instant.now()
+        val sessionStartTime = sessionEndTime.minus(sessionDuration)
+
+        val exerciseSessionRecord = ExerciseSessionRecord(
+            startTime = sessionStartTime,
+            startZoneOffset = ZoneOffset.UTC,
+            endTime = sessionEndTime,
+            endZoneOffset = ZoneOffset.UTC,
+            exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
+            segments = listOf(
+                ExerciseSegment(
+                    startTime = sessionStartTime,
+                    endTime = sessionEndTime,
+                    repetitions = 3,
+                    segmentType = ExerciseSegment.EXERCISE_SEGMENT_TYPE_RUNNING
+                )
+            ),
+            title = "Run at lake",
+            plannedExerciseSessionId = insertedPlannedExerciseSessionId,
+            metadata = Metadata(
+                device = Device(type = Device.Companion.TYPE_PHONE)
+            )
+        )
+        val insertedExerciseSessions =
+            healthConnectClient.insertRecords(listOf(exerciseSessionRecord))
+        // [END android_healthconnect_insert_segment_exercise_session]
+    }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSessionWithHandler(sessionStartTime: Instant, sessionEndTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session_with_handler]
+// Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.contains(
+                HealthPermission.getWritePermission(HeartRateRecord::class))) {
+            // The user doesn't granted the app permission to write heart rate record data.
+            return
+        }
+
+        val samples = mutableListOf<HeartRateRecord.Sample>()
+        var currentTime = sessionStartTime
+        while (currentTime.isBefore(sessionEndTime)) {
+            val bpm = Random.nextInt(21) + 90
+            val heartRateRecord = HeartRateRecord.Sample(
+                time = currentTime,
+                beatsPerMinute = bpm.toLong(),
+            )
+            samples.add(heartRateRecord)
+            currentTime = currentTime.plusSeconds(180)
+        }
+
+        val heartRateRecord = HeartRateRecord(
+            startTime = sessionStartTime,
+            startZoneOffset = ZoneOffset.UTC,
+            endTime = sessionEndTime,
+            endZoneOffset = ZoneOffset.UTC,
+            samples = samples,
+            metadata = Metadata(
+                device = Device(type = Device.Companion.TYPE_WATCH)
+            )
+        )
+        val insertedHeartRateRecords = healthConnectClient.insertRecords(listOf(heartRateRecord))
+        // [END android_healthconnect_insert_segment_exercise_session_with_handler]
+    }
+
+    @SuppressLint("RestrictedApi")
+    suspend fun insertSegmentExerciseSessionPeriodic(sessionStartTime: Instant, sessionEndTime: Instant, insertedPlannedExerciseSessionId: String) {
+        // [START android_healthconnect_insert_segment_exercise_session_periodic]
+        // Verify the user has granted all necessary permissions for this task
+        val grantedPermissions =
+            healthConnectClient.permissionController.getGrantedPermissions()
+        if (!grantedPermissions.containsAll(
+                listOf(
+                    HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                    HealthPermission.getReadPermission(PlannedExerciseSessionRecord::class),
+                    HealthPermission.getReadPermission(HeartRateRecord::class)
+                )
+            )
+        ) {
+            // The user doesn't granted the app permission to read exercise session record data.
+            return
+        }
+
+        val searchDuration = Duration.ofDays(1)
+        val searchEndTime = Instant.now()
+        val searchStartTime = searchEndTime.minus(searchDuration)
+
+        val response = healthConnectClient.readRecords(
+            ReadRecordsRequest<ExerciseSessionRecord>(
+                timeRangeFilter = TimeRangeFilter.between(searchStartTime, searchEndTime)
+            )
+        )
+        for (exerciseRecord in response.records) {
+            val plannedExerciseRecordId = exerciseRecord.plannedExerciseSessionId
+            val plannedExerciseRecord =
+                if (plannedExerciseRecordId == null) null else healthConnectClient.readRecord(
+                    PlannedExerciseSessionRecord::class, plannedExerciseRecordId
+                ).record
+            if (plannedExerciseRecord != null) {
+                val aggregateRequest = AggregateRequest(
+                    metrics = setOf(HeartRateRecord.BPM_AVG),
+                    timeRangeFilter = TimeRangeFilter.between(
+                        exerciseRecord.startTime, exerciseRecord.endTime
+                    ),
+                )
+                val aggregationResult = healthConnectClient.aggregate(aggregateRequest)
+
+                val maxBpm = aggregationResult[HeartRateRecord.BPM_MAX]
+                val minBpm = aggregationResult[HeartRateRecord.BPM_MIN]
+                if (maxBpm != null && minBpm != null) {
+                    plannedExerciseRecord.blocks.forEach { block ->
+                        block.steps.forEach { step ->
+                            step.performanceTargets.forEach { target ->
+                                when (target) {
+                                    is ExercisePerformanceTarget.HeartRateTarget -> {
+                                        val minTarget = target.minHeartRate
+                                        val maxTarget = target.maxHeartRate
+                                        if(
+                                            minBpm >= minTarget && maxBpm <= maxTarget
+                                        ) {
+                                            // Success!
+                                        }
+                                    }
+                                    // Handle more target types
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+        // [END android_healthconnect_insert_segment_exercise_session_periodic]
 }
+
