@@ -26,13 +26,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
@@ -77,27 +82,42 @@ class UserRepositoryWithLeak {
     }
 }
 
-/* In the Fragment/UI layer:
-repository.fetchUser { user ->
-    binding.name.text = user.name
+class UserViewModelWithLeak(private val repository: UserRepositoryWithLeak) : ViewModel() {
+    private val _userState = MutableStateFlow<User?>(null)
+    val userState: StateFlow<User?> = _userState.asStateFlow()
+
+    fun loadUser() {
+        // The ViewModel passes a callback that retains a reference to itself.
+        // The repository holds this callback even after the ViewModel is cleared.
+        repository.fetchUser { user ->
+            _userState.value = user
+        }
+    }
 }
-*/
 // [END android_memory_leak_repository_callback_with_leak]
 
-// [START android_memory_leak_repository_callback_recommended]
+// [START android_memory_leak_repository_callback_recommended_pt1]
 class UserRepositoryRecommended {
     suspend fun fetchUser(): User {
         return api.getUser()
     }
 }
+// [END android_memory_leak_repository_callback_recommended_pt1]
 
-/* In the Fragment/UI layer:
-viewLifecycleOwner.lifecycleScope.launch {
-    val user = repository.fetchUser()
-    binding.name.text = user.name
+class UserViewModelRecommended(private val repository: UserRepositoryRecommended) : ViewModel() {
+    private val _userState = MutableStateFlow<User?>(null)
+    val userState: StateFlow<User?> = _userState.asStateFlow()
+
+// [START android_memory_leak_repository_callback_recommended_pt2]
+    fun loadUser() {
+        // viewModelScope automatically cancels if the ViewModel is cleared
+        viewModelScope.launch {
+            val user = repository.fetchUser()
+            _userState.value = user
+        }
+    }
+// [END android_memory_leak_repository_callback_recommended_pt2]
 }
-*/
-// [END android_memory_leak_repository_callback_recommended]
 
 // Pattern 1: Example 2 - Singleton depends on a UI-scoped object
 
@@ -170,7 +190,7 @@ object UserRepositoryDelayedWithLeak {
     // Accepts a callback that might capture a destroyed UI Context
     fun fetchUserDataWithDelay(onComplete: (String) -> Unit) {
         repositoryScope.launch {
-            delay(5_000) 
+            delay(5_000) // Emulate network or long processing
             onComplete("User Data") // If onComplete references the Activity, it leaks!
         }
     }
@@ -193,7 +213,7 @@ class MainActivityWithLeak : AppCompatActivity() {
 object UserRepositoryDelayedRecommended {
     // A clean, stateless flow with no callback parameters
     fun getUserData(): Flow<String> = flow {
-        delay(5_000)
+        delay(5_000) // Emulate network or long processing
         emit("User Data")
     }
 }
