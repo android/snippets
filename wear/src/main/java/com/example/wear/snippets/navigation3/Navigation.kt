@@ -63,7 +63,7 @@ fun WearApp() {
             entry<Screen.Details> { key ->
                 DetailsScreen(
                     itemId = key.itemId,
-                    onBack = { backStack.removeLast() }
+                    onBack = { backStack.removeAt(backStack.lastIndex) }
                 )
             }
         }
