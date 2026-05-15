@@ -103,6 +103,7 @@ wear = "1.4.0"
 wearComposeFoundation = "1.6.1"
 wearComposeMaterial = "1.6.1"
 wearComposeMaterial3 = "1.6.1"
+wearComposeNavigation3 = "1.6.0"
 wearInput = "1.2.0"
 wearOngoing = "1.1.0"
 wearPhoneInteractions = "1.1.0"
@@ -286,6 +287,7 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
+wear-compose-navigation3 = { module = "androidx.wear.compose:compose-navigation3", version.ref = "wearComposeNavigation3" }
 androidx-core-telecom = { group = "androidx.core", name = "core-telecom", version.ref = "androidx-core-telecom" }
 androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
 play-services-fitness = { group = "com.google.android.gms", name = "play-services-fitness", version.ref = "playServicesFitness" }

@@ -141,7 +141,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Navigation 3
-    implementation("androidx.wear.compose:compose-navigation3:1.6.0")
+    implementation(libs.wear.compose.navigation3)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
