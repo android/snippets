@@ -17,10 +17,9 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
-import androidx.xr.arcore.CreateGeospatialPoseFromPoseErrorInternal
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseNotTracking
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseSuccess
-import androidx.xr.arcore.CreatePoseFromGeospatialPoseErrorInternal
+import androidx.xr.arcore.CreatePoseFromGeospatialPoseInternalError
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseNotTracking
 import androidx.xr.arcore.CreatePoseFromGeospatialPoseSuccess
 import androidx.xr.arcore.Geospatial
@@ -42,10 +41,10 @@ private fun configureGeospatialSession(session: Session) {
     // [START androidxr_arcore_geospatial_configure]
     // Define the configuration object to enable Geospatial features.
     val newConfig = Config(
-        // Set the GeospatialMode to VPS_AND_GPS.
-        geospatial = GeospatialMode.VPS_AND_GPS,
-        // Set the DeviceTrackingMode to SPATIAL_LAST_KNOWN.
-        deviceTracking = DeviceTrackingMode.SPATIAL_LAST_KNOWN
+        // Set the GeospatialMode to SPATIAL.
+        geospatial = GeospatialMode.SPATIAL,
+        // Set the DeviceTrackingMode to SPATIAL.
+        deviceTracking = DeviceTrackingMode.SPATIAL
     )
     // Apply the configuration to the session.
     try {
@@ -97,6 +96,9 @@ private suspend fun checkVpsAvailability(geospatial: Geospatial) {
         is VpsAvailabilityUnavailable -> {
             // VPS is not available at this location.
         }
+        else -> {
+            // A newer exception was added, but your app is using an old version of the library
+        }
     }
     // [END androidxr_arcore_geospatial_check_vps]
 }
@@ -120,7 +122,9 @@ private fun convertDeviceToGeospatial(session: Session, geospatial: Geospatial) 
             // Geospatial is not currently tracking.
         }
 
-        is CreateGeospatialPoseFromPoseErrorInternal -> TODO()
+        else -> {
+            // A newer exception was added, but your app is using an old version of the library
+        }
     }
     // [END androidxr_arcore_geospatial_device_to_geospatial]
 }
@@ -136,8 +140,11 @@ private fun convertGeospatialToDevice(geospatial: Geospatial, geoPose: Geospatia
         is CreatePoseFromGeospatialPoseNotTracking -> {
             // Geospatial is not currently tracking.
         }
-        is CreatePoseFromGeospatialPoseErrorInternal -> {
+        is CreatePoseFromGeospatialPoseInternalError -> {
             // An internal error occurred.
+        }
+        else -> {
+            // A newer exception was added, but your app is using an old version of the library
         }
     }
     // [END androidxr_arcore_geospatial_pose_to_device]
