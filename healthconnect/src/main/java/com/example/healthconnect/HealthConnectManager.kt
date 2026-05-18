@@ -335,7 +335,7 @@ class HealthConnectManager(
             return emptySet()
         }
         // Permissions already granted; proceed with inserting or reading data
-        // [START android_healthconnect_check_permission_granted]
+        // [END android_healthconnect_check_permission_granted]
         return permissions
     }
 
