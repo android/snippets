@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresPermission
@@ -45,6 +46,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.StepsRecord
 import com.example.healthconnect.ui.theme.SnippetsTheme
 import com.google.android.gms.fitness.FitnessLocal
 import com.google.android.gms.fitness.data.LocalDataType
@@ -56,7 +61,7 @@ class HealthConnectActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
+
         setContent {
             SnippetsTheme {
                 HealthConnectScreen(Modifier.fillMaxSize())
@@ -115,6 +120,27 @@ fun HealthConnectScreen(modifier: Modifier) {
         healthConnectClient?.let { HealthConnectManager(it) }
     }
 
+    // [START android_healthconnect_check_permission_launcher]
+    val permissions = remember {
+        setOf(
+            HealthPermission.getReadPermission(StepsRecord::class),
+            HealthPermission.getWritePermission(StepsRecord::class),
+            HealthPermission.getReadPermission(HeartRateRecord::class),
+            HealthPermission.getWritePermission(HeartRateRecord::class)
+        )
+    }
+
+    val requestPermissionsLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { grantedPermissions ->
+        if (grantedPermissions.containsAll(permissions)) {
+            coroutineScope.launch { snackbarHostState.showSnackbar("Permissions granted!") }
+        } else {
+            coroutineScope.launch { snackbarHostState.showSnackbar("Permissions denied.") }
+        }
+    }
+    // [END android_healthconnect_check_permission_launcher]
+
     Scaffold(
         modifier = modifier,
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -135,10 +161,15 @@ fun HealthConnectScreen(modifier: Modifier) {
                 item {
                     Button(onClick = {
                         coroutineScope.launch {
-                            val startTime = Instant.now().minusSeconds(3600)
-                            val endTime = Instant.now()
-                            manager.insertSteps(startTime, endTime)
-                            snackbarHostState.showSnackbar("Steps inserted!")
+                            val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                            if (granted?.containsAll(permissions) == true) {
+                                val startTime = Instant.now().minusSeconds(3600)
+                                val endTime = Instant.now()
+                                manager.insertSteps(startTime, endTime)
+                                snackbarHostState.showSnackbar("Steps inserted!")
+                            } else {
+                                requestPermissionsLauncher.launch(permissions)
+                            }
                         }
                     }) {
                         Text("Run: Insert Steps")
@@ -150,11 +181,16 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val startTime = Instant.now().minus(Duration.ofDays(1))
-                                val endTime = Instant.now()
+                                val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                                if (granted?.containsAll(permissions) == true) {
+                                    val startTime = Instant.now().minus(Duration.ofDays(1))
+                                    val endTime = Instant.now()
 
-                                val total = manager.readStepsAggregate(startTime, endTime)
-                                snackbarHostState.showSnackbar("Total Steps: $total")
+                                    val total = manager.readStepsAggregate(startTime, endTime)
+                                    snackbarHostState.showSnackbar("Total Steps: $total")
+                                } else {
+                                    requestPermissionsLauncher.launch(permissions)
+                                }
                             }
                         }) {
                         Text("Run: Read Steps Aggregate")
@@ -166,11 +202,16 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val startTime = Instant.now().minus(Duration.ofDays(1))
-                                val endTime = Instant.now()
+                                val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                                if (granted?.containsAll(permissions) == true) {
+                                    val startTime = Instant.now().minus(Duration.ofDays(1))
+                                    val endTime = Instant.now()
 
-                                val total = manager.readDistanceAggregate(startTime, endTime)
-                                snackbarHostState.showSnackbar("Total Distance: $total")
+                                    val total = manager.readDistanceAggregate(startTime, endTime)
+                                    snackbarHostState.showSnackbar("Total Distance: $total")
+                                } else {
+                                    requestPermissionsLauncher.launch(permissions)
+                                }
                             }
                         }) {
                         Text("Run: Read Distance Aggregate")

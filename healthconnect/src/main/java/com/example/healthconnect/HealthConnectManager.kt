@@ -291,10 +291,7 @@ class HealthConnectManager(
         return permissions
     }
 
-     fun  createSetOfPermissionVitals(
-        healthConnectClient: HealthConnectClient,
-        record: StepsRecord
-    ): Set<String> {
+     fun  createSetOfPermissionVitals(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_vitals]
         val permissions =
             setOf(
@@ -434,14 +431,19 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  checkPermissionPlannedExerciseSession(startTime: Instant, endTime: Instant) {
+    suspend fun checkPermissionPlannedExerciseSession(
+        startTime: Instant,
+        endTime: Instant
+    ) {
         // [START android_healthconnect_check_permission_planned_exercise_session]
         // Verify the user has granted all necessary permissions for this task
         val grantedPermissions =
             healthConnectClient.permissionController.getGrantedPermissions()
+
         if (!grantedPermissions.contains(
                 HealthPermission.getWritePermission(PlannedExerciseSessionRecord::class))) {
             // The user hasn't granted the app permission to write planned exercise session data.
+            Log.w("HealthConnect", "Write permission for PlannedExerciseSessionRecord not granted.")
             return
         }
 
@@ -473,9 +475,25 @@ class HealthConnectManager(
             startZoneOffset = null,
             endZoneOffset = null,
         )
-        val insertedPlannedExerciseSessions =
-            healthConnectClient.insertRecords(listOf(plannedExerciseSessionRecord)).recordIdsList
-        val insertedPlannedExerciseSessionId = insertedPlannedExerciseSessions.first()
+
+        try {
+            // Attempt to insert the record
+            val response = healthConnectClient.insertRecords(listOf(plannedExerciseSessionRecord))
+
+            // If execution reaches here, the insert succeeded.
+            // Safely extract the ID using firstOrNull()
+            val insertedPlannedExerciseSessionId = response.recordIdsList.firstOrNull()
+
+            if (insertedPlannedExerciseSessionId != null) {
+                Log.d("HealthConnect", "Successfully inserted planned exercise session ID: $insertedPlannedExerciseSessionId")
+            } else {
+                Log.w("HealthConnect", "Insertion succeeded but no record IDs were returned.")
+            }
+
+        } catch (e: Exception) {
+            // Handle API failures, database errors, or system issues safely without crashing
+            Log.e("HealthConnect", "Failed to insert planned exercise session record", e)
+        }
         // [END android_healthconnect_check_permission_planned_exercise_session]
     }
 
@@ -485,7 +503,6 @@ class HealthConnectManager(
         startTime: Instant
     ){
         // [START android_healthconnect_create_insert_record]
-        val sessionId = UUID.randomUUID().toString()
         val sessionClientId = UUID.randomUUID().toString()
         val zoneOffset = ZoneOffset.systemDefault().rules.getOffset(startTime)
 
@@ -1304,26 +1321,6 @@ class HealthConnectManager(
         )
         val insertedHeartRateRecords = healthConnectClient.insertRecords(listOf(heartRateRecord))
         // [END android_healthconnect_insert_segment_exercise_session_with_handler]
-    }
-
-    suspend fun checkPermissionsAndRun(
-        healthConnectClient: HealthConnectClient,
-        launcher: ActivityResultLauncher<Set<String>>
-    ) {
-        val PERMISSIONS = setOf(
-            HealthPermission.getReadPermission(StepsRecord::class),
-            HealthPermission.getWritePermission(StepsRecord::class),
-            HealthPermission.getReadPermission(HeartRateRecord::class),
-            HealthPermission.getWritePermission(HeartRateRecord::class)
-        )
-        // [START android_healthconnect_check_permission_launcher]
-        val granted = healthConnectClient.permissionController.getGrantedPermissions()
-        if (granted.containsAll(PERMISSIONS)) {
-            // Permissions already granted; proceed with inserting or reading data
-        } else {
-            launcher.launch(PERMISSIONS)
-        }
-        // [END android_healthconnect_check_permission_launcher]
     }
 
     @SuppressLint("RestrictedApi")
