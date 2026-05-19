@@ -1,10 +1,10 @@
 [versions]
-androidx-xr-arcore = "1.0.0-alpha13"
-androidx-xr-arcore-play-services = "1.0.0-alpha13"
-androidx-xr-compose = "1.0.0-alpha13"
-androidx-xr-glimmer = "1.0.0-alpha12"
-androidx-xr-projected = "1.0.0-alpha07"
-androidx-xr-scenecore = "1.0.0-alpha14"
+androidx-xr-arcore = "1.0.0-alpha14"
+androidx-xr-arcore-play-services = "1.0.0-alpha14"
+androidx-xr-compose = "1.0.0-alpha14"
+androidx-xr-glimmer = "1.0.0-alpha13"
+androidx-xr-projected = "1.0.0-alpha08"
+androidx-xr-scenecore = "1.0.0-alpha15"
 
 [libraries]
 androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
