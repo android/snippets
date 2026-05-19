@@ -43,7 +43,7 @@ private fun configureFaceTracking(session: Session) {
 @Suppress("UnusedVariable")
 private suspend fun getUserFace(session: Session) {
     // [START androidxr_arcore_faceTracking_getFace]
-    val face = Face.getUserFace(session)
+    val face = Face.getUserFace(session) ?: return
     face.state.collect { state ->
         if (state.trackingState != TrackingState.TRACKING) return@collect
 

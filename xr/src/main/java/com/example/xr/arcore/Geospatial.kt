@@ -44,7 +44,7 @@ private fun configureGeospatialSession(session: Session) {
         // Set the GeospatialMode to SPATIAL.
         geospatial = GeospatialMode.SPATIAL,
         // Set the DeviceTrackingMode to SPATIAL.
-        deviceTracking = DeviceTrackingMode.SPATIAL
+        deviceTracking = DeviceTrackingMode.SPATIAL_LAST_KNOWN
     )
     // Apply the configuration to the session.
     try {
