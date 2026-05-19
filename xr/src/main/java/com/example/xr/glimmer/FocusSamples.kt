@@ -29,7 +29,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.Text
 
-// [START xr_glimmer_focus_activity]
+// [START androidxr_glimmer_focus_activity]
 class GlassesActivityExample : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         @OptIn(ExperimentalComposeUiApi::class)
@@ -37,10 +37,10 @@ class GlassesActivityExample : ComponentActivity() {
         super.onCreate(savedInstanceState)
     }
 }
-// [END xr_glimmer_focus_activity]
+// [END androidxr_glimmer_focus_activity]
 
 
-// [START xr_glimmer_focus_group]
+// [START androidxr_glimmer_focus_group]
 @Composable
 fun FocusSample(initialFocus: FocusRequester) {
     Box(
@@ -56,4 +56,4 @@ fun FocusSample(initialFocus: FocusRequester) {
         Button(onClick = {}) { Text("First Button") }
     }
 }
-// [END xr_glimmer_focus_group]
+// [END androidxr_glimmer_focus_group]

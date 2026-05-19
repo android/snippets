@@ -32,7 +32,7 @@ import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.list.GlimmerLazyColumn
 import androidx.xr.glimmer.surface
 
-// [START xr_glimmer_shapes]
+// [START androidxr_glimmer_shapes]
 @Composable
 fun ShapesSample() {
     val shapes = GlimmerTheme.shapes
@@ -56,10 +56,10 @@ private fun ShapeItem(name: String, shape: Shape, modifier: Modifier = Modifier)
         Text(name)
     }
 }
-// [END xr_glimmer_shapes]
+// [END androidxr_glimmer_shapes]
 
 
-// [START xr_glimmer_custom_shapes]
+// [START androidxr_glimmer_custom_shapes]
 @Composable
 fun CustomShapesSample() {
     val customShapes = GlimmerTheme.shapes.copy(
@@ -78,4 +78,4 @@ fun CustomShapesSample() {
         Text("custom small")
     }
 }
-// [END xr_glimmer_custom_shapes]
+// [END androidxr_glimmer_custom_shapes]

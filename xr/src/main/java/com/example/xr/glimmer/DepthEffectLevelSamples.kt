@@ -30,7 +30,7 @@ import androidx.xr.glimmer.SurfaceDepthEffect
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.surface
 
-// [START xr_glimmer_depth_effect_levels]
+// [START androidxr_glimmer_depth_effect_levels]
 @Composable
 fun DepthEffectLevelsSample() {
     val levels = GlimmerTheme.depthEffectLevels
@@ -61,4 +61,4 @@ private fun DepthBox(name: String, depthEffect: DepthEffect) {
         Text(name)
     }
 }
-// [END xr_glimmer_depth_effect_levels]
+// [END androidxr_glimmer_depth_effect_levels]

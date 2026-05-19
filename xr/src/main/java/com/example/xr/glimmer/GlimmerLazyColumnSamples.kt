@@ -23,7 +23,7 @@ import androidx.xr.glimmer.TitleChip
 import androidx.xr.glimmer.list.GlimmerLazyColumn
 import androidx.xr.glimmer.list.items
 
-// [START xr_glimmer_lazy_column]
+// [START androidxr_glimmer_lazy_column]
 @Composable
 fun GlimmerLazyColumnSample() {
     GlimmerLazyColumn {
@@ -41,4 +41,4 @@ fun GlimmerLazyColumnWithTitleChipSample() {
         items(ingredientItems) { text -> ListItem { Text(text) } }
     }
 }
-// [END xr_glimmer_lazy_column]
+// [END androidxr_glimmer_lazy_column]

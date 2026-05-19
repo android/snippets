@@ -24,11 +24,11 @@ import androidx.xr.glimmer.IconButton
 
 private val FavoriteIcon = Icons.Default.Favorite
 
-// [START xr_glimmer_icon_button]
+// [START androidxr_glimmer_icon_button]
 @Composable
 fun IconButtonSample() {
     IconButton(onClick = { /* Handle action */ }) {
         Icon(FavoriteIcon, contentDescription = "Localized description")
     }
 }
-// [END xr_glimmer_icon_button]
+// [END androidxr_glimmer_icon_button]

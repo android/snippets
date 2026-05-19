@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.xr.glimmer.GlimmerTheme
 import androidx.xr.glimmer.Text
 
-// [START xr_glimmer_text]
+// [START androidxr_glimmer_text]
 @Composable
 fun TextSample() {
     Text(
@@ -28,4 +28,4 @@ fun TextSample() {
         style = GlimmerTheme.typography.titleLarge
     )
 }
-// [END xr_glimmer_text]
+// [END androidxr_glimmer_text]

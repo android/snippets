@@ -31,7 +31,7 @@ import androidx.xr.glimmer.ToggleButton
 private val FavoriteIcon = Icons.Default.Favorite
 private val OutlinedFavoriteIcon = Icons.Outlined.FavoriteBorder
 
-// [START xr_glimmer_toggle_button]
+// [START androidxr_glimmer_toggle_button]
 @Composable
 fun ToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
@@ -44,10 +44,10 @@ fun ToggleButtonSample() {
         Text(text)
     }
 }
-// [END xr_glimmer_toggle_button]
+// [END androidxr_glimmer_toggle_button]
 
 
-// [START xr_glimmer_toggle_button_with_icon]
+// [START androidxr_glimmer_toggle_button_with_icon]
 @Composable
 fun ToggleButtonWithLeadingIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -65,4 +65,4 @@ fun ToggleButtonWithLeadingIconSample() {
         Text(if (checked) "On" else "Off")
     }
 }
-// [END xr_glimmer_toggle_button_with_icon]
+// [END androidxr_glimmer_toggle_button_with_icon]

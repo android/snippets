@@ -26,15 +26,15 @@ import androidx.xr.glimmer.Icon
 
 private val FavoriteIcon = Icons.Default.Favorite
 
-// [START xr_glimmer_icon]
+// [START androidxr_glimmer_icon]
 @Composable
 fun IconSample() {
     Icon(FavoriteIcon, contentDescription = "Localized description")
 }
-// [END xr_glimmer_icon]
+// [END androidxr_glimmer_icon]
 
 
-// [START xr_glimmer_icon_colored]
+// [START androidxr_glimmer_icon_colored]
 @Composable
 fun ColoredIconSample() {
     Icon(
@@ -43,10 +43,10 @@ fun ColoredIconSample() {
         contentDescription = "Localized description",
     )
 }
-// [END xr_glimmer_icon_colored]
+// [END androidxr_glimmer_icon_colored]
 
 
-// [START xr_glimmer_icon_sized]
+// [START androidxr_glimmer_icon_sized]
 @Composable
 fun SizedIconSample() {
     Icon(
@@ -55,4 +55,4 @@ fun SizedIconSample() {
         modifier = Modifier.size(GlimmerTheme.iconSizes.large),
     )
 }
-// [END xr_glimmer_icon_sized]
+// [END androidxr_glimmer_icon_sized]

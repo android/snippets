@@ -30,7 +30,7 @@ import androidx.xr.glimmer.Text
 
 private val FavoriteIcon = Icons.Default.Favorite
 
-// [START xr_glimmer_card]
+// [START androidxr_glimmer_card]
 @Composable
 fun CardSample() {
     val myHeaderImage = painterResource(id = android.R.drawable.ic_menu_gallery)
@@ -57,4 +57,4 @@ fun CardSample() {
         )
     }
 }
-// [END xr_glimmer_card]
+// [END androidxr_glimmer_card]

@@ -32,15 +32,15 @@ import androidx.xr.glimmer.TitleChipDefaults
 
 private val FavoriteIcon = Icons.Default.Favorite
 
-// [START xr_glimmer_title_chip]
+// [START androidxr_glimmer_title_chip]
 @Composable
 fun BasicTitleChipSample() {
     TitleChip { Text("Messages") }
 }
-// [END xr_glimmer_title_chip]
+// [END androidxr_glimmer_title_chip]
 
 
-// [START xr_glimmer_title_chip_with_icon]
+// [START androidxr_glimmer_title_chip_with_icon]
 @Composable
 fun TitleChipWithIconSample() {
     TitleChip {
@@ -48,10 +48,10 @@ fun TitleChipWithIconSample() {
         Text("Favorites")
     }
 }
-// [END xr_glimmer_title_chip_with_icon]
+// [END androidxr_glimmer_title_chip_with_icon]
 
 
-// [START xr_glimmer_title_chip_with_card]
+// [START androidxr_glimmer_title_chip_with_card]
 @Composable
 fun TitleChipWithCardSample() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -68,4 +68,4 @@ fun TitleChipWithCardSample() {
         }
     }
 }
-// [END xr_glimmer_title_chip_with_card]
+// [END androidxr_glimmer_title_chip_with_card]

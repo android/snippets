@@ -29,7 +29,7 @@ import androidx.compose.ui.focus.focusTarget
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.onIndirectPointerGesture
 
-// [START xr_glimmer_on_indirect_pointer_gesture]
+// [START androidxr_glimmer_on_indirect_pointer_gesture]
 @Composable
 fun OnIndirectPointerGestureSample() {
     var lastGesture by remember { mutableStateOf("None") }
@@ -49,4 +49,4 @@ fun OnIndirectPointerGestureSample() {
         Text("Last Gesture: $lastGesture")
     }
 }
-// [END xr_glimmer_on_indirect_pointer_gesture]
+// [END androidxr_glimmer_on_indirect_pointer_gesture]

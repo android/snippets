@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.surface
 
-// [START xr_glimmer_surface_interaction]
+// [START androidxr_glimmer_surface_interaction]
 @Composable
 fun FocusableSurfaceSample() {
     val interactionSource = remember { MutableInteractionSource() }
@@ -61,4 +61,4 @@ fun ClickableSurfaceSample() {
         Text("Clickable")
     }
 }
-// [END xr_glimmer_surface_interaction]
+// [END androidxr_glimmer_surface_interaction]

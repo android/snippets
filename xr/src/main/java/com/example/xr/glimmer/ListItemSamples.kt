@@ -25,15 +25,15 @@ import androidx.xr.glimmer.Text
 
 private val FavoriteIcon = Icons.Default.Favorite
 
-// [START xr_glimmer_list_item]
+// [START androidxr_glimmer_list_item]
 @Composable
 fun ListItemSample() {
     ListItem { Text("This is a list item") }
 }
-// [END xr_glimmer_list_item]
+// [END androidxr_glimmer_list_item]
 
 
-// [START xr_glimmer_list_item_with_icons]
+// [START androidxr_glimmer_list_item_with_icons]
 @Composable
 fun ListItemWithIconsSample() {
     ListItem(
@@ -43,4 +43,4 @@ fun ListItemWithIconsSample() {
         Text("This is a list item with icons")
     }
 }
-// [END xr_glimmer_list_item_with_icons]
+// [END androidxr_glimmer_list_item_with_icons]

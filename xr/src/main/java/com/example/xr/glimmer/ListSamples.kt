@@ -25,7 +25,7 @@ import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.TitleChip
 import androidx.xr.glimmer.list.GlimmerLazyColumn
 
-// [START xr_glimmer_list]
+// [START androidxr_glimmer_list]
 @Composable
 fun VerticalListSample() {
     GlimmerLazyColumn(
@@ -52,4 +52,4 @@ fun VerticalListSample() {
         }
     }
 }
-// [END xr_glimmer_list]
+// [END androidxr_glimmer_list]

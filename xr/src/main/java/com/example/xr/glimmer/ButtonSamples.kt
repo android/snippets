@@ -28,7 +28,7 @@ import androidx.xr.glimmer.Text
 private val FavoriteIcon = Icons.Default.Favorite
 private val SendIcon = Icons.AutoMirrored.Filled.Send
 
-// [START xr_glimmer_button]
+// [START androidxr_glimmer_button]
 @Composable
 fun ButtonSample() {
     Button(
@@ -39,4 +39,4 @@ fun ButtonSample() {
         Text("Text Label", style = GlimmerTheme.typography.titleSmall)
     }
 }
-// [END xr_glimmer_button]
+// [END androidxr_glimmer_button]

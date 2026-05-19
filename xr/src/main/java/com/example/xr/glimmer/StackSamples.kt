@@ -21,7 +21,7 @@ import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.stack.VerticalStack
 
-// [START xr_glimmer_stack]
+// [START androidxr_glimmer_stack]
 @Composable
 fun VerticalStackSample() {
     VerticalStack {
@@ -36,4 +36,4 @@ fun VerticalStackSample() {
         }
     }
 }
-// [END xr_glimmer_stack]
+// [END androidxr_glimmer_stack]
