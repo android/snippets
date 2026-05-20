@@ -124,8 +124,8 @@ class ListDetailSceneStrategy<T : Any>(val windowSizeClass: WindowSizeClass) : S
         }
 
         val detailEntry =
-            entries.lastOrNull()?.takeIf { it.metadata.contains(DetailKey) } ?: return null
-        val listEntry = entries.findLast { it.metadata.contains(ListKey) } ?: return null
+            entries.lastOrNull()?.takeIf { DetailKey in it.metadata } ?: return null
+        val listEntry = entries.findLast { ListKey in it.metadata } ?: return null
 
         // We use the list's contentKey to uniquely identify the scene.
         // This allows the detail panes to be displayed instantly through recomposition, rather than
