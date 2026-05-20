@@ -333,8 +333,8 @@ private object ViewModelMigrationNewConformingSnippet {
             TextField(usernameState)
 
             val passwordState = rememberTextFieldState(initialUiState.password)
-            LaunchedEffect(usernameState) {
-                snapshotFlow { usernameState.text.toString() }.collectLatest {
+            LaunchedEffect(passwordState, loginViewModel) {
+                snapshotFlow { passwordState.text.toString() }.collectLatest {
                     loginViewModel.updatePassword(it)
                 }
             }
