@@ -37,14 +37,12 @@ import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
 
 // [START android_wear_widget_service]
-@SuppressLint("RestrictedApi")
 class HelloWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = HelloWidget()
 }
 // [END android_wear_widget_service]
 
 // [START android_wear_widget_glance]
-@SuppressLint("RestrictedApi")
 class HelloWidget : GlanceWearWidget() {
     override suspend fun provideWidgetData(
         context: Context,
