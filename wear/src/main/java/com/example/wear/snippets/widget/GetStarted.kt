@@ -26,6 +26,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rc
+import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.glance.wear.GlanceWearWidget
@@ -56,7 +57,6 @@ class HelloWidget : GlanceWearWidget() {
 // [END android_wear_widget_glance]
 
 // [START android_wear_widget_content]
-@SuppressLint("RestrictedApi")
 @RemoteComposable @Composable
 fun HelloWidgetContent() {
     RemoteBox(
@@ -64,7 +64,7 @@ fun HelloWidgetContent() {
         contentAlignment = RemoteAlignment.Center,
     ) {
         RemoteText(
-            text = "Hello World",
+            text = "Hello World".rs,
             color = Color.White.rc
         )
     }
