@@ -53,7 +53,9 @@ import androidx.health.connect.client.records.StepsRecord
 import com.example.healthconnect.ui.theme.SnippetsTheme
 import com.google.android.gms.fitness.FitnessLocal
 import com.google.android.gms.fitness.data.LocalDataType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.Duration
 
@@ -121,14 +123,12 @@ fun HealthConnectScreen(modifier: Modifier) {
     }
 
     // [START android_healthconnect_check_permission_launcher]
-    val permissions = remember {
-        setOf(
+    val permissions = setOf(
             HealthPermission.getReadPermission(StepsRecord::class),
             HealthPermission.getWritePermission(StepsRecord::class),
             HealthPermission.getReadPermission(HeartRateRecord::class),
             HealthPermission.getWritePermission(HeartRateRecord::class)
         )
-    }
 
     val requestPermissionsLauncher = rememberLauncherForActivityResult(
         contract = PermissionController.createRequestPermissionResultContract()
@@ -160,14 +160,26 @@ fun HealthConnectScreen(modifier: Modifier) {
             if (manager != null) {
                 item {
                     Button(onClick = {
+                        // Starts on Main thread by default
                         coroutineScope.launch {
-                            val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                            // 1. Check permissions on IO thread, but await the result here on Main
+                            val granted = withContext(Dispatchers.IO) {
+                                healthConnectClient?.permissionController?.getGrantedPermissions()
+                            }
+
                             if (granted?.containsAll(permissions) == true) {
                                 val startTime = Instant.now().minusSeconds(3600)
                                 val endTime = Instant.now()
-                                manager.insertSteps(startTime, endTime)
+
+                                // 2. Insert data on IO thread
+                                withContext(Dispatchers.IO) {
+                                    manager.insertSteps(startTime, endTime)
+                                }
+
+                                // 3. Safely back on Main thread automatically
                                 snackbarHostState.showSnackbar("Steps inserted!")
                             } else {
+                                // 4. Safely on Main thread to launch UI activity
                                 requestPermissionsLauncher.launch(permissions)
                             }
                         }
@@ -181,18 +193,29 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                                // Check permissions on the I/O thread pool
+                                val granted = withContext(Dispatchers.IO) {
+                                    healthConnectClient?.permissionController?.getGrantedPermissions()
+                                }
+
                                 if (granted?.containsAll(permissions) == true) {
                                     val startTime = Instant.now().minus(Duration.ofDays(1))
                                     val endTime = Instant.now()
 
-                                    val total = manager.readStepsAggregate(startTime, endTime)
+                                    // Read data on the I/O thread pool
+                                    val total = withContext(Dispatchers.IO) {
+                                        manager.readStepsAggregate(startTime, endTime)
+                                    }
+
+                                    // Safely update the UI on the Main thread
                                     snackbarHostState.showSnackbar("Total Steps: $total")
                                 } else {
+                                    // Safely launch permission UI on the Main thread
                                     requestPermissionsLauncher.launch(permissions)
                                 }
                             }
-                        }) {
+                        }
+                    ) {
                         Text("Run: Read Steps Aggregate")
                     }
                 }
@@ -202,18 +225,29 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+                                // Check permissions on the I/O thread pool
+                                val granted = withContext(Dispatchers.IO) {
+                                    healthConnectClient?.permissionController?.getGrantedPermissions()
+                                }
+
                                 if (granted?.containsAll(permissions) == true) {
                                     val startTime = Instant.now().minus(Duration.ofDays(1))
                                     val endTime = Instant.now()
 
-                                    val total = manager.readDistanceAggregate(startTime, endTime)
+                                    // Read data on the I/O thread pool
+                                    val total = withContext(Dispatchers.IO) {
+                                        manager.readDistanceAggregate(startTime, endTime)
+                                    }
+
+                                    // Safely update the UI on the Main thread
                                     snackbarHostState.showSnackbar("Total Distance: $total")
                                 } else {
+                                    // Safely launch permission UI on the Main thread
                                     requestPermissionsLauncher.launch(permissions)
                                 }
                             }
-                        }) {
+                        }
+                    ) {
                         Text("Run: Read Distance Aggregate")
                     }
                 }

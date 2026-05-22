@@ -88,7 +88,7 @@ class HealthConnectManager(
 
 
     // [START android_healthconnect_upsert_steps_example]
-    suspend fun pullStepsFromDatastore(startTime: Instant, endTime: Instant) : ArrayList<StepsRecord> {
+     fun pullStepsFromDatastore(startTime: Instant, endTime: Instant) : ArrayList<StepsRecord> {
         val appStepsRecords = arrayListOf<StepsRecord>()
         // Pull data from app datastore
         // ...
@@ -183,7 +183,7 @@ class HealthConnectManager(
         }
     }
 
-    suspend fun heartRateMinuteRecord(
+     fun heartRateMinuteRecord(
         healthConnectClient: HealthConnectClient,
         record: StepsRecord
     ) {
@@ -360,7 +360,7 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  createPermissionHeartRate(): Set<String> {
+     fun  createPermissionHeartRate(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_heart_rate]
         val permissions =
             setOf(
@@ -371,7 +371,7 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  createPermissionSleepSession(): Set<String> {
+     fun  createPermissionSleepSession(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_sleep_session]
         val permissions =
             setOf(
@@ -382,7 +382,7 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  createPermissionExerciseSession(): Set<String> {
+     fun  createPermissionExerciseSession(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_exercise_session]
         val permissions =
             setOf(
@@ -393,7 +393,7 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  createPermissionMindfulness(): Set<String> {
+     fun  createPermissionMindfulness(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_mindfulness]
         val permissions =
             setOf(
@@ -404,7 +404,7 @@ class HealthConnectManager(
         return permissions
     }
 
-    suspend fun  createPermissionTrainingPlan(): Set<String> {
+     fun  createPermissionTrainingPlan(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_training_plan]
         val permissions =
             setOf(
@@ -420,7 +420,7 @@ class HealthConnectManager(
     }
 
 
-    suspend fun  createPermissionSkinTemperature(): Set<String> {
+     fun  createPermissionSkinTemperature(): Set<String> {
         // [START android_healthconnect_create_set_of_permissions_skin_temperature]
         val permissions =
             setOf(
@@ -519,7 +519,7 @@ class HealthConnectManager(
         // [END android_healthconnect_create_insert_record]
     }
 
-    suspend fun  heartRateRecordExample(
+     fun  heartRateRecordExample(
         healthConnectClient: HealthConnectClient,
         record: StepsRecord
     ) {
@@ -549,7 +549,7 @@ class HealthConnectManager(
         }
     }
 
-    suspend fun upsertNutritionRecord() {
+     fun upsertNutritionRecord() {
         try {
             // [START android_healthconnect_nutrition_record_example]
             val endTime = Instant.now()
@@ -678,7 +678,7 @@ class HealthConnectManager(
         }
     }
 
-    suspend fun stepRecordVersioning(
+     fun stepRecordVersioning(
         healthConnectClient: HealthConnectClient,
         startTime: Instant,
         endTime: Instant
@@ -866,7 +866,7 @@ class HealthConnectManager(
         // [END android_healthconnect_read_sleep_session]
     }
 
-    suspend fun writeSleepSessionWithStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
+     fun writeSleepSessionWithStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_with_stages]
         val stages = listOf(
             SleepSessionRecord.Stage(
@@ -887,7 +887,7 @@ class HealthConnectManager(
         // [END android_healthconnect_sleep_session_with_stages]
     }
 
-    suspend fun writeSleepSessionWithoutStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
+     fun writeSleepSessionWithoutStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_without_stages]
         SleepSessionRecord(
             title = "weekend sleep",
@@ -1057,7 +1057,7 @@ class HealthConnectManager(
     // [END android_healthconnect_delete_exercise_session_by_uid]
 
 
-    suspend fun stepsRecordMetadata(
+     fun stepsRecordMetadata(
         stepsRecord: StepsRecord,
     ) {
         // [START android_healthconnect_steps_record_metadata]
@@ -1072,7 +1072,7 @@ class HealthConnectManager(
         // [END android_healthconnect_steps_record_metadata]
     }
 
-    suspend fun playServiceCheck(context: Context) {
+     fun playServiceCheck(context: Context) {
         // [START android_healthconnect_play_services_check]
         val hasMinPlayServices = isGooglePlayServicesAvailable(context, LocalRecordingClient.LOCAL_RECORDING_CLIENT_MIN_VERSION_CODE)
 
@@ -1131,7 +1131,7 @@ class HealthConnectManager(
         // [END android_healthconnect_pagetoken_read_example]
     }
 
-    suspend fun deviceExamples() {
+     fun deviceExamples() {
         // [START android_healthconnect_device_examples]
          val WATCH_DEVICE = Device(
             manufacturer = "Google",
