@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import androidx.core.app.RemoteInput
 
 // [START android_notification_reply_receiver]
@@ -32,13 +31,10 @@ class ReplyReceiver : BroadcastReceiver() {
 
         if (imageUri != null) {
             // Extract the image
-            try {
-                val inputStream = context.contentResolver.openInputStream(imageUri)
+            context.contentResolver.openInputStream(imageUri)?.use { inputStream ->
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 // Display the image
                 // ...
-            } catch (e: Exception) {
-                Log.e("ReplyReceiver", "Failed to process image URI", e)
             }
         }
     }

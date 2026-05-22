@@ -50,6 +50,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaStyleNotificationHelper
 import com.example.compose.snippets.R
+import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_REPLY
+import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_TEXT_REPLY
 import com.example.compose.snippets.touchinput.Button
 
 val CHANNEL_ID = "channelId"
@@ -109,7 +111,7 @@ fun createNotificationChannel(context: Context) {
         }
         // Register the channel with the system.
         val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            context.getSystemService(NotificationManager::class.java) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 }
@@ -182,7 +184,6 @@ fun addActionButton(context: Context) {
 
     // [START android_notification_add_reply]
     // Key for the string that's delivered in the action's intent.
-    val KEY_TEXT_REPLY = "key_text_reply"
     val replyLabel: String = context.resources.getString(R.string.reply_label)
     val remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).run {
         setLabel(replyLabel)
@@ -212,7 +213,7 @@ fun addActionButton(context: Context) {
 
 // [START android_notification_retrieve_user_input]
 private fun getMessageText(intent: Intent): CharSequence? {
-    return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(ReplyReceiver.KEY_TEXT_REPLY)
+    return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(KEY_TEXT_REPLY)
 }
 // [START android_notification_retrieve_user_input]
 
@@ -240,7 +241,7 @@ fun handledReply(context: Context) {
 fun retrieveOtherData(context: Context) {
     // [START android_notification_remote_input_retrieve_data]
     val replyLabel: String = context.resources.getString(R.string.reply_label)
-    val remoteInput: RemoteInput = RemoteInput.Builder(ReplyReceiver.KEY_REPLY).run {
+    val remoteInput: RemoteInput = RemoteInput.Builder(KEY_REPLY).run {
         setLabel(replyLabel)
         // Allow for image data types in the input.
         // This method can be used again to allow for other data types.
