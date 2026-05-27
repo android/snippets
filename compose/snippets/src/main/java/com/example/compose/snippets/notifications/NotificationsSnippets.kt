@@ -215,7 +215,7 @@ fun addActionButton(context: Context) {
 private fun getMessageText(intent: Intent): CharSequence? {
     return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(KEY_TEXT_REPLY)
 }
-// [START android_notification_retrieve_user_input]
+// [END android_notification_retrieve_user_input]
 
 fun getMessageReplyIntent(conversationId: Any): Intent {
     // This is for demonstrative purposes.
