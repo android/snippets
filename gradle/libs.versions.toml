@@ -52,6 +52,8 @@ datastoreCore = "1.2.1"
 datastorePreferencesRxjava2 = "1.2.1"
 datastorePreferencesRxjava3 = "1.2.1"
 firebase-bom = "34.10.0"
+firebase-ai = "17.12.0"
+firebase-ondevice = "16.0.0-beta02"
 glide = "1.0.0-beta09"
 google-ar-core = "1.53.0"
 google-maps = "20.0.0"
@@ -247,8 +249,9 @@ compose-foundation = { module = "androidx.wear.compose:compose-foundation", vers
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core-ktx" }
 crossdeviceprompt = { module = "com.google.android.play:crossdeviceprompt", version.ref = "crossdeviceprompt" }
-firebase-ai = { module = "com.google.firebase:firebase-ai" }
+firebase-ai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-ondevice = { module = "com.google.firebase:firebase-ai-ondevice", version.ref = "firebase-ondevice" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
 google-ar-core = { module = "com.google.ar:core", version.ref = "google-ar-core" }
