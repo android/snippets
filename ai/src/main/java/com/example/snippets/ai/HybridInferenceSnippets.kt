@@ -24,8 +24,8 @@ import com.google.firebase.ai.type.GenerativeBackend
 import com.google.firebase.ai.type.PublicPreviewAPI
 
 @OptIn(PublicPreviewAPI::class)
-object HybridInferenceSnippets {
-    suspend fun runHybridInference() {
+private object HybridInferenceSnippets {
+    private suspend fun runHybridInference() {
         // [START android_hybrid_inference_snippet]
         val model = Firebase.ai(backend = GenerativeBackend.Companion.googleAI())
             .generativeModel(
