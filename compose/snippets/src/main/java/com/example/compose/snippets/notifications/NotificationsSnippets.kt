@@ -17,31 +17,44 @@
 package com.example.compose.snippets.notifications
 
 import android.Manifest
+import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Icon
 import android.os.Build
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresPermission
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.EXTRA_NOTIFICATION_ID
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.PendingIntentCompat
 import androidx.core.app.Person
+import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaStyleNotificationHelper
 import com.example.compose.snippets.R
+import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_REPLY
+import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_TEXT_REPLY
 import com.example.compose.snippets.touchinput.Button
+
+val CHANNEL_ID = "channelId"
 
 @Composable
 fun NotificationSnippets(context: Context) {
@@ -60,6 +73,199 @@ fun NotificationSnippets(context: Context) {
         .build()
     // [END android_notification_authenticated_action]
 }
+
+fun createNotification(context: Context) {
+    // [START android_notification_create]
+    val textTitle = "Title"
+    val textContent = "Content"
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle(textTitle)
+        .setContentText(textContent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+    // [END android_notification_create]
+}
+
+fun createNotificationWithStyle(context: Context) {
+    // [START android_notification_set_style]
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle("My notification")
+        .setContentText("Much longer text that cannot fit one line...")
+        .setStyle(NotificationCompat.BigTextStyle()
+            .bigText("Much longer text that cannot fit one line..."))
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+    // [END android_notification_set_style]
+}
+
+// [START android_notification_create_channel]
+fun createNotificationChannel(context: Context) {
+    // Create the NotificationChannel, but only on API 26+ because
+    // the NotificationChannel class is not in the Support Library.
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = context.getString(R.string.channel_name)
+        val descriptionText = context.getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
+        }
+        // Register the channel with the system.
+        val notificationManager: NotificationManager =
+            context.getSystemService(NotificationManager::class.java) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+}
+// [END android_notification_create_channel]
+
+fun createNotificationTapAction(context: Context) {
+// [START android_notification_tap_action]
+    // Create an explicit intent for an Activity in your app.
+    val intent = Intent(context, AlertDetails::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent =
+        PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle("My notification")
+        .setContentText("Hello World!")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        // Set the intent that fires when the user taps the notification.
+        .setContentIntent(pendingIntent)
+        .setAutoCancel(true)
+// [END android_notification_tap_action]
+}
+
+fun showNotification(context: Context) {
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+    val notificationId = 1 // This is demonstrative and should be unique
+    // [START android_notification_show_notification]
+    with(NotificationManagerCompat.from(context)) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling ActivityCompat#requestPermissions here
+            // to request the missing permissions, and then overriding
+            // public fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+            //                                        grantResults: IntArray)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return@with
+        }
+        // notificationId is a unique int for each notification that you must define.
+        notify(notificationId, builder.build())
+        // [END android_notification_show_notification]
+    }
+}
+
+fun addActionButton(context: Context) {
+    val pendingIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    // [START android_notification_add_action]
+    val ACTION_SNOOZE = "snooze"
+    val snoozeIntent = Intent(context, MyBroadcastReceiver::class.java).apply {
+        action = ACTION_SNOOZE
+        putExtra(EXTRA_NOTIFICATION_ID, 0)
+    }
+    val snoozePendingIntent: PendingIntent =
+        PendingIntent.getBroadcast(context, 0, snoozeIntent, PendingIntent.FLAG_IMMUTABLE)
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle("My notification")
+        .setContentText("Hello World!")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setContentIntent(pendingIntent)
+        .addAction(R.drawable.snooze, context.getString(R.string.snooze),
+            snoozePendingIntent)
+    // [END android_notification_add_action]
+
+    // [START android_notification_add_reply]
+    // Key for the string that's delivered in the action's intent.
+    val replyLabel: String = context.resources.getString(R.string.reply_label)
+    val remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).run {
+        setLabel(replyLabel)
+        build()
+    }
+    // [END android_notification_add_reply]
+
+    val conversationId = 1 // This is demonstrative and should be unique.
+    // [START android_notification_add_reply_pending_intent]
+    // Build a PendingIntent for the reply action to trigger.
+    val replyPendingIntent: PendingIntent =
+        PendingIntent.getBroadcast(context,
+            conversationId,
+            getMessageReplyIntent(conversationId),
+            PendingIntent.FLAG_MUTABLE)
+    // [END android_notification_add_reply_pending_intent]
+
+    // [START android_notification_add_reply_action]
+    // Create the reply action and add the remote input.
+    val action: NotificationCompat.Action =
+        NotificationCompat.Action.Builder(R.drawable.reply,
+            context.getString(R.string.reply_label), replyPendingIntent)
+            .addRemoteInput(remoteInput)
+            .build()
+    // [END android_notification_add_reply_action]
+}
+
+// [START android_notification_retrieve_user_input]
+private fun getMessageText(intent: Intent): CharSequence? {
+    return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(KEY_TEXT_REPLY)
+}
+// [END android_notification_retrieve_user_input]
+
+fun getMessageReplyIntent(conversationId: Any): Intent {
+    // This is for demonstrative purposes.
+    TODO("Not yet implemented")
+}
+
+@RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+fun handledReply(context: Context) {
+    val notificationId = 1 // This is demonstrative and should be unique.
+    // [START android_notification_handled_reply]
+    // Build a new notification, which informs the user that the system
+    // handled their interaction with the previous notification.
+    val repliedNotification = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.message)
+        .setContentText(context.getString(R.string.replied))
+        .build()
+
+    // Issue the new notification.
+    NotificationManagerCompat.from(context).notify(notificationId, repliedNotification)
+    // [END android_notification_handled_reply]
+}
+
+fun retrieveOtherData(context: Context) {
+    // [START android_notification_remote_input_retrieve_data]
+    val replyLabel: String = context.resources.getString(R.string.reply_label)
+    val remoteInput: RemoteInput = RemoteInput.Builder(KEY_REPLY).run {
+        setLabel(replyLabel)
+        // Allow for image data types in the input.
+        // This method can be used again to allow for other data types.
+        setAllowDataType("image/*", true)
+        build()
+    }
+    // [END android_notification_remote_input_retrieve_data]
+}
+
+fun fullScreenIntent(context: Context) {
+    // [START android_notification_full_screen_intent]
+    val fullScreenIntent = Intent(context, ImportantActivity::class.java)
+    val fullScreenPendingIntent = PendingIntent.getActivity(context, 0,
+        fullScreenIntent, PendingIntent.FLAG_IMMUTABLE)
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle("My notification")
+        .setContentText("Hello World!")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setFullScreenIntent(fullScreenPendingIntent, true)
+    // [END android_notification_full_screen_intent]
+}
+
 
 @Composable
 fun NotificationSnippetRequestPostPermission() {
@@ -228,3 +434,18 @@ val messages = listOf(
         Person.Builder().setName("Frank").build()
     )
 )
+
+// For demonstrative purposes only when used for a full screen intent.
+class ImportantActivity : ComponentActivity() {
+}
+
+// For demonstrative purposes only for launching from a tap action.
+class AlertDetails : ComponentActivity() {
+}
+
+// For demonstrative purposes only for handling a snooze action.
+class MyBroadcastReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        TODO("Not yet implemented")
+    }
+}
