@@ -162,9 +162,8 @@ fun HealthConnectScreen(modifier: Modifier) {
                     Button(onClick = {
                         // Starts on Main thread by default
                         coroutineScope.launch {
-                            // 1. Check permissions on IO thread, but await the result here on Main
+                            // 1. Check permissions
                             val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
-
 
                             if (granted?.containsAll(permissions) == true) {
                                 val startTime = Instant.now().minusSeconds(3600)
@@ -192,7 +191,7 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                // Check permissions on the I/O thread pool
+                                // Check permissions
                                 val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
 
                                 if (granted?.containsAll(permissions) == true) {
