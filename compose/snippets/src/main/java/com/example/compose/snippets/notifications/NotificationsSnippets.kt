@@ -39,6 +39,7 @@ import androidx.annotation.RequiresPermission
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.EXTRA_NOTIFICATION_ID
@@ -49,6 +50,7 @@ import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getString
 import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -541,29 +543,36 @@ fun notificationPermissionRequest() {
 
 @Composable
 fun notificationChannels() {
+    val context = LocalContext.current
+    val name = stringResource(R.string.channel_name)
+    val descriptionText = stringResource(R.string.channel_description)
+
     // [START android_notification_channel_create]
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // Create the NotificationChannel.
-        val name = getString(LocalContext.current, R.string.channel_name)
-        val descriptionText =
-            getString(LocalContext.current, R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-        mChannel.description = descriptionText
-        // Register the channel with the system. You can't change the importance
-        // or other notification behaviors after this.
-        val notificationManager: NotificationManager =
-            LocalContext.current.getSystemService(NotificationManager::class.java) as NotificationManager
-        notificationManager.createNotificationChannel(mChannel)
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel.
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+            mChannel.description = descriptionText
+            // Register the channel with the system. You can't change the importance
+            // or other notification behaviors after this.
+            val notificationManager =
+                context.getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(mChannel)
+        }
     }
     // [END android_notification_channel_create]
 
     // [START android_notification_channel_setting_intent]
     val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
-        putExtra(Settings.EXTRA_APP_PACKAGE, LocalContext.current.packageName)
+        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
         putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID)
     }
-    LocalContext.current.startActivity(intent)
+    Button(onClick = {
+        context.startActivity(intent)
+    }) {
+        Text("Open Channel Settings")
+    }
     // [END android_notification_channel_setting_intent]
 }
 
@@ -592,6 +601,8 @@ fun notificationChatBubble(context: Context) {
             .setLongLived(true)
             .setShortLabel("Chat partner name")
             .build()
+    // Publish the shortcut, otherwise the bubble metadata will not apply.
+    ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
 
     // Create a bubble metadata.
     val bubbleData = NotificationCompat.BubbleMetadata.Builder(bubbleIntent,
