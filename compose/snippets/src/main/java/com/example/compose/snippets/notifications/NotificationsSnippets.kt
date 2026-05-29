@@ -27,8 +27,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +47,9 @@ import androidx.core.app.PendingIntentCompat
 import androidx.core.app.Person
 import androidx.core.app.RemoteInput
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getString
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
@@ -53,6 +58,7 @@ import com.example.compose.snippets.R
 import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_REPLY
 import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_TEXT_REPLY
 import com.example.compose.snippets.touchinput.Button
+import kotlin.random.Random
 
 val CHANNEL_ID = "channelId"
 
@@ -139,7 +145,7 @@ fun createNotificationTapAction(context: Context) {
 
 fun showNotification(context: Context) {
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-    val notificationId = 1 // This is demonstrative and should be unique
+    val notificationId = 1 // This is demonstrative and should be unique.
     // [START android_notification_show_notification]
     with(NotificationManagerCompat.from(context)) {
         if (ActivityCompat.checkSelfPermission(
@@ -162,6 +168,7 @@ fun showNotification(context: Context) {
     }
 }
 
+@RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
 fun addActionButton(context: Context) {
     val pendingIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
     // [START android_notification_add_action]
@@ -209,6 +216,20 @@ fun addActionButton(context: Context) {
             .addRemoteInput(remoteInput)
             .build()
     // [END android_notification_add_reply_action]
+
+    val notificationId = 1 // This is demonstrative and should be unique.
+    // [START android_notification_add_reply_action_add_action]
+    // Build the notification and add the action.
+    val newMessageNotification = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setContentTitle(context.getString(R.string.title))
+        .setContentText(context.getString(R.string.content))
+        .addAction(action)
+        .build()
+
+    // Issue the notification.
+    NotificationManagerCompat.from(context).notify(notificationId, newMessageNotification)
+    // [END android_notification_add_reply_action_add_action]
 }
 
 // [START android_notification_retrieve_user_input]
@@ -414,6 +435,192 @@ fun notificationStyles(context: Context) {
         .setLargeIcon(bitmapImage)
         .build()
     // [END android_notification_media_style]
+
+    // [START android_notification_progress_style]
+    val progressStyleNotification =
+        NotificationCompat.ProgressStyle()
+            .setStyledByProgress(false)
+            .setProgress(456)
+            .setProgressTrackerIcon(IconCompat.createWithResource(context, R.drawable.car))
+            .setProgressSegments(
+                listOf(
+                    NotificationCompat.ProgressStyle.Segment(41).setColor(Color.BLACK),
+                    NotificationCompat.ProgressStyle.Segment(552).setColor(Color.YELLOW),
+                    NotificationCompat.ProgressStyle.Segment(253).setColor(Color.WHITE),
+                    NotificationCompat.ProgressStyle.Segment(94).setColor(Color.BLUE)
+                )
+            )
+            .setProgressPoints(
+                listOf(
+                    NotificationCompat.ProgressStyle.Point(60).setColor(Color.RED),
+                    NotificationCompat.ProgressStyle.Point(560).setColor(Color.GREEN)
+                )
+            )
+    // [END android_notification_progress_style]
+
+    // [START android_notification_call_style_caller]
+    // Create a new call, setting incoming caller.
+    val incomingCaller = Person.Builder()
+        .setName("Jane Doe")
+        .setImportant(true)
+        .build()
+    // [END android_notification_call_style_caller]
+
+    val caller= Person.Builder()
+        .setName("Your name")
+        .setImportant(true)
+        .build()
+
+    val callerAtOtherEnd = Person.Builder()
+        .setName("John Doe")
+        .setImportant(true)
+        .build()
+
+    // [START android_notification_call_style]
+    // For demonstrative purposes only, should use a well-defined Intents.
+    val contentIntent =
+        PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    val declineIntent =
+        PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    val hangupIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    val answerIntent = PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    // Create a call style notification for an incoming call.
+    val builderForIncomingCall = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setContentIntent(contentIntent)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setStyle(
+            NotificationCompat.CallStyle.forIncomingCall(incomingCaller, declineIntent, answerIntent))
+        .addPerson(incomingCaller)
+    // [END android_notification_call_style]
+
+    // [START android_notification_call_style_ongoing]
+    // Create a call style notification for an ongoing call.
+    val builderForOngoingCall = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setContentIntent(contentIntent)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setStyle(
+            NotificationCompat.CallStyle.forOngoingCall(callerAtOtherEnd, hangupIntent))
+        .addPerson(caller)
+    // [END android_notification_call_style_ongoing]
+
+    // [START android_notification_call_style_screening]
+    // Create a call style notification for screening a call.
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setContentIntent(contentIntent)
+        .setSmallIcon(R.drawable.ic_logo)
+        .setStyle(
+            NotificationCompat.CallStyle.forScreeningCall(caller, hangupIntent, answerIntent))
+        .addPerson(caller)
+    // [END android_notification_call_style_screening]
+}
+
+@Composable
+fun notificationPermissionRequest() {
+    // [START android_notification_permission_request]
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            // Permission granted, you can now send notifications.
+        } else {
+            // Permission denied, handle accordingly.
+        }
+    }
+
+    // ... in your UI ...
+    Button(onClick = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }) {
+        Text("Enable Notifications")
+    }
+    // [END android_notification_permission_request]
+}
+
+@Composable
+fun notificationChannels() {
+    // [START android_notification_channel_create]
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // Create the NotificationChannel.
+        val name = getString(LocalContext.current, R.string.channel_name)
+        val descriptionText =
+            getString(LocalContext.current, R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+        mChannel.description = descriptionText
+        // Register the channel with the system. You can't change the importance
+        // or other notification behaviors after this.
+        val notificationManager: NotificationManager =
+            LocalContext.current.getSystemService(NotificationManager::class.java) as NotificationManager
+        notificationManager.createNotificationChannel(mChannel)
+    }
+    // [END android_notification_channel_create]
+
+    // [START android_notification_channel_setting_intent]
+    val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+        putExtra(Settings.EXTRA_APP_PACKAGE, LocalContext.current.packageName)
+        putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID)
+    }
+    LocalContext.current.startActivity(intent)
+    // [END android_notification_channel_setting_intent]
+}
+
+fun notificationChatBubble(context: Context) {
+    // For demonstrative purposes only, this should use a well defined Intent.
+    val contentIntent =
+        PendingIntent.getActivity(context, 0, Intent(), PendingIntent.FLAG_IMMUTABLE)
+    // [START android_notification_chat_bubble]
+    // Create a bubble intent.
+    val target = Intent(context, BubbleActivity::class.java)
+    val bubbleIntent =
+        PendingIntent.getActivity(context, 0, target, PendingIntent.FLAG_IMMUTABLE /* flags */)
+    val category = "com.example.category.IMG_SHARE_TARGET"
+
+    val chatPartner = Person.Builder()
+        .setName("Chat partner")
+        .setImportant(true)
+        .build()
+
+    // Create a sharing shortcut.
+    val shortcutId = generateShortcutId()
+    val shortcut =
+        ShortcutInfoCompat.Builder(context, shortcutId)
+            .setCategories(setOf(category))
+            .setIntent(Intent(Intent.ACTION_DEFAULT))
+            .setLongLived(true)
+            .setShortLabel("Chat partner name")
+            .build()
+
+    // Create a bubble metadata.
+    val bubbleData = NotificationCompat.BubbleMetadata.Builder(bubbleIntent,
+        IconCompat.createWithResource(context, R.drawable.ic_logo))
+        .setDesiredHeight(600)
+        .build()
+
+    // Create a notification, referencing the sharing shortcut.
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setContentIntent(contentIntent)
+        .setSmallIcon(R.drawable.chat)
+        .setBubbleMetadata(bubbleData)
+        .setShortcutId(shortcutId)
+        .addPerson(chatPartner)
+    // [END android_notification_chat_bubble]
+
+    // [START android_notification_chat_bubble_expanded]
+    val bubbleMetadata = NotificationCompat.BubbleMetadata.Builder()
+        .setDesiredHeight(600)
+        .setIntent(bubbleIntent)
+        .setAutoExpandBubble(true)
+        .setSuppressNotification(true)
+        .build()
+    // [END android_notification_chat_bubble_expanded]
+}
+
+// For demonstrative purposes only, should not be used in production.
+fun generateShortcutId() : String {
+    return Random.nextInt().toString()
 }
 
 data class Message(
@@ -441,6 +648,10 @@ class ImportantActivity : ComponentActivity() {
 
 // For demonstrative purposes only for launching from a tap action.
 class AlertDetails : ComponentActivity() {
+}
+
+// For demonstrative purposes only for the Bubble Activity.
+class BubbleActivity : ComponentActivity() {
 }
 
 // For demonstrative purposes only for handling a snooze action.
