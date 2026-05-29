@@ -132,7 +132,7 @@ fun MeshGradientComplex(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .paint(gradientPainter)
             // [START_EXCLUDE]
-           /* .drawWithContent {
+            .drawWithContent {
                 drawContent()
                 points.forEach { normalizedOffset ->
                     val pixelOffset = Offset(
@@ -151,7 +151,7 @@ fun MeshGradientComplex(modifier: Modifier = Modifier) {
                         center = pixelOffset
                     )
                 }
-            }*/
+            }
             // [END_EXCLUDE]
     )
     // [END android_compose_graphics_mesh_gradient_complex]
