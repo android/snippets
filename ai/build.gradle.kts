@@ -65,6 +65,7 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ai)
+    implementation(libs.firebase.ondevice)
     implementation(libs.guava.android)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
