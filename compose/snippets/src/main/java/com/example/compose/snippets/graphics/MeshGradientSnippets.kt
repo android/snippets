@@ -179,53 +179,34 @@ fun MeshGradientAnimation(modifier: Modifier = Modifier) {
     val indigo = Color(0xFF5856D6)
     val pink = Color(0xFFFF2D55)
 
-    val points = listOf(
-        Offset(0.0f, 0.0f),
-        Offset(0.3f, 0.0f),
-        Offset(0.7f, 0.0f),
-        Offset(1.0f, 0.0f),
-        Offset(0.0f, 0.3f),
-        Offset(0.2f + animatedOffset, 0.4f + animatedOffset),
-        Offset(0.7f + animatedOffset, 0.2f + animatedOffset),
-        Offset(1.0f, 0.3f),
-        Offset(0.0f, 0.7f),
-        Offset(0.3f + animatedOffset, 0.8f),
-        Offset(0.7f + animatedOffset, 0.6f),
-        Offset(1.0f, 0.7f),
-        Offset(0.0f, 1.0f),
-        Offset(0.3f, 1.0f),
-        Offset(0.7f, 1.0f),
-        Offset(1.0f, 1.0f)
-    )
 
-    val gradientPainter = remember(animatedOffset) {
+    val gradientPainter = remember {
         MeshGradientPainter(rows = 3, columns = 3) {
             // Row 0
-            setVertex(0, 0, points[0], indigo)
-            setVertex(0, 1, points[1], peach)
-            setVertex(0, 2, points[2], amber)
-            setVertex(0, 3, points[3], sunshine)
-            //[START_EXCLUDE]
+            setVertex(0, 0, Offset(0.0f, 0.0f), indigo)
+            setVertex(0, 1, Offset(0.3f, 0.0f), peach)
+            setVertex(0, 2, Offset(0.7f, 0.0f), amber)
+            setVertex(0, 3, Offset(1.0f, 0.0f), sunshine)
             // Row 1
-            setVertex(1, 0, points[4], pink)
-            setVertex(1, 1, points[5], coral)
-            setVertex(1, 2, points[6], peach)
-            setVertex(1, 3, points[7], indigo)
+            setVertex(1, 0, Offset(0.0f, 0.3f), pink)
+            setVertex(1, 1, Offset(0.2f, 0.4f) + Offset(animatedOffset, animatedOffset), coral)
+            setVertex(1, 2, Offset(0.7f, 0.2f) + Offset(animatedOffset, animatedOffset), peach)
+            setVertex(1, 3, Offset(1.0f, 0.3f), indigo)
 
             // Row 2
-            setVertex(2, 0, points[8], coral)
-            setVertex(2, 1, points[9], pink)
-            setVertex(2, 2, points[10], sunshine)
-            setVertex(2, 3, points[11], amber)
+            setVertex(2, 0, Offset(0.0f, 0.7f), coral)
+            setVertex(2, 1, Offset(0.3f, 0.8f) + Offset(animatedOffset, 0f), pink)
+            setVertex(2, 2, Offset(0.7f, 0.6f) + Offset(animatedOffset, 0f), sunshine)
+            setVertex(2, 3, Offset(1.0f, 0.7f), amber)
 
             // Row 3
-            setVertex(3, 0, points[12], sunshine)
-            setVertex(3, 1, points[13], amber)
-            setVertex(3, 2, points[14], pink)
-            setVertex(3, 3, points[15], indigo)
-            //[END_EXCLUDE]
+            setVertex(3, 0, Offset(0.0f, 1.0f), sunshine)
+            setVertex(3, 1, Offset(0.3f, 1.0f), amber)
+            setVertex(3, 2, Offset(0.7f, 1.0f), pink)
+            setVertex(3, 3, Offset(1.0f, 1.0f), indigo)
         }
     }
+
 
     Box(
         modifier = modifier.padding(32.dp)
@@ -233,28 +214,6 @@ fun MeshGradientAnimation(modifier: Modifier = Modifier) {
             .aspectRatio(16 / 9f)
             .fillMaxWidth()
             .paint(gradientPainter)
-            // [START_EXCLUDE]
-            .drawWithContent {
-                drawContent()
-                points.forEach { normalizedOffset ->
-                    val pixelOffset = Offset(
-                        x = normalizedOffset.x * size.width,
-                        y = normalizedOffset.y * size.height
-                    )
-                    // Draw a subtle black circle outline and white center for maximum visibility
-                    drawCircle(
-                        color = Color.Black,
-                        radius = 10f,
-                        center = pixelOffset
-                    )
-                    drawCircle(
-                        color = Color.White,
-                        radius = 8f,
-                        center = pixelOffset
-                    )
-                }
-            }
-        // [END_EXCLUDE]
     )
     // [END android_compose_graphics_mesh_gradient_animation]
 }
