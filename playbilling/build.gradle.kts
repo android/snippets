@@ -48,7 +48,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.coroutines.android)
-    implementation("com.android.billingclient:billing-ktx:${libs.versions.playbilling.get()}")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
