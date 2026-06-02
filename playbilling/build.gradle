@@ -37,6 +37,12 @@ dependencies {
     implementation libs.billing
     implementation libs.androidx.appcompat
     implementation libs.google.android.material
+
+    implementation libs.androidx.core.ktx
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.android
+    implementation "com.android.billingclient:billing-ktx:${libs.versions.playbilling.get()}"
+
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
