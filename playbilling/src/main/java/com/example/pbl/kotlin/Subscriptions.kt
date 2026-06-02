@@ -100,9 +100,10 @@ private class Subscriptions(
 
     private fun updateParams() {
         // [START android_playbilling_subscriptions_update_params]
-        val offerToken = productDetails
-            .getSubscriptionOfferDetails()!![selectedOfferIndex]
-            .offerToken
+        val offerToken = productDetails.getSubscriptionOfferDetails()
+            ?.getOrNull(selectedOfferIndex)
+            ?.offerToken
+            ?: ""
 
         val billingParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(
             listOf(

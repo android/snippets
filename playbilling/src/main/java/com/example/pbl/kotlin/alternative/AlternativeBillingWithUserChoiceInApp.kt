@@ -112,9 +112,10 @@ private class AlternativeBillingWithUserChoiceInApp(
 
     private fun getOfferToken() {
         // [START android_playbilling_alt_billing_choice_get_offer_token]
-        val offerTokenNewPlan = productDetailsNewPlan
-             .getSubscriptionOfferDetails()!![selectedOfferIndex]
-             .offerToken
+        val offerTokenNewPlan = productDetailsNewPlan.getSubscriptionOfferDetails()
+             ?.getOrNull(selectedOfferIndex)
+             ?.offerToken
+             ?: ""
         // [END android_playbilling_alt_billing_choice_get_offer_token]
     }
 
