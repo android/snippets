@@ -58,4 +58,5 @@
   <string name="snooze">Posponer</string>
   <string name="reply_label">Responder</string>
   <string name="replied">Respondido</string>
+  <string name="content">El contenido</string>
 </resources>

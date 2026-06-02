@@ -59,5 +59,6 @@
     <string name="snooze">Snooze</string>
     <string name="reply_label">Reply</string>
     <string name="replied">Replied</string>
+    <string name="content">content</string>
 
 </resources>
