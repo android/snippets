@@ -541,28 +541,27 @@ fun notificationPermissionRequest() {
     // [END android_notification_permission_request]
 }
 
-@Composable
-fun notificationChannels() {
-    val context = LocalContext.current
-    val name = stringResource(R.string.channel_name)
-    val descriptionText = stringResource(R.string.channel_description)
+fun notificationChannel(context: Context) {
+    val name = getString(context, R.string.channel_name)
+    val descriptionText = getString(context, R.string.channel_description)
 
     // [START android_notification_channel_create]
-    androidx.compose.runtime.LaunchedEffect(Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel.
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-            mChannel.description = descriptionText
-            // Register the channel with the system. You can't change the importance
-            // or other notification behaviors after this.
-            val notificationManager =
-                context.getSystemService(NotificationManager::class.java)
-            notificationManager?.createNotificationChannel(mChannel)
-        }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // Create the NotificationChannel.
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+        mChannel.description = descriptionText
+        // Register the channel with the system. You can't change the importance
+        // or other notification behaviors after this.
+        val notificationManager =
+            context.getSystemService(NotificationManager::class.java)
+        notificationManager?.createNotificationChannel(mChannel)
     }
     // [END android_notification_channel_create]
+}
 
+@Composable
+fun notificationChannelSettings(context: Context) {
     // [START android_notification_channel_setting_intent]
     val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
         putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
