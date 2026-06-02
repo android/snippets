@@ -161,8 +161,6 @@ private class Integrate(private val context: Context) : PurchasesUpdatedListener
     private suspend fun acknowledgePurchase(purchase: Purchase) {
         // [START android_playbilling_acknowledge_purchase]
         val client: BillingClient = billingClient
-        val acknowledgePurchaseResponseListener: AcknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener { }
-
         val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
             .setPurchaseToken(purchase.purchaseToken)
         val ackPurchaseResult = withContext(Dispatchers.IO) {
