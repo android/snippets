@@ -83,7 +83,7 @@ mockitoKotlin = "5.3.1"
 minSdk = "36"
 okHttp = "5.3.2"
 playServicesWearable = "19.0.0"
-playbilling = "8.3.0"
+playbilling = "9.0.0"
 protobuf = "4.34.1"
 protoc = "0.10.0"
 protolayout = "1.4.0"
@@ -243,7 +243,7 @@ androidx-window-java = { module = "androidx.window:window-java", version.ref = "
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work-runtime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work-runtime" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-billing = { module = "com.android.billingclient:billing", version.ref = "playbilling" }
+billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
