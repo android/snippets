@@ -21,6 +21,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresPermission
@@ -45,10 +46,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.StepsRecord
 import com.example.healthconnect.ui.theme.SnippetsTheme
 import com.google.android.gms.fitness.FitnessLocal
 import com.google.android.gms.fitness.data.LocalDataType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.Duration
 
@@ -56,7 +63,7 @@ class HealthConnectActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
+
         setContent {
             SnippetsTheme {
                 HealthConnectScreen(Modifier.fillMaxSize())
@@ -115,6 +122,25 @@ fun HealthConnectScreen(modifier: Modifier) {
         healthConnectClient?.let { HealthConnectManager(it) }
     }
 
+    // [START android_healthconnect_check_permission_launcher]
+    val permissions = setOf(
+            HealthPermission.getReadPermission(StepsRecord::class),
+            HealthPermission.getWritePermission(StepsRecord::class),
+            HealthPermission.getReadPermission(HeartRateRecord::class),
+            HealthPermission.getWritePermission(HeartRateRecord::class)
+        )
+
+    val requestPermissionsLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { grantedPermissions ->
+        if (grantedPermissions.containsAll(permissions)) {
+            coroutineScope.launch { snackbarHostState.showSnackbar("Permissions granted!") }
+        } else {
+            coroutineScope.launch { snackbarHostState.showSnackbar("Permissions denied.") }
+        }
+    }
+    // [END android_healthconnect_check_permission_launcher]
+
     Scaffold(
         modifier = modifier,
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -134,11 +160,26 @@ fun HealthConnectScreen(modifier: Modifier) {
             if (manager != null) {
                 item {
                     Button(onClick = {
+                        // Starts on Main thread by default
                         coroutineScope.launch {
-                            val startTime = Instant.now().minusSeconds(3600)
-                            val endTime = Instant.now()
-                            manager.insertSteps(startTime, endTime)
-                            snackbarHostState.showSnackbar("Steps inserted!")
+                            // 1. Check permissions
+                            val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
+
+                            if (granted?.containsAll(permissions) == true) {
+                                val startTime = Instant.now().minusSeconds(3600)
+                                val endTime = Instant.now()
+
+                                // 2. Insert data on IO thread
+                                withContext(Dispatchers.IO) {
+                                    manager.insertSteps(startTime, endTime)
+                                }
+
+                                // 3. Safely back on Main thread automatically
+                                snackbarHostState.showSnackbar("Steps inserted!")
+                            } else {
+                                // 4. Safely on Main thread to launch UI activity
+                                requestPermissionsLauncher.launch(permissions)
+                            }
                         }
                     }) {
                         Text("Run: Insert Steps")
@@ -150,13 +191,27 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val startTime = Instant.now().minus(Duration.ofDays(1))
-                                val endTime = Instant.now()
+                                // Check permissions
+                                val granted = healthConnectClient?.permissionController?.getGrantedPermissions()
 
-                                val total = manager.readStepsAggregate(startTime, endTime)
-                                snackbarHostState.showSnackbar("Total Steps: $total")
+                                if (granted?.containsAll(permissions) == true) {
+                                    val startTime = Instant.now().minus(Duration.ofDays(1))
+                                    val endTime = Instant.now()
+
+                                    // Read data on the I/O thread pool
+                                    val total = withContext(Dispatchers.IO) {
+                                        manager.readStepsAggregate(startTime, endTime)
+                                    }
+
+                                    // Safely update the UI on the Main thread
+                                    snackbarHostState.showSnackbar("Total Steps: $total")
+                                } else {
+                                    // Safely launch permission UI on the Main thread
+                                    requestPermissionsLauncher.launch(permissions)
+                                }
                             }
-                        }) {
+                        }
+                    ) {
                         Text("Run: Read Steps Aggregate")
                     }
                 }
@@ -166,13 +221,29 @@ fun HealthConnectScreen(modifier: Modifier) {
                         modifier = Modifier.padding(top = 8.dp),
                         onClick = {
                             coroutineScope.launch {
-                                val startTime = Instant.now().minus(Duration.ofDays(1))
-                                val endTime = Instant.now()
+                                // Check permissions on the I/O thread pool
+                                val granted = withContext(Dispatchers.IO) {
+                                    healthConnectClient?.permissionController?.getGrantedPermissions()
+                                }
 
-                                val total = manager.readDistanceAggregate(startTime, endTime)
-                                snackbarHostState.showSnackbar("Total Distance: $total")
+                                if (granted?.containsAll(permissions) == true) {
+                                    val startTime = Instant.now().minus(Duration.ofDays(1))
+                                    val endTime = Instant.now()
+
+                                    // Read data on the I/O thread pool
+                                    val total = withContext(Dispatchers.IO) {
+                                        manager.readDistanceAggregate(startTime, endTime)
+                                    }
+
+                                    // Safely update the UI on the Main thread
+                                    snackbarHostState.showSnackbar("Total Distance: $total")
+                                } else {
+                                    // Safely launch permission UI on the Main thread
+                                    requestPermissionsLauncher.launch(permissions)
+                                }
                             }
-                        }) {
+                        }
+                    ) {
                         Text("Run: Read Distance Aggregate")
                     }
                 }
