@@ -97,6 +97,7 @@ class DeviceControlActivity : AppCompatActivity() {
                 if (!bluetooth.initialize()) {
                     Log.e(TAG, "Unable to initialize Bluetooth")
                     finish()
+                    return@let
                 }
                 // [END android_bluetooth_initialize_activity]
                 // perform device connection
