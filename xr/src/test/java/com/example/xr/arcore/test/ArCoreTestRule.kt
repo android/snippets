@@ -28,6 +28,7 @@ import androidx.xr.runtime.manifest.HAND_TRACKING
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
+import com.example.xr.arcore.detectThumbsUp
 import com.google.common.truth.Truth.assertThat
 import kotlin.test.fail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -100,19 +101,6 @@ class ArCoreTestRuleExample {
     }
 }
 
-fun detectThumbsUp(handState: Hand.State): Boolean {
-    val thumbStraight =
-        (handState.handJoints[HandJointType.THUMB_METACARPAL]!!.forward - handState.handJoints[HandJointType.THUMB_TIP]!!.forward).length < 0.5
-
-    val fingerJointsCloseToPalm = listOf(
-        HandJointType.INDEX_TIP,
-        HandJointType.MIDDLE_TIP,
-        HandJointType.RING_TIP
-    ).all {
-        (handState.handJoints[it]!!.translation - handState.handJoints[HandJointType.PALM]!!.translation).length < 0.05
-    }
-    return thumbStraight && fingerJointsCloseToPalm
-}
 val gestureThumbsUp =
     mapOf(HandJointType.PALM to Pose(Vector3(0.13593586f, -0.013158908f, -0.30986848f), Quaternion(-0.07648782f, 0.44922686f, -0.5673647f, 0.68588793f)), HandJointType.WRIST to Pose(Vector3(0.18127777f, -0.04036817f, -0.2715446f), Quaternion(-0.03890163f, 0.44938245f, -0.5231991f, 0.72305244f)), HandJointType.THUMB_METACARPAL to Pose(Vector3(0.15840198f, -0.015633538f, -0.27011338f), Quaternion(0.25765032f, 0.6725719f, -0.37797198f, 0.581722f)), HandJointType.THUMB_PROXIMAL to Pose(Vector3(0.12846541f, 0.025532225f, -0.26820466f), Quaternion(0.60207963f, 0.48774832f, -0.2015351f, 0.5991539f)), HandJointType.THUMB_DISTAL to Pose(Vector3(0.118897974f, 0.050692264f, -0.26273555f), Quaternion(0.6276169f, 0.4293863f, -0.2707826f, 0.5902553f)), HandJointType.THUMB_TIP to Pose(Vector3(0.11239989f, 0.07950714f, -0.2583036f), Quaternion(0.6276169f, 0.4293863f, -0.2707826f, 0.5902553f)), HandJointType.INDEX_METACARPAL to Pose(Vector3(0.16033095f, -0.018314373f, -0.28049868f), Quaternion(-0.044817265f, 0.5122015f, -0.5723443f, 0.6387982f)), HandJointType.INDEX_PROXIMAL to Pose(Vector3(0.107179075f, 0.021533456f, -0.31599528f), Quaternion(-0.55457497f, 0.6855494f, -0.102787256f, 0.4603297f)), HandJointType.INDEX_INTERMEDIATE to Pose(Vector3(0.07752076f, 0.007801927f, -0.29495406f), Quaternion(0.7149406f, -0.53468245f, -0.4392363f, 0.10023027f)), HandJointType.INDEX_DISTAL to Pose(Vector3(0.093687735f, 4.9139105E-4f, -0.28197238f), Quaternion(0.61264414f, -0.31699702f, -0.6372203f, 0.34370092f)), HandJointType.INDEX_TIP to Pose(Vector3(0.1166471f, 0.0013936138f, -0.28378844f), Quaternion(0.61264414f, -0.31699702f, -0.6372203f, 0.34370092f)), HandJointType.MIDDLE_METACARPAL to Pose(Vector3(0.161193f, -0.027702726f, -0.28886288f), Quaternion(-0.07648784f, 0.4492268f, -0.5673647f, 0.685888f)), HandJointType.MIDDLE_PROXIMAL to Pose(Vector3(0.11067873f, 0.0013849082f, -0.33087406f), Quaternion(-0.62964034f, 0.63541615f, -0.15290299f, 0.42002377f)), HandJointType.MIDDLE_INTERMEDIATE to Pose(Vector3(0.08015034f, -0.012421122f, -0.30621234f), Quaternion(0.7128128f, -0.5821132f, -0.34882817f, 0.1770908f)), HandJointType.MIDDLE_DISTAL to Pose(Vector3(0.10116805f, -0.017270802f, -0.28525817f), Quaternion(0.49823985f, -0.3021429f, -0.60298073f, 0.54486793f)), HandJointType.MIDDLE_TIP to Pose(Vector3(0.123201214f, -0.012691015f, -0.2940116f), Quaternion(0.49823985f, -0.3021429f, -0.60298073f, 0.54486793f)), HandJointType.RING_METACARPAL to Pose(Vector3(0.16304983f, -0.03894596f, -0.2930074f), Quaternion(-0.1353496f, 0.41923693f, -0.55014765f, 0.70940715f)), HandJointType.RING_PROXIMAL to Pose(Vector3(0.11295157f, -0.020809509f, -0.33422083f), Quaternion(-0.67903876f, 0.58647716f, -0.19874121f, 0.39427507f)), HandJointType.RING_INTERMEDIATE to Pose(Vector3(0.08441943f, -0.032515682f, -0.3099064f), Quaternion(0.71151716f, -0.54315823f, -0.33604163f, 0.2929139f)), HandJointType.RING_DISTAL to Pose(Vector3(0.10925031f, -0.031085238f, -0.29084665f), Quaternion(0.4742162f, -0.33734766f, -0.54695463f, 0.60179424f)), HandJointType.RING_TIP to Pose(Vector3(0.12905067f, -0.026568463f, -0.29879102f), Quaternion(0.4742162f, -0.33734766f, -0.54695463f, 0.60179424f)), HandJointType.LITTLE_METACARPAL to Pose(Vector3(0.16440037f, -0.051221382f, -0.29374436f), Quaternion(-0.20768654f, 0.36514902f, -0.5562916f, 0.71698827f)), HandJointType.LITTLE_PROXIMAL to Pose(Vector3(0.11753103f, -0.044486694f, -0.33393008f), Quaternion(-0.72091824f, 0.5555971f, -0.21803516f, 0.3522066f)), HandJointType.LITTLE_INTERMEDIATE to Pose(Vector3(0.094225325f, -0.05277244f, -0.31044134f), Quaternion(0.7077855f, -0.5113742f, -0.31955776f, 0.3679934f)), HandJointType.LITTLE_DISTAL to Pose(Vector3(0.11225751f, -0.04858123f, -0.2981928f), Quaternion(0.5145514f, -0.39718676f, -0.4414714f, 0.6185326f)), HandJointType.LITTLE_TIP to Pose(Vector3(0.13028295f, -0.044378098f, -0.3016371f), Quaternion(0.5145514f, -0.39718676f, -0.4414714f, 0.6185326f)))
 val gestureV =
