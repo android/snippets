@@ -22,6 +22,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -151,7 +152,8 @@ fun HomeScreen(
 ) {
     Box(
         modifier = modifier
-            .surface(focusable = false)
+            .surface()
+            .focusable(false)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {

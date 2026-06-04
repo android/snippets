@@ -53,4 +53,10 @@
   <string name="shopping">Compras</string>
   <string name="profile">Perfil</string>
   <string name="detail_placeholder">Esto es sólo un texto de marcador de posición.</string>
+  <string name="channel_name">Nombredelcanal</string>
+  <string name="channel_description">Descripción del canal</string>
+  <string name="snooze">Posponer</string>
+  <string name="reply_label">Responder</string>
+  <string name="replied">Respondido</string>
+  <string name="content">El contenido</string>
 </resources>

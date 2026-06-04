@@ -46,13 +46,16 @@ val isUsingSnapshot = snapshotVersion != null
 val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
     xrLibs.androidx.xr.arcore.asProvider(),
     xrLibs.androidx.xr.arcore.play.services,
-    xrLibs.androidx.xr.glimmer,
+    xrLibs.androidx.xr.glimmer.asProvider(),
+    xrLibs.androidx.xr.glimmer.googlefonts,
     xrLibs.androidx.xr.projected.asProvider(),
-    xrLibs.androidx.xr.scenecore,
+    xrLibs.androidx.xr.scenecore.asProvider(),
     xrLibs.androidx.xr.compose,
 )
 val testImplementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
     xrLibs.androidx.xr.projected.testing,
+    xrLibs.androidx.xr.arcore.testing,
+    xrLibs.androidx.xr.scenecore.testing,
 )
 
 dependencies {
@@ -122,6 +125,8 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core.ktx)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
 }
 
 fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(): Provider<MinimalExternalModuleDependency> =

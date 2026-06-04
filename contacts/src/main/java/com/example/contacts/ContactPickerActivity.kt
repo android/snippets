@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.EXTRA_USE_SYSTEM_CONTACTS_PICKER
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -117,6 +118,7 @@ fun ContactPickerScreen(modifier: Modifier) {
     
                             // Set up the intent for the Contact Picker
                             val pickContactIntent = Intent(ACTION_PICK_CONTACTS).apply {
+                                putExtra(EXTRA_USE_SYSTEM_CONTACTS_PICKER, true)
                                 putStringArrayListExtra(
                                     EXTRA_PICK_CONTACTS_REQUESTED_DATA_FIELDS,
                                     requestedFields
@@ -144,6 +146,7 @@ fun ContactPickerScreen(modifier: Modifier) {
     
                             // Set up the intent for the Contact Picker
                             val pickContactIntent = Intent(ACTION_PICK_CONTACTS).apply {
+                                putExtra(EXTRA_USE_SYSTEM_CONTACTS_PICKER, true)
                                 // Enable multi-select
                                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                                 // Set limit of selectable contacts
@@ -177,6 +180,7 @@ fun ContactPickerScreen(modifier: Modifier) {
                             // of specific items (like a specific phone number or email) separately,
                             // rather than selecting the whole contact.
                             val pickContactIntent = Intent(ACTION_PICK_CONTACTS).apply {
+                                putExtra(EXTRA_USE_SYSTEM_CONTACTS_PICKER, true)
                                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                                 putStringArrayListExtra(
                                     EXTRA_PICK_CONTACTS_REQUESTED_DATA_FIELDS,
