@@ -24,6 +24,9 @@ import androidx.compose.foundation.style.MutableStyleState
 import androidx.compose.foundation.style.Style
 import androidx.compose.foundation.style.StyleScope
 import androidx.compose.foundation.style.StyleStateKey
+import androidx.compose.foundation.style.animate
+import androidx.compose.foundation.style.border
+import androidx.compose.foundation.style.size
 import androidx.compose.foundation.style.styleable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -48,11 +51,11 @@ var MutableStyleState.playerState
     get() = this[playerStateKey]
     set(value) { this[playerStateKey] = value }
 
-fun StyleScope.playerPlaying(value: Style) {
-    state(playerStateKey, value, { key, state -> state[key] == PlayerState.Playing })
+fun StyleScope.playerPlaying(block: () -> Unit) {
+    state(playerStateKey, block, { key, state -> state[key] == PlayerState.Playing })
 }
-fun StyleScope.playerPaused(value: Style) {
-    state(playerStateKey, value, { key, state -> state[key] == PlayerState.Paused })
+fun StyleScope.playerPaused(block: () -> Unit) {
+    state(playerStateKey, block, { key, state -> state[key] == PlayerState.Paused })
 }
 // [END android_compose_styles_custom_key_2]
 
@@ -116,11 +119,11 @@ private object Step4FullSnippetState {
         get() = this[playerStateKey]
         set(value) { this[playerStateKey] = value }
 
-    fun StyleScope.playerPlaying(value: Style) {
-        state(playerStateKey, value, { key, state -> state[key] == PlayerState.Playing })
+    fun StyleScope.playerPlaying(block: () -> Unit) {
+        state(playerStateKey, block, { key, state -> state[key] == PlayerState.Playing })
     }
-    fun StyleScope.playerPaused(value: Style) {
-        state(playerStateKey, value, { key, state -> state[key] == PlayerState.Paused })
+    fun StyleScope.playerPaused(block: () -> Unit) {
+        state(playerStateKey, block, { key, state -> state[key] == PlayerState.Paused })
 
     }
 

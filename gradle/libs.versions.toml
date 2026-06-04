@@ -8,7 +8,7 @@ androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha08"
 androidx-cameraX = "1.6.0"
 androidx-car = "1.7.0"
-androidx-compose-bom = "2026.05.00"
+androidx-compose-bom = "2026.05.02"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.11.1"
 androidx-constraintlayout = "2.2.1"
@@ -42,7 +42,7 @@ appcompat = "1.7.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "37"
-compose-latest = "1.11.1"
+compose-latest = "1.12.0-alpha03"
 composeUiTooling = "1.6.1"
 coreSplashscreen = "1.2.0"
 coroutines = "1.10.2"
@@ -145,7 +145,7 @@ androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.r
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "androidx-compose-bom" }
-androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }

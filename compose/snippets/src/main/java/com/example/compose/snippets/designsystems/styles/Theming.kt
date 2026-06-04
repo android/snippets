@@ -27,8 +27,13 @@ import androidx.compose.foundation.style.ExperimentalFoundationStyleApi
 import androidx.compose.foundation.style.MutableStyleState
 import androidx.compose.foundation.style.Style
 import androidx.compose.foundation.style.StyleScope
+import androidx.compose.foundation.style.animate
+import androidx.compose.foundation.style.contentPadding
+import androidx.compose.foundation.style.contentPaddingHorizontal
+import androidx.compose.foundation.style.contentPaddingVertical
 import androidx.compose.foundation.style.disabled
 import androidx.compose.foundation.style.hovered
+import androidx.compose.foundation.style.size
 import androidx.compose.foundation.style.styleable
 import androidx.compose.foundation.style.then
 import androidx.compose.material3.MaterialTheme
