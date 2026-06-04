@@ -83,6 +83,9 @@ dependencies {
     implementation(libs.firebase.ai)
     implementation(libs.guava.android)
     implementation(libs.reactive.streams)
+
+    implementation(libs.engage.core)
+
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)

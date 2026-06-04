@@ -4,16 +4,24 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.roborazzi)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
 }
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.wear"
         minSdk = 33
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         vectorDrawables {
@@ -34,12 +42,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlin {
-        jvmToolchain(21)
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
-        }
     }
 
     buildFeatures {
@@ -105,6 +107,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.test.manifest)
     implementation(libs.androidx.watchfacepush)
 
+    // Wear Widgets / Remote Compose
+    implementation(libs.androidx.compose.remote.creation)
+    implementation(libs.androidx.compose.remote.core)
+    implementation(libs.androidx.glance.wear)
+    implementation(libs.androidx.glance.wear.core)
+    implementation(libs.androidx.wear.compose.remote.material3)
+    debugImplementation(libs.androidx.compose.remote.tooling.preview)
+
     // Testing
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.junit)
@@ -130,4 +140,10 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // Navigation 3
+    implementation(libs.wear.compose.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization.json)
 }

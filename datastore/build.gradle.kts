@@ -12,6 +12,12 @@ plugins {
     // [END android_datastore_serialization_plugin]
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("11")
+    }
+}
+
 android {
     namespace = "com.example.datastore.snippets"
     compileSdk = 36
@@ -38,11 +44,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget("11")
-        }
     }
     buildFeatures {
         compose = true

@@ -2,6 +2,11 @@
 plugins {
     alias(libs.plugins.android.application)
 }
+
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.sample.android.bluetoothle"
@@ -17,9 +22,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        jvmToolchain(17)
     }
     buildTypes {
         getByName("debug") {

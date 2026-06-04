@@ -16,6 +16,10 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <permission android:name="com.example.snippets.CUSTOM_PERMISSION"/>
+    <!--[START android_engage_tv_permission]-->
+    <!-- Mandatory for TV integrations -->
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
+    <!--[END android_engage_tv_permission]-->
 
     <!--[START android_broadcast_receiver_10_manifest_permission]-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -72,6 +76,22 @@
               android:name="com.example.snippets.ActivityEmbeddingJavaSnippets.SplitInitializer"
               android:value="androidx.startup" />
         </provider>
+<!--    [START android_engage_broadcast_receiver_static]-->
+        <!--    Add the `<receiver>` tag inside the `<application>` block in `AndroidManifest.xml`:-->
+        <receiver
+            android:name="com.example.snippets.engage.EngageBroadcastReceiver"
+            android:permission="com.google.android.engage.REQUEST_ENGAGE_DATA"
+            android:exported="true"
+            android:enabled="true">
+            <!-- Recommended for production TV APKs -->
+            <intent-filter>
+                <action android:name="com.google.android.engage.action.PUBLISH_RECOMMENDATION" />
+                <action android:name="com.google.android.engage.action.PUBLISH_FEATURED" />
+                <action android:name="com.google.android.engage.action.PUBLISH_CONTINUATION" />
+                <!-- Note: Add vertical-specific intents here if applicable (e.g., FOOD shopping cart, etc.) -->
+            </intent-filter>
+        </receiver>
+<!--    [END android_engage_broadcast_receiver_static]-->
     </application>
 
 </manifest>
