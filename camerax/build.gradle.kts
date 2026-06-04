@@ -29,7 +29,7 @@ kotlin {
 
 android {
     namespace = "com.example.camerax.snippets"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.camerax.snippets"
