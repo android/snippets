@@ -14,7 +14,16 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<!-- [START android_compose_webview_theme_xml] -->
 <resources>
 
+    // [START_EXCLUDE]
     <style name="Theme.Snippets" parent="android:Theme.Material.Light.NoActionBar" />
+    // [END_EXCLUDE]
+    <!-- Explicit Light Theme for Context Wrapping -->
+    <style name="Theme.Webviewdemo.Light" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Explicit Dark Theme for Context Wrapping -->
+    <style name="Theme.Webviewdemo.Dark" parent="android:Theme.Material.NoActionBar" />
 </resources>
+<!-- [END android_compose_webview_theme_xml] -->
