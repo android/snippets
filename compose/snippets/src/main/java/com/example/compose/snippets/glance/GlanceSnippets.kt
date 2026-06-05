@@ -17,6 +17,7 @@
 package com.example.compose.snippets.glance
 
 import android.annotation.SuppressLint
+import androidx.annotation.RequiresApi
 import android.app.Activity
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -948,7 +949,7 @@ object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        if (Build.VERSION.SDK_INT >= 36) {
+        if (Build.VERSION.SDK_INT >= 36 && SnapScrollHelper.isSnapScrollSupported) {
             LazyColumn(
                 verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
             ) {
@@ -979,6 +980,12 @@ object SnapScrollingSnippet {
                 modifier = GlanceModifier.background(Color.White)
             )
         }
+    }
+
+    @RequiresApi(36)
+    private object SnapScrollHelper {
+        val isSnapScrollSupported: Boolean
+            get() = Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
     }
     // [END android_compose_glance_snap_scrolling]
 }
