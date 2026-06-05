@@ -39,7 +39,6 @@ class BluetoothLeService : Service() {
     private var bluetoothGatt: BluetoothGatt? = null
     private var connectionState = STATE_DISCONNECTED
 
-    // [START android_bluetooth_binder]
     override fun onBind(intent: Intent): IBinder? {
         return binder
     }
@@ -49,7 +48,6 @@ class BluetoothLeService : Service() {
             return this@BluetoothLeService
         }
     }
-    // [END android_bluetooth_binder]
 
     // [START android_bluetooth_initialize]
     fun initialize(): Boolean {
