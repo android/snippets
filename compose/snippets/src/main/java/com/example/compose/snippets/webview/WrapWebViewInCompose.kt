@@ -47,6 +47,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -78,26 +79,22 @@ fun SimpleWebView(
 // [START android_compose_webview_persist]
 @Composable
 fun PersistentWebView(url: String) {
-    val context = LocalContext.current
     val webViewStateBundle = rememberSaveable { Bundle() }
 
-    // remember the instance to avoid reloads during recomposition
-    val webView = remember {
-        WebView(context).apply {
-            webViewClient = WebViewClient()
-            settings.javaScriptEnabled = true
-
-            // Restore the state and history
-            if (webViewStateBundle.containsKey("WEBVIEW_STATE")) {
-                restoreState(webViewStateBundle.getBundle("WEBVIEW_STATE")!!)
-            } else {
-                loadUrl(url)
-            }
-        }
-    }
-
     AndroidView(
-        factory = { webView },
+        factory = { context ->
+            WebView(context).apply {
+                webViewClient = WebViewClient()
+                settings.javaScriptEnabled = true
+
+                // Restore the state and history
+                if (webViewStateBundle.containsKey("WEBVIEW_STATE")) {
+                    restoreState(webViewStateBundle.getBundle("WEBVIEW_STATE")!!)
+                } else {
+                    loadUrl(url)
+                }
+            }
+        },
         onRelease = { releasedWebView ->
             // Save navigation history before the instance is destroyed
             val bundle = Bundle()
@@ -167,6 +164,9 @@ fun BackNavigationDemoScreen(onBack: () -> Unit) {
                         loadUrl("https://developer.android.com")
                         webViewReference = this
                     }
+                },
+                onRelease = {
+                    webViewReference = null
                 }
             )
         }
@@ -205,59 +205,64 @@ fun ThemeSyncDemo(onBack: () -> Unit) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { _ ->
-                WebView(themedContext).apply {
-                    webViewClient = WebViewClient()
+        // Wrap in key(isDark) to force the AndroidView's factory to re-run.
+        // This ensures native Context-bound UI matches the current theme, as the factory block only runs once.
+        key(isDark) {
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = { _ ->
+                    WebView(themedContext).apply {
+                        webViewClient = WebViewClient()
 
-                    val html = """
-                            <!DOCTYPE html>
-                            <html>
-                            <head>
-                                // [START_EXCLUDE]
-                                <style>
-                                    body {
-                                        background-color: #f0f0f0;
-                                        color: #333;
-                                        font-family: sans-serif;
-                                        padding: 30px;
-                                        transition: all 0.5s ease;
-                                    }
-                                    .status-box {
-                                        border: 2px dashed #999;
-                                        padding: 20px;
-                                        text-align: center;
-                                    }
-                                    // [END_EXCLUDE]
-                                    
-                                    @media (prefers-color-scheme: dark) {
+                        val html = """
+                                <!DOCTYPE html>
+                                <html>
+                                <head>
+                                    // [START_EXCLUDE]
+                                    <style>
                                         body {
-                                            background-color: #1a1a1a;
-                                            color: #ffffff;
+                                            background-color: #f0f0f0;
+                                            color: #333;
+                                            font-family: sans-serif;
+                                            padding: 30px;
+                                            transition: all 0.5s ease;
                                         }
                                         .status-box {
-                                            border-color: #BB86FC;
-                                            background-color: #2d2d2d;
+                                            border: 2px dashed #999;
+                                            padding: 20px;
+                                            text-align: center;
                                         }
-                                    }
-                                </style>
-                            </head>
-                            // [START_EXCLUDE]
-                            <body>
-                                <div class="status-box">
-                                    <h3>XML Context Sync</h3>
-                                    <p>If this background is dark, the <b>ContextThemeWrapper</b> successfully signaled 'isLightTheme=false' to the engine.</p>
-                                    <p><b>JS Injection:</b> None</p>
-                                    <p><b>Algorithmic Darkening:</b> Disabled</p>
-                                </div>
-                            </body>
-                            // [END_EXCLUDE]
-                            </html>
-                        """.trimIndent()
+                                        // [END_EXCLUDE]
+                                        
+                                        @media (prefers-color-scheme: dark) {
+                                            body {
+                                                background-color: #1a1a1a;
+                                                color: #ffffff;
+                                            }
+                                            .status-box {
+                                                border-color: #BB86FC;
+                                                background-color: #2d2d2d;
+                                            }
+                                        }
+                                    </style>
+                                </head>
+                                // [START_EXCLUDE]
+                                <body>
+                                    <div class="status-box">
+                                        <h3>XML Context Sync</h3>
+                                        <p>If this background is dark, the <b>ContextThemeWrapper</b> successfully signaled 'isLightTheme=false' to the engine.</p>
+                                        <p><b>JS Injection:</b> None</p>
+                                        <p><b>Algorithmic Darkening:</b> Disabled</p>
+                                    </div>
+                                </body>
+                                // [END_EXCLUDE]
+                                </html>
+                            """.trimIndent()
+                        loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 // [END android_compose_webview_theme_sync]

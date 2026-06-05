@@ -17,9 +17,9 @@
 <!-- [START android_compose_webview_theme_xml] -->
 <resources>
 
-    // [START_EXCLUDE]
+    <!-- [START_EXCLUDE] -->
     <style name="Theme.Snippets" parent="android:Theme.Material.Light.NoActionBar" />
-    // [END_EXCLUDE]
+    <!-- [END_EXCLUDE] -->
     <!-- Explicit Light Theme for Context Wrapping -->
     <style name="Theme.Webviewdemo.Light" parent="android:Theme.Material.Light.NoActionBar" />
 
