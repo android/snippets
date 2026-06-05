@@ -32,15 +32,11 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 // [START android_bluetooth_service_all_java]
-// [START android_bluetooth_service_binder_java]
 public class BluetoothLeService extends Service {
-    // [START_EXCLUDE silent]
+
     public static final String TAG = "BluetoothLeService";
-    // [END_EXCLUDE]
 
     private final Binder binder = new LocalBinder();
-
-    // [START_EXCLUDE silent]
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothGatt bluetoothGatt;
     private int connectionState;
@@ -54,7 +50,6 @@ public class BluetoothLeService extends Service {
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTED = 2;
     // [END android_bluetooth_constants_java]
-    // [END_EXCLUDE]
 
 
     // [START android_bluetooth_binder_java]
@@ -70,7 +65,6 @@ public class BluetoothLeService extends Service {
         }
     }
     // [END android_bluetooth_binder_java]
-    // [START_EXCLUDE silent]
 
     // [START android_bluetooth_initialize_java]
     public boolean initialize() {
@@ -187,8 +181,6 @@ public class BluetoothLeService extends Service {
         bluetoothGatt = null;
     }
     // [END android_bluetooth_close_java]
-    // [END_EXCLUDE]
 }
-// [END android_bluetooth_service_binder_java]
 
 // [END android_bluetooth_service_all_java]
