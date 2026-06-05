@@ -31,13 +31,16 @@ import androidx.annotation.RequiresPermission
 private const val TAG = "BluetoothLeService"
 
 // [START android_bluetooth_service_all]
+// [START android_bluetooth_service_binder]
 class BluetoothLeService : Service() {
 
     private val binder = LocalBinder()
 
+    // [START_EXCLUDE silent]
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothGatt: BluetoothGatt? = null
     private var connectionState = STATE_DISCONNECTED
+    // [END_EXCLUDE]
 
     // [START android_bluetooth_binder]
     override fun onBind(intent: Intent): IBinder? {
@@ -50,6 +53,7 @@ class BluetoothLeService : Service() {
         }
     }
     // [END android_bluetooth_binder]
+    // [START_EXCLUDE silent]
 
     // [START android_bluetooth_initialize]
     fun initialize(): Boolean {
@@ -176,6 +180,8 @@ class BluetoothLeService : Service() {
         private const val STATE_CONNECTED = 2
         // [END android_bluetooth_constants]
     }
+    // [END_EXCLUDE]
 }
+// [END android_bluetooth_service_binder]
 
 // [END android_bluetooth_service_all]
