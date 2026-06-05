@@ -27,9 +27,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -72,19 +69,28 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.action.actionStartService
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
+import androidx.glance.appwidget.lazy.VerticalScrollMode
+import androidx.glance.appwidget.lazy.items
+import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.updateIf
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.RowScope
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.width
+import androidx.glance.layout.height
 import androidx.glance.material3.ColorProviders
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
 import androidx.glance.text.Text
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -511,7 +517,7 @@ object BuildUIWithGlance {
 
         LazyColumn {
             // [START android_compose_glance_buildUI06]
-            items(items = peopleList, key = { person -> person.id }) { person ->
+            items(items = peopleList, itemId = { person -> person.id.hashCode().toLong() }) { person ->
                 Text(person.name)
             }
             // [END android_compose_glance_buildUI06]
@@ -928,6 +934,55 @@ object GlanceInteroperability {
     }
 }
 
+object SnapScrollingSnippet {
+
+    private data class ColorItem(val color: Color, val name: String)
+
+    // [START android_compose_glance_snap_scrolling]
+    @Composable
+    fun SnapScrollLayout() {
+        val height = LocalSize.current.height
+        val items = listOf(
+            ColorItem(Color.Red, "Red"),
+            ColorItem(Color.Yellow, "Yellow"),
+            ColorItem(Color.Blue, "Blue")
+        )
+
+        if (Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1) {
+            LazyColumn(
+                verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
+            ) {
+                items(items) { item ->
+                    ColorCard(item, height)
+                }
+            }
+        } else {
+            LazyColumn {
+                items(items) { item ->
+                    ColorCard(item, height)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ColorCard(item: ColorItem, height: Dp) {
+        Box(
+            modifier = GlanceModifier
+                .background(item.color)
+                .fillMaxWidth()
+                .height(height),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = item.name,
+                modifier = GlanceModifier.background(Color.White)
+            )
+        }
+    }
+    // [END android_compose_glance_snap_scrolling]
+}
+
 /**
  * Dummy interface
  */
@@ -1020,4 +1075,11 @@ class SyncService : Service() {
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 200, heightDp = 100)
+@Composable
+fun SnapScrollLayoutPreview() {
+    SnapScrollingSnippet.SnapScrollLayout()
 }
