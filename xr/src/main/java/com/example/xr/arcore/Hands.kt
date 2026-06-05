@@ -17,21 +17,28 @@
 package com.example.xr.arcore
 
 import android.app.Activity
+import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.arcore.Hand
 import androidx.xr.arcore.HandJointType
 import androidx.xr.arcore.HandSide
+import androidx.xr.arcore.TrackingState
 import androidx.xr.runtime.HandTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
+import androidx.xr.runtime.SessionCreateSuccess
 import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
 import androidx.xr.runtime.math.toRadians
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.scene
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 
 fun ComponentActivity.configureSession(session: Session) {
@@ -138,4 +145,55 @@ private fun detectStop(handState: Hand.State): Boolean {
         pointingInSameDirection(HandJointType.MIDDLE_PROXIMAL, HandJointType.MIDDLE_TIP) &&
         pointingInSameDirection(HandJointType.RING_PROXIMAL, HandJointType.RING_TIP)
     // [END androidxr_arcore_hand_stop_gesture]
+}
+
+class GenerateHandJointData : ComponentActivity() {
+    @OptIn(FlowPreview::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val session = (Session.create(this) as SessionCreateSuccess).session
+        session.configure(session.config.copy(handTracking = HandTrackingMode.BOTH))
+        lifecycleScope.launch {
+            Hand.right(session)?.state?.sample(500.milliseconds)?.collect { rightHandState ->
+                val bufferString = buildString {
+                    append("mapOf(")
+                    rightHandState.handJoints.forEach { type, pose ->
+                        append("HandJointType.")
+                        append(type.name)
+                        append(" to Pose(Vector3(")
+                        append(pose.translation.x)
+                        append("f, ")
+                        append(pose.translation.y)
+                        append("f, ")
+                        append(pose.translation.z)
+                        append("f), Quaternion(")
+                        append(pose.rotation.x)
+                        append("f, ")
+                        append(pose.rotation.y)
+                        append("f, ")
+                        append(pose.rotation.z)
+                        append("f, ")
+                        append(pose.rotation.w)
+                        append("f)),")
+                    }
+                }
+                Log.i("HANDJOINTS", " ${detectThumbsUp(rightHandState)} " + bufferString)
+            }
+        }
+    }
+}
+
+fun detectThumbsUp(handState: Hand.State): Boolean {
+    if (handState.trackingState != TrackingState.TRACKING) return false
+    val thumbStraight =
+        (handState.handJoints[HandJointType.THUMB_METACARPAL]!!.forward - handState.handJoints[HandJointType.THUMB_TIP]!!.forward).length < 0.5
+
+    val fingerJointsCloseToPalm = listOf(
+        HandJointType.INDEX_TIP,
+        HandJointType.MIDDLE_TIP,
+        HandJointType.RING_TIP
+    ).all {
+        (handState.handJoints[it]!!.translation - handState.handJoints[HandJointType.PALM]!!.translation).length < 0.05
+    }
+    return thumbStraight && fingerJointsCloseToPalm
 }
