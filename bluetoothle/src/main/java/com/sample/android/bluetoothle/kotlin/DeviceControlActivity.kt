@@ -41,52 +41,64 @@ class DeviceControlActivity : AppCompatActivity() {
     private var connected = false
 
     // [START android_bluetooth_service_connection_simple]
-    // Code to manage Service lifecycle.
-    private val simpleServiceConnection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(
-            componentName: ComponentName,
-            service: IBinder
-        ) {
-            bluetoothService = (service as LocalBinder).getService()
-            bluetoothService?.let { bluetooth ->
-                // call functions on service to check connection and connect to devices
+    // [START_EXCLUDE silent]
+    private inner class SimplifiedServiceConnection {
+        val serviceConnection: ServiceConnection = object : ServiceConnection {
+            // [END_EXCLUDE]
+            override fun onServiceConnected(
+                componentName: ComponentName,
+                service: IBinder
+            ) {
+                bluetoothService = (service as LocalBinder).getService()
+                bluetoothService?.let { bluetooth ->
+                    // call functions on service to check connection and connect to devices
+                }
             }
-        }
 
-        override fun onServiceDisconnected(componentName: ComponentName) {
-            bluetoothService = null
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                bluetoothService = null
+            }
+            // [START_EXCLUDE silent]
         }
     }
+    // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_simple]
 
     // [START android_bluetooth_service_connection_initialize]
-    // Code to manage Service lifecycle.
-    private val initializeServiceConnection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(
-            componentName: ComponentName,
-            service: IBinder
-        ) {
-            bluetoothService = (service as LocalBinder).getService()
-            bluetoothService?.let { bluetooth ->
-                if (!bluetooth.initialize()) {
-                    Log.e(TAG, "Unable to initialize Bluetooth")
-                    finish()
+    // [START_EXCLUDE silent]
+    private inner class InitializeServiceConnection {
+        val serviceConnection: ServiceConnection = object : ServiceConnection {
+            // [END_EXCLUDE]
+            override fun onServiceConnected(
+                componentName: ComponentName,
+                service: IBinder
+            ) {
+                bluetoothService = (service as LocalBinder).getService()
+                bluetoothService?.let { bluetooth ->
+                    if (!bluetooth.initialize()) {
+                        Log.e(TAG, "Unable to initialize Bluetooth")
+                        finish()
+                    }
+                    // perform device connection
                 }
-                // perform device connection
             }
-        }
 
-        override fun onServiceDisconnected(componentName: ComponentName) {
-            bluetoothService = null
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                bluetoothService = null
+            }
+            // [START_EXCLUDE silent]
         }
     }
+    // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_initialize]
 
     // [START android_bluetooth_service_connection]
 
     // Code to manage Service lifecycle.
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        // [START_EXCLUDE silent]
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        // [END_EXCLUDE]
         override fun onServiceConnected(
             componentName: ComponentName,
             service: IBinder
@@ -142,8 +154,8 @@ class DeviceControlActivity : AppCompatActivity() {
         // [END android_bluetooth_bind_service]
     }
 
-    // [START android_bluetooth_receiver_lifecycle]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [START android_bluetooth_receiver_lifecycle]
     override fun onResume() {
         super.onResume()
         registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter())
@@ -166,7 +178,7 @@ class DeviceControlActivity : AppCompatActivity() {
     // [END android_bluetooth_receiver_lifecycle]
 
     private fun updateConnectionState(resourceId: Int) {
-        // Dummy implementation
+        // Placeholder implementation
     }
 }
 // [END android_bluetooth_activity_all]

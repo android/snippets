@@ -44,48 +44,62 @@ public class DeviceControlActivity extends AppCompatActivity {
     private boolean connected = false;
 
     // [START android_bluetooth_service_connection_simple_java]
-    private final ServiceConnection simpleServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            bluetoothService = ((LocalBinder) service).getService();
-            if (bluetoothService != null) {
-                // call functions on service to check connection and connect to devices
+    // [START_EXCLUDE silent]
+    private class SimplifiedServiceConnection {
+        private final ServiceConnection serviceConnection = new ServiceConnection() {
+    // [END_EXCLUDE]
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                bluetoothService = ((LocalBinder) service).getService();
+                if (bluetoothService != null) {
+                    // call functions on service to check connection and connect to devices
+                }
             }
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            bluetoothService = null;
-        }
-    };
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bluetoothService = null;
+            }
+    // [START_EXCLUDE silent]
+        };
+    }
+    // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_simple_java]
 
     // [START android_bluetooth_service_connection_initialize_java]
-    private final ServiceConnection initializeServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            bluetoothService = ((LocalBinder) service).getService();
-            if (bluetoothService != null) {
-                if (!bluetoothService.initialize()) {
-                    Log.e(TAG, "Unable to initialize Bluetooth");
-                    finish();
+    // [START_EXCLUDE silent]
+    private class InitializeServiceConnection {
+        private final ServiceConnection serviceConnection = new ServiceConnection() {
+    // [END_EXCLUDE]
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                bluetoothService = ((LocalBinder) service).getService();
+                if (bluetoothService != null) {
+                    if (!bluetoothService.initialize()) {
+                        Log.e(TAG, "Unable to initialize Bluetooth");
+                        finish();
+                    }
+                    // perform device connection
                 }
-                // perform device connection
             }
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            bluetoothService = null;
-        }
-    };
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bluetoothService = null;
+            }
+    // [START_EXCLUDE silent]
+        };
+    }
+    // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_initialize_java]
 
     // [START android_bluetooth_service_connection_java]
 
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
+        // [START_EXCLUDE silent]
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        // [END_EXCLUDE]
         public void onServiceConnected(ComponentName name, IBinder service) {
             bluetoothService = ((LocalBinder) service).getService();
             if (bluetoothService != null) {
@@ -139,9 +153,9 @@ public class DeviceControlActivity extends AppCompatActivity {
         // [END android_bluetooth_bind_service_java]
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [START android_bluetooth_receiver_lifecycle_java]
     @Override
-    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     protected void onResume() {
         super.onResume();
 
@@ -167,7 +181,7 @@ public class DeviceControlActivity extends AppCompatActivity {
 
 
     private void updateConnectionState(int resourceId) {
-        // Dummy implementation
+        // Placeholder implementation
     }
 }
 // [END android_bluetooth_activity_all_java]

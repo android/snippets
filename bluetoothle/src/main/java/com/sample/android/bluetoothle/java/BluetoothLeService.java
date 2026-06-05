@@ -78,24 +78,30 @@ public class BluetoothLeService extends Service {
     // [END android_bluetooth_initialize_java]
 
     // [START android_bluetooth_connect_simple_java]
-    public boolean simpleConnect(final String address) {
-        if (bluetoothAdapter == null || address == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
-            return false;
+    // [START_EXCLUDE silent]
+    private class SimplifiedConnect {
+        public boolean connect(final String address) {
+    // [END_EXCLUDE]
+            if (bluetoothAdapter == null || address == null) {
+                Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
+                return false;
+            }
+            try {
+                final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
+            } catch (IllegalArgumentException exception) {
+                Log.w(TAG, "Device not found with provided address.");
+                return false;
+            }
+            // connect to the GATT server on the device
+            return true;
+    // [START_EXCLUDE silent]
         }
-        try {
-            final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
-        } catch (IllegalArgumentException exception) {
-            Log.w(TAG, "Device not found with provided address.");
-            return false;
-        }
-        // connect to the GATT server on the device
-        return true;
     }
+    // [END_EXCLUDE]
     // [END android_bluetooth_connect_simple_java]
 
-    // [START android_bluetooth_connect_java]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [START android_bluetooth_connect_java]
     public boolean connect(final String address) {
         if (bluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
@@ -114,16 +120,22 @@ public class BluetoothLeService extends Service {
     // [END android_bluetooth_connect_java]
 
     // [START android_bluetooth_callback_simple_java]
-    private final BluetoothGattCallback simpleBluetoothGattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                // successfully connected to the GATT Server
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // disconnected from the GATT Server
+    // [START_EXCLUDE silent]
+    private class SimplifiedCallback {
+        private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
+    // [END_EXCLUDE]
+            @Override
+            public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    // successfully connected to the GATT Server
+                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                    // disconnected from the GATT Server
+                }
             }
-        }
-    };
+    // [START_EXCLUDE silent]
+        };
+    }
+    // [END_EXCLUDE]
     // [END android_bluetooth_callback_simple_java]
 
     // [START android_bluetooth_callback_java]
@@ -150,18 +162,20 @@ public class BluetoothLeService extends Service {
     }
     // [END android_bluetooth_broadcast_java]
 
-    // [START android_bluetooth_close_java]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [START android_bluetooth_close_java]
     @Override
     public boolean onUnbind(Intent intent) {
         close();
         return super.onUnbind(intent);
     }
 
+    // [START_EXCLUDE silent]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [END_EXCLUDE]
     private void close() {
         if (bluetoothGatt == null) {
-            return; // FIXED: lowercase 'return'
+            return;
         }
         bluetoothGatt.close();
         bluetoothGatt = null;
