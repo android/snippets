@@ -91,7 +91,9 @@ class BluetoothLeService : Service() {
             try {
                 val device = adapter.getRemoteDevice(address)
                 // connect to the GATT server on the device
+                // [START android_bluetooth_connect_gatt]
                 bluetoothGatt = device.connectGatt(this, false, bluetoothGattCallback)
+                // [END android_bluetooth_connect_gatt]
                 return true
             } catch (exception: IllegalArgumentException) {
                 Log.w(TAG, "Device not found with provided address.  Unable to connect.")

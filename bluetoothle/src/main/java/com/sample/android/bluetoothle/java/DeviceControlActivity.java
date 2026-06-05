@@ -140,6 +140,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     };
 
     // [START_EXCLUDE silent]
+    // [START android_bluetooth_bind_service_java]
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,11 +148,10 @@ public class DeviceControlActivity extends AppCompatActivity {
 
         deviceAddress = getIntent().getStringExtra("EXTRAS_DEVICE_ADDRESS");
 
-        // [START android_bluetooth_bind_service_java]
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        // [END android_bluetooth_bind_service_java]
     }
+    // [END android_bluetooth_bind_service_java]
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]

@@ -142,17 +142,17 @@ class DeviceControlActivity : AppCompatActivity() {
     }
 
     // [START_EXCLUDE silent]
+    // [START android_bluetooth_bind_service]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gatt_services_characteristics)
 
         deviceAddress = intent.getStringExtra("EXTRAS_DEVICE_ADDRESS")
 
-        // [START android_bluetooth_bind_service]
         val gattServiceIntent = Intent(this, BluetoothLeService::class.java)
         bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-        // [END android_bluetooth_bind_service]
     }
+    // [END android_bluetooth_bind_service]
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]

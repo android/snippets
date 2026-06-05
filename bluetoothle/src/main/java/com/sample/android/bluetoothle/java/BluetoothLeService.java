@@ -108,7 +108,9 @@ public class BluetoothLeService extends Service {
         try {
             final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
             // connect to the GATT server on the device
+            // [START android_bluetooth_connect_gatt_java]
             bluetoothGatt = device.connectGatt(this, false, bluetoothGattCallback);
+            // [END android_bluetooth_connect_gatt_java]
             return true;
         } catch (IllegalArgumentException exception) {
             Log.w(TAG, "Device not found with provided address.  Unable to connect.");
