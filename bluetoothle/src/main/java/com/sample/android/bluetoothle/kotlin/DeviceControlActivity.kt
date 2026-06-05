@@ -156,7 +156,6 @@ class DeviceControlActivity : AppCompatActivity() {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]
-    // [START android_bluetooth_receiver_lifecycle]
     override fun onResume() {
         super.onResume()
         registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter())
@@ -176,7 +175,6 @@ class DeviceControlActivity : AppCompatActivity() {
             addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED)
         }
     }
-    // [END android_bluetooth_receiver_lifecycle]
     // [END android_bluetooth_update_receiver]
 
     private fun updateConnectionState(resourceId: Int) {

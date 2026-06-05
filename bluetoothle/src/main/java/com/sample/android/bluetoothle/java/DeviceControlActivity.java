@@ -155,7 +155,6 @@ public class DeviceControlActivity extends AppCompatActivity {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]
-    // [START android_bluetooth_receiver_lifecycle_java]
     @Override
     protected void onResume() {
         super.onResume();
@@ -178,7 +177,6 @@ public class DeviceControlActivity extends AppCompatActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         return intentFilter;
     }
-    // [END android_bluetooth_receiver_lifecycle_java]
     // [END android_bluetooth_update_receiver_java]
 
 
