@@ -948,7 +948,7 @@ object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        if (Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1) {
+        if (Build.VERSION.SDK_INT >= 36) {
             LazyColumn(
                 verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
             ) {
