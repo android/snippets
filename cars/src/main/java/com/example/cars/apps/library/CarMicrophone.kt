@@ -70,7 +70,8 @@ class CarMicrophone(private val carContext: CarContext) {
                 .build()
 
         val audioManager = carContext.getSystemService(AudioManager::class.java)
-        if (audioManager == null || audioManager.requestAudioFocus(audioFocusRequest)
+        if (audioManager == null ||
+            audioManager.requestAudioFocus(audioFocusRequest)
             != AudioManager.AUDIOFOCUS_REQUEST_GRANTED
         ) {
             // Don't record if the focus isn't granted
