@@ -22,15 +22,12 @@ import androidx.car.app.messaging.model.CarMessage
 import androidx.car.app.messaging.model.ConversationCallback
 import androidx.car.app.messaging.model.ConversationItem
 import androidx.car.app.model.Action
-import androidx.car.app.model.CarIcon
 import androidx.car.app.model.CarText
 import androidx.car.app.model.Header
 import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Template
 import androidx.core.app.Person
-import androidx.core.graphics.drawable.IconCompat
-import com.example.cars.R
 
 class MyMessage(
     val sender: Person,
@@ -45,10 +42,22 @@ class MyConversation(val id: String, val title: String) {
 
 // [START android_cars_communication_templated_messaging_screen]
 class MyMessagingScreen(carContext: CarContext) : Screen(carContext) {
+    // [START_EXCLUDE silent]
+    private val myConversationCallback = object : ConversationCallback {
+        override fun onMarkAsRead() {
+            // Implement mark as read logic
+        }
 
+        override fun onTextReply(p0: String) {
+            // Implement text reply logic
+        }
+    }
+
+    private fun getConversations(): List<MyConversation> = TODO("Not implemented yet")
+    // [END_EXCLUDE silent]
     override fun onGetTemplate(): Template {
         val itemListBuilder = ItemList.Builder()
-        val conversations: List<MyConversation> = emptyList() // Retrieve conversations
+        val conversations: List<MyConversation> = getConversations() // Retrieve conversations
 
         for (conversation: MyConversation in conversations) {
             val carMessages: List<CarMessage> = conversation.getMessages()
@@ -64,35 +73,16 @@ class MyMessagingScreen(carContext: CarContext) : Screen(carContext) {
                 }
 
             itemListBuilder.addItem(
-                ConversationItem.Builder()
-                    .setConversationCallback(object : ConversationCallback {
-                        override fun onMarkAsRead() {
-                            // Implement mark as read logic
-                        }
-
-                        override fun onTextReply(replyText: String) {
-                            // Implement text reply logic
-                        }
-                    })
-                    .setId(conversation.id)
-                    .setTitle(CarText.create(conversation.title))
-                    .setIcon(
-                        CarIcon.Builder(
-                            IconCompat.createWithResource(carContext, R.drawable.ic_garage)
-                        ).build()
-                    )
-                    .setMessages(carMessages)
-                    /* When the sender of a CarMessage is equal to this Person,
-                    message readout is adjusted to "you said" instead of "<person>
-                    said" */
-                    .setSelf(
-                        Person.Builder()
-                            .setName("Me")
-                            .setKey("self_id")
-                            .build()
-                    )
-                    // Set to true if the message contains more than 2 participants
-                    .setGroupConversation(false)
+                ConversationItem.Builder(
+                    conversation.id,
+                    CarText.create(conversation.title),
+                    Person.Builder()
+                        .setName("Me")
+                        .setKey("self_id")
+                        .build(),
+                    carMessages,
+                    myConversationCallback
+                )
                     .build()
             )
         }

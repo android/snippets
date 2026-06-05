@@ -16,6 +16,8 @@
 
 package com.example.cars.apps.library
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.car.app.CarContext
 import androidx.car.app.hardware.CarHardwareManager
 import androidx.car.app.hardware.common.CarValue
@@ -26,6 +28,7 @@ import androidx.car.app.hardware.info.EnergyLevel
 
 class CarHardware(private val carContext: CarContext) {
 
+    @RequiresApi(Build.VERSION_CODES.P)
     fun demoCarInfo() {
         // [START android_cars_apps_library_car_hardware_info]
         val carInfo = carContext.getCarService(CarHardwareManager::class.java).carInfo
@@ -45,6 +48,7 @@ class CarHardware(private val carContext: CarContext) {
         // [END android_cars_apps_library_car_hardware_info]
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     fun demoCarSensors() {
         // [START android_cars_apps_library_car_hardware_sensors]
         val carSensors = carContext.getCarService(CarHardwareManager::class.java).carSensors
