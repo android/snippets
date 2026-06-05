@@ -138,8 +138,8 @@ public class DeviceControlActivity extends AppCompatActivity {
             }
         }
     };
-    // [END android_bluetooth_update_receiver_java]
 
+    // [START_EXCLUDE silent]
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +154,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     }
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [END_EXCLUDE]
     // [START android_bluetooth_receiver_lifecycle_java]
     @Override
     protected void onResume() {
@@ -178,6 +179,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         return intentFilter;
     }
     // [END android_bluetooth_receiver_lifecycle_java]
+    // [END android_bluetooth_update_receiver_java]
 
 
     private void updateConnectionState(int resourceId) {

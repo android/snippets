@@ -140,8 +140,8 @@ class DeviceControlActivity : AppCompatActivity() {
             }
         }
     }
-    // [END android_bluetooth_update_receiver]
 
+    // [START_EXCLUDE silent]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gatt_services_characteristics)
@@ -155,6 +155,7 @@ class DeviceControlActivity : AppCompatActivity() {
     }
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [END_EXCLUDE]
     // [START android_bluetooth_receiver_lifecycle]
     override fun onResume() {
         super.onResume()
@@ -176,6 +177,7 @@ class DeviceControlActivity : AppCompatActivity() {
         }
     }
     // [END android_bluetooth_receiver_lifecycle]
+    // [END android_bluetooth_update_receiver]
 
     private fun updateConnectionState(resourceId: Int) {
         // Placeholder implementation
