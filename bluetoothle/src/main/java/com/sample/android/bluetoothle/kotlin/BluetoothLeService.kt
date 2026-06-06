@@ -142,7 +142,7 @@ class BluetoothLeService : Service() {
     // [START android_bluetooth_callback_simple]
     // [START_EXCLUDE silent]
     private inner class SimplifiedCallback {
-    // [END_EXCLUDE]
+        // [END_EXCLUDE]
         val bluetoothGattCallback = object : BluetoothGattCallback() {
             override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
