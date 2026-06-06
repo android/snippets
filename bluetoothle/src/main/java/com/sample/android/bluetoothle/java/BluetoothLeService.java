@@ -52,6 +52,7 @@ public class BluetoothLeService extends Service {
     // [END android_bluetooth_constants_java]
 
 
+    // [START android_bluetooth_binder_java]
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -63,6 +64,7 @@ public class BluetoothLeService extends Service {
             return BluetoothLeService.this;
         }
     }
+    // [END android_bluetooth_binder_java]
 
     // [START android_bluetooth_initialize_java]
     public boolean initialize() {
