@@ -93,8 +93,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_initialize_java]
 
-    // [START android_bluetooth_service_connection_java]
-
+    // [START android_bluetooth_bind_service_java]
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         // [START_EXCLUDE silent]
@@ -122,7 +121,18 @@ public class DeviceControlActivity extends AppCompatActivity {
             bluetoothService = null;
         }
     };
-    // [END android_bluetooth_service_connection_java]
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.gatt_services_characteristics);
+
+        deviceAddress = getIntent().getStringExtra("EXTRAS_DEVICE_ADDRESS");
+
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+    // [END android_bluetooth_bind_service_java]
 
     // [START android_bluetooth_update_receiver_java]
     private final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
@@ -140,19 +150,6 @@ public class DeviceControlActivity extends AppCompatActivity {
     };
 
     // [START_EXCLUDE silent]
-    // [START android_bluetooth_bind_service_java]
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.gatt_services_characteristics);
-
-        deviceAddress = getIntent().getStringExtra("EXTRAS_DEVICE_ADDRESS");
-
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-    // [END android_bluetooth_bind_service_java]
-
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]
     @Override

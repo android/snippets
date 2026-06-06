@@ -39,6 +39,37 @@ class BluetoothLeService : Service() {
     private var bluetoothGatt: BluetoothGatt? = null
     private var connectionState = STATE_DISCONNECTED
 
+    // [START android_bluetooth_callback]
+    companion object {
+        const val ACTION_GATT_CONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_CONNECTED"
+        const val ACTION_GATT_DISCONNECTED =
+            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED"
+
+        private const val STATE_DISCONNECTED = 0
+        private const val STATE_CONNECTED = 2
+    }
+
+    private val bluetoothGattCallback = object : BluetoothGattCallback() {
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
+            val intentAction: String
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                intentAction = ACTION_GATT_CONNECTED
+                connectionState = STATE_CONNECTED
+                broadcastUpdate(intentAction)
+                Log.i(TAG, "Connected to GATT server.")
+                Log.i(TAG, "Attempting to start service discovery: " + bluetoothGatt?.discoverServices())
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                intentAction = ACTION_GATT_DISCONNECTED
+                connectionState = STATE_DISCONNECTED
+                Log.i(TAG, "Disconnected from GATT server.")
+                broadcastUpdate(intentAction)
+            }
+        }
+    }
+    // [END android_bluetooth_callback]
+
     // [START android_bluetooth_binder]
     override fun onBind(intent: Intent): IBinder? {
         return binder
@@ -111,8 +142,8 @@ class BluetoothLeService : Service() {
     // [START android_bluetooth_callback_simple]
     // [START_EXCLUDE silent]
     private inner class SimplifiedCallback {
+    // [END_EXCLUDE]
         val bluetoothGattCallback = object : BluetoothGattCallback() {
-            // [END_EXCLUDE]
             override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     // successfully connected to the GATT Server
@@ -120,27 +151,11 @@ class BluetoothLeService : Service() {
                     // disconnected from the GATT Server
                 }
             }
-            // [START_EXCLUDE silent]
         }
+        // [START_EXCLUDE silent]
     }
     // [END_EXCLUDE]
     // [END android_bluetooth_callback_simple]
-
-    // [START android_bluetooth_callback]
-    private val bluetoothGattCallback = object : BluetoothGattCallback() {
-        override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                // successfully connected to the GATT Server
-                connectionState = STATE_CONNECTED
-                broadcastUpdate(ACTION_GATT_CONNECTED)
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // disconnected from the GATT Server
-                connectionState = STATE_DISCONNECTED
-                broadcastUpdate(ACTION_GATT_DISCONNECTED)
-            }
-        }
-    }
-    // [END android_bluetooth_callback]
 
     // [START android_bluetooth_broadcast]
     private fun broadcastUpdate(action: String) {
@@ -166,18 +181,6 @@ class BluetoothLeService : Service() {
         }
     }
     // [END android_bluetooth_close]
-
-    companion object {
-        // [START android_bluetooth_constants]
-        const val ACTION_GATT_CONNECTED =
-            "com.example.bluetooth.le.ACTION_GATT_CONNECTED"
-        const val ACTION_GATT_DISCONNECTED =
-            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED"
-
-        private const val STATE_DISCONNECTED = 0
-        private const val STATE_CONNECTED = 2
-        // [END android_bluetooth_constants]
-    }
 }
 
 // [END android_bluetooth_service_all]

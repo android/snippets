@@ -92,8 +92,7 @@ class DeviceControlActivity : AppCompatActivity() {
     // [END_EXCLUDE]
     // [END android_bluetooth_service_connection_initialize]
 
-    // [START android_bluetooth_service_connection]
-
+    // [START android_bluetooth_bind_service]
     // Code to manage Service lifecycle.
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         // [START_EXCLUDE silent]
@@ -123,7 +122,17 @@ class DeviceControlActivity : AppCompatActivity() {
             bluetoothService = null
         }
     }
-    // [END android_bluetooth_service_connection]
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.gatt_services_characteristics)
+
+        deviceAddress = intent.getStringExtra("EXTRAS_DEVICE_ADDRESS")
+
+        val gattServiceIntent = Intent(this, BluetoothLeService::class.java)
+        bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+    // [END android_bluetooth_bind_service]
 
     // [START android_bluetooth_update_receiver]
     private val gattUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -142,18 +151,6 @@ class DeviceControlActivity : AppCompatActivity() {
     }
 
     // [START_EXCLUDE silent]
-    // [START android_bluetooth_bind_service]
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.gatt_services_characteristics)
-
-        deviceAddress = intent.getStringExtra("EXTRAS_DEVICE_ADDRESS")
-
-        val gattServiceIntent = Intent(this, BluetoothLeService::class.java)
-        bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-    }
-    // [END android_bluetooth_bind_service]
-
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [END_EXCLUDE]
     override fun onResume() {

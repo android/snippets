@@ -41,7 +41,7 @@ public class BluetoothLeService extends Service {
     private BluetoothGatt bluetoothGatt;
     private int connectionState;
 
-    // [START android_bluetooth_constants_java]
+    // [START android_bluetooth_callback_java]
     public static final String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
     public static final String ACTION_GATT_DISCONNECTED =
@@ -49,7 +49,22 @@ public class BluetoothLeService extends Service {
 
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTED = 2;
-    // [END android_bluetooth_constants_java]
+
+    private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                // successfully connected to the GATT Server
+                connectionState = STATE_CONNECTED;
+                broadcastUpdate(ACTION_GATT_CONNECTED);
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                // disconnected from the GATT Server
+                connectionState = STATE_DISCONNECTED;
+                broadcastUpdate(ACTION_GATT_DISCONNECTED);
+            }
+        }
+    };
+    // [END android_bluetooth_callback_java]
 
 
     // [START android_bluetooth_binder_java]
@@ -124,8 +139,8 @@ public class BluetoothLeService extends Service {
     // [START android_bluetooth_callback_simple_java]
     // [START_EXCLUDE silent]
     private class SimplifiedCallback {
-        private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
     // [END_EXCLUDE]
+        private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -134,28 +149,12 @@ public class BluetoothLeService extends Service {
                     // disconnected from the GATT Server
                 }
             }
-    // [START_EXCLUDE silent]
         };
+    // [START_EXCLUDE silent]
     }
     // [END_EXCLUDE]
     // [END android_bluetooth_callback_simple_java]
 
-    // [START android_bluetooth_callback_java]
-    private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                // successfully connected to the GATT Server
-                connectionState = STATE_CONNECTED;
-                broadcastUpdate(ACTION_GATT_CONNECTED);
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // disconnected from the GATT Server
-                connectionState = STATE_DISCONNECTED;
-                broadcastUpdate(ACTION_GATT_DISCONNECTED);
-            }
-        }
-    };
-    // [END android_bluetooth_callback_java]
 
     // [START android_bluetooth_broadcast_java]
     private void broadcastUpdate(final String action) {
