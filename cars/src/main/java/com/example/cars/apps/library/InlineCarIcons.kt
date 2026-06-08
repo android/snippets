@@ -41,8 +41,8 @@ class InlineCarIcons(private val carContext: CarContext) {
             ),
             // The start index of the span (index of the character '4')
             8,
-            // The end index of the span (index of the last 's' in "stars")
-            16,
+            // The end index of the span (exclusive, length of the string)
+            17,
             Spanned.SPAN_INCLUSIVE_INCLUSIVE
         )
 

@@ -26,9 +26,9 @@ class ParkedAaos(private val context: Context) {
 
     fun checkUxRestrictions() {
         // [START android_cars_parked_automotive_os_ux_restrictions]
-        val car = Car.createCar(context)
+        val car = Car.createCar(context) ?: return
         val carUxRestrictionsManager =
-            car.getCarManager(Car.CAR_UX_RESTRICTION_SERVICE) as CarUxRestrictionsManager
+            car.getCarManager(Car.CAR_UX_RESTRICTION_SERVICE) as? CarUxRestrictionsManager ?: return
 
         // You can either read the state directly ...
         val currentUxRestrictions = carUxRestrictionsManager.currentCarUxRestrictions

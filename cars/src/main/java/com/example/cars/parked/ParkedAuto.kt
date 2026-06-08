@@ -27,7 +27,7 @@ class ParkedAuto {
     fun checkAndroidAuto(context: Context, connectionType: Int) {
         val isRunningOnAndroidAuto: Boolean
         // [START android_cars_parked_auto_detect]
-        val displayId = context.display.displayId
+        val displayId = context.display?.displayId ?: DEFAULT_DISPLAY
         isRunningOnAndroidAuto = (connectionType == CONNECTION_TYPE_PROJECTION) && (displayId != DEFAULT_DISPLAY)
         // [END android_cars_parked_auto_detect]
     }
