@@ -25,7 +25,7 @@ import androidx.car.app.connection.CarConnection
 import androidx.car.app.model.MessageTemplate
 import androidx.car.app.model.Template
 
-class MyConnectionSession(carContext: CarContext) : Session() {
+class MyConnectionSession() : Session() {
     override fun onCreateScreen(intent: Intent): Screen {
         // [START android_cars_apps_library_connection_api_observe]
         CarConnection(carContext).type.observe(this, ::onConnectionStateUpdated)
