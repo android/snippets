@@ -32,11 +32,13 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 // [START android_bluetooth_service_all_java]
+// [START android_bluetooth_binder_java]
 public class BluetoothLeService extends Service {
 
     public static final String TAG = "BluetoothLeService";
 
     private final Binder binder = new LocalBinder();
+    // [START_EXCLUDE silent]
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothGatt bluetoothGatt;
     private int connectionState;
@@ -65,9 +67,9 @@ public class BluetoothLeService extends Service {
         }
     };
     // [END android_bluetooth_callback_java]
+    // [END_EXCLUDE]
 
 
-    // [START android_bluetooth_binder_java]
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -79,7 +81,7 @@ public class BluetoothLeService extends Service {
             return BluetoothLeService.this;
         }
     }
-    // [END android_bluetooth_binder_java]
+    // [START_EXCLUDE silent]
 
     // [START android_bluetooth_initialize_java]
     public boolean initialize() {
@@ -91,29 +93,6 @@ public class BluetoothLeService extends Service {
         return true;
     }
     // [END android_bluetooth_initialize_java]
-
-    // [START android_bluetooth_connect_simple_java]
-    // [START_EXCLUDE silent]
-    private class SimplifiedConnect {
-        public boolean connect(final String address) {
-    // [END_EXCLUDE]
-            if (bluetoothAdapter == null || address == null) {
-                Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
-                return false;
-            }
-            try {
-                final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
-            } catch (IllegalArgumentException exception) {
-                Log.w(TAG, "Device not found with provided address.");
-                return false;
-            }
-            // connect to the GATT server on the device
-            return true;
-    // [START_EXCLUDE silent]
-        }
-    }
-    // [END_EXCLUDE]
-    // [END android_bluetooth_connect_simple_java]
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [START android_bluetooth_connect_java]
@@ -136,26 +115,6 @@ public class BluetoothLeService extends Service {
     }
     // [END android_bluetooth_connect_java]
 
-    // [START android_bluetooth_callback_simple_java]
-    // [START_EXCLUDE silent]
-    private class SimplifiedCallback {
-    // [END_EXCLUDE]
-        private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
-            @Override
-            public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    // successfully connected to the GATT Server
-                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    // disconnected from the GATT Server
-                }
-            }
-        };
-    // [START_EXCLUDE silent]
-    }
-    // [END_EXCLUDE]
-    // [END android_bluetooth_callback_simple_java]
-
-
     // [START android_bluetooth_broadcast_java]
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
@@ -171,9 +130,7 @@ public class BluetoothLeService extends Service {
         return super.onUnbind(intent);
     }
 
-    // [START_EXCLUDE silent]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    // [END_EXCLUDE]
     private void close() {
         if (bluetoothGatt == null) {
             return;
@@ -182,6 +139,8 @@ public class BluetoothLeService extends Service {
         bluetoothGatt = null;
     }
     // [END android_bluetooth_close_java]
+    // [END_EXCLUDE]
 }
+// [END android_bluetooth_binder_java]
 
 // [END android_bluetooth_service_all_java]

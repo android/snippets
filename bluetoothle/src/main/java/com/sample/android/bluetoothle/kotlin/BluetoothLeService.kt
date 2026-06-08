@@ -31,9 +31,11 @@ import androidx.annotation.RequiresPermission
 private const val TAG = "BluetoothLeService"
 
 // [START android_bluetooth_service_all]
+// [START android_bluetooth_binder]
 class BluetoothLeService : Service() {
 
     private val binder = LocalBinder()
+    // [START_EXCLUDE silent]
 
     private var bluetoothAdapter: BluetoothAdapter? = null
     private var bluetoothGatt: BluetoothGatt? = null
@@ -69,8 +71,8 @@ class BluetoothLeService : Service() {
         }
     }
     // [END android_bluetooth_callback]
+    // [END_EXCLUDE]
 
-    // [START android_bluetooth_binder]
     override fun onBind(intent: Intent): IBinder? {
         return binder
     }
@@ -80,7 +82,7 @@ class BluetoothLeService : Service() {
             return this@BluetoothLeService
         }
     }
-    // [END android_bluetooth_binder]
+    // [START_EXCLUDE silent]
 
     // [START android_bluetooth_initialize]
     fun initialize(): Boolean {
@@ -92,30 +94,6 @@ class BluetoothLeService : Service() {
         return true
     }
     // [END android_bluetooth_initialize]
-
-    // [START android_bluetooth_connect_simple]
-    // [START_EXCLUDE silent]
-    private inner class SimplifiedConnect {
-        fun connect(address: String): Boolean {
-            // [END_EXCLUDE]
-            bluetoothAdapter?.let { adapter ->
-                try {
-                    val device = adapter.getRemoteDevice(address)
-                } catch (exception: IllegalArgumentException) {
-                    Log.w(TAG, "Device not found with provided address.")
-                    return false
-                }
-                // connect to the GATT server on the device
-                return true
-            } ?: run {
-                Log.w(TAG, "BluetoothAdapter not initialized")
-                return false
-            }
-            // [START_EXCLUDE silent]
-        }
-    }
-    // [END_EXCLUDE]
-    // [END android_bluetooth_connect_simple]
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [START android_bluetooth_connect]
@@ -139,24 +117,6 @@ class BluetoothLeService : Service() {
     }
     // [END android_bluetooth_connect]
 
-    // [START android_bluetooth_callback_simple]
-    // [START_EXCLUDE silent]
-    private inner class SimplifiedCallback {
-        // [END_EXCLUDE]
-        val bluetoothGattCallback = object : BluetoothGattCallback() {
-            override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    // successfully connected to the GATT Server
-                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    // disconnected from the GATT Server
-                }
-            }
-        }
-        // [START_EXCLUDE silent]
-    }
-    // [END_EXCLUDE]
-    // [END android_bluetooth_callback_simple]
-
     // [START android_bluetooth_broadcast]
     private fun broadcastUpdate(action: String) {
         val intent = Intent(action)
@@ -171,9 +131,7 @@ class BluetoothLeService : Service() {
         return super.onUnbind(intent)
     }
 
-    // [START_EXCLUDE silent]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    // [END_EXCLUDE]
     private fun close() {
         bluetoothGatt?.let { gatt ->
             gatt.close()
@@ -181,6 +139,8 @@ class BluetoothLeService : Service() {
         }
     }
     // [END android_bluetooth_close]
+    // [END_EXCLUDE]
 }
+// [END android_bluetooth_binder]
 
 // [END android_bluetooth_service_all]

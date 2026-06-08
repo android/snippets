@@ -32,9 +32,8 @@ import com.sample.android.bluetoothle.R;
 import com.sample.android.bluetoothle.java.BluetoothLeService.LocalBinder;
 import androidx.annotation.RequiresPermission;
 
-
-
 // [START android_bluetooth_activity_all_java]
+// [START android_bluetooth_bind_service_java]
 public class DeviceControlActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceControlActivity";
@@ -42,63 +41,12 @@ public class DeviceControlActivity extends AppCompatActivity {
     private BluetoothLeService bluetoothService;
     private String deviceAddress;
     private boolean connected = false;
-
-    // [START android_bluetooth_service_connection_simple_java]
     // [START_EXCLUDE silent]
-    private class SimplifiedServiceConnection {
-        private final ServiceConnection serviceConnection = new ServiceConnection() {
-    // [END_EXCLUDE]
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                bluetoothService = ((LocalBinder) service).getService();
-                if (bluetoothService != null) {
-                    // call functions on service to check connection and connect to devices
-                }
-            }
 
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                bluetoothService = null;
-            }
-    // [START_EXCLUDE silent]
-        };
-    }
     // [END_EXCLUDE]
-    // [END android_bluetooth_service_connection_simple_java]
-
-    // [START android_bluetooth_service_connection_initialize_java]
-    // [START_EXCLUDE silent]
-    private class InitializeServiceConnection {
-        private final ServiceConnection serviceConnection = new ServiceConnection() {
-    // [END_EXCLUDE]
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                bluetoothService = ((LocalBinder) service).getService();
-                if (bluetoothService != null) {
-                    if (!bluetoothService.initialize()) {
-                        Log.e(TAG, "Unable to initialize Bluetooth");
-                        finish();
-                    }
-                    // perform device connection
-                }
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                bluetoothService = null;
-            }
-    // [START_EXCLUDE silent]
-        };
-    }
-    // [END_EXCLUDE]
-    // [END android_bluetooth_service_connection_initialize_java]
-
-    // [START android_bluetooth_bind_service_java]
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
-        // [START_EXCLUDE silent]
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-        // [END_EXCLUDE]
         public void onServiceConnected(ComponentName name, IBinder service) {
             bluetoothService = ((LocalBinder) service).getService();
             if (bluetoothService != null) {
@@ -132,7 +80,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
-    // [END android_bluetooth_bind_service_java]
+    // [START_EXCLUDE silent]
 
     // [START android_bluetooth_update_receiver_java]
     private final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
@@ -149,9 +97,7 @@ public class DeviceControlActivity extends AppCompatActivity {
         }
     };
 
-    // [START_EXCLUDE silent]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    // [END_EXCLUDE]
     @Override
     protected void onResume() {
         super.onResume();
@@ -180,5 +126,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     private void updateConnectionState(int resourceId) {
         // Placeholder implementation
     }
+    // [END_EXCLUDE]
 }
+// [END android_bluetooth_bind_service_java]
 // [END android_bluetooth_activity_all_java]
