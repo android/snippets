@@ -16,36 +16,27 @@
 
 package com.example.camerax.snippets
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.hardware.camera2.CaptureRequest
 import android.util.Log
-import android.view.Surface
-import android.view.View
 import androidx.camera.camera2.interop.Camera2Interop
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
-import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
-import androidx.camera.core.SurfaceOrientedMeteringPointFactory
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.viewfinder.compose.MutableCoordinateTransformer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -58,7 +49,8 @@ fun InitializeCamera2Snippet() {
   val lifecycleOwner = LocalLifecycleOwner.current
   LaunchedEffect(context, lifecycleOwner) {
     val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-    cameraProviderFuture.addListener({
+    cameraProviderFuture.addListener(
+      {
         val cameraProvider = cameraProviderFuture.get()
 
         val cameraSelector = CameraSelector.Builder()
@@ -118,16 +110,17 @@ fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, l
         val bytes = ByteArray(buffer.remaining())
         buffer.get(bytes)
         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        if (bitmap != null) {
+          val matrix = Matrix()
+          matrix.postRotate(image.imageInfo.rotationDegrees.toFloat())
+          if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
+            matrix.postScale(-1f, 1f)
+          }
 
-        val matrix = Matrix()
-        matrix.postRotate(image.imageInfo.rotationDegrees.toFloat())
-        if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
-          matrix.postScale(-1f, 1f)
+          val rotatedBitmap = Bitmap.createBitmap(
+            bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true
+          )
         }
-
-        val rotatedBitmap = Bitmap.createBitmap(
-          bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true
-        )
 
         // MUST close proxy
         image.close()
@@ -144,17 +137,19 @@ fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, l
 fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: Executor) {
   // [START android_camerax_image_analysis]
   imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
-    val rotationDegrees = imageProxy.imageInfo.rotationDegrees
-    // Process image here (e.g., run object detection)
-    // ...
-    
-    // MUST close the imageProxy to avoid blocking the pipeline
-    imageProxy.close()
+    try {
+      val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+      // Process image here (e.g., run object detection)
+      // ...
+    } finally {
+      // MUST close the imageProxy to avoid blocking the pipeline
+      imageProxy.close()
+    }
   }
   // [END android_camerax_image_analysis]
 }
 
-@OptIn(ExperimentalCamera2Interop::class)
+@ExperimentalCamera2Interop
 fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
   // [START android_camerax_camera2_interop]
   // Use Camera2Interop to set Camera2-specific capture options

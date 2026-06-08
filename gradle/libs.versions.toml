@@ -122,6 +122,7 @@ engageCore = "1.5.12"
 compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
+cameraCamera2 = "1.6.1"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -305,6 +306,7 @@ androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "gl
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
 androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
 androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
+camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraCamera2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

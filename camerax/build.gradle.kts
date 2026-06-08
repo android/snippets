@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.androidx.camera.compose)
     implementation(libs.androidx.camera.viewfinder.compose)
     implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.camera.camera2)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
