@@ -20,10 +20,7 @@
     <!-- [START_EXCLUDE] -->
     <style name="Theme.Snippets" parent="android:Theme.Material.Light.NoActionBar" />
     <!-- [END_EXCLUDE] -->
-    <!-- Explicit Light Theme for Context Wrapping -->
-    <style name="Theme.Webviewdemo.Light" parent="android:Theme.Material.Light.NoActionBar" />
-
-    <!-- Explicit Dark Theme for Context Wrapping -->
-    <style name="Theme.Webviewdemo.Dark" parent="android:Theme.Material.NoActionBar" />
+    <!-- Use a DayNight theme in your manifest to handle both modes automatically -->
+    <style name="Theme.Webviewdemo.DayNight" parent="Theme.AppCompat.DayNight.NoActionBar" />
 </resources>
 <!-- [END android_compose_webview_theme_xml] -->
