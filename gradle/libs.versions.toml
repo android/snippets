@@ -20,7 +20,7 @@ androidx-credentials = "1.7.0-alpha02"
 androidx-credentials-play-services-auth = "1.7.0-alpha02"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment = "1.8.9"
-androidx-glance-appwidget = "1.1.1"
+androidx-glance-appwidget = "1.3.0-alpha01"
 androidx-lifecycle-compose = "2.10.0"
 androidx-lifecycle-runtime-compose = "2.10.0"
 androidx-lifecycle-viewmodel-navigation3 = "2.10.0-beta01"
@@ -307,6 +307,8 @@ androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version
 androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
 androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
 camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera-camera2" }
+glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
+glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
