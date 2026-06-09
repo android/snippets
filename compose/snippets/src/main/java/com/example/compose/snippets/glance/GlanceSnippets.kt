@@ -271,7 +271,7 @@ private object ActionCallbackSnippet02 {
     }
 
     // [END android_compose_glance_actioncallback02]
-    /*dummy class*/
+    /*placeholder class*/
     class MyAppWidget : GlanceAppWidget() {
         override suspend fun provideGlance(context: Context, id: GlanceId) {
             TODO("Not yet implemented")
@@ -935,7 +935,7 @@ object GlanceInteroperability {
     }
 }
 
-object SnapScrollingSnippet {
+private object SnapScrollingSnippet {
 
     private data class ColorItem(val color: Color, val name: String)
 
@@ -949,7 +949,7 @@ object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        if (Build.VERSION.SDK_INT >= 36 && SnapScrollHelper.isSnapScrollSupported) {
+        if (Build.VERSION.SDK_INT >= 36 && isSnapScrollSupported) {
             LazyColumn(
                 verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
             ) {
@@ -982,16 +982,15 @@ object SnapScrollingSnippet {
         }
     }
 
-    @RequiresApi(36)
-    private object SnapScrollHelper {
-        val isSnapScrollSupported: Boolean
-            get() = Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
-    }
+    val isSnapScrollSupported: Boolean
+        get() = Build.VERSION.SDK_INT >= 36 &&
+                Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
+
     // [END android_compose_glance_snap_scrolling]
 }
 
 /**
- * Dummy interface
+ * Placeholder interface
  */
 interface MyRepository {
 
@@ -1004,22 +1003,22 @@ interface MyRepository {
     }
 }
 
-/**dummy function*/
+/**placeholder function*/
 private fun RowScope.Button(s: String = "") {
     TODO("Not yet implemented")
 }
 
-/** dummy class */
+/** placeholder class */
 data class Person(val id: String, val name: String)
 
-/** dummy class */
+/** placeholder class */
 class GlanceSizeModeWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         TODO("Not yet implemented")
     }
 }
 
-/** dummy class */
+/** placeholder class */
 class MyAppWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         TODO("Not yet implemented")
@@ -1027,7 +1026,7 @@ class MyAppWidget : GlanceAppWidget() {
 }
 
 /**
- * Dummy Interface
+ * Placeholder Interface
  */
 sealed interface State {
 
@@ -1037,7 +1036,7 @@ sealed interface State {
 }
 
 /**
- * Dummy class
+ * Placeholder class
  */
 class DestinationsRepository {
 
@@ -1051,7 +1050,7 @@ class DestinationsRepository {
 }
 
 /**
- * Dummy activity for snippet
+ * Placeholder activity for snippet
  */
 class NavigationActivity : AppCompatActivity() {
     companion object {
@@ -1060,14 +1059,14 @@ class NavigationActivity : AppCompatActivity() {
 }
 
 /**
- * Dummy lambda
+ * Placeholder lambda
  */
 private fun submitData() {
     TODO("Not yet implemented")
 }
 
 /**
- * Dummy broadcast receiver for snippets
+ * Placeholder broadcast receiver for snippets
  */
 class MyReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
@@ -1076,7 +1075,7 @@ class MyReceiver : BroadcastReceiver() {
 }
 
 /**
- * Dummy service for snippets
+ * Placeholder service for snippets
  */
 class SyncService : Service() {
     override fun onBind(p0: Intent?): IBinder? {
