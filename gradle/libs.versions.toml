@@ -122,7 +122,7 @@ engageCore = "1.5.12"
 compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
-cameraCamera2 = "1.6.1"
+camera-camera2 = "1.6.1"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
