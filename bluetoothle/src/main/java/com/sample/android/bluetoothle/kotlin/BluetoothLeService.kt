@@ -42,6 +42,7 @@ class BluetoothLeService : Service() {
     private var connectionState = STATE_DISCONNECTED
 
     // [START android_bluetooth_callback]
+    // In BluetoothLeService
     companion object {
         const val ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED"
@@ -85,6 +86,7 @@ class BluetoothLeService : Service() {
     // [START_EXCLUDE silent]
 
     // [START android_bluetooth_initialize]
+    // In BluetoothLeService
     fun initialize(): Boolean {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bluetoothAdapter == null) {
@@ -97,6 +99,7 @@ class BluetoothLeService : Service() {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [START android_bluetooth_connect]
+    // In BluetoothLeService
     fun connect(address: String): Boolean {
         bluetoothAdapter?.let { adapter ->
             try {
@@ -126,6 +129,7 @@ class BluetoothLeService : Service() {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     // [START android_bluetooth_close]
+    // In BluetoothLeService
     override fun onUnbind(intent: Intent?): Boolean {
         close()
         return super.onUnbind(intent)

@@ -26,6 +26,7 @@ private var bluetoothAdapter: BluetoothAdapter? = null
 private const val TAG = "BluetoothLeService"
 
 // [START android_bluetooth_connect_simple]
+// In BluetoothLeService
 fun connect(address: String): Boolean {
     bluetoothAdapter?.let { adapter ->
         try {
@@ -44,6 +45,7 @@ fun connect(address: String): Boolean {
 // [END android_bluetooth_connect_simple]
 
 // [START android_bluetooth_callback_simple]
+// In BluetoothLeService
 val bluetoothGattCallback = object : BluetoothGattCallback() {
     override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
         if (newState == BluetoothProfile.STATE_CONNECTED) {

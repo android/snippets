@@ -38,11 +38,11 @@ private const val TAG = "DeviceControlActivity"
 class DeviceControlActivity : AppCompatActivity() {
 
     private var bluetoothService: BluetoothLeService? = null
+    // [START_EXCLUDE silent]
     private var deviceAddress: String? = null
     private var connected = false
-    // [START_EXCLUDE silent]
-
     // [END_EXCLUDE]
+    // [START android_bluetooth_service_connection]
     // Code to manage Service lifecycle.
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
@@ -52,6 +52,8 @@ class DeviceControlActivity : AppCompatActivity() {
         ) {
             bluetoothService = (service as LocalBinder).getService()
             bluetoothService?.let { bluetooth ->
+                // call functions on service to check connection and connect to devices
+                // [START_EXCLUDE silent]
                 // [START android_bluetooth_initialize_activity]
                 if (!bluetooth.initialize()) {
                     Log.e(TAG, "Unable to initialize Bluetooth")
@@ -63,6 +65,7 @@ class DeviceControlActivity : AppCompatActivity() {
                 // [START android_bluetooth_connect_activity]
                 bluetooth.connect(deviceAddress!!)
                 // [END android_bluetooth_connect_activity]
+                // [END_EXCLUDE]
             }
         }
 
@@ -70,12 +73,15 @@ class DeviceControlActivity : AppCompatActivity() {
             bluetoothService = null
         }
     }
+    // [END android_bluetooth_service_connection]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gatt_services_characteristics)
+        // [START_EXCLUDE silent]
 
         deviceAddress = intent.getStringExtra("EXTRAS_DEVICE_ADDRESS")
+        // [END_EXCLUDE]
 
         val gattServiceIntent = Intent(this, BluetoothLeService::class.java)
         bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
@@ -83,6 +89,7 @@ class DeviceControlActivity : AppCompatActivity() {
     // [START_EXCLUDE silent]
 
     // [START android_bluetooth_update_receiver]
+    // In DeviceControlActivity
     private val gattUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
