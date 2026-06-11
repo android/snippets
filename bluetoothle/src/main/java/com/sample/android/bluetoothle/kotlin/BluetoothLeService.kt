@@ -16,6 +16,7 @@
 
 package com.sample.android.bluetoothle.kotlin
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
@@ -30,6 +31,7 @@ import androidx.annotation.RequiresPermission
 
 private const val TAG = "BluetoothLeService"
 
+@SuppressLint("MissingPermission")
 // [START android_bluetooth_service_all]
 // [START android_bluetooth_binder]
 class BluetoothLeService : Service() {
