@@ -54,20 +54,18 @@ class BluetoothLeService : Service() {
     }
 
     private val bluetoothGattCallback = object : BluetoothGattCallback() {
+        // [START_EXCLUDE silent]
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        // [END_EXCLUDE]
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
-            val intentAction: String
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                intentAction = ACTION_GATT_CONNECTED
+                // successfully connected to the GATT Server
                 connectionState = STATE_CONNECTED
-                broadcastUpdate(intentAction)
-                Log.i(TAG, "Connected to GATT server.")
-                Log.i(TAG, "Attempting to start service discovery: " + bluetoothGatt?.discoverServices())
+                broadcastUpdate(ACTION_GATT_CONNECTED)
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                intentAction = ACTION_GATT_DISCONNECTED
+                // disconnected from the GATT Server
                 connectionState = STATE_DISCONNECTED
-                Log.i(TAG, "Disconnected from GATT server.")
-                broadcastUpdate(intentAction)
+                broadcastUpdate(ACTION_GATT_DISCONNECTED)
             }
         }
     }
@@ -135,7 +133,9 @@ class BluetoothLeService : Service() {
         return super.onUnbind(intent)
     }
 
+    // [START_EXCLUDE silent]
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    // [END_EXCLUDE]
     private fun close() {
         bluetoothGatt?.let { gatt ->
             gatt.close()
