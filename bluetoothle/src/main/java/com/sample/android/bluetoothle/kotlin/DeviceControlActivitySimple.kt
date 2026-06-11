@@ -91,7 +91,9 @@ class DeviceControlActivitySimple {
         // [END_EXCLUDE]
         // In DeviceControlActivity
         val serviceConnection: ServiceConnection = object : ServiceConnection {
+            // [START_EXCLUDE silent]
             @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+            // [END_EXCLUDE]
             override fun onServiceConnected(
                 componentName: ComponentName,
                 service: IBinder
@@ -103,7 +105,7 @@ class DeviceControlActivitySimple {
                         finish()
                     }
                     // perform device connection
-                    bluetooth.connect(deviceAddress!!)
+                    deviceAddress?.let { bluetooth.connect(it) }
                 }
             }
 

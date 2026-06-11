@@ -45,7 +45,9 @@ class DeviceControlActivity : AppCompatActivity() {
     // [START android_bluetooth_service_connection]
     // Code to manage Service lifecycle.
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        // [START_EXCLUDE silent]
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        // [END_EXCLUDE]
         override fun onServiceConnected(
             componentName: ComponentName,
             service: IBinder
@@ -54,17 +56,13 @@ class DeviceControlActivity : AppCompatActivity() {
             bluetoothService?.let { bluetooth ->
                 // call functions on service to check connection and connect to devices
                 // [START_EXCLUDE silent]
-                // [START android_bluetooth_initialize_activity]
                 if (!bluetooth.initialize()) {
                     Log.e(TAG, "Unable to initialize Bluetooth")
                     finish()
                     return@let
                 }
-                // [END android_bluetooth_initialize_activity]
                 // perform device connection
-                // [START android_bluetooth_connect_activity]
-                bluetooth.connect(deviceAddress!!)
-                // [END android_bluetooth_connect_activity]
+                deviceAddress?.let { bluetooth.connect(it) }
                 // [END_EXCLUDE]
             }
         }
@@ -109,9 +107,11 @@ class DeviceControlActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter())
-        if (bluetoothService != null) {
-            val result = bluetoothService!!.connect(deviceAddress!!)
-            Log.d(TAG, "Connect request result=$result")
+        bluetoothService?.let { service ->
+            deviceAddress?.let { address ->
+                val result = service.connect(address)
+                Log.d(TAG, "Connect request result=$result")
+            }
         }
     }
 
