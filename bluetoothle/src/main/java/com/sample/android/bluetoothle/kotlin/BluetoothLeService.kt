@@ -54,9 +54,6 @@ class BluetoothLeService : Service() {
     }
 
     private val bluetoothGattCallback = object : BluetoothGattCallback() {
-        // [START_EXCLUDE silent]
-        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-        // [END_EXCLUDE]
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 // successfully connected to the GATT Server
@@ -133,9 +130,6 @@ class BluetoothLeService : Service() {
         return super.onUnbind(intent)
     }
 
-    // [START_EXCLUDE silent]
-    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    // [END_EXCLUDE]
     private fun close() {
         bluetoothGatt?.let { gatt ->
             gatt.close()
