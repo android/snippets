@@ -11,20 +11,25 @@ import android.util.Log
 fun snippet_immutability_1() {
   // [START android_camerax_skill_immutability_1]
   // WRONG
-  val pending = recorder.prepareRecording(context, opts)
-  pending.withAudioEnabled() // This returns a new instance which is ignored
-  val active = pending.start(exec, listener)
+  run {
+    val pending = recorder.prepareRecording(context, opts)
+    pending.withAudioEnabled() // This returns a new instance which is ignored
+    val active = pending.start(exec, listener)
+  }
   
   // CORRECT
-  val pending = recorder.prepareRecording(context, opts)
-      .withAudioEnabled() // Chaining works
-  val active = pending.start(exec, listener)
+  run {
+    val pending = recorder.prepareRecording(context, opts)
+        .withAudioEnabled() // Chaining works
+    val active = pending.start(exec, listener)
+  }
   
   // ALSO CORRECT
-  var pending = recorder.prepareRecording(context, opts)
-  pending = pending.withAudioEnabled() // Reassignment
-  val active = pending.start(exec, listener)
-  
+  run {
+    var pending = recorder.prepareRecording(context, opts)
+    pending = pending.withAudioEnabled() // Reassignment
+    val active = pending.start(exec, listener)
+  }
   // [END android_camerax_skill_immutability_1]
 }
 
