@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
+    implementation(libs.screenshot.validation.api)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
