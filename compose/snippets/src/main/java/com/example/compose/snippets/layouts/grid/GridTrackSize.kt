@@ -22,17 +22,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.GridTrackSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,7 +51,7 @@ fun GridTrackSize() {
     ) {
         PastelRedCard("Fixed(100.dp)")
         // [START_EXCLUDE silent]
-        EnableAlternativePattern{
+        EnableAlternativePattern {
             // [END_EXCLUDE]
             PastelGreenCard("Percentage(0.2f)")
             // [START_EXCLUDE silent]
@@ -64,9 +60,9 @@ fun GridTrackSize() {
         PastelBlueCard("Flex(1.fr)")
         // [START_EXCLUDE silent]
         EnableAlternativePattern {
-        // [END_EXCLUDE]
-        PastelYellowCard("Auto")
-        // [START_EXCLUDE silent]
+            // [END_EXCLUDE]
+            PastelYellowCard("Auto")
+            // [START_EXCLUDE silent]
         }
         // [END_EXCLUDE]
 
@@ -158,8 +154,8 @@ fun IntrinsicGridTrackSize() {
         },
         modifier = Modifier.width(480.dp)
     ) {
-        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras imperdiet." )
-        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras imperdiet." )
+        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras imperdiet.")
+        Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras imperdiet.")
     }
     // [END android_compose_layout_grid_intrinsic_grid_track_size]
 }
@@ -183,7 +179,7 @@ fun GridTrackSizeMinMax() {
     ) {
         PastelRedCard("MinMax(100.dp, 1.fr)")
         // [START_EXCLUDE silent]
-        EnableAlternativePattern{
+        EnableAlternativePattern {
             // [END_EXCLUDE]
             PastelGreenCard("Flex(1.fr)")
             // [START_EXCLUDE silent]
@@ -198,7 +194,6 @@ fun GridTrackSizeMinMax() {
 @Composable
 fun LazyColumnInGrid() {
     // [START android_compose_layout_grid_lazy_column_in_grid]
-    val numberList = remember{ (0..100).toList() }
     Grid(
         config = {
             column(1f)
@@ -214,7 +209,7 @@ fun LazyColumnInGrid() {
         Text("Lazy column in a Grid")
         // The LazyColumn is placed in the second row, filling the remaining space.
         LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            items(numberList) { number ->
+            items(100) { number ->
                 PastelGreenCard("Card $number")
             }
         }
