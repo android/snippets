@@ -52,7 +52,7 @@ fun snippet_xr_1() {
   // [END android_camerax_skill_xr_1]
 }
 
-fun snippet_low_light_1() {
+suspend fun snippet_low_light_1() {
   // [START android_camerax_skill_low_light_1]
   val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).await()
   if (extensionsManager.isExtensionAvailable(cameraSelector, ExtensionMode.NIGHT)) {
@@ -140,9 +140,9 @@ fun snippet_external_2() {
   // [END android_camerax_skill_external_2]
 }
 
-fun snippet_external_3() {
+fun snippet_external_3(context: Context) {
   // [START android_camerax_skill_external_3]
-  val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+  val manager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
   manager.registerAvailabilityCallback(object : CameraManager.AvailabilityCallback() {
       override fun onCameraAvailable(cameraId: String) {
           // Check if this is the external camera and reconnect
@@ -223,9 +223,9 @@ fun snippet_thermals_1() {
   // [END android_camerax_skill_thermals_1]
 }
 
-fun snippet_thermals_2() {
+fun snippet_thermals_2(context: Context) {
   // [START android_camerax_skill_thermals_2]
-  val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+  val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
   powerManager.addThermalStatusListener { status ->
       when (status) {
           PowerManager.THERMAL_STATUS_MODERATE -> {
@@ -274,11 +274,13 @@ fun snippet_wear_os_1() {
   // [START android_camerax_skill_wear_os_1]
   // Example: Sending a viewfinder frame to the watch
   val bitmap = previewView.bitmap // Capture current frame
-  val compressed = compressToJpeg(bitmap, quality = 50)
-  val request = PutDataMapRequest.create("/camera/preview").apply {
-      dataMap.putAsset("image", Asset.createFromBytes(compressed))
+  if (bitmap != null) {
+      val compressed = compressToJpeg(bitmap, quality = 50)
+      val request = PutDataMapRequest.create("/camera/preview").apply {
+          dataMap.putAsset("image", Asset.createFromBytes(compressed))
+      }
+      Wearable.getDataClient(context).putDataItem(request.asPutDataRequest())
   }
-  Wearable.getDataClient(context).putDataItem(request.asPutDataRequest())
   
   // [END android_camerax_skill_wear_os_1]
 }
