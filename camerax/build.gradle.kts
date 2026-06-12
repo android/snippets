@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.androidx.camera.compose)
     implementation(libs.androidx.camera.viewfinder.compose)
     implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.window)
+    implementation(libs.play.services.wearable)
+    implementation(libs.mockito.kotlin)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
