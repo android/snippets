@@ -104,7 +104,7 @@ fun snippet_low_light_5() {
 fun snippet_low_light_6() {
   // [START android_camerax_skill_low_light_6]
       val effect = CameraEffect(
-          PREVIEW or VIDEO_CAPTURE,
+          CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE,
           executor,
           llbSurfaceProcessor
       ) { throw it }
