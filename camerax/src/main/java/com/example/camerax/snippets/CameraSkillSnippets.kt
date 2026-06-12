@@ -110,7 +110,7 @@ class ExtensionsManager {
 }
 class ExtensionMode { companion object { const val NIGHT = 1 } }
 
-fun snippet_low_light_1(
+suspend fun snippet_low_light_1(
     context: Context, 
     cameraProvider: androidx.camera.lifecycle.ProcessCameraProvider, 
     cameraSelector: CameraSelector, 
@@ -174,7 +174,7 @@ const val VIDEO_CAPTURE = 2
 fun snippet_low_light_6(executor: java.util.concurrent.Executor, llbSurfaceProcessor: SurfaceProcessor, preview: Preview, videoCapture: androidx.camera.core.UseCase) {
   // [START android_camerax_skill_low_light_6]
       val effect = DummyCameraEffect(
-          PREVIEW or VIDEO_CAPTURE,
+          CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE,
           executor,
           llbSurfaceProcessor
       ) { throw it }
@@ -207,7 +207,7 @@ fun snippet_external_2(cameraInfo: CameraInfo, cameraControl: CameraControl) {
   // [END android_camerax_skill_external_2]
 }
 
-fun snippet_external_3(context: Context, handler: Handler?) {
+fun snippet_external_3(context: Context, handler: Handler? = null) {
   // [START android_camerax_skill_external_3]
   val manager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
   manager.registerAvailabilityCallback(object : CameraManager.AvailabilityCallback() {
@@ -340,17 +340,20 @@ fun snippet_testing_2() {
   // [END android_camerax_skill_testing_2]
 }
 
-fun snippet_wear_os_1(context: Context, previewView: PreviewView, compressToJpeg: (Bitmap, Int) -> ByteArray) {
+fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray = ByteArray(0)
+
+fun snippet_wear_os_1(context: Context, previewView: PreviewView) {
   // [START android_camerax_skill_wear_os_1]
   // Example: Sending a viewfinder frame to the watch
   val bitmap = previewView.bitmap // Capture current frame
   if (bitmap != null) {
-      val compressed = compressToJpeg(bitmap, 50)
+      val compressed = compressToJpeg(bitmap, quality = 50)
       val request = PutDataMapRequest.create("/camera/preview").apply {
           dataMap.putAsset("image", Asset.createFromBytes(compressed))
       }
       Wearable.getDataClient(context).putDataItem(request.asPutDataRequest())
   }
+  
   // [END android_camerax_skill_wear_os_1]
 }
 
