@@ -20,7 +20,7 @@ androidx-credentials = "1.7.0-alpha02"
 androidx-credentials-play-services-auth = "1.7.0-alpha02"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment = "1.8.9"
-androidx-glance-appwidget = "1.1.1"
+androidx-glance-appwidget = "1.3.0-alpha01"
 androidx-lifecycle-compose = "2.10.0"
 androidx-lifecycle-runtime-compose = "2.10.0"
 androidx-lifecycle-viewmodel-navigation3 = "2.10.0-beta01"
@@ -90,6 +90,7 @@ protolayout = "1.4.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 registryDigitalCredentials = "1.0.0-alpha04"
+room = "2.6.1"
 robolectric = "4.16.1"
 roborazzi = "1.59.0"
 spotless = "8.4.0"
@@ -97,6 +98,7 @@ targetSdk = "37"
 tiles = "1.6.0"
 tracing = "1.3.0"
 truth = "1.4.5"
+turbine = "1.1.0"
 tvComposeMaterial3 = "1.1.0"
 validatorPush = "1.0.0-alpha09"
 version-catalog-update = "1.1.0"
@@ -212,6 +214,7 @@ androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolay
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
 androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-room-common = { module = "androidx.room:room-common", version.ref = "room" }
 androidx-registry-digitalcredentials-openid = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-mdoc = { module = "androidx.credentials.registry:registry-digitalcredentials-mdoc", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-sdjwtvc = { module = "androidx.credentials.registry:registry-digitalcredentials-sdjwtvc", version.ref = "registryDigitalCredentials" }
@@ -287,6 +290,7 @@ roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose"
 roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
 tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
@@ -301,6 +305,8 @@ androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "gl
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
 androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
 androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
+glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
+glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
