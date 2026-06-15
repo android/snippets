@@ -297,13 +297,25 @@ fun snippet_testing_1(context: Context) {
   // [END android_camerax_skill_testing_1]
 }
 
+// Dummy FakeImageProxy for tests
+class FakeImageProxy(private val w: Int, private val h: Int) : ImageProxy {
+    override fun close() {}
+    override fun getCropRect(): Rect = Rect(0, 0, w, h)
+    override fun setCropRect(rect: Rect?) {}
+    override fun getFormat(): Int = 0
+    override fun getHeight(): Int = h
+    override fun getWidth(): Int = w
+    override fun getPlanes(): Array<ImageProxy.PlaneProxy> = emptyArray()
+    override fun getImageInfo(): ImageInfo = mock(ImageInfo::class.java)
+    override fun getImage(): android.media.Image? = null
+}
+
 fun snippet_testing_2() {
   // [START android_camerax_skill_testing_2]
-  // Mocking an ImageProxy for ML Testing
-  val mockImage = mock(ImageProxy::class.java)
-  `when`(mockImage.width).thenReturn(640)
-  `when`(mockImage.height).thenReturn(480)
-  // Provide a buffer containing a known test pattern
+  // Create a Fake ImageProxy for ML Testing (Fakes over Mocks)
+  val fakeImage = FakeImageProxy(w = 640, h = 480)
+  
+  // Feed the fake buffer into your analyzer
   // [END android_camerax_skill_testing_2]
 }
 
