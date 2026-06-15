@@ -188,39 +188,6 @@ fun snippet_low_light_6(executor: java.util.concurrent.Executor, llbSurfaceProce
   // [END android_camerax_skill_low_light_6]
 }
 
-fun snippet_external_1() {
-  // [START android_camerax_skill_external_1]
-  val cameraSelector = CameraSelector.Builder()
-      .requireLensFacing(CameraSelector.LENS_FACING_EXTERNAL)
-      .build()
-  // [END android_camerax_skill_external_1]
-}
-
-fun snippet_external_2(cameraInfo: CameraInfo, cameraControl: CameraControl) {
-  // [START android_camerax_skill_external_2]
-  val hasFlash = cameraInfo.hasFlashUnit()
-  if (hasFlash) {
-      cameraControl.enableTorch(true)
-  } else {
-      // Gracefully disable flash UI/buttons
-  }
-  // [END android_camerax_skill_external_2]
-}
-
-fun snippet_external_3(context: Context, handler: Handler? = null) {
-  // [START android_camerax_skill_external_3]
-  val manager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-  manager.registerAvailabilityCallback(object : CameraManager.AvailabilityCallback() {
-      override fun onCameraAvailable(cameraId: String) {
-          // Check if this is the external camera and reconnect
-      }
-  
-      override fun onCameraUnavailable(cameraId: String) {
-          // Fallback to internal camera if the external one is pulled
-      }
-  }, handler)
-  // [END android_camerax_skill_external_3]
-}
 
 fun snippet_mlkit_spatial_1(previewView: PreviewView, imageProxy: ImageProxy) {
   // [START android_camerax_skill_mlkit_spatial_1]
