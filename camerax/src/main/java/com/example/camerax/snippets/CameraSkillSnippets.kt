@@ -300,8 +300,8 @@ fun snippet_testing_1(context: Context) {
 // Dummy FakeImageProxy for tests
 class FakeImageProxy(private val w: Int, private val h: Int) : ImageProxy {
     override fun close() {}
-    override fun getCropRect(): Rect = Rect(0, 0, w, h)
-    override fun setCropRect(rect: Rect?) {}
+    override fun getCropRect(): android.graphics.Rect = android.graphics.Rect(0, 0, w, h)
+    override fun setCropRect(rect: android.graphics.Rect?) {}
     override fun getFormat(): Int = 0
     override fun getHeight(): Int = h
     override fun getWidth(): Int = w
