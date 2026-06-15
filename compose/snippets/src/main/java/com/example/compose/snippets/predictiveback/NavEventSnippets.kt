@@ -20,8 +20,8 @@ package com.example.compose.snippets.predictiveback
 
 import android.os.Bundle
 import android.util.Log
-import androidx.navigationevent.NavigationEvent.Companion.EDGE_LEFT
-import androidx.navigationevent.NavigationEvent.Companion.EDGE_RIGHT
+import androidx.navigationevent.NavigationEvent.EDGE_LEFT
+import androidx.navigationevent.NavigationEvent.EDGE_RIGHT
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.MainThread
