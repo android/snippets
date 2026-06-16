@@ -43,7 +43,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import java.util.concurrent.Executor
 
 @Composable
-fun InitializeCamera2Snippet() {
+private fun InitializeCamera2Snippet() {
   // [START android_camerax_initialize_provider_camera2]
   val context = LocalContext.current
   val lifecycleOwner = LocalLifecycleOwner.current
@@ -82,14 +82,14 @@ fun InitializeCamera2Snippet() {
   // [END android_camerax_initialize_provider_camera2]
 }
 
-fun ViewPreviewSnippet2(preview: Preview, previewView: androidx.camera.view.PreviewView) {
+private fun ViewPreviewSnippet2(preview: Preview, previewView: androidx.camera.view.PreviewView) {
   // [START android_camerax_view_preview_camera2]
   preview.setSurfaceProvider(previewView.surfaceProvider)
   // [END android_camerax_view_preview_camera2]
 }
 
 @Composable
-fun ComposePreviewSnippet2() {
+private fun ComposePreviewSnippet2() {
   // [START android_camerax_compose_preview_camera2]
   var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
   val preview = remember {
@@ -100,7 +100,7 @@ fun ComposePreviewSnippet2() {
   // [END android_camerax_compose_preview_camera2]
 }
 
-fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, lensFacing: Int) {
+private fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, lensFacing: Int) {
   // [START android_camerax_capture_photo_camera2]
   imageCapture.takePicture(
     cameraExecutor,
@@ -134,7 +134,7 @@ fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, l
   // [END android_camerax_capture_photo_camera2]
 }
 
-fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: Executor) {
+private fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: Executor) {
   // [START android_camerax_image_analysis]
   imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
     try {
@@ -150,7 +150,7 @@ fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: Executor)
 }
 
 @ExperimentalCamera2Interop
-fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
+private fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
   // [START android_camerax_camera2_interop]
   // Use Camera2Interop to set Camera2-specific capture options
   val extender = Camera2Interop.Extender(imageCaptureBuilder)
@@ -163,31 +163,3 @@ fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
   )
   // [END android_camerax_camera2_interop]
 }
-
-const val CAMERA_X_DEPENDENCIES_TOML_C2 = """
-// [START android_camerax_dependencies_toml_c2]
-[versions]
-camerax = "<minimum_version_needed>"
-
-[libraries]
-androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
-androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
-androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
-androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
-androidx-camera-compose = { group = "androidx.camera", name = "camera-compose", version.ref = "camerax" }
-# Required for Camera2 Interop
-androidx-camera-camera2-pipe = { group = "androidx.camera", name = "camera-camera2-pipe-integration", version.ref = "camerax" }
-// [END android_camerax_dependencies_toml_c2]
-"""
-
-const val CAMERA_X_DEPENDENCIES_KTS_C2 = """
-// [START android_camerax_dependencies_kts_c2]
-implementation(libs.androidx.camera.core)
-implementation(libs.androidx.camera.camera2)
-implementation(libs.androidx.camera.lifecycle)
-implementation(libs.androidx.camera.view)
-implementation(libs.androidx.camera.compose)
-// Optional: Camera2 Pipe integration for interop
-implementation(libs.androidx.camera.camera2.pipe)
-// [END android_camerax_dependencies_kts_c2]
-"""
