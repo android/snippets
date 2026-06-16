@@ -49,6 +49,7 @@ import androidx.camera.core.UseCase
 import androidx.camera.core.UseCaseGroup
 import androidx.camera.core.ViewPort
 import androidx.camera.core.takePicture
+import androidx.camera.extensions.CameraExtensionsControl
 import androidx.camera.extensions.ExtensionMode
 import androidx.camera.extensions.ExtensionsManager
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -153,7 +154,14 @@ private fun snippet_low_light_2() {
   // [END android_camerax_skill_low_light_2]
 }
 
-
+private suspend fun snippet_low_light_3(context: Context, cameraProvider: ProcessCameraProvider, camera: Camera, strength: Int) {
+  // [START android_camerax_skill_low_light_3]
+      // Set the strength of the active extension (e.g. NIGHT mode intensity)
+      val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).await()
+      val extensionsControl = extensionsManager.getCameraExtensionsControl(camera.cameraControl)
+      extensionsControl?.setExtensionStrength(strength)
+  // [END android_camerax_skill_low_light_3]
+}
 
 private suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOptions: ImageCapture.OutputFileOptions) {
   // [START android_camerax_skill_low_light_4]
