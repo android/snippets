@@ -22,20 +22,21 @@ android {
             disable += "UseKtx"
         }
     }
-    kotlin {
-        jvmToolchain(17)
-
-        compilerOptions {
-            allWarningsAsErrors = true
-            // TODO: b/508214289
-            freeCompilerArgs.add("-Xwarning-level=TYPEALIAS_EXPANSION_DEPRECATION:disabled")
-        }
-    }
     buildFeatures {
         compose = true
     }
     lint {
         disable += "RestrictedApi"
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+
+    compilerOptions {
+        allWarningsAsErrors = true
+        // TODO: b/508214289
+        freeCompilerArgs.add("-Xwarning-level=TYPEALIAS_EXPANSION_DEPRECATION:disabled")
     }
 }
 
