@@ -203,6 +203,7 @@ private object InitializeNamespace {
     // [END android_bluetooth_initialize]
 }
 
+@SuppressLint("MissingPermission")
 private object ConnectGattNamespace {
     class BluetoothLeService : Service() {
         // [START android_bluetooth_connect_gatt]
@@ -220,6 +221,7 @@ private object ConnectGattNamespace {
     }
 }
 
+@SuppressLint("MissingPermission")
 private object ConnectNamespace {
     // [START android_bluetooth_connect]
     class BluetoothLeService : Service() {
@@ -258,6 +260,7 @@ private object ConnectNamespace {
     // [END android_bluetooth_connect]
 }
 
+@SuppressLint("MissingPermission")
 private object CallbackNamespace {
     // [START android_bluetooth_callback]
     class BluetoothLeService : Service() {
@@ -302,6 +305,7 @@ private object CallbackNamespace {
     // [END android_bluetooth_callback]
 }
 
+@SuppressLint("MissingPermission")
 private object CloseNamespace {
     // [START android_bluetooth_close]
     class BluetoothLeService : Service() {

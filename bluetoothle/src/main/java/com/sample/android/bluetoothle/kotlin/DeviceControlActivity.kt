@@ -17,6 +17,7 @@
 package com.sample.android.bluetoothle.kotlin
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -190,12 +191,15 @@ private object ServiceConnectionInitializeNamespace {
         }
 
         // [START_EXCLUDE]
-        override fun onCreate(savedInstanceState: Bundle?) {}
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+        }
         // [END_EXCLUDE]
     }
     // [END android_bluetooth_service_connection_initialize]
 }
 
+@SuppressLint("MissingPermission")
 private object ServiceConnectionConnectNamespace {
     class DeviceControlActivity : AppCompatActivity() {
 
@@ -230,10 +234,13 @@ private object ServiceConnectionConnectNamespace {
         }
         // [END android_bluetooth_service_connection_connect]
 
-        override fun onCreate(savedInstanceState: Bundle?) {}
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+        }
     }
 }
 
+@SuppressLint("MissingPermission")
 private object UpdateReceiverNamespace {
     // [START android_bluetooth_update_receiver]
     class DeviceControlActivity : AppCompatActivity() {
@@ -244,7 +251,9 @@ private object UpdateReceiverNamespace {
         private var connected = false
         private val TAG = "DeviceControlActivity"
         private fun updateConnectionState(resourceId: Int) {}
-        override fun onCreate(savedInstanceState: Bundle?) {}
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+        }
         // [END_EXCLUDE]
         private val gattUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
