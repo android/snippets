@@ -153,12 +153,7 @@ private fun snippet_low_light_2() {
   // [END android_camerax_skill_low_light_2]
 }
 
-private fun snippet_low_light_3(camera: Camera, strength: Int) {
-  // [START android_camerax_skill_low_light_3]
-      // Future CameraX API (1.7.0+): camera.cameraControl.setExtensionStrength(strength) 
-      // Current alternative: Use ExtensionsManager for binary ON/OFF support
-  // [END android_camerax_skill_low_light_3]
-}
+
 
 private suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOptions: ImageCapture.OutputFileOptions) {
   // [START android_camerax_skill_low_light_4]
