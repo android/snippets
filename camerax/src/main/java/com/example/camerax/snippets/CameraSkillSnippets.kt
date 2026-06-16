@@ -112,14 +112,10 @@ private fun snippet_immutability_2(width: Int, height: Int, displayRotation: Int
   // [START android_camerax_skill_immutability_2]
   val viewport = ViewPort.Builder(Rational(width, height), displayRotation)
       .setScaleType(ViewPort.FILL_CENTER)
-      .setRotation(displayRotation)
       .build()
   // [END android_camerax_skill_immutability_2]
 }
 
-// Placeholder classes for XR (App-specific or 3rd party SDK)
-private class XrSession { fun getHeadPose(t: Long): HeadPose = HeadPose() }
-private class HeadPose { fun getProjectionMatrix(i: Int): FloatArray = FloatArray(16) }
 
 private fun snippet_xr_1(xrSession: XrSession, frameTime: Long, eyeIndex: Int) {
   // [START android_camerax_skill_xr_1]
@@ -248,7 +244,6 @@ private fun snippet_foldables_2(viewfinder: View, display: Display, preview: Pre
   // [START android_camerax_skill_foldables_2]
   val viewport = ViewPort.Builder(Rational(viewfinder.width, viewfinder.height), display.rotation)
       .setScaleType(ViewPort.FILL_CENTER)
-      .setRotation(display.rotation)
       .build()
   
   val useCaseGroup = UseCaseGroup.Builder()
@@ -301,19 +296,6 @@ private suspend fun snippet_testing_1(context: Context) {
   // [END android_camerax_skill_testing_1]
 }
 
-// FakeImageProxy for tests
-private class FakeImageProxy(private val w: Int, private val h: Int) : ImageProxy {
-    override fun close() {}
-    override fun getCropRect(): Rect = Rect(0, 0, w, h)
-    override fun setCropRect(rect: Rect?) {}
-    override fun getFormat(): Int = 0
-    override fun getHeight(): Int = h
-    override fun getWidth(): Int = w
-    override fun getPlanes(): Array<ImageProxy.PlaneProxy> = emptyArray()
-    override fun getImageInfo(): ImageInfo = mock(ImageInfo::class.java)
-    @android.annotation.SuppressLint("UnsafeOptInUsageError")
-    override fun getImage(): Image? = null
-}
 
 private fun snippet_testing_2() {
   // [START android_camerax_skill_testing_2]
@@ -324,11 +306,6 @@ private fun snippet_testing_2() {
   // [END android_camerax_skill_testing_2]
 }
 
-private fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray {
-    val stream = java.io.ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
-    return stream.toByteArray()
-}
 
 private fun snippet_wear_os_1(context: Context, previewView: PreviewView) {
   // [START android_camerax_skill_wear_os_1]
@@ -352,7 +329,35 @@ private fun snippet_wear_os_2(context: Context, nodeId: String) {
   // [END android_camerax_skill_wear_os_2]
 }
 
-private fun PendingRecording.start(e: Executor, l: Consumer<VideoRecordEvent>): Any = Any()
-private fun ViewPort.Builder.setRotation(r: Int): ViewPort.Builder = this
+// --- PLACEHOLDERS AND HELPERS ---
+
+// Placeholder classes for XR (App-specific or 3rd party SDK)
+private class XrSession { fun getHeadPose(t: Long): HeadPose = HeadPose() }
+private class HeadPose { fun getProjectionMatrix(i: Int): FloatArray = FloatArray(16) }
+
+// FakeImageProxy for tests
+private class FakeImageProxy(private val w: Int, private val h: Int) : ImageProxy {
+    override fun close() {}
+    override fun getCropRect(): Rect = Rect(0, 0, w, h)
+    override fun setCropRect(rect: Rect?) {}
+    override fun getFormat(): Int = 0
+    override fun getHeight(): Int = h
+    override fun getWidth(): Int = w
+    override fun getPlanes(): Array<ImageProxy.PlaneProxy> = emptyArray()
+    override fun getImageInfo(): ImageInfo = mock(ImageInfo::class.java)
+    @android.annotation.SuppressLint("UnsafeOptInUsageError")
+    override fun getImage(): Image? = null
+}
+
+// Helper function for Wear OS
+private fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray {
+    val stream = java.io.ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+    return stream.toByteArray()
+}
+
+// Fake Extension for MLKit Spatial Blueprint
 private fun ViewPort.getTransformationMatrix(i: Int): Matrix = Matrix()
+
+// Dummy Implementation for CameraEffect
 private class SimpleCameraEffect(targets: Int, executor: Executor, processor: SurfaceProcessor, consumer: Consumer<Throwable>) : CameraEffect(targets, executor, processor, consumer)
