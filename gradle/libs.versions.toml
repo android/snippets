@@ -138,10 +138,14 @@ androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-
 androidx-appfunctions-service = { module = "androidx.appfunctions:appfunctions-service", version.ref = "androidx-appfunctions" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "androidx-cameraX" }
 androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "androidx-cameraX" }
+androidx-camera-ktx = { module = "androidx.camera:camera-ktx", version.ref = "androidx-cameraX" }
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "androidx-cameraX" }
 androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "androidx-cameraX" }
 androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:viewfinder-compose", version.ref = "androidx-cameraX" }
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
+androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "androidx-cameraX" }
+androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "androidx-cameraX" }
+mlkit-face-detection = "com.google.mlkit:face-detection:16.1.7"
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
