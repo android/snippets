@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+@file:SuppressWarnings("RestrictedApi")
 package com.example.xr.scenecore
 
 import android.content.ContentResolver
