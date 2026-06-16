@@ -79,6 +79,8 @@ dependencies {
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.camera.video)
+    implementation(libs.androidx.camera.effects)
+    implementation(libs.androidx.media3.effect)
     implementation(libs.mlkit.face.detection)
     implementation(libs.androidx.window)
     implementation(libs.play.services.wearable)

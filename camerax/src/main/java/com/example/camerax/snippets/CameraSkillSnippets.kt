@@ -203,6 +203,23 @@ private fun snippet_low_light_6(executor: Executor, llbSurfaceProcessor: Surface
   // [END android_camerax_skill_low_light_6]
 }
 
+private fun snippet_effects_1(executor: Executor, useCaseGroupBuilder: UseCaseGroup.Builder) {
+  // [START android_camerax_skill_effects_1]
+  // 1. Create the CameraEffect
+  // The targets bitmask can be any combination of PREVIEW, VIDEO_CAPTURE, or IMAGE_CAPTURE
+  val targets = CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE or CameraEffect.IMAGE_CAPTURE
+  
+  val effect = SimpleCameraEffect(
+      targets,
+      executor,
+      GrayscaleSurfaceProcessor() 
+  ) { throw it }
+  
+  // 2. Apply to UseCaseGroup
+  useCaseGroupBuilder.addEffect(effect)
+  // [END android_camerax_skill_effects_1]
+}
+
 
 private fun snippet_mlkit_spatial_1(previewView: PreviewView, imageProxy: ImageProxy) {
   // [START android_camerax_skill_mlkit_spatial_1]
@@ -359,3 +376,9 @@ private fun ViewPort.getTransformationMatrix(i: Int): Matrix = Matrix()
 
 // Stand-in Implementation for CameraEffect
 private class SimpleCameraEffect(targets: Int, executor: Executor, processor: SurfaceProcessor, consumer: Consumer<Throwable>) : CameraEffect(targets, executor, processor, consumer)
+
+// Placeholder for Media3-based Grayscale Processor
+private class GrayscaleSurfaceProcessor : SurfaceProcessor {
+    override fun onInputSurface(request: androidx.camera.core.SurfaceRequest) {}
+    override fun onOutputSurface(request: androidx.camera.core.SurfaceOutput) {}
+}
