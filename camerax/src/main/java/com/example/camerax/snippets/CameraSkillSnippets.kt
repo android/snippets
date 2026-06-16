@@ -173,15 +173,10 @@ private suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOption
 }
 
 
-@android.annotation.SuppressLint("UnsafeOptInUsageError", "WrongConstant")
-private fun snippet_low_light_5(previewBuilder: Preview.Builder) {
+private fun snippet_low_light_5(camera: Camera) {
   // [START android_camerax_skill_low_light_5]
-      // Enable Low Light Boost (LLB) using Camera2Interop extender
-      val ext = Camera2Interop.Extender(previewBuilder)
-      ext.setCaptureRequestOption(
-          CaptureRequest.CONTROL_AE_MODE,
-          4
-      )
+      // Enable Low Light Boost (LLB) natively in CameraX 1.4+
+      camera.cameraControl.enableLowLightBoostAsync(true)
   // [END android_camerax_skill_low_light_5]
 }
 
