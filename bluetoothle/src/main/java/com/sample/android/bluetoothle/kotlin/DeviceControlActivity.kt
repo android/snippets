@@ -86,8 +86,6 @@ class DeviceControlActivity : AppCompatActivity() {
     }
     // [START_EXCLUDE silent]
 
-    // [START android_bluetooth_update_receiver]
-    // In DeviceControlActivity
     private val gattUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
@@ -125,7 +123,6 @@ class DeviceControlActivity : AppCompatActivity() {
             addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED)
         }
     }
-    // [END android_bluetooth_update_receiver]
 
     private fun updateConnectionState(resourceId: Int) {
         // Placeholder implementation
@@ -134,3 +131,162 @@ class DeviceControlActivity : AppCompatActivity() {
 }
 // [END android_bluetooth_bind_service]
 // [END android_bluetooth_activity_all]
+
+/**
+ * Namespaces for progressive versions of ServiceConnection to match documentation.
+ */
+private object ServiceConnectionSimpleNamespace {
+    class DeviceControlActivity {
+        private var bluetoothService: BluetoothLeService? = null
+
+        // [START android_bluetooth_service_connection_simple]
+        // Code to manage Service lifecycle.
+        val serviceConnection: ServiceConnection = object : ServiceConnection {
+            override fun onServiceConnected(
+                componentName: ComponentName,
+                service: IBinder
+            ) {
+                bluetoothService = (service as LocalBinder).getService()
+                bluetoothService?.let { bluetooth ->
+                    // call functions on service to check connection and connect to devices
+                }
+            }
+
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                bluetoothService = null
+            }
+        }
+        // [END android_bluetooth_service_connection_simple]
+    }
+}
+
+private object ServiceConnectionInitializeNamespace {
+    // [START android_bluetooth_service_connection_initialize]
+    class DeviceControlActivity : AppCompatActivity() {
+
+        // [START_EXCLUDE silent]
+        private var bluetoothService: BluetoothLeService? = null
+        private val TAG = "DeviceControlActivity"
+        // [END_EXCLUDE]
+        // Code to manage Service lifecycle.
+        private val serviceConnection: ServiceConnection = object : ServiceConnection {
+            override fun onServiceConnected(
+                componentName: ComponentName,
+                service: IBinder
+            ) {
+                bluetoothService = (service as LocalBinder).getService()
+                bluetoothService?.let { bluetooth ->
+                    if (!bluetooth.initialize()) {
+                        Log.e(TAG, "Unable to initialize Bluetooth")
+                        finish()
+                    }
+                    // perform device connection
+                }
+            }
+
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                bluetoothService = null
+            }
+        }
+
+        // [START_EXCLUDE]
+        override fun onCreate(savedInstanceState: Bundle?) {}
+        // [END_EXCLUDE]
+    }
+    // [END android_bluetooth_service_connection_initialize]
+}
+
+private object ServiceConnectionConnectNamespace {
+    class DeviceControlActivity : AppCompatActivity() {
+
+        private var bluetoothService: BluetoothLeService? = null
+        private var deviceAddress: String? = null
+        private val TAG = "DeviceControlActivity"
+
+        // [START android_bluetooth_service_connection_connect]
+        // Code to manage Service lifecycle.
+        private val serviceConnection: ServiceConnection = object : ServiceConnection {
+            // [START_EXCLUDE silent]
+            @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+            // [END_EXCLUDE]
+            override fun onServiceConnected(
+                componentName: ComponentName,
+                service: IBinder
+            ) {
+                bluetoothService = (service as LocalBinder).getService()
+                bluetoothService?.let { bluetooth ->
+                    if (!bluetooth.initialize()) {
+                        Log.e(TAG, "Unable to initialize Bluetooth")
+                        finish()
+                    }
+                    // perform device connection
+                    deviceAddress?.let { bluetooth.connect(it) }
+                }
+            }
+
+            override fun onServiceDisconnected(componentName: ComponentName) {
+                bluetoothService = null
+            }
+        }
+        // [END android_bluetooth_service_connection_connect]
+
+        override fun onCreate(savedInstanceState: Bundle?) {}
+    }
+}
+
+private object UpdateReceiverNamespace {
+    // [START android_bluetooth_update_receiver]
+    class DeviceControlActivity : AppCompatActivity() {
+
+        // [START_EXCLUDE silent]
+        private var bluetoothService: BluetoothLeService? = null
+        private var deviceAddress: String? = null
+        private var connected = false
+        private val TAG = "DeviceControlActivity"
+        private fun updateConnectionState(resourceId: Int) {}
+        override fun onCreate(savedInstanceState: Bundle?) {}
+        // [END_EXCLUDE]
+        private val gattUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                when (intent.action) {
+                    BluetoothLeService.ACTION_GATT_CONNECTED -> {
+                        connected = true
+                        updateConnectionState(R.string.connected)
+                    }
+                    BluetoothLeService.ACTION_GATT_DISCONNECTED -> {
+                        connected = false
+                        updateConnectionState(R.string.disconnected)
+                    }
+                }
+            }
+        }
+
+        // [START_EXCLUDE silent]
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+        // [END_EXCLUDE]
+        override fun onResume() {
+            super.onResume()
+            registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter())
+            bluetoothService?.let { service ->
+                deviceAddress?.let { address ->
+                    val result = service.connect(address)
+                    Log.d(TAG, "Connect request result=$result")
+                }
+            }
+        }
+
+        override fun onPause() {
+            super.onPause()
+            unregisterReceiver(gattUpdateReceiver)
+        }
+
+        private fun makeGattUpdateIntentFilter(): IntentFilter {
+            return IntentFilter().apply {
+                addAction(BluetoothLeService.ACTION_GATT_CONNECTED)
+                addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED)
+            }
+        }
+    }
+    // [END android_bluetooth_update_receiver]
+}
+
