@@ -359,5 +359,5 @@ private fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray {
 // Fake Extension for MLKit Spatial Blueprint
 private fun ViewPort.getTransformationMatrix(i: Int): Matrix = Matrix()
 
-// Dummy Implementation for CameraEffect
+// Stand-in Implementation for CameraEffect
 private class SimpleCameraEffect(targets: Int, executor: Executor, processor: SurfaceProcessor, consumer: Consumer<Throwable>) : CameraEffect(targets, executor, processor, consumer)
