@@ -72,6 +72,7 @@ ksp = "2.3.7"
 ktlint = "1.5.0"
 lifecycleService = "2.10.0"
 maps-compose = "8.3.0"
+mlkit-face-detection = "16.1.7"
 material = "1.14.0-beta01"
 material3-adaptive = "1.2.0"
 material3-adaptive-navigation-suite = "1.4.0"
@@ -145,7 +146,7 @@ androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:view
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
 androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "androidx-cameraX" }
 androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "androidx-cameraX" }
-mlkit-face-detection = "com.google.mlkit:face-detection:16.1.7"
+mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
