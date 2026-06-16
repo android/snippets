@@ -14,25 +14,52 @@
  * limitations under the License.
  */
 
-@file:android.annotation.SuppressLint("MissingPermission", "NewApi", "WrongConstant", "UnsafeOptInUsageError")
+@file:android.annotation.SuppressLint("MissingPermission", "NewApi")
 package com.example.camerax.snippets
 
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.PointF
+import android.graphics.Rect
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraMetadata
+import android.hardware.camera2.CaptureRequest
+import android.media.Image
 import android.os.Handler
 import android.os.PowerManager
 import android.util.Rational
 import android.view.Display
 import android.view.View
 import androidx.camera.camera2.interop.Camera2Interop
-/* ktlint-disable no-wildcard-imports */
-import androidx.camera.core.*
-import androidx.camera.video.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraControl
+import androidx.camera.core.CameraEffect
+import androidx.camera.core.CameraInfo
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageInfo
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceProcessor
+import androidx.camera.core.UseCase
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
+import androidx.camera.core.takePicture
+import androidx.camera.extensions.ExtensionMode
+import androidx.camera.extensions.ExtensionsManager
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.awaitInstance
+import androidx.camera.video.FileOutputOptions
+import androidx.camera.video.PendingRecording
+import androidx.camera.video.Recorder
+import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.util.Consumer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
@@ -42,18 +69,20 @@ import androidx.window.layout.WindowInfoTracker
 import com.google.android.gms.wearable.Asset
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.face.FaceLandmark
+import java.util.concurrent.Executor
+import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
-// Auto-generated snippets from Camera Master Skill
-
 fun snippet_immutability_1(
     context: Context,
     recorder: Recorder,
-    opts: RecordingOptions,
-    exec: java.util.concurrent.Executor,
-    listener: androidx.core.util.Consumer<VideoRecordEvent>
+    opts: FileOutputOptions,
+    exec: Executor,
+    listener: Consumer<VideoRecordEvent>
 ) {
   // [START android_camerax_skill_immutability_1]
   // WRONG
@@ -88,7 +117,7 @@ fun snippet_immutability_2(width: Int, height: Int, displayRotation: Int) {
   // [END android_camerax_skill_immutability_2]
 }
 
-// Dummy classes for XR
+// Placeholder classes for XR (App-specific or 3rd party SDK)
 class XrSession { fun getHeadPose(t: Long): HeadPose = HeadPose() }
 class HeadPose { fun getProjectionMatrix(i: Int): FloatArray = FloatArray(16) }
 
@@ -100,26 +129,17 @@ fun snippet_xr_1(xrSession: XrSession, frameTime: Long, eyeIndex: Int) {
   // [END android_camerax_skill_xr_1]
 }
 
-// Dummy classes for Extensions
-class ExtensionsManager {
-    fun isExtensionAvailable(s: CameraSelector, m: Int): Boolean = true
-    fun getExtensionEnabledCameraSelector(s: CameraSelector, m: Int): CameraSelector = s
-    companion object {
-        fun getInstanceAsync(c: Context, p: androidx.camera.lifecycle.ProcessCameraProvider): com.google.common.util.concurrent.ListenableFuture<ExtensionsManager> = mock(com.google.common.util.concurrent.ListenableFuture::class.java) as com.google.common.util.concurrent.ListenableFuture<ExtensionsManager>
-    }
-}
-class ExtensionMode { companion object { const val NIGHT = 1 } }
-
 suspend fun snippet_low_light_1(
     context: Context, 
-    cameraProvider: androidx.camera.lifecycle.ProcessCameraProvider, 
+    cameraProvider: ProcessCameraProvider, 
     cameraSelector: CameraSelector, 
     lifecycleOwner: LifecycleOwner, 
     imageCapture: ImageCapture, 
     preview: Preview
 ) {
   // [START android_camerax_skill_low_light_1]
-  val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).get()
+  // Use ListenableFuture.await() extension function for coroutine support
+  val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).await()
   if (extensionsManager.isExtensionAvailable(cameraSelector, ExtensionMode.NIGHT)) {
       val nightSelector = extensionsManager.getExtensionEnabledCameraSelector(
           cameraSelector, ExtensionMode.NIGHT
@@ -137,43 +157,44 @@ fun snippet_low_light_2() {
   // [END android_camerax_skill_low_light_2]
 }
 
-// Dummy extensions
-fun androidx.camera.core.CameraInfo.isCurrentExtensionModeStrengthSupported(): Boolean = true
-fun androidx.camera.core.CameraControl.setExtensionStrength(s: Int) {}
-fun androidx.camera.core.CameraControl.enableLowLightBoostAsync(b: Boolean) {}
-
 fun snippet_low_light_3(camera: Camera, strength: Int) {
   // [START android_camerax_skill_low_light_3]
-      if (camera.cameraInfo.isCurrentExtensionModeStrengthSupported()) {
-          camera.cameraControl.setExtensionStrength(strength) // 0 - 100
-      }
+      // Future CameraX API (1.7.0+): camera.cameraControl.setExtensionStrength(strength) 
+      // Current alternative: Use ExtensionsManager for binary ON/OFF support
   // [END android_camerax_skill_low_light_3]
 }
 
-fun snippet_low_light_4(imageCapture: ImageCapture, outputOptions: ImageCapture.OutputFileOptions, executor: java.util.concurrent.Executor) {
+suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOptions: ImageCapture.OutputFileOptions) {
   // [START android_camerax_skill_low_light_4]
-      imageCapture.takePicture(outputOptions, executor, object : ImageCapture.OnImageSavedCallback {
-          override fun onCaptureProcessProgressed(progress: Int) {
-              // Update UI progress bar (0-100)
-          }
-          override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {}
-          override fun onError(exception: ImageCaptureException) {}
-      })
+      // Use the suspend extension function for takePicture to avoid callback boilerplate
+      try {
+          val result = imageCapture.takePicture(outputOptions)
+          // Use result.savedUri or other fields
+      } catch (e: ImageCaptureException) {
+          // Handle capture failure
+      }
   // [END android_camerax_skill_low_light_4]
 }
 
-fun snippet_low_light_5(camera: Camera) {
+
+@android.annotation.SuppressLint("UnsafeOptInUsageError", "WrongConstant")
+fun snippet_low_light_5(previewBuilder: Preview.Builder) {
   // [START android_camerax_skill_low_light_5]
-      camera.cameraControl.enableLowLightBoostAsync(true)
+      // Enable Low Light Boost (LLB) using Camera2Interop extender
+      val ext = Camera2Interop.Extender(previewBuilder)
+      ext.setCaptureRequestOption(
+          CaptureRequest.CONTROL_AE_MODE,
+          4
+      )
   // [END android_camerax_skill_low_light_5]
 }
 
 const val PREVIEW = 1
 const val VIDEO_CAPTURE = 2
 
-fun snippet_low_light_6(executor: java.util.concurrent.Executor, llbSurfaceProcessor: SurfaceProcessor, preview: Preview, videoCapture: androidx.camera.core.UseCase) {
+fun snippet_low_light_6(executor: Executor, llbSurfaceProcessor: SurfaceProcessor, preview: Preview, videoCapture: UseCase) {
   // [START android_camerax_skill_low_light_6]
-      val effect = DummyCameraEffect(
+      val effect = SimpleCameraEffect(
           CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE,
           executor,
           llbSurfaceProcessor
@@ -198,9 +219,7 @@ fun snippet_mlkit_spatial_1(previewView: PreviewView, imageProxy: ImageProxy) {
   // [END android_camerax_skill_mlkit_spatial_1]
 }
 
-class Landmark { val position: android.graphics.PointF = android.graphics.PointF() }
-
-fun snippet_mlkit_spatial_2(landmark: Landmark, analysisWidth: Float, screenWidth: Float, analysisHeight: Float, screenHeight: Float) {
+fun snippet_mlkit_spatial_2(landmark: FaceLandmark, analysisWidth: Float, screenWidth: Float, analysisHeight: Float, screenHeight: Float) {
   // [START android_camerax_skill_mlkit_spatial_2]
   // Example: Converting a Pose landmark to a Screen Coordinate
   val screenX = landmark.position.x / analysisWidth * screenWidth
@@ -239,6 +258,8 @@ fun snippet_foldables_2(viewfinder: View, display: Display, preview: Preview) {
   // [END android_camerax_skill_foldables_2]
 }
 
+
+@android.annotation.SuppressLint("UnsafeOptInUsageError", "WrongConstant")
 fun snippet_thermals_1() {
   // [START android_camerax_skill_thermals_1]
   // In CameraX: Set the hint on your Use Case
@@ -273,41 +294,25 @@ fun snippet_thermals_2(context: Context) {
   // [END android_camerax_skill_thermals_2]
 }
 
-// Dummy FakeCameraConfig
-class FakeCameraConfig {
-    class Builder {
-        fun setLensFacing(i: Int) = this
-        fun setSensorRotation(i: Int) = this
-        fun setHasFlashUnit(b: Boolean) = this
-        fun build(): Any = Any()
-    }
-}
-
-fun snippet_testing_1(context: Context) {
+suspend fun snippet_testing_1(context: Context) {
   // [START android_camerax_skill_testing_1]
-  // Setup a Fake Camera for a Unit Test
-  val fakeCameraConfig = FakeCameraConfig.Builder()
-      .setLensFacing(CameraSelector.LENS_FACING_BACK)
-      .setSensorRotation(90)
-      .setHasFlashUnit(false) // Test the "No Flash" logic
-      .build()
-  
-  val cameraProvider = androidx.camera.lifecycle.ProcessCameraProvider.getInstance(context).get()
-  // Inject the fake configuration
+  // Use awaitInstance() extension function for coroutine-based provider retrieval
+  val cameraProvider = ProcessCameraProvider.awaitInstance(context)
   // [END android_camerax_skill_testing_1]
 }
 
-// Dummy FakeImageProxy for tests
+// FakeImageProxy for tests
 class FakeImageProxy(private val w: Int, private val h: Int) : ImageProxy {
     override fun close() {}
-    override fun getCropRect(): android.graphics.Rect = android.graphics.Rect(0, 0, w, h)
-    override fun setCropRect(rect: android.graphics.Rect?) {}
+    override fun getCropRect(): Rect = Rect(0, 0, w, h)
+    override fun setCropRect(rect: Rect?) {}
     override fun getFormat(): Int = 0
     override fun getHeight(): Int = h
     override fun getWidth(): Int = w
     override fun getPlanes(): Array<ImageProxy.PlaneProxy> = emptyArray()
     override fun getImageInfo(): ImageInfo = mock(ImageInfo::class.java)
-    override fun getImage(): android.media.Image? = null
+    @android.annotation.SuppressLint("UnsafeOptInUsageError")
+    override fun getImage(): Image? = null
 }
 
 fun snippet_testing_2() {
@@ -319,7 +324,11 @@ fun snippet_testing_2() {
   // [END android_camerax_skill_testing_2]
 }
 
-fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray = ByteArray(0)
+fun compressToJpeg(bitmap: Bitmap, quality: Int): ByteArray {
+    val stream = java.io.ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+    return stream.toByteArray()
+}
 
 fun snippet_wear_os_1(context: Context, previewView: PreviewView) {
   // [START android_camerax_skill_wear_os_1]
@@ -342,11 +351,8 @@ fun snippet_wear_os_2(context: Context, nodeId: String) {
   Wearable.getMessageClient(context).sendMessage(nodeId, "/camera/capture", null)
   // [END android_camerax_skill_wear_os_2]
 }
-// Compiler fixes
-class RecordingOptions
-fun Recorder.prepareRecording(c: Context, o: RecordingOptions): PendingRecording = mock(PendingRecording::class.java)
-fun PendingRecording.withAudioEnabled(): PendingRecording = this
-fun PendingRecording.start(e: java.util.concurrent.Executor, l: androidx.core.util.Consumer<VideoRecordEvent>): Any = Any()
+
+fun PendingRecording.start(e: Executor, l: Consumer<VideoRecordEvent>): Any = Any()
 fun ViewPort.Builder.setRotation(r: Int): ViewPort.Builder = this
-fun ViewPort.getTransformationMatrix(i: Int): android.graphics.Matrix = android.graphics.Matrix()
-class DummyCameraEffect(targets: Int, executor: java.util.concurrent.Executor, processor: SurfaceProcessor, consumer: androidx.core.util.Consumer<Throwable>) : CameraEffect(targets, executor, processor, consumer)
+fun ViewPort.getTransformationMatrix(i: Int): Matrix = Matrix()
+class SimpleCameraEffect(targets: Int, executor: Executor, processor: SurfaceProcessor, consumer: Consumer<Throwable>) : CameraEffect(targets, executor, processor, consumer)
