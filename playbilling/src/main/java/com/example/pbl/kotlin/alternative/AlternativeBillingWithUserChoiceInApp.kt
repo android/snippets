@@ -38,20 +38,20 @@ private class AlternativeBillingWithUserChoiceInApp(
     private fun initBillingClient() {
         // [START android_playbilling_alt_billing_choice_init]
         val purchasesUpdatedListener =
-           PurchasesUpdatedListener { billingResult, purchases ->
-               // Handle new Google Play purchase.
-           }
+            PurchasesUpdatedListener { billingResult, purchases ->
+                // Handle new Google Play purchase.
+            }
 
         val userChoiceBillingListener =
-           UserChoiceBillingListener { userChoiceDetails ->
-               // Handle alternative billing choice.
-           }
+            UserChoiceBillingListener { userChoiceDetails ->
+                // Handle alternative billing choice.
+            }
 
         val billingClient = BillingClient.newBuilder(context)
-           .setListener(purchasesUpdatedListener)
-           .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
-           .enableUserChoiceBilling(userChoiceBillingListener)
-           .build()
+            .setListener(purchasesUpdatedListener)
+            .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+            .enableUserChoiceBilling(userChoiceBillingListener)
+            .build()
         // [END android_playbilling_alt_billing_choice_init]
     }
 
@@ -100,7 +100,7 @@ private class AlternativeBillingWithUserChoiceInApp(
                 BillingFlowParams.SubscriptionUpdateParams.newBuilder()
                     .setOriginalExternalTransactionId(externalTransactionId)
                     .build()
-                )
+            )
             .build()
 
         val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
@@ -113,9 +113,9 @@ private class AlternativeBillingWithUserChoiceInApp(
     private fun getOfferToken() {
         // [START android_playbilling_alt_billing_choice_get_offer_token]
         val offerTokenNewPlan = productDetailsNewPlan.getSubscriptionOfferDetails()
-             ?.getOrNull(selectedOfferIndex)
-             ?.offerToken
-             ?: ""
+            ?.getOrNull(selectedOfferIndex)
+            ?.offerToken
+            ?: ""
         // [END android_playbilling_alt_billing_choice_get_offer_token]
     }
 
@@ -132,7 +132,7 @@ private class AlternativeBillingWithUserChoiceInApp(
                             // ProductDetails=>SubscriptionOfferDetails.
                             .setOfferToken(offerTokenNewPlan)
                             .build()
-                        )
+                    )
                 )
                 .setSubscriptionUpdateParams(
                     BillingFlowParams.SubscriptionUpdateParams.newBuilder()

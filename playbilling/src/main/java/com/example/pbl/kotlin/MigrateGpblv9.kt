@@ -18,8 +18,8 @@ package com.example.pbl.kotlin
 
 import android.content.Context
 import android.content.Intent
-import com.android.billingclient.api.DeveloperProvidedBillingDetails
 import androidx.core.net.toUri
+import com.android.billingclient.api.DeveloperProvidedBillingDetails
 
 private fun migrateGpblv9(context: Context, details: DeveloperProvidedBillingDetails) {
     // [START android_playbilling_migrate_v9_link_uri_nullability]
