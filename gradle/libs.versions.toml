@@ -7,6 +7,7 @@ androidx-activity-compose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha08"
 androidx-cameraX = "1.6.0"
+androidx-concurrent = "1.2.0"
 androidx-car = "1.7.0"
 androidx-compose-bom = "2026.05.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
@@ -143,6 +144,7 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "androidx-cameraX" }
 androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:viewfinder-compose", version.ref = "androidx-cameraX" }
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
+androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-futures-ktx", version.ref = "androidx-concurrent" }
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
