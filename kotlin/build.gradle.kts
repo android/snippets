@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 android {
@@ -14,10 +17,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    kotlin {
-        jvmToolchain(17)
     }
 
     buildTypes {
@@ -41,7 +40,6 @@ android {
         // Disable unused AGP features
         buildConfig = false
         aidl = false
-        renderScript = false
         resValues = false
         shaders = false
     }
@@ -54,8 +52,18 @@ android {
     }
 }
 dependencies {
+    // AndroidX
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.room.common)
+
+    // KotlinX
     implementation(libs.kotlinx.coroutines.android)
-    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Testing
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
 }

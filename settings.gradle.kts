@@ -1,4 +1,4 @@
-val snapshotVersion: String? = System.getenv("COMPOSE_SNAPSHOT_ID")
+val snapshotVersion: String? by settings
 
 pluginManagement {
     repositories {
@@ -26,14 +26,21 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("xrLibs") {
+            from(files("xr/libs.versions.toml"))
+        }
+    }
 }
 rootProject.name = "snippets"
 include(
+    ":ai",
     ":bluetoothle",
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
     ":datastore",
+    ":camerax",
     ":watchface",
     ":wear",
     ":wearcompanion",
@@ -45,5 +52,10 @@ include(
     ":kmp:androidApp",
     ":kmp:shared",
     ":playbilling",
-    ":tv"
+    ":tv",
+    ":contacts",
+    ":healthconnect",
+    ":cars",
+    ":installprompt",
+    ":telecom"
 )

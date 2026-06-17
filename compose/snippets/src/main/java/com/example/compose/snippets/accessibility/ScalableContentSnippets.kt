@@ -76,7 +76,7 @@ private class DensityScalingState(
 
 // [START_EXCLUDE silent]
 @Preview
-// [END_EXCLUDE silent]
+// [END_EXCLUDE]
 @Composable
 fun DensityScalingSample() {
     val currentDensity = LocalDensity.current
@@ -120,7 +120,7 @@ class FontScaleState(
 
 // [START_EXCLUDE silent]
 @Preview
-// [END_EXCLUDE silent]
+// [END_EXCLUDE]
 @Composable
 fun FontScalingSample() {
     val currentDensity = LocalDensity.current

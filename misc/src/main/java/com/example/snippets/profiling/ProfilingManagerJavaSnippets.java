@@ -132,7 +132,7 @@ public class ProfilingManagerJavaSnippets {
         // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
         reportFullyDrawn();
       });
-      // [END_EXCLUDE silent]
+      // [END_EXCLUDE]
     }
     // [END android_profiling_manager_triggered_trace_java]
 
@@ -203,7 +203,7 @@ public class ProfilingManagerJavaSnippets {
       while (System.currentTimeMillis() - start < durationMs) {
       }
     }
-    // [END_EXCLUDE silent]
+    // [END_EXCLUDE]
 
     void prepareNetworkRequest() {
       // [START_EXCLUDE]

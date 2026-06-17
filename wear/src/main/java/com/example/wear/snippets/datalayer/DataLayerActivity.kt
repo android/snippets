@@ -20,9 +20,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.wear.R
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.AvailabilityException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.Asset
 import com.google.android.gms.wearable.DataClient
 import com.google.android.gms.wearable.DataEvent
@@ -33,20 +36,26 @@ import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.PutDataRequest
 import com.google.android.gms.wearable.Wearable
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
-import java.util.concurrent.ExecutionException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+
+private const val TAG = "DataLayer"
 
 class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener {
-    private val dataClient by lazy { Wearable.getDataClient(this) }
-    private val messageClient by lazy { Wearable.getMessageClient(this) }
-    private val capabilityClient by lazy { Wearable.getCapabilityClient(this) }
 
     private var count = 0
 
     override fun onResume() {
         super.onResume()
-        Wearable.getDataClient(this).addListener(this)
+
+        // [START android_wear_datalayer_create_client]
+        val dataClient = Wearable.getDataClient(this)
+        // [END android_wear_datalayer_create_client]
+
+        dataClient.addListener(this)
     }
 
     override fun onPause() {
@@ -54,13 +63,29 @@ class DataLayerActivity : ComponentActivity(), DataClient.OnDataChangedListener 
         Wearable.getDataClient(this).removeListener(this)
     }
 
+    private suspend fun isAvailable(client: GoogleApi<*>): Boolean {
+        // [START android_wear_datalayer_isavailable]
+        val available = try {
+            GoogleApiAvailability.getInstance()
+                .checkApiAvailability(client)
+                .await()
+            true
+        } catch (e: AvailabilityException) {
+            // API is not available in this device.
+            false
+        }
+        // [END android_wear_datalayer_isavailable]
+        return available
+    }
+
     // [START android_wear_datalayer_increasecounter]
-    private fun increaseCounter() {
+    private fun increaseCounter(): Task<DataItem> {
         val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
             dataMap.putInt(COUNT_KEY, count++)
             asPutDataRequest()
         }
-        val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
+        return Wearable.getDataClient(this)
+            .putDataItem(putDataReq)
     }
     // [END android_wear_datalayer_increasecounter]
 
@@ -146,24 +171,29 @@ class DataLayerActivity2 : ComponentActivity(), DataClient.OnDataChangedListener
         dataEvents
             .filter { it.type == DataEvent.TYPE_CHANGED && it.dataItem.uri.path == "/image" }
             .forEach { event ->
-                val bitmap: Bitmap? = DataMapItem.fromDataItem(event.dataItem)
+                val asset = DataMapItem.fromDataItem(event.dataItem)
                     .dataMap.getAsset("profileImage")
-                    ?.let { asset -> loadBitmapFromAsset(asset) }
-                // Do something with the bitmap
+
+                asset?.let { safeAsset ->
+                    lifecycleScope.launch {
+                        val bitmap = loadBitmapFromAsset(safeAsset)
+                        // Do something with the bitmap
+                    }
+                }
             }
     }
 
-    fun loadBitmapFromAsset(asset: Asset): Bitmap? {
-        // Convert asset into a file descriptor and block until it's ready
-        val assetInputStream: InputStream? =
-            Tasks.await(Wearable.getDataClient(this).getFdForAsset(asset))
-                ?.inputStream
+    private suspend fun loadBitmapFromAsset(asset: Asset): Bitmap? = withContext(Dispatchers.IO) {
+        try {
+            val assetResult = Wearable.getDataClient(this@DataLayerActivity2)
+                .getFdForAsset(asset)
+                .await()
 
-        return assetInputStream?.let { inputStream ->
-            // Decode the stream into a bitmap
-            BitmapFactory.decodeStream(inputStream)
-        } ?: run {
-            // Requested an unknown asset
+            assetResult?.inputStream?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }
@@ -192,23 +222,19 @@ private fun handleTaskComplete() { }
 // [END android_wear_datalayer_async_call]
 
 // [START android_wear_datalayer_sync_call]
-private fun Context.sendDataSync(count: Int) {
-    // Create a data item with the path and data to be sent
-    val putDataReq: PutDataRequest = PutDataMapRequest.create("/count").run {
+private fun Context.sendDataSync(count: Int) = runBlocking {
+    val putDataReq = PutDataMapRequest.create("/count").run {
         dataMap.putInt("count_key", count)
         asPutDataRequest()
     }
-    // Create a task to send the data to the data layer
-    val task: Task<DataItem> = Wearable.getDataClient(this).putDataItem(putDataReq)
+
     try {
-        Tasks.await(task).apply {
-            // Add your logic here
-        }
-    } catch (e: ExecutionException) {
-        // TODO: Handle exception
-    } catch (e: InterruptedException) {
-        // TODO: Handle exception
-        Thread.currentThread().interrupt()
+        val result = Wearable.getDataClient(this@sendDataSync)
+            .putDataItem(putDataReq)
+            .await()
+        // Logic for success
+    } catch (e: Exception) {
+        // Handle failure
     }
 }
 // [END android_wear_datalayer_sync_call]

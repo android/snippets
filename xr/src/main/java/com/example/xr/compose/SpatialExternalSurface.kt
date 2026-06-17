@@ -28,8 +28,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialExternalSurface
+import androidx.xr.compose.subspace.SpatialExternalSurfaceProtection
 import androidx.xr.compose.subspace.StereoMode
-import androidx.xr.compose.subspace.SurfaceProtection
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.width
@@ -85,7 +85,7 @@ fun DrmSpatialVideoPlayer() {
                 .width(1200.dp)
                 .height(676.dp),
             stereoMode = StereoMode.SideBySide,
-            surfaceProtection = SurfaceProtection.Protected
+            surfaceProtection = SpatialExternalSurfaceProtection.Protected
         ) {
             val exoPlayer = remember { ExoPlayer.Builder(context).build() }
 

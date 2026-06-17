@@ -16,5 +16,4 @@
 -->
 <resources>
     <dimen name="start_orbiter_padding">8dp</dimen>
-    <dimen name="top_orbiter_padding">8dp</dimen>
 </resources>

@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -18,9 +17,19 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        lint {
+            warningsAsErrors = true
+            disable += "UseKtx"
+        }
     }
     kotlin {
         jvmToolchain(17)
+
+        compilerOptions {
+            allWarningsAsErrors = true
+            // TODO: b/508214289
+            freeCompilerArgs.add("-Xwarning-level=TYPEALIAS_EXPANSION_DEPRECATION:disabled")
+        }
     }
     buildFeatures {
         compose = true
@@ -30,18 +39,57 @@ android {
     }
 }
 
+val snapshotVersion: String? by project
+val isUsingSnapshot = snapshotVersion != null
+
+
+val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
+    xrLibs.androidx.xr.arcore.asProvider(),
+    xrLibs.androidx.xr.arcore.play.services,
+    xrLibs.androidx.xr.glimmer.asProvider(),
+    xrLibs.androidx.xr.glimmer.googlefonts,
+    xrLibs.androidx.xr.projected.asProvider(),
+    xrLibs.androidx.xr.scenecore.asProvider(),
+    xrLibs.androidx.xr.compose,
+)
+val testImplementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
+    xrLibs.androidx.xr.projected.testing,
+    xrLibs.androidx.xr.arcore.testing,
+    xrLibs.androidx.xr.scenecore.testing,
+)
+
 dependencies {
-    implementation(libs.androidx.xr.arcore)
-    implementation(libs.androidx.arcore.play.services)
+    if (isUsingSnapshot) {
+        implementationXrLibraries.forEach {
+            implementation(it.toSnapshotDependency())
+        }
+        testImplementationXrLibraries.forEach {
+            testImplementation(it.toSnapshotDependency())
+        }
+
+        // Snapshot versions will reference a non-public impress version.
+        constraints {
+            implementation("com.google.ar:impress") {
+                version {
+                    strictly("0.0.13")
+                }
+            }
+        }
+    } else {
+        implementationXrLibraries.forEach {
+            implementation(it)
+        }
+        testImplementationXrLibraries.forEach {
+            testImplementation(it)
+        }
+    }
+
     implementation(libs.google.ar.core)
-    implementation(libs.androidx.xr.scenecore)
-    implementation(libs.androidx.xr.compose)
 
     implementation(libs.androidx.activity.ktx)
-
     implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.glimmer)
-    implementation(libs.androidx.projected)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.camera2)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -70,4 +118,22 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.truth)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
 }
+
+fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(): Provider<MinimalExternalModuleDependency> =
+    this.map {
+        it.copy().apply {
+            version {
+                strictly("1.0.0-SNAPSHOT")
+            }
+        }
+    }
