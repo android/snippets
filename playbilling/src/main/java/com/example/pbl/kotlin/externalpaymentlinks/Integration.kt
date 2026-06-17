@@ -17,7 +17,6 @@
 package com.example.pbl.kotlin.externalpaymentlinks
 
 import android.content.Context
-import android.net.Uri
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingProgram
 import com.android.billingclient.api.BillingClient.BillingResponseCode
@@ -32,6 +31,7 @@ import com.android.billingclient.api.DeveloperProvidedBillingListener
 import com.android.billingclient.api.EnableBillingProgramParams
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.PurchasesUpdatedListener
+import androidx.core.net.toUri
 
 private class Integration(private val context: Context) {
 
@@ -117,7 +117,7 @@ private class Integration(private val context: Context) {
         val developerBillingOptionParams =
             DeveloperBillingOptionParams.newBuilder()
                 .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
-                .setLinkUri(Uri.parse("https://www.example.com/external/purchase"))
+                .setLinkUri("https://www.example.com/external/purchase".toUri())
                 .setLaunchMode(
                     DeveloperBillingOptionParams.LaunchMode.LAUNCH_IN_EXTERNAL_BROWSER_OR_APP
                 )

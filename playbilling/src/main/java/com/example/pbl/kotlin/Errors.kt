@@ -126,8 +126,7 @@ class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListe
     }
 
     AcknowledgePurchaseResponseListener { acknowledgePurchaseResult ->
-      val playBillingResponseCode =
-      PlayBillingResponseCode(acknowledgePurchaseResult.responseCode)
+      val playBillingResponseCode = acknowledgePurchaseResult.responseCode
       when (playBillingResponseCode) {
         BillingClient.BillingResponseCode.OK -> {
           Log.i(TAG, "Acknowledgement was successful")
@@ -229,25 +228,16 @@ class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListe
   }
 
   private fun featureSupport(activity: Activity) {
-      val billingClient = ShadowBillingClient(this.billingClient)
       // [START android_playbilling_errors_feature_support]
-      when {
-        billingClient.isReady -> {
-          if (billingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_MESSAGING)) {
-             // use feature
-          }
+    when {
+      billingClient.isReady -> {
+        val billingResult =
+          billingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_MESSAGING);
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+          // use Feature
         }
       }
+    }
       // [END android_playbilling_errors_feature_support]
   }
-}
-
-// Helper mapping class/function
-private fun PlayBillingResponseCode(code: Int): Int = code
-
-private class ShadowBillingClient(val delegate: BillingClient) {
-    val isReady: Boolean get() = delegate.isReady
-    fun isFeatureSupported(feature: String): Boolean {
-        return delegate.isFeatureSupported(feature).responseCode == BillingClient.BillingResponseCode.OK
-    }
 }

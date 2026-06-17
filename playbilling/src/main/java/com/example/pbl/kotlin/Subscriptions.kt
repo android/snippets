@@ -33,9 +33,9 @@ private class Subscriptions(
     private val billingClient: BillingClient,
     private val activity: Activity,
     private val productDetails: ProductDetails,
-    private val productDetails1_obj: ProductDetails,
-    private val productDetails2_obj: ProductDetails,
-    private val productDetails3_obj: ProductDetails,
+    private val productDetails1: ProductDetails,
+    private val productDetails2: ProductDetails,
+    private val productDetails3: ProductDetails,
     private val selectedOfferIndex: Int
 ) {
 
@@ -51,7 +51,7 @@ private class Subscriptions(
 
         val productDetailsParams1 =
             ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails1_obj) // Required: Set the ProductDetails object
+                .setProductDetails(productDetails1) // Required: Set the ProductDetails object
                 .setSubscriptionProductReplacementParams(
                     SubscriptionProductReplacementParams.newBuilder()
                         .setOldProductId("old_product_id_1")
@@ -62,7 +62,7 @@ private class Subscriptions(
 
         val productDetailsParams2 =
             ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails2_obj) // Required: Set the ProductDetails object
+                .setProductDetails(productDetails2) // Required: Set the ProductDetails object
                 .setSubscriptionProductReplacementParams(
                     SubscriptionProductReplacementParams.newBuilder()
                         .setOldProductId("old_product_id_2")
@@ -74,7 +74,7 @@ private class Subscriptions(
         // Example for a third item without replacement params
         val productDetailsParams3 =
             ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails3_obj) // Required: Set the ProductDetails object
+                .setProductDetails(productDetails3) // Required: Set the ProductDetails object
                 .build()
 
         val newProductDetailsList = listOf(
@@ -96,37 +96,6 @@ private class Subscriptions(
         // To launch the billing flow:
         // billingClient.launchBillingFlow(activity, billingFlowParams)
         // [END android_playbilling_subscriptions_product_replacement]
-    }
-
-    private fun updateParams() {
-        // [START android_playbilling_subscriptions_update_params]
-        val offerToken = productDetails.getSubscriptionOfferDetails()
-            ?.getOrNull(selectedOfferIndex)
-            ?.offerToken
-            ?: ""
-
-        val billingParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(
-            listOf(
-                BillingFlowParams.ProductDetailsParams.newBuilder()
-                    .setProductDetails(productDetails)
-                    .setOfferToken(offerToken)
-                    .build()
-            )
-        ).setSubscriptionUpdateParams(
-            BillingFlowParams.SubscriptionUpdateParams.newBuilder()
-                .setOldPurchaseToken("old_purchase_token")
-                .setSubscriptionReplacementMode(
-                    BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.CHARGE_FULL_PRICE
-                )
-                .build()
-        ).build()
-
-        billingClient.launchBillingFlow(
-            activity,
-            billingParams
-        )
-        // ...
-        // [END android_playbilling_subscriptions_update_params]
     }
 
     private fun showInAppMessages() {

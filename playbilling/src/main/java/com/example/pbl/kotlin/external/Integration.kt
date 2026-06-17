@@ -28,6 +28,7 @@ import com.android.billingclient.api.BillingProgramReportingDetails
 import com.android.billingclient.api.BillingProgramReportingDetailsListener
 import com.android.billingclient.api.BillingProgramReportingDetailsParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.EnableBillingProgramParams
 import com.android.billingclient.api.LaunchExternalLinkParams
 import com.android.billingclient.api.LaunchExternalLinkResponseListener
 import com.android.billingclient.api.createBillingProgramReportingDetails
@@ -44,7 +45,11 @@ private class Integration(
     private fun initBillingClient() {
         // [START android_playbilling_external_offers_init]
         val billingClient = BillingClient.newBuilder(context)
-            .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
+            .enableBillingProgram(
+                EnableBillingProgramParams.newBuilder()
+                    .setBillingProgram(BillingProgram.EXTERNAL_OFFER)
+                    .build()
+            )
             .build()
         // [END android_playbilling_external_offers_init]
     }
