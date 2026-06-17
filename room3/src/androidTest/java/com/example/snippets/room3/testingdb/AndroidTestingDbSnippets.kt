@@ -32,7 +32,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-// [START room_3_testing_db_android]
+// [START room3_testing_db_android]
 import kotlinx.coroutines.test.runTest
 
 @RunWith(AndroidJUnit4::class)
@@ -62,7 +62,7 @@ class SimpleEntityReadWriteTest {
         assertEquals(byName.single(), user)
     }
 }
-// [END room_3_testing_db_android]
+// [END room3_testing_db_android]
 
 @Entity
 data class User(

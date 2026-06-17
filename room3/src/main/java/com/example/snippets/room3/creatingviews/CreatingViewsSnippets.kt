@@ -32,7 +32,7 @@ data class Department(
 @Dao
 interface UserDao
 
-// [START room_3_creating_views_view]
+// [START room3_creating_views_view]
 @DatabaseView(
     """
     SELECT user.id, user.name, user.departmentId, department.name AS departmentName
@@ -45,9 +45,9 @@ data class UserDetail(
     val departmentId: Long,
     val departmentName: String?
 )
-// [END room_3_creating_views_view]
+// [END room3_creating_views_view]
 
-// [START room_3_creating_views_db]
+// [START room3_creating_views_db]
 // Added Department::class to entities to make it compile
 @Database(
     entities = [User::class, Department::class],
@@ -57,4 +57,4 @@ data class UserDetail(
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 }
-// [END room_3_creating_views_db]
+// [END room3_creating_views_db]

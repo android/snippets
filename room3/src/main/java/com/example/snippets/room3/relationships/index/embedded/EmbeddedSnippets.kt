@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.index.embedded
 
 import androidx.room3.*
 
-// [START room_3_relationships_embedded]
+// [START room3_relationships_embedded]
 data class Address(
     val street: String?,
     val state: String?,
@@ -30,7 +30,7 @@ data class User(
     val firstName: String,
     @Embedded val address: Address?
 )
-// [END room_3_relationships_embedded]
+// [END room3_relationships_embedded]
 
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase : RoomDatabase()

@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.onetomany.simple
 
 import androidx.room3.*
 
-// [START room_3_relationships_onetomany_define]
+// [START room3_relationships_onetomany_define]
 @Entity
 data class User(
     @PrimaryKey val userId: Long,
@@ -30,9 +30,9 @@ data class Playlist(
     val userCreatorId: Long,
     val playlistName: String
 )
-// [END room_3_relationships_onetomany_define]
+// [END room3_relationships_onetomany_define]
 
-// [START room_3_relationships_onetomany_query]
+// [START room3_relationships_onetomany_query]
 data class UserWithPlaylists(
     @Embedded val user: User,
     @Relation(
@@ -41,15 +41,15 @@ data class UserWithPlaylists(
     )
     val playlists: List<Playlist>
 )
-// [END room_3_relationships_onetomany_query]
+// [END room3_relationships_onetomany_query]
 
 @Dao
 interface UserDao {
-    // [START room_3_relationships_onetomany_dao]
+    // [START room3_relationships_onetomany_dao]
     @Transaction
     @Query("SELECT * FROM User")
     suspend fun getUsersWithPlaylists(): List<UserWithPlaylists>
-    // [END room_3_relationships_onetomany_dao]
+    // [END room3_relationships_onetomany_dao]
 }
 
 @Database(entities = [User::class, Playlist::class], version = 1)

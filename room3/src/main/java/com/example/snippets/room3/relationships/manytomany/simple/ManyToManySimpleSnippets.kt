@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.manytomany.simple
 
 import androidx.room3.*
 
-// [START room_3_relationships_manytomany_define]
+// [START room3_relationships_manytomany_define]
 @Entity
 data class Playlist(
     @PrimaryKey val playlistId: Long,
@@ -35,9 +35,9 @@ data class PlaylistSongCrossRef(
     val playlistId: Long,
     val songId: Long
 )
-// [END room_3_relationships_manytomany_define]
+// [END room3_relationships_manytomany_define]
 
-// [START room_3_relationships_manytomany_query]
+// [START room3_relationships_manytomany_query]
 data class PlaylistWithSongs(
     @Embedded val playlist: Playlist,
     @Relation(
@@ -57,11 +57,11 @@ data class SongWithPlaylists(
     )
     val playlists: List<Playlist>
 )
-// [END room_3_relationships_manytomany_query]
+// [END room3_relationships_manytomany_query]
 
 @Dao
 interface PlaylistSongDao {
-    // [START room_3_relationships_manytomany_dao]
+    // [START room3_relationships_manytomany_dao]
     @Transaction
     @Query("SELECT * FROM Playlist")
     suspend fun getPlaylistsWithSongs(): List<PlaylistWithSongs>
@@ -69,7 +69,7 @@ interface PlaylistSongDao {
     @Transaction
     @Query("SELECT * FROM Song")
     suspend fun getSongsWithPlaylists(): List<SongWithPlaylists>
-    // [END room_3_relationships_manytomany_dao]
+    // [END room3_relationships_manytomany_dao]
 }
 
 @Database(entities = [Playlist::class, Song::class, PlaylistSongCrossRef::class], version = 1)

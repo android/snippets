@@ -37,7 +37,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userBookDao(): UserBookDao
 }
 
-// [START room_3_relationships_intermediate]
+// [START room3_relationships_intermediate]
 @Dao
 interface UserBookDao {
     @Query(
@@ -50,4 +50,4 @@ interface UserBookDao {
 }
 
 data class UserBook(val userName: String, val bookName: String)
-// [END room_3_relationships_intermediate]
+// [END room3_relationships_intermediate]

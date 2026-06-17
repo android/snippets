@@ -45,7 +45,7 @@ data class User(
 
 interface UserDao
 
-// [START room_3_migrating_db_automigration]
+// [START room3_migrating_db_automigration]
 // Database class before the version update.
 @Database(
   version = 1,
@@ -66,10 +66,10 @@ abstract class AppDatabaseV1 : RoomDatabase() {
 abstract class AppDatabaseV2 : RoomDatabase() {
   abstract fun userDao(): UserDao
 }
-// [END room_3_migrating_db_automigration]
+// [END room3_migrating_db_automigration]
 
 
-// [START room_3_migrating_db_automigration_spec]
+// [START room3_migrating_db_automigration_spec]
 @Database(
   version = 2,
   entities = [User::class],
@@ -87,13 +87,13 @@ abstract class AppDatabaseWithSpec : RoomDatabase() {
 
 @RenameTable(fromTableName = "User", toTableName = "AppUser")
 internal class MigrationSpec1To2 : AutoMigrationSpec
-// [END room_3_migrating_db_automigration_spec]
+// [END room3_migrating_db_automigration_spec]
 
 // Manual migrations example
 abstract class ManualMigrationDatabase : RoomDatabase()
 
 fun createManualMigrationDb(applicationContext: Context) {
-    // [START room_3_migrating_db_manual]
+    // [START room3_migrating_db_manual]
     val MIGRATION_1_2 = object : Migration(1, 2) {
       override suspend fun migrate(connection: SQLiteConnection) {
         connection.executeSQL("CREATE TABLE `Fruit` (`id` INTEGER, `name` TEXT, " +
@@ -110,16 +110,16 @@ fun createManualMigrationDb(applicationContext: Context) {
     Room.databaseBuilder<ManualMigrationDatabase>(applicationContext, "database-name")
       .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
       .build()
-    // [END room_3_migrating_db_manual]
+    // [END room3_migrating_db_manual]
 }
 
 // Fallback example
 abstract class FallbackMigrationDatabase : RoomDatabase()
 
 fun createFallbackDb(applicationContext: Context) {
-    // [START room_3_migrating_db_fallback]
+    // [START room3_migrating_db_fallback]
     Room.databaseBuilder<FallbackMigrationDatabase>(applicationContext, "database-name")
             .fallbackToDestructiveMigration()
             .build()
-    // [END room_3_migrating_db_fallback]
+    // [END room3_migrating_db_fallback]
 }

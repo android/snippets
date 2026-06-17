@@ -43,7 +43,7 @@ abstract class MigrationDb : RoomDatabase()
 @Database(entities = [User::class], version = 4)
 abstract class AppDatabase : RoomDatabase()
 
-// [START room_3_migrating_db_test_all]
+// [START room3_migrating_db_test_all]
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
     private val TEST_DB = "migration-test"
@@ -79,4 +79,4 @@ class MigrationTest {
         }
     }
 }
-// [END room_3_migrating_db_test_all]
+// [END room3_migrating_db_test_all]
