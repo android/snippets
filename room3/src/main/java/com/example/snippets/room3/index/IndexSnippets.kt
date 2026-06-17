@@ -18,16 +18,16 @@ import android.content.Context
 import androidx.room3.*
 import androidx.sqlite.driver.AndroidSQLiteDriver
 
-// [START room3_index_entity]
+// [START android_room3_index_entity]
 @Entity
 data class User(
     @PrimaryKey val uid: Int,
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String
 )
-// [END room3_index_entity]
+// [END android_room3_index_entity]
 
-// [START room3_index_dao]
+// [START android_room3_index_dao]
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
@@ -50,30 +50,30 @@ interface UserDao {
     @Delete
     suspend fun delete(user: User)
 }
-// [END room3_index_dao]
+// [END android_room3_index_dao]
 
-// [START room3_index_database]
+// [START android_room3_index_database]
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 }
-// [END room3_index_database]
+// [END android_room3_index_database]
 
 class IndexSnippets {
     fun createDb(applicationContext: Context): AppDatabase {
-        // [START room3_index_create]
+        // [START android_room3_index_create]
         val db =
             Room.databaseBuilder<AppDatabase>(applicationContext, "database-name")
                 .setDriver(AndroidSQLiteDriver())
                 .build()
-        // [END room3_index_create]
+        // [END android_room3_index_create]
         return db
     }
 
     suspend fun useDb(db: AppDatabase) {
-        // [START room3_index_usage]
+        // [START android_room3_index_usage]
         val userDao = db.userDao()
         val users: List<User> = userDao.getAll()
-        // [END room3_index_usage]
+        // [END android_room3_index_usage]
     }
 }

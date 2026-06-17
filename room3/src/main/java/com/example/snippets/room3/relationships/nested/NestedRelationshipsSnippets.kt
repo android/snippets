@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.nested
 
 import androidx.room3.*
 
-// [START room3_relationships_nested_define]
+// [START android_room3_relationships_nested_define]
 @Entity
 data class User(
     @PrimaryKey val userId: Long,
@@ -43,9 +43,9 @@ data class PlaylistSongCrossRef(
     val playlistId: Long,
     val songId: Long
 )
-// [END room3_relationships_nested_define]
+// [END android_room3_relationships_nested_define]
 
-// [START room3_relationships_nested_query_1]
+// [START android_room3_relationships_nested_query_1]
 data class PlaylistWithSongs(
     @Embedded val playlist: Playlist,
     @Relation(
@@ -55,9 +55,9 @@ data class PlaylistWithSongs(
     )
     val songs: List<Song>
 )
-// [END room3_relationships_nested_query_1]
+// [END android_room3_relationships_nested_query_1]
 
-// [START room3_relationships_nested_query_2]
+// [START android_room3_relationships_nested_query_2]
 data class UserWithPlaylistsAndSongs(
     @Embedded val user: User,
     @Relation(
@@ -67,15 +67,15 @@ data class UserWithPlaylistsAndSongs(
     )
     val playlists: List<PlaylistWithSongs>
 )
-// [END room3_relationships_nested_query_2]
+// [END android_room3_relationships_nested_query_2]
 
 @Dao
 interface UserPlaylistSongDao {
-    // [START room3_relationships_nested_dao]
+    // [START android_room3_relationships_nested_dao]
     @Transaction
     @Query("SELECT * FROM User")
     suspend fun getUsersWithPlaylistsAndSongs(): List<UserWithPlaylistsAndSongs>
-    // [END room3_relationships_nested_dao]
+    // [END android_room3_relationships_nested_dao]
 }
 
 @Database(entities = [User::class, Playlist::class, Song::class, PlaylistSongCrossRef::class], version = 1)

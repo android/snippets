@@ -36,7 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 @Dao
 interface UserBookDao {
-    // [START room3_relationships_multimap]
+    // [START android_room3_relationships_multimap]
     @Query(
         """
         SELECT *
@@ -44,9 +44,9 @@ interface UserBookDao {
         """
     )
     suspend fun loadUserAndBookNames(): Map<User, List<Book>>
-    // [END room3_relationships_multimap]
+    // [END android_room3_relationships_multimap]
 
-    // [START room3_relationships_multimap_count]
+    // [START android_room3_relationships_multimap_count]
     @Query(
         """
         SELECT user.*, COUNT(book.id) AS book_count
@@ -55,5 +55,5 @@ interface UserBookDao {
         """
     )
     suspend fun loadUserAndBookCount(): Map<User, @MapColumn(columnName = "book_count") Int>
-    // [END room3_relationships_multimap_count]
+    // [END android_room3_relationships_multimap_count]
 }

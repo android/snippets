@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.onetoone.simple
 
 import androidx.room3.*
 
-// [START room3_relationships_onetoone_define]
+// [START android_room3_relationships_onetoone_define]
 @Entity
 data class User(
     @PrimaryKey val userId: Long,
@@ -29,9 +29,9 @@ data class Library(
     @PrimaryKey val libraryId: Long,
     val userOwnerId: Long
 )
-// [END room3_relationships_onetoone_define]
+// [END android_room3_relationships_onetoone_define]
 
-// [START room3_relationships_onetoone_query]
+// [START android_room3_relationships_onetoone_query]
 data class UserAndLibrary(
     @Embedded val user: User,
     @Relation(
@@ -40,15 +40,15 @@ data class UserAndLibrary(
     )
     val library: Library
 )
-// [END room3_relationships_onetoone_query]
+// [END android_room3_relationships_onetoone_query]
 
 @Dao
 interface UserDao {
-    // [START room3_relationships_onetoone_dao]
+    // [START android_room3_relationships_onetoone_dao]
     @Transaction
     @Query("SELECT * FROM User")
     suspend fun getUsersAndLibraries(): List<UserAndLibrary>
-    // [END room3_relationships_onetoone_dao]
+    // [END android_room3_relationships_onetoone_dao]
 }
 
 @Database(entities = [User::class, Library::class], version = 1)

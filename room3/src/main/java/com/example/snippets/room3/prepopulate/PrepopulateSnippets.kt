@@ -27,21 +27,21 @@ data class SampleEntity(@PrimaryKey val id: Int)
 abstract class AppDatabase : RoomDatabase()
 
 fun createSimpleDb(appContext: Context) {
-    // [START room3_prepopulate_asset]
+    // [START android_room3_prepopulate_asset]
     Room.databaseBuilder<AppDatabase>(appContext, "sample.db")
         .createFromAsset("database/myapp.db")
         .build()
-    // [END room3_prepopulate_asset]
+    // [END android_room3_prepopulate_asset]
 
-    // [START room3_prepopulate_file]
+    // [START android_room3_prepopulate_file]
     Room.databaseBuilder<AppDatabase>(appContext, "sample.db")
         .createFromFile(File("mypath"))
         .build()
-    // [END room3_prepopulate_file]
+    // [END android_room3_prepopulate_file]
 }
 
 // Fallback example
-// [START room3_prepopulate_fallback_ex]
+// [START android_room3_prepopulate_fallback_ex]
 // Database class definition declaring version 3.
 @Database(entities = [SampleEntity::class], version = 3)
 abstract class FallbackAppDatabase : RoomDatabase() {
@@ -56,10 +56,10 @@ fun createFallbackDb(appContext: Context) {
         .fallbackToDestructiveMigration()
         .build()
 }
-// [END room3_prepopulate_fallback_ex]
+// [END android_room3_prepopulate_fallback_ex]
 
 // Implemented example
-// [START room3_prepopulate_implemented_ex]
+// [START android_room3_prepopulate_implemented_ex]
 // Database class definition declaring version 3.
 @Database(entities = [SampleEntity::class], version = 3)
 abstract class ImplementedAppDatabase : RoomDatabase() {
@@ -80,10 +80,10 @@ fun createImplementedDb(appContext: Context) {
         .addMigrations(MIGRATION_2_3)
         .build()
 }
-// [END room3_prepopulate_implemented_ex]
+// [END android_room3_prepopulate_implemented_ex]
 
 // Multi-step example
-// [START room3_prepopulate_multistep_ex]
+// [START android_room3_prepopulate_multistep_ex]
 // Database class definition declaring version 4.
 // Added entities parameter to make it compile
 @Database(entities = [SampleEntity::class], version = 4)
@@ -107,4 +107,4 @@ fun createMultiStepDb(appContext: Context) {
         .fallbackToDestructiveMigration()
         .build()
 }
-// [END room3_prepopulate_multistep_ex]
+// [END android_room3_prepopulate_multistep_ex]

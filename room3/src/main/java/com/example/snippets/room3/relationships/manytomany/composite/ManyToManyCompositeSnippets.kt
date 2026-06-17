@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.manytomany.composite
 
 import androidx.room3.*
 
-// [START room3_relationships_manytomany_composite]
+// [START android_room3_relationships_manytomany_composite]
 @Entity(primaryKeys = ["playlistId", "creatorId"])
 data class Playlist(
     val playlistId: Long,
@@ -47,7 +47,7 @@ data class PlaylistWithSongs(
     )
     val songs: List<Song>
 )
-// [END room3_relationships_manytomany_composite]
+// [END android_room3_relationships_manytomany_composite]
 
 @Database(entities = [Playlist::class, Song::class, PlaylistSongCrossRef::class], version = 1)
 abstract class AppDatabase : RoomDatabase()

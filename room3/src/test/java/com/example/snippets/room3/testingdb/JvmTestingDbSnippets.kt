@@ -20,13 +20,13 @@ import androidx.room3.PrimaryKey
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
 
-// [START room3_testing_db_jvm]
+// [START android_room3_testing_db_jvm]
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 
 val db = Room.inMemoryDatabaseBuilder<TestDatabase>()
     .setDriver(BundledSQLiteDriver())
     .build()
-// [END room3_testing_db_jvm]
+// [END android_room3_testing_db_jvm]
 
 @Database(entities = [User::class], version = 1)
 abstract class TestDatabase : RoomDatabase()

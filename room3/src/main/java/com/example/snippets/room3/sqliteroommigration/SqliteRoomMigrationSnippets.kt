@@ -28,48 +28,48 @@ class DateConverter {
     fun dateToTimestamp(date: Date?): Long? = date?.time
 }
 
-// [START room3_sqlite_migration_entity]
+// [START android_room3_sqlite_migration_entity]
 @Entity(tableName = "users")
 data class User(
   @PrimaryKey @ColumnInfo(name = "userid") val id: String,
   @ColumnInfo(name = "username") val userName: String?,
   @ColumnInfo(name = "last_update") val date: Date?,
 )
-// [END room3_sqlite_migration_entity]
+// [END android_room3_sqlite_migration_entity]
 
 @Dao
 interface UserDao
 
-// [START room3_sqlite_migration_db]
+// [START android_room3_sqlite_migration_db]
 @Database(entities = [User::class], version = 2)
 @ColumnTypeConverters(DateConverter::class)
 abstract class UsersDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 }
-// [END room3_sqlite_migration_db]
+// [END android_room3_sqlite_migration_db]
 
 
-// [START room3_sqlite_migration_path]
+// [START android_room3_sqlite_migration_path]
 val MIGRATION_1_2 = object : Migration(1, 2) {
   override suspend fun migrate(connection: SQLiteConnection) {
     // Empty implementation, because the schema isn't changing.
   }
 }
-// [END room3_sqlite_migration_path]
+// [END android_room3_sqlite_migration_path]
 
 fun createDb(applicationContext: Context) {
-    // [START room3_sqlite_migration_instantiation]
+    // [START android_room3_sqlite_migration_instantiation]
     val db =
         Room.databaseBuilder<UsersDatabase>(applicationContext, "database-name")
             .addMigrations(MIGRATION_1_2)
             .build()
-    // [END room3_sqlite_migration_instantiation]
+    // [END android_room3_sqlite_migration_instantiation]
 }
 
 fun incrementalMigration(roomDatabase: UsersDatabase) {
-    // [START room3_sqlite_migration_incremental]
+    // [START android_room3_sqlite_migration_incremental]
     // Get SupportSQLiteDatabase wrapper
     val legacyDb = roomDatabase.getSupportWrapper()
     legacyDb.execSQL("INSERT INTO users ...")
-    // [END room3_sqlite_migration_incremental]
+    // [END android_room3_sqlite_migration_incremental]
 }

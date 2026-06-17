@@ -24,47 +24,47 @@ import androidx.room3.Index
 import androidx.room3.PrimaryKey
 
 private object SimpleEntityExample {
-    // [START room3_defining_data_simple_entity]
+    // [START android_room3_defining_data_simple_entity]
     @Entity
     data class User(
         @PrimaryKey val id: Int,
         val firstName: String,
         val lastName: String
     )
-    // [END room3_defining_data_simple_entity]
+    // [END android_room3_defining_data_simple_entity]
 }
 
 private object CustomEntityExample {
-    // [START room3_defining_data_custom_entity]
+    // [START android_room3_defining_data_custom_entity]
     @Entity(tableName = "users")
     data class User (
         @PrimaryKey val id: Int,
         @ColumnInfo(name = "first_name") val firstName: String,
         @ColumnInfo(name = "last_name") val lastName: String
     )
-    // [END room3_defining_data_custom_entity]
+    // [END android_room3_defining_data_custom_entity]
 }
 
 private object PrimaryKeyExample {
     class User(
-        // [START room3_defining_data_pk]
+        // [START android_room3_defining_data_pk]
         @PrimaryKey val id: Int
-        // [END room3_defining_data_pk]
+        // [END android_room3_defining_data_pk]
     )
 }
 
 private object CompositePrimaryKeyExample {
-    // [START room3_defining_data_composite_pk]
+    // [START android_room3_defining_data_composite_pk]
     @Entity(primaryKeys = ["firstName", "lastName"])
     data class User(
         val firstName: String,
         val lastName: String
     )
-    // [END room3_defining_data_composite_pk]
+    // [END android_room3_defining_data_composite_pk]
 }
 
 private object IgnoreExample {
-    // [START room3_defining_data_ignore]
+    // [START android_room3_defining_data_ignore]
     @Entity
     data class User(
         @PrimaryKey val id: Int,
@@ -72,11 +72,11 @@ private object IgnoreExample {
         val lastName: String,
         @Ignore val picture: Bitmap? = null
     )
-    // [END room3_defining_data_ignore]
+    // [END android_room3_defining_data_ignore]
 }
 
 private object InheritedIgnoreExample {
-    // [START room3_defining_data_inherited_ignore]
+    // [START android_room3_defining_data_inherited_ignore]
     open class User {
         var picture: Bitmap? = null
     }
@@ -86,11 +86,11 @@ private object InheritedIgnoreExample {
         @PrimaryKey val id: Int,
         val hasVpn: Boolean
     ) : User()
-    // [END room3_defining_data_inherited_ignore]
+    // [END android_room3_defining_data_inherited_ignore]
 }
 
 private object Fts4Example {
-    // [START room3_defining_data_fts4]
+    // [START android_room3_defining_data_fts4]
     // Use `@Fts3` only if your app has strict disk space requirements.
     @Fts4
     @Entity(tableName = "users")
@@ -100,22 +100,22 @@ private object Fts4Example {
         @PrimaryKey @ColumnInfo(name = "rowid") val id: Long,
         @ColumnInfo(name = "first_name") val firstName: String
     )
-    // [END room3_defining_data_fts4]
+    // [END android_room3_defining_data_fts4]
 }
 
 private object Fts4TokenizerExample {
-    // [START room3_defining_data_fts4_tokenizer]
+    // [START android_room3_defining_data_fts4_tokenizer]
     @Fts4(tokenizer = FtsOptions.TOKENIZER_UNICODE61)
     @Entity(tableName = "users")
     data class User(
         @PrimaryKey @ColumnInfo(name = "rowid") val id: Long,
         @ColumnInfo(name = "first_name") val firstName: String
     )
-    // [END room3_defining_data_fts4_tokenizer]
+    // [END android_room3_defining_data_fts4_tokenizer]
 }
 
 private object IndexExample {
-    // [START room3_defining_data_index]
+    // [START android_room3_defining_data_index]
     @Entity(indices = [Index(value = ["last_name", "address"])])
     data class User(
         @PrimaryKey val id: Int,
@@ -123,16 +123,16 @@ private object IndexExample {
         @ColumnInfo(name = "last_name") val lastName: String,
         val address: String?,
     )
-    // [END room3_defining_data_index]
+    // [END android_room3_defining_data_index]
 }
 
 private object UniqueIndexExample {
-    // [START room3_defining_data_unique_index]
+    // [START android_room3_defining_data_unique_index]
     @Entity(indices = [Index(value = ["first_name", "last_name"], unique = true)])
     data class User(
         @PrimaryKey val id: Int,
         @ColumnInfo(name = "first_name") val firstName: String,
         @ColumnInfo(name = "last_name") val lastName: String,
     )
-    // [END room3_defining_data_unique_index]
+    // [END android_room3_defining_data_unique_index]
 }

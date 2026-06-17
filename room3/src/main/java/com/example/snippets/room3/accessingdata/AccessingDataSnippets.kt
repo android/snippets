@@ -27,7 +27,7 @@ private object SimpleDaoExample {
         @ColumnInfo(name = "last_name") val lastName: String
     )
 
-    // [START room3_accessing_data_simple_dao]
+    // [START android_room3_accessing_data_simple_dao]
     @Dao
     interface UserDao {
         @Insert
@@ -39,7 +39,7 @@ private object SimpleDaoExample {
         @Query("SELECT * FROM user")
         suspend fun getAll(): List<User>
     }
-    // [END room3_accessing_data_simple_dao]
+    // [END android_room3_accessing_data_simple_dao]
 }
 
 private object InsertConvenienceExample {
@@ -50,7 +50,7 @@ private object InsertConvenienceExample {
         @ColumnInfo(name = "last_name") val lastName: String
     )
 
-    // [START room3_accessing_data_insert_convenience]
+    // [START android_room3_accessing_data_insert_convenience]
     @Dao
     interface UserDao {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -62,7 +62,7 @@ private object InsertConvenienceExample {
         @Insert
         suspend fun insertUsersAndFriends(user: User, friends: List<User>)
     }
-    // [END room3_accessing_data_insert_convenience]
+    // [END android_room3_accessing_data_insert_convenience]
 }
 
 private object UpdateConvenienceExample {
@@ -73,13 +73,13 @@ private object UpdateConvenienceExample {
         @ColumnInfo(name = "last_name") val lastName: String
     )
 
-    // [START room3_accessing_data_update_convenience]
+    // [START android_room3_accessing_data_update_convenience]
     @Dao
     interface UserDao {
         @Update
         suspend fun updateUsers(vararg users: User)
     }
-    // [END room3_accessing_data_update_convenience]
+    // [END android_room3_accessing_data_update_convenience]
 }
 
 private object DeleteConvenienceExample {
@@ -90,13 +90,13 @@ private object DeleteConvenienceExample {
         @ColumnInfo(name = "last_name") val lastName: String
     )
 
-    // [START room3_accessing_data_delete_convenience]
+    // [START android_room3_accessing_data_delete_convenience]
     @Dao
     interface UserDao {
         @Delete
         suspend fun deleteUsers(vararg users: User)
     }
-    // [END room3_accessing_data_delete_convenience]
+    // [END android_room3_accessing_data_delete_convenience]
 }
 
 private object UpsertConvenienceExample {
@@ -107,13 +107,13 @@ private object UpsertConvenienceExample {
         @ColumnInfo(name = "last_name") val lastName: String
     )
 
-    // [START room3_accessing_data_upsert_convenience]
+    // [START android_room3_accessing_data_upsert_convenience]
     @Dao
     interface UserDao {
         @Upsert
         suspend fun upsertUsers(vararg users: User)
     }
-    // [END room3_accessing_data_upsert_convenience]
+    // [END android_room3_accessing_data_upsert_convenience]
 }
 
 private object QueryExamples {
@@ -143,17 +143,17 @@ private object QueryExamples {
 
     @Dao
     interface UserDao {
-        // [START room3_accessing_data_simple_query]
+        // [START android_room3_accessing_data_simple_query]
         @Query("SELECT * FROM user")
         suspend fun loadAllUsers(): List<User>
-        // [END room3_accessing_data_simple_query]
+        // [END android_room3_accessing_data_simple_query]
 
-        // [START room3_accessing_data_query_param]
+        // [START android_room3_accessing_data_query_param]
         @Query("SELECT * FROM user WHERE age > :minAge")
         suspend fun loadAllUsersOlderThan(minAge: Int): Array<User>
-        // [END room3_accessing_data_query_param]
+        // [END android_room3_accessing_data_query_param]
 
-        // [START room3_accessing_data_query_params]
+        // [START android_room3_accessing_data_query_params]
         @Query("SELECT * FROM user WHERE age BETWEEN :minAge AND :maxAge")
         suspend fun loadAllUsersBetweenAges(minAge: Int, maxAge: Int): Array<User>
 
@@ -164,14 +164,14 @@ private object QueryExamples {
             """
         )
         suspend fun findUserWithName(search: String): List<User>
-        // [END room3_accessing_data_query_params]
+        // [END android_room3_accessing_data_query_params]
 
-        // [START room3_accessing_data_query_collection]
+        // [START android_room3_accessing_data_query_collection]
         @Query("SELECT * FROM user WHERE region IN (:regions)")
         suspend fun loadUsersFromRegions(regions: List<String>): List<User>
-        // [END room3_accessing_data_query_collection]
+        // [END android_room3_accessing_data_query_collection]
 
-        // [START room3_accessing_data_query_multitable]
+        // [START android_room3_accessing_data_query_multitable]
         @Query(
             """
             SELECT * FROM book
@@ -181,9 +181,9 @@ private object QueryExamples {
             """
         )
         suspend fun findBooksBorrowedByName(userName: String): List<Book>
-        // [END room3_accessing_data_query_multitable]
+        // [END android_room3_accessing_data_query_multitable]
 
-        // [START room3_accessing_data_multimap]
+        // [START android_room3_accessing_data_multimap]
         @Query(
             """
             SELECT * FROM user
@@ -191,9 +191,9 @@ private object QueryExamples {
             """
         )
         suspend fun loadUserAndBookNames(): Map<User, List<Book>>
-        // [END room3_accessing_data_multimap]
+        // [END android_room3_accessing_data_multimap]
 
-        // [START room3_accessing_data_multimap_groupby]
+        // [START android_room3_accessing_data_multimap_groupby]
         @Query(
             """
             SELECT * FROM user
@@ -202,9 +202,9 @@ private object QueryExamples {
             """
         )
         suspend fun loadUserAndBookNamesGrouped(): Map<User, List<Book>>
-        // [END room3_accessing_data_multimap_groupby]
+        // [END android_room3_accessing_data_multimap_groupby]
 
-        // [START room3_accessing_data_multimap_mapcolumn]
+        // [START android_room3_accessing_data_multimap_mapcolumn]
         @Query(
             """
             SELECT user.name AS username, book.name AS bookname FROM user
@@ -215,25 +215,25 @@ private object QueryExamples {
             @MapColumn(columnName = "username") String,
             List<@MapColumn(columnName = "bookname") String>
         >
-        // [END room3_accessing_data_multimap_mapcolumn]
+        // [END android_room3_accessing_data_multimap_mapcolumn]
     }
 
-    // [START room3_accessing_data_subset_query_tuple]
+    // [START android_room3_accessing_data_subset_query_tuple]
     data class NameTuple(
         @ColumnInfo(name = "first_name") val firstName: String,
         @ColumnInfo(name = "last_name") val lastName: String
     )
-    // [END room3_accessing_data_subset_query_tuple]
+    // [END android_room3_accessing_data_subset_query_tuple]
 
     @Dao
     interface SubsetDao {
-        // [START room3_accessing_data_subset_query_method]
+        // [START android_room3_accessing_data_subset_query_method]
         @Query("SELECT first_name, last_name FROM user")
         suspend fun loadFullName(): List<NameTuple>
-        // [END room3_accessing_data_subset_query_method]
+        // [END android_room3_accessing_data_subset_query_method]
     }
 
-    // [START room3_accessing_data_query_flow]
+    // [START android_room3_accessing_data_query_flow]
     interface UserBookDao {
         @Query(
             """
@@ -246,7 +246,7 @@ private object QueryExamples {
     }
 
     data class UserBook(val userName: String, val bookName: String)
-    // [END room3_accessing_data_query_flow]
+    // [END android_room3_accessing_data_query_flow]
 }
 
 private object PagingExample {
@@ -256,19 +256,19 @@ private object PagingExample {
         val label: String
     )
 
-    // [START room3_accessing_data_paging]
+    // [START android_room3_accessing_data_paging]
     @Dao
     @DaoReturnTypeConverters(PagingSourceDaoReturnTypeConverter::class)
     interface UserDao {
         @Query("SELECT * FROM users WHERE label LIKE :query")
         fun pagingSource(query: String): PagingSource<Int, User>
     }
-    // [END room3_accessing_data_paging]
+    // [END android_room3_accessing_data_paging]
 }
 
 private class ConnectionExamples(val roomDatabase: RoomDatabase) {
     suspend fun runConnectionReader(minAge: Int) {
-        // [START room3_accessing_data_connection_reader]
+        // [START android_room3_accessing_data_connection_reader]
         val result: List<Pair<Long, String>> =
             roomDatabase.useReaderConnection { connection ->
                 connection.usePrepared(
@@ -284,17 +284,17 @@ private class ConnectionExamples(val roomDatabase: RoomDatabase) {
                     }
                 }
             }
-        // [END room3_accessing_data_connection_reader]
+        // [END android_room3_accessing_data_connection_reader]
     }
 
     suspend fun runConnectionWriter() {
-        // [START room3_accessing_data_connection_transaction]
+        // [START android_room3_accessing_data_connection_transaction]
         roomDatabase.useWriterConnection { transactor ->
             transactor.immediateTransaction {
                 // Perform transactional database operations using transactor
             }
         }
-        // [END room3_accessing_data_connection_transaction]
+        // [END android_room3_accessing_data_connection_transaction]
     }
 }
 
@@ -315,7 +315,7 @@ private object TransactionExample {
     }
 
     suspend fun runTransactionExamples(roomDatabase: RoomDatabase, userDao: UserDao, newUser: User, existingUser: User) {
-        // [START room3_accessing_data_highlevel_transaction]
+        // [START android_room3_accessing_data_highlevel_transaction]
         // Perform transactional read operations (DEFERRED transaction)
         val userCount = roomDatabase.withReadTransaction {
             userDao.countUsers()
@@ -326,6 +326,6 @@ private object TransactionExample {
             userDao.insert(newUser)
             userDao.update(existingUser)
         }
-        // [END room3_accessing_data_highlevel_transaction]
+        // [END android_room3_accessing_data_highlevel_transaction]
     }
 }

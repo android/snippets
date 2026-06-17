@@ -16,7 +16,7 @@ package com.example.snippets.room3.relationships.onetomany.composite
 
 import androidx.room3.*
 
-// [START room3_relationships_onetomany_composite]
+// [START android_room3_relationships_onetomany_composite]
 @Entity(primaryKeys = ["firstName", "lastName"])
 data class User(
     val firstName: String,
@@ -40,7 +40,7 @@ data class UserWithPlaylists(
     )
     val playlists: List<Playlist>
 )
-// [END room3_relationships_onetomany_composite]
+// [END android_room3_relationships_onetomany_composite]
 
 @Database(entities = [User::class, Playlist::class], version = 1)
 abstract class AppDatabase : RoomDatabase()

@@ -31,7 +31,7 @@ private object OneShotObservableExamples {
         val region: String
     )
 
-    // [START room3_async_queries_oneshot]
+    // [START android_room3_async_queries_oneshot]
     @Dao
     interface UserDao {
         @Query("SELECT * FROM user WHERE id = :id")
@@ -40,9 +40,9 @@ private object OneShotObservableExamples {
         @Query("SELECT * from user WHERE region IN (:regions)")
         suspend fun loadUsersByRegion(regions: List<String>): List<User>
     }
-    // [END room3_async_queries_oneshot]
+    // [END android_room3_async_queries_oneshot]
 
-    // [START room3_async_queries_observable]
+    // [START android_room3_async_queries_observable]
     @Dao
     interface ObservableUserDao {
         @Query("SELECT * FROM user WHERE id = :id")
@@ -51,7 +51,7 @@ private object OneShotObservableExamples {
         @Query("SELECT * from user WHERE region IN (:regions)")
         fun loadUsersByRegion(regions: List<String>): Flow<List<User>>
     }
-    // [END room3_async_queries_observable]
+    // [END android_room3_async_queries_observable]
 }
 
 private object InvalidationTrackerExample {
@@ -73,7 +73,7 @@ private object InvalidationTrackerExample {
         return artists.zip(tours).toMap()
     }
 
-    // [START room3_async_queries_invalidation]
+    // [START android_room3_async_queries_invalidation]
     fun getArtistTours(db: RoomDatabase, from: Date, to: Date): Flow<Map<Artist, TourState>> {
       return db.invalidationTracker.createFlow("Artist").map { _ ->
         val artists = artistsDao.getAllArtists()
@@ -81,11 +81,11 @@ private object InvalidationTrackerExample {
         associateTours(artists, tours, from, to)
       }
     }
-    // [END room3_async_queries_invalidation]
+    // [END android_room3_async_queries_invalidation]
 }
 
 // Custom converters examples
-// [START room3_async_queries_custom_converter]
+// [START android_room3_async_queries_custom_converter]
 class TracedQuery<T>(val result: T)
 
 object TracingDaoReturnTypeConverter {
@@ -100,17 +100,17 @@ object TracingDaoReturnTypeConverter {
         return TracedQuery(result)
     }
 }
-// [END room3_async_queries_custom_converter]
+// [END android_room3_async_queries_custom_converter]
 
 private object UseCustomConverterExample {
-    // [START room3_async_queries_use_custom_converter]
+    // [START android_room3_async_queries_use_custom_converter]
     @Dao
     @DaoReturnTypeConverters(TracingDaoReturnTypeConverter::class)
     interface MusicDao {
         @Query("SELECT * FROM Song")
         suspend fun getAllSongs(): TracedQuery<List<Song>>
     }
-    // [END room3_async_queries_use_custom_converter]
+    // [END android_room3_async_queries_use_custom_converter]
 }
 
 // Database class at file level to avoid KSP nesting issues
@@ -125,7 +125,7 @@ private object ProvidedConverterExample {
     }
     val myLoggerInstance = Tracer()
 
-    // [START room3_async_queries_provided_converter]
+    // [START android_room3_async_queries_provided_converter]
     @ProvidedDaoReturnTypeConverter
     class TracingDaoReturnTypeConverter(val tracer: Tracer) {
         @DaoReturnTypeConverter([OperationType.READ])
@@ -139,13 +139,13 @@ private object ProvidedConverterExample {
             return TracedQuery(result)
         }
     }
-    // [END room3_async_queries_provided_converter]
+    // [END android_room3_async_queries_provided_converter]
 
     fun createDb(applicationContext: android.content.Context) {
-        // [START room3_async_queries_register_provided]
+        // [START android_room3_async_queries_register_provided]
         val db = Room.databaseBuilder<MyDatabase>(applicationContext, "database-name")
           .addDaoReturnTypeConverter(TracingDaoReturnTypeConverter(myLoggerInstance))
           .build()
-        // [END room3_async_queries_register_provided]
+        // [END android_room3_async_queries_register_provided]
     }
 }

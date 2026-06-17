@@ -18,7 +18,7 @@ import android.content.Context
 import androidx.room3.*
 import java.util.Date
 
-// [START room3_referencing_data_converter]
+// [START android_room3_referencing_data_converter]
 object Converters {
   @ColumnTypeConverter
   fun fromTimestamp(value: Long?): Date? {
@@ -30,17 +30,17 @@ object Converters {
     return date?.time
   }
 }
-// [END room3_referencing_data_converter]
+// [END android_room3_referencing_data_converter]
 
-// [START room3_referencing_data_db]
+// [START android_room3_referencing_data_db]
 @Database(entities = [User::class], version = 1)
 @ColumnTypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
   abstract fun userDao(): UserDao
 }
-// [END room3_referencing_data_db]
+// [END android_room3_referencing_data_db]
 
-// [START room3_referencing_data_usage]
+// [START android_room3_referencing_data_usage]
 @Entity
 data class User(
   @PrimaryKey val id: Long,
@@ -53,12 +53,12 @@ interface UserDao {
   @Query("SELECT * FROM user WHERE birthday = :targetDate")
   suspend fun findUsersBornOnDate(targetDate: Date): List<User>
 }
-// [END room3_referencing_data_usage]
+// [END android_room3_referencing_data_usage]
 
 // Provided converter example
 class ExampleType
 
-// [START room3_referencing_data_provided]
+// [START android_room3_referencing_data_provided]
 @ProvidedColumnTypeConverter
 class ExampleConverter {
   @ColumnTypeConverter
@@ -71,7 +71,7 @@ class ExampleConverter {
     return example?.toString()
   }
 }
-// [END room3_referencing_data_provided]
+// [END android_room3_referencing_data_provided]
 
 @Entity
 data class DummyEntity(@PrimaryKey val id: Int)
@@ -83,9 +83,9 @@ abstract class MyDatabase : RoomDatabase()
 val exampleConverterInstance = ExampleConverter()
 
 fun createProvidedDb(applicationContext: Context) {
-    // [START room3_referencing_data_register_provided]
+    // [START android_room3_referencing_data_register_provided]
     val db = Room.databaseBuilder<MyDatabase>(applicationContext, "database-name")
       .addColumnTypeConverter(exampleConverterInstance)
       .build()
-    // [END room3_referencing_data_register_provided]
+    // [END android_room3_referencing_data_register_provided]
 }
