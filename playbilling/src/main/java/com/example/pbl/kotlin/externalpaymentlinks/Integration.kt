@@ -17,6 +17,7 @@
 package com.example.pbl.kotlin.externalpaymentlinks
 
 import android.content.Context
+import androidx.core.net.toUri
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingProgram
 import com.android.billingclient.api.BillingClient.BillingResponseCode
@@ -31,7 +32,6 @@ import com.android.billingclient.api.DeveloperProvidedBillingListener
 import com.android.billingclient.api.EnableBillingProgramParams
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.PurchasesUpdatedListener
-import androidx.core.net.toUri
 
 private class Integration(private val context: Context) {
 
