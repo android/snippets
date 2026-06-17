@@ -1,9 +1,25 @@
-*               @yrezgui @kkuan2011
-/compose/       @android/devrel-compose
-/car/           @android/devrel-car
-/identity/      @android/devrel-identity
-/watchface/     @android/devrel-wear
-/wear/          @android/devrel-wear
-/wearcompanion/ @android/devrel-wear
-/xr/            @android/devrel-xr
-/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/ @android/devrel-adaptive-apps
+*                                                                                   @android/devrel-snippets
+/ai/                                                                                @android/devrel-ai
+# /bluetoothle/                                                                       @android/
+/camerax/                                                                           @android/devrel-camera-media
+/cars/                                                                              @android/devrel-car
+/compose/                                                                           @android/devrel-compose
+/compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/       @android/devrel-adaptive-apps
+# /contacts/                                                                          @android/
+# /datastore/                                                                         @android/
+# /healthconnect/                                                                     @android/
+/identity/                                                                          @android/devrel-identity
+/installprompt/                                                                     @android/devrel-wear
+# /kmp/                                                                               @android/
+# /kotlin/                                                                            @android/
+/misc/                                                                              @android/devrel-snippets
+# /playbilling/                                                                       @android/
+# /telecom/                                                                           @android/
+/tv/                                                                                @android/devrel-tv
+# /views/                                                                             @android/
+/watchface/                                                                         @android/devrel-wear
+/watchfacepush/                                                                     @android/devrel-wear
+/wear/                                                                              @android/devrel-wear
+/wearcompanion/                                                                     @android/devrel-wear
+/xr/                                                                                @android/devrel-xr
+/gradle/libs.versions.toml                                                          @android/devrel-snippets @android/devrel-ai @android/devrel-camera-media @android/devrel-car @android/devrel-compose @android/devrel-adaptive-apps @android/devrel-identity @android/devrel-wear @android/devrel-tv @android/devrel-xr
