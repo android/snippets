@@ -307,13 +307,13 @@ class NavigationDemo(
     fun showAlert(alert: Alert, carContext: CarContext) {
         // [START android_cars_apps_navigation_show_alert]
         carContext.getCarService(AppManager::class.java).showAlert(alert)
-        // [End android_cars_apps_navigation_show_alert]
+        // [END android_cars_apps_navigation_show_alert]
     }
 
     fun dismissAlert(alert: Alert, carContext: CarContext) {
         // [START android_cars_apps_navigation_dismiss_alert]
         carContext.getCarService(AppManager::class.java).dismissAlert(alert.getId())
-        // [End android_cars_apps_navigation_dismiss_alert]
+        // [END android_cars_apps_navigation_dismiss_alert]
     }
 }
 
