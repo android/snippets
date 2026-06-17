@@ -18,6 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.HEAD_TRACKING" />
+    <uses-permission android:name="android.permission.HAND_TRACKING" />
 
     <application
         android:label="XR"
@@ -38,6 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".arcore.GenerateHandJointData" android:exported="true" />
     </application>
 
 </manifest>
