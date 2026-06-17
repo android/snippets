@@ -7,6 +7,7 @@ androidx-activity-compose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha08"
 androidx-cameraX = "1.6.0"
+androidx-concurrent = "1.2.0"
 androidx-car = "1.7.0"
 androidx-compose-bom = "2026.05.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
@@ -123,6 +124,7 @@ engageCore = "1.5.12"
 compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
+camera-camera2 = "1.6.1"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -144,6 +146,7 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "androidx-cameraX" }
 androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:viewfinder-compose", version.ref = "androidx-cameraX" }
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
+androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-futures-ktx", version.ref = "androidx-concurrent" }
 androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "androidx-cameraX" }
 androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "androidx-cameraX" }
 androidx-camera-effects = { module = "androidx.camera:camera-effects", version.ref = "androidx-cameraX" }
@@ -312,6 +315,7 @@ androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "gl
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
 androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
 androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
+camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera-camera2" }
 glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
 glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 
