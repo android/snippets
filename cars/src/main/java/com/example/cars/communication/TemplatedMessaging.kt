@@ -54,7 +54,7 @@ class MyMessagingScreen(carContext: CarContext) : Screen(carContext) {
     }
 
     private fun getConversations(): List<MyConversation> = TODO("Not implemented yet")
-    // [END_EXCLUDE silent]
+    // [END_EXCLUDE]
     override fun onGetTemplate(): Template {
         val itemListBuilder = ItemList.Builder()
         val conversations: List<MyConversation> = getConversations() // Retrieve conversations
