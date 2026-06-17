@@ -65,7 +65,7 @@ private class AlternativeBillingWithUserChoiceInApp(
             // this devBackend object is for demonstration purposes,
             // developers can implement this step however best fits their
             // app to backend communication.
-            devBackend.sendExternalTransactionStarted(
+            DevBackend.sendExternalTransactionStarted(
                 userChoiceDetails.externalTransactionToken,
                 user
             )
@@ -149,7 +149,7 @@ private class AlternativeBillingWithUserChoiceInApp(
     }
 
     // Dummy devBackend object
-    private object devBackend {
+    private object DevBackend {
         fun sendExternalTransactionStarted(token: String, user: String) {}
     }
 }
