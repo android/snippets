@@ -27,10 +27,10 @@ import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryPurchasesParams
+import kotlin.coroutines.resume
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
 
 class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListener {
     // [START android_playbilling_errors_simple_retry]
@@ -176,8 +176,8 @@ class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListe
                     Log.d(
                         TAG,
                         "Acknowledgement failed, but can be retried -- " +
-                                "Response Code: ${acknowledgePurchaseResult.responseCode} -- " +
-                                "Debug Message: ${acknowledgePurchaseResult.debugMessage}"
+                            "Response Code: ${acknowledgePurchaseResult.responseCode} -- " +
+                            "Debug Message: ${acknowledgePurchaseResult.debugMessage}"
                     )
                     if (tries < maxTries) {
                         delay(currentDelay)
@@ -192,8 +192,8 @@ class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListe
                     Log.e(
                         TAG,
                         "Acknowledgement failed and cannot be retried -- " +
-                                "Response Code: ${acknowledgePurchaseResult.responseCode} -- " +
-                                "Debug Message: ${acknowledgePurchaseResult.debugMessage}"
+                            "Response Code: ${acknowledgePurchaseResult.responseCode} -- " +
+                            "Debug Message: ${acknowledgePurchaseResult.debugMessage}"
                     )
                     throw Exception("Failed to acknowledge the purchase!")
                 }
@@ -221,7 +221,7 @@ class BillingClientWrapper(private val context: Context) : PurchasesUpdatedListe
         when {
             billingClient.isReady -> {
                 val billingResult =
-                    billingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_MESSAGING);
+                    billingClient.isFeatureSupported(BillingClient.FeatureType.IN_APP_MESSAGING)
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     // use Feature
                 }
