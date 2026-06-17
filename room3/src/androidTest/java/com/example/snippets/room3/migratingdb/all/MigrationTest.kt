@@ -77,6 +77,8 @@ class MigrationTest {
         db.useReaderConnection { connection ->
           // Perform additional validation
         }
+
+        db.close()
     }
 }
 // [END room3_migrating_db_test_all]
