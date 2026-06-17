@@ -119,7 +119,7 @@ private object IndexExample {
     @Entity(indices = [Index(value = ["last_name", "address"])])
     data class User(
         @PrimaryKey val id: Int,
-        @ColumnInfo(name = "fist_name") val firstName: String,
+        @ColumnInfo(name = "first_name") val firstName: String,
         @ColumnInfo(name = "last_name") val lastName: String,
         val address: String?,
     )
