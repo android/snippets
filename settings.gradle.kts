@@ -57,5 +57,6 @@ include(
     ":healthconnect",
     ":cars",
     ":installprompt",
-    ":telecom"
+    ":telecom",
+    ":room3"
 )
