@@ -17,6 +17,7 @@
 package com.example.compose.snippets.glance
 
 import android.annotation.SuppressLint
+import androidx.annotation.RequiresApi
 import android.app.Activity
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -27,9 +28,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -72,19 +70,28 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.action.actionStartService
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
+import androidx.glance.appwidget.lazy.VerticalScrollMode
+import androidx.glance.appwidget.lazy.items
+import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.updateIf
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.RowScope
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.width
+import androidx.glance.layout.height
 import androidx.glance.material3.ColorProviders
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
 import androidx.glance.text.Text
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -264,7 +271,7 @@ private object ActionCallbackSnippet02 {
     }
 
     // [END android_compose_glance_actioncallback02]
-    /*dummy class*/
+    /*placeholder class*/
     class MyAppWidget : GlanceAppWidget() {
         override suspend fun provideGlance(context: Context, id: GlanceId) {
             TODO("Not yet implemented")
@@ -511,7 +518,7 @@ object BuildUIWithGlance {
 
         LazyColumn {
             // [START android_compose_glance_buildUI06]
-            items(items = peopleList, key = { person -> person.id }) { person ->
+            items(items = peopleList, itemId = { person -> person.id.hashCode().toLong() }) { person ->
                 Text(person.name)
             }
             // [END android_compose_glance_buildUI06]
@@ -928,8 +935,62 @@ object GlanceInteroperability {
     }
 }
 
+private object SnapScrollingSnippet {
+
+    private data class ColorItem(val color: Color, val name: String)
+
+    // [START android_compose_glance_snap_scrolling]
+    @Composable
+    fun SnapScrollLayout() {
+        val height = LocalSize.current.height
+        val items = listOf(
+            ColorItem(Color.Red, "Red"),
+            ColorItem(Color.Yellow, "Yellow"),
+            ColorItem(Color.Blue, "Blue")
+        )
+
+        if (Build.VERSION.SDK_INT >= 36 && isSnapScrollSupported) {
+            LazyColumn(
+                verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
+            ) {
+                items(items) { item ->
+                    ColorCard(item, height)
+                }
+            }
+        } else {
+            LazyColumn {
+                items(items) { item ->
+                    ColorCard(item, height)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ColorCard(item: ColorItem, height: Dp) {
+        Box(
+            modifier = GlanceModifier
+                .background(item.color)
+                .fillMaxWidth()
+                .height(height),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = item.name,
+                modifier = GlanceModifier.background(Color.White)
+            )
+        }
+    }
+
+    val isSnapScrollSupported: Boolean
+        get() = Build.VERSION.SDK_INT >= 36 &&
+                Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
+
+    // [END android_compose_glance_snap_scrolling]
+}
+
 /**
- * Dummy interface
+ * Placeholder interface
  */
 interface MyRepository {
 
@@ -942,22 +1003,22 @@ interface MyRepository {
     }
 }
 
-/**dummy function*/
+/**placeholder function*/
 private fun RowScope.Button(s: String = "") {
     TODO("Not yet implemented")
 }
 
-/** dummy class */
+/** placeholder class */
 data class Person(val id: String, val name: String)
 
-/** dummy class */
+/** placeholder class */
 class GlanceSizeModeWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         TODO("Not yet implemented")
     }
 }
 
-/** dummy class */
+/** placeholder class */
 class MyAppWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         TODO("Not yet implemented")
@@ -965,7 +1026,7 @@ class MyAppWidget : GlanceAppWidget() {
 }
 
 /**
- * Dummy Interface
+ * Placeholder Interface
  */
 sealed interface State {
 
@@ -975,7 +1036,7 @@ sealed interface State {
 }
 
 /**
- * Dummy class
+ * Placeholder class
  */
 class DestinationsRepository {
 
@@ -989,7 +1050,7 @@ class DestinationsRepository {
 }
 
 /**
- * Dummy activity for snippet
+ * Placeholder activity for snippet
  */
 class NavigationActivity : AppCompatActivity() {
     companion object {
@@ -998,14 +1059,14 @@ class NavigationActivity : AppCompatActivity() {
 }
 
 /**
- * Dummy lambda
+ * Placeholder lambda
  */
 private fun submitData() {
     TODO("Not yet implemented")
 }
 
 /**
- * Dummy broadcast receiver for snippets
+ * Placeholder broadcast receiver for snippets
  */
 class MyReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
@@ -1014,10 +1075,17 @@ class MyReceiver : BroadcastReceiver() {
 }
 
 /**
- * Dummy service for snippets
+ * Placeholder service for snippets
  */
 class SyncService : Service() {
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(widthDp = 200, heightDp = 100)
+@Composable
+fun SnapScrollLayoutPreview() {
+    SnapScrollingSnippet.SnapScrollLayout()
 }
