@@ -16,6 +16,8 @@
 
 package com.example.snippets.location
 
+// [START android_permissions_private_alternatives_location_button_kotlin]
+
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
