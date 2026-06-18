@@ -22,20 +22,19 @@ android {
             disable += "UseKtx"
         }
     }
-    kotlin {
-        jvmToolchain(17)
-
-        compilerOptions {
-            allWarningsAsErrors = true
-            // TODO: b/508214289
-            freeCompilerArgs.add("-Xwarning-level=TYPEALIAS_EXPANSION_DEPRECATION:disabled")
-        }
-    }
     buildFeatures {
         compose = true
     }
     lint {
-        disable += "RestrictedApi"
+
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+
+    compilerOptions {
+        allWarningsAsErrors = true
     }
 }
 
@@ -70,6 +69,12 @@ dependencies {
         // Snapshot versions will reference a non-public impress version.
         constraints {
             implementation("com.google.ar:impress") {
+                version {
+                    strictly("0.0.13")
+                }
+            }
+
+            testImplementation("com.google.ar:impress") {
                 version {
                     strictly("0.0.13")
                 }

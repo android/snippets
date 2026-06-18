@@ -25,14 +25,14 @@ import androidx.xr.scenecore.scene
 fun ModeTransitionCompose() {
     // [START androidxr_misc_modeTransitionCompose]
     val session = LocalSession.current ?: return
-    session.scene.requestHomeSpaceMode()
+    session.scene.requestHomeSpace()
     // or
-    session.scene.requestFullSpaceMode()
+    session.scene.requestFullSpace()
     // [END androidxr_misc_modeTransitionCompose]
 }
 
-fun ModeTransitionScenecore(xrSession: Session) {
+fun modeTransitionScenecore(xrSession: Session) {
     // [START androidxr_misc_modeTransitionScenecore]
-    xrSession.scene.requestHomeSpaceMode()
+    xrSession.scene.requestHomeSpace()
     // [END androidxr_misc_modeTransitionScenecore]
 }
