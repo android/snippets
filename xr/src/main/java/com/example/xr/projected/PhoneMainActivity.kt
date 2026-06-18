@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.projected.BatteryState
@@ -86,10 +87,13 @@ class PhoneMainActivity : ComponentActivity() {
     private fun monitorBatteryStatus() {
         lifecycleScope.launch {
             try {
-                deviceController = ProjectedDeviceController.create(this@PhoneMainActivity)
+                if (deviceController == null) {
+                    deviceController = ProjectedDeviceController.create(this@PhoneMainActivity)
+                }
 
-                deviceController?.addBatteryStateChangedListener(coroutineContext, batteryListener)
-
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    deviceController?.addBatteryStateChangedListener(coroutineContext, batteryListener)
+                }
             } catch (e: IllegalStateException) {
                 Log.e("BatteryMonitor", "Device controller state error: ${e.message}")
             } catch (e: Exception) {
