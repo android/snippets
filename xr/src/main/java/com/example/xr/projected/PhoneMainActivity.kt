@@ -52,7 +52,6 @@ import androidx.xr.projected.ProjectedDeviceController
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import kotlinx.coroutines.launch
 
-private const val TAG = "PhoneMainActivity"
 class PhoneMainActivity : ComponentActivity() {
 
     // [START androidxr_projected_monitor_battery]
@@ -74,8 +73,6 @@ class PhoneMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        monitorBatteryStatus()
 
         setContent {
             MaterialTheme {
@@ -102,6 +99,12 @@ class PhoneMainActivity : ComponentActivity() {
     }
     // [END androidxr_projected_monitor_battery]
 
+    @OptIn(ExperimentalProjectedApi::class)
+    override fun onResume() {
+        super.onResume()
+        monitorBatteryStatus()
+    }
+
     // [START androidxr_projected_monitor_battery_remove_listener]
 
     @OptIn(ExperimentalProjectedApi::class)
@@ -126,11 +129,12 @@ class PhoneMainActivity : ComponentActivity() {
     // [START androidxr_projected_get_projected_audio_device]
     @OptIn(ExperimentalProjectedApi::class)
     suspend fun getProjectedAudioDevices(context: Context): List<AudioDeviceInfo> {
+        val deviceController = ProjectedDeviceController.create(context)
         return try {
             // Returns a list of AudioDeviceInfo objects associated with the projected device.
-            ProjectedDeviceController.create(context).audioDevices
+            deviceController.audioDevices
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to get projected audio devices", e)
+            Log.e("ProjectedAudioDevices", "Failed to get projected audio devices", e)
             emptyList()
         }
     }
