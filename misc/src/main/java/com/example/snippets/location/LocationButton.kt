@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// [START android_permissions_private_alternatives_location_button_kotlin]
 package com.example.snippets.location
 
 import androidx.compose.foundation.layout.PaddingValues

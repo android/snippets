@@ -125,7 +125,7 @@ compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
 camera-camera2 = "1.6.1"
-androidx-core-locationbutton = "1.0.0-alpha02"
+androidx-core-locationbutton = "1.0.0-alpha01"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
