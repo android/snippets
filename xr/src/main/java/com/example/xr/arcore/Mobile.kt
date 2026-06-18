@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:SuppressWarnings("RestrictedApi")
+@file:Suppress("RestrictedApi")
 package com.example.xr.arcore
 
 import androidx.xr.arcore.playservices.ArCoreRuntime
