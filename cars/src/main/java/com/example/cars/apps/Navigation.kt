@@ -304,15 +304,15 @@ class NavigationDemo(
         // [END android_cars_apps_navigation_alert_creation]
     }
 
-    fun showAlert(alert: Alert, carContext: CarContext) {
+    fun showAlert(alert: Alert) {
         // [START android_cars_apps_navigation_show_alert]
         carContext.getCarService(AppManager::class.java).showAlert(alert)
         // [END android_cars_apps_navigation_show_alert]
     }
 
-    fun dismissAlert(alert: Alert, carContext: CarContext) {
+    fun dismissAlert(alert: Alert) {
         // [START android_cars_apps_navigation_dismiss_alert]
-        carContext.getCarService(AppManager::class.java).dismissAlert(alert.getId())
+        carContext.getCarService(AppManager::class.java).dismissAlert(alert.id)
         // [END android_cars_apps_navigation_dismiss_alert]
     }
 }
