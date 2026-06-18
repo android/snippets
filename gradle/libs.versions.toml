@@ -125,6 +125,7 @@ compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
 camera-camera2 = "1.6.1"
+androidx-core-locationbutton = "1.0.0-alpha02"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -318,6 +319,7 @@ androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:re
 camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera-camera2" }
 glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
 glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
+androidx-core-locationbutton-compose = { module = "androidx.core.locationbutton:locationbutton-compose", version.ref = "androidx-core-locationbutton" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

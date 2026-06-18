@@ -51,6 +51,7 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.locationbutton.compose)
 
     implementation(libs.androidx.appfunctions)
     implementation(libs.androidx.appfunctions.service)

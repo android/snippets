@@ -1,0 +1,39 @@
+<!-- [START android_permissions_private_alternatives_location_button_manifest] -->
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. Standard Coarse and Fine Location Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Optional: If your app is only using the location button to access 
+    location, you should add the "onlyForLocationButton" flag shown below to
+    your ACCESS_FINE_LOCATION declaration.
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" 
+    android:usesPermissionFlags="onlyForLocationButton"/>
+    
+    Note: Adding this flag restricts your app from accessing the precise 
+    location permission via the broader permission, and that users will be 
+    required to use the location button in order to share precise location with 
+    the app. This is designed to improve user privacy & trust when granting location access.
+    -->
+
+    <!-- 2. CRITICAL: Required system permission for rendering the LocationButton -->
+    <uses-permission android:name="android.permission.USE_LOCATION_BUTTON" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="LocationButtonSample"
+        android:theme="@style/Theme.PinPoint">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+<!-- [END android_permissions_private_alternatives_location_button_manifest] -->
