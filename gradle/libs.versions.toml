@@ -87,7 +87,7 @@ media3Ui = "1.10.1"
 # @keep
 minSdk = "36"
 mlkit-face-detection = "16.1.7"
-mockitoKotlin = "6.3.0"
+mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
 playServicesWearable = "20.0.1"
