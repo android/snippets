@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import androidx.car.app.AppManager
 import androidx.car.app.CarAppService
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
@@ -301,6 +302,18 @@ class NavigationDemo(
             .setCallback(alertCallback)
             .build()
         // [END android_cars_apps_navigation_alert_creation]
+    }
+
+    fun showAlert(alert: Alert) {
+        // [START android_cars_apps_navigation_show_alert]
+        carContext.getCarService(AppManager::class.java).showAlert(alert)
+        // [END android_cars_apps_navigation_show_alert]
+    }
+
+    fun dismissAlert(alert: Alert) {
+        // [START android_cars_apps_navigation_dismiss_alert]
+        carContext.getCarService(AppManager::class.java).dismissAlert(alert.id)
+        // [END android_cars_apps_navigation_dismiss_alert]
     }
 }
 

@@ -25,6 +25,7 @@ import androidx.xr.arcore.Hand
 import androidx.xr.arcore.HandJointType
 import androidx.xr.arcore.HandSide
 import androidx.xr.arcore.TrackingState
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.HandTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -43,9 +44,9 @@ import kotlinx.coroutines.launch
 
 fun ComponentActivity.configureSession(session: Session) {
     // [START androidxr_arcore_hand_configure]
-    val newConfig = session.config.copy(
-        handTracking = HandTrackingMode.BOTH
-    )
+    val newConfig = Config.Builder(session.config)
+        .setHandTracking(HandTrackingMode.BOTH)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -57,7 +58,7 @@ fun ComponentActivity.configureSession(session: Session) {
 fun ComponentActivity.collectHands(session: Session) {
     lifecycleScope.launch {
         // [START androidxr_arcore_hand_collect]
-        Hand.left(session)?.state?.collect { handState -> // or Hand.right(session)
+        Hand.left(session).state.collect { handState -> // or Hand.right(session)
             // Hand state has been updated.
             // Use the state of hand joints to update an entity's position.
             renderPlanetAtHandPalm(handState)
@@ -65,7 +66,7 @@ fun ComponentActivity.collectHands(session: Session) {
         // [END androidxr_arcore_hand_collect]
     }
     lifecycleScope.launch {
-        Hand.right(session)?.state?.collect { rightHandState ->
+        Hand.right(session).state.collect { rightHandState ->
             renderPlanetAtFingerTip(rightHandState)
         }
     }
@@ -76,8 +77,7 @@ fun secondaryHandDetection(activity: Activity, session: Session) {
     // [START androidxr_arcore_hand_handedness]
     val handedness = Hand.getPrimaryHandSide(activity.contentResolver)
     val secondaryHand = if (handedness == HandSide.LEFT) Hand.right(session) else Hand.left(session)
-    val handState = secondaryHand?.state ?: return
-    detectGesture(handState)
+    detectGesture(secondaryHand.state)
     // [END androidxr_arcore_hand_handedness]
 }
 
@@ -151,10 +151,11 @@ class GenerateHandJointData : ComponentActivity() {
     @OptIn(FlowPreview::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val session = (Session.create(this) as SessionCreateSuccess).session
-        session.configure(session.config.copy(handTracking = HandTrackingMode.BOTH))
+        val session = (Session.create(context = this) as SessionCreateSuccess).session
+        val config = Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build()
+        session.configure(config)
         lifecycleScope.launch {
-            Hand.right(session)?.state?.sample(500.milliseconds)?.collect { rightHandState ->
+            Hand.right(session).state.sample(500.milliseconds).collect { rightHandState ->
                 val bufferString = buildString {
                     append("mapOf(")
                     rightHandState.handJoints.forEach { type, pose ->
