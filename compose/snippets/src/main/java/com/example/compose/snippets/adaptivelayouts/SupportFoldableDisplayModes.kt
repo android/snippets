@@ -30,16 +30,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.window.area.WindowArea
 import androidx.window.area.WindowAreaCapability
 import androidx.window.area.WindowAreaController
-import androidx.window.area.WindowAreaInfo
 import androidx.window.area.WindowAreaPresentationSessionCallback
-import androidx.window.area.WindowAreaSession
-import androidx.window.area.WindowAreaSessionCallback
 import androidx.window.area.WindowAreaSessionPresenter
 import androidx.window.core.ExperimentalWindowApi
 import java.util.concurrent.Executor
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -55,13 +56,13 @@ class ExampleActivity : ComponentActivity(), WindowAreaPresentationSessionCallba
     // [START android_adaptive_foldable_vars]
     private lateinit var windowAreaController: WindowAreaController
     private lateinit var displayExecutor: Executor
-    private var windowAreaSession: WindowAreaSession? = null
-    private var windowAreaInfo: WindowAreaInfo? = null
+    private var windowAreaSession: WindowAreaSessionPresenter? = null
+    private var windowAreaInfo: WindowArea? = null
     private var capabilityStatus: WindowAreaCapability.Status =
         WindowAreaCapability.Status.WINDOW_AREA_STATUS_UNSUPPORTED
 
     private val dualScreenOperation = WindowAreaCapability.Operation.OPERATION_PRESENT_ON_AREA
-    private val rearDisplayOperation = WindowAreaCapability.Operation.OPERATION_TRANSFER_ACTIVITY_TO_AREA
+    private val rearDisplayOperation = WindowAreaCapability.Operation.OPERATION_TRANSFER_TO_AREA
     // [END android_adaptive_foldable_vars]
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,8 +75,8 @@ class ExampleActivity : ComponentActivity(), WindowAreaPresentationSessionCallba
 
         lifecycleScope.launch(Dispatchers.Main) {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                windowAreaController.windowAreaInfos
-                    .map { info -> info.firstOrNull { it.type == WindowAreaInfo.Type.TYPE_REAR_FACING } }
+                windowAreaController.windowAreaInfos()
+                    .map { info -> info.firstOrNull { it.type == WindowArea.Type.TYPE_REAR_FACING } }
                     .onEach { info -> windowAreaInfo = info }
                     .map { it?.getCapability(operation)?.status ?: WindowAreaCapability.Status.WINDOW_AREA_STATUS_UNSUPPORTED }
                     .distinctUntilChanged()
@@ -85,6 +86,18 @@ class ExampleActivity : ComponentActivity(), WindowAreaPresentationSessionCallba
             }
         }
         // [END android_adaptive_foldable_init]
+    }
+
+    private fun WindowAreaController.windowAreaInfos(): Flow<List<WindowArea>> {
+        return callbackFlow {
+            val listener = androidx.core.util.Consumer<List<WindowArea>> { info ->
+                trySend(info)
+            }
+            addWindowAreasListener(displayExecutor, listener)
+            awaitClose {
+                removeWindowAreasListener(listener)
+            }
+        }
     }
 
     fun checkCapability() {
@@ -117,7 +130,7 @@ class ExampleActivity : ComponentActivity(), WindowAreaPresentationSessionCallba
         else {
             windowAreaInfo?.token?.let { token ->
                 windowAreaController.presentContentOnWindowArea(
-                    token = token,
+                    windowAreaToken = token,
                     activity = this,
                     executor = displayExecutor,
                     windowAreaPresentationSessionCallback = this
@@ -160,49 +173,22 @@ class ExampleActivity : ComponentActivity(), WindowAreaPresentationSessionCallba
 }
 
 @OptIn(ExperimentalWindowApi::class)
-class RearDisplayActivity : ComponentActivity(), WindowAreaSessionCallback {
-
-    val logTag = "RearDisplayActivity"
+class RearDisplayActivity : ComponentActivity() {
 
     private lateinit var windowAreaController: WindowAreaController
-    private lateinit var displayExecutor: Executor
-    private var windowAreaSession: WindowAreaSession? = null
-    private var windowAreaInfo: WindowAreaInfo? = null
+    private var windowAreaInfo: WindowArea? = null
     private var capabilityStatus: WindowAreaCapability.Status =
         WindowAreaCapability.Status.WINDOW_AREA_STATUS_UNSUPPORTED
-    private val operation = WindowAreaCapability.Operation.OPERATION_TRANSFER_ACTIVITY_TO_AREA
 
     // [START android_adaptive_toggle_rear_display]
     fun toggleRearDisplayMode() {
         if(capabilityStatus == WindowAreaCapability.Status.WINDOW_AREA_STATUS_ACTIVE) {
-            if(windowAreaSession == null) {
-                windowAreaSession = windowAreaInfo?.getActiveSession(
-                    operation
-                )
-            }
-            windowAreaSession?.close()
+            windowAreaController.transferToWindowArea(null, this)
         } else {
             windowAreaInfo?.token?.let { token ->
-                windowAreaController.transferActivityToWindowArea(
-                    token = token,
-                    activity = this,
-                    executor = displayExecutor,
-                    windowAreaSessionCallback = this
-                )
+                windowAreaController.transferToWindowArea(token, this)
             }
         }
     }
     // [END android_adaptive_toggle_rear_display]
-
-    // [START android_adaptive_rear_display_callbacks]
-    override fun onSessionStarted(session: WindowAreaSession) {
-         Log.d(logTag, "onSessionStarted")
-    }
-
-    override fun onSessionEnded(t: Throwable?) {
-        if (t != null) {
-            Log.e(logTag, "Something was broken: ${t.message}")
-        }
-    }
-    // [END android_adaptive_rear_display_callbacks]
 }
