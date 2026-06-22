@@ -16,6 +16,7 @@
 
 package com.example.xr.runtime
 
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.xr.compose.platform.LocalSession
@@ -29,9 +30,9 @@ fun ComposableUsingSession() {
 }
 // [END androidxr_localsession]
 
-fun ComponentActivity.createSession() {
+fun ComponentActivity.createSession(context: Context) {
     // [START androidxr_session_create]
-    when (val result = Session.create(this)) {
+    when (val result = Session.create(context)) {
         is SessionCreateSuccess -> {
             val xrSession = result.session
             // ...
