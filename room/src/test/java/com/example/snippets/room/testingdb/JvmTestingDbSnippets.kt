@@ -21,14 +21,20 @@ import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
-
-// [START android_room3_testing_db_jvm]
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import org.junit.Test
 
-val db = Room.inMemoryDatabaseBuilder<TestDatabase>()
-    .setDriver(BundledSQLiteDriver())
-    .build()
-// [END android_room3_testing_db_jvm]
+class JvmTestingDbSnippets {
+    @Test
+    fun bundledTest() {
+        // [START android_room3_testing_db_jvm]
+        val db = Room.inMemoryDatabaseBuilder<TestDatabase>()
+            .setDriver(BundledSQLiteDriver())
+            .build()
+        // [END android_room3_testing_db_jvm]
+        db.close()
+    }
+}
 
 @Database(entities = [User::class], version = 1)
 abstract class TestDatabase : RoomDatabase()
