@@ -28,7 +28,7 @@ import androidx.activity.ComponentActivity
 import androidx.core.content.IntentCompat
 import androidx.core.content.IntentSanitizer
 
-// Dummy classes for compilation
+// Placeholder classes for compilation
 class TargetActivity : ComponentActivity()
 class ReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {}
@@ -119,7 +119,7 @@ class IntentSecurityActivity : ComponentActivity() {
     // [END android_security_onnewintent_validate]
 
     private fun processIntentPayload(intent: Intent) {
-        // Dummy implementation
+        // Placeholder implementation
     }
 
     // [START android_security_pendingintent_secure]
@@ -168,6 +168,6 @@ class IntentSecurityActivity : ComponentActivity() {
     // [END android_security_error_handling_secure]
 
     private fun showFeedbackToUser(message: String) {
-        // Dummy implementation
+        // Placeholder implementation
     }
 }

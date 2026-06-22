@@ -25,7 +25,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 
-// Dummy DB Helper for compilation
+// Placeholder DB Helper for compilation
 class MyDbHelper(context: Context) : SQLiteOpenHelper(context, "mydb", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {}
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}

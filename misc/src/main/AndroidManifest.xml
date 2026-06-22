@@ -16,17 +16,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <permission android:name="com.example.snippets.CUSTOM_PERMISSION"/>
-    <!--[START android_security_custom_permission_manifest]-->
-    <permission
-        android:name="com.example.snippets.permission.INTERNAL_COMMUNICATION"
-        android:protectionLevel="signature" />
-    <!--[END android_security_custom_permission_manifest]-->
-    <permission
-        android:name="com.example.snippets.permission.READ_DATA"
-        android:protectionLevel="signature" />
-    <permission
-        android:name="com.example.snippets.permission.WRITE_DATA"
-        android:protectionLevel="signature" />
+
     <!--[START android_engage_tv_permission]-->
     <!-- Mandatory for TV integrations -->
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
@@ -103,27 +93,9 @@
             </intent-filter>
         </receiver>
 <!--    [END android_engage_broadcast_receiver_static]-->
-        <!--[START android_security_custom_permission_activity_manifest]-->
-        <activity
-            android:name=".security.intents.InternalSharingActivity"
-            android:exported="true"
-            android:permission="com.example.snippets.permission.INTERNAL_COMMUNICATION">
-            <intent-filter>
-                <action android:name="com.example.snippets.ACTION_SHARE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <!--[END android_security_custom_permission_activity_manifest]-->
 
-        <!--[START android_security_contentprovider_manifest]-->
-        <provider
-            android:name=".security.intents.SecureDataProvider"
-            android:authorities="com.example.snippets.provider"
-            android:exported="true"
-            android:readPermission="com.example.snippets.permission.READ_DATA"
-            android:writePermission="com.example.snippets.permission.WRITE_DATA"
-            android:grantUriPermissions="false" />
-        <!--[END android_security_contentprovider_manifest]-->
+
+
     </application>
 
 </manifest>
