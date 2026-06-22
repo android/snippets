@@ -9,7 +9,7 @@ androidx-appfunctions = "1.0.0-alpha08"
 androidx-cameraX = "1.6.0"
 androidx-concurrent = "1.2.0"
 androidx-car = "1.7.0"
-androidx-compose-bom = "2026.05.00"
+androidx-compose-bom = "2026.05.01"
 androidx-compose-ui-test = "1.7.0-alpha08"
 androidx-compose-ui-test-junit4-accessibility = "1.11.1"
 androidx-constraintlayout = "2.2.1"
@@ -155,7 +155,7 @@ androidx-camera-effects = { module = "androidx.camera:camera-effects", version.r
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom-alpha", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-latest" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-latest" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-latest" }
