@@ -45,20 +45,33 @@ class IntentSecurityActivity : ComponentActivity() {
     fun safeIntentRedirectionManual() {
         val nestedIntent = IntentCompat.getParcelableExtra(intent, "EXTRA_NESTED_INTENT", Intent::class.java)
         if (nestedIntent != null) {
+            // 1. Check for URI permission grants to prevent URI permission bypass
+            val hasUriPermissionGrants = (
+                nestedIntent.flags and (
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
+                        Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                        Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+                    )
+                ) != 0
+            if (hasUriPermissionGrants) {
+                throw SecurityException("Nested intent contains forbidden URI permission grant flags!")
+            }
+
             val pm = packageManager
             val target = nestedIntent.resolveActivity(pm)
             if (target != null) {
-                // 1. Verify target is within the same package
+                // 2. Verify target is within the same package
                 if (target.packageName != packageName) {
                     throw SecurityException("Cross-app intent redirection is forbidden!")
                 }
                 try {
-                    // 2. Verify target activity is exported
+                    // 3. Verify target activity is exported
                     val info = pm.getActivityInfo(target, 0)
                     if (!info.exported) {
                         throw SecurityException("Target activity is private: ${target.className}")
                     }
-                    // 3. Explicitly set the component to prevent intent interception
+                    // 4. Explicitly set the component to prevent intent interception
                     nestedIntent.component = target
                     // Safe to launch
                     startActivity(nestedIntent)
@@ -81,6 +94,7 @@ class IntentSecurityActivity : ComponentActivity() {
                 .allowDataWithAuthority("com.example.app.provider") // Allowed URI authority
                 .allowType("text/plain") // Allowed mime type
                 .allowExtra("user_display_name", String::class.java) // Safe type-enforced extras
+                // Note: URI permission flags are NOT allowed, so the sanitizer will automatically strip or throw on them
                 .build()
 
             try {

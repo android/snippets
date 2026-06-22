@@ -16,16 +16,14 @@
 
 package com.example.snippets.security.intents
 
-import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.Signature
 import android.os.Binder
 import android.os.IBinder
+import android.os.Process
 import android.util.Base64
 import android.util.Log
-import java.security.MessageDigest
 
 // [START android_security_service_caller_verify]
 class SecureBoundService : Service() {
@@ -34,56 +32,44 @@ class SecureBoundService : Service() {
         private const val TRUSTED_PARTNER_SHA256 = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V="
     }
 
-    @SuppressLint("BinderGetCallingInMainThread")
     override fun onBind(intent: Intent): IBinder {
-        // NOTE: Binder.getCallingUid() in onBind() is illustrative. In a production
-        // service, perform this check inside your Binder interface's IPC methods
-        // (e.g., in AIDL stub implementations) to ensure you verify the actual caller.
+        // Return the binder. Do NOT perform signature verification in onBind() because
+        // the binder connection is cached by Android, which can bypass checks on subsequent binds.
+        return LocalBinder()
+    }
+
+    private fun enforceTrustedCaller() {
         val callingUid = Binder.getCallingUid()
+        // Allow calls from the same application
+        if (callingUid == Process.myUid()) {
+            return
+        }
         val pm = packageManager
         val packages = pm.getPackagesForUid(callingUid)
         
-        if (!packages.isNullOrEmpty()) {
-            val callingPackage = packages[0]
-            if (verifySignature(pm, callingPackage)) {
-                return LocalBinder()
-            }
+        if (packages.isNullOrEmpty() || !verifySignature(pm, packages[0])) {
+            throw SecurityException("Access Denied: Caller signature is untrusted.")
         }
-        throw SecurityException("Binding denied: Caller identity unverified.")
     }
 
     private fun verifySignature(pm: PackageManager, packageName: String): Boolean {
         try {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                val packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-                val signingInfo = packageInfo.signingInfo
-                if (signingInfo != null) {
-                    val signatures = signingInfo.apkContentsSigners
-                    signatures?.forEach { signature ->
-                        if (verifyHash(signature)) return true
-                    }
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                val packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-                val signatures = packageInfo.signatures
-                signatures?.forEach { signature ->
-                    if (verifyHash(signature)) return true
-                }
-            }
+            val trustedSha256Raw = Base64.decode(TRUSTED_PARTNER_SHA256, Base64.DEFAULT)
+            // API 28+ handles rotated certificates and avoids manual hashing.
+            // Since minSdk is 36, this is always available.
+            return pm.hasSigningCertificate(packageName, trustedSha256Raw, PackageManager.CERT_INPUT_SHA256)
         } catch (e: Exception) {
             Log.e("SECURITY_ERROR", "Verification failed for package: $packageName", e)
         }
         return false
     }
 
-    private fun verifyHash(signature: Signature): Boolean {
-        val md = MessageDigest.getInstance("SHA-256")
-        md.update(signature.toByteArray())
-        val currentSignature = Base64.encodeToString(md.digest(), Base64.NO_WRAP).trim()
-        return TRUSTED_PARTNER_SHA256 == currentSignature
+    inner class LocalBinder : Binder() {
+        fun doSecureWork() {
+            // Verify caller identity on every transaction method call
+            enforceTrustedCaller()
+            // Safe to proceed with sensitive operations
+        }
     }
-
-    private inner class LocalBinder : Binder()
 }
 // [END android_security_service_caller_verify]

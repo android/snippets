@@ -31,7 +31,6 @@ class MyDbHelper(context: Context) : SQLiteOpenHelper(context, "mydb", null, 1) 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}
 }
 
-// [START android_security_contentprovider_secure]
 class SecureDataProvider : ContentProvider() {
     private val tableName = "users"
     private lateinit var dbHelper: MyDbHelper
@@ -41,6 +40,7 @@ class SecureDataProvider : ContentProvider() {
         return true
     }
 
+    // [START android_security_contentprovider_secure]
     override fun query(
         uri: Uri,
         projection: Array<String>?,
@@ -64,10 +64,10 @@ class SecureDataProvider : ContentProvider() {
         val db = dbHelper.readableDatabase
         return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder)
     }
+    // [END android_security_contentprovider_secure]
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? = null
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int = 0
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0
     override fun getType(uri: Uri): String? = null
 }
-// [END android_security_contentprovider_secure]
