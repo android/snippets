@@ -48,14 +48,17 @@ class SecureDataProvider : ContentProvider() {
         selectionArgs: Array<String>?,
         sortOrder: String?
     ): Cursor? {
-        val queryBuilder = SQLiteQueryBuilder().apply {
-            tables = tableName
-            // Strict projection map to prevent querying unauthorized columns
-            projectionMap = mapOf(
-                "_id" to "_id",
-                "display_name" to "display_name"
-            )
-        }
+        val queryBuilder = SQLiteQueryBuilder()
+        queryBuilder.tables = tableName
+        // Strict projection map to prevent querying unauthorized columns
+        queryBuilder.projectionMap = mapOf(
+            "_id" to "_id",
+            "display_name" to "display_name"
+        )
+        // Enable strict validation (always available since minSdk is 36)
+        queryBuilder.setStrict(true)
+        queryBuilder.setStrictColumns(true)
+        queryBuilder.setStrictGrammar(true)
 
         // MUST parameterize selection criteria; NEVER append selection strings directly
         val db = dbHelper.readableDatabase

@@ -25,6 +25,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.core.content.IntentCompat
 import androidx.core.content.IntentSanitizer
 
 // Dummy classes for compilation
@@ -42,7 +43,7 @@ class IntentSecurityActivity : ComponentActivity() {
 
     // [START android_security_intent_redirect_manual]
     fun safeIntentRedirectionManual() {
-        val nestedIntent = intent.getParcelableExtra<Intent>("EXTRA_NESTED_INTENT")
+        val nestedIntent = IntentCompat.getParcelableExtra(intent, "EXTRA_NESTED_INTENT", Intent::class.java)
         if (nestedIntent != null) {
             val pm = packageManager
             val target = nestedIntent.resolveActivity(pm)
@@ -57,6 +58,8 @@ class IntentSecurityActivity : ComponentActivity() {
                     if (!info.exported) {
                         throw SecurityException("Target activity is private: ${target.className}")
                     }
+                    // 3. Explicitly set the component to prevent intent interception
+                    nestedIntent.component = target
                     // Safe to launch
                     startActivity(nestedIntent)
                 } catch (e: PackageManager.NameNotFoundException) {
@@ -69,7 +72,7 @@ class IntentSecurityActivity : ComponentActivity() {
 
     // [START android_security_intent_redirect_sanitizer]
     fun safeIntentRedirectionSanitizer() {
-        val untrustedIntent = intent.getParcelableExtra<Intent>("EXTRA_NESTED_INTENT")
+        val untrustedIntent = IntentCompat.getParcelableExtra(intent, "EXTRA_NESTED_INTENT", Intent::class.java)
         if (untrustedIntent != null) {
             // Define the strict boundaries for allowed redirection target
             val sanitizer = IntentSanitizer.Builder()
@@ -148,7 +151,11 @@ class IntentSecurityActivity : ComponentActivity() {
     fun safeErrorHandling(callingPackage: String?) {
         try {
             val payload = intent.getStringExtra("DATA_EXTRA") ?: throw IllegalArgumentException("Payload parameter missing.")
-            startActivity(intent)
+            // Create a specific target intent using the validated payload
+            val targetIntent = Intent(this, TargetActivity::class.java).apply {
+                putExtra("SECURE_PAYLOAD", payload)
+            }
+            startActivity(targetIntent)
         } catch (e: SecurityException) {
             // MUST log security violations for audit, but NEVER expose exception details to the user.
             Log.e("SECURITY_ERROR", "Unauthorized component transition blocked. Calling Package: ${callingPackage ?: "Unknown"}", e)
