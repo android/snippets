@@ -14,8 +14,12 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<!-- [START android_tv_create_style] -->
 <resources>
-    <string name="app_name">TV Snippets</string>
-    <string name="title_activity_tv_movies">TvMoviesActivity</string>
-    <string name="startPlayback">Start Playback</string>
+    <style name="MyTheme">
+      <item name="android:colorPrimary">@color/primary</item>
+      <item name="android:windowAllowReturnTransitionOverlap">true</item>
+      <item name="android:windowAllowEnterTransitionOverlap">true</item>
+    </style>
 </resources>
+<!-- [END android_tv_create_style] -->
