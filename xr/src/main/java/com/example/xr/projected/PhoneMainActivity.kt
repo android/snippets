@@ -94,8 +94,6 @@ class PhoneMainActivity : ComponentActivity() {
                 if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                     deviceController?.addBatteryStateChangedListener(coroutineContext, batteryListener)
                 }
-            } catch (e: IllegalStateException) {
-                Log.e("BatteryMonitor", "Device controller state error: ${e.message}")
             } catch (e: Exception) {
                 Log.e("BatteryMonitor", "Unexpected error: ${e.message}")
             }
