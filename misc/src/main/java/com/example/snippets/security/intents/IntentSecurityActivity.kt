@@ -74,10 +74,10 @@ class IntentSecurityActivity : ComponentActivity() {
             // Define the strict boundaries for allowed redirection target
             val sanitizer = IntentSanitizer.Builder()
                 .allowComponent(ComponentName("com.example.app", "com.example.app.SafeTargetActivity")) // Explicitly allowed target
-                .allowAction(Intent.ACTION_VIEW)                     // Explicitly allowed actions
-                .allowDataWithAuthority("com.example.app.provider")   // Allowed URI authority
-                .allowType("text/plain")                             // Allowed mime type
-                .allowExtra("user_display_name", String::class.java)  // Safe type-enforced extras
+                .allowAction(Intent.ACTION_VIEW) // Explicitly allowed actions
+                .allowDataWithAuthority("com.example.app.provider") // Allowed URI authority
+                .allowType("text/plain") // Allowed mime type
+                .allowExtra("user_display_name", String::class.java) // Safe type-enforced extras
                 .build()
 
             try {
