@@ -7,6 +7,7 @@ androidx-activity-compose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha08"
 androidx-cameraX = "1.6.0"
+androidx-concurrent = "1.2.0"
 androidx-car = "1.7.0"
 androidx-compose-bom = "2026.05.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
@@ -20,7 +21,7 @@ androidx-credentials = "1.7.0-alpha02"
 androidx-credentials-play-services-auth = "1.7.0-alpha02"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment = "1.8.9"
-androidx-glance-appwidget = "1.1.1"
+androidx-glance-appwidget = "1.3.0-alpha01"
 androidx-lifecycle-compose = "2.10.0"
 androidx-lifecycle-runtime-compose = "2.10.0"
 androidx-lifecycle-viewmodel-navigation3 = "2.10.0-beta01"
@@ -33,7 +34,7 @@ androidx-test = "1.7.0"
 androidx-test-core-ktx = "1.6.1"
 androidx-test-espresso = "3.7.0"
 androidx-test-junit = "1.3.0"
-androidx-window = "1.5.1"
+androidx-window = "1.6.0-alpha05"
 androidx-window-core = "1.5.1"
 androidx-window-java = "1.5.1"
 androidx-work-runtime = "2.11.1"
@@ -72,6 +73,7 @@ ksp = "2.3.7"
 ktlint = "1.5.0"
 lifecycleService = "2.10.0"
 maps-compose = "8.3.0"
+mlkit-face-detection = "16.1.7"
 material = "1.14.0-beta01"
 material3-adaptive = "1.2.0"
 material3-adaptive-navigation-suite = "1.4.0"
@@ -124,6 +126,7 @@ engageCore = "1.5.12"
 compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
+camera-camera2 = "1.6.1"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -140,10 +143,16 @@ androidx-appfunctions-compiler = { module = "androidx.appfunctions:appfunctions-
 androidx-appfunctions-service = { module = "androidx.appfunctions:appfunctions-service", version.ref = "androidx-appfunctions" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "androidx-cameraX" }
 androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "androidx-cameraX" }
+androidx-camera-ktx = { module = "androidx.camera:camera-ktx", version.ref = "androidx-cameraX" }
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "androidx-cameraX" }
 androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "androidx-cameraX" }
 androidx-camera-viewfinder-compose = { module = "androidx.camera.viewfinder:viewfinder-compose", version.ref = "androidx-cameraX" }
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidx-cameraX" }
+androidx-concurrent-futures-ktx = { module = "androidx.concurrent:concurrent-futures-ktx", version.ref = "androidx-concurrent" }
+androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "androidx-cameraX" }
+androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "androidx-cameraX" }
+androidx-camera-effects = { module = "androidx.camera:camera-effects", version.ref = "androidx-cameraX" }
+mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 androidx-car = { module = "androidx.car.app:app", version.ref = "androidx-car"}
 androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose-latest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
@@ -205,6 +214,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle-viewmodel-navigation3" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
+androidx-media3-effect = { module = "androidx.media3:media3-effect", version.ref = "media3" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Ui" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
@@ -320,6 +330,9 @@ androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "gl
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
 androidx-wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "remote-material3" }
 androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
+camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera-camera2" }
+glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
+glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

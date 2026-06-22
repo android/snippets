@@ -40,12 +40,13 @@ import androidx.xr.runtime.math.Pose
 private fun configureGeospatialSession(session: Session) {
     // [START androidxr_arcore_geospatial_configure]
     // Define the configuration object to enable Geospatial features.
-    val newConfig = Config(
+    val newConfig = Config.Builder(session.config)
         // Set the GeospatialMode to SPATIAL.
-        geospatial = GeospatialMode.SPATIAL,
+        .setGeospatial(GeospatialMode.SPATIAL)
         // Set the DeviceTrackingMode to SPATIAL.
-        deviceTracking = DeviceTrackingMode.SPATIAL_LAST_KNOWN
-    )
+        .setDeviceTracking(DeviceTrackingMode.SPATIAL)
+        .build()
+
     // Apply the configuration to the session.
     try {
         when (val configResult = session.configure(newConfig)) {
