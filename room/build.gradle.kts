@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -68,4 +69,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.room3.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+}
+
+room3 {
+    schemaDirectory(project.layout.projectDirectory.dir("schemas"))
 }

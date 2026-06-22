@@ -31,15 +31,15 @@ import java.util.Date
 
 // [START android_room3_referencing_data_converter]
 object Converters {
-  @ColumnTypeConverter
-  fun fromTimestamp(value: Long?): Date? {
-    return value?.let { Date(it) }
-  }
+    @ColumnTypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
 
-  @ColumnTypeConverter
-  fun dateToTimestamp(date: Date?): Long? {
-    return date?.time
-  }
+    @ColumnTypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
 }
 // [END android_room3_referencing_data_converter]
 
@@ -47,22 +47,22 @@ object Converters {
 @Database(entities = [User::class], version = 1)
 @ColumnTypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-  abstract fun userDao(): UserDao
+    abstract fun userDao(): UserDao
 }
 // [END android_room3_referencing_data_db]
 
 // [START android_room3_referencing_data_usage]
 @Entity
 data class User(
-  @PrimaryKey val id: Long,
-  val name: String,
-  val birthday: Date?
+    @PrimaryKey val id: Long,
+    val name: String,
+    val birthday: Date?
 )
 
 @Dao
 interface UserDao {
-  @Query("SELECT * FROM user WHERE birthday = :targetDate")
-  suspend fun findUsersBornOnDate(targetDate: Date): List<User>
+    @Query("SELECT * FROM user WHERE birthday = :targetDate")
+    suspend fun findUsersBornOnDate(targetDate: Date): List<User>
 }
 // [END android_room3_referencing_data_usage]
 
@@ -72,22 +72,22 @@ class ExampleType
 // [START android_room3_referencing_data_provided]
 @ProvidedColumnTypeConverter
 class ExampleConverter {
-  @ColumnTypeConverter
-  fun StringToExample(string: String?): ExampleType? {
-    return string?.let { ExampleType() }
-  }
+    @ColumnTypeConverter
+    fun stringToExample(string: String?): ExampleType? {
+        return string?.let { ExampleType() }
+    }
 
-  @ColumnTypeConverter
-  fun ExampleToString(example: ExampleType?): String? {
-    return example?.toString()
-  }
+    @ColumnTypeConverter
+    fun exampleToString(example: ExampleType?): String? {
+        return example?.toString()
+    }
 }
 // [END android_room3_referencing_data_provided]
 
 @Entity
-data class DummyEntity(@PrimaryKey val id: Int)
+data class ExampleEntity(@PrimaryKey val id: Int)
 
-@Database(entities = [DummyEntity::class], version = 1)
+@Database(entities = [ExampleEntity::class], version = 1)
 @ColumnTypeConverters(ExampleConverter::class)
 abstract class MyDatabase : RoomDatabase()
 
@@ -96,7 +96,7 @@ val exampleConverterInstance = ExampleConverter()
 fun createProvidedDb(applicationContext: Context) {
     // [START android_room3_referencing_data_register_provided]
     val db = Room.databaseBuilder<MyDatabase>(applicationContext, "database-name")
-      .addColumnTypeConverter(exampleConverterInstance)
-      .build()
+        .addColumnTypeConverter(exampleConverterInstance)
+        .build()
     // [END android_room3_referencing_data_register_provided]
 }

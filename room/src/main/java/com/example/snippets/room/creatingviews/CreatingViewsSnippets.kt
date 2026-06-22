@@ -42,8 +42,8 @@ interface UserDao
 // [START android_room3_creating_views_view]
 @DatabaseView(
     """
-    SELECT user.id, user.name, user.departmentId, department.name AS departmentName
-    FROM user INNER JOIN department ON user.departmentId = department.id
+    SELECT User.id, User.name, User.departmentId, Department.name AS departmentName
+    FROM User INNER JOIN Department ON User.departmentId = Department.id
     """
 )
 data class UserDetail(

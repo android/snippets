@@ -20,6 +20,7 @@ import androidx.room3.Dao
 import androidx.room3.Database
 import androidx.room3.Embedded
 import androidx.room3.Entity
+import androidx.room3.Index
 import androidx.room3.Junction
 import androidx.room3.PrimaryKey
 import androidx.room3.Query
@@ -41,7 +42,7 @@ data class Song(
     val artist: String
 )
 
-@Entity(primaryKeys = ["playlistId", "songId"])
+@Entity(primaryKeys = ["playlistId", "songId"], indices = [Index("playlistId", "songId")])
 data class PlaylistSongCrossRef(
     val playlistId: Long,
     val songId: Long
