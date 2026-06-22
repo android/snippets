@@ -208,7 +208,7 @@ private object ConnectGattNamespace {
     class BluetoothLeService : Service() {
         // [START android_bluetooth_connect_gatt]
         // [START_EXCLUDE silent]
-        fun dummy(device: BluetoothDevice, bluetoothGattCallback: BluetoothGattCallback) {
+        fun placeholder(device: BluetoothDevice, bluetoothGattCallback: BluetoothGattCallback) {
         // [END_EXCLUDE]
             var bluetoothGatt: BluetoothGatt? = null
             // ...
@@ -233,12 +233,12 @@ private object ConnectNamespace {
         // [END_EXCLUDE]
         // [START_EXCLUDE]
         override fun onBind(intent: Intent): IBinder? = null
-        fun dummy() {}
+        fun placeholder() {}
         // [END_EXCLUDE]
         private var bluetoothGatt: BluetoothGatt? = null
 
         // [START_EXCLUDE]
-        fun dummy2() {}
+        fun placeholder2() {}
         // [END_EXCLUDE]
         fun connect(address: String): Boolean {
             bluetoothAdapter?.let { adapter ->
@@ -290,7 +290,7 @@ private object CallbackNamespace {
         }
 
         // [START_EXCLUDE]
-        fun dummy() {}
+        fun placeholder() {}
         // [END_EXCLUDE]
         companion object {
             const val ACTION_GATT_CONNECTED =
