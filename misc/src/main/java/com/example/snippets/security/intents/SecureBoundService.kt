@@ -16,6 +16,7 @@
 
 package com.example.snippets.security.intents
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,7 +34,11 @@ class SecureBoundService : Service() {
         private const val TRUSTED_PARTNER_SHA256 = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V="
     }
 
+    @SuppressLint("BinderGetCallingInMainThread")
     override fun onBind(intent: Intent): IBinder {
+        // NOTE: Binder.getCallingUid() in onBind() is illustrative. In a production
+        // service, perform this check inside your Binder interface's IPC methods
+        // (e.g., in AIDL stub implementations) to ensure you verify the actual caller.
         val callingUid = Binder.getCallingUid()
         val pm = packageManager
         val packages = pm.getPackagesForUid(callingUid)
