@@ -46,6 +46,7 @@ include(
     ":wearcompanion",
     ":views",
     ":misc",
+    ":security",
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
