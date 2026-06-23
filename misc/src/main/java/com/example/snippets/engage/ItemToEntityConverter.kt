@@ -17,6 +17,13 @@
 package com.example.snippets.engage
 
 import com.google.android.engage.books.datamodel.EbookEntity
+import com.google.android.engage.video.datamodel.MovieEntity
+import com.google.android.engage.video.datamodel.RatingSystem
+
+class MovieData {
+    val id: String = "movie_123"
+    val title: String = "Example Movie"
+}
 
 // [START android_engage_item_to_entity_converter_implementation]
 object ItemToEntityConverter {
