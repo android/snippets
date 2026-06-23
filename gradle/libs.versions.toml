@@ -98,12 +98,12 @@ protolayout = "1.4.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 registryDigitalCredentials = "1.0.0-alpha04"
-room = "2.6.1"
+remote-material3 = "1.0.0-alpha06"
+room = "2.8.4"
 room3 = "3.0.0-rc01"
-sqlite = "2.7.0-rc01"
 robolectric = "4.16.1"
 roborazzi = "1.64.0"
-room = "2.8.4"
+sqlite = "2.7.0-rc01"
 spotless = "8.7.0"
 targetSdk = "37"
 tiles = "1.6.0"
@@ -247,11 +247,9 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 androidx-sqlite-async = { module = "androidx.sqlite:sqlite-async", version.ref = "sqlite" }
 androidx-registry-digitalcredentials-openid = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-mdoc = { module = "androidx.credentials.registry:registry-digitalcredentials-mdoc", version.ref = "registryDigitalCredentials" }
-androidx-registry-digitalcredentials-openid = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-sdjwtvc = { module = "androidx.credentials.registry:registry-digitalcredentials-sdjwtvc", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider = { module = "androidx.credentials.registry:registry-provider", version.ref = "registryDigitalCredentials" }
 androidx-registry-provider-play-services = { module = "androidx.credentials.registry:registry-provider-play-services", version.ref = "registryDigitalCredentials" }
-androidx-room-common = { module = "androidx.room:room-common", version.ref = "room" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup-runtime" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core-ktx" }
