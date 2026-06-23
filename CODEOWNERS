@@ -23,4 +23,4 @@
 /wear/                                                                              @android/devrel-wear
 /wearcompanion/                                                                     @android/devrel-wear
 /xr/                                                                                @android/devrel-xr
-/gradle/libs.versions.toml                                                          @android/devrel-snippets @android/devrel-ai @android/devrel-camera-media @android/devrel-car @android/devrel-compose @android/devrel-adaptive-apps @android/devrel-identity @android/devrel-wear @android/devrel-tv @android/devrel-xr
+/gradle/libs.versions.toml                                                          
