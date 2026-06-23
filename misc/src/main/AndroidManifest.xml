@@ -16,6 +16,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <permission android:name="com.example.snippets.CUSTOM_PERMISSION"/>
+
     <!--[START android_engage_tv_permission]-->
     <!-- Mandatory for TV integrations -->
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
@@ -93,5 +94,4 @@
         </receiver>
 <!--    [END android_engage_broadcast_receiver_static]-->
     </application>
-
 </manifest>
