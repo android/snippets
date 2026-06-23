@@ -123,6 +123,7 @@ compose-remote = "1.0.0-alpha11"
 glance-wear = "1.0.0-alpha10"
 remote-material3 = "1.0.0-alpha04"
 screenshotValidationApi = "0.0.1-alpha14"
+screenshot = "0.0.1-alpha15"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -309,6 +310,7 @@ androidx-compose-remote-tooling-preview = { module = "androidx.compose.remote:re
 glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "androidx-glance-appwidget" }
 glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "screenshotValidationApi" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -324,5 +326,6 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
+screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }

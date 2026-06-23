@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.screenshot)
 }
 
 kotlin {
@@ -30,6 +31,7 @@ kotlin {
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     defaultConfig {
         applicationId = "com.example.compose.snippets"
@@ -181,4 +183,7 @@ dependencies {
 
     androidTestImplementation(libs.androidx.glance.testing)
     androidTestImplementation(libs.androidx.glance.appwidget.testing)
+
+    screenshotTestImplementation(libs.screenshot.validation.api)
+    screenshotTestImplementation(libs.androidx.ui.tooling)
 }
