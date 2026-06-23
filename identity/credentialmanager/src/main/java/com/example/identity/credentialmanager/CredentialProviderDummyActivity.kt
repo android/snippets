@@ -62,7 +62,7 @@ import java.security.spec.ECParameterSpec
 import java.security.spec.ECPoint
 import java.security.spec.EllipticCurve
 
-class CredentialProviderPlaceholderActivity : FragmentActivity() {
+class CredentialProviderDummyActivity : FragmentActivity() {
 
     private val PERSONAL_ACCOUNT_ID: String = ""
     private val FAMILY_ACCOUNT_ID: String = ""
