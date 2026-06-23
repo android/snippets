@@ -98,7 +98,9 @@ protolayout = "1.4.0"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 registryDigitalCredentials = "1.0.0-alpha04"
-remote-material3 = "1.0.0-alpha06"
+room = "2.6.1"
+room3 = "3.0.0-rc01"
+sqlite = "2.7.0-rc01"
 robolectric = "4.16.1"
 roborazzi = "1.64.0"
 room = "2.8.4"
@@ -224,11 +226,26 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidx-navigation3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "androidx-paging" }
 androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayout" }
 androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayout" }
 androidx-protolayout-material = { module = "androidx.wear.protolayout:protolayout-material", version.ref = "protolayout" }
 androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-room-common = { module = "androidx.room:room-common", version.ref = "room" }
+androidx-room3-runtime = { module = "androidx.room3:room3-runtime", version.ref = "room3" }
+androidx-room3-common = { module = "androidx.room3:room3-common", version.ref = "room3" }
+androidx-room3-compiler = { module = "androidx.room3:room3-compiler", version.ref = "room3" }
+androidx-room3-paging = { module = "androidx.room3:room3-paging", version.ref = "room3" }
+androidx-room3-rxjava3 = { module = "androidx.room3:room3-rxjava3", version.ref = "room3" }
+androidx-room3-guava = { module = "androidx.room3:room3-guava", version.ref = "room3" }
+androidx-room3-livedata = { module = "androidx.room3:room3-livedata", version.ref = "room3" }
+androidx-room3-sqlite-wrapper = { module = "androidx.room3:room3-sqlite-wrapper", version.ref = "room3" }
+androidx-room3-testing = { module = "androidx.room3:room3-testing", version.ref = "room3" }
+androidx-sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = "sqlite" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-sqlite-async = { module = "androidx.sqlite:sqlite-async", version.ref = "sqlite" }
+androidx-registry-digitalcredentials-openid = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-mdoc = { module = "androidx.credentials.registry:registry-digitalcredentials-mdoc", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-openid = { module = "androidx.credentials.registry:registry-digitalcredentials-openid", version.ref = "registryDigitalCredentials" }
 androidx-registry-digitalcredentials-sdjwtvc = { module = "androidx.credentials.registry:registry-digitalcredentials-sdjwtvc", version.ref = "registryDigitalCredentials" }
@@ -334,3 +351,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+room = { id = "androidx.room3", version.ref = "room3" }
