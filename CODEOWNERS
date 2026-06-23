@@ -13,6 +13,7 @@
 # /kmp/                                                                               @android/
 # /kotlin/                                                                            @android/
 /misc/                                                                              @android/devrel-snippets
+/security/                                                                            @android/devrel-security
 # /playbilling/                                                                       @android/
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
