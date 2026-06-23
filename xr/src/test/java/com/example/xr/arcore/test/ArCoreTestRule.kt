@@ -21,6 +21,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.xr.arcore.Hand
 import androidx.xr.arcore.HandJointType
 import androidx.xr.arcore.testing.ArCoreTestRule
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.HandTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionCreateSuccess
@@ -30,7 +31,6 @@ import androidx.xr.runtime.math.Quaternion
 import androidx.xr.runtime.math.Vector3
 import com.example.xr.arcore.detectThumbsUp
 import com.google.common.truth.Truth.assertThat
-import kotlin.test.fail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
@@ -69,21 +69,21 @@ class ArCoreTestRuleExample {
 
         activityController.create().start().resume()
 
-        val sessionCreateResult = Session.create(activity = activity, coroutineContext = testDispatcher)
+        val sessionCreateResult = Session.create(context = activity, coroutineContext = testDispatcher)
         session = (sessionCreateResult as SessionCreateSuccess).session
 
         // Configure the session.
-        session.configure(session.config.copy(handTracking = HandTrackingMode.BOTH))
+        session.configure(Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build())
     }
     // [END androidxr_arcore_testing_setup]
 
     // [START androidxr_arcore_test_case]
     @Test
     fun test_thumbsUp() = runTest(testDispatcher) {
-        arCoreTestRule.rightHand.isVisible = true
-        arCoreTestRule.rightHand.handJointMap = gestureThumbsUp
+        arCoreTestRule.rightHandTester.isVisible = true
+        arCoreTestRule.rightHandTester.handJointMap = gestureThumbsUp
         advanceUntilIdle()
-        val handState = Hand.right(session)?.state?.value ?: fail("Did not detect a right hand")
+        val handState = Hand.right(session).state.value
 
         val isThumbsUp = detectThumbsUp(handState)
         assertThat(isThumbsUp).isTrue()
@@ -92,10 +92,10 @@ class ArCoreTestRuleExample {
 
     @Test
     fun test_notThumbsUp() = runTest(testDispatcher) {
-        arCoreTestRule.rightHand.isVisible = true
-        arCoreTestRule.rightHand.handJointMap = gestureV
+        arCoreTestRule.rightHandTester.isVisible = true
+        arCoreTestRule.rightHandTester.handJointMap = gestureV
         advanceUntilIdle()
-        val handState = Hand.right(session)?.state?.value ?: fail("Did not detect a right hand")
+        val handState = Hand.right(session).state.value
         val isThumbsUp = detectThumbsUp(handState)
         assertThat(isThumbsUp).isFalse()
     }

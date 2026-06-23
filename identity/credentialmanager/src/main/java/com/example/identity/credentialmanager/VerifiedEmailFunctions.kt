@@ -267,7 +267,7 @@ data class ServerResponse(val json: String)
 object SdJwtParser {
     fun parse(sdJwt: String): JSONObject {
         // In a real implementation, this would parse the SD-JWT and return the claims.
-        // For this example, we'll return a dummy JSON object.
+        // For this example, we'll return a placeholder JSON object.
         return JSONObject().apply {
             put("email", "example@example.com")
             put("name", "Example User")
