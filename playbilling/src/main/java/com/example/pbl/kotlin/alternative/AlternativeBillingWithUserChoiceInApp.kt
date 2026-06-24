@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingFlowParams.ProductDetailsParams.SubscriptionProductReplacementParams
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -128,6 +129,13 @@ private class AlternativeBillingWithUserChoiceInApp(
                         BillingFlowParams.ProductDetailsParams.newBuilder()
                             // Fetched using queryProductDetailsAsync
                             .setProductDetails(productDetailsNewPlan)
+                            .setSubscriptionProductReplacementParams(
+                                SubscriptionProductReplacementParams.newBuilder()
+                                    .setReplacementMode(
+                                        SubscriptionProductReplacementParams.ReplacementMode.CHARGE_FULL_PRICE
+                                    )
+                                    .build()
+                            )
                             // offerIdToken can be found in
                             // ProductDetails=>SubscriptionOfferDetails.
                             .setOfferToken(offerTokenNewPlan)
@@ -139,7 +147,6 @@ private class AlternativeBillingWithUserChoiceInApp(
                         // purchaseToken can be found in
                         // Purchase#getPurchaseToken
                         .setOldPurchaseToken(oldToken)
-                        .setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.CHARGE_FULL_PRICE)
                         .build()
                 )
                 .build()
