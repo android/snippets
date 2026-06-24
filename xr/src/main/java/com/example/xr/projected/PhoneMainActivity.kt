@@ -16,9 +16,12 @@
 
 package com.example.xr.projected
 
+import android.content.Context
 import android.content.Intent
+import android.media.AudioDeviceInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,21 +44,120 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.xr.projected.BatteryState
 import androidx.xr.projected.ProjectedContext
+import androidx.xr.projected.ProjectedDeviceController
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import kotlinx.coroutines.launch
 
 class PhoneMainActivity : ComponentActivity() {
+
+    // [START androidxr_projected_monitor_battery]
+    @OptIn(ExperimentalProjectedApi::class)
+    private var deviceController: ProjectedDeviceController? = null
+
+    private val batteryListener = { batteryState: BatteryState ->
+        val batteryLevel = batteryState.batteryLevel
+        val isCharging = batteryState.isCharging
+
+        if (batteryLevel <= 15 && !isCharging) {
+            switchToLowPowerMode()
+        }
+
+        updateBatteryUi(batteryLevel, isCharging)
+    }
+    // [START_EXCLUDE]
     @RequiresApi(Build.VERSION_CODES.BAKLAVA)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             MaterialTheme {
                 ConnectionScreen()
             }
         }
     }
+    // [END_EXCLUDE]
+
+    @OptIn(ExperimentalProjectedApi::class)
+    private fun monitorBatteryStatus() {
+        lifecycleScope.launch {
+            try {
+                if (deviceController == null) {
+                    deviceController = ProjectedDeviceController.create(this@PhoneMainActivity)
+                }
+
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    deviceController?.addBatteryStateChangedListener(coroutineContext, batteryListener)
+                }
+            } catch (e: Exception) {
+                Log.e("BatteryMonitor", "Unexpected error: ${e.message}")
+            }
+        }
+    }
+    // [END androidxr_projected_monitor_battery]
+
+    @OptIn(ExperimentalProjectedApi::class)
+    override fun onResume() {
+        super.onResume()
+        monitorBatteryStatus()
+    }
+
+    // [START androidxr_projected_monitor_battery_remove_listener]
+
+    @OptIn(ExperimentalProjectedApi::class)
+    override fun onPause() {
+        super.onPause()
+        // Explicitly unregister the listener when it is no longer needed
+        deviceController?.removeBatteryStateChangedListener(batteryListener)
+    }
+    // [END androidxr_projected_monitor_battery_remove_listener]
+
+    // [START androidxr_projected_close_device_controller]
+
+    @OptIn(ExperimentalProjectedApi::class)
+    override fun onDestroy() {
+        super.onDestroy()
+        // Unregisters the active listeners
+        deviceController?.close()
+        deviceController = null
+    }
+    // [END androidxr_projected_close_device_controller]
+
+    // [START androidxr_projected_get_projected_audio_device]
+    @OptIn(ExperimentalProjectedApi::class)
+    suspend fun getProjectedAudioDevices(context: Context): List<AudioDeviceInfo> {
+        val deviceController = ProjectedDeviceController.create(context)
+        return try {
+            // Returns a list of AudioDeviceInfo objects associated with the projected device.
+            deviceController.audioDevices
+        } catch (e: Exception) {
+            Log.e("ProjectedAudioDevices", "Failed to get projected audio devices", e)
+            emptyList()
+        }
+    }
+    // [END androidxr_projected_get_projected_audio_device]
+
+    // [START androidxr_projected_is_projected_audio_device]
+    suspend fun isProjectedAudioDevice(
+        context: Context,
+        systemAudioDeviceInfo: AudioDeviceInfo
+    ): Boolean {
+        // Fetch the list of the projected audio devices
+        val projectedAudioDevicesInfo = getProjectedAudioDevices(context)
+
+        // Return true if the current system device ID matches any projected device ID
+        return projectedAudioDevicesInfo.any { projectedAudioDevice ->
+            projectedAudioDevice.id == systemAudioDeviceInfo.id
+        }
+    }
+    // [END androidxr_projected_is_projected_audio_device]
+    private fun updateBatteryUi(batteryLevel: Int, charging: Boolean) {}
+    private fun switchToLowPowerMode() {}
 }
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
