@@ -25,9 +25,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import android.os.Build
 import android.view.MotionEvent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 
 @Composable
 fun StylusPalmRejectionAcquireSample() {
@@ -79,4 +86,40 @@ fun StylusPalmRejectionActionSample() {
             }
     )
     // [END android_compose_stylus_palm_rejection_determine_action]
+}
+
+@Composable
+fun MediaPlaybackSpacebarPreview() {
+    // [START android_compose_media_playback_spacebar_preview]
+    Column(
+        modifier = Modifier.onPreviewKeyEvent { event ->
+            if (event.type == KeyEventType.KeyUp && event.key == Key.Spacebar) {
+                // Handle spacebar keypress to pause/resume playback.
+                true
+            } else {
+                false
+            }
+        }
+    ) {
+        // Content
+    }
+    // [END android_compose_media_playback_spacebar_preview]
+}
+
+@Composable
+fun MediaPlaybackSpacebarOnKeyEvent() {
+    // [START android_compose_media_playback_spacebar_onkeyevent]
+    Column(
+        modifier = Modifier.onKeyEvent { event ->
+            if (event.type == KeyEventType.KeyUp && event.key == Key.Spacebar) {
+                // Handle spacebar keypress to pause/resume playback.
+                true
+            } else {
+                false
+            }
+        }
+    ) {
+        // Content
+    }
+    // [END android_compose_media_playback_spacebar_onkeyevent]
 }
