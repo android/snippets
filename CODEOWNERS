@@ -13,8 +13,9 @@
 # /kmp/                                                                               @android/
 # /kotlin/                                                                            @android/
 /misc/                                                                              @android/devrel-snippets
-/security/                                                                            @android/devrel-security
-# /playbilling/                                                                       @android/
+/security/                                                                          @android/devrel-security
+/playbilling/                                                                       @android/devrel-play-billing
+/room/                                                                              @android/eng-android-architecture
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
 # /views/                                                                             @android/
