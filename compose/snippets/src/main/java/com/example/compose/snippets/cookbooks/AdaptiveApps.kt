@@ -22,6 +22,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 // [END android_compose_stylus_palm_rejection_acquire]
 // [END android_compose_stylus_palm_rejection_determine_action]
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.view.MotionEvent
@@ -35,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -188,4 +191,23 @@ fun LazyListStateRestoration() {
         }
     }
     // [END android_compose_lazy_list_state_restoration]
+}
+
+@Composable
+fun DynamicOrientationHandler() {
+    // [START android_compose_dynamic_orientation_handler]
+    val configuration = LocalConfiguration.current
+    val context = LocalContext.current
+
+    LaunchedEffect(configuration) {
+        val activity = context as? Activity ?: return@LaunchedEffect
+        // Determine if screen is compact (phone-sized) in either width or height
+        val isCompact = configuration.screenWidthDp < 600 || configuration.screenHeightDp < 600
+        activity.requestedOrientation = if (isCompact) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+    // [END android_compose_dynamic_orientation_handler]
 }
