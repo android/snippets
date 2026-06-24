@@ -206,7 +206,7 @@ fun DynamicOrientationHandler() {
         activity.requestedOrientation = if (isCompact) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         } else {
-            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            ActivityInfo.SCREEN_ORIENTATION_FULL_USER
         }
     }
     // [END android_compose_dynamic_orientation_handler]
