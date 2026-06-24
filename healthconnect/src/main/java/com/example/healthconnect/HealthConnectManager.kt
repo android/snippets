@@ -868,36 +868,48 @@ class HealthConnectManager(
 
      fun writeSleepSessionWithStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_with_stages]
-        val stages = listOf(
-            SleepSessionRecord.Stage(
-                startTime = startTime,
-                endTime = endTime,
-                stage = SleepSessionRecord.STAGE_TYPE_SLEEPING,
-            )
-        )
 
-        SleepSessionRecord(
-            title = "weekend sleep",
-            startTime = startTime,
-            endTime = endTime,
-            startZoneOffset = ZoneOffset.UTC,
-            endZoneOffset = ZoneOffset.UTC,
-            stages = stages,
-            metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
-        )
-        // [END android_healthconnect_sleep_session_with_stages]
+         val zoneRules = ZoneId.systemDefault().rules
+         val startOffset = zoneRules.getOffset(startTime)
+         val endOffset = zoneRules.getOffset(endTime)
+
+         val stages = listOf(
+             SleepSessionRecord.Stage(
+                 startTime = startTime,
+                 endTime = endTime,
+                 stage = SleepSessionRecord.STAGE_TYPE_SLEEPING,
+             )
+         )
+
+         SleepSessionRecord(
+             title = "weekend sleep",
+             startTime = startTime,
+             endTime = endTime,
+             startZoneOffset = startOffset,
+             endZoneOffset = endOffset,
+             stages = stages,
+             metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
+         )
+     // [END android_healthconnect_sleep_session_with_stages]
     }
 
      fun writeSleepSessionWithoutStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_without_stages]
-        SleepSessionRecord(
-            title = "weekend sleep",
-            startTime = startTime,
-            endTime = endTime,
-            startZoneOffset = ZoneOffset.UTC,
-            endZoneOffset = ZoneOffset.UTC,
-            metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
-        )
+
+         val zoneRules = ZoneId.systemDefault().rules
+
+         // Calculate the specific offset for both start and end times
+         val startOffset = zoneRules.getOffset(startTime)
+         val endOffset = zoneRules.getOffset(endTime)
+
+         SleepSessionRecord(
+             title = "weekend sleep",
+             startTime = startTime,
+             endTime = endTime,
+             startZoneOffset = startOffset,
+             endZoneOffset = endOffset,
+             metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
+         )
         // [END android_healthconnect_sleep_session_without_stages]
     }
 
