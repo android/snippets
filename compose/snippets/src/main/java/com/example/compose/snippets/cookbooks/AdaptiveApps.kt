@@ -22,12 +22,15 @@ import androidx.compose.ui.input.pointer.pointerInput
 // [END android_compose_stylus_palm_rejection_acquire]
 // [END android_compose_stylus_palm_rejection_determine_action]
 
+import android.content.res.Configuration
 import android.os.Build
 import android.view.MotionEvent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -35,6 +38,9 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.util.Consumer
 
 @Composable
 fun StylusPalmRejectionAcquireSample() {
@@ -122,4 +128,36 @@ fun MediaPlaybackSpacebarOnKeyEvent() {
         // Content
     }
     // [END android_compose_media_playback_spacebar_onkeyevent]
+}
+
+@Composable
+fun DetachableKeyboardReactive() {
+    // [START android_compose_detachable_keyboard_reactive]
+    val configuration = LocalConfiguration.current
+    val isPhysicalKeyboardAttached = configuration.keyboard == Configuration.KEYBOARD_QWERTY
+
+    if (isPhysicalKeyboardAttached) {
+        // Render layout optimized for physical keyboard
+    } else {
+        // Render default layout
+    }
+    // [END android_compose_detachable_keyboard_reactive]
+}
+
+@Composable
+fun DetachableKeyboardListener() {
+    // [START android_compose_detachable_keyboard_listener]
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        val activity = context as? ComponentActivity
+        val listener = Consumer<Configuration> { newConfig ->
+            val hasKeyboard = newConfig.keyboard == Configuration.KEYBOARD_QWERTY
+            // Trigger non-UI actions, analytics, etc.
+        }
+        activity?.addOnConfigurationChangedListener(listener)
+        onDispose {
+            activity?.removeOnConfigurationChangedListener(listener)
+        }
+    }
+    // [END android_compose_detachable_keyboard_listener]
 }
