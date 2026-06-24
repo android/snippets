@@ -29,8 +29,16 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -160,4 +168,24 @@ fun DetachableKeyboardListener() {
         }
     }
     // [END android_compose_detachable_keyboard_listener]
+}
+
+@Composable
+fun LazyListStateRestoration() {
+    // [START android_compose_lazy_list_state_restoration]
+    // Scroll state is automatically saved and restored by rememberLazyListState
+    val listState = rememberLazyListState()
+
+    LazyColumn(state = listState) {
+        items(100) { index ->
+            // Use rememberSaveable to preserve individual item state (e.g., text input)
+            var text by rememberSaveable { mutableStateOf("") }
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                label = { Text("Item $index") }
+            )
+        }
+    }
+    // [END android_compose_lazy_list_state_restoration]
 }
