@@ -28,6 +28,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.view.MotionEvent
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -158,7 +159,7 @@ fun DetachableKeyboardReactive() {
 @Composable
 fun DetachableKeyboardListener() {
     // [START android_compose_detachable_keyboard_listener]
-    val context = localActivity.current
+    val context = LocalActivity.current
     DisposableEffect(context) {
         val activity = context as? ComponentActivity
         val listener = Consumer<Configuration> { newConfig ->
@@ -197,10 +198,10 @@ fun LazyListStateRestoration() {
 fun DynamicOrientationHandler() {
     // [START android_compose_dynamic_orientation_handler]
     val configuration = LocalConfiguration.current
-    val context = localActivity.current
+    val context = LocalActivity.current
 
     LaunchedEffect(configuration) {
-        val activity = context as? Activity ?: return@LaunchedEffect
+        val activity = context ?: return@LaunchedEffect
         // Determine if screen is compact (phone-sized) in either width or height
         val isCompact = configuration.screenWidthDp < 600 || configuration.screenHeightDp < 600
         activity.requestedOrientation = if (isCompact) {
