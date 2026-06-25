@@ -158,7 +158,7 @@ fun DetachableKeyboardReactive() {
 @Composable
 fun DetachableKeyboardListener() {
     // [START android_compose_detachable_keyboard_listener]
-    val context = LocalContext.current
+    val context = localActivity.current
     DisposableEffect(context) {
         val activity = context as? ComponentActivity
         val listener = Consumer<Configuration> { newConfig ->
@@ -197,7 +197,7 @@ fun LazyListStateRestoration() {
 fun DynamicOrientationHandler() {
     // [START android_compose_dynamic_orientation_handler]
     val configuration = LocalConfiguration.current
-    val context = LocalContext.current
+    val context = localActivity.current
 
     LaunchedEffect(configuration) {
         val activity = context as? Activity ?: return@LaunchedEffect
