@@ -36,6 +36,7 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
     }
 
     // [START androidxr_projected_permissions_from_phone_activity_permission_result_callback]
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -44,7 +45,7 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
 
-        // Verify both the request code and that the result belongs to the glasses device
+        // Handle the result of the permission request
         if (requestCode == REQUEST_CODE_GLASSES_CAMERA) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Proceed with glasses camera features
