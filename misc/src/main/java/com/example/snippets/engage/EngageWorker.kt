@@ -59,7 +59,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         return when (publishType) {
             Constants.PUBLISH_TYPE_RECOMMENDATIONS -> publishRecommendations()
             // Constants.PUBLISH_TYPE_FEATURED -> publishFeatured()
-            // Constants.PUBLISH_TYPE_CONTINUATION-> publishContinuation()
+            Constants.PUBLISH_TYPE_CONTINUATION -> publishContinuation()
             Constants.PUBLISH_TYPE_USER_ACCOUNT_MANAGEMENT -> publishUserAccountManagement()
             else -> Result.failure()
         }
@@ -70,6 +70,21 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         val publishTask: Task<Void> =
             client.publishRecommendationClusters(
                 clusterRequestFactory.constructRecommendationClustersRequest()
+            )
+        return publishAndProvideResult(publishTask)
+    }
+
+    private suspend fun publishContinuation(): Result {
+        // Empty Continuation Guard: If there is no continuation content,
+        // we must delete the cluster instead of publishing an empty one on the UI.
+        if (getContinuationData().isEmpty()) {
+            val deleteTask = client.deleteContinuationCluster()
+            return publishAndProvideResult(deleteTask)
+        }
+
+        val publishTask: Task<Void> =
+            client.publishContinuationCluster(
+                clusterRequestFactory.constructContinuationClusterRequest()
             )
         return publishAndProvideResult(publishTask)
     }
@@ -102,6 +117,13 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         // Implement your app's sign-in check logic here.
         // [START_EXCLUDE]
         return true
+        // [END_EXCLUDE]
+    }
+
+    private fun getContinuationData(): List<Any> {
+        // Implement your app's data loading logic here.
+        // [START_EXCLUDE]
+        return emptyList()
         // [END_EXCLUDE]
     }
 

@@ -1,4 +1,4 @@
-*                                                                                   @android/devrel-snippets
+/*                                                                                  @android/devrel-snippets
 /ai/                                                                                @android/devrel-ai
 # /bluetoothle/                                                                       @android/
 /camerax/                                                                           @android/devrel-camera-media
@@ -13,8 +13,9 @@
 # /kmp/                                                                               @android/
 # /kotlin/                                                                            @android/
 /misc/                                                                              @android/devrel-snippets
-/security/                                                                            @android/devrel-security
-# /playbilling/                                                                       @android/
+/security/                                                                          @android/devrel-security
+/playbilling/                                                                       @android/devrel-play-billing
+/room/                                                                              @android/eng-android-architecture
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
 # /views/                                                                             @android/
@@ -23,4 +24,4 @@
 /wear/                                                                              @android/devrel-wear
 /wearcompanion/                                                                     @android/devrel-wear
 /xr/                                                                                @android/devrel-xr
-/gradle/libs.versions.toml                                                          @android/devrel-snippets @android/devrel-ai @android/devrel-camera-media @android/devrel-car @android/devrel-compose @android/devrel-adaptive-apps @android/devrel-identity @android/devrel-wear @android/devrel-tv @android/devrel-xr
+/gradle/libs.versions.toml                                                          
