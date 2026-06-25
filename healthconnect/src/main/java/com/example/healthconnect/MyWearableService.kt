@@ -199,7 +199,7 @@ class MyWearableService : CompanionDeviceService() {
             exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_BIKING,
             title = "Morning Bike Ride",
             exerciseRoute = exerciseRoute,
-            metadata = Metadata(
+            metadata = Metadata.activelyRecorded(
                 device = Device(type = Device.TYPE_PHONE)
             )
         )

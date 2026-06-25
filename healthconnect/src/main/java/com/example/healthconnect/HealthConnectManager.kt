@@ -23,7 +23,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectFeatures
-import androidx.health.connect.client.feature.ExperimentalFeatureAvailabilityApi
 import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ExerciseRoute
 import androidx.health.connect.client.records.ExerciseSessionRecord
@@ -97,8 +96,9 @@ class HealthConnectManager(
         // Store data in appStepsRecords
         // ...
         var sr = StepsRecord(
-            metadata = Metadata(
+            metadata = Metadata.activelyRecorded(
                 clientRecordId = "Your client record ID",
+                clientRecordVersion = 0L,
                 device = Device(type = Device.TYPE_WATCH)
             ),
             startTime = startTime,
@@ -212,7 +212,7 @@ class HealthConnectManager(
                         beatsPerMinute = 85,
                     )
                 ),
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_WATCH)
                 ))
             // [END android_heart_rate_minute_record_example]
@@ -238,7 +238,7 @@ class HealthConnectManager(
                 startTime = swimStartTime,
                 endTime = swimEndTime,
                 exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_SWIMMING_OPEN_WATER,
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_WATCH)
                 ),
                 startZoneOffset = null,
@@ -249,7 +249,7 @@ class HealthConnectManager(
                 startTime = bikeStartTime,
                 endTime = bikeEndTime,
                 exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_BIKING,
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_WATCH)
                 ),
                 startZoneOffset = null,
@@ -260,7 +260,7 @@ class HealthConnectManager(
                 startTime = runStartTime,
                 endTime = runEndTime,
                 exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_WATCH)
                 ),
                 startZoneOffset = null,
@@ -469,7 +469,7 @@ class HealthConnectManager(
             ),
             title = "Run at lake",
             notes = null,
-            metadata = Metadata(
+            metadata = Metadata.activelyRecorded(
                 device = Device(type = Device.Companion.TYPE_PHONE),
             ),
             startZoneOffset = null,
@@ -512,7 +512,7 @@ class HealthConnectManager(
             endTime = startTime.plusSeconds(3600),
             endZoneOffset = zoneOffset,
             exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_RUNNING,
-            metadata = Metadata(clientRecordId = sessionClientId),
+            metadata = Metadata.activelyRecorded(clientRecordId = sessionClientId, device = Device(type = Device.TYPE_PHONE)),
         )
 
         healthConnectClient.insertRecords(listOf(session))
@@ -540,7 +540,7 @@ class HealthConnectManager(
                         beatsPerMinute = 100 + index.toLong(),
                     )
                 },
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_WATCH)
                 ))
             // [END android_healthconnect_heart_rate_record_example]
@@ -571,7 +571,7 @@ class HealthConnectManager(
                 endTime = endTime,
                 startZoneOffset = ZoneOffset.UTC,
                 endZoneOffset = ZoneOffset.UTC,
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     device = Device(type = Device.TYPE_PHONE)
                 )
             )
@@ -595,7 +595,7 @@ class HealthConnectManager(
             val clientRecordId = "<your-record-id>"
 
             val record = WeightRecord(
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     clientRecordId = clientRecordId,
                     clientRecordVersion = recordVersion,
                     device = Device(type = Device.TYPE_SCALE)
@@ -624,7 +624,7 @@ class HealthConnectManager(
             val clientRecordId = "<your-record-id>"
 
             val record = WeightRecord(
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     clientRecordId = clientRecordId,
                     clientRecordVersion = recordVersion,
                     device = Device(type = Device.TYPE_SCALE)
@@ -665,7 +665,7 @@ class HealthConnectManager(
                     endTime = sampleTime,
                     endZoneOffset = zoneOffset,
                     count = Random.nextLong(1, 100),
-                    metadata = Metadata(),
+                    metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH)),
                 )
                 sampleTime = sampleTime.plus(Duration.ofMinutes(minutesBetweenSamples))
             }
@@ -694,7 +694,7 @@ class HealthConnectManager(
                 startZoneOffset = ZoneOffset.UTC,
                 endTime = endTime,
                 endZoneOffset = ZoneOffset.UTC,
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     clientRecordId = "Your supplied record ID",
                     clientRecordVersion = 0L, // Your supplied record version
                     device = Device(type = Device.TYPE_WATCH)
@@ -868,34 +868,48 @@ class HealthConnectManager(
 
      fun writeSleepSessionWithStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_with_stages]
-        val stages = listOf(
-            SleepSessionRecord.Stage(
-                startTime = startTime,
-                endTime = endTime,
-                stage = SleepSessionRecord.STAGE_TYPE_SLEEPING,
-            )
-        )
 
-        SleepSessionRecord(
-            title = "weekend sleep",
-            startTime = startTime,
-            endTime = endTime,
-            startZoneOffset = ZoneOffset.UTC,
-            endZoneOffset = ZoneOffset.UTC,
-            stages = stages,
-        )
-        // [END android_healthconnect_sleep_session_with_stages]
+         val zoneRules = ZoneId.systemDefault().rules
+         val startOffset = zoneRules.getOffset(startTime)
+         val endOffset = zoneRules.getOffset(endTime)
+
+         val stages = listOf(
+             SleepSessionRecord.Stage(
+                 startTime = startTime,
+                 endTime = endTime,
+                 stage = SleepSessionRecord.STAGE_TYPE_SLEEPING,
+             )
+         )
+
+         SleepSessionRecord(
+             title = "weekend sleep",
+             startTime = startTime,
+             endTime = endTime,
+             startZoneOffset = startOffset,
+             endZoneOffset = endOffset,
+             stages = stages,
+             metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
+         )
+     // [END android_healthconnect_sleep_session_with_stages]
     }
 
      fun writeSleepSessionWithoutStage(healthConnectClient: HealthConnectClient, startTime: Instant, endTime: Instant) {
         // [START android_healthconnect_sleep_session_without_stages]
-        SleepSessionRecord(
-            title = "weekend sleep",
-            startTime = startTime,
-            endTime = endTime,
-            startZoneOffset = ZoneOffset.UTC,
-            endZoneOffset = ZoneOffset.UTC,
-        )
+
+         val zoneRules = ZoneId.systemDefault().rules
+
+         // Calculate the specific offset for both start and end times
+         val startOffset = zoneRules.getOffset(startTime)
+         val endOffset = zoneRules.getOffset(endTime)
+
+         SleepSessionRecord(
+             title = "weekend sleep",
+             startTime = startTime,
+             endTime = endTime,
+             startZoneOffset = startOffset,
+             endZoneOffset = endOffset,
+             metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
+         )
         // [END android_healthconnect_sleep_session_without_stages]
     }
 
@@ -908,7 +922,8 @@ class HealthConnectManager(
                     startZoneOffset = ZoneOffset.of("-08:00"),
                     endTime = Instant.parse("2022-05-11T07:00:00.000Z"),
                     endZoneOffset = ZoneOffset.of("-08:00"),
-                    title = "My Sleep"
+                    title = "My Sleep",
+                    metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH))
                 ),
             )
         )
@@ -983,9 +998,8 @@ class HealthConnectManager(
             endTime = endTime,
             startZoneOffset = zoneOffset,
             endZoneOffset = zoneOffset,
-            metadata = Metadata(
-                device = Device(type = Device.TYPE_WATCH),
-                recordingMethod = Metadata.RECORDING_METHOD_AUTOMATICALLY_RECORDED
+            metadata = Metadata.autoRecorded(
+                device = Device(type = Device.TYPE_WATCH)
             )
         )
         healthConnectClient.insertRecords(listOf(stepsRecord))
@@ -1066,7 +1080,7 @@ class HealthConnectManager(
             startZoneOffset = null,
             endTime = Instant.ofEpochMilli(1236L),
             endZoneOffset = null,
-            metadata = Metadata(),
+            metadata = Metadata.activelyRecorded(device = Device(type = Device.TYPE_WATCH)),
             count = 10
         )
         // [END android_healthconnect_steps_record_metadata]
@@ -1162,7 +1176,6 @@ class HealthConnectManager(
         // [END android_healthconnect_device_examples]
     }
 
-    @OptIn(ExperimentalFeatureAvailabilityApi::class)
     @SuppressLint("RestrictedApi")
     suspend fun writeMindfulnessSession(healthConnectClient: HealthConnectClient) {
         // [START android_healthconnect_write_mindfulness_session]
@@ -1178,7 +1191,7 @@ class HealthConnectManager(
                 mindfulnessSessionType = MindfulnessSessionRecord.MINDFULNESS_SESSION_TYPE_MEDITATION,
                 title = "Lake meditation",
                 notes = "Meditation by the lake",
-                metadata = Metadata(
+                metadata = Metadata.activelyRecorded(
                     clientRecordId = "myid",
                     clientRecordVersion = 1L,
                     device = Device(type = Device.TYPE_PHONE)
@@ -1235,9 +1248,8 @@ class HealthConnectManager(
             exerciseType = ExerciseSessionRecord.EXERCISE_TYPE_BIKING,
             title = "Morning Bike Ride",
             exerciseRoute = exerciseRoute,
-            metadata = Metadata(
-                device = Device(type = Device.TYPE_PHONE),
-                recordingMethod = Metadata.RECORDING_METHOD_MANUAL_ENTRY
+            metadata = Metadata.manualEntry(
+                device = Device(type = Device.TYPE_PHONE)
             )
         )
         healthConnectClient.insertRecords(listOf(session))
@@ -1276,7 +1288,7 @@ class HealthConnectManager(
             ),
             title = "Run at lake",
             plannedExerciseSessionId = insertedPlannedExerciseSessionId,
-            metadata = Metadata(
+            metadata = Metadata.activelyRecorded(
                 device = Device(type = Device.Companion.TYPE_PHONE)
             )
         )
@@ -1315,7 +1327,7 @@ class HealthConnectManager(
             endTime = sessionEndTime,
             endZoneOffset = ZoneOffset.UTC,
             samples = samples,
-            metadata = Metadata(
+            metadata = Metadata.activelyRecorded(
                 device = Device(type = Device.Companion.TYPE_WATCH)
             )
         )

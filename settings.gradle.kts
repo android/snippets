@@ -46,6 +46,7 @@ include(
     ":wearcompanion",
     ":views",
     ":misc",
+    ":security",
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
@@ -57,5 +58,6 @@ include(
     ":healthconnect",
     ":cars",
     ":installprompt",
-    ":telecom"
+    ":telecom",
+    ":room"
 )
