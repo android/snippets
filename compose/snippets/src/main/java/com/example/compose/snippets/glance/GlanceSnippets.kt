@@ -949,19 +949,17 @@ private object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        if (Build.VERSION.SDK_INT >= 36 && isSnapScrollSupported) {
-            LazyColumn(
-                verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
-            ) {
-                items(items) { item ->
-                    ColorCard(item, height)
-                }
-            }
+        val scrollMode = if (isSnapScrollSupported) {
+            VerticalScrollMode.SnapScrollMatchHeight(height)
         } else {
-            LazyColumn {
-                items(items) { item ->
-                    ColorCard(item, height)
-                }
+            VerticalScrollMode.Normal
+        }
+
+        LazyColumn(
+            verticalScrollMode = scrollMode
+        ) {
+            items(items) { item ->
+                ColorCard(item, height)
             }
         }
     }
