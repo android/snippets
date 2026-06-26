@@ -44,7 +44,7 @@ camera-camera2 = "1.6.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "37"
-compose-latest = "1.11.3"
+compose-latest = "1.12.0-beta01"
 compose-remote = "1.0.0-alpha13"
 composeUiTooling = "1.6.2"
 coreSplashscreen = "1.2.0"
