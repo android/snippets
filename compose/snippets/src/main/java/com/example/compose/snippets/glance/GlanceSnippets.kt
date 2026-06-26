@@ -949,7 +949,7 @@ private object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        val scrollMode = if (isSnapScrollSupported) {
+        val scrollMode = if (Build.VERSION.SDK_INT >= 37) {
             VerticalScrollMode.SnapScrollMatchHeight(height)
         } else {
             VerticalScrollMode.Normal
@@ -979,11 +979,6 @@ private object SnapScrollingSnippet {
             )
         }
     }
-
-    val isSnapScrollSupported: Boolean
-        get() = Build.VERSION.SDK_INT >= 36 &&
-                Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
-
     // [END android_compose_glance_snap_scrolling]
 }
 
