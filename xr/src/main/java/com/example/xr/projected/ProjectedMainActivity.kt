@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 
 // [START androidxr_projected_ai_glasses_activity]
 @OptIn(ExperimentalProjectedApi::class)
-class GlassesMainActivity : ComponentActivity() {
+class ProjectedMainActivity : ComponentActivity() {
 
     private var displayController: ProjectedDisplayController? = null
     private var isVisualUiSupported by mutableStateOf(false)
@@ -106,14 +106,14 @@ class GlassesMainActivity : ComponentActivity() {
         lifecycleScope.launch {
             // [START androidxr_projected_device_capabilities_check]
             // Check device capabilities
-            val projectedDeviceController = ProjectedDeviceController.create(this@GlassesMainActivity)
+            val projectedDeviceController = ProjectedDeviceController.create(this@ProjectedMainActivity)
             isVisualUiSupported = projectedDeviceController.capabilities.contains(CAPABILITY_VISUAL_UI)
             // [END androidxr_projected_device_capabilities_check]
 
-            val controller = ProjectedDisplayController.create(this@GlassesMainActivity)
+            val controller = ProjectedDisplayController.create(this@ProjectedMainActivity)
             displayController = controller
             val observer = GlassesLifecycleObserver(
-                context = this@GlassesMainActivity,
+                context = this@ProjectedMainActivity,
                 controller = controller,
                 onVisualsChanged = { visualsOn -> areVisualsOn = visualsOn }
             )

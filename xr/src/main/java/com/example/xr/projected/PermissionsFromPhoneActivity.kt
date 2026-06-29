@@ -31,11 +31,14 @@ import androidx.xr.projected.experimental.ExperimentalProjectedApi
  */
 class PermissionsFromPhoneActivity : ComponentActivity() {
 
+    private var projectedDeviceId: Int = -1
+
+    // [START androidxr_projected_permissions_from_phone_activity_permission_result_callback]
     private companion object {
+        // REQUEST_CODE_GLASSES_CAMERA is a developer-defined constant.
         const val REQUEST_CODE_GLASSES_CAMERA = 1001
     }
 
-    // [START androidxr_projected_permissions_from_phone_activity_permission_result_callback]
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -46,7 +49,7 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
 
         // Handle the result of the permission request
-        if (requestCode == REQUEST_CODE_GLASSES_CAMERA) {
+        if (requestCode == REQUEST_CODE_GLASSES_CAMERA && deviceId == projectedDeviceId) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Proceed with glasses camera features
             } else {
@@ -62,7 +65,7 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
 
         try {
             val projectedContext = ProjectedContext.createProjectedDeviceContext(this)
-            val projectedDeviceId = projectedContext.deviceId
+            projectedDeviceId = projectedContext.deviceId
 
             // [START androidxr_projected_permissions_from_phone_activity_has_permission]
             // Pass the projected context to check if projected permissions are granted
@@ -79,13 +82,14 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
                 // Request the projected permission from phone activity
                 requestPermissions(
                     arrayOf(Manifest.permission.CAMERA),
+                    // REQUEST_CODE_GLASSES_CAMERA is a developer-defined constant
                     REQUEST_CODE_GLASSES_CAMERA,
                     projectedDeviceId
                 )
                 // [END androidxr_projected_permissions_from_phone_activity_request_permission]
             }
         } catch (e: IllegalStateException) {
-            // Handle context initialization failure safely
+            // Handle the case where the projected device is not found
         }
     }
 }
