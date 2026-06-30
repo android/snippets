@@ -188,7 +188,7 @@ fun ConnectionScreen() {
                     // [START androidxr_projected_start_glasses_activity]
 
                     val options = ProjectedContext.createProjectedActivityOptions(context)
-                    val intent = Intent(context, GlassesMainActivity::class.java)
+                    val intent = Intent(context, ProjectedMainActivity::class.java)
                     context.startActivity(intent, options.toBundle())
 
                     // [END androidxr_projected_start_glasses_activity]
