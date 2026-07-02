@@ -70,7 +70,7 @@ class DialerActivity : ComponentActivity() {
     fun initiateCallback(callId: Long) {
         // [START android_telecom_dialer_callback]
         // Uri generated with unique ID of the call log entry to launch the respective VoIP app for callback
-        val address = ContentUris.withAppendedId(CallLog.Calls.CONTENT_URI, callId)
+        val address = ContentUris.withAppendedId(CallLog.Calls.CONTENT_URI_WITH_VOIP_CALLS, callId)
 
         // extra information required to initiate callback
         val extras = Bundle()
