@@ -43,9 +43,11 @@ fun AmbientModeBasicSample() {
         val ambientModeManager = LocalAmbientModeManager.current
         val ambientMode = ambientModeManager?.currentAmbientMode
 
-        ambientModeManager?.AmbientTickEffect {
-            // While device is in ambient mode, update properties every minute or so
-            // ...
+        if (ambientModeManager != null) {
+            ambientModeManager.AmbientTickEffect {
+                // While device is in ambient mode, update properties every minute or so
+                // ...
+            }
         }
 
         // [START_EXCLUDE]
@@ -59,7 +61,7 @@ fun AmbientModeBasicSample() {
                 when (ambientMode) {
                     is AmbientMode.Interactive -> "Interactive"
                     is AmbientMode.Ambient -> "Ambient"
-                    else -> "Unknown"
+                    null -> "Unknown"
                 }
 
             Text(text = "$ambientModeName Mode")
