@@ -18,5 +18,4 @@ package com.example.wear.snippets.alwayson
 
 import androidx.activity.ComponentActivity
 
-class AlwaysOnActivity : ComponentActivity() {
-}
+class AlwaysOnActivity : ComponentActivity()
