@@ -61,7 +61,7 @@ fun AmbientModeBasicSample() {
                 when (ambientMode) {
                     is AmbientMode.Interactive -> "Interactive"
                     is AmbientMode.Ambient -> "Ambient"
-                    null -> "Unknown"
+                    else -> "Unknown"
                 }
 
             Text(text = "$ambientModeName Mode")
