@@ -23,14 +23,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
-import com.android.billingclient.api.BillingProgramAvailabilityDetails.BillingChoiceAvailabilityDetails.ChoiceScreenType
-import com.android.billingclient.api.BillingProgramReportingDetailsParams.DeveloperBillingType
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingFlowParams.SubscriptionUpdateParams
-import com.android.billingclient.api.BillingProgramReportingDetails
-import com.android.billingclient.api.BillingProgramReportingDetailsListener
+import com.android.billingclient.api.BillingProgramAvailabilityDetails.BillingChoiceAvailabilityDetails.ChoiceScreenType
 import com.android.billingclient.api.BillingProgramReportingDetailsParams
+import com.android.billingclient.api.BillingProgramReportingDetailsParams.DeveloperBillingType
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.DeveloperBillingOptionParams
 import com.android.billingclient.api.DeveloperProvidedBillingListener
@@ -43,8 +41,8 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.createBillingProgramReportingDetails
 import com.android.billingclient.api.getBillingChoiceInfo
 import com.android.billingclient.api.isBillingProgramAvailable
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 private class Integration(
     private val context: Context,
@@ -117,7 +115,6 @@ private class Integration(
                 billingChoiceAvailabilityDetails.choiceScreenType == ChoiceScreenType.GOOGLE_RENDERED
             ) {
                 // Billing choice is available. Query products and proceed.
-
             } else {
                 // Fallback to other available programs.
             }
