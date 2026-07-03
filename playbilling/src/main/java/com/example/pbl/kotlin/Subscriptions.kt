@@ -42,8 +42,8 @@ private class Subscriptions(
     private fun productReplacement() {
         // [START android_playbilling_subscriptions_product_replacement]
         val billingClient: BillingClient = this.billingClient
-        val replacementModeForBasePlan: Int = 1
-        val replacementModeForAddon: Int = 1
+        val replacementModeForBasePlan: Int = SubscriptionProductReplacementParams.ReplacementMode.KEEP_EXISTING
+        val replacementModeForAddon: Int = SubscriptionProductReplacementParams.ReplacementMode.CHARGE_PRORATED_PRICE
 
         val purchaseTokenOfExistingSubscription: String = "your_old_purchase_token"
 
@@ -94,7 +94,7 @@ private class Subscriptions(
                 .build()
 
         // To launch the billing flow:
-        // billingClient.launchBillingFlow(activity, billingFlowParams)
+        billingClient.launchBillingFlow(activity, billingFlowParams)
         // [END android_playbilling_subscriptions_product_replacement]
     }
 
