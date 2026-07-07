@@ -48,7 +48,13 @@ class MySceneDecoratorStrategy<T : Any> : SceneDecoratorStrategy<T> {
 
 data class MyDecoratingScene<T : Any>(
     val scene: Scene<T>
-) : Scene<T> by scene {
+) : Scene<T> {
+
+    // [START_EXCLUDE]
+    override val key = scene.key
+    override val entries = scene.entries
+    override val previousEntries = scene.previousEntries
+    // [END_EXCLUDE]
 
     override val content = @Composable {
         scene.content()
@@ -92,7 +98,15 @@ data class CopyingScene<T : Any>(
 // [START android_compose_navigation3_scenedecorators_4]
 data class DerivedKeyScene<T : Any>(
     val scene: Scene<T>
-) : Scene<T> by scene {
+) : Scene<T> {
     override val key = scene::class to scene.key
+
+    // [START_EXCLUDE]
+    override val entries = scene.entries
+    override val previousEntries = scene.previousEntries
+    override val content = @Composable {
+        scene.content()
+    }
+    // [END_EXCLUDE]
 }
 // [END android_compose_navigation3_scenedecorators_4]
