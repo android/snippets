@@ -32,6 +32,7 @@ import androidx.xr.runtime.math.Vector3
 import com.example.xr.arcore.detectThumbsUp
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -69,8 +70,10 @@ class ArCoreTestRuleExample {
 
         activityController.create().start().resume()
 
-        val sessionCreateResult = Session.create(context = activity, coroutineContext = testDispatcher)
-        session = (sessionCreateResult as SessionCreateSuccess).session
+        runBlocking {
+            val sessionCreateResult = Session.create(context = activity, coroutineContext = testDispatcher)
+            session = (sessionCreateResult as SessionCreateSuccess).session
+        }
 
         // Configure the session.
         session.configure(Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build())

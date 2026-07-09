@@ -17,7 +17,6 @@
 package com.example.xr.arcore
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -154,7 +153,7 @@ class GenerateHandJointData : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            val session = (Session.create(context = this as Context) as SessionCreateSuccess).session
+            val session = (Session.create(context = this@GenerateHandJointData) as SessionCreateSuccess).session
             val config = Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build()
             session.configure(config)
 
