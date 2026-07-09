@@ -16,53 +16,64 @@
 
 package com.example.snippets.ai
 
-import androidx.appfunctions.AppFunctionContext
+import androidx.annotation.RequiresApi
+import androidx.appfunctions.AppFunction
 import androidx.appfunctions.AppFunctionSerializable
-import androidx.appfunctions.service.AppFunction
+import androidx.appfunctions.AppFunctionService
+import androidx.appfunctions.AppFunctionServiceEntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 // [START android_appfunction_snippet]
 /**
- * A note app's [AppFunction]s.
+ * A note app's [AppFunction]s service entry point.
  */
-class NoteFunctions @Inject constructor(
-    private val noteRepository: NoteRepository
-) {
+@RequiresApi(36)
+@AndroidEntryPoint
+@AppFunctionServiceEntryPoint(
+    serviceName = "NoteAppFunctionService",
+    appFunctionXmlFileName = "note_app_function_service",
+)
+abstract class BaseNoteAppFunctionService : AppFunctionService() {
+    @Inject internal lateinit var noteRepository: NoteRepository
+
     /**
      * List all available notes in the app.
      *
-     * @param appFunctionContext The execution context.
      * @return A list of [Note] objects, or null if no notes exist.
      */
     @AppFunction(isDescribedByKDoc = true)
-    suspend fun listNotes(appFunctionContext: AppFunctionContext): List<Note>? {
-        return noteRepository.appNotes.ifEmpty { null }?.toList()
+    suspend fun listNotes(): List<Note>? {
+        return withContext(Dispatchers.IO) {
+            noteRepository.appNotes.ifEmpty { null }?.toList()
+        }
     }
 
     /**
      * Create a new note with a title and body content.
      *
-     * @param appFunctionContext The execution context.
      * @param title The title of the note.
      * @param content The body content of the note.
      * @return The created [Note] object including its generated ID.
      */
     @AppFunction(isDescribedByKDoc = true)
     suspend fun createNote(
-        appFunctionContext: AppFunctionContext,
         title: String,
         content: String
     ): Note {
-        return noteRepository.createNote(title, content)
+        return withContext(Dispatchers.IO) {
+            noteRepository.createNote(title, content)
+        }
     }
 
     /**
      * Update the title or content of an existing note.
      * Required workflow: Call [listNotes] first to obtain valid note IDs.
      *
-     * @param appFunctionContext The execution context.
      * @param noteId The unique identifier of the note to edit.
      * @param title The new title. If null, the existing title is preserved.
      * @param content The new content. If null, the existing content is preserved.
@@ -70,12 +81,13 @@ class NoteFunctions @Inject constructor(
      */
     @AppFunction(isDescribedByKDoc = true)
     suspend fun editNote(
-        appFunctionContext: AppFunctionContext,
         noteId: Int,
         title: String?,
         content: String?,
     ): Note? {
-        return noteRepository.updateNote(noteId, title, content)
+        return withContext(Dispatchers.IO) {
+            noteRepository.updateNote(noteId, title, content)
+        }
     }
 }
 // [END android_appfunction_snippet]
@@ -96,7 +108,7 @@ data class Note(
 // [END android_appfunction_serializable]
 
 /**
- * Repository for [NoteFunctions].
+ * Repository for [BaseNoteAppFunctionService].
  */
 @Singleton
 class NoteRepository @Inject constructor() {

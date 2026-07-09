@@ -17,19 +17,7 @@
 package com.example.snippets
 
 import android.app.Application
-import androidx.appfunctions.service.AppFunctionConfiguration
-import com.example.snippets.ai.NoteFunctions
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
-// [START android_appfunction_configuration]
 @HiltAndroidApp
-class AppFunctionApplication : Application(), AppFunctionConfiguration.Provider {
-    @Inject lateinit var noteFunctions: NoteFunctions
-
-    override val appFunctionConfiguration: AppFunctionConfiguration =
-        AppFunctionConfiguration.Builder()
-            .addEnclosingClassFactory(NoteFunctions::class.java) { noteFunctions }
-            .build()
-}
-// [END android_appfunction_configuration]
+class AppFunctionApplication : Application()

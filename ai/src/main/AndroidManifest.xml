@@ -14,7 +14,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name="com.example.snippets.AppFunctionApplication"
@@ -23,10 +24,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Snippets">
-        <!-- [START android_appfunction_property-->
+        <!-- [START android_appfunction_manifest_metadata]-->
+        <service
+            android:name="com.example.snippets.ai.NoteAppFunctionService"
+            android:permission="android.permission.BIND_APP_FUNCTION_SERVICE"
+            android:exported="true"
+            tools:targetApi="36">
+            <property
+                android:name="android.app.appfunctions.schema"
+                android:value="app_functions_schema.xsd" />
+            <property
+                android:name="android.app.appfunctions.v2"
+                android:value="note_app_function_service.xml" />
+            <intent-filter>
+                <action android:name="android.app.appfunctions.AppFunctionService" />
+            </intent-filter>
+        </service>
         <property android:name="android.app.appfunctions.app_metadata"
             android:resource="@xml/app_metadata" />
-        <!-- [END android_appfunction_property-->
+        <!-- [END android_appfunction_manifest_metadata]-->
         <activity
             android:name="com.example.snippets.MainActivity"
             android:exported="true"
