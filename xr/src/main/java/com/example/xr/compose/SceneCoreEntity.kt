@@ -17,7 +17,6 @@
 package com.example.xr.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.Subspace
@@ -26,17 +25,17 @@ import androidx.xr.compose.subspace.SceneCoreEntitySizeAdapter
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.offset
 import androidx.xr.compose.unit.IntVolumeSize
-import androidx.xr.compose.unit.Meter
 import androidx.xr.runtime.math.FloatSize2d
-import androidx.xr.runtime.math.IntSize2d
 import androidx.xr.runtime.math.Pose
 import androidx.xr.scenecore.SurfaceEntity
+import androidx.xr.scenecore.scene
 
 @Composable
 fun SceneCoreEntityExample() {
     val session = LocalSession.current ?: return
     // [START androidxr_compose_SceneCoreEntity]
-    val density = LocalDensity.current
+    val virtualPixelDensity = session.scene.virtualPixelDensity
+
     Subspace {
         SceneCoreEntity(
             modifier = SubspaceModifier.offset(x = 50.dp),
@@ -58,8 +57,8 @@ fun SceneCoreEntityExample() {
                         size: IntVolumeSize
                     ) {
                         val extents = FloatSize2d(
-                            Meter.fromPixel(size.width.toFloat(), density).toM(),
-                            Meter.fromPixel(size.height.toFloat(), density).toM(),
+                            size.width.toFloat(),
+                            size.height.toFloat()
                         )
                         entity.shape = SurfaceEntity.Shape.Quad(extents)
                     }

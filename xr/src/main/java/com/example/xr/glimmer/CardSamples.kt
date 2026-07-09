@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.xr.glimmer.ActionCard
 import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.GlimmerTheme
@@ -34,7 +35,7 @@ private val FavoriteIcon = Icons.Default.Favorite
 @Composable
 fun CardSample() {
     val myHeaderImage = painterResource(id = android.R.drawable.ic_menu_gallery)
-    Card(
+    ActionCard(
         title = { Text("Card Title", style = GlimmerTheme.typography.titleMedium) },
         subtitle = { Text("Sub-heading text", style = GlimmerTheme.typography.titleSmall) },
         leadingIcon = { Icon(FavoriteIcon, contentDescription = "Favorite") },

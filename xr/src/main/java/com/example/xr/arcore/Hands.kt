@@ -17,6 +17,7 @@
 package com.example.xr.arcore
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -151,10 +152,12 @@ class GenerateHandJointData : ComponentActivity() {
     @OptIn(FlowPreview::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val session = (Session.create(context = this) as SessionCreateSuccess).session
-        val config = Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build()
-        session.configure(config)
+
         lifecycleScope.launch {
+            val session = (Session.create(context = this as Context) as SessionCreateSuccess).session
+            val config = Config.Builder(session.config).setHandTracking(HandTrackingMode.BOTH).build()
+            session.configure(config)
+
             Hand.right(session).state.sample(500.milliseconds).collect { rightHandState ->
                 val bufferString = buildString {
                     append("mapOf(")

@@ -20,10 +20,8 @@ import android.content.Context
 import androidx.xr.runtime.DisplayBlendMode.Companion.ADDITIVE
 import androidx.xr.runtime.DisplayBlendMode.Companion.ALPHA_BLEND
 import androidx.xr.runtime.DisplayBlendMode.Companion.NO_DISPLAY
-import androidx.xr.runtime.ExperimentalXrDeviceLifecycleApi
 import androidx.xr.runtime.XrDevice
 
-@OptIn(ExperimentalXrDeviceLifecycleApi::class)
 fun getPreferredBlendMode(context: Context) {
     // [START androidxr_runtime_getPreferredBlendMode]
     val preferredDisplayBlendMode =
