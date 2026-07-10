@@ -949,19 +949,17 @@ private object SnapScrollingSnippet {
             ColorItem(Color.Blue, "Blue")
         )
 
-        if (Build.VERSION.SDK_INT >= 36 && isSnapScrollSupported) {
-            LazyColumn(
-                verticalScrollMode = VerticalScrollMode.SnapScrollMatchHeight(height)
-            ) {
-                items(items) { item ->
-                    ColorCard(item, height)
-                }
-            }
+        val scrollMode = if (Build.VERSION.SDK_INT >= 37) {
+            VerticalScrollMode.SnapScrollMatchHeight(height)
         } else {
-            LazyColumn {
-                items(items) { item ->
-                    ColorCard(item, height)
-                }
+            VerticalScrollMode.Normal
+        }
+
+        LazyColumn(
+            verticalScrollMode = scrollMode
+        ) {
+            items(items) { item ->
+                ColorCard(item, height)
             }
         }
     }
@@ -981,11 +979,6 @@ private object SnapScrollingSnippet {
             )
         }
     }
-
-    val isSnapScrollSupported: Boolean
-        get() = Build.VERSION.SDK_INT >= 36 &&
-                Build.VERSION.SDK_INT_FULL >= Build.VERSION_CODES_FULL.BAKLAVA_1
-
     // [END android_compose_glance_snap_scrolling]
 }
 
