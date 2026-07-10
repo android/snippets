@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 // [START android_appfunction_dependencies]
     implementation(libs.androidx.appfunctions)
-    implementation(libs.androidx.appfunctions.service)
     ksp(libs.androidx.appfunctions.compiler)
 // [END android_appfunction_dependencies]
     implementation(libs.androidx.compose.foundation)

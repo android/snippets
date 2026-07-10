@@ -16,10 +16,10 @@
 -->
 <!-- [START android_appfunction_metadata] -->
 <AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
-    appfn:description="This app manages personal notes.
+    appfn:description="This app manages user tasks and reminders.
     Operational Patterns:
-    - Use 'listNotes' to find the correct 'noteId' before calling 'editNote'.
+    - Use 'createTask' to add new tasks or reminders with titles and content.
     Constraints:
-    - Note editing is only possible for existing IDs returned by the system."
+    - Title or content must be non-null when creating a task."
     appfn:displayDescription="@string/user_visible_description" />
 <!-- [END android_appfunction_metadata] -->

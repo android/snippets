@@ -17,19 +17,16 @@
 package com.example.snippets
 
 import android.app.Application
-import androidx.appfunctions.service.AppFunctionConfiguration
-import com.example.snippets.ai.NoteFunctions
+import com.example.snippets.ai.MessageRepository
+import com.example.snippets.ai.TaskRepository
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
-// [START android_appfunction_configuration]
-@HiltAndroidApp
-class AppFunctionApplication : Application(), AppFunctionConfiguration.Provider {
-    @Inject lateinit var noteFunctions: NoteFunctions
-
-    override val appFunctionConfiguration: AppFunctionConfiguration =
-        AppFunctionConfiguration.Builder()
-            .addEnclosingClassFactory(NoteFunctions::class.java) { noteFunctions }
-            .build()
+class AppContainer {
+    val taskRepository by lazy { TaskRepository() }
+    val messageRepository by lazy { MessageRepository() }
 }
-// [END android_appfunction_configuration]
+
+@HiltAndroidApp
+class AppFunctionApplication : Application() {
+    val appContainer = AppContainer()
+}
