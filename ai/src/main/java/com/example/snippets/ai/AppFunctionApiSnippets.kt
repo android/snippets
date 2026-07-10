@@ -25,126 +25,38 @@ import androidx.appfunctions.AppFunctionManager
 import androidx.appfunctions.AppFunctionSerializable
 import androidx.appfunctions.AppFunctionService
 import androidx.appfunctions.AppFunctionServiceEntryPoint
-import com.example.snippets.ai.BaseTaskAppFunctionService.Task
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDateTime
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-// [START android_appfunction_snippet]
-/**
- * A note app's [AppFunction]s service entry point.
- */
-@RequiresApi(36)
-@AndroidEntryPoint
-@AppFunctionServiceEntryPoint(
-    serviceName = "NoteAppFunctionService",
-    appFunctionXmlFileName = "note_app_function_service",
-)
-abstract class BaseNoteAppFunctionService : AppFunctionService() {
-    @Inject internal lateinit var noteRepository: NoteRepository
-
-    /**
-     * List all available notes in the app.
-     *
-     * @return A list of [Note] objects, or null if no notes exist.
-     */
-    @AppFunction(isDescribedByKDoc = true)
-    suspend fun listNotes(): List<Note>? {
-        return withContext(Dispatchers.IO) {
-            noteRepository.appNotes.ifEmpty { null }?.toList()
-        }
-    }
-
-    /**
-     * Create a new note with a title and body content.
-     *
-     * @param title The title of the note.
-     * @param content The body content of the note.
-     * @return The created [Note] object including its generated ID.
-     */
-    @AppFunction(isDescribedByKDoc = true)
-    suspend fun createNote(
-        title: String,
-        content: String
-    ): Note {
-        return withContext(Dispatchers.IO) {
-            noteRepository.createNote(title, content)
-        }
-    }
-
-    /**
-     * Update the title or content of an existing note.
-     * Required workflow: Call [listNotes] first to obtain valid note IDs.
-     *
-     * @param noteId The unique identifier of the note to edit.
-     * @param title The new title. If null, the existing title is preserved.
-     * @param content The new content. If null, the existing content is preserved.
-     * @return The updated [Note], or null if the [noteId] was not found.
-     */
-    @AppFunction(isDescribedByKDoc = true)
-    suspend fun editNote(
-        noteId: Int,
-        title: String?,
-        content: String?,
-    ): Note? {
-        return withContext(Dispatchers.IO) {
-            noteRepository.updateNote(noteId, title, content)
-        }
-    }
-}
-// [END android_appfunction_snippet]
-
 // [START android_appfunction_serializable]
-/**
- * A note.
- */
+/** The parameter to create the task. */
 @AppFunctionSerializable(isDescribedByKDoc = true)
-data class Note(
-    /** The note's identifier */
-    val id: Int,
-    /** The note's title */
+data class CreateTaskParams(
+    /** The title of the task. */
+    val title: String?,
+    /** The content of the task. */
+    val content: String?,
+)
+
+/** The user-created task. */
+@AppFunctionSerializable(isDescribedByKDoc = true)
+data class Task(
+    /** The ID of the task. */
+    val id: String,
+    /** The title of the task. */
     val title: String,
-    /** The note's content */
-    val content: String
+    /** The content of the task. */
+    val content: String,
 )
 // [END android_appfunction_serializable]
 
-/**
- * Repository for [BaseNoteAppFunctionService].
- */
-@Singleton
-class NoteRepository @Inject constructor() {
-    private val _appNotes = mutableListOf<Note>()
-    val appNotes: List<Note> = _appNotes
-
-    private var noteIdCounter: AtomicInteger = AtomicInteger(0)
-
-    fun createNote(title: String, content: String): Note {
-        val note = Note(noteIdCounter.getAndIncrement(), title, content)
-        _appNotes.add(note)
-        return note
-    }
-
-    fun updateNote(noteId: Int, title: String?, content: String?): Note? {
-        val index = _appNotes.indexOfFirst { it.id == noteId }
-        if (index == -1) {
-            return null
-        }
-        val oldNote = _appNotes[index]
-        val newNote = oldNote.copy(
-            title = title ?: oldNote.title,
-            content = content ?: oldNote.content
-        )
-        _appNotes[index] = newNote
-        return newNote
-    }
-}
-
-// [START android_appfunction_task_service]
+// [START android_appfunction_snippet]
 @RequiresApi(36)
 @AndroidEntryPoint
 @AppFunctionServiceEntryPoint(
@@ -153,26 +65,6 @@ class NoteRepository @Inject constructor() {
 )
 abstract class BaseTaskAppFunctionService : AppFunctionService() {
     @Inject internal lateinit var taskRepository: TaskRepository
-
-    /** The parameter to create the task. */
-    @AppFunctionSerializable(isDescribedByKDoc = true)
-    data class CreateTaskParams(
-        /** The title of the task. */
-        val title: String?,
-        /** The content of the task. */
-        val content: String?,
-    )
-
-    /** The user-created task. */
-    @AppFunctionSerializable(isDescribedByKDoc = true)
-    data class Task(
-        /** The ID of the task. */
-        val id: String,
-        /** The title of the task. */
-        val title: String,
-        /** The content of the task. */
-        val content: String,
-    )
 
     /**
      * Creates a task based on [createTaskParams].
@@ -203,13 +95,13 @@ abstract class BaseTaskAppFunctionService : AppFunctionService() {
     // Maps internal TaskEntity
     private fun TaskEntity.toTask() = Task(id = id, title = title, content = description)
 }
-// [END android_appfunction_task_service]
+// [END android_appfunction_snippet]
 
 data class TaskEntity(val id: String, val title: String, val description: String)
 
 @Singleton
 class TaskRepository @Inject constructor() {
-    private val tasks = mutableMapOf<String, TaskEntity>()
+    private val tasks = ConcurrentHashMap<String, TaskEntity>()
     private var counter = AtomicInteger(0)
 
     fun createTask(title: String?, content: String?): String {
@@ -221,6 +113,11 @@ class TaskRepository @Inject constructor() {
     fun getTask(id: String): TaskEntity? = tasks[id]
 }
 
+@RequiresApi(36)
+@AppFunctionServiceEntryPoint(
+    serviceName = "IllustrativeAppFunctionsService",
+    appFunctionXmlFileName = "illustrative_app_functions_service",
+)
 abstract class IllustrativeAppFunctions : AppFunctionService() {
     // [START android_appfunction_create_task]
     /**
@@ -292,12 +189,17 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
     // [END android_appfunction_calendar_event]
 }
 
+@RequiresApi(36)
+@AppFunctionServiceEntryPoint(
+    serviceName = "IllustrativeGatedAppFunctionsService",
+    appFunctionXmlFileName = "illustrative_gated_app_functions_service",
+)
 abstract class IllustrativeGatedAppFunctions : AppFunctionService() {
     // [START android_appfunction_disabled_by_default]
     @AppFunction(isEnabled = false, isDescribedByKDoc = true)
     suspend fun createTask(
-        createTaskParams: BaseTaskAppFunctionService.CreateTaskParams,
-    ): BaseTaskAppFunctionService.Task = TODO()
+        createTaskParams: CreateTaskParams,
+    ): Task = TODO()
     // [END android_appfunction_disabled_by_default]
 }
 
@@ -316,22 +218,20 @@ suspend fun onFeatureEnabled(context: Context) {
 }
 
 suspend fun onFeatureDisabled(context: Context) {
-    AppFunctionManager.getInstance(context)
-        ?.setAppFunctionEnabled(
-            BaseTaskAppFunctionServiceIds.CREATE_TASK_ID,
-            AppFunctionManager.APP_FUNCTION_STATE_DISABLED,
-        )
+    try {
+        AppFunctionManager.getInstance(context)
+            ?.setAppFunctionEnabled(
+                BaseTaskAppFunctionServiceIds.CREATE_TASK_ID,
+                AppFunctionManager.APP_FUNCTION_STATE_DISABLED,
+            )
+    } catch (e: Exception) {
+        // Handle exception
+    }
 }
 // [END android_appfunction_toggle_availability]
 
 object BaseTaskAppFunctionServiceIds {
     const val CREATE_TASK_ID = "com.example.snippets.ai.BaseTaskAppFunctionService#createTask"
-}
-
-object BaseNoteAppFunctionServiceIds {
-    const val LIST_NOTES_ID = "com.example.snippets.ai.BaseNoteAppFunctionService#listNotes"
-    const val CREATE_NOTE_ID = "com.example.snippets.ai.BaseNoteAppFunctionService#createNote"
-    const val EDIT_NOTE_ID = "com.example.snippets.ai.BaseNoteAppFunctionService#editNote"
 }
 
 @AppFunctionSerializable(isDescribedByKDoc = true)

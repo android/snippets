@@ -17,7 +17,16 @@
 package com.example.snippets
 
 import android.app.Application
+import com.example.snippets.ai.MessageRepository
+import com.example.snippets.ai.TaskRepository
 import dagger.hilt.android.HiltAndroidApp
 
+class AppContainer {
+    val taskRepository by lazy { TaskRepository() }
+    val messageRepository by lazy { MessageRepository() }
+}
+
 @HiltAndroidApp
-class AppFunctionApplication : Application()
+class AppFunctionApplication : Application() {
+    val appContainer = AppContainer()
+}

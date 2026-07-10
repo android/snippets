@@ -26,25 +26,6 @@
         android:theme="@style/Theme.Snippets">
         <!-- [START android_appfunction_manifest_metadata]-->
         <service
-            android:name="com.example.snippets.ai.NoteAppFunctionService"
-            android:permission="android.permission.BIND_APP_FUNCTION_SERVICE"
-            android:exported="true"
-            tools:targetApi="36">
-            <property
-                android:name="android.app.appfunctions.schema"
-                android:value="app_functions_schema.xsd" />
-            <property
-                android:name="android.app.appfunctions.v2"
-                android:value="note_app_function_service.xml" />
-            <intent-filter>
-                <action android:name="android.app.appfunctions.AppFunctionService" />
-            </intent-filter>
-        </service>
-        <property android:name="android.app.appfunctions.app_metadata"
-            android:resource="@xml/app_metadata" />
-        <!-- [END android_appfunction_manifest_metadata]-->
-        <!-- [START android_appfunction_task_service_manifest]-->
-        <service
             android:name="com.example.snippets.ai.TaskAppFunctionService"
             android:permission="android.permission.BIND_APP_FUNCTION_SERVICE"
             android:exported="true"
@@ -62,7 +43,27 @@
         <property
             android:name="android.app.appfunctions.app_metadata"
             android:resource="@xml/app_metadata" />
-        <!-- [END android_appfunction_task_service_manifest]-->
+        <!-- [END android_appfunction_manifest_metadata]-->
+        <!-- [START android_appfunction_migration_manifest]-->
+        <service
+            android:name="com.example.snippets.ai.MyAppFunctionService"
+            android:permission="android.permission.BIND_APP_FUNCTION_SERVICE"
+            android:exported="true"
+            tools:targetApi="36">
+            <property
+                android:name="android.app.appfunctions.schema"
+                android:value="app_functions_schema.xsd" />
+            <property
+                android:name="android.app.appfunctions.v2"
+                android:value="my_app_function_service.xml" />
+            <intent-filter>
+                <action android:name="android.app.appfunctions.AppFunctionService" />
+            </intent-filter>
+        </service>
+        <property
+            android:name="android.app.appfunctions.app_metadata"
+            android:resource="@xml/app_metadata" />
+        <!-- [END android_appfunction_migration_manifest]-->
         <activity
             android:name="com.example.snippets.MainActivity"
             android:exported="true"
