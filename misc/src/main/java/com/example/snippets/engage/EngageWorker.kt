@@ -66,8 +66,6 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 Log.e("EngageWorker", "Service not available for cluster type: $intendedClusterType")
                 return Result.failure()
             }
-        } else {
-            return Result.failure()
         }
 
         return when (publishType) {
@@ -189,7 +187,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 Log.i(TAG, "Successfully updated publish status code to $statusCode")
             }
             .addOnFailureListener { exception ->
-                Log.e(TAG, "Failed to update publish status code to $statusCode\n${exception.stackTrace}")
+                Log.e(TAG, "Failed to update publish status code to $statusCode\\n${exception.stackTrace}")
             }
     }
 
