@@ -54,6 +54,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             Constants.PUBLISH_TYPE_RECOMMENDATIONS -> ClusterType.TYPE_RECOMMENDATION
             Constants.PUBLISH_TYPE_FEATURED -> ClusterType.TYPE_FEATURED
             Constants.PUBLISH_TYPE_CONTINUATION -> ClusterType.TYPE_CONTINUATION
+            Constants.PUBLISH_TYPE_USER_ACCOUNT_MANAGEMENT -> ClusterType.TYPE_ENGAGEMENT
             else -> ClusterType.TYPE_UNKNOWN
         }
 
