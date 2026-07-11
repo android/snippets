@@ -184,10 +184,10 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         client
             .updatePublishStatus(PublishStatusRequest.Builder().setStatusCode(statusCode).build())
             .addOnSuccessListener {
-                Log.i(TAG, "Successfully updated publish status code to ${statusCode}")
+                Log.i(TAG, "Successfully updated publish status code to $statusCode")
             }
             .addOnFailureListener { exception ->
-                Log.e(TAG, "Failed to update publish status code to ${statusCode}\n${exception.stackTrace}")
+                Log.e(TAG, "Failed to update publish status code to $statusCode\n${exception.stackTrace}")
             }
     }
 
@@ -218,10 +218,6 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             AppEngageErrorCode.SERVICE_NOT_AVAILABLE -> false
             else -> false
         }
-    }
-
-    companion object {
-        private const val TAG = "EngageWorker"
     }
 }
 // [END android_engage_worker_implementation]
