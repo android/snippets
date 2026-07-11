@@ -63,7 +63,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 .build()
             val availabilityMap = client.isServiceAvailable(request).await()
             if (availabilityMap[intendedClusterType] != true) {
-                Log.e("EngageWorker", "Service not available for cluster type: $intendedClusterType")
+                Log.e(TAG, "Service not available for cluster type: $intendedClusterType")
                 return Result.failure()
             }
         }
@@ -187,7 +187,7 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
                 Log.i(TAG, "Successfully updated publish status code to $statusCode")
             }
             .addOnFailureListener { exception ->
-                Log.e(TAG, "Failed to update publish status code to $statusCode\\n${exception.stackTrace}")
+                Log.e(TAG, "Failed to update publish status code to $statusCode\n${exception.stackTrace}")
             }
     }
 
@@ -218,6 +218,10 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             AppEngageErrorCode.SERVICE_NOT_AVAILABLE -> false
             else -> false
         }
+    }
+
+    companion object {
+        private const val TAG = "EngageWorker"
     }
 }
 // [END android_engage_worker_implementation]
