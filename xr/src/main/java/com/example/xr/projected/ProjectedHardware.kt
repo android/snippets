@@ -41,6 +41,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import java.io.File
 
 private const val TAG = "ProjectedHardware"
 
@@ -199,13 +200,12 @@ private fun startBluetoothAudioRecording(context: Context) {
         audioManager.clearCommunicationDevice()
     }
 }
-
 /**
  * Demonstrates how to record audio using the projected device context.
  */
 @RequiresPermission(Manifest.permission.RECORD_AUDIO)
 @OptIn(ExperimentalProjectedApi::class)
-private fun startProjectedAudioRecording(context: Context) {
+private fun startProjectedAudioRecording(context: Context, outputFile: File) {
     val projectedDeviceContext = try {
         ProjectedContext.createProjectedDeviceContext(context)
     } catch (e: IllegalStateException) {
@@ -214,19 +214,22 @@ private fun startProjectedAudioRecording(context: Context) {
     }
 
     // [START androidxr_projected_context_audio_record]
-    // Initialize AudioRecord with projected device context
-    val audioRecord = AudioRecord.Builder()
-        .setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-        .setAudioFormat(audioFormat)
-        .setBufferSizeInBytes(bufferSize)
-        // pass in the projected device context
-        .setContext(projectedDeviceContext)
-        .build()
+    // Initialize MediaRecorder with the projected device context
+    val recorder = MediaRecorder(projectedDeviceContext).apply {
+        setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+        setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        setAudioChannels(1)
+        setAudioSamplingRate(16000)
+        setAudioEncodingBitRate(32000)
+        setOutputFile(outputFile)
 
-    audioRecord.startRecording()
-    // [END androidxr_projected_context_audio_record]
+        prepare()
+        start()
+        // [END androidxr_projected_context_audio_record]
+    }
 
     // Stop and release when done.
-    audioRecord.stop()
-    audioRecord.release()
+    recorder.stop()
+    recorder.release()
 }
