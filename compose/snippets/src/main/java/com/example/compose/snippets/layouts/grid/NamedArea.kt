@@ -320,6 +320,7 @@ fun WideClassicCard(
         }
     }
 }
+// [END android_compose_layout_grid_wide_classic_card]
 
 @Preview(showBackground = true)
 @Composable
