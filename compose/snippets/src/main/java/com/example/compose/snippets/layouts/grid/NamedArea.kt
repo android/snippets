@@ -293,29 +293,36 @@ fun WideClassicCard(
             Box(modifier = Modifier.gridItem(CardArea.Image)) {
                 imageContent()
             }
-
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.gridItem(CardArea.Title),
+                modifier = Modifier
+                    .gridItem(CardArea.Title)
+                    .padding(top = 16.dp, end = 16.dp),
             )
 
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.gridItem(CardArea.Subtitle),
+                modifier = Modifier
+                    .gridItem(CardArea.Subtitle)
+                    .padding(end = 16.dp),
             )
 
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.gridItem(CardArea.Description),
+                modifier = Modifier
+                    .gridItem(CardArea.Description)
+                    .padding(end = 16.dp),
             )
 
             Text(
                 text = extraText,
                 style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.gridItem(CardArea.ExtraText),
+                modifier = Modifier
+                    .gridItem(CardArea.ExtraText)
+                    .padding(bottom = 16.dp, end = 16.dp),
             )
         }
     }
