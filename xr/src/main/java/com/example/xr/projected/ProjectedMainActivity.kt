@@ -35,7 +35,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.xr.glimmer.Card
+import androidx.xr.glimmer.ActionCard
 import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.GlimmerTheme
 import androidx.xr.glimmer.Text
@@ -160,7 +160,7 @@ fun HomeScreen(
         contentAlignment = Alignment.Center
     ) {
         if (isPermissionDenied) {
-            Card(
+            ActionCard(
                 title = { Text("Permission Required") },
                 action = { Button(onClick = onClose) { Text("Exit") } }
             ) {
@@ -168,7 +168,7 @@ fun HomeScreen(
                 Button(onClick = onRetryPermission) { Text("Retry") }
             }
         } else if (isVisualUiSupported) {
-            Card(
+            ActionCard(
                 title = { Text("Android XR") },
                 action = {
                     Button(onClick = onClose) {
