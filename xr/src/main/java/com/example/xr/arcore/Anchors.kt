@@ -23,7 +23,7 @@ import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
-import androidx.xr.scenecore.AnchorEntity
+import androidx.xr.scenecore.AnchorSpace
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.scene
 
@@ -59,7 +59,7 @@ private fun attachEntityToAnchor(
     anchor: Anchor
 ) {
     // [START androidxr_arcore_entity_tracks_anchor]
-    AnchorEntity.create(session, anchor).apply {
+    AnchorSpace.create(session, anchor).apply {
         parent = session.scene.activitySpace
         addChild(entity)
     }
