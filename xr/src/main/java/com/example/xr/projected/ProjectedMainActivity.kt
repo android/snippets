@@ -164,7 +164,7 @@ fun HomeScreen(
                 title = { Text("Permission Required") },
                 action = { Button(onClick = onClose) { Text("Exit") } }
             ) {
-                Text("Camera access is needed to use AI glasses features.")
+                Text("Camera access is needed to use display glasses features.")
                 Button(onClick = onRetryPermission) { Text("Retry") }
             }
         } else if (isVisualUiSupported) {
@@ -177,7 +177,7 @@ fun HomeScreen(
                 }
             ) {
                 if (areVisualsOn) {
-                    Text("Hello, AI Glasses!")
+                    Text("Hello, Display Glasses!")
                 } else {
                     Text("Display is off. Audio guidance active.")
                 }
