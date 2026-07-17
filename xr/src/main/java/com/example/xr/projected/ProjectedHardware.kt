@@ -122,75 +122,84 @@ private fun getPhoneContext(activity: ComponentActivity): Context? {
 /**
  * Demonstrates how to capture an image using the audio and display glasses' camera.
  */
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
-@OptIn(ExperimentalProjectedApi::class)
+@OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 // [START androidxr_projected_camera_capture]
 private fun startCameraOnGlasses(activity: ComponentActivity) {
-    // 1. Get the CameraProvider using the projected context.
-    // When using the projected context, DEFAULT_BACK_CAMERA maps to the audio and display glasses' camera.
-    val projectedContext = try {
-        ProjectedContext.createProjectedDeviceContext(activity)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Projected context could not be created", e)
-        return
+    activity.lifecycleScope.launch {
+        // Before creating a projected context, check to see if the projected device is connected.
+        ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
+            .collectLatest { isConnected ->
+                if (isConnected) {
+                    // 1. Get the CameraProvider using the projected context.
+                    // When using the projected context, DEFAULT_BACK_CAMERA maps to the audio and display glasses' camera.
+                    val projectedContext = try {
+                        ProjectedContext.createProjectedDeviceContext(activity)
+                    } catch (e: IllegalStateException) {
+                        Log.e(TAG, "Projected context could not be created", e)
+                        return@collectLatest
+                    }
+
+                    val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
+
+                    cameraProviderFuture.addListener({
+                        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+                        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                        // 2. Check for the presence of a camera.
+                        if (!cameraProvider.hasCamera(cameraSelector)) {
+                            Log.w(TAG, "The selected camera is not available.")
+                            return@addListener
+                        }
+
+                        // 3. Query supported streaming resolutions using Camera2 Interop.
+                        val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
+                        val camera2CameraInfo = Camera2CameraInfo.from(cameraInfo)
+                        val cameraCharacteristics = camera2CameraInfo.getCameraCharacteristic(
+                            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+                        )
+
+                        // 4. Define the resolution strategy.
+                        val targetResolution = Size(1920, 1080)
+                        val resolutionStrategy = ResolutionStrategy(
+                            targetResolution,
+                            ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
+                        )
+                        val resolutionSelector = ResolutionSelector.Builder()
+                            .setResolutionStrategy(resolutionStrategy)
+                            .build()
+
+                        // 5. If you have other continuous use cases bound, such as Preview or ImageAnalysis,
+                        // you can use  Camera2 Interop's CaptureRequestOptions to set the FPS
+                        val fpsRange = Range(30, 60)
+                        val captureRequestOptions = CaptureRequestOptions.Builder()
+                            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
+                            .build()
+
+                        // 6. Initialize the ImageCapture use case with options.
+                        val imageCapture = ImageCapture.Builder()
+                            // Optional: Configure resolution, format, etc.
+                            .setResolutionSelector(resolutionSelector)
+                            .build()
+
+                        try {
+                            // Unbind use cases before rebinding.
+                            cameraProvider.unbindAll()
+
+                            // Bind use cases to camera using the Activity as the LifecycleOwner.
+                            cameraProvider.bindToLifecycle(
+                                activity,
+                                cameraSelector,
+                                imageCapture
+                            )
+                        } catch (exc: Exception) {
+                            Log.e(TAG, "Use case binding failed", exc)
+                        }
+                    }, ContextCompat.getMainExecutor(activity))
+                }
+            }
     }
-
-    val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
-
-    cameraProviderFuture.addListener({
-        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-        // 2. Check for the presence of a camera.
-        if (!cameraProvider.hasCamera(cameraSelector)) {
-            Log.w(TAG, "The selected camera is not available.")
-            return@addListener
-        }
-
-        // 3. Query supported streaming resolutions using Camera2 Interop.
-        val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
-        val camera2CameraInfo = Camera2CameraInfo.from(cameraInfo)
-        val cameraCharacteristics = camera2CameraInfo.getCameraCharacteristic(
-            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )
-
-        // 4. Define the resolution strategy.
-        val targetResolution = Size(1920, 1080)
-        val resolutionStrategy = ResolutionStrategy(
-            targetResolution,
-            ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
-        )
-        val resolutionSelector = ResolutionSelector.Builder()
-            .setResolutionStrategy(resolutionStrategy)
-            .build()
-
-        // 5. If you have other continuous use cases bound, such as Preview or ImageAnalysis,
-        // you can use  Camera2 Interop's CaptureRequestOptions to set the FPS
-        val fpsRange = Range(30, 60)
-        val captureRequestOptions = CaptureRequestOptions.Builder()
-            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
-            .build()
-
-        // 6. Initialize the ImageCapture use case with options.
-        val imageCapture = ImageCapture.Builder()
-            // Optional: Configure resolution, format, etc.
-            .setResolutionSelector(resolutionSelector)
-            .build()
-
-        try {
-            // Unbind use cases before rebinding.
-            cameraProvider.unbindAll()
-
-            // Bind use cases to camera using the Activity as the LifecycleOwner.
-            cameraProvider.bindToLifecycle(
-                activity,
-                cameraSelector,
-                imageCapture
-            )
-        } catch (exc: Exception) {
-            Log.e(TAG, "Use case binding failed", exc)
-        }
-    }, ContextCompat.getMainExecutor(activity))
 }
 // [END androidxr_projected_camera_capture]
 
