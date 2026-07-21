@@ -39,11 +39,15 @@ object ViewThreadingViolationSnippet {
     @RequiresApi(37)
     fun checkViewThreadingViolation() {
         // [START android_view_threading_violation_listener_kotlin]
-        val wrongThreadListener = View.CalledFromWrongThreadListener {
-            // Handle the issue, e.g. crash if this is a dev build, or log an event
-            // Unregister the listener to avoid redundant notifications for the same issue
+        val listener = object : View.CalledFromWrongThreadListener {
+            override fun onCalledFromWrongThread() {
+                // Handle the issue, e.g. crash if this is a dev build, or log an event
+                // e.g. Log.d(TAG, "CalledFromWrongThread: ${Exception().stackTraceToString()}")
+                // Unregister the listener to avoid redundant notifications for the same issue
+                View.unregisterCalledFromWrongThreadListener(this)
+            }
         }
-        View.registerCalledFromWrongThreadListener(wrongThreadListener)
+        View.registerCalledFromWrongThreadListener(listener)
         // [END android_view_threading_violation_listener_kotlin]
     }
 }
