@@ -34,7 +34,7 @@ interface MyRepository {
     suspend fun getData(): MyData
 }
 
-@SuppressWarnings("unused")
+@Suppress("unused")
 object ViewThreadingViolationSnippet {
 
     fun switchContext(
