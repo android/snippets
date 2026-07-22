@@ -38,7 +38,10 @@ suspend fun fetchDocs() { // Dispatchers.Main
 }
 
 suspend fun get(url: String) = withContext(Dispatchers.IO) {
-    /* ... */ /* [START_EXCLUDE silent] */ ; "result" /* [END_EXCLUDE] */
+    /* ... */
+    // [START_EXCLUDE silent]
+    "result"
+    // [END_EXCLUDE]
 }
 // [END android_kotlin_coroutines_adv_suspend]
 
