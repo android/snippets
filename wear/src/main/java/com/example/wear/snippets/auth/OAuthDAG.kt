@@ -18,7 +18,7 @@ package com.example.wear.snippets.auth
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.wear.remote.interactions.RemoteActivityHelper
 
 class DeviceGrantManager(private val context: Context) {
@@ -61,7 +61,7 @@ class DeviceGrantManager(private val context: Context) {
         RemoteActivityHelper(context).startRemoteActivity(
             Intent(Intent.ACTION_VIEW).apply {
                 addCategory(Intent.CATEGORY_BROWSABLE)
-                data = Uri.parse(verificationUri)
+                data = verificationUri.toUri()
             },
             null
         )

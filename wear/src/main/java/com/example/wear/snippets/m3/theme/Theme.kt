@@ -26,7 +26,7 @@ import androidx.wear.compose.material3.Shapes
 import androidx.wear.compose.material3.Typography
 
 @Composable
-fun materialTheme() {
+fun MaterialTheme() {
     // [END_EXCLUDE]
     MaterialTheme(
         colorScheme = ColorScheme(),

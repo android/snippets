@@ -113,7 +113,7 @@ fun isLargeDisplay() =
 
 // [START_EXCLUDE]
 @Composable
-fun breakpointDemo() {
+fun BreakpointDemo() {
     // [END_EXCLUDE]
 // ... use in your Composables:
     if (isLargeDisplay()) {

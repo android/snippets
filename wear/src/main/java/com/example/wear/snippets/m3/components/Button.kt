@@ -57,7 +57,7 @@ fun EdgeButton() {
 }
 
 @Composable
-fun buttonsList() {
+fun ButtonsList() {
     // [START android_wear_buttons_list]
     //M3 Buttons
     Button(onClick = { }){}

@@ -48,7 +48,7 @@ import com.google.android.horologist.compose.material.ListHeaderDefaults.firstIt
 import com.google.android.horologist.compose.material.ResponsiveListHeader
 
 @Composable
-fun navigation() {
+fun Navigation() {
     // [START android_wear_navigation]
     AppScaffold {
         val navController = rememberSwipeDismissableNavController()
