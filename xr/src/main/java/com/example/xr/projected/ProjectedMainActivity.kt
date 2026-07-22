@@ -35,8 +35,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.xr.glimmer.ActionCard
 import androidx.xr.glimmer.Button
-import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.GlimmerTheme
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.surface
@@ -57,6 +57,8 @@ class ProjectedMainActivity : ComponentActivity() {
     private var areVisualsOn by mutableStateOf(true)
     private var isPermissionDenied by mutableStateOf(false)
 
+    @Suppress("DEPRECATION")
+    // TODO: Remove suppression once Android Emulator supports ProjectedActivityCompat.requestPermissions()
     // [START androidxr_projected_permissions_launcher]
     // Register the permissions launcher using the ProjectedPermissionsResultContract.
     private val requestPermissionLauncher: ActivityResultLauncher<List<ProjectedPermissionsRequestParams>> =
@@ -158,15 +160,15 @@ fun HomeScreen(
         contentAlignment = Alignment.Center
     ) {
         if (isPermissionDenied) {
-            Card(
+            ActionCard(
                 title = { Text("Permission Required") },
                 action = { Button(onClick = onClose) { Text("Exit") } }
             ) {
-                Text("Camera access is needed to use AI glasses features.")
+                Text("Camera access is needed to use display glasses features.")
                 Button(onClick = onRetryPermission) { Text("Retry") }
             }
         } else if (isVisualUiSupported) {
-            Card(
+            ActionCard(
                 title = { Text("Android XR") },
                 action = {
                     Button(onClick = onClose) {
@@ -175,7 +177,7 @@ fun HomeScreen(
                 }
             ) {
                 if (areVisualsOn) {
-                    Text("Hello, AI Glasses!")
+                    Text("Hello, Display Glasses!")
                 } else {
                     Text("Display is off. Audio guidance active.")
                 }

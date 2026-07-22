@@ -44,9 +44,8 @@ import androidx.xr.compose.subspace.SpatialRow
 import androidx.xr.compose.subspace.layout.SpatialRoundedCornerShape
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
+import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
-import androidx.xr.compose.subspace.layout.transformingMovable
-import androidx.xr.compose.subspace.layout.transformingResizable
 import androidx.xr.compose.subspace.layout.width
 import androidx.xr.compose.unit.DpVolumeOffset
 import com.example.xr.R
@@ -59,8 +58,8 @@ private fun OrbiterExampleSubspace() {
             SubspaceModifier
                 .height(824.dp)
                 .width(1400.dp)
-                .transformingResizable()
-                .transformingMovable(),
+                .resizable()
+                .movable(),
         ) {
             SpatialPanelContent()
             OrbiterExample()
