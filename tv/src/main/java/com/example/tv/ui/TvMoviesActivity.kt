@@ -288,7 +288,8 @@ fun CatalogBrowser(
             FeaturedCarousel(featuredContentList)
         }
 
-        items(sectionList) { section: Section ->
+        items(sectionList.size) { index ->
+            val section = sectionList[index]
             SectionRow(section, onItemSelected = onItemSelected)
         }
     }
