@@ -19,7 +19,6 @@ package com.example.tv.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.tv.foundation.lazy.list.TvLazyColumn
+import androidx.tv.foundation.lazy.list.items
 import androidx.tv.material3.Carousel
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import coil.compose.AsyncImage
@@ -62,7 +62,8 @@ class TvMoviesActivity : ComponentActivity() {
         )
         val SECTIONS = listOf(
             Section(
-                "Favorites", listOf(
+                "Favorites",
+                listOf(
                     Movie(
                         "The Shawshank Redemption",
                         "Two imprisoned men bond over a number of years",
@@ -96,7 +97,8 @@ class TvMoviesActivity : ComponentActivity() {
                 )
             ),
             Section(
-                "Comedy", listOf(
+                "Comedy",
+                listOf(
                     Movie(
                         "Role Models",
                         "Two salesmen have to undergo community service to mentor two boys",
@@ -139,9 +141,25 @@ class TvMoviesActivity : ComponentActivity() {
     }
 }
 
+private object CatalogBrowserStub {
+// [START android_compose_tv_catalog_browser_stub]
+@Composable
+fun CatalogBrowser(
+    featuredContentList: List<Movie>,
+    sectionList: List<Section>,
+    modifier: Modifier = Modifier,
+    onItemSelected: (Movie) -> Unit = {},
+) {
+    // ToDo: add implementation
+}
+// [END android_compose_tv_catalog_browser_stub]
+}
+
+private object CatalogBrowserLazyColumn {
 // [START android_compose_tv_catalog_browser]
 @Composable
 fun CatalogBrowser(
+    featuredContentList: List<Movie>,
     sectionList: List<Section>,
     modifier: Modifier = Modifier,
     onItemSelected: (Movie) -> Unit = {},
@@ -150,12 +168,14 @@ fun CatalogBrowser(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(sectionList) { section ->
+        items(sectionList.size) { index ->
+            val section = sectionList[index]
             SectionRow(section, onItemSelected = onItemSelected)
         }
     }
 }
 // [END android_compose_tv_catalog_browser]
+}
 
 // [START android_compose_tv_catalog_browser_section]
 @Composable
@@ -176,6 +196,7 @@ fun SectionRow(
 }
 // [END android_compose_tv_catalog_browser_section]
 
+private object MovieCatalogWrapper {
 // [START android_compose_tv_lazyrow]
 @Composable
 fun MovieCatalog(
@@ -187,7 +208,8 @@ fun MovieCatalog(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(movies) { movie ->
+        items(movies.size) { index ->
+            val movie = movies[index]
             MovieCard(
                 movie = movie,
                 onClick = { onClick(movie) }
@@ -196,17 +218,19 @@ fun MovieCatalog(
     }
 }
 // [END android_compose_tv_lazyrow]
+}
 
 // [START android_compose_tv_movie_card]
 @Composable
 fun MovieCard(
     movie: Movie,
     modifier: Modifier = Modifier,
-    onClick: (Movie) -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier,
-        onClick = { onClick(movie) }) {
+        onClick = { onClick(movie) }
+    ) {
         AsyncImage(
             model = movie.thumbnailUrl,
             contentDescription = movie.title,
@@ -237,15 +261,34 @@ fun FeaturedCarousel(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Text(
-                text = content.title,
-                style = MaterialTheme.typography.headlineMedium.copy(color = androidx.compose.ui.graphics.Color.White),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.5f))
-                    .padding(8.dp)
-            )
+            Text(text = content.title)
         }
     }
 }
 // [END android_compose_tv_featured_carousel]
+
+@OptIn(ExperimentalTvMaterial3Api::class)
+private object CatalogBrowserWithCarousel {
+// [START android_compose_tv_catalog_browser_with_carousel]
+@Composable
+fun CatalogBrowser(
+    featuredContentList: List<Movie>,
+    sectionList: List<Section>,
+    modifier: Modifier = Modifier,
+    onItemSelected: (Movie) -> Unit = {},
+) {
+    TvLazyColumn(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            FeaturedCarousel(featuredContentList)
+        }
+
+        items(sectionList) { section ->
+            SectionRow(section, onItemSelected = onItemSelected)
+        }
+    }
+}
+// [END android_compose_tv_catalog_browser_with_carousel]
+}
