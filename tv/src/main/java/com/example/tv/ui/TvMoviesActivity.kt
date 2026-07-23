@@ -128,6 +128,7 @@ class TvMoviesActivity : ComponentActivity() {
         )
     }
 
+    @OptIn(ExperimentalTvMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -269,9 +270,9 @@ fun FeaturedCarousel(
 }
 // [END android_compose_tv_featured_carousel]
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 private object CatalogBrowserWithCarousel {
 // [START android_compose_tv_catalog_browser_with_carousel]
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun CatalogBrowser(
     featuredContentList: List<Movie>,
