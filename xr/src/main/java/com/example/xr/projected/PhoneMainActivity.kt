@@ -174,7 +174,7 @@ fun ConnectionScreen() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Hello AI Glasses",
+                text = "Hello Display Glasses",
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.height(32.dp))
