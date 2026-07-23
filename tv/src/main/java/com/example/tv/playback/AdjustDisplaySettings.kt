@@ -23,6 +23,7 @@ import android.media.quality.MediaQualityManager
 import android.media.quality.PictureProfile
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 
 // [START android_tv_playback_adjust_display_settings_profile_constants]
 const val NAME_STANDARD: String = "standard"
@@ -34,6 +35,7 @@ const val NAME_ENERGY_SAVING: String = "energy_saving"
 const val NAME_USER: String = "user"
 // [END android_tv_playback_adjust_display_settings_profile_constants]
 
+@RequiresApi(36)
 class AdjustDisplaySettings {
 
     fun queryAvailableProfiles(context: Context, mediaCodec: MediaCodec) {
