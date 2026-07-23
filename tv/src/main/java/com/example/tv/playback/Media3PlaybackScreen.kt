@@ -16,7 +16,6 @@
 
 package com.example.tv.playback
 
-import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,21 +43,19 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
-import androidx.tv.material3.Button
-import androidx.tv.material3.Text
+import androidx.media3.ui.compose.PlayerSurface
+import androidx.media3.ui.compose.material3.buttons.PlayPauseButton
+import androidx.media3.ui.compose.material3.buttons.SeekBackButton
+import androidx.media3.ui.compose.material3.buttons.SeekForwardButton
 import com.example.tv.model.Video
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // [START android_compose_tv_media3_playback]
-@OptIn(UnstableApi::class)
 @Composable
 fun Media3PlaybackScreen(
     video: Video,
@@ -147,13 +144,8 @@ fun Media3PlaybackScreen(
             },
         contentAlignment = Alignment.Center
     ) {
-        AndroidView(
-            factory = { ctx ->
-                PlayerView(ctx).apply {
-                    player = exoPlayer
-                    useController = false
-                }
-            },
+        PlayerSurface(
+            player = exoPlayer,
             modifier = Modifier.fillMaxSize()
         )
 
@@ -169,24 +161,9 @@ fun Media3PlaybackScreen(
                     horizontalArrangement = Arrangement.spacedBy(24.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(onClick = {
-                        val newPos = (exoPlayer.currentPosition - 10_000L).coerceAtLeast(0L)
-                        exoPlayer.seekTo(newPos)
-                    }) {
-                        Text("<< 10s")
-                    }
-                    Button(onClick = {
-                        if (exoPlayer.isPlaying) exoPlayer.pause() else exoPlayer.play()
-                    }) {
-                        Text(if (exoPlayer.isPlaying) "Pause" else "Play")
-                    }
-                    Button(onClick = {
-                        val duration = exoPlayer.duration.coerceAtLeast(0L)
-                        val newPos = (exoPlayer.currentPosition + 10_000L).coerceAtMost(duration)
-                        exoPlayer.seekTo(newPos)
-                    }) {
-                        Text("10s >>")
-                    }
+                    SeekBackButton(player = exoPlayer)
+                    PlayPauseButton(player = exoPlayer)
+                    SeekForwardButton(player = exoPlayer)
                 }
             }
         }
