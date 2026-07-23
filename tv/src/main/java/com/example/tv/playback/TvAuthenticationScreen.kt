@@ -47,7 +47,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Border
 import androidx.tv.material3.Button
+import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -86,7 +88,7 @@ fun TvAuthenticationScreen(
         ) {
             Surface(
                 onClick = { focusRequester.requestFocus() },
-                border = BorderStroke(2.dp, Color.White),
+                border = ClickableSurfaceDefaults.border(focusedBorder = Border(border = BorderStroke(2.dp, Color.White))),
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester)
@@ -111,7 +113,7 @@ fun TvAuthenticationScreen(
 
             Surface(
                 onClick = {},
-                border = BorderStroke(2.dp, Color.White),
+                border = ClickableSurfaceDefaults.border(focusedBorder = Border(border = BorderStroke(2.dp, Color.White))),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
