@@ -31,13 +31,13 @@ abstract class AudioPlayer {
     fun addAudioTrackWriteErrorListener(listener: (Int) -> Unit) {}
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class AudioCapabilities(
     private val audioManager: AudioManager,
     private val audioPlayer: AudioPlayer,
     private val handler: Handler
 ) {
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun checkDirectPlaybackSupport() {
 // [START android_tv_playback_audio_capabilities_direct_playback_support]
         val format = AudioFormat.Builder()
@@ -62,7 +62,6 @@ class AudioCapabilities(
     }
 
 // [START android_tv_playback_audio_capabilities_find_best_format]
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun findBestAudioFormat(audioAttributes: AudioAttributes): AudioFormat {
         val preferredFormats = listOf(
             AudioFormat.ENCODING_E_AC3,
