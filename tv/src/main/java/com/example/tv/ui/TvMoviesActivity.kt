@@ -287,7 +287,7 @@ fun CatalogBrowser(
             FeaturedCarousel(featuredContentList)
         }
 
-        items(sectionList) { section ->
+        items(sectionList) { section: Section ->
             SectionRow(section, onItemSelected = onItemSelected)
         }
     }
