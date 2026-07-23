@@ -232,7 +232,7 @@ fun MovieCard(
 ) {
     Card(
         modifier = modifier,
-        onClick = { onClick(movie) }
+        onClick = onClick
     ) {
         AsyncImage(
             model = movie.thumbnailUrl,
