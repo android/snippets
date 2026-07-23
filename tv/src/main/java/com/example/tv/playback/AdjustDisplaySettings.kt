@@ -40,7 +40,7 @@ class AdjustDisplaySettings {
 
     fun queryAvailableProfiles(context: Context, mediaCodec: MediaCodec) {
 // [START android_tv_playback_adjust_display_settings_available_profiles]
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+        if (Build.VERSION.SDK_INT >= 36) {
             val mediaQualityManager: MediaQualityManager =
                 context.getSystemService(MediaQualityManager::class.java)
             val profiles = mediaQualityManager.getAvailablePictureProfiles(null)
@@ -61,7 +61,7 @@ class AdjustDisplaySettings {
 
     fun getProfileByName(mediaQualityManager: MediaQualityManager) {
 // [START android_tv_playback_adjust_display_settings_get_profile]
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+        if (Build.VERSION.SDK_INT >= 36) {
             val profile = mediaQualityManager.getPictureProfile(
                 PictureProfile.TYPE_SYSTEM, NAME_SPORTS, null
             )
