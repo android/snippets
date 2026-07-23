@@ -134,7 +134,11 @@ class TvMoviesActivity : ComponentActivity() {
             Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
                 Column {
                     FeaturedCarousel(FEATURED)
-                    CatalogBrowser(SECTIONS, Modifier.padding(padding))
+                    CatalogBrowserWithCarousel.CatalogBrowser(
+                        FEATURED,
+                        SECTIONS,
+                        Modifier.padding(padding)
+                    )
                 }
             }
         }
@@ -196,7 +200,6 @@ fun SectionRow(
 }
 // [END android_compose_tv_catalog_browser_section]
 
-private object MovieCatalogWrapper {
 // [START android_compose_tv_lazyrow]
 @Composable
 fun MovieCatalog(
@@ -218,7 +221,6 @@ fun MovieCatalog(
     }
 }
 // [END android_compose_tv_lazyrow]
-}
 
 // [START android_compose_tv_movie_card]
 @Composable
