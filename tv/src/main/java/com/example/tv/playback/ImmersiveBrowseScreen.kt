@@ -80,6 +80,7 @@ fun ImmersiveBrowseScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 item {
+                    // [START android_compose_tv_spatial_focus]
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -91,6 +92,7 @@ fun ImmersiveBrowseScreen(
                             modifier = Modifier.focusRequester(topBarFocusRequester)
                         ) { Text("Search") }
                     }
+                    // [END android_compose_tv_spatial_focus]
                 }
 
                 itemsIndexed(categories.entries.toList()) { catIndex, (categoryName, videos) ->
@@ -118,6 +120,7 @@ fun ImmersiveBrowseScreen(
                             )
                         }
 
+                        // [START android_compose_tv_focus_restorer]
                         LazyRow(
                             modifier = Modifier.focusRestorer(),
                             contentPadding = PaddingValues(horizontal = 48.dp),
@@ -152,6 +155,7 @@ fun ImmersiveBrowseScreen(
                                 )
                             }
                         }
+                        // [END android_compose_tv_focus_restorer]
                     }
                 }
             }

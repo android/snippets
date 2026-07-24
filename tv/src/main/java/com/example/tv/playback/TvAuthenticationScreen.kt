@@ -62,12 +62,14 @@ fun TvAuthenticationScreen(
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    // [START android_compose_tv_initial_focus]
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
+    // [END android_compose_tv_initial_focus]
 
     Column(
         modifier = modifier
@@ -86,6 +88,7 @@ fun TvAuthenticationScreen(
             modifier = Modifier.widthIn(max = 480.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // [START android_compose_tv_text_input]
             Surface(
                 onClick = { focusRequester.requestFocus() },
                 border = ClickableSurfaceDefaults.border(focusedBorder = Border(border = BorderStroke(2.dp, Color.White))),
@@ -134,6 +137,7 @@ fun TvAuthenticationScreen(
                         }
                 )
             }
+            // [END android_compose_tv_text_input]
 
             Button(
                 onClick = onLoginSuccess,
