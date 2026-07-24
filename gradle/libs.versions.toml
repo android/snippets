@@ -111,7 +111,6 @@ tracing = "1.3.0"
 truth = "1.4.5"
 turbine = "1.2.1"
 tvComposeMaterial3 = "1.1.0"
-tvFoundation = "1.0.0"
 validatorPush = "1.0.0-alpha09"
 version-catalog-update = "1.1.0"
 watchfaceComplicationsDataSourceKtx = "1.3.0"
@@ -328,7 +327,6 @@ roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule"
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 tv-compose-material = { module = "androidx.tv:tv-material", version.ref = "tvComposeMaterial3" }
-tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "tvFoundation" }
 validator-push = { module = "com.google.android.wearable.watchface.validator:validator-push", version.ref = "validatorPush" }
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
