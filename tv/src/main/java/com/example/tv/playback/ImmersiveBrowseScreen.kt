@@ -93,65 +93,63 @@ fun ImmersiveBrowseScreen(
                     }
                 }
 
-                categories.entries.forEachIndexed { catIndex, (categoryName, videos) ->
-                    item {
-                        Column {
-                            if (catIndex == 0 && focusedCategoryIndex == 0) {
-                                Column(
-                                    modifier = Modifier
-                                        .heightIn(min = 200.dp)
-                                        .padding(horizontal = 48.dp)
-                                ) {
-                                    Text(
-                                        text = focusedVideo?.title ?: "",
-                                        style = MaterialTheme.typography.displayMedium
-                                    )
-                                    Text(
-                                        text = focusedVideo?.description ?: "",
-                                        style = MaterialTheme.typography.bodyLarge
-                                    )
-                                }
-                            } else {
+                itemsIndexed(categories.entries.toList()) { catIndex, (categoryName, videos) ->
+                    Column {
+                        if (catIndex == 0 && focusedCategoryIndex == 0) {
+                            Column(
+                                modifier = Modifier
+                                    .heightIn(min = 200.dp)
+                                    .padding(horizontal = 48.dp)
+                            ) {
                                 Text(
-                                    text = categoryName,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(horizontal = 48.dp, vertical = 8.dp)
+                                    text = focusedVideo?.title ?: "",
+                                    style = MaterialTheme.typography.displayMedium
+                                )
+                                Text(
+                                    text = focusedVideo?.description ?: "",
+                                    style = MaterialTheme.typography.bodyLarge
                                 )
                             }
+                        } else {
+                            Text(
+                                text = categoryName,
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(horizontal = 48.dp, vertical = 8.dp)
+                            )
+                        }
 
-                            LazyRow(
-                                modifier = Modifier.focusRestorer(),
-                                contentPadding = PaddingValues(horizontal = 48.dp),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp)
-                            ) {
-                                itemsIndexed(videos) { vidIndex, video ->
-                                    CompactCard(
-                                        onClick = { onVideoClick(video) },
-                                        image = {
-                                            AsyncImage(
-                                                model = video.cardImageUrl,
-                                                contentDescription = video.title,
-                                                contentScale = ContentScale.Crop,
-                                                modifier = Modifier.fillMaxSize()
-                                            )
-                                        },
-                                        title = { Text(video.title) },
-                                        modifier = Modifier
-                                            .then(
-                                                if (catIndex == 0 && vidIndex == 0) {
-                                                    Modifier.focusRequester(firstCardFocusRequester)
-                                                } else {
-                                                    Modifier
-                                                }
-                                            )
-                                            .onFocusChanged { focusState ->
-                                                if (focusState.isFocused) {
-                                                    focusedVideo = video
-                                                    focusedCategoryIndex = catIndex
-                                                }
+                        LazyRow(
+                            modifier = Modifier.focusRestorer(),
+                            contentPadding = PaddingValues(horizontal = 48.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            itemsIndexed(videos) { vidIndex, video ->
+                                CompactCard(
+                                    onClick = { onVideoClick(video) },
+                                    image = {
+                                        AsyncImage(
+                                            model = video.cardImageUrl,
+                                            contentDescription = video.title,
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.fillMaxSize()
+                                        )
+                                    },
+                                    title = { Text(video.title) },
+                                    modifier = Modifier
+                                        .then(
+                                            if (catIndex == 0 && vidIndex == 0) {
+                                                Modifier.focusRequester(firstCardFocusRequester)
+                                            } else {
+                                                Modifier
                                             }
-                                    )
-                                }
+                                        )
+                                        .onFocusChanged { focusState ->
+                                            if (focusState.isFocused) {
+                                                focusedVideo = video
+                                                focusedCategoryIndex = catIndex
+                                            }
+                                        }
+                                )
                             }
                         }
                     }

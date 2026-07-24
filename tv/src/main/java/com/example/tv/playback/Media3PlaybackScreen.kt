@@ -66,7 +66,7 @@ fun Media3PlaybackScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val exoPlayer = remember { ExoPlayer.Builder(context).build() }
+    val exoPlayer = remember(context) { ExoPlayer.Builder(context).build() }
     var showControls by remember { mutableStateOf(true) }
     val focusRequester = remember { FocusRequester() }
     val coroutineScope = rememberCoroutineScope()
@@ -80,10 +80,7 @@ fun Media3PlaybackScreen(
         }
     }
 
-    LaunchedEffect(video) {
-        focusRequester.requestFocus()
-        scheduleAutoHide()
-
+    DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED) {
@@ -92,18 +89,21 @@ fun Media3PlaybackScreen(
             }
         }
         exoPlayer.addListener(listener)
+        onDispose {
+            autoHideJob?.cancel()
+            exoPlayer.removeListener(listener)
+            exoPlayer.release()
+        }
+    }
+
+    LaunchedEffect(video) {
+        focusRequester.requestFocus()
+        scheduleAutoHide()
 
         val mediaItem = MediaItem.fromUri(video.videoUrl)
         exoPlayer.setMediaItem(mediaItem)
         exoPlayer.prepare()
         exoPlayer.playWhenReady = true
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            autoHideJob?.cancel()
-            exoPlayer.release()
-        }
     }
 
     Box(
