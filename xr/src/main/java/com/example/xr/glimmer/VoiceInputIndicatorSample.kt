@@ -85,7 +85,7 @@ fun startVoiceInput(context: Context) {
 
 // [START androidxr_glimmer_voice_input_indicator]
 @Composable
-fun VoiceInputExample() {
+fun VoiceInputExample(modifier: Modifier) {
     // Collect the flow as Compose State so the UI reacts to changes in real-time.
     val currentLevel by audioLevel.collectAsState()
 
@@ -93,7 +93,7 @@ fun VoiceInputExample() {
         // The VoiceInputIndicator component provides a visual "pulse" or indicator
         // that changes based on the 'level' lambda, which returns a Float between 0.0 and 1.0.
         level = { currentLevel },
-        modifier = Modifier.size(64.dp)
+        modifier = modifier
     )
 }
 // [END androidxr_glimmer_voice_input_indicator]
