@@ -21,20 +21,11 @@
 
 package com.example.compose.snippets.layouts.grid
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
 import androidx.compose.foundation.layout.GridConfigurationScope
-import androidx.compose.foundation.layout.GridTrackSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -217,137 +208,6 @@ object FourCardsLayout {
 }
 // [END android_compose_layout_grid_two_grid_configurations]
 
-// [START android_compose_layout_grid_area_ids]
-enum class CardArea {
-    Image,
-    Title,
-    Subtitle,
-    Description,
-    ExtraText,
-}
-// [END android_compose_layout_grid_area_ids]
-
-@Composable
-private fun WideClassicCardGridConfig() {
-    // [START android_compose_layout_grid_wide_classic_card_grid_config]
-    Grid(
-        config = {
-            // Define columns: left column for image, right for content
-            column(GridTrackSize.Auto)
-            column(minmax(0.dp, 1.fr))
-
-            // Define row tracks for the vertical content stack
-            row(GridTrackSize.Auto)
-            row(GridTrackSize.Auto)
-            row(GridTrackSize.Auto)
-            row(GridTrackSize.Auto)
-
-            // Map semantic identifiers to grid coordinates and spans
-            area(CardArea.Image, row = 1, column = 1, rowSpan = 4)
-            area(CardArea.Title, row = 1, column = 2)
-            area(CardArea.Subtitle, row = 2, column = 2)
-            area(CardArea.Description, row = 3, column = 2)
-            area(CardArea.ExtraText, row = 4, column = 2)
-
-            gap(row = 8.dp, column = 16.dp)
-        }
-    ) {
-        // Child elements placed in Step 3
-    }
-    // [END android_compose_layout_grid_wide_classic_card_grid_config]
-}
-
-// [START android_compose_layout_grid_wide_classic_card]
-@Composable
-fun WideClassicCard(
-    imageContent: @Composable () -> Unit,
-    title: String,
-    subtitle: String,
-    description: String,
-    extraText: String,
-    modifier: Modifier = Modifier,
-) {
-    Card(modifier = modifier) {
-        Grid(
-            config = {
-                // Define columns: left column for image, right for content
-                column(GridTrackSize.Auto)
-                column(minmax(0.dp, 1.fr))
-
-                // Define row tracks for the vertical content stack
-                row(GridTrackSize.Auto)
-                row(GridTrackSize.Auto)
-                row(GridTrackSize.Auto)
-                row(GridTrackSize.Auto)
-
-                // Map semantic identifiers to grid coordinates and spans
-                area(CardArea.Image, row = 1, column = 1, rowSpan = 4)
-                area(CardArea.Title, row = 1, column = 2)
-                area(CardArea.Subtitle, row = 2, column = 2)
-                area(CardArea.Description, row = 3, column = 2)
-                area(CardArea.ExtraText, row = 4, column = 2)
-
-                gap(row = 8.dp, column = 16.dp)
-            },
-        ) {
-            Box(modifier = Modifier.gridItem(CardArea.Image)) {
-                imageContent()
-            }
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier
-                    .gridItem(CardArea.Title)
-                    .padding(top = 16.dp, end = 16.dp),
-            )
-
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .gridItem(CardArea.Subtitle)
-                    .padding(end = 16.dp),
-            )
-
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .gridItem(CardArea.Description)
-                    .padding(end = 16.dp),
-            )
-
-            Text(
-                text = extraText,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .gridItem(CardArea.ExtraText)
-                    .padding(bottom = 16.dp, end = 16.dp),
-            )
-        }
-    }
-}
-// [END android_compose_layout_grid_wide_classic_card]
-
-@Preview(showBackground = true)
-@Composable
-private fun WideClassicCardPreview() {
-    WideClassicCard(
-        imageContent = {
-            Box(
-                modifier = Modifier
-                    .width(120.dp)
-                    .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-            )
-        },
-        title = "Title",
-        subtitle = "Subtitle",
-        description = "This is a description of the card. It explains what the card is about in more detail.",
-        extraText = "Extra text",
-        modifier = Modifier.padding(16.dp)
-    )
-}
 
 /**
  * A helper composable to provide a default [UiMediaScope] for previews.
