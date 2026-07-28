@@ -31,18 +31,28 @@ import androidx.compose.ui.unit.dp
 import androidx.xr.glimmer.VoiceInputIndicator
 import kotlinx.coroutines.flow.MutableStateFlow
 
-// Example state variable to hold the normalized level
+// Example state variable to hold the normalized level (0.0 to 1.0)
+// that the VoiceInputIndicator component expects.
 val audioLevel = MutableStateFlow(0f)
 
+/**
+ * Demonstrates how to initialize a [SpeechRecognizer] and normalize the audio RMS dB levels
+ * for use with a [VoiceInputIndicator].
+ */
 fun startVoiceInput(context: Context) {
     // [START androidxr_glimmer_voice_input_normalization]
-    // Example state variables to hold the normalized level
+    // Example state variable to hold the normalized level (0.0 to 1.0)
+    // that the VoiceInputIndicator component expects.
     val audioLevel = MutableStateFlow(0f)
+
+    // Initialize the Android SpeechRecognizer
     val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
 
+    // Listener to capture speech events and audio level changes
     val listener = object : RecognitionListener {
         override fun onRmsChanged(rmsdB: Float) {
-            // Normalize raw dB (~0–10) to 0.0-1.0 for the indicator
+            // Normalize raw dB level to a 0.0-1.0 range.
+            // Android SpeechRecognizer's rmsdB typically ranges from 0 to ~10.
             audioLevel.value = ((rmsdB - 1f) / 9f).coerceIn(0f, 1f)
         }
 
@@ -57,24 +67,31 @@ fun startVoiceInput(context: Context) {
         override fun onBufferReceived(buffer: ByteArray?) {}
     }
 
-    // Attach the listener and start recognizing speech
+    // Attach the listener to the recognizer
     speechRecognizer.setRecognitionListener(listener)
 
+    // Create an intent to specify the recognition model and behavior
     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
     }
+    // Begin listening for audio input
     speechRecognizer.startListening(intent)
     // [END androidxr_glimmer_voice_input_normalization]
 }
 
+/**
+ * A Composable that displays a [VoiceInputIndicator] reacting to the [audioLevel] state.
+ */
+
 // [START androidxr_glimmer_voice_input_indicator]
 @Composable
 fun VoiceInputExample() {
-    // Collect the flow as Compose State so the UI reacts to changes
+    // Collect the flow as Compose State so the UI reacts to changes in real-time.
     val currentLevel by audioLevel.collectAsState()
 
     VoiceInputIndicator(
-        // The component responds to the level provided, showing a visual representation of the audio intensity
+        // The VoiceInputIndicator component provides a visual "pulse" or indicator
+        // that changes based on the 'level' lambda, which returns a Float between 0.0 and 1.0.
         level = { currentLevel },
         modifier = Modifier.size(64.dp)
     )
