@@ -61,9 +61,9 @@ android {
 }
 
 // NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT or newer.
-// To compile and test it, pass -PsnapshotVersion=1.7.0-SNAPSHOT on the command line.
-val snapshotVersion: String? by project
-val isUsingSnapshot = snapshotVersion != null
+// To compile and test it, pass -PwearSnapshotVersion=1.7.0-SNAPSHOT on the command line.
+val wearSnapshotVersion: String? by project
+val isUsingSnapshot = wearSnapshotVersion != null
 
 dependencies {
     implementation(libs.androidx.core.ktx)
