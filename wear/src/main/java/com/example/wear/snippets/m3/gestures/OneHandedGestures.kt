@@ -196,17 +196,17 @@ private fun ScrollGestureSnippet(scrollState: TransformingLazyColumnState) {
 
 @Suppress("UnusedVariable", "UNUSED_PARAMETER")
 @Composable
-private fun ButtonGestureSnippet(
-    onClick: () -> Unit,
-    interactionSource: MutableInteractionSource
-) {
+private fun ButtonGestureSnippet(onClick: () -> Unit) {
     // [START android_wear_one_handed_gesture_button]
     val gestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary
     )
+    // Share MutableInteractionSource so gesture events emit visual press state on the button
+    val interactionSource = remember { MutableInteractionSource() }
 
     Button(
         onClick = onClick,
+        interactionSource = interactionSource,
         modifier = Modifier
             .fillMaxWidth()
             .oneHandedGesture(
@@ -216,7 +216,7 @@ private fun ButtonGestureSnippet(
                 onGesture = onClick
             )
     ) {
-        // Button content goes here
+        Text("Click button")
     }
     // [END android_wear_one_handed_gesture_button]
 }
