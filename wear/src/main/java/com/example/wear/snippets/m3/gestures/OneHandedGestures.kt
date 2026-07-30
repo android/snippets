@@ -176,3 +176,39 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
 fun OneHandedGestureScreenPreview() {
     OneHandedGestureScreen()
 }
+
+@Suppress("UnusedVariable", "UNUSED_PARAMETER")
+@Composable
+private fun ScrollGestureSnippet(scrollState: TransformingLazyColumnState) {
+    // [START android_wear_one_handed_gesture_scroll]
+    val scrollGestureConfig = rememberOneHandedGestureConfiguration(
+        action = OneHandedGestureAction.Primary,
+        priority = OneHandedGesturePriority.Scrollable
+    )
+    val modifier = Modifier.oneHandedGesture(
+        gestureConfiguration = scrollGestureConfig,
+        onGestureLabel = "Scroll down",
+        onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
+    )
+    // [END android_wear_one_handed_gesture_scroll]
+}
+
+@Suppress("UnusedVariable", "UNUSED_PARAMETER")
+@Composable
+private fun ButtonGestureSnippet(onClick: () -> Unit, buttonVisible: Boolean) {
+    // [START android_wear_one_handed_gesture_button]
+    val buttonGestureConfig = rememberOneHandedGestureConfiguration(
+        action = OneHandedGestureAction.Primary,
+        priority = OneHandedGesturePriority.Clickable
+    )
+    val modifier = Modifier.onVisibilityChanged { /* update visible state */ } then
+        if (buttonVisible) {
+            Modifier.oneHandedGesture(
+                gestureConfiguration = buttonGestureConfig,
+                onGestureLabel = "Click button",
+                onGesture = onClick
+            )
+        } else Modifier
+    // [END android_wear_one_handed_gesture_button]
+}
+
