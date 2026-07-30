@@ -199,8 +199,7 @@ private fun ScrollGestureSnippet(scrollState: TransformingLazyColumnState) {
 private fun ButtonGestureSnippet(onClick: () -> Unit, buttonVisible: Boolean) {
     // [START android_wear_one_handed_gesture_button]
     val buttonGestureConfig = rememberOneHandedGestureConfiguration(
-        action = OneHandedGestureAction.Primary,
-        priority = OneHandedGesturePriority.Clickable
+        action = OneHandedGestureAction.Primary
     )
     val modifier = Modifier.onVisibilityChanged { /* update visible state */ } then
         if (buttonVisible) {
