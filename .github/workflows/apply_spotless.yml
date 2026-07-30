@@ -26,28 +26,30 @@ jobs:
   apply-spotless:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: write
     if: github.repository == 'android/snippets'
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       with:
         token: ${{ secrets.PAT || github.token }}
         fetch-depth: 0
 
     - name: set up Java 17
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
       with:
         distribution: 'zulu'
         java-version: '17'
 
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v6
+      uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
     - name: Run spotlessApply
       run: ./gradlew spotlessApply -PsnapshotVersion=1.7.0-SNAPSHOT --stacktrace
 
     - name: Auto-commit if spotlessApply has changes
-      uses: stefanzweifel/git-auto-commit-action@v7
+      uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
       with:
         commit_message: Apply Spotless
