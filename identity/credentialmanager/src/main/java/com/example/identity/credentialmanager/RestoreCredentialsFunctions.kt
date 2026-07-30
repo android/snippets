@@ -23,6 +23,7 @@ import androidx.credentials.CreateRestoreCredentialRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetRestoreCredentialOption
+import androidx.credentials.RestoreCredential
 
 class RestoreCredentialsFunctions(
     private val context: Context,
