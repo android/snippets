@@ -40,6 +40,6 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v6
     - name: Build All
-      run: ./gradlew build --stacktrace
+      run: ./gradlew build -PsnapshotVersion=1.7.0-SNAPSHOT --stacktrace
     - name: Build Watch Face Push validation snippets
       run: ./gradlew :watchfacepush:validator:run --stacktrace

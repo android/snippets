@@ -60,6 +60,11 @@ android {
     }
 }
 
+// NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT or newer.
+// To compile and test it, pass -PsnapshotVersion=1.7.0-SNAPSHOT on the command line.
+val snapshotVersion: String? by project
+val isUsingSnapshot = snapshotVersion != null
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.credentials)
@@ -96,7 +101,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.wear.compose.material)
-    implementation(libs.wear.compose.material3)
+    if (isUsingSnapshot) {
+        implementation(libs.wear.compose.material3.toSnapshotDependency("1.7.0-SNAPSHOT"))
+        implementation(libs.androidx.compose.material.iconsExtended)
+    } else {
+        implementation(libs.wear.compose.material3)
+    }
     implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
@@ -147,3 +157,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.kotlinx.serialization.json)
 }
+
+fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(snapshotVer: String = "1.7.0-SNAPSHOT"): Provider<MinimalExternalModuleDependency> =
+    this.map {
+        it.copy().apply {
+            version {
+                strictly(snapshotVer)
+            }
+        }
+    }
