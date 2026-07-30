@@ -103,11 +103,12 @@ dependencies {
     implementation(libs.wear.compose.material)
     if (isUsingSnapshot) {
         implementation(libs.wear.compose.material3.toSnapshotDependency("1.7.0-SNAPSHOT"))
+        implementation(libs.compose.foundation.toSnapshotDependency("1.7.0-SNAPSHOT"))
         implementation(libs.androidx.compose.material.iconsExtended)
     } else {
         implementation(libs.wear.compose.material3)
+        implementation(libs.compose.foundation)
     }
-    implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.horologist.compose.layout)
