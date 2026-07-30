@@ -149,10 +149,14 @@ class PasskeyAndPasswordFunctions(
 
         runBlocking {
             // [START android_identity_password_get_credential]
+            // Use an activity-based context to avoid undefined system UI
+            // launching behavior.
+            val context = MutableContextWrapper(activityContext)
             coroutineScope {
                 try {
                     val result = credentialManager.getCredential(
-                        context = activityContext,
+                        // Use MutableContextWrapper to avoid memory leak during configuration changes
+                        context = context,
                         request = credentialRequest
                     )
                     handlePasswordSignIn(result)
@@ -287,12 +291,14 @@ class PasskeyAndPasswordFunctions(
 
         // Execute createCredential asynchronously to register credentials
         // for a user account.
+        // Use an activity-based context to avoid undefined system UI
+        // launching behavior.
+        val context = MutableContextWrapper(activityContext)
         coroutineScope {
             try {
                 val result = credentialManager.createCredential(
-                    // Use an activity-based context to avoid undefined system
-                    // UI launching behavior
-                    context = activityContext,
+                    // Use MutableContextWrapper to avoid memory leak during configuration changes
+                    context = context,
                     request = createPublicKeyCredentialRequest,
                 )
                 //  Handle passkey creation result
@@ -344,13 +350,15 @@ class PasskeyAndPasswordFunctions(
             CreatePasswordRequest(id = username, password = password)
 
         // Create credential and handle result.
+        // Use an activity-based context to avoid undefined system UI
+        // launching behavior.
+        val context = MutableContextWrapper(activityContext)
         coroutineScope {
             try {
                 val result =
                     credentialManager.createCredential(
-                        // Use an activity based context to avoid undefined
-                        // system UI launching behavior.
-                        activityContext,
+                        // Use MutableContextWrapper to avoid memory leak during configuration changes
+                        context = context,
                         createPasswordRequest
                     )
                 // Handle register password result
