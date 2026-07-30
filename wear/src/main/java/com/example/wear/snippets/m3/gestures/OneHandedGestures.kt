@@ -178,19 +178,30 @@ fun OneHandedGestureScreenPreview() {
     OneHandedGestureScreen()
 }
 
-@Suppress("UnusedVariable", "UNUSED_PARAMETER")
 @Composable
-private fun ScrollGestureSnippet(scrollState: TransformingLazyColumnState) {
+private fun ScrollGestureSnippet() {
     // [START android_wear_one_handed_gesture_scroll]
-    val scrollGestureConfig = rememberOneHandedGestureConfiguration(
-        action = OneHandedGestureAction.Primary,
-        priority = OneHandedGesturePriority.Scrollable
+    val scrollState = rememberTransformingLazyColumnState()
+    val gestureConfig = rememberOneHandedGestureConfiguration(
+        action = OneHandedGestureAction.Primary
     )
-    val modifier = Modifier.oneHandedGesture(
-        gestureConfiguration = scrollGestureConfig,
-        onGestureLabel = "Scroll down",
-        onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
-    )
+
+    TransformingLazyColumn(
+        state = scrollState,
+        modifier = Modifier
+            .fillMaxSize()
+            // [START android_wear_one_handed_gesture_scroll_highlight]
+            .oneHandedGesture(
+                gestureConfiguration = gestureConfig,
+                onGestureLabel = "Scroll down",
+                onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
+            )
+            // [END android_wear_one_handed_gesture_scroll_highlight]
+    ) {
+        items(10) { index ->
+            Text("Item $index", modifier = Modifier.padding(8.dp))
+        }
+    }
     // [END android_wear_one_handed_gesture_scroll]
 }
 
@@ -209,12 +220,14 @@ private fun ButtonGestureSnippet(onClick: () -> Unit) {
         interactionSource = interactionSource,
         modifier = Modifier
             .fillMaxWidth()
+            // [START android_wear_one_handed_gesture_button_highlight]
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
                 interactionSource = interactionSource,
                 onGestureLabel = "Click button",
                 onGesture = onClick
             )
+            // [END android_wear_one_handed_gesture_button_highlight]
     ) {
         Text("Click button")
     }
