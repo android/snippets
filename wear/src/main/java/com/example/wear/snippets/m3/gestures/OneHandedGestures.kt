@@ -196,19 +196,28 @@ private fun ScrollGestureSnippet(scrollState: TransformingLazyColumnState) {
 
 @Suppress("UnusedVariable", "UNUSED_PARAMETER")
 @Composable
-private fun ButtonGestureSnippet(onClick: () -> Unit, buttonVisible: Boolean) {
+private fun ButtonGestureSnippet(
+    onClick: () -> Unit,
+    interactionSource: MutableInteractionSource
+) {
     // [START android_wear_one_handed_gesture_button]
-    val buttonGestureConfig = rememberOneHandedGestureConfiguration(
+    val gestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary
     )
-    val modifier = Modifier.onVisibilityChanged { /* update visible state */ } then
-        if (buttonVisible) {
-            Modifier.oneHandedGesture(
-                gestureConfiguration = buttonGestureConfig,
+
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .oneHandedGesture(
+                gestureConfiguration = gestureConfig,
+                interactionSource = interactionSource,
                 onGestureLabel = "Click button",
                 onGesture = onClick
             )
-        } else Modifier
+    ) {
+        // Button content goes here
+    }
     // [END android_wear_one_handed_gesture_button]
 }
 
