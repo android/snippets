@@ -49,6 +49,10 @@ class RestoreCredentialsFunctions(
         val getRequest = GetCredentialRequest(listOf(options))
 
         val response = credentialManager.getCredential(context, getRequest)
+
+        // Type-check and extract the restore credential
+        val credential = response.credential as RestoreCredential
+
         // [END android_identity_restore_cred_get]
     }
 
