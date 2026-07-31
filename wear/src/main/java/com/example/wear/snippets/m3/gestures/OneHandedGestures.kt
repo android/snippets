@@ -25,17 +25,9 @@ package com.example.wear.snippets.m3.gestures
  */
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,15 +41,10 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
-import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
-import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.EdgeButton
-import androidx.wear.compose.material3.Icon
-import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.ListHeader
-import androidx.wear.compose.material3.OutlinedIconButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureAction
@@ -215,11 +202,11 @@ fun ButtonGestureHintSnippet() {
     val coroutineScope = rememberCoroutineScope()
     val interactionSource = remember { MutableInteractionSource() }
 
-    OutlinedIconButton(
+    Button(
         onClick = onClick,
         interactionSource = interactionSource,
         modifier = Modifier
-            .size(IconButtonDefaults.LargeButtonSize)
+            .fillMaxWidth()
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
                 interactionSource = interactionSource,
@@ -232,9 +219,7 @@ fun ButtonGestureHintSnippet() {
             gestureConfiguration = gestureConfig,
             state = indicatorState
         ) {
-            val icon = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow
-            val description = if (isPlaying) "Pause" else "Play"
-            Icon(icon, contentDescription = description)
+            Text(if (isPlaying) "Pause" else "Play", modifier = Modifier.fillMaxWidth())
         }
     }
     // [END android_wear_one_handed_gesture_button_hint]
