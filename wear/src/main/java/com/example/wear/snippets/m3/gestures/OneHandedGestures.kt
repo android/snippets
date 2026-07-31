@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -39,6 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +52,9 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.OutlinedIconButton
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureAction
@@ -64,6 +68,7 @@ import androidx.wear.compose.material3.onehandedgesture.oneHandedGesture
 import androidx.wear.compose.material3.onehandedgesture.rememberOneHandedGestureConfiguration
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import kotlinx.coroutines.launch
 
 // [START android_wear_one_handed_gesture_screen]
 @Composable
@@ -228,5 +233,43 @@ private fun ButtonGestureSnippet(onClick: () -> Unit) {
         Text("Click button")
     }
     // [END android_wear_one_handed_gesture_button]
+}
+
+@Composable
+fun ButtonGestureHintSnippet() {
+    // [START android_wear_one_handed_gesture_button_hint]
+    var isPlaying by remember { mutableStateOf(false) }
+    val onClick = { isPlaying = !isPlaying }
+
+    val gestureConfig = rememberOneHandedGestureConfiguration(
+        action = OneHandedGestureAction.Primary
+    )
+    val indicatorState = remember { OneHandedGestureClickIndicatorState() }
+    val coroutineScope = rememberCoroutineScope()
+    val interactionSource = remember { MutableInteractionSource() }
+
+    OutlinedIconButton(
+        onClick = onClick,
+        interactionSource = interactionSource,
+        modifier = Modifier
+            .size(IconButtonDefaults.LargeButtonSize)
+            .oneHandedGesture(
+                gestureConfiguration = gestureConfig,
+                interactionSource = interactionSource,
+                onGestureLabel = if (isPlaying) "Pause" else "Play",
+                onGestureAvailable = { coroutineScope.launch { indicatorState.showIndicator() } },
+                onGesture = onClick
+            )
+    ) {
+        OneHandedGestureClickIndicator(
+            gestureConfiguration = gestureConfig,
+            state = indicatorState
+        ) {
+            val icon = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow
+            val description = if (isPlaying) "Pause" else "Play"
+            Icon(icon, contentDescription = description)
+        }
+    }
+    // [END android_wear_one_handed_gesture_button_hint]
 }
 
