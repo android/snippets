@@ -193,7 +193,8 @@ private fun ScrollGestureSnippet() {
     // [START android_wear_one_handed_gesture_scroll]
     val scrollState = rememberTransformingLazyColumnState()
     val gestureConfig = rememberOneHandedGestureConfiguration(
-        action = OneHandedGestureAction.Primary
+        action = OneHandedGestureAction.Primary,
+        priority = OneHandedGesturePriority.Scrollable
     )
 
     TransformingLazyColumn(
@@ -283,7 +284,8 @@ fun ScrollGestureHintSnippet() {
     // [START android_wear_one_handed_gesture_scroll_hint]
     val scrollState = rememberTransformingLazyColumnState()
     val gestureConfig = rememberOneHandedGestureConfiguration(
-        action = OneHandedGestureAction.Primary
+        action = OneHandedGestureAction.Primary,
+        priority = OneHandedGesturePriority.Scrollable
     )
     val indicatorState = remember(gestureConfig) { OneHandedGestureScrollIndicatorState() }
     val coroutineScope = rememberCoroutineScope()
