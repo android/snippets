@@ -273,3 +273,42 @@ fun ButtonGestureHintSnippet() {
     // [END android_wear_one_handed_gesture_button_hint]
 }
 
+@Composable
+fun ScrollGestureHintSnippet() {
+    // [START android_wear_one_handed_gesture_scroll_hint]
+    val scrollState = rememberTransformingLazyColumnState()
+    val gestureConfig = rememberOneHandedGestureConfiguration(
+        action = OneHandedGestureAction.Primary
+    )
+    val indicatorState = remember { OneHandedGestureScrollIndicatorState() }
+
+    ScreenScaffold(
+        scrollState = scrollState,
+        scrollIndicator = {
+            OneHandedGestureScrollIndicator(
+                gestureConfiguration = gestureConfig,
+                indicatorState = indicatorState,
+                scrollState = scrollState,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = scrollState,
+            contentPadding = contentPadding,
+            modifier = Modifier
+                .fillMaxSize()
+                .oneHandedGesture(
+                    gestureConfiguration = gestureConfig,
+                    onGestureLabel = "Scroll down",
+                    onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
+                )
+        ) {
+            items(10) { index ->
+                Text("Item $index", modifier = Modifier.padding(8.dp))
+            }
+        }
+    }
+    // [END android_wear_one_handed_gesture_scroll_hint]
+}
+
