@@ -82,7 +82,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
         action = OneHandedGestureAction.Primary,
         priority = OneHandedGesturePriority.Scrollable
     )
-    val scrollIndicatorState = remember { OneHandedGestureScrollIndicatorState() }
+    val scrollIndicatorState = remember(scrollGestureConfig) { OneHandedGestureScrollIndicatorState() }
 
     val buttonGestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary,
@@ -109,7 +109,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .oneHandedGesture(
                     gestureConfiguration = scrollGestureConfig,
-                    onGestureLabel = "Scroll to next item",
+                    onGestureLabel = "scroll down",
                     onGestureAvailable = {
                         coroutineScope.launch { scrollIndicatorState.showIndicator() }
                     },
@@ -135,7 +135,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                         .oneHandedGesture(
                             gestureConfiguration = buttonGestureConfig,
                             interactionSource = buttonInteractionSource,
-                            onGestureLabel = if (isPlaying) "Pause" else "Play",
+                            onGestureLabel = if (isPlaying) "pause" else "play",
                             onGestureAvailable = {
                                 coroutineScope.launch { buttonIndicatorState.showIndicator() }
                             },
@@ -196,7 +196,7 @@ private fun ScrollGestureSnippet() {
             .fillMaxSize()
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
-                onGestureLabel = "Scroll down",
+                onGestureLabel = "scroll down",
                 onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
             )
     ) {
@@ -225,7 +225,7 @@ private fun ButtonGestureSnippet(onClick: () -> Unit) {
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
                 interactionSource = interactionSource,
-                onGestureLabel = "Click button",
+                onGestureLabel = "click",
                 onGesture = onClick
             )
     ) {
@@ -279,7 +279,7 @@ fun ScrollGestureHintSnippet() {
     val gestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary
     )
-    val indicatorState = remember { OneHandedGestureScrollIndicatorState() }
+    val indicatorState = remember(gestureConfig) { OneHandedGestureScrollIndicatorState() }
     val coroutineScope = rememberCoroutineScope()
 
     ScreenScaffold(
@@ -300,7 +300,7 @@ fun ScrollGestureHintSnippet() {
                 .fillMaxSize()
                 .oneHandedGesture(
                     gestureConfiguration = gestureConfig,
-                    onGestureLabel = "Scroll down",
+                    onGestureLabel = "scroll down",
                     onGestureAvailable = {
                         coroutineScope.launch { indicatorState.showIndicator() }
                     },
