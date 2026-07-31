@@ -124,6 +124,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
 
             // Interactive Play/Pause Button
             item {
+                var buttonVisible by remember { mutableStateOf(false) }
                 val buttonInteractionSource = remember { MutableInteractionSource() }
 
                 Button(
@@ -132,15 +133,20 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp)
-                        .oneHandedGesture(
-                            gestureConfiguration = buttonGestureConfig,
-                            interactionSource = buttonInteractionSource,
-                            onGestureLabel = if (isPlaying) "pause" else "play",
-                            onGestureAvailable = {
-                                coroutineScope.launch { buttonIndicatorState.showIndicator() }
-                            },
-                            onGesture = onClick
-                        )
+                        .onVisibilityChanged { buttonVisible = it } then
+                        if (buttonVisible) {
+                            Modifier.oneHandedGesture(
+                                gestureConfiguration = buttonGestureConfig,
+                                interactionSource = buttonInteractionSource,
+                                onGestureLabel = if (isPlaying) "pause" else "play",
+                                onGestureAvailable = {
+                                    coroutineScope.launch { buttonIndicatorState.showIndicator() }
+                                },
+                                onGesture = onClick
+                            )
+                        } else {
+                            Modifier
+                        }
                 ) {
                     OneHandedGestureClickIndicator(
                         gestureConfiguration = buttonGestureConfig,
