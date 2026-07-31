@@ -77,7 +77,6 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
     val onClick = remember { { isPlaying = !isPlaying } }
 
     val scrollState = rememberTransformingLazyColumnState()
-    val scrollInteractionSource = remember { MutableInteractionSource() }
 
     val scrollGestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary,
@@ -90,6 +89,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
         priority = OneHandedGesturePriority.Clickable
     )
     val buttonIndicatorState = remember { OneHandedGestureClickIndicatorState() }
+    val coroutineScope = rememberCoroutineScope()
 
     ScreenScaffold(
         scrollState = scrollState,
@@ -110,7 +110,9 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                 .oneHandedGesture(
                     gestureConfiguration = scrollGestureConfig,
                     onGestureLabel = "Scroll to next item",
-                    interactionSource = scrollInteractionSource,
+                    onGestureAvailable = {
+                        coroutineScope.launch { scrollIndicatorState.showIndicator() }
+                    },
                     onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
                 )
         ) {
@@ -122,7 +124,6 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
 
             // Interactive Play/Pause Button
             item {
-                var buttonVisible by remember { mutableStateOf(false) }
                 val buttonInteractionSource = remember { MutableInteractionSource() }
 
                 Button(
@@ -131,17 +132,15 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp)
-                        .onVisibilityChanged { buttonVisible = it } then
-                        if (buttonVisible) {
-                            Modifier.oneHandedGesture(
-                                gestureConfiguration = buttonGestureConfig,
-                                onGestureLabel = if (isPlaying) "Pause" else "Play",
-                                interactionSource = buttonInteractionSource,
-                                onGesture = onClick
-                            )
-                        } else {
-                            Modifier
-                        }
+                        .oneHandedGesture(
+                            gestureConfiguration = buttonGestureConfig,
+                            interactionSource = buttonInteractionSource,
+                            onGestureLabel = if (isPlaying) "Pause" else "Play",
+                            onGestureAvailable = {
+                                coroutineScope.launch { buttonIndicatorState.showIndicator() }
+                            },
+                            onGesture = onClick
+                        )
                 ) {
                     OneHandedGestureClickIndicator(
                         gestureConfiguration = buttonGestureConfig,
@@ -281,6 +280,7 @@ fun ScrollGestureHintSnippet() {
         action = OneHandedGestureAction.Primary
     )
     val indicatorState = remember { OneHandedGestureScrollIndicatorState() }
+    val coroutineScope = rememberCoroutineScope()
 
     ScreenScaffold(
         scrollState = scrollState,
@@ -301,6 +301,9 @@ fun ScrollGestureHintSnippet() {
                 .oneHandedGesture(
                     gestureConfiguration = gestureConfig,
                     onGestureLabel = "Scroll down",
+                    onGestureAvailable = {
+                        coroutineScope.launch { indicatorState.showIndicator() }
+                    },
                     onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
                 )
         ) {
