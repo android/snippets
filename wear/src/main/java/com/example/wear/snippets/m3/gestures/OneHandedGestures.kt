@@ -91,12 +91,12 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
         priority = OneHandedGesturePriority.Clickable
     )
     val buttonIndicatorState = remember { OneHandedGestureClickIndicatorState() }
+    val buttonInteractionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
 
     ScreenScaffold(
         scrollState = scrollState,
         edgeButton = {
-            val buttonInteractionSource = remember { MutableInteractionSource() }
             EdgeButton(
                 onClick = onClick,
                 interactionSource = buttonInteractionSource,
@@ -145,7 +145,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .oneHandedGesture(
                     gestureConfiguration = scrollGestureConfig,
-                    onGestureLabel = "scroll down",
+                    onGestureLabel = "scroll",
                     onGestureAvailable = {
                         coroutineScope.launch { scrollIndicatorState.showIndicator() }
                     },
@@ -160,14 +160,7 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
 
             // Scrollable Items to demonstrate gesture scrolling
             items(10) { index ->
-                Card(
-                    onClick = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp, horizontal = 10.dp)
-                ) {
-                    Text("Scrollable Item ${index + 1}", modifier = Modifier.padding(8.dp))
-                }
+                Text("Item $index", modifier = Modifier.padding(8.dp))
             }
         }
     }
@@ -180,10 +173,12 @@ fun OneHandedGestureScreenPreview() {
     OneHandedGestureScreen()
 }
 
-@Suppress("UnusedVariable", "UNUSED_PARAMETER")
 @Composable
-private fun ButtonGestureSnippet(onClick: () -> Unit) {
+private fun ButtonGestureSnippet() {
     // [START android_wear_one_handed_gesture_button]
+    var isPlaying by remember { mutableStateOf(false) }
+    val onClick = { isPlaying = !isPlaying }
+
     val gestureConfig = rememberOneHandedGestureConfiguration(
         action = OneHandedGestureAction.Primary
     )
@@ -198,11 +193,11 @@ private fun ButtonGestureSnippet(onClick: () -> Unit) {
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
                 interactionSource = interactionSource,
-                onGestureLabel = "click",
+                onGestureLabel = if (isPlaying) "pause" else "play",
                 onGesture = onClick
             )
     ) {
-        Text("Click button")
+        Text(if (isPlaying) "Pause" else "Play")
     }
     // [END android_wear_one_handed_gesture_button]
 }
@@ -228,7 +223,7 @@ fun ButtonGestureHintSnippet() {
             .oneHandedGesture(
                 gestureConfiguration = gestureConfig,
                 interactionSource = interactionSource,
-                onGestureLabel = if (isPlaying) "Pause" else "Play",
+                onGestureLabel = if (isPlaying) "pause" else "play",
                 onGestureAvailable = { coroutineScope.launch { indicatorState.showIndicator() } },
                 onGesture = onClick
             )
@@ -274,7 +269,7 @@ fun ScrollGestureHintSnippet() {
                 .fillMaxSize()
                 .oneHandedGesture(
                     gestureConfiguration = gestureConfig,
-                    onGestureLabel = "scroll down",
+                    onGestureLabel = "scroll",
                     onGestureAvailable = {
                         coroutineScope.launch { indicatorState.showIndicator() }
                     },
