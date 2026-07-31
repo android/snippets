@@ -70,6 +70,20 @@ public final class GeminiDeveloperApiSnippetsJava {
         }
     }
 
+    static final class GeminiDeveloperApi35FlashModelConfigurationJava {
+        public static GenerativeModelFutures model;
+
+        static {
+            // [START android_gemini_developer_api_gemini_flash_model_java]
+            GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
+                    .generativeModel("gemini-3.5-flash");
+
+            GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
+            // [END android_gemini_developer_api_gemini_flash_model_java]
+            GeminiDeveloperApi35FlashModelConfigurationJava.model = model;
+        }
+    }
+
     static final class Gemini25FlashImagePreviewModelConfigurationJava {
         public static GenerativeModelFutures model;
 
@@ -86,11 +100,29 @@ public final class GeminiDeveloperApiSnippetsJava {
             // [END android_gemini_developer_api_gemini_25_flash_image_model_java]
             Gemini25FlashImagePreviewModelConfigurationJava.model = model;
         }
+    }
+
+    static final class Gemini35FlashImagePreviewModelConfigurationJava {
+        public static GenerativeModelFutures model;
+
+        static {
+            // [START android_gemini_developer_api_gemini_flash_image_model_java]
+            GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel(
+                    "gemini-3.5-flash-image-preview",
+                    // Configure the model to respond with text and images (required)
+                    new GenerationConfig.Builder()
+                            .setResponseModalities(Arrays.asList(ResponseModality.TEXT, ResponseModality.IMAGE))
+                            .build()
+            );
+            GenerativeModelFutures model = GenerativeModelFutures.from(ai);
+            // [END android_gemini_developer_api_gemini_flash_image_model_java]
+            Gemini35FlashImagePreviewModelConfigurationJava.model = model;
+        }
 
     }
 
     public static void textOnlyInput(Executor executor) {
-        GenerativeModelFutures model = GeminiDeveloperApi25FlashModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiDeveloperApi35FlashModelConfigurationJava.model;
         // [START android_gemini_developer_api_text_only_input_java]
         Content prompt = new Content.Builder()
                 .addText("Write a story about a magic backpack.")
@@ -112,7 +144,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void textAndImageInput(Executor executor, Bitmap bitmap) {
-        GenerativeModelFutures model = GeminiDeveloperApi25FlashModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiDeveloperApi35FlashModelConfigurationJava.model;
         // [START android_gemini_developer_api_multimodal_input_java]
         Content content = new Content.Builder()
                 .addImage(bitmap)
@@ -135,7 +167,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void textAndAudioInput(Executor executor, Application applicationContext, Uri audioUri) {
-        GenerativeModelFutures model = GeminiDeveloperApi25FlashModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiDeveloperApi35FlashModelConfigurationJava.model;
         // [START android_gemini_developer_api_multimodal_audio_input_java]
         ContentResolver resolver = applicationContext.getContentResolver();
 
@@ -179,7 +211,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void textAndVideoInput(Executor executor, Application applicationContext, Uri videoUri) {
-        GenerativeModelFutures model = GeminiDeveloperApi25FlashModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiDeveloperApi35FlashModelConfigurationJava.model;
         // [START android_gemini_developer_api_multimodal_video_input_java]
         ContentResolver resolver = applicationContext.getContentResolver();
 
@@ -221,7 +253,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void multiTurnChat(Executor executor) {
-        GenerativeModelFutures model = GeminiDeveloperApi25FlashModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiDeveloperApi35FlashModelConfigurationJava.model;
         // [START android_gemini_developer_api_multiturn_chat_java]
         Content.Builder userContentBuilder = new Content.Builder();
         userContentBuilder.setRole("user");
@@ -263,7 +295,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void generateImageFromText(Executor executor) {
-        GenerativeModelFutures model = Gemini25FlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = Gemini35FlashImagePreviewModelConfigurationJava.model;
         // [START android_gemini_developer_api_generate_image_from_text_java]
         // Provide a text prompt instructing the model to generate an image
         Content prompt = new Content.Builder()
@@ -293,7 +325,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void editImage(Executor executor, Resources resources) {
-        GenerativeModelFutures model = Gemini25FlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = Gemini35FlashImagePreviewModelConfigurationJava.model;
         // [START android_gemini_developer_api_edit_image_java]
         // Provide an image for the model to edit
         Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.scones);
@@ -325,7 +357,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void editImageWithChat(Executor executor, Resources resources) {
-        GenerativeModelFutures model = Gemini25FlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = Gemini35FlashImagePreviewModelConfigurationJava.model;
         // [START android_gemini_developer_api_edit_image_chat_java]
         // Provide an image for the model to edit
         Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.scones);

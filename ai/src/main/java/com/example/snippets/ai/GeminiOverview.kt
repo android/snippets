@@ -24,9 +24,9 @@ class GeminiOverview {
 
     suspend fun generateContent() {
         // [START android_gemini_ai_models_overview]
-        // For Vertex AI, use `backend = GenerativeBackend.vertexAI()`
+        // For the Agent Platform Gemini API, use `backend = GenerativeBackend.agentPlatform()`
         val model = Firebase.ai(backend = GenerativeBackend.googleAI())
-            .generativeModel("gemini-2.5-flash")
+            .generativeModel("gemini-3.5-flash")
 
         val response = model.generateContent("Write a story about a magic backpack")
         val output = response.text
