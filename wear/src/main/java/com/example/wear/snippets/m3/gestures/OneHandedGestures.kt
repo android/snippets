@@ -44,13 +44,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onVisibilityChanged
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.ListHeader
@@ -70,7 +73,6 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 
-// [START android_wear_one_handed_gesture_screen]
 @Composable
 fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(false) }
@@ -93,6 +95,40 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
 
     ScreenScaffold(
         scrollState = scrollState,
+        edgeButton = {
+            val buttonInteractionSource = remember { MutableInteractionSource() }
+            EdgeButton(
+                onClick = onClick,
+                interactionSource = buttonInteractionSource,
+                modifier =
+                    if (scrollState.canScrollForward) {
+                        Modifier
+                    } else {
+                        Modifier.oneHandedGesture(
+                            gestureConfiguration = buttonGestureConfig,
+                            interactionSource = buttonInteractionSource,
+                            onGestureLabel = if (isPlaying) "pause" else "play",
+                            onGestureAvailable = {
+                                coroutineScope.launch { buttonIndicatorState.showIndicator() }
+                            },
+                            onGesture = onClick
+                        )
+                    } then
+                        Modifier.scrollable(
+                            state = scrollState,
+                            orientation = Orientation.Vertical,
+                            reverseDirection = true,
+                            overscrollEffect = rememberOverscrollEffect()
+                        )
+            ) {
+                OneHandedGestureClickIndicator(
+                    gestureConfiguration = buttonGestureConfig,
+                    state = buttonIndicatorState
+                ) {
+                    Text(if (isPlaying) "Pause" else "Play")
+                }
+            }
+        },
         scrollIndicator = {
             OneHandedGestureScrollIndicator(
                 gestureConfiguration = scrollGestureConfig,
@@ -122,49 +158,6 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
                 }
             }
 
-            // Interactive Play/Pause Button
-            item {
-                var buttonVisible by remember { mutableStateOf(false) }
-                val buttonInteractionSource = remember { MutableInteractionSource() }
-
-                Button(
-                    onClick = onClick,
-                    interactionSource = buttonInteractionSource,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp)
-                        .onVisibilityChanged { buttonVisible = it } then
-                        if (buttonVisible) {
-                            Modifier.oneHandedGesture(
-                                gestureConfiguration = buttonGestureConfig,
-                                interactionSource = buttonInteractionSource,
-                                onGestureLabel = if (isPlaying) "pause" else "play",
-                                onGestureAvailable = {
-                                    coroutineScope.launch { buttonIndicatorState.showIndicator() }
-                                },
-                                onGesture = onClick
-                            )
-                        } else {
-                            Modifier
-                        }
-                ) {
-                    OneHandedGestureClickIndicator(
-                        gestureConfiguration = buttonGestureConfig,
-                        state = buttonIndicatorState
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            val icon = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow
-                            Icon(icon, contentDescription = "Play/Pause")
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(if (isPlaying) "Pause" else "Play")
-                        }
-                    }
-                }
-            }
-
             // Scrollable Items to demonstrate gesture scrolling
             items(10) { index ->
                 Card(
@@ -179,39 +172,12 @@ fun OneHandedGestureScreen(modifier: Modifier = Modifier) {
         }
     }
 }
-// [END android_wear_one_handed_gesture_screen]
 
 @WearPreviewDevices
 @WearPreviewFontScales
 @Composable
 fun OneHandedGestureScreenPreview() {
     OneHandedGestureScreen()
-}
-
-@Composable
-private fun ScrollGestureSnippet() {
-    // [START android_wear_one_handed_gesture_scroll]
-    val scrollState = rememberTransformingLazyColumnState()
-    val gestureConfig = rememberOneHandedGestureConfiguration(
-        action = OneHandedGestureAction.Primary,
-        priority = OneHandedGesturePriority.Scrollable
-    )
-
-    TransformingLazyColumn(
-        state = scrollState,
-        modifier = Modifier
-            .fillMaxSize()
-            .oneHandedGesture(
-                gestureConfiguration = gestureConfig,
-                onGestureLabel = "scroll down",
-                onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
-            )
-    ) {
-        items(10) { index ->
-            Text("Item $index", modifier = Modifier.padding(8.dp))
-        }
-    }
-    // [END android_wear_one_handed_gesture_scroll]
 }
 
 @Suppress("UnusedVariable", "UNUSED_PARAMETER")
