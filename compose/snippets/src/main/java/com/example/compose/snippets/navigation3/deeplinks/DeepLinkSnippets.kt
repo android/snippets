@@ -34,6 +34,12 @@ import androidx.navigation3.runtime.deeplink.actionFilter
 import androidx.navigation3.runtime.deeplink.invoke
 import androidx.navigation3.runtime.deeplink.requestExtras
 import androidx.navigation3.runtime.deeplink.withBackStack
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.multibindings.IntoSet
+import javax.inject.Inject
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
 
@@ -267,3 +273,43 @@ class MainActivity : ComponentActivity() {
     }
 }
 // [END android_compose_navigation3_deeplinks_match_request]
+
+// [START android_compose_navigation3_deeplinks_modularization_feature]
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+object FeatureADeepLinkModule {
+    @IntoSet
+    @Provides
+    fun provideUserMatcher(): DeepLinkMatcher<*, *> {
+        return UriDeepLinkMatcher(
+            DeepLinkUri("www.example.com/users/{id}"),
+            serializer<UserProfileKey>()
+        )
+    }
+}
+// [END android_compose_navigation3_deeplinks_modularization_feature]
+
+// [START android_compose_navigation3_deeplinks_modularization_app]
+class MainActivityWithDI : ComponentActivity() {
+    @Inject
+    lateinit var deepLinkMatchers: Set<@JvmSuppressWildcards DeepLinkMatcher<*, *>>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        val request = DeepLinkRequest(intent = intent)
+        val matchResult = deepLinkMatchers
+            .mapNotNull { it.match(request) }
+            .maxOrNull()
+        
+        val backStack = when (matchResult) {
+            null -> listOf(HomeKey)
+            is BackStackMatchResult<*, *> -> {
+                @Suppress("UNCHECKED_CAST")
+                matchResult.backStack as List<NavKey>
+            }
+            else -> listOf(matchResult.key)
+        }
+    }
+}
+// [END android_compose_navigation3_deeplinks_modularization_app]
