@@ -16,30 +16,24 @@
 
 package com.example.compose.snippets.navigation3.deeplinks
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
-import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.entryProvider
-import androidx.navigation3.runtime.deeplink.DeepLinkRequest
-import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
-import androidx.navigation3.runtime.deeplink.DeepLinkUri
-import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
-import androidx.navigation3.runtime.deeplink.StaticKeyDeepLinkMatcher
-import androidx.navigation3.runtime.deeplink.BackStackMatchResult
-import androidx.navigation3.runtime.deeplink.RequestExtrasKey
-import androidx.navigation3.runtime.deeplink.withBackStack
-import androidx.navigation3.runtime.deeplink.actionFilter
-import androidx.navigation3.runtime.deeplink.actionExtra
 import androidx.navigation3.runtime.deeplink.ActionExtrasKey
+import androidx.navigation3.runtime.deeplink.BackStackMatchResult
+import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.DeepLinkRequest
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest.Companion.MimeTypeExtrasKey
+import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.RequestExtrasKey
+import androidx.navigation3.runtime.deeplink.StaticKeyDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.actionExtra
+import androidx.navigation3.runtime.deeplink.actionFilter
 import androidx.navigation3.runtime.deeplink.invoke
 import androidx.navigation3.runtime.deeplink.requestExtras
+import androidx.navigation3.runtime.deeplink.withBackStack
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
 
@@ -200,28 +194,28 @@ class DeepLinkSnippets {
 
     // [START android_compose_navigation3_deeplinks_custom_matcher_result]
     class TelMatchResult(
-       key: DialerKey,
-       val isExactMatch: Boolean,
-       val patternLength: Int
+        key: DialerKey,
+        val isExactMatch: Boolean,
+        val patternLength: Int
     ) : DeepLinkMatcher.MatchResult<DialerKey>(key) {
-       override fun compareTo(other: DeepLinkMatcher.MatchResult<DialerKey>): Int {
-           if (other !is TelMatchResult) {
-               // Determine precedence relative to other MatchResult types (e.g. UriMatchResult)
-               return 1
-           }
+        override fun compareTo(other: DeepLinkMatcher.MatchResult<DialerKey>): Int {
+            if (other !is TelMatchResult) {
+                // Determine precedence relative to other MatchResult types (e.g. UriMatchResult)
+                return 1
+            }
            
-           // An exact match wins over a wildcard/prefix match
-           if (isExactMatch && !other.isExactMatch) return 1
-           if (!isExactMatch && other.isExactMatch) return -1
+            // An exact match wins over a wildcard/prefix match
+            if (isExactMatch && !other.isExactMatch) return 1
+            if (!isExactMatch && other.isExactMatch) return -1
            
-           // The more specific (longer) pattern wins (e.g., tel:1800* vs tel:*)
-           val lengthDiff = this.patternLength - other.patternLength
-           if (lengthDiff != 0) {
-               return lengthDiff
-           }
+            // The more specific (longer) pattern wins (e.g., tel:1800* vs tel:*)
+            val lengthDiff = this.patternLength - other.patternLength
+            if (lengthDiff != 0) {
+                return lengthDiff
+            }
            
-           return 0
-       }
+            return 0
+        }
     }
     // [END android_compose_navigation3_deeplinks_custom_matcher_result]
 
