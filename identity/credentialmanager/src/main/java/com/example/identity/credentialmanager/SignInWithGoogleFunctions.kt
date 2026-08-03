@@ -17,6 +17,7 @@
 package com.example.identity.credentialmanager
 
 import android.content.Context
+import android.content.MutableContextWrapper
 import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -62,12 +63,15 @@ class SignInWithGoogleFunctions(
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
             .build()
-
+        
+        // Use an activity-based context to avoid undefined system UI
+        // launching behavior.
+        val mutableContext = MutableContextWrapper(activityContext)
         coroutineScope {
             try {
                 val result = credentialManager.getCredential(
-                    request = request,
-                    context = activityContext,
+                    request = request,            
+                    context = mutableContext // Use MutableContextWrapper to avoid memory leak during configuration changes
                 )
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
