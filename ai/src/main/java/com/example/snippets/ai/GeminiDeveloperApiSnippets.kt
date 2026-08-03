@@ -37,7 +37,7 @@ object GeminiDeveloperApi25FlashModelConfiguration {
     // [END android_gemini_developer_api_gemini_25_flash_model]
 }
 
-object GeminiDeveloperApi35FlashModelConfiguration {
+object GeminiDeveloperApiFlashModelConfiguration {
     // [START android_gemini_developer_api_gemini_flash_model]
     // Start by instantiating a GenerativeModel and specifying the model name:
     val model = Firebase.ai(backend = GenerativeBackend.googleAI())
@@ -60,7 +60,7 @@ object Gemini25FlashImagePreviewModelConfiguration {
     // [END android_gemini_developer_api_gemini_25_flash_image_model]
 }
 
-object Gemini35FlashImagePreviewModelConfiguration {
+object GeminiFlashImagePreviewModelConfiguration {
     // [START android_gemini_developer_api_gemini_flash_image_model]
     val model = Firebase.ai(backend = GenerativeBackend.googleAI()).generativeModel(
         modelName = "gemini-3.5-flash-image-preview",
@@ -77,7 +77,7 @@ object Gemini35FlashImagePreviewModelConfiguration {
 
 @Suppress("unused")
 fun textOnlyInput(scope: CoroutineScope) {
-    val model = GeminiDeveloperApi35FlashModelConfiguration.model
+    val model = GeminiDeveloperApiFlashModelConfiguration.model
     // [START android_gemini_developer_api_text_only_input]
     scope.launch {
         val response = model.generateContent("Write a story about a magic backpack.")
@@ -87,7 +87,7 @@ fun textOnlyInput(scope: CoroutineScope) {
 
 @Suppress("unused")
 fun textAndImageInput(scope: CoroutineScope, bitmap: Bitmap) {
-    val model = GeminiDeveloperApi35FlashModelConfiguration.model
+    val model = GeminiDeveloperApiFlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_input]
     scope.launch {
         val response = model.generateContent(
@@ -106,7 +106,7 @@ fun textAndAudioInput(
     applicationContext: Application,
     audioUri: Uri
 ) {
-    val model = GeminiDeveloperApi35FlashModelConfiguration.model
+    val model = GeminiDeveloperApiFlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_audio_input]
     scope.launch {
         val contentResolver = applicationContext.contentResolver
@@ -132,7 +132,7 @@ fun textAndVideoInput(
     applicationContext: Application,
     videoUri: Uri
 ) {
-    val model = GeminiDeveloperApi35FlashModelConfiguration.model
+    val model = GeminiDeveloperApiFlashModelConfiguration.model
     // [START android_gemini_developer_api_multimodal_video_input]
     scope.launch {
         val contentResolver = applicationContext.contentResolver
@@ -154,7 +154,7 @@ fun textAndVideoInput(
 
 @Suppress("unused")
 fun multiTurnChat(scope: CoroutineScope) {
-    val model = GeminiDeveloperApi35FlashModelConfiguration.model
+    val model = GeminiDeveloperApiFlashModelConfiguration.model
     // [START android_gemini_developer_api_multiturn_chat]
     val chat = model.startChat(
         history = listOf(
@@ -171,7 +171,7 @@ fun multiTurnChat(scope: CoroutineScope) {
 
 @Suppress("unused")
 fun generateImageFromText(scope: CoroutineScope) {
-    val model = Gemini35FlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_generate_image_from_text]
     scope.launch {
         // Provide a text prompt instructing the model to generate an image
@@ -187,7 +187,7 @@ fun generateImageFromText(scope: CoroutineScope) {
 
 @Suppress("unused")
 fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
-    val model = Gemini35FlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_edit_image]
     scope.launch {
         // Provide a text prompt instructing the model to edit the image
@@ -205,7 +205,7 @@ fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
 
 @Suppress("unused")
 fun editImageWithChat(scope: CoroutineScope, bitmap: Bitmap) {
-    val model = Gemini35FlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImagePreviewModelConfiguration.model
     // [START android_gemini_developer_api_edit_image_chat]
     scope.launch {
         // Create the initial prompt instructing the model to edit the image
