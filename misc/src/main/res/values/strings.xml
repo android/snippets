@@ -16,4 +16,5 @@
 -->
 <resources>
     <string name="app_name">Background Snippets</string>
+    <string name="sign_in_card_action_text">Sign In</string>
 </resources>

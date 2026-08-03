@@ -46,7 +46,7 @@ private fun SpatialCapabilitiesCheck() {
 }
 
 @Composable
-private fun checkSpatialUiEnabled() {
+private fun CheckSpatialUiEnabled() {
     // [START androidxr_compose_checkSpatialUiEnabled]
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         Subspace {

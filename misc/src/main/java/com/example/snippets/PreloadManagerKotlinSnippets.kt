@@ -130,7 +130,7 @@ class PreloadManagerSnippetsKotlin {
             // [END android_defaultpreloadmanager_releasePLM]
         }
 
-        // dummy methods to support the code snippets
+        // placeholder methods to support the code snippets
         private fun pullMediaItemsFromService(count: Int): List<MediaItem> {
             return listOf()
         }

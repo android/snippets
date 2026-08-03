@@ -26,9 +26,15 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("xrLibs") {
+            from(files("xr/libs.versions.toml"))
+        }
+    }
 }
 rootProject.name = "snippets"
 include(
+    ":ai",
     ":bluetoothle",
     ":compose:recomposehighlighter",
     ":kotlin",
@@ -40,6 +46,7 @@ include(
     ":wearcompanion",
     ":views",
     ":misc",
+    ":security",
     ":identity:credentialmanager",
     ":xr",
     ":watchfacepush:validator",
@@ -48,8 +55,9 @@ include(
     ":playbilling",
     ":tv",
     ":contacts",
+    ":healthconnect",
     ":cars",
     ":installprompt",
-    ":telecom:voipapp",
-    ":telecom:dialer"
+    ":telecom",
+    ":room"
 )

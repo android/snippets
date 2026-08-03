@@ -16,11 +16,14 @@
 
 package com.example.xr.runtime
 
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.lifecycleScope
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionCreateSuccess
+import kotlinx.coroutines.launch
 
 // [START androidxr_localsession]
 @Composable
@@ -29,15 +32,17 @@ fun ComposableUsingSession() {
 }
 // [END androidxr_localsession]
 
-fun ComponentActivity.createSession() {
+fun ComponentActivity.createSession(context: Context) {
     // [START androidxr_session_create]
-    when (val result = Session.create(this)) {
-        is SessionCreateSuccess -> {
-            val xrSession = result.session
-            // ...
+    lifecycleScope.launch {
+        when (val result = Session.create(context)) {
+            is SessionCreateSuccess -> {
+                val xrSession = result.session
+                // ...
+            }
+            else ->
+                TODO(/* A different unhandled exception was thrown. */)
         }
-        else ->
-            TODO(/* A different unhandled exception was thrown. */)
     }
     // [END androidxr_session_create]
 }

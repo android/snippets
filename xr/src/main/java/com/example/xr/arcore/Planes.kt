@@ -18,6 +18,8 @@ package com.example.xr.arcore
 
 import androidx.xr.arcore.ArDevice
 import androidx.xr.arcore.Plane
+import androidx.xr.arcore.PlaneLabel
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.PlaneTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -25,9 +27,9 @@ import androidx.xr.runtime.math.Ray
 
 fun configurePlaneTracking(session: Session) {
     // [START androidxr_arcore_planetracking_configure]
-    val newConfig = session.config.copy(
-        planeTracking = PlaneTrackingMode.HORIZONTAL_AND_VERTICAL,
-    )
+    val newConfig = Config.Builder(session.config)
+        .setPlaneTracking(PlaneTrackingMode.HORIZONTAL_AND_VERTICAL)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -44,6 +46,7 @@ private suspend fun subscribePlanes(session: Session) {
     // [END androidxr_arcore_planes_subscribe]
 }
 
+@Suppress("DEPRECATION") // b/508214289
 private fun hitTestTable(session: Session) {
     val devicePose = ArDevice.getInstance(session).state.value.devicePose
     val ray = Ray(devicePose.translation, devicePose.forward)
@@ -52,7 +55,7 @@ private fun hitTestTable(session: Session) {
     // When interested in the first Table hit:
     val tableHit = results.firstOrNull {
         val trackable = it.trackable
-        trackable is Plane && trackable.state.value.label == Plane.Label.TABLE
+        trackable is Plane && trackable.state.value.label == PlaneLabel.TABLE
     }
     // [END androidxr_arcore_hitTest]
 }

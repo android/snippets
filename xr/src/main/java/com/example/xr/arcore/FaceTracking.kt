@@ -16,19 +16,23 @@
 
 package com.example.xr.arcore
 
+import android.annotation.SuppressLint
 import androidx.xr.arcore.Face
 import androidx.xr.arcore.FaceBlendShapeType
 import androidx.xr.arcore.FaceConfidenceRegion
+import androidx.xr.arcore.TrackingState
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.FaceTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
-import androidx.xr.runtime.TrackingState
 
+// TODO(dbridie): Remove in next release. This was fixed in aosp/508d564ca343bfc190ecaddc07209e8a9c4bdaab.
+@SuppressLint("RestrictedApi")
 private fun configureFaceTracking(session: Session) {
     // [START androidxr_arcore_faceTracking_configure]
-    val newConfig = session.config.copy(
-        faceTracking = FaceTrackingMode.BLEND_SHAPES,
-    )
+    val newConfig = Config.Builder(session.config)
+        .setFaceTracking(FaceTrackingMode.BLEND_SHAPES)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -40,12 +44,12 @@ private fun configureFaceTracking(session: Session) {
 @Suppress("UnusedVariable")
 private suspend fun getUserFace(session: Session) {
     // [START androidxr_arcore_faceTracking_getFace]
-    val face = Face.getUserFace(session) ?: return
+    val face = Face.getUserFace(session)
     face.state.collect { state ->
         if (state.trackingState != TrackingState.TRACKING) return@collect
 
-        val confidence = state.getConfidence(FaceConfidenceRegion.FACE_CONFIDENCE_REGION_LOWER)
-        val blendShapeValue = state.blendShapes[FaceBlendShapeType.FACE_BLEND_SHAPE_TYPE_LIPS_TOWARD]
+        val confidence = state.getConfidence(FaceConfidenceRegion.LOWER)
+        val blendShapeValue = state.blendShapes[FaceBlendShapeType.LIPS_TOWARD]
     }
     // [END androidxr_arcore_faceTracking_getFace]
 }

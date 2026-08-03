@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
@@ -33,13 +32,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    sourceSets {
-        named("main") {
-            java {
-                srcDir("src/main/java")
-            }
-        }
     }
 }
 

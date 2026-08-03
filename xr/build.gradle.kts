@@ -17,25 +17,78 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        jvmToolchain(17)
+        lint {
+            warningsAsErrors = true
+            disable += "UseKtx"
+        }
     }
     buildFeatures {
         compose = true
     }
     lint {
-        disable += "RestrictedApi"
+
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+
+val snapshotVersion: String? by project
+val isUsingSnapshot = snapshotVersion != null
+
+
+val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
+    xrLibs.androidx.xr.arcore.asProvider(),
+    xrLibs.androidx.xr.arcore.play.services,
+    xrLibs.androidx.xr.glimmer.asProvider(),
+    xrLibs.androidx.xr.glimmer.googlefonts,
+    xrLibs.androidx.xr.projected.asProvider(),
+    xrLibs.androidx.xr.scenecore.asProvider(),
+    xrLibs.androidx.xr.compose,
+)
+val testImplementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
+    xrLibs.androidx.xr.projected.testing,
+    xrLibs.androidx.xr.arcore.testing,
+    xrLibs.androidx.xr.scenecore.testing,
+)
+
 dependencies {
-    implementation(libs.androidx.xr.arcore)
-    implementation(libs.androidx.xr.arcore.play.services)
-    implementation(libs.androidx.xr.glimmer)
-    implementation(libs.androidx.xr.projected)
-    implementation(libs.androidx.xr.scenecore)
-    implementation(libs.androidx.xr.compose)
+    if (isUsingSnapshot) {
+        implementationXrLibraries.forEach {
+            implementation(it.toSnapshotDependency())
+        }
+        testImplementationXrLibraries.forEach {
+            testImplementation(it.toSnapshotDependency())
+        }
+
+        // Snapshot versions will reference a non-public impress version.
+        constraints {
+            implementation("com.google.ar:impress") {
+                version {
+                    strictly("0.0.13")
+                }
+            }
+
+            testImplementation("com.google.ar:impress") {
+                version {
+                    strictly("0.0.13")
+                }
+            }
+        }
+    } else {
+        implementationXrLibraries.forEach {
+            implementation(it)
+        }
+        testImplementationXrLibraries.forEach {
+            testImplementation(it)
+        }
+    }
+
     implementation(libs.google.ar.core)
 
     implementation(libs.androidx.activity.ktx)
@@ -73,9 +126,19 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.ext.junit)
-    testImplementation(libs.androidx.xr.projected.testing)
     testImplementation(libs.truth)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core.ktx)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
 }
+
+fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(): Provider<MinimalExternalModuleDependency> =
+    this.map {
+        it.copy().apply {
+            version {
+                strictly("1.0.0-SNAPSHOT")
+            }
+        }
+    }

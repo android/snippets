@@ -24,6 +24,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
@@ -49,6 +50,45 @@ import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.requestDragAndDropPermissions
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.window.layout.WindowEngagementInfo
+import androidx.window.layout.WindowInfoTracker
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+
+class DesktopWindowingActivity: ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val windowInfoTracker = WindowInfoTracker.getOrCreate(this@DesktopWindowingActivity)
+
+        // [START android_compose_desktop_engagement_mode]
+        lifecycleScope.launch(Dispatchers.Main) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                windowInfoTracker.windowEngagementInfo(this@DesktopWindowingActivity)
+                    .collect { windowEngagementInfo ->
+                        if(windowEngagementInfo.hasEngagementMode(WindowEngagementInfo.EngagementMode.PRECISE_POINTER)){
+                            showDesktopOptimizedUI()
+                        }else {
+                            showTouchOptimizedUI()
+                        }
+                }
+            }
+        }
+        // [END android_compose_desktop_engagement_mode]
+    }
+
+    private fun showTouchOptimizedUI() {
+        //showTouchOptimizedUI
+    }
+    private fun showDesktopOptimizedUI() {
+        //showDesktopOptimizedUI
+    }
+}
 
 /**
  * A custom Title Bar that respects the system caption bar insets.

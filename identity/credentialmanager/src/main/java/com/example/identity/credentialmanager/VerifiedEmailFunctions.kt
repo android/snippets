@@ -38,7 +38,7 @@ class VerifiedEmailFunctions(
     private val credentialManager: CredentialManager,
 ) {
 
-/**
+    /**
      * Constructs an OpenID4VP request for a UserInfoCredential, sends it to the
      * CredentialManager, and extracts the verified email and user profile claims
      * from the returned SD-JWT.
@@ -47,10 +47,10 @@ class VerifiedEmailFunctions(
      */
     @OptIn(ExperimentalDigitalCredentialApi::class)
     suspend fun getVerifiedUserInfo(activity: Activity) {
-// [START android_identity_get_verified_user_info_request]
+        // [START android_identity_get_verified_user_info_request]
         val nonce = generateSecureRandomNonce()
 
-// This request follows the OpenID4VP spec
+        // This request follows the OpenID4VP spec
         val openId4vpRequest = """
     {
       "requests": [
@@ -267,7 +267,7 @@ data class ServerResponse(val json: String)
 object SdJwtParser {
     fun parse(sdJwt: String): JSONObject {
         // In a real implementation, this would parse the SD-JWT and return the claims.
-        // For this example, we'll return a dummy JSON object.
+        // For this example, we'll return a placeholder JSON object.
         return JSONObject().apply {
             put("email", "example@example.com")
             put("name", "Example User")

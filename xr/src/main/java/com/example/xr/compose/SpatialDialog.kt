@@ -33,13 +33,14 @@ import androidx.compose.ui.window.Dialog
 import androidx.xr.compose.spatial.SpatialDialog
 import androidx.xr.compose.spatial.SpatialDialogProperties
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 // [START androidxr_compose_DelayedDialog]
 @Composable
 fun DelayedDialog() {
     var showDialog by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(3000)
+        delay(3000.milliseconds)
         showDialog = true
     }
     if (showDialog) {
