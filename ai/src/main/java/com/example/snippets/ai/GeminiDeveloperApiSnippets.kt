@@ -60,11 +60,11 @@ object Gemini25FlashImagePreviewModelConfiguration {
     // [END android_gemini_developer_api_gemini_25_flash_image_model]
 }
 
-object GeminiFlashImagePreviewModelConfiguration {
+object GeminiFlashImageModelConfiguration {
     // [START android_gemini_developer_api_gemini_flash_image_model]
     val model = Firebase.ai(backend = GenerativeBackend.googleAI()).generativeModel(
-        modelName = "gemini-3.5-flash-image-preview",
-        // Configure the model to respond with text and images (required)
+        modelName = "gemini-3.5-flash-image",
+        // Configure the model to respond with images (required) and text (optional)
         generationConfig = generationConfig {
             responseModalities = listOf(
                 ResponseModality.TEXT,
@@ -171,7 +171,7 @@ fun multiTurnChat(scope: CoroutineScope) {
 
 @Suppress("unused")
 fun generateImageFromText(scope: CoroutineScope) {
-    val model = GeminiFlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImageModelConfiguration.model
     // [START android_gemini_developer_api_generate_image_from_text]
     scope.launch {
         // Provide a text prompt instructing the model to generate an image
@@ -187,7 +187,7 @@ fun generateImageFromText(scope: CoroutineScope) {
 
 @Suppress("unused")
 fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
-    val model = GeminiFlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImageModelConfiguration.model
     // [START android_gemini_developer_api_edit_image]
     scope.launch {
         // Provide a text prompt instructing the model to edit the image
@@ -205,7 +205,7 @@ fun editImage(scope: CoroutineScope, bitmap: Bitmap) {
 
 @Suppress("unused")
 fun editImageWithChat(scope: CoroutineScope, bitmap: Bitmap) {
-    val model = GeminiFlashImagePreviewModelConfiguration.model
+    val model = GeminiFlashImageModelConfiguration.model
     // [START android_gemini_developer_api_edit_image_chat]
     scope.launch {
         // Create the initial prompt instructing the model to edit the image

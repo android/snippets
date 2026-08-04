@@ -29,7 +29,7 @@ private object HybridInferenceSnippets {
         // [START android_hybrid_inference_snippet]
         val model = Firebase.ai(backend = GenerativeBackend.Companion.googleAI())
             .generativeModel(
-                modelName = "gemini-2.5-flash",
+                modelName = "gemini-3.5-flash",
                 onDeviceConfig = OnDeviceConfig(mode = InferenceMode.Companion.PREFER_ON_DEVICE)
             )
 
