@@ -63,7 +63,7 @@ object Gemini25FlashImagePreviewModelConfiguration {
 object GeminiFlashImageModelConfiguration {
     // [START android_gemini_developer_api_gemini_flash_image_model]
     val model = Firebase.ai(backend = GenerativeBackend.googleAI()).generativeModel(
-        modelName = "gemini-3.5-flash-image",
+        modelName = "gemini-3.1-flash-image",
         // Configure the model to respond with images (required) and text (optional)
         generationConfig = generationConfig {
             responseModalities = listOf(
