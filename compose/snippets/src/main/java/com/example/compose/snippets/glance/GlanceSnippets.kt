@@ -97,6 +97,13 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.compose.snippets.MyActivity
 import com.example.compose.snippets.R
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.util.Log
+import androidx.compose.ui.unit.sp
+import androidx.glance.text.FontFamily
+import androidx.glance.text.FontWeight
+import androidx.glance.text.TextStyle
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -1082,3 +1089,122 @@ class SyncService : Service() {
 fun SnapScrollLayoutPreview() {
     SnapScrollingSnippet.SnapScrollLayout()
 }
+
+private object GlanceHandleTextSnippet {
+    @Composable
+    fun TextExample() {
+        // [START android_compose_glance_handle_text]
+        Text(
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = FontFamily.Monospace
+            ),
+            text = "Example Text"
+        )
+        // [END android_compose_glance_handle_text]
+    }
+}
+
+private object GlanceErrorHandlingSnippets {
+
+    class ErrorHandlingTryCatchWidget : GlanceAppWidget() {
+        override suspend fun provideGlance(context: Context, id: GlanceId) {
+            // [START android_compose_glance_error_try_catch]
+            provideContent {
+                var isError = false
+                var data: Any? = null
+                try {
+                    val repository = (context.applicationContext as MyApplication).myRepository
+                    data = repository.loadData()
+                } catch (e: Exception) {
+                    isError = true
+                    //handleError
+                }
+
+                if (isError) {
+                    ErrorView()
+                } else {
+                    Content(data)
+                }
+            }
+            // [END android_compose_glance_error_try_catch]
+        }
+    }
+
+    // [START android_compose_glance_error_layout_param]
+    class UpgradeWidget : GlanceAppWidget(errorUiLayout = R.layout.error_layout) {
+        override suspend fun provideGlance(context: Context, id: GlanceId) {}
+    }
+    // [END android_compose_glance_error_layout_param]
+
+    private abstract class CompositionErrorSignature : GlanceAppWidget() {
+        // [START android_compose_glance_on_composition_error_signature]
+        // [START_EXCLUDE]
+        override
+        // [END_EXCLUDE]
+        fun onCompositionError(
+            context: Context,
+            glanceId: GlanceId,
+            appWidgetId: Int,
+            throwable: Throwable
+        ) {
+            // [START_EXCLUDE]
+            super.onCompositionError(context, glanceId, appWidgetId, throwable)
+            // [END_EXCLUDE]
+        }
+        // [END android_compose_glance_on_composition_error_signature]
+    }
+
+    class CustomErrorHandlingWidget : GlanceAppWidget() {
+        override suspend fun provideGlance(context: Context, id: GlanceId) {}
+
+        // [START android_compose_glance_on_composition_error_override]
+        override fun onCompositionError(
+            context: Context,
+            glanceId: GlanceId,
+            appWidgetId: Int,
+            throwable: Throwable
+        ) {
+            val rv = RemoteViews(context.packageName, R.layout.error_layout)
+            rv.setTextViewText(
+                R.id.error_text_view,
+                "Error was thrown. \nThis is a custom view \nError Message: `${throwable.message}`"
+            )
+            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context, throwable))
+            AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, rv)
+        }
+        // [END android_compose_glance_on_composition_error_override]
+
+        // [START android_compose_glance_error_get_intent]
+        private fun getErrorIntent(context: Context, throwable: Throwable): PendingIntent {
+            val intent = Intent(context, UpgradeToHelloWorldPro::class.java)
+            intent.setAction("widgetError")
+            return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+        // [END android_compose_glance_error_get_intent]
+    }
+
+    class ErrorHandlingWidgetReceiver : GlanceAppWidgetReceiver() {
+        override val glanceAppWidget: GlanceAppWidget = CustomErrorHandlingWidget()
+
+        // [START android_compose_glance_error_on_receive]
+        override fun onReceive(context: Context, intent: Intent) {
+            super.onReceive(context, intent)
+            Log.e("ErrorOnClick", "Button was clicked.")
+        }
+        // [END android_compose_glance_error_on_receive]
+    }
+
+    private class MyRepo {
+        fun loadData(): Any? = null
+    }
+
+    private class MyApplication : android.app.Application() {
+        val myRepository = MyRepo()
+    }
+    @Composable private fun ErrorView() {}
+    @Composable private fun Content(data: Any?) {}
+    private class UpgradeToHelloWorldPro
+}
+

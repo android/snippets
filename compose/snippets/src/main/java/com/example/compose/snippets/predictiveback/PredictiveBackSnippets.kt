@@ -45,8 +45,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.animation.core.animate
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.scale
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 @Serializable data object Home
@@ -200,3 +207,58 @@ private enum class DrawerState {
 }
 
 private val DrawerWidth = 300.dp
+
+@Composable
+private fun PredictiveBackHandlerFlowExample(isBackHandlerEnabled: Boolean) {
+    // [START android_predictive_back_handler_progress]
+    PredictiveBackHandler(enabled = isBackHandlerEnabled) { progress: Flow<BackEventCompat> ->
+        try {
+            progress.collect { backEvent ->
+                // Update your UI or animation based on backEvent.progress
+            }
+            // Handle the final back action (e.g., navigate back)
+        } catch (e: CancellationException) {
+            // Back gesture was cancelled, reset your UI
+        }
+    }
+    // [END android_predictive_back_handler_progress]
+}
+
+// [START android_predictive_back_handler_custom_transition]
+@Composable
+fun DetailScreen(onBack: () -> Unit) {
+    var scale by remember { mutableFloatStateOf(1f) }
+    var xOffset by remember { mutableFloatStateOf(0f) }
+    val scope = rememberCoroutineScope()
+
+    PredictiveBackHandler { progressFlow ->
+        try {
+            progressFlow.collectLatest { backEvent ->
+                scale = 1f - backEvent.progress
+                xOffset = backEvent.progress * 100f
+            }
+            // User completed gesture
+            onBack()
+        } catch (e: CancellationException) {
+            // User cancelled gesture
+            // Animate scale and xOffset back to 1f and 0f respectively
+            scope.launch {
+                animate(scale, 1f) { value, _ -> scale = value }
+            }
+            scope.launch {
+                animate(xOffset, 0f) { value, _ -> xOffset = value }
+            }
+        }
+    }
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Surface(
+            modifier = Modifier
+                .size(200.dp)
+                .scale(scale)
+                .offset(x = xOffset.dp, y = 0.dp),
+            color = Color.Blue
+        ) {}
+    }
+}
+// [END android_predictive_back_handler_custom_transition]
+

@@ -44,7 +44,13 @@ import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import android.os.Bundle
+import android.view.Window
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.DialogFragment
 import com.example.compose.snippets.touchinput.Button
 
 @Composable
@@ -236,3 +242,56 @@ fun DialogExample(){
     ) { /* Content */ }
     // [END android_compose_e2e_dialog]
 }
+
+private class SetupE2ESnippetsActivity : ComponentActivity() {
+
+    // [START android_compose_e2e_enable]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        // ...
+    }
+    // [END android_compose_e2e_enable]
+
+    private fun immersiveModeExample(window: Window) {
+        // [START android_compose_e2e_immersive_mode]
+        val windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
+
+        // Hide the system bars.
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+
+        // Show the system bars.
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+        // [END android_compose_e2e_immersive_mode]
+    }
+
+    private fun statusBarIconsExample(window: Window) {
+        // [START android_compose_e2e_status_bar_icons]
+        // Set status bar icons to dark
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = true
+
+        // Set status bar icons to light
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = false
+        // [END android_compose_e2e_status_bar_icons]
+    }
+
+    private fun navigationBarContrastExample(window: Window) {
+        // [START android_compose_e2e_navigation_bar_contrast]
+        window.isNavigationBarContrastEnforced = false
+        // [END android_compose_e2e_navigation_bar_contrast]
+    }
+}
+
+// [START android_compose_e2e_dialog_fragment]
+class MyAlertDialogFragment : DialogFragment() {
+    override fun onStart(){
+        super.onStart()
+        dialog?.window?.let { WindowCompat.enableEdgeToEdge(it) }
+    }
+    // ...
+}
+// [END android_compose_e2e_dialog_fragment]
+
