@@ -102,13 +102,13 @@ public final class GeminiDeveloperApiSnippetsJava {
         }
     }
 
-    static final class GeminiFlashImagePreviewModelConfigurationJava {
+    static final class GeminiFlashImageModelConfigurationJava {
         public static GenerativeModelFutures model;
 
         static {
             // [START android_gemini_developer_api_gemini_flash_image_model_java]
             GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel(
-                    "gemini-3.5-flash-image-preview",
+                    "gemini-3.1-flash-image",
                     // Configure the model to respond with text and images (required)
                     new GenerationConfig.Builder()
                             .setResponseModalities(Arrays.asList(ResponseModality.TEXT, ResponseModality.IMAGE))
@@ -116,7 +116,7 @@ public final class GeminiDeveloperApiSnippetsJava {
             );
             GenerativeModelFutures model = GenerativeModelFutures.from(ai);
             // [END android_gemini_developer_api_gemini_flash_image_model_java]
-            GeminiFlashImagePreviewModelConfigurationJava.model = model;
+            GeminiFlashImageModelConfigurationJava.model = model;
         }
 
     }
@@ -295,7 +295,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void generateImageFromText(Executor executor) {
-        GenerativeModelFutures model = GeminiFlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiFlashImageModelConfigurationJava.model;
         // [START android_gemini_developer_api_generate_image_from_text_java]
         // Provide a text prompt instructing the model to generate an image
         Content prompt = new Content.Builder()
@@ -325,7 +325,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void editImage(Executor executor, Resources resources) {
-        GenerativeModelFutures model = GeminiFlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiFlashImageModelConfigurationJava.model;
         // [START android_gemini_developer_api_edit_image_java]
         // Provide an image for the model to edit
         Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.scones);
@@ -357,7 +357,7 @@ public final class GeminiDeveloperApiSnippetsJava {
     }
 
     public static void editImageWithChat(Executor executor, Resources resources) {
-        GenerativeModelFutures model = GeminiFlashImagePreviewModelConfigurationJava.model;
+        GenerativeModelFutures model = GeminiFlashImageModelConfigurationJava.model;
         // [START android_gemini_developer_api_edit_image_chat_java]
         // Provide an image for the model to edit
         Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.scones);
