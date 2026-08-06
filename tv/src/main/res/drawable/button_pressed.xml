@@ -14,8 +14,6 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-    <string name="app_name">TV Snippets</string>
-    <string name="title_activity_tv_movies">TvMoviesActivity</string>
-    <string name="startPlayback">Start Playback</string>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF0000" />
+</shape>
