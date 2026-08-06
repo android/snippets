@@ -28,12 +28,12 @@ class AgentPlatformGeminiApi {
         .generativeModel("gemini-3.5-flash")
     // [END android_snippets_agent_platform_gemini_api_model]
 
-    // [START android_snippets_platform_agent_generate_content]
+    // [START android_snippets_agent_platform_generate_content]
     suspend fun generateText(model: GenerativeModel) {
         // Note: generateContent() is a suspend function, which integrates well
         // with existing Kotlin code.
         val response = model.generateContent("Write a story about a magic backpack.")
         // ...
     }
-    // [END android_snippets_platform_agent_generate_content]
+    // [END android_snippets_agent_platform_generate_content]
 }
