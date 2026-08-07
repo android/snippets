@@ -261,7 +261,7 @@ private object VolumeViewModel {
 
         // ...
         fun onVolumeChangeByScroll(pixels: Float) {
-            _volumeState.value = when {
+            _volumeState.intValue = when {
                 pixels > 0 -> minOf(volumeState.value + 1, VolumeRange().max)
                 pixels < 0 -> maxOf(volumeState.value - 1, VolumeRange().min)
                 else -> volumeState.value

@@ -83,7 +83,7 @@ fun HorizontalPager() {
 }
 
 @Composable
-fun verticalPager() {
+fun VerticalPager() {
     // [START android_wear_vertical_pager]
     AppScaffold {
         val pagerState = rememberPagerState(pageCount = { 10 })

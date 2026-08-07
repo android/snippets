@@ -39,7 +39,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@android:style/Theme.DeviceDefault"
+        tools:ignore="DataExtractionRules,SquareAndRoundTilePreviews">
 
         <!-- [START android_wear_wfp_default_watch_face_token] -->
         <meta-data

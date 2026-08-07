@@ -35,7 +35,7 @@ fun color() {
 
 // [START android_wear_dynamic_theme]
 @Composable
-fun myApp() {
+fun MyApp() {
     val dynamicColorScheme = dynamicColorScheme(LocalContext.current)
     MaterialTheme(colorScheme = dynamicColorScheme ?: myBrandColors) {}
 }

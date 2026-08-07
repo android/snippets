@@ -15,9 +15,31 @@
      limitations under the License.
 -->
 <lint>
-    <!-- Ignore the IconLocation for the Tile preview images -->
+    <!-- Ignore the IconLocation for the Tile preview images and mock assets -->
     <issue id="IconLocation">
         <ignore path="res/drawable/tile_preview.png" />
         <ignore path="res/drawable-round/tile_preview.png" />
+        <ignore path="res/drawable/lottie_fallback.png" />
+        <ignore path="res/drawable/widget_preview_large.png" />
+        <ignore path="res/drawable/widget_preview_small.png" />
     </issue>
+    <issue id="IconDuplicates">
+        <ignore path="res/drawable/widget_preview_small.png" />
+    </issue>
+    <issue id="MonochromeLauncherIcon">
+        <ignore path="res/mipmap-anydpi-v26/ic_launcher.xml" />
+    </issue>
+    <issue id="UnusedResources">
+        <ignore path="res/mipmap-hdpi/ic_launcher_round.webp" />
+    </issue>
+    <issue id="ObsoleteSdkInt">
+        <ignore path="res/mipmap-anydpi-v26" />
+    </issue>
+    <issue id="CustomSplashScreen">
+        <ignore path="src/main/java/com/example/wear/snippets/SplashScreenActivity.kt" />
+    </issue>
+    <issue id="CredManMutableContext" severity="ignore" />
+    <issue id="CredentialManagerMisuse" severity="ignore" />
+    <issue id="CredentialManagerSignInWithGoogle" severity="ignore" />
+    <issue id="WearRecents" severity="ignore" />
 </lint>

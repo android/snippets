@@ -80,21 +80,19 @@ class AlwaysOnActivity : ComponentActivity() {
     }
 
     private fun checkAndRequestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            when {
-                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                        PackageManager.PERMISSION_GRANTED -> {
-                    Log.d(TAG, "POST_NOTIFICATIONS permission already granted")
-                }
-                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                    Log.d(TAG, "Should show permission rationale")
-                    // You could show a dialog here explaining why the permission is needed
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
-                else -> {
-                    Log.d(TAG, "Requesting POST_NOTIFICATIONS permission")
-                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
+        when {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED -> {
+                Log.d(TAG, "POST_NOTIFICATIONS permission already granted")
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                Log.d(TAG, "Should show permission rationale")
+                // You could show a dialog here explaining why the permission is needed
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            else -> {
+                Log.d(TAG, "Requesting POST_NOTIFICATIONS permission")
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
