@@ -15,7 +15,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">TV Snippets</string>
-    <string name="title_activity_tv_movies">TvMoviesActivity</string>
-    <string name="startPlayback">Start Playback</string>
+    <color name="primary">#FF0000</color>
 </resources>
