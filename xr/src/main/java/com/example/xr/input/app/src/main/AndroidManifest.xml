@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.HEAD_TRACKING" />
+    <uses-permission android:name="android.permission.HAND_TRACKING" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:label="Input Samples"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- Phone Companion Entry Activity (Runs on Phone Display) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="Input Samples">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Projected Activity for AI Glasses (Runs inside Projected Glasses Context) -->
+        <!-- requiredDisplayCategory="xr_projected" tells Android XR to launch this activity inside the projected AI Glasses context -->
+        <activity
+            android:name=".HelloCameraActionActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.example.aiglasses.camera.cameraaction"
+            android:requiredDisplayCategory="android.hardware.display.category.XR_PROJECTED"
+            android:label="AI Glasses Camera Action">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.XR_PROJECTED_LAUNCHER" />
+            </intent-filter>
+            <!-- Explicit intent filters for ALL camera capture & button actions so the system knows this app supports the camera! -->
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <action android:name="android.intent.action.CAMERA_BUTTON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Projected Activity for AI Glasses Motion Gesture Sample -->
+        <activity
+            android:name=".HelloMotionGestureActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.example.aiglasses.camera.motiongesture"
+            android:requiredDisplayCategory="android.hardware.display.category.XR_PROJECTED"
+            android:label="Hello Motion Gesture">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.XR_PROJECTED_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Projected Activity for AI Glasses Back Gesture Sample -->
+        <activity
+            android:name=".HelloBackGestureActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.example.aiglasses.camera.backgesture"
+            android:requiredDisplayCategory="android.hardware.display.category.XR_PROJECTED"
+            android:label="Hello Back Gesture">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.XR_PROJECTED_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
