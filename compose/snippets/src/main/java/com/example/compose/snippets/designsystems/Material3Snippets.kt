@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -102,6 +103,10 @@ private object ColorScheme {
     val md_theme_dark_primary = Color(0xFFACD370)
     val md_theme_dark_onPrimary = Color(0xFF213600)
     val md_theme_dark_primaryContainer = Color(0xFF324F00)
+    // Ensure absolutely dark surfaces/background:
+    val md_theme_dark_background = Color(0xFF000000)
+    val md_theme_dark_surface = Color(0xFF000000)
+    val md_theme_dark_surfaceVariant = Color(0xFF000000)
     // ..
     // ..
     // [END android_compose_material3_theme_colors]
@@ -117,6 +122,9 @@ private object ColorScheme {
         primary = md_theme_dark_primary,
         onPrimary = md_theme_dark_onPrimary,
         primaryContainer = md_theme_dark_primaryContainer,
+        background = md_theme_dark_background,
+        surface = md_theme_dark_surface,
+        surfaceVariant = md_theme_dark_surfaceVariant,
         // ..
     )
 
@@ -187,6 +195,45 @@ private object ColorScheme {
 
         // [END android_compose_material3_use_color_theme_2]
     }
+
+    /**
+     * Examples to avoid tonal elevation / overlays and make surfaces absolutely dark.
+     * Use these patterns where you want a pure black surface and no tonal tinting.
+     */
+    @Composable
+    fun AbsoluteDarkExamples() {
+        // Surface with zero tonal elevation — keeps surface color as-is (no overlay)
+        Surface(
+            tonalElevation = 0.dp,
+            shadowElevation = 0.dp,
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            // Card that explicitly uses the surface color and zero elevation
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
+                Text(
+                    text = "Card with pure black surface",
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+
+        // Note: to make status/navigation bars pure black as well, use a system UI controller:
+        // rememberSystemUiController().setSystemBarsColor(Color.Black, darkIcons = false)
+        // (Accompanist library or platform APIs required)
+    }
+
+    @Composable
+    private fun DynamicThemeSetup(darkTheme: Boolean = isSystemInDarkTheme()) {
+        // duplicate removed in patch
+    }
+
 }
 
 private object TypographySnippets {
