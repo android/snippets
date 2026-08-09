@@ -229,11 +229,6 @@ private object ColorScheme {
         // (Accompanist library or platform APIs required)
     }
 
-    @Composable
-    private fun DynamicThemeSetup(darkTheme: Boolean = isSystemInDarkTheme()) {
-        // duplicate removed in patch
-    }
-
 }
 
 private object TypographySnippets {
