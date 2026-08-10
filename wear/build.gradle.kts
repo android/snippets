@@ -14,14 +14,9 @@ kotlin {
     }
 }
 
-val wearGesturesVersionOverride: String? by project
-val isUsingSnapshot = wearGesturesVersionOverride != null
-
 android {
     namespace = "com.example.wear"
     compileSdk = 37
-
-
 
     defaultConfig {
         applicationId = "com.example.wear"
@@ -65,9 +60,6 @@ android {
     }
 }
 
-// NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT or newer.
-// To compile and test it, pass -PwearGesturesVersionOverride=1.7.0-SNAPSHOT on the command line.
-
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.credentials)
@@ -103,15 +95,10 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.wear.compose.material)
-    if (isUsingSnapshot) {
-        implementation(libs.wear.compose.material3.toSnapshotDependency("1.7.0-SNAPSHOT"))
-        implementation(libs.compose.foundation.toSnapshotDependency("1.7.0-SNAPSHOT"))
-        implementation(libs.androidx.compose.material.iconsExtended)
-    } else {
-        implementation(libs.wear.compose.material3)
-        implementation(libs.compose.foundation)
-    }
+    // NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT.
+    implementation("androidx.wear.compose:compose-material3:1.7.0-SNAPSHOT")
+    implementation("androidx.compose.foundation:foundation:1.7.0-SNAPSHOT")
+    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.horologist.compose.layout)
@@ -160,19 +147,4 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.kotlinx.serialization.json)
-}
-
-fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(snapshotVer: String = "1.7.0-SNAPSHOT"): Provider<MinimalExternalModuleDependency> =
-    this.map {
-        it.copy().apply {
-            version {
-                strictly(snapshotVer)
-            }
-        }
-    }
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    if (!isUsingSnapshot) {
-        exclude("**/gestures/OneHandedGestures.kt")
-    }
 }
