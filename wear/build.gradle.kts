@@ -98,6 +98,7 @@ dependencies {
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.material3)
     implementation(libs.compose.foundation)
+    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.horologist.compose.layout)
