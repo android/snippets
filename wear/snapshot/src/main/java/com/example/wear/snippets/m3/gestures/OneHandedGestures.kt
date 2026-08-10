@@ -255,7 +255,7 @@ fun ScrollGestureHintSnippet() {
                     onGestureAvailable = {
                         coroutineScope.launch { indicatorState.showIndicator() }
                     },
-                    onGesture = { OneHandedGestureDefaults.scrollDownToNextItem(scrollState) }
+                    onGesture = { OneHandedGestureDefaults.scrollDown(scrollState) }
                 )
         ) {
             items(10) { index ->
