@@ -44,6 +44,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v6
 
+    # Required to include and format OneHandedGestures.kt in :wear, which depends on unreleased Wear Compose Material 3 1.7.0-SNAPSHOT APIs.
     - name: Run spotlessApply
       run: ./gradlew spotlessApply -PwearGesturesVersionOverride=1.7.0-SNAPSHOT --stacktrace
 
