@@ -44,6 +44,7 @@ include(
     ":camerax",
     ":watchface",
     ":wear",
+    ":wear:snapshot",
     ":wearcompanion",
     ":views",
     ":misc",

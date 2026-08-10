@@ -95,9 +95,9 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.fragment.ktx)
-    // NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT.
-    implementation("androidx.wear.compose:compose-material3:1.7.0-SNAPSHOT")
-    implementation("androidx.compose.foundation:foundation:1.7.0-SNAPSHOT")
+    implementation(libs.wear.compose.material)
+    implementation(libs.wear.compose.material3)
+    implementation(libs.compose.foundation)
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
