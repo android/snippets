@@ -20,7 +20,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import com.example.wear.snippets.m3.gestures.OneHandedGestureScreen
 import com.example.wear.snippets.m3.list.ComposeList
 import com.example.wear.snippets.m3.pager.HorizontalPager
 
@@ -37,5 +36,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WearApp() {
     // insert here the snippet you want to test
-    OneHandedGestureScreen()
+    ComposeList()
 }

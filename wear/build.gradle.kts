@@ -14,9 +14,14 @@ kotlin {
     }
 }
 
+val wearGesturesVersionOverride: String? by project
+val isUsingSnapshot = wearGesturesVersionOverride != null
+
 android {
     namespace = "com.example.wear"
     compileSdk = 37
+
+
 
     defaultConfig {
         applicationId = "com.example.wear"
@@ -61,9 +66,7 @@ android {
 }
 
 // NOTE: OneHandedGestures in com.example.wear.snippets.m3.gestures requires Wear Compose Material 3 1.7.0-SNAPSHOT or newer.
-// To compile and test it, pass -PwearComposeOverride=1.7.0-SNAPSHOT on the command line.
-val wearComposeOverride: String? by project
-val isUsingSnapshot = wearComposeOverride != null
+// To compile and test it, pass -PwearGesturesVersionOverride=1.7.0-SNAPSHOT on the command line.
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -167,3 +170,9 @@ fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(snapshotVer: 
             }
         }
     }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    if (!isUsingSnapshot) {
+        exclude("**/gestures/OneHandedGestures.kt")
+    }
+}

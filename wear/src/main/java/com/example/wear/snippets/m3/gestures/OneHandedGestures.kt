@@ -17,11 +17,11 @@
 package com.example.wear.snippets.m3.gestures
 
 /*
- * NOTE: One-Handed Gesture APIs (androidx.wear.compose.material3.onehandedgesture) require
- * Wear Compose Material 3 version 1.7.0-alpha01 or newer (or 1.7.0-SNAPSHOT).
+ * NOTE: One-Handed Gesture APIs require Wear Compose Material 3 1.7.0-SNAPSHOT (or a future 1.7.0-alpha08+ release).
+ * Published alpha releases up to 1.7.0-alpha07 used older API names (GestureAction/GesturePriority) and will not compile with these snippets.
  *
- * To compile and test this snippet locally, pass `-PwearComposeOverride=1.7.0-SNAPSHOT` to Gradle:
- *     ./gradlew :wear:assembleDebug -PwearComposeOverride=1.7.0-SNAPSHOT
+ * To compile and test this snippet locally, pass `-PwearGesturesVersionOverride=1.7.0-SNAPSHOT` to Gradle:
+ *     ./gradlew :wear:assembleDebug -PwearGesturesVersionOverride=1.7.0-SNAPSHOT
  */
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
