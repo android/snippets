@@ -201,12 +201,15 @@ class VerifiedEmailFunctions(
     /*
     // Example of the raw JSON response from credential.credentialJson:
     {
-      "vp_token": {
-        // This key matches the 'id' you set in your dcql_query
-        "user_info_query": [
-          // The SD-JWT string (Issuer JWT ~ Disclosures ~ Key Binding JWT)
-          "eyJhbGciOiJ...~WyI...IiwgImVtYWlsIiwgInVzZXJAZXhhbXBsZS5jb20iXQ~...~eyJhbGciOiJ..."
-        ]
+  "protocol": "openid4vp-v1-unsigned",
+  "data": {
+    "vp_token": {
+      // This key matches the 'id' you set in your dcql_query
+      "user_info_query": [
+        // The SD-JWT string (Issuer JWT ~ Disclosures ~ Key Binding JWT)
+        "eyJhbGciOiJ...~WyI...IiwgImVtYWlsIiwgInVzZXJAZXhhbXBsZS5jb20iXQ~...~eyJhbGciOiJ..."
+          ]
+        }
       }
     }
 
