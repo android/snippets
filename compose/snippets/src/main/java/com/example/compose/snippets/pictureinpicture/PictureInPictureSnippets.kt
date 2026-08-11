@@ -69,21 +69,17 @@ fun PiPBuilderSetAutoEnterEnabled(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_compose_pip_builder_auto_enter]
-        val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
-            val builder = PictureInPictureParams.Builder()
+    // [START android_compose_pip_builder_auto_enter]
+    val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
+        val builder = PictureInPictureParams.Builder()
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                builder.setAutoEnterEnabled(true)
-            }
-            context.findActivity().setPictureInPictureParams(builder.build())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(true)
         }
-        VideoPlayer(pipModifier)
-        // [END android_compose_pip_builder_auto_enter]
-    } else {
-        Log.i(PIP_TAG, "API does not support PiP")
+        context.findActivity().setPictureInPictureParams(builder.build())
     }
+    VideoPlayer(pipModifier)
+    // [END android_compose_pip_builder_auto_enter]
 }
 
 // [START android_compose_pip_find_activity]
@@ -188,24 +184,19 @@ fun PiPBuilderSetAutoEnterEnabledUsingState(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    // [START android_compose_pip_post_12_should_enter_pip]
+    val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
+        val builder = PictureInPictureParams.Builder()
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_compose_pip_post_12_should_enter_pip]
-        val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
-            val builder = PictureInPictureParams.Builder()
-
-            // Add autoEnterEnabled for versions S and up
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                builder.setAutoEnterEnabled(shouldEnterPipMode)
-            }
-            context.findActivity().setPictureInPictureParams(builder.build())
+        // Add autoEnterEnabled for versions S and up
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(shouldEnterPipMode)
         }
-
-        VideoPlayer(pipModifier)
-        // [END android_compose_pip_post_12_should_enter_pip]
-    } else {
-        Log.i(PIP_TAG, "API does not support PiP")
+        context.findActivity().setPictureInPictureParams(builder.build())
     }
+
+    VideoPlayer(pipModifier)
+    // [END android_compose_pip_post_12_should_enter_pip]
 }
 
 @Composable
@@ -213,28 +204,24 @@ fun PiPBuilderSetSourceRect(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_compose_pip_set_source_rect]
-        val context = LocalContext.current
+    // [START android_compose_pip_set_source_rect]
+    val context = LocalContext.current
 
-        val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
-            val builder = PictureInPictureParams.Builder()
-            if (shouldEnterPipMode) {
-                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                builder.setSourceRectHint(sourceRect)
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                builder.setAutoEnterEnabled(shouldEnterPipMode)
-            }
-            context.findActivity().setPictureInPictureParams(builder.build())
+    val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
+        val builder = PictureInPictureParams.Builder()
+        if (shouldEnterPipMode) {
+            val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+            builder.setSourceRectHint(sourceRect)
         }
 
-        VideoPlayer(pipModifier)
-        // [END android_compose_pip_set_source_rect]
-    } else {
-        Log.i(PIP_TAG, "API does not support PiP")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(shouldEnterPipMode)
+        }
+        context.findActivity().setPictureInPictureParams(builder.build())
     }
+
+    VideoPlayer(pipModifier)
+    // [END android_compose_pip_set_source_rect]
 }
 
 @Composable
@@ -243,31 +230,27 @@ fun PiPBuilderSetAspectRatio(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_compose_pip_set_aspect_ratio]
-        val context = LocalContext.current
+    // [START android_compose_pip_set_aspect_ratio]
+    val context = LocalContext.current
 
-        val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
-            val builder = PictureInPictureParams.Builder()
-            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
-                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                builder.setSourceRectHint(sourceRect)
-                builder.setAspectRatio(
-                    Rational(player.videoSize.width, player.videoSize.height)
-                )
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                builder.setAutoEnterEnabled(shouldEnterPipMode)
-            }
-            context.findActivity().setPictureInPictureParams(builder.build())
+    val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
+        val builder = PictureInPictureParams.Builder()
+        if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
+            val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+            builder.setSourceRectHint(sourceRect)
+            builder.setAspectRatio(
+                Rational(player.videoSize.width, player.videoSize.height)
+            )
         }
 
-        VideoPlayer(pipModifier)
-        // [END android_compose_pip_set_aspect_ratio]
-    } else {
-        Log.i(PIP_TAG, "API does not support PiP")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(shouldEnterPipMode)
+        }
+        context.findActivity().setPictureInPictureParams(builder.build())
     }
+
+    VideoPlayer(pipModifier)
+    // [END android_compose_pip_set_aspect_ratio]
 }
 
 // [START android_compose_pip_broadcast_receiver]
@@ -307,7 +290,6 @@ fun PlayerBroadcastReceiver(player: Player?) {
 }
 // [END android_compose_pip_broadcast_receiver]
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun listOfRemoteActions(): List<RemoteAction> {
     return listOf()
 }
@@ -318,34 +300,30 @@ fun PiPBuilderAddRemoteActions(
     shouldEnterPipMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // [START android_compose_pip_add_remote_actions]
-        val context = LocalContext.current
+    // [START android_compose_pip_add_remote_actions]
+    val context = LocalContext.current
 
-        val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
-            val builder = PictureInPictureParams.Builder()
-            builder.setActions(
-                listOfRemoteActions()
+    val pipModifier = modifier.onGloballyPositioned { layoutCoordinates ->
+        val builder = PictureInPictureParams.Builder()
+        builder.setActions(
+            listOfRemoteActions()
+        )
+
+        if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
+            val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
+            builder.setSourceRectHint(sourceRect)
+            builder.setAspectRatio(
+                Rational(player.videoSize.width, player.videoSize.height)
             )
-
-            if (shouldEnterPipMode && player != null && player.videoSize != VideoSize.UNKNOWN) {
-                val sourceRect = layoutCoordinates.boundsInWindow().toAndroidRectF().toRect()
-                builder.setSourceRectHint(sourceRect)
-                builder.setAspectRatio(
-                    Rational(player.videoSize.width, player.videoSize.height)
-                )
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                builder.setAutoEnterEnabled(shouldEnterPipMode)
-            }
-            context.findActivity().setPictureInPictureParams(builder.build())
         }
-        VideoPlayer(modifier = pipModifier)
-        // [END android_compose_pip_add_remote_actions]
-    } else {
-        Log.i(PIP_TAG, "API does not support PiP")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            builder.setAutoEnterEnabled(shouldEnterPipMode)
+        }
+        context.findActivity().setPictureInPictureParams(builder.build())
     }
+    VideoPlayer(modifier = pipModifier)
+    // [END android_compose_pip_add_remote_actions]
 }
 
 @Composable
