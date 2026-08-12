@@ -37,6 +37,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     ksp(libs.androidx.room3.compiler)
+    kspTest(libs.androidx.room3.compiler)
+    kspAndroidTest(libs.androidx.room3.compiler)
     implementation(libs.androidx.room3.runtime)
     implementation(libs.androidx.room3.paging)
     implementation(libs.androidx.room3.rxjava3)
