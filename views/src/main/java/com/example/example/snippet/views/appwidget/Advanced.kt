@@ -27,7 +27,7 @@ private fun fullUpdateSnippet(
 ) {
     // [START android_views_appwidgets_advanced_full_update]
     val appWidgetManager = AppWidgetManager.getInstance(context)
-    val remoteViews = RemoteViews(context.getPackageName(), R.layout.widgetlayout).apply {
+    val remoteViews = RemoteViews(context.packageName, R.layout.widgetlayout).apply {
         setTextViewText(R.id.textview_widget_layout1, "Updated text1")
         setTextViewText(R.id.textview_widget_layout2, "Updated text2")
     }
@@ -41,7 +41,7 @@ private fun partialUpdateSnippet(
 ) {
     // [START android_views_appwidgets_advanced_partial_update]
     val appWidgetManager = AppWidgetManager.getInstance(context)
-    val remoteViews = RemoteViews(context.getPackageName(), R.layout.widgetlayout).apply {
+    val remoteViews = RemoteViews(context.packageName, R.layout.widgetlayout).apply {
         setTextViewText(R.id.textview_widget_layout, "Updated text")
     }
     appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
@@ -54,6 +54,7 @@ private fun collectionDataRefreshSnippet(
 ) {
     // [START android_views_appwidgets_advanced_notify_data_changed]
     val appWidgetManager = AppWidgetManager.getInstance(context)
-    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview)
+    val remoteViews = RemoteViews(context.packageName, R.layout.widgetlayout)
+    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
     // [END android_views_appwidgets_advanced_notify_data_changed]
 }
