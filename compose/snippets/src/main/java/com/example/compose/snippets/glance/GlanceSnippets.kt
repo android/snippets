@@ -17,7 +17,6 @@
 package com.example.compose.snippets.glance
 
 import android.annotation.SuppressLint
-import androidx.annotation.RequiresApi
 import android.app.Activity
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -87,7 +86,6 @@ import androidx.glance.layout.RowScope
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
-import androidx.glance.layout.width
 import androidx.glance.layout.height
 import androidx.glance.material3.ColorProviders
 import androidx.glance.preview.ExperimentalGlancePreviewApi
@@ -121,7 +119,7 @@ private object GlanceCreateAppWidgetSnippet01 {
 private object GlanceCreateAppWidgetSnippet02 {
     // [START android_compose_glance_receiver02]
     class MyAppWidgetReceiver : GlanceAppWidgetReceiver() {
-        
+
         // Let MyAppWidgetReceiver know which GlanceAppWidget to use
         override val glanceAppWidget: GlanceAppWidget = MyAppWidget()
     }
@@ -525,7 +523,9 @@ object BuildUIWithGlance {
 
         LazyColumn {
             // [START android_compose_glance_buildUI06]
-            items(items = peopleList, itemId = { person -> person.id.hashCode().toLong() }) { person ->
+            items(
+                items = peopleList,
+                itemId = { person -> person.id.hashCode().toLong() }) { person ->
                 Text(person.name)
             }
             // [END android_compose_glance_buildUI06]
@@ -691,6 +691,7 @@ object CompoundButton {
         )
         // [END android_compose_glance_buildUI12]
     }
+
     // [START android_compose_glance_buildUI13]
     class MyAppWidget : GlanceAppWidget() {
 
@@ -756,7 +757,7 @@ object CompoundButton {
                 uncheckedColor = ColorProvider(day = Color.Red, night = Color.Blue)
             ),
 
-        )
+            )
         // [END android_compose_glance_buildUI14]
     }
 
@@ -798,7 +799,7 @@ object GlanceTheming {
         // [START android_compose_glance_glancetheming06]
         // Remember, use the Glance imports
         // import androidx.glance.material3.ColorProviders
-        
+
         // Example Imports from your own app
         // import com.example.myapp.ui.theme.DarkColors
         // import com.example.myapp.ui.theme.LightColors
@@ -810,6 +811,7 @@ object GlanceTheming {
                 dark = DarkColors
             )
         }
+
         // [END android_compose_glance_glancetheming06]
         // [START android_compose_glance_glancetheming02]
         override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -1145,25 +1147,22 @@ private object GlanceErrorHandlingSnippets {
 
         // [START android_compose_glance_on_composition_error_override]
         override fun onCompositionError(
-            context: Context,
-            glanceId: GlanceId,
-            appWidgetId: Int,
-            throwable: Throwable
+            context: Context, glanceId: GlanceId, appWidgetId: Int, throwable: Throwable
         ) {
             val rv = RemoteViews(context.packageName, R.layout.error_layout)
             rv.setTextViewText(
                 R.id.error_text_view,
                 "Error was thrown. \nThis is a custom view \nError Message: `${throwable.message}`"
             )
-            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context, throwable))
+            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context))
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, rv)
         }
         // [END android_compose_glance_on_composition_error_override]
 
         // [START android_compose_glance_error_get_intent]
-        private fun getErrorIntent(context: Context, throwable: Throwable): PendingIntent {
+        private fun getErrorIntent(context: Context): PendingIntent {
             val intent = Intent(context, UpgradeToHelloWorldPro::class.java)
-            intent.setAction("widgetError")
+            intent.action = "widgetError"
             return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
         // [END android_compose_glance_error_get_intent]
@@ -1187,8 +1186,15 @@ private object GlanceErrorHandlingSnippets {
     private class MyApplication : android.app.Application() {
         val myRepository = MyRepo()
     }
-    @Composable private fun ErrorView() {}
-    @Composable private fun Content(data: List<String>) {}
+
+    @Composable
+    private fun ErrorView() {
+    }
+
+    @Composable
+    private fun Content(data: List<String>) {
+    }
+
     private class UpgradeToHelloWorldPro
 }
 
