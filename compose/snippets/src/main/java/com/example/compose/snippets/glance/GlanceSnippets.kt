@@ -1140,24 +1140,6 @@ private object GlanceErrorHandlingSnippets {
     }
     // [END android_compose_glance_error_layout_param]
 
-    private abstract class CompositionErrorSignature : GlanceAppWidget() {
-        // [START android_compose_glance_on_composition_error_signature]
-        // [START_EXCLUDE]
-        override
-        // [END_EXCLUDE]
-        fun onCompositionError(
-            context: Context,
-            glanceId: GlanceId,
-            appWidgetId: Int,
-            throwable: Throwable
-        ) {
-            // [START_EXCLUDE]
-            super.onCompositionError(context, glanceId, appWidgetId, throwable)
-            // [END_EXCLUDE]
-        }
-        // [END android_compose_glance_on_composition_error_signature]
-    }
-
     class CustomErrorHandlingWidget : GlanceAppWidget() {
         override suspend fun provideGlance(context: Context, id: GlanceId) {}
 
