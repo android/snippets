@@ -58,6 +58,7 @@ engageCore = "1.6.0"
 firebase-ai = "17.15.0"
 firebase-bom = "34.17.0"
 firebase-ondevice = "16.0.0-beta03"
+genaiSchemaCompiler = "1.0.0-alpha1"
 glance-wear = "1.0.0-alpha12"
 glide = "1.0.0-beta10"
 google-ar-core = "1.54.0"
@@ -87,6 +88,7 @@ media3Ui = "1.10.1"
 # @keep
 minSdk = "36"
 mlkit-face-detection = "16.1.7"
+mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
@@ -289,6 +291,7 @@ engage-core = { module = "com.google.android.engage:engage-core", version.ref = 
 firebase-ai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ondevice = { module = "com.google.firebase:firebase-ai-ondevice", version.ref = "firebase-ondevice" }
+genai-schema-compiler = { module = "com.google.mlkit:genai-schema-compiler", version.ref = "genaiSchemaCompiler" }
 glance-appwidget-preview = { module = "androidx.glance:glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 glance-preview = { module = "androidx.glance:glance-preview", version.ref = "androidx-glance-appwidget" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
@@ -316,6 +319,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "mlkit-genai-prompt" }
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
