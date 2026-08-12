@@ -16,16 +16,24 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Preview
 @Composable
 fun ProgressIndicatorExamples() {
@@ -59,6 +68,22 @@ fun ProgressIndicatorExamples() {
         CircularDeterminateIndicator()
         Text("Indeterminate circular indicator:")
         IndeterminateCircularIndicator()
+        Text("Determinate linear wavy indicator:")
+        LinearWavyProgressIndicatorSample()
+        Text("Indeterminate linear wavy indicator:")
+        IndeterminateLinearWavyProgressIndicatorSample()
+        Text("Determinate circular wavy indicator:")
+        CircularWavyProgressIndicatorSample()
+        Text("Indeterminate circular wavy indicator:")
+        IndeterminateCircularWavyProgressIndicatorSample()
+        Text("Determinate linear indicator Expressive:")
+        LinearProgressIndicatorSample()
+        Text("Indeterminate linear indicator Expressive:")
+        IndeterminateLinearProgressIndicatorSample()
+        Text("Determinate circular indicator Expressive:")
+        CircularProgressIndicatorSample()
+        Text("Indeterminate circular indicator Expressive:")
+        IndeterminateCircularProgressIndicatorSample()
     }
 }
 
@@ -175,3 +200,139 @@ fun IndeterminateCircularIndicator() {
     )
 }
 // [END android_compose_components_indeterminateindicator]
+
+// [START android_compose_expressive_components_determinatelinearwavyindicator]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LinearWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+// [END android_compose_expressive_components_determinatelinearwavyindicator]
+
+// [START android_compose_expressive_components_indeterminatelinearwavyindicator]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateLinearWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
+}
+// [END android_compose_expressive_components_indeterminatelinearwavyindicator]
+
+// [START android_compose_expressive_components_determinatecircularwavyindicator]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun CircularWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+// [END android_compose_expressive_components_determinatecircularwavyindicator]
+
+// [START android_compose_expressive_components_indeterminatecircularwavyindicator]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateCircularWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
+}
+// [END android_compose_expressive_components_indeterminatecircularwavyindicator]
+
+// [START android_compose_expressive_components_determinatelinearindicator]
+@Preview
+@Composable
+fun LinearProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+// [END android_compose_expressive_components_determinatelinearindicator]
+
+// [START android_compose_expressive_components_indeterminatelinearindicator]
+@Preview
+@Composable
+fun IndeterminateLinearProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
+}
+// [END android_compose_expressive_components_indeterminatelinearindicator]
+
+// [START android_compose_expressive_components_determinatecircularindicator]
+@Preview
+@Composable
+fun CircularProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+// [END android_compose_expressive_components_determinatecircularindicator]
+
+// [START android_compose_expressive_components_indeterminatecircularindicator]
+@Preview
+@Composable
+fun IndeterminateCircularProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
+}
+// [END android_compose_expressive_components_indeterminatecircularindicator]
