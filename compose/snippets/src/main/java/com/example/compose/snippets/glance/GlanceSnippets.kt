@@ -1134,7 +1134,9 @@ private object GlanceErrorHandlingSnippets {
 
     // [START android_compose_glance_error_layout_param]
     class UpgradeWidget : GlanceAppWidget(errorUiLayout = R.layout.error_layout) {
+        // [START_EXCLUDE]
         override suspend fun provideGlance(context: Context, id: GlanceId) {}
+        // [END_EXCLUDE]
     }
     // [END android_compose_glance_error_layout_param]
 
