@@ -25,7 +25,6 @@ import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.LocalTextStyle
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.pager.GlimmerHorizontalPager
-import androidx.xr.glimmer.pager.GlimmerHorizontalPagerDefaults
 import androidx.xr.glimmer.pager.rememberGlimmerPagerState
 
 @Composable
@@ -61,22 +60,24 @@ fun TextMotion() {
     // [END androidxr_glimmer_text_motion]
 }
 
-
 @Composable
 fun GlimmerHorizontalPageIndicatorSample() {
-    // [START androidxr_glimmer_page_indicator]
     val pagerState = rememberGlimmerPagerState(pageCount = { 10 })
+    // [START androidxr_glimmer_page_indicator]
     GlimmerHorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize(),
-        pageIndicator = { GlimmerHorizontalPagerDefaults.PageIndicator(pagerState) }
-    ) {
-        Card(modifier = Modifier.fillMaxWidth()) {
+        // Use a page numbers instead of the default dot-indicator
+        pageIndicator = {
             Text(
-                text = "Page: $it",
+                text = "${pagerState.currentPage + 1} / ${pagerState.pageCount}",
                 style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
             )
         }
-    }
+    )
     // [END androidxr_glimmer_page_indicator]
+    {
+        // Content inside the pager
+    }
 }
+
