@@ -1113,13 +1113,13 @@ private object GlanceErrorHandlingSnippets {
             // [START android_compose_glance_error_try_catch]
             provideContent {
                 var isError = false
-                var data: Any? = null
+                var data = listOf<String>()
                 try {
                     val repository = (context.applicationContext as MyApplication).myRepository
                     data = repository.loadData()
                 } catch (e: Exception) {
-                    isError = true
-                    //handleError
+                    isError = true;
+                    Log.e("ErrorHandlingTryCatchWidget", e.message.toString())
                 }
 
                 if (isError) {
@@ -1197,14 +1197,14 @@ private object GlanceErrorHandlingSnippets {
     }
 
     private class MyRepo {
-        fun loadData(): Any? = null
+        fun loadData(): List<String> = listOf("item1", "item2")
     }
 
     private class MyApplication : android.app.Application() {
         val myRepository = MyRepo()
     }
     @Composable private fun ErrorView() {}
-    @Composable private fun Content(data: Any?) {}
+    @Composable private fun Content(data: List<String>) {}
     private class UpgradeToHelloWorldPro
 }
 
