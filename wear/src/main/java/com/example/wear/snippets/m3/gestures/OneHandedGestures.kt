@@ -16,15 +16,13 @@
 
 package com.example.wear.snippets.m3.gestures
 
-/*
- * NOTE: One-Handed Gesture APIs require Wear Compose Material 3 1.7.0-SNAPSHOT (expected to go away in the first 1.7.0 beta release).
- * Published alpha releases up to 1.7.0-alpha07 used older API names (GestureAction/GesturePriority) and will not compile with these snippets.
- */
-
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,9 +31,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -265,4 +260,3 @@ fun ScrollGestureHintSnippet() {
     }
     // [END android_wear_one_handed_gesture_scroll_hint]
 }
-

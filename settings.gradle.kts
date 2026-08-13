@@ -23,7 +23,6 @@ dependencyResolutionManagement {
                 includeGroup("com.github.xgouchet")
             }
         }
-        maven { url = uri("https://androidx.dev/snapshots/latest/artifacts/repository/") }
         google()
         mavenCentral()
     }
@@ -44,7 +43,6 @@ include(
     ":camerax",
     ":watchface",
     ":wear",
-    ":wear:snapshot",
     ":wearcompanion",
     ":views",
     ":misc",
