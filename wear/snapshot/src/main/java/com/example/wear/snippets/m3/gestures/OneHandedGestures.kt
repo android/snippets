@@ -16,10 +16,6 @@
 
 package com.example.wear.snippets.m3.gestures
 
-/*
- * NOTE: One-Handed Gesture APIs require Wear Compose Material 3 1.7.0-SNAPSHOT (expected to go away in the first 1.7.0 beta release).
- * Published alpha releases up to 1.7.0-alpha07 used older API names (GestureAction/GesturePriority) and will not compile with these snippets.
- */
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize

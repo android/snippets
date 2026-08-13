@@ -35,9 +35,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.wear.tooling.preview)
 
-    // Snapshot dependencies required for OneHandedGestures; expected to go away in the first 1.7.0 beta release.
-    implementation("androidx.wear.compose:compose-material3:1.7.0-SNAPSHOT")
-    implementation("androidx.compose.foundation:foundation:1.7.0-SNAPSHOT")
+    implementation("androidx.wear.compose:compose-material3:1.7.0-beta01")
+    implementation("androidx.wear.compose:compose-foundation:1.7.0-beta01")
     implementation(libs.wear.compose.material)
     implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.compose.material.iconsExtended)
