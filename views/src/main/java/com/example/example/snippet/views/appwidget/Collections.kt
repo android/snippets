@@ -35,19 +35,15 @@ private const val EXTRA_ITEM = "com.example.android.stackwidget.EXTRA_ITEM"
 private object CollectionsServiceBoilerplate {
     // [START android_views_appwidgets_collections_service_boilerplate]
     class StackWidgetService : RemoteViewsService() {
-
-        override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
-            return StackRemoteViewsFactory(this.applicationContext, intent)
-        }
+        override fun onGetViewFactory(intent: Intent): RemoteViewsFactory =
+            StackRemoteViewsFactory(this.applicationContext, intent)
     }
 
     class StackRemoteViewsFactory(
-            private val context: Context,
-            intent: Intent
+        private val context: Context, intent: Intent
     ) : RemoteViewsService.RemoteViewsFactory {
 
-    // See the RemoteViewsFactory API reference for the full list of methods to
-    // implement.
+        // See the RemoteViewsFactory API reference for the full list of methods to implement.
         // [START_EXCLUDE silent]
         override fun onCreate() {}
         override fun onDataSetChanged() {}
@@ -74,31 +70,22 @@ private object CollectionsOnUpdate {
     class StackWidgetProvider : AppWidgetProvider() {
         // [START android_views_appwidgets_collections_onupdate]
         override fun onUpdate(
-                context: Context,
-                appWidgetManager: AppWidgetManager,
-                appWidgetIds: IntArray
+            context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
         ) {
-            // Update each of the widgets with the remote adapter.
             appWidgetIds.forEach { appWidgetId ->
-
-                // Set up the intent that starts the StackViewService, which
-                // provides the views for this collection.
-                val intent = Intent(context, StackWidgetService::class.java).apply {
-                    // Add the widget ID to the intent extras.
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-                }
-                // Instantiate the RemoteViews object for the widget layout.
                 val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                    // Set up the RemoteViews object to use a RemoteViews adapter.
-                    // This adapter connects to a RemoteViewsService through the
-                    // specified intent.
-                    // This is how you populate the data.
-                    setRemoteAdapter(R.id.stack_view, intent)
+                    // In Android 12 (API level 31) and higher, use RemoteCollectionItems
+                    // to pass the collection directly. This is the preferred way for
+                    // small to medium-sized collections.
+                    val itemsBuilder = RemoteViews.RemoteCollectionItems.Builder()
+                    for (index in 0 until 10) {
+                        val itemViews = RemoteViews(context.packageName, R.layout.widget_item)
+                        itemViews.setTextViewText(R.id.widget_item, "$index!")
+                        itemsBuilder.addItem(index.toLong(), itemViews)
+                    }
+                    setRemoteAdapter(R.id.stack_view, itemsBuilder.build())
 
-                    // The empty view is displayed when the collection has no items.
-                    // It must be in the same layout used to instantiate the
-                    // RemoteViews object.
+                    // When the collection has no items.
                     setEmptyView(R.id.stack_view, R.id.empty_view)
                 }
 
@@ -117,7 +104,7 @@ private object CollectionsFactoryOnCreate {
     private const val REMOTE_VIEW_COUNT: Int = 10
 
     class StackRemoteViewsFactory(
-            private val context: Context
+        private val context: Context
     ) : RemoteViewsService.RemoteViewsFactory {
 
         private lateinit var widgetItems: List<WidgetItem>
@@ -128,14 +115,8 @@ private object CollectionsFactoryOnCreate {
             // must be deferred to onDataSetChanged() or getViewAt(). Taking
             // more than 20 seconds on this call results in an ANR.
             widgetItems = List(REMOTE_VIEW_COUNT) { index -> WidgetItem("$index!") }
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            ...
-            // [START_EXCLUDE silent]
-            */
-            // [END_EXCLUDE]
         }
+
         // [START_EXCLUDE silent]
         override fun onDataSetChanged() {}
         override fun onDestroy() {}
@@ -145,11 +126,6 @@ private object CollectionsFactoryOnCreate {
         override fun getViewTypeCount(): Int = 1
         override fun getItemId(position: Int): Long = position.toLong()
         override fun hasStableIds(): Boolean = true
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
         // [END_EXCLUDE]
     }
     // [END android_views_appwidgets_collections_factory_oncreate]
@@ -157,7 +133,7 @@ private object CollectionsFactoryOnCreate {
 
 private object CollectionsFactoryGetViewAt {
     class StackRemoteViewsFactory(
-            private val context: Context
+        private val context: Context
     ) : RemoteViewsService.RemoteViewsFactory {
         private lateinit var widgetItems: List<WidgetItem>
 
@@ -210,8 +186,8 @@ private object CollectionsProviderPendingIntent {
             val mgr: AppWidgetManager = AppWidgetManager.getInstance(context)
             if (intent.action == TOAST_ACTION) {
                 val appWidgetId: Int = intent.getIntExtra(
-                        AppWidgetManager.EXTRA_APPWIDGET_ID,
-                        AppWidgetManager.INVALID_APPWIDGET_ID
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID
                 )
                 // EXTRA_ITEM represents a custom value provided by the Intent
                 // passed to the setOnClickFillInIntent() method to indicate the
@@ -224,23 +200,22 @@ private object CollectionsProviderPendingIntent {
         }
 
         override fun onUpdate(
-                context: Context,
-                appWidgetManager: AppWidgetManager,
-                appWidgetIds: IntArray
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetIds: IntArray
         ) {
             // Update each of the widgets with the remote adapter.
             appWidgetIds.forEach { appWidgetId ->
-
-                // Sets up the intent that points to the StackViewService that
-                // provides the views for this collection.
-                val intent = Intent(context, StackWidgetService::class.java).apply {
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                    // When intents are compared, the extras are ignored, so embed
-                    // the extra sinto the data so that the extras are not ignored.
-                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-                }
                 val rv = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                    setRemoteAdapter(R.id.stack_view, intent)
+                    // In Android 12 (API level 31) and higher, use RemoteCollectionItems
+                    // to pass the collection directly.
+                    val itemsBuilder = RemoteViews.RemoteCollectionItems.Builder()
+                    for (index in 0 until 10) {
+                        val itemViews = RemoteViews(context.packageName, R.layout.widget_item)
+                        itemViews.setTextViewText(R.id.widget_item, "$index!")
+                        itemsBuilder.addItem(index.toLong(), itemViews)
+                    }
+                    setRemoteAdapter(R.id.stack_view, itemsBuilder.build())
 
                     // The empty view is displayed when the collection has no items.
                     // It must be a sibling of the collection view.
@@ -254,8 +229,8 @@ private object CollectionsProviderPendingIntent {
                 // intent template, and the individual items set a fillInIntent
                 // to create unique behavior on an item-by-item basis.
                 val toastPendingIntent: PendingIntent = Intent(
-                        context,
-                        StackWidgetProvider::class.java
+                    context,
+                    StackWidgetProvider::class.java
                 ).run {
                     // Set the action for the intent.
                     // When the user touches a particular view, it has the effect of
@@ -281,14 +256,14 @@ private object CollectionsFactoryFillInIntent {
     private const val REMOTE_VIEW_COUNT: Int = 10
 
     class StackRemoteViewsFactory(
-            private val context: Context,
-            intent: Intent
+        private val context: Context,
+        intent: Intent
     ) : RemoteViewsService.RemoteViewsFactory {
 
         private lateinit var widgetItems: List<WidgetItem>
         private val appWidgetId: Int = intent.getIntExtra(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
         )
 
         override fun onCreate() {
@@ -305,6 +280,7 @@ private object CollectionsFactoryFillInIntent {
             */
             // [END_EXCLUDE]
         }
+
         // [START_EXCLUDE silent]
         override fun onDataSetChanged() {}
         override fun onDestroy() {}
@@ -366,8 +342,22 @@ private fun remoteCollectionItemsSnippet(
 
     // [START android_views_appwidgets_collections_remote_collection_items]
     val itemLayouts = listOf(
-            R.layout.item_type_1,
-            R.layout.item_type_2,
+        R.layout.item_type_1,
+        R.layout.item_type_2,
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        ...
+        // [START_EXCLUDE silent]
+        */
+        // [END_EXCLUDE]
+    )
+
+    remoteView.setRemoteAdapter(
+        R.id.list_view,
+        RemoteViews.RemoteCollectionItems.Builder()
+            .addItem(/* id= */ ID_1, RemoteViews(context.packageName, R.layout.item_type_1))
+            .addItem(/* id= */ ID_2, RemoteViews(context.packageName, R.layout.item_type_2))
             // [START_EXCLUDE silent]
             /*
             // [END_EXCLUDE]
@@ -375,22 +365,8 @@ private fun remoteCollectionItemsSnippet(
             // [START_EXCLUDE silent]
             */
             // [END_EXCLUDE]
-    )
-
-    remoteView.setRemoteAdapter(
-            R.id.list_view,
-            RemoteViews.RemoteCollectionItems.Builder()
-                .addItem(/* id= */ ID_1, RemoteViews(context.packageName, R.layout.item_type_1))
-                .addItem(/* id= */ ID_2, RemoteViews(context.packageName, R.layout.item_type_2))
-                // [START_EXCLUDE silent]
-                /*
-                // [END_EXCLUDE]
-                ...
-                // [START_EXCLUDE silent]
-                */
-                // [END_EXCLUDE]
-                .setViewTypeCount(itemLayouts.count())
-                .build()
+            .setViewTypeCount(itemLayouts.count())
+            .build()
     )
     // [END android_views_appwidgets_collections_remote_collection_items]
 }
