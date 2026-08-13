@@ -128,6 +128,8 @@ dependencies {
     implementation(libs.accompanist.permissions)
 
     implementation(libs.coil.kt.compose)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

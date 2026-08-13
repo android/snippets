@@ -41,7 +41,10 @@ androidx-work-runtime = "2.11.2"
 androidxHiltNavigationCompose = "1.4.0"
 appcompat = "1.7.1"
 camera-camera2 = "1.6.1"
+# Coil 2
 coil = "2.7.0"
+# Coil 3
+coil3 = "3.5.0"
 # @keep
 compileSdk = "37"
 compose-latest = "1.12.0"
@@ -284,6 +287,8 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-camera2" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil3-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
 crossdeviceprompt = { module = "com.google.android.play:crossdeviceprompt", version.ref = "crossdeviceprompt" }
