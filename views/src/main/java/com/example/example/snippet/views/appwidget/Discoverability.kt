@@ -30,7 +30,7 @@ private fun discoverabilitySnippet(context: Context) {
     val appWidgetManager = AppWidgetManager.getInstance(context)
     val myProvider = ComponentName(context, ExampleAppWidgetProvider::class.java)
 
-    if (appWidgetManager.isRequestPinAppWidgetSupported()) {
+    if (appWidgetManager.isRequestPinAppWidgetSupported) {
         // Create the PendingIntent object only if your app needs to be notified
         // when the user chooses to pin the widget. Note that if the pinning
         // operation fails, your app isn't notified. This callback receives the ID
