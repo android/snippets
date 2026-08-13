@@ -8,9 +8,9 @@ androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha10"
 androidx-cameraX = "1.6.1"
 androidx-car = "1.7.0"
-androidx-compose-bom = "2026.06.01"
+androidx-compose-bom = "2026.08.00"
 androidx-compose-ui-test = "1.7.0-alpha08"
-androidx-compose-ui-test-junit4-accessibility = "1.11.4"
+androidx-compose-ui-test-junit4-accessibility = "1.12.0"
 androidx-concurrent = "1.3.0"
 androidx-constraintlayout = "2.2.2"
 androidx-constraintlayout-compose = "1.1.2"
@@ -44,8 +44,8 @@ camera-camera2 = "1.6.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "37"
-compose-latest = "1.11.4"
-compose-remote = "1.0.0-alpha16"
+compose-latest = "1.12.0"
+compose-remote = "1.0.0-alpha17"
 composeUiTooling = "1.6.2"
 coreSplashscreen = "1.2.0"
 coroutines = "1.11.0"
@@ -58,6 +58,7 @@ engageCore = "1.6.0"
 firebase-ai = "17.15.0"
 firebase-bom = "34.17.0"
 firebase-ondevice = "16.0.0-beta03"
+genaiSchemaCompiler = "1.0.0-alpha1"
 glance-wear = "1.0.0-alpha12"
 glide = "1.0.0-beta10"
 google-ar-core = "1.54.0"
@@ -78,15 +79,16 @@ ktlint = "1.5.0"
 lifecycleService = "2.11.0"
 maps-compose = "8.4.0"
 material = "1.14.0"
-material3-adaptive = "1.2.0"
+material3-adaptive = "1.3.0"
 material3-adaptive-navigation-suite = "1.4.0"
-material3-adaptive-navigation3 = "1.3.0-rc01"
+material3-adaptive-navigation3 = "1.3.0"
 media3 = "1.10.1"
 media3Session = "1.10.1"
 media3Ui = "1.10.1"
 # @keep
 minSdk = "36"
 mlkit-face-detection = "16.1.7"
+mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
@@ -98,7 +100,7 @@ protolayout = "1.4.2"
 reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 registryDigitalCredentials = "1.0.0-alpha05"
-remote-material3 = "1.0.0-alpha08"
+remote-material3 = "1.0.0-alpha09"
 robolectric = "4.16.1"
 roborazzi = "1.70.0"
 room = "2.8.4"
@@ -289,6 +291,7 @@ engage-core = { module = "com.google.android.engage:engage-core", version.ref = 
 firebase-ai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ondevice = { module = "com.google.firebase:firebase-ai-ondevice", version.ref = "firebase-ondevice" }
+genai-schema-compiler = { module = "com.google.mlkit:genai-schema-compiler", version.ref = "genaiSchemaCompiler" }
 glance-appwidget-preview = { module = "androidx.glance:glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 glance-preview = { module = "androidx.glance:glance-preview", version.ref = "androidx-glance-appwidget" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
@@ -316,6 +319,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "mlkit-genai-prompt" }
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
