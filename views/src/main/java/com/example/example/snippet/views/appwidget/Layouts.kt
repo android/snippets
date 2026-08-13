@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+@file:Suppress("unused")
 package com.example.example.snippet.views.appwidget
 
 import android.appwidget.AppWidgetManager
@@ -22,6 +22,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.SizeF
 import android.widget.RemoteViews
+import androidx.core.os.BundleCompat
 import com.example.example.snippet.views.R
 
 private object LayoutsResponsive {
@@ -92,9 +93,13 @@ private object LayoutsExact {
         ) {
             super.onAppWidgetOptionsChanged(context, appWidgetManager, id, newOptions)
             // Get the new sizes.
-            val sizes = newOptions?.getParcelableArrayList<SizeF>(
-                AppWidgetManager.OPTION_APPWIDGET_SIZES
-            )
+            val sizes = newOptions?.let {
+                BundleCompat.getParcelableArrayList(
+                    /* in = */ it,
+                    /* key = */ AppWidgetManager.OPTION_APPWIDGET_SIZES,
+                    /* clazz = */ SizeF::class.java
+                )
+            }
             // Check that the list of sizes is provided by the launcher.
             if (sizes.isNullOrEmpty()) {
                 return
