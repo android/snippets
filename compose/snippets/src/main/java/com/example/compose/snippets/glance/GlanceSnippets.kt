@@ -17,15 +17,18 @@
 package com.example.compose.snippets.glance
 
 import android.annotation.SuppressLint
-import androidx.annotation.RequiresApi
 import android.app.Activity
+import android.app.Application
+import android.app.PendingIntent
 import android.app.Service
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.ColorScheme
@@ -41,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.glance.Button
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
@@ -86,13 +90,15 @@ import androidx.glance.layout.Row
 import androidx.glance.layout.RowScope
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.padding
-import androidx.glance.layout.width
 import androidx.glance.layout.height
+import androidx.glance.layout.padding
 import androidx.glance.material3.ColorProviders
 import androidx.glance.preview.ExperimentalGlancePreviewApi
 import androidx.glance.preview.Preview
+import androidx.glance.text.FontFamily
+import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextStyle
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.compose.snippets.MyActivity
@@ -114,7 +120,7 @@ private object GlanceCreateAppWidgetSnippet01 {
 private object GlanceCreateAppWidgetSnippet02 {
     // [START android_compose_glance_receiver02]
     class MyAppWidgetReceiver : GlanceAppWidgetReceiver() {
-        
+
         // Let MyAppWidgetReceiver know which GlanceAppWidget to use
         override val glanceAppWidget: GlanceAppWidget = MyAppWidget()
     }
@@ -518,7 +524,9 @@ object BuildUIWithGlance {
 
         LazyColumn {
             // [START android_compose_glance_buildUI06]
-            items(items = peopleList, itemId = { person -> person.id.hashCode().toLong() }) { person ->
+            items(
+                items = peopleList,
+                itemId = { person -> person.id.hashCode().toLong() }) { person ->
                 Text(person.name)
             }
             // [END android_compose_glance_buildUI06]
@@ -684,6 +692,7 @@ object CompoundButton {
         )
         // [END android_compose_glance_buildUI12]
     }
+
     // [START android_compose_glance_buildUI13]
     class MyAppWidget : GlanceAppWidget() {
 
@@ -749,7 +758,7 @@ object CompoundButton {
                 uncheckedColor = ColorProvider(day = Color.Red, night = Color.Blue)
             ),
 
-        )
+            )
         // [END android_compose_glance_buildUI14]
     }
 
@@ -791,7 +800,7 @@ object GlanceTheming {
         // [START android_compose_glance_glancetheming06]
         // Remember, use the Glance imports
         // import androidx.glance.material3.ColorProviders
-        
+
         // Example Imports from your own app
         // import com.example.myapp.ui.theme.DarkColors
         // import com.example.myapp.ui.theme.LightColors
@@ -803,6 +812,7 @@ object GlanceTheming {
                 dark = DarkColors
             )
         }
+
         // [END android_compose_glance_glancetheming06]
         // [START android_compose_glance_glancetheming02]
         override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -1082,3 +1092,113 @@ class SyncService : Service() {
 fun SnapScrollLayoutPreview() {
     SnapScrollingSnippet.SnapScrollLayout()
 }
+
+private object GlanceHandleTextSnippet {
+    @Composable
+    fun TextExample() {
+        // [START android_compose_glance_handle_text]
+        Text(
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = FontFamily.Monospace
+            ),
+            text = "Example Text"
+        )
+        // [END android_compose_glance_handle_text]
+    }
+}
+
+private object GlanceErrorHandlingSnippets {
+
+    class ErrorHandlingTryCatchWidget : GlanceAppWidget() {
+        override suspend fun provideGlance(context: Context, id: GlanceId) {
+            // [START android_compose_glance_error_try_catch]
+            provideContent {
+                var isError = false
+                var data = listOf<String>()
+                try {
+                    val repository = (context.applicationContext as MyApplication).myRepository
+                    data = repository.loadData()
+                } catch (e: Exception) {
+                    isError = true
+                    // TODO: handle error
+                }
+
+                if (isError) {
+                    ErrorView()
+                } else {
+                    Content(data)
+                }
+            }
+            // [END android_compose_glance_error_try_catch]
+        }
+    }
+
+    // [START android_compose_glance_error_layout_param]
+    class UpgradeWidget : GlanceAppWidget(errorUiLayout = R.layout.error_layout) {
+        // [START_EXCLUDE]
+        override suspend fun provideGlance(context: Context, id: GlanceId) {}
+        // [END_EXCLUDE]
+    }
+    // [END android_compose_glance_error_layout_param]
+
+    class CustomErrorHandlingWidget : GlanceAppWidget() {
+        override suspend fun provideGlance(context: Context, id: GlanceId) {}
+
+        // [START android_compose_glance_on_composition_error_override]
+        override fun onCompositionError(
+            context: Context, glanceId: GlanceId, appWidgetId: Int, throwable: Throwable
+        ) {
+            val rv = RemoteViews(context.packageName, R.layout.error_layout)
+            rv.setTextViewText(
+                R.id.error_text_view,
+                "Error was thrown. \nThis is a custom view \nError Message: `${throwable.message}`"
+            )
+            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context, throwable))
+            AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, rv)
+        }
+        // [END android_compose_glance_on_composition_error_override]
+
+        // [START android_compose_glance_error_get_intent]
+        private fun getErrorIntent(context: Context, throwable: Throwable): PendingIntent {
+            val intent = Intent(context, UpgradeToHelloWorldPro::class.java)
+            intent.action = "widgetError"
+            // [START_EXCLUDE]
+            intent.putExtra("error_message", throwable.message)
+            // [END_EXCLUDE]
+            return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+        // [END android_compose_glance_error_get_intent]
+    }
+
+    class ErrorHandlingWidgetReceiver : GlanceAppWidgetReceiver() {
+        override val glanceAppWidget: GlanceAppWidget = CustomErrorHandlingWidget()
+
+        // [START android_compose_glance_error_on_receive]
+        override fun onReceive(context: Context, intent: Intent) {
+            super.onReceive(context, intent)
+            Log.e("ErrorOnClick", "Button was clicked.")
+        }
+        // [END android_compose_glance_error_on_receive]
+    }
+
+    private class MyRepo {
+        fun loadData(): List<String> = listOf("item1", "item2")
+    }
+
+    private class MyApplication : Application() {
+        val myRepository = MyRepo()
+    }
+
+    @Composable
+    private fun ErrorView() {
+    }
+
+    @Composable
+    private fun Content(data: List<String>) {
+    }
+
+    private class UpgradeToHelloWorldPro
+}
+

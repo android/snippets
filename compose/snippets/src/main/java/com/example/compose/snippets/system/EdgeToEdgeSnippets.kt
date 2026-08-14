@@ -17,6 +17,10 @@
 package com.example.compose.snippets.system
 
 import android.app.Activity
+import android.os.Bundle
+import android.view.Window
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,10 +49,11 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.compose.snippets.touchinput.Button
 
 @Composable
-fun ScaffoldPaddingValues(){
+fun ScaffoldPaddingValues() {
     // [START android_compose_e2e_scaffold_padding_values]
     Scaffold { innerPadding ->
         // innerPadding accounts for system bars and any Scaffold components
@@ -63,7 +68,7 @@ fun ScaffoldPaddingValues(){
 }
 
 @Composable
-fun ComposableWithoutScaffold(){
+fun ComposableWithoutScaffold() {
     // [START android_compose_e2e_outside_scaffold]
     Box(
         modifier = Modifier
@@ -81,7 +86,7 @@ fun ComposableWithoutScaffold(){
 }
 
 @Composable
-fun ImeWithScaffoldsExamples(){
+fun ImeWithScaffoldsExamples() {
     // [START android_compose_e2e_ime_right_1]
     // RIGHT
     Scaffold(contentWindowInsets = WindowInsets.safeDrawing) { innerPadding ->
@@ -122,7 +127,7 @@ fun ImeWithScaffoldsExamples(){
 
     // [START android_compose_e2e_ime_wrong_1]
     // WRONG
-    Scaffold( contentWindowInsets = WindowInsets.safeDrawing ) { innerPadding ->
+    Scaffold(contentWindowInsets = WindowInsets.safeDrawing) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -145,7 +150,7 @@ fun ImeWithScaffoldsExamples(){
 }
 
 @Composable
-fun ImeWithoutScaffoldsExamples(){
+fun ImeWithoutScaffoldsExamples() {
 
     // [START android_compose_e2e_ime_no_scaffold_right_1]
     // RIGHT
@@ -223,7 +228,7 @@ fun MyTheme(
 // [END android_compose_e2e_system_bar_contrast]
 
 @Composable
-fun DialogExample(){
+fun DialogExample() {
     // [START android_compose_e2e_dialog]
     Dialog(
         onDismissRequest = { /* Handle dismiss */ },
@@ -236,3 +241,45 @@ fun DialogExample(){
     ) { /* Content */ }
     // [END android_compose_e2e_dialog]
 }
+
+private class SetupE2ESnippetsActivity : ComponentActivity() {
+
+    // [START android_compose_e2e_enable]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        // ...
+    }
+    // [END android_compose_e2e_enable]
+
+    private fun immersiveModeExample(window: Window) {
+        // [START android_compose_e2e_immersive_mode]
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+
+        // Hide the system bars.
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+
+        // Show the system bars.
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+        // [END android_compose_e2e_immersive_mode]
+    }
+
+    private fun statusBarIconsExample(window: Window) {
+        // [START android_compose_e2e_status_bar_icons]
+        // Set status bar icons to dark
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = true
+
+        // Set status bar icons to light
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = false
+        // [END android_compose_e2e_status_bar_icons]
+    }
+
+    private fun navigationBarContrastExample(window: Window) {
+        // [START android_compose_e2e_navigation_bar_contrast]
+        window.isNavigationBarContrastEnforced = false
+        // [END android_compose_e2e_navigation_bar_contrast]
+    }
+}
+
