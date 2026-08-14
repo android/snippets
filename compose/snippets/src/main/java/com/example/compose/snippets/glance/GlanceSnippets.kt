@@ -18,6 +18,7 @@ package com.example.compose.snippets.glance
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -1183,7 +1184,7 @@ private object GlanceErrorHandlingSnippets {
         fun loadData(): List<String> = listOf("item1", "item2")
     }
 
-    private class MyApplication : android.app.Application() {
+    private class MyApplication : Application() {
         val myRepository = MyRepo()
     }
 
