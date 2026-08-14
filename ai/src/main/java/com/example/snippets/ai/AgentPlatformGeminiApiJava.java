@@ -28,17 +28,17 @@ import com.google.firebase.ai.type.GenerativeBackend;
 
 import java.util.concurrent.Executor;
 
-public class VertexAiGeminiApiJava {
+public class AgentPlatformGeminiApiJava {
 
-    // [START android_snippets_vertex_ai_gemini_api_model_java]
-    GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.vertexAI())
-            .generativeModel("gemini-2.5-flash");
+    // [START android_snippets_agent_platform_gemini_api_model_java]
+    GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.agentPlatform())
+            .generativeModel("gemini-3.5-flash");
 
     GenerativeModelFutures model = GenerativeModelFutures.from(firebaseAI);
-    // [END android_snippets_vertex_ai_gemini_api_model_java]
+    // [END android_snippets_agent_platform_gemini_api_model_java]
 
     void generateText(Executor executor) {
-        // [START android_snippets_vertex_ai_generate_content_java]
+        // [START android_snippets_agent_platform_generate_content_java]
         Content prompt = new Content.Builder()
                 .addText("Write a story about a magic backpack.")
                 .build();
@@ -56,6 +56,6 @@ public class VertexAiGeminiApiJava {
                 t.printStackTrace();
             }
         }, executor);
-        // [END android_snippets_vertex_ai_generate_content_java]
+        // [END android_snippets_agent_platform_generate_content_java]
     }
 }

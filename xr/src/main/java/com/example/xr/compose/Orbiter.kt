@@ -37,7 +37,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.xr.compose.spatial.Orbiter
-import androidx.xr.compose.spatial.OrbiterAnchorPoint
+import androidx.xr.compose.spatial.OrbiterAlignment
+import androidx.xr.compose.spatial.OrbiterEdgeOffsetType
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.SpatialRow
@@ -72,8 +73,10 @@ private fun OrbiterExampleSubspace() {
 @Composable
 fun OrbiterExample() {
     Orbiter(
-        anchorPoint = OrbiterAnchorPoint.Bottom,
-        offset = DpVolumeOffset(y = 96.dp),
+        alignment = OrbiterAlignment.BottomCenter(
+            edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+            offset = DpVolumeOffset(y = 96.dp)
+        ),
     ) {
         Surface(Modifier.clip(CircleShape)) {
             Row(
@@ -101,8 +104,10 @@ fun OrbiterAnchoringExample() {
     Subspace {
         SpatialRow {
             Orbiter(
-                anchorPoint = OrbiterAnchorPoint.Top,
-                offset = DpVolumeOffset(y = 8.dp),
+                alignment = OrbiterAlignment.TopCenter(
+                    edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+                    offset = DpVolumeOffset(y = 8.dp)
+                ),
                 shape = SpatialRoundedCornerShape(size = CornerSize(50))
             ) {
                 Text(
@@ -149,8 +154,10 @@ private fun Ui2DToOribiter() {
 
     // New XR differentiated approach
     Orbiter(
-        anchorPoint = OrbiterAnchorPoint.StartTop,
-        offset = DpVolumeOffset(x = dimensionResource(R.dimen.start_orbiter_padding)),
+        alignment = OrbiterAlignment.TopStart(
+            edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+            offset = DpVolumeOffset(x = dimensionResource(R.dimen.start_orbiter_padding))
+        )
     ) {
         NavigationRail()
     }

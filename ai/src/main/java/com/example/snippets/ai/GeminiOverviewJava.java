@@ -31,9 +31,9 @@ class GeminiOverviewJava {
 
     void generateContent(Executor executor) {
         // [START android_gemini_ai_models_overview_java]
-        // For Vertex AI, use `backend = GenerativeBackend.vertexAI()`
+        // For the Agent Platform Gemini API, use `backend = GenerativeBackend.agentPlatform()`
         GenerativeModel firebaseAI = FirebaseAI.getInstance(GenerativeBackend.googleAI())
-                .generativeModel("gemini-2.5-flash");
+                .generativeModel("gemini-3.5-flash");
 
         // Use the GenerativeModelFutures Java compatibility layer which offers
         // support for ListenableFuture and Publisher APIs
