@@ -1155,15 +1155,18 @@ private object GlanceErrorHandlingSnippets {
                 R.id.error_text_view,
                 "Error was thrown. \nThis is a custom view \nError Message: `${throwable.message}`"
             )
-            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context))
+            rv.setOnClickPendingIntent(R.id.error_icon, getErrorIntent(context, throwable))
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, rv)
         }
         // [END android_compose_glance_on_composition_error_override]
 
         // [START android_compose_glance_error_get_intent]
-        private fun getErrorIntent(context: Context): PendingIntent {
+        private fun getErrorIntent(context: Context, throwable: Throwable): PendingIntent {
             val intent = Intent(context, UpgradeToHelloWorldPro::class.java)
             intent.action = "widgetError"
+            // [START_EXCLUDE]
+            intent.putExtra("error_message", throwable.message)
+            // [END_EXCLUDE]
             return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
         // [END android_compose_glance_error_get_intent]
