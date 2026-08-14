@@ -135,10 +135,16 @@ dependencies {
 }
 
 fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(): Provider<MinimalExternalModuleDependency> =
-    this.map {
-        it.copy().apply {
-            version {
-                strictly("1.0.0-SNAPSHOT")
+    this.map { dependency ->
+        // Don't update the Projected dependency until the emulator supports the latest APIs
+        // b/544045508
+        if (dependency.module.group == "androidx.xr.projected") {
+            dependency
+        } else {
+            dependency.copy().apply {
+                version {
+                    strictly("1.0.0-SNAPSHOT")
+                }
             }
         }
     }
