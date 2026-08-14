@@ -1120,8 +1120,8 @@ private object GlanceErrorHandlingSnippets {
                     val repository = (context.applicationContext as MyApplication).myRepository
                     data = repository.loadData()
                 } catch (e: Exception) {
-                    isError = true;
-                    Log.e("ErrorHandlingTryCatchWidget", e.message.toString())
+                    isError = true
+                    // TODO: handle error
                 }
 
                 if (isError) {
