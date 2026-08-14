@@ -17,6 +17,10 @@
 package com.example.compose.snippets.system
 
 import android.app.Activity
+import android.os.Bundle
+import android.view.Window
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,13 +48,8 @@ import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import android.os.Bundle
-import android.view.Window
-import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.DialogFragment
 import com.example.compose.snippets.touchinput.Button
 
 @Composable
