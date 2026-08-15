@@ -49,6 +49,7 @@ include(
     ":security",
     ":identity:credentialmanager",
     ":xr",
+    ":media",
     ":watchfacepush:validator",
     ":kmp:androidApp",
     ":kmp:shared",
