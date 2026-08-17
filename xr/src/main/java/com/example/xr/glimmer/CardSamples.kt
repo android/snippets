@@ -18,6 +18,7 @@ package com.example.xr.glimmer
 
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
@@ -30,12 +31,34 @@ import androidx.xr.glimmer.Icon
 import androidx.xr.glimmer.Text
 
 private val FavoriteIcon = Icons.Default.Favorite
+private val BookmarkIcon = Icons.Default.Bookmark
 
 @Composable
 fun CardSample() {
     // [START androidxr_glimmer_card]
     Card { Text("This is a card") }
     // [END androidxr_glimmer_card]
+}
+
+@Composable
+fun CardWithTitleSubtitleAndIconsSample(myHeaderImage: Painter) {
+    // [START androidxr_glimmer_complete_card]
+    Card(
+        title = { Text("Card Title", style = GlimmerTheme.typography.titleMedium) },
+        subtitle = { Text("Sub-heading text", style = GlimmerTheme.typography.titleSmall) },
+        leadingIcon = { Icon(FavoriteIcon, contentDescription = "Favorite") },
+        trailingIcon = { Icon(BookmarkIcon, contentDescription = "Bookmark") },
+        header = {
+            Image(
+                painter = myHeaderImage,
+                contentDescription = "Header image",
+                contentScale = ContentScale.FillWidth
+            )
+        },
+    ) {
+        Text("This is a complete card")
+    }
+    // [END androidxr_glimmer_complete_card]
 }
 
 @Composable
