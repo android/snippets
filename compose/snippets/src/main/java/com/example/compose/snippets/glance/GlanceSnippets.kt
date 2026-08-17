@@ -713,7 +713,7 @@ object CompoundButton {
     // [END android_compose_glance_buildUI13]
 
     @Composable
-    fun example3() {
+    fun Example3() {
         val colorAccentDay = Color.Blue
         val colorAccentNight = Color.Blue
         var isChecked by remember { mutableStateOf(false) }
