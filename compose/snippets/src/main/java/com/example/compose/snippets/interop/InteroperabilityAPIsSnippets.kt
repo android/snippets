@@ -33,6 +33,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -283,18 +285,17 @@ class MyFragment : Fragment()
 
 // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 @Composable
-fun FragmentInComposeMaxLifecycleExample(
-    tabId: Int,
-    selectedTabId: Int
-) {
-    AndroidFragment<MyFragment>(
-        // Dynamically cap the lifecycle state based on whether the tab is selected
-        maxLifecycle = if (tabId == selectedTabId) {
-            Lifecycle.State.RESUMED
-        } else {
-            Lifecycle.State.STARTED
-        }
-    )
+fun FragmentInPagerExample(pagerState: PagerState) {
+    HorizontalPager(state = pagerState) { page ->
+        AndroidFragment<MyFragment>(
+            // Dynamically cap the lifecycle state based on whether the page is selected
+            maxLifecycle = if (pagerState.currentPage == page) {
+                Lifecycle.State.RESUMED
+            } else {
+                Lifecycle.State.STARTED
+            }
+        )
+    }
 }
 // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 
