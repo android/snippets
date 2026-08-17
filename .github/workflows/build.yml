@@ -41,5 +41,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v6
     - name: Build All
       run: ./gradlew build --stacktrace
+    - name: Run Compose Screenshot Tests
+      run: ./gradlew :compose:snippets:validateDebugScreenshotTest --stacktrace
     - name: Build Watch Face Push validation snippets
       run: ./gradlew :watchfacepush:validator:run --stacktrace
