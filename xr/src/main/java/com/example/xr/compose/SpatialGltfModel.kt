@@ -16,16 +16,14 @@
 
 package com.example.xr.compose
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.xr.compose.platform.LocalSession
-import androidx.xr.compose.subspace.ExperimentalSpatialGltfAnimationApi
+import androidx.xr.compose.subspace.ExperimentalSpatialGltfModelApi
 import androidx.xr.compose.subspace.SpatialGltfModel
 import androidx.xr.compose.subspace.SpatialGltfModelSource
 import androidx.xr.compose.subspace.layout.SubspaceModifier
@@ -39,7 +37,7 @@ import androidx.xr.scenecore.Texture
 import java.nio.file.Paths
 import kotlin.io.path.Path
 
-@OptIn(ExperimentalSpatialGltfAnimationApi::class)
+@OptIn(ExperimentalSpatialGltfModelApi::class)
 @Composable
 fun SpatialGltfModelExample(){
     val xrSession = checkNotNull(LocalSession.current)
@@ -132,23 +130,6 @@ fun SpatialGltfModelExample(){
         )
     }
     // [END androidxr_compose_SpatialGltfModelTexture]
-
-    // [START androidxr_compose_SpatialGltfModelAnimation]
-    val animation = modelState.getAnimations().find { it.name == "Walk" }
-
-    animation?.animationState?.let { state ->
-        LaunchedEffect(state) {
-            Log.i("SpatialGltfModelAnimationSample", "Animation State: $state")
-        }
-    }
-
-    DisposableEffect(animation) {
-        animation?.loop()
-        onDispose {
-            animation?.stop()
-        }
-    }
-    // [END androidxr_compose_SpatialGltfModelAnimation]
 
     // [START androidxr_compose_SpatialGltfModelLoad]
     SpatialGltfModel(state = modelState, modifier = SubspaceModifier)
