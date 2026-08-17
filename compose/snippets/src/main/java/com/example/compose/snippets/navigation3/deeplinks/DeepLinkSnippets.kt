@@ -110,6 +110,12 @@ class DeepLinkSnippets {
         // [END android_compose_navigation3_deeplinks_request]
     }
 
+    fun requestFromIntent(intent: Intent) {
+        // [START android_compose_navigation3_deeplinks_request_intent]
+        val request = DeepLinkRequest(intent = intent)
+        // [END android_compose_navigation3_deeplinks_request_intent]
+    }
+
     fun requestExtrasDsl() {
         // [START android_compose_navigation3_deeplinks_extras_dsl]
         val extras: Map<String, Any> = requestExtras {
@@ -138,6 +144,12 @@ class DeepLinkSnippets {
     val viewMatcher = UriDeepLinkMatcher(imageUriPattern, serializer<Gallery>(), filters = listOf(viewFilter))
     val editMatcher = UriDeepLinkMatcher(imageUriPattern, serializer<Editor>(), filters = listOf(editFilter))
     // [END android_compose_navigation3_deeplinks_filter]
+
+    fun filterLambda() {
+        // [START android_compose_navigation3_deeplinks_filter_lambda]
+        val myFilter = DeepLinkMatcher.Filter { request -> request.uri != null }
+        // [END android_compose_navigation3_deeplinks_filter_lambda]
+    }
 
     fun staticMatcher() {
         // [START android_compose_navigation3_deeplinks_static_matcher]
