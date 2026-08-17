@@ -273,15 +273,22 @@ fun AndroidViewBindingExample() {
 // [START android_compose_interop_apis_fragments_in_compose]
 @Composable
 fun FragmentInComposeExample() {
-    AndroidFragment<MyFragment>(
-        maxLifecycle = Lifecycle.State.STARTED
-    )
+    AndroidFragment<MyFragment>()
 }
 
 // [START_EXCLUDE silent]
 class MyFragment : Fragment()
 // [END_EXCLUDE]
 // [END android_compose_interop_apis_fragments_in_compose]
+
+// [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
+@Composable
+fun FragmentInComposeMaxLifecycleExample() {
+    AndroidFragment<MyFragment>(
+        maxLifecycle = Lifecycle.State.STARTED
+    )
+}
+// [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 
 // [START android_compose_interop_apis_composition_locals]
 @Composable
