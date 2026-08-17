@@ -283,9 +283,17 @@ class MyFragment : Fragment()
 
 // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 @Composable
-fun FragmentInComposeMaxLifecycleExample() {
+fun FragmentInComposeMaxLifecycleExample(
+    tabId: Int,
+    selectedTabId: Int
+) {
     AndroidFragment<MyFragment>(
-        maxLifecycle = Lifecycle.State.STARTED
+        // Dynamically cap the lifecycle state based on whether the tab is selected
+        maxLifecycle = if (tabId == selectedTabId) {
+            Lifecycle.State.RESUMED
+        } else {
+            Lifecycle.State.STARTED
+        }
     )
 }
 // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
