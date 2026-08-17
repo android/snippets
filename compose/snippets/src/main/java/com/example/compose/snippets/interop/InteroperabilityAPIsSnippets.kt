@@ -52,6 +52,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.AndroidFragment
+import androidx.lifecycle.Lifecycle
 import com.example.compose.snippets.MyActivity
 import com.example.compose.snippets.R
 import com.example.compose.snippets.databinding.ExampleLayoutBinding
@@ -272,7 +273,9 @@ fun AndroidViewBindingExample() {
 // [START android_compose_interop_apis_fragments_in_compose]
 @Composable
 fun FragmentInComposeExample() {
-    AndroidFragment<MyFragment>()
+    AndroidFragment<MyFragment>(
+        maxLifecycle = Lifecycle.State.STARTED
+    )
 }
 
 // [START_EXCLUDE silent]
