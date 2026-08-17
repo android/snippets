@@ -283,9 +283,9 @@ class MyFragment : Fragment()
 // [END_EXCLUDE]
 // [END android_compose_interop_apis_fragments_in_compose]
 
-// [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 @Composable
 fun FragmentInPagerExample(pagerState: PagerState) {
+    // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
     HorizontalPager(state = pagerState) { page ->
         AndroidFragment<MyFragment>(
             // Dynamically cap the lifecycle state based on whether the page is selected
@@ -296,8 +296,8 @@ fun FragmentInPagerExample(pagerState: PagerState) {
             }
         )
     }
+    // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 }
-// [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 
 // [START android_compose_interop_apis_composition_locals]
 @Composable
