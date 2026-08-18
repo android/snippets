@@ -18,22 +18,52 @@ package com.example.xr.glimmer
 
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.xr.glimmer.ActionCard
 import androidx.xr.glimmer.Button
+import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.GlimmerTheme
 import androidx.xr.glimmer.Icon
 import androidx.xr.glimmer.Text
 
 private val FavoriteIcon = Icons.Default.Favorite
+private val BookmarkIcon = Icons.Default.Bookmark
 
-// [START androidxr_glimmer_card]
 @Composable
 fun CardSample() {
-    val myHeaderImage = painterResource(id = android.R.drawable.ic_menu_gallery)
+    // [START androidxr_glimmer_card]
+    Card { Text("This is a card") }
+    // [END androidxr_glimmer_card]
+}
+
+@Composable
+fun CardWithTitleSubtitleAndIconsSample(myHeaderImage: Painter) {
+    // [START androidxr_glimmer_complete_card]
+    Card(
+        title = { Text("Card Title", style = GlimmerTheme.typography.titleMedium) },
+        subtitle = { Text("Sub-heading text", style = GlimmerTheme.typography.titleSmall) },
+        leadingIcon = { Icon(FavoriteIcon, contentDescription = "Favorite") },
+        trailingIcon = { Icon(BookmarkIcon, contentDescription = "Bookmark") },
+        header = {
+            Image(
+                painter = myHeaderImage,
+                contentDescription = "Header image",
+                contentScale = ContentScale.FillWidth
+            )
+        },
+    ) {
+        Text("This is a complete card")
+    }
+    // [END androidxr_glimmer_complete_card]
+}
+
+@Composable
+fun ActionCardSample(myHeaderImage: Painter) {
+    // [START androidxr_glimmer_action_card]
     ActionCard(
         title = { Text("Card Title", style = GlimmerTheme.typography.titleMedium) },
         subtitle = { Text("Sub-heading text", style = GlimmerTheme.typography.titleSmall) },
@@ -56,5 +86,25 @@ fun CardSample() {
             style = GlimmerTheme.typography.bodyMedium
         )
     }
+    // [END androidxr_glimmer_action_card]
 }
-// [END androidxr_glimmer_card]
+
+@Composable
+fun CardWithTitleAndLeadingIconAndHeaderAndAction(myHeaderImage: Painter) {
+    // [START androidxr_glimmer_complex_card]
+    ActionCard(
+        action = {
+            Button(onClick = {}, trailingIcon = { Icon(FavoriteIcon, "Localized description") }) {
+                Text("Send")
+            }
+        },
+        title = { Text("Title") },
+        leadingIcon = { Icon(FavoriteIcon, "Localized description") },
+        header = {
+            Image(myHeaderImage, "Localized description", contentScale = ContentScale.FillWidth)
+        },
+    ) {
+        Text("This is a card with a title, leading icon, header image, and action")
+    }
+    // [END androidxr_glimmer_complex_card]
+}
