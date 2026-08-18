@@ -64,8 +64,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.coil.kt.compose)
-    implementation(libs.coil3.compose)
-    implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
