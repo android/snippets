@@ -26,6 +26,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.runtime.result.rememberResultEventBus
+import androidx.navigation3.runtime.result.rememberResultEventBusNavEntryDecorator
 import com.example.compose.snippets.navigation3.savingstate.Home
 import kotlinx.serialization.Serializable
 
@@ -61,4 +63,26 @@ fun DecoratorsBasic() {
         // [END_EXCLUDE]
     )
     // [END android_compose_navigation3_decorator_2]
+}
+
+@Composable
+fun DecoratorsResultEventBus() {
+    // [START android_compose_navigation3_decorator_result_hoist]
+    // [START_EXCLUDE]
+    val backStack = rememberNavBackStack(Home)
+    val entryProvider = entryProvider<NavKey> {
+        entry<Home> { Text("Welcome to Nav3") }
+    }
+    // [END_EXCLUDE]
+    val resultEventBus = rememberResultEventBus()
+
+    NavDisplay(
+        backStack = backStack,
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberResultEventBusNavEntryDecorator(resultEventBus = resultEventBus)
+        ),
+        entryProvider = entryProvider
+    )
+    // [END android_compose_navigation3_decorator_result_hoist]
 }
