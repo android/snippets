@@ -26,6 +26,7 @@ import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest.Companion.MimeTypeExtrasKey
 import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.RequestExtras
 import androidx.navigation3.runtime.deeplink.RequestExtrasKey
 import androidx.navigation3.runtime.deeplink.StaticKeyDeepLinkMatcher
 import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
@@ -118,20 +119,29 @@ class DeepLinkSnippets {
 
     fun requestExtrasDsl() {
         // [START android_compose_navigation3_deeplinks_extras_dsl]
-        val extras: Map<String, Any> = requestExtras {
+        val extras: RequestExtras = requestExtras {
             put(MimeTypeExtrasKey, "application/json")
             put(DeepLinkRequest.ActionExtrasKey, Intent.ACTION_VIEW)
         }
 
-        val mimeTypeExtraMap: Map<String, Any> = DeepLinkRequest.mimeTypeExtra("application/json")
+        // Access typed values using the get operator
+        val mimeType: String? = extras[MimeTypeExtrasKey]
+        val action: String? = extras[DeepLinkRequest.ActionExtrasKey]
+
+        // Create extras using helper functions and combine them
+        val mimeTypeExtras: RequestExtras = DeepLinkRequest.mimeTypeExtra("application/json")
+        val combinedExtras: RequestExtras = extras + DeepLinkRequest.actionExtra(Intent.ACTION_VIEW)
         // [END android_compose_navigation3_deeplinks_extras_dsl]
 
         // [START android_compose_navigation3_deeplinks_custom_extras]
-        // object CampaignIdExtrasKey : RequestExtrasKey<String> // Defined outside
+        // Define a custom typed key:
+        // object CampaignIdExtrasKey : RequestExtrasKey<String>
 
-        val customExtras = requestExtras {
+        val customExtras: RequestExtras = requestExtras {
             put(CampaignIdExtrasKey, "123")
         }
+
+        val campaignId: String? = customExtras[CampaignIdExtrasKey]
         // [END android_compose_navigation3_deeplinks_custom_extras]
     }
 
