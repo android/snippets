@@ -1164,7 +1164,7 @@ private object GlanceErrorHandlingSnippets {
         private fun getErrorIntent(context: Context, throwable: Throwable): PendingIntent {
             val intent = Intent(context, UpgradeToHelloWorldPro::class.java)
             intent.action = "widgetError"
-            // [START_EXCLUDE]
+            // [START_EXCLUDE silent]
             intent.putExtra("error_message", throwable.message)
             // [END_EXCLUDE]
             return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
