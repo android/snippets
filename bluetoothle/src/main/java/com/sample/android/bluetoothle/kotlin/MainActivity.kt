@@ -46,8 +46,19 @@ class MainActivity : AppCompatActivity() {
         // displays a dialog requesting user permission to enable Bluetooth.
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled) {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+            getResult.launch(enableBtIntent)            
         }
         // [END enable_bluetooth]
     }
+    
+    private val getResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                // granted
+            } else {
+                // denied
+            }
+        }
 }
