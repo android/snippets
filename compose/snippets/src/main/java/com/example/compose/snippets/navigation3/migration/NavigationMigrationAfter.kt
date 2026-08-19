@@ -18,15 +18,19 @@ package com.example.compose.snippets.navigation3.migration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.result.LocalResultEventBus
+import androidx.navigation3.runtime.result.ResultEffect
 import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 
 // Dummy screens for compilation
@@ -140,4 +144,46 @@ private object SnippetLifecycleAfter {
         val state by flow.collectAsStateWithLifecycle()
         // [END android_compose_navigation3_lifecycle_after]
     }
+}
+
+private object SnippetResultAfter {
+    @Serializable data object ContactPickerRoute : NavKey
+    data class Contact(val name: String = "")
+    class ComposeMessageViewModel : ViewModel() {
+        val recipient: Contact? = null
+        fun onRecipientSelected(contact: Contact) {}
+    }
+
+    @Composable private fun ContactPickerScreen(onContactSelected: (Contact) -> Unit) {}
+    @Composable private fun ComposeMessageContent(recipient: Contact?) {}
+
+    // [START android_compose_navigation3_result_after]
+    // [START_EXCLUDE]
+    fun EntryProviderScope<NavKey>.entryProviderResult(navigator: Navigator) {
+    // [END_EXCLUDE]
+        // Sender destination (in entryProvider):
+        entry<ContactPickerRoute> {
+            val resultBus = LocalResultEventBus.current
+
+            ContactPickerScreen(
+                onContactSelected = { contact ->
+                    resultBus.sendResult<Contact>(result = contact)
+                    navigator.goBack()
+                }
+            )
+        }
+    // [START_EXCLUDE]
+    }
+    // [END_EXCLUDE]
+
+    // Receiver destination:
+    @Composable
+    fun ComposeMessageScreen(viewModel: ComposeMessageViewModel = viewModel()) {
+        ResultEffect<Contact> { contact ->
+            viewModel.onRecipientSelected(contact)
+        }
+
+        ComposeMessageContent(recipient = viewModel.recipient)
+    }
+    // [END android_compose_navigation3_result_after]
 }
