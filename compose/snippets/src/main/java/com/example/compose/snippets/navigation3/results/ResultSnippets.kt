@@ -68,8 +68,12 @@ class ComposeMessageViewModel : ViewModel() {
 
 class CheckoutViewModel : ViewModel() {
     var pickupAddress: Address? = null
+    var destinationAddress: Address? = null
     fun onPickupAddressSelected(address: Address) {
         pickupAddress = address
+    }
+    fun onDestinationAddressSelected(address: Address) {
+        destinationAddress = address
     }
 }
 
@@ -91,13 +95,21 @@ fun AddressPicker(onSelect: (Address) -> Unit) {}
 fun ComposeMessageContent(recipient: Contact?, onPickContact: () -> Unit) {}
 
 @Composable
-fun CheckoutContent(pickupAddress: Address?, onSelectAddress: () -> Unit) {}
+fun CheckoutContent(
+    pickupAddress: Address?,
+    destinationAddress: Address?,
+    onOpenAddressPicker: () -> Unit
+) {}
 
 @Composable
 fun ProductListContent(activeFilter: ProductFilter, onOpenFilterPicker: () -> Unit) {}
 
 @Composable
-fun OrderSummaryContent(pickupAddress: Address, onSelectAddress: () -> Unit) {}
+fun OrderSummaryContent(
+    pickupAddress: Address?,
+    destinationAddress: Address?,
+    onOpenAddressPicker: () -> Unit
+) {}
 
 private object BasicResultSnippet {
     @Composable
@@ -193,15 +205,10 @@ private object ReceiveEffectTypeSnippet {
         snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
         viewModel: ComposeMessageViewModel = viewModel()
     ) {
-        val resultBus = LocalResultEventBus.current
-
         ResultEffect<Contact> { contact ->
             // Suspending calls are supported directly in the effect body
             snackbarHostState.showSnackbar("Selected ${contact.name}")
             viewModel.onRecipientSelected(contact)
-
-            // Clear after consumption to prevent re-delivery on back-stack re-entry
-            resultBus.removeResult<Contact>()
         }
 
         ComposeMessageContent(
@@ -216,7 +223,7 @@ private object ReceiveEffectKeySnippet {
     // [START android_compose_navigation3_result_effect_key]
     @Composable
     fun CheckoutScreen(
-        onSelectAddress: () -> Unit,
+        onOpenAddressPicker: () -> Unit,
         viewModel: CheckoutViewModel = viewModel()
     ) {
         // Listen for results associated with a specific key
@@ -224,9 +231,14 @@ private object ReceiveEffectKeySnippet {
             viewModel.onPickupAddressSelected(address)
         }
 
+        ResultEffect<Address>(resultKey = "destination_address") { address ->
+            viewModel.onDestinationAddressSelected(address)
+        }
+
         CheckoutContent(
             pickupAddress = viewModel.pickupAddress,
-            onSelectAddress = onSelectAddress
+            destinationAddress = viewModel.destinationAddress,
+            onOpenAddressPicker = onOpenAddressPicker
         )
     }
     // [END android_compose_navigation3_result_effect_key]
@@ -258,20 +270,25 @@ private object ReceiveStateKeySnippet {
     // [START android_compose_navigation3_result_state_key]
     @Composable
     fun OrderSummaryScreen(
-        defaultAddress: Address,
-        onSelectAddress: () -> Unit
+        onOpenAddressPicker: () -> Unit
     ) {
         val resultBus = LocalResultEventBus.current
 
         // Observe latest result with an explicit key as Compose State
-        val pickupAddress by resultBus.conflateAsState<Address>(
+        val pickupAddress by resultBus.conflateAsState<Address?>(
             resultKey = "pickup_address",
-            defaultValue = defaultAddress
+            defaultValue = null
+        )
+
+        val destinationAddress by resultBus.conflateAsState<Address?>(
+            resultKey = "destination_address",
+            defaultValue = null
         )
 
         OrderSummaryContent(
             pickupAddress = pickupAddress,
-            onSelectAddress = onSelectAddress
+            destinationAddress = destinationAddress,
+            onOpenAddressPicker = onOpenAddressPicker
         )
     }
     // [END android_compose_navigation3_result_state_key]
