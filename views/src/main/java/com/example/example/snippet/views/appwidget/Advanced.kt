@@ -54,7 +54,6 @@ private fun collectionDataRefreshSnippet(
 ) {
     // [START android_views_appwidgets_advanced_notify_data_changed]
     val appWidgetManager = AppWidgetManager.getInstance(context)
-    val remoteViews = RemoteViews(context.packageName, R.layout.widgetlayout)
-    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
+    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview)
     // [END android_views_appwidgets_advanced_notify_data_changed]
 }
