@@ -72,20 +72,27 @@ private object CollectionsOnUpdate {
         override fun onUpdate(
             context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
         ) {
+            // Update each of the widgets with the remote adapter.
             appWidgetIds.forEach { appWidgetId ->
-                val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                    // In Android 12 (API level 31) and higher, use RemoteCollectionItems
-                    // to pass the collection directly. This is the preferred way for
-                    // small to medium-sized collections.
-                    val itemsBuilder = RemoteViews.RemoteCollectionItems.Builder()
-                    for (index in 0 until 10) {
-                        val itemViews = RemoteViews(context.packageName, R.layout.widget_item)
-                        itemViews.setTextViewText(R.id.widget_item, "$index!")
-                        itemsBuilder.addItem(index.toLong(), itemViews)
-                    }
-                    setRemoteAdapter(R.id.stack_view, itemsBuilder.build())
 
-                    // When the collection has no items.
+                // Set up the intent that starts the StackViewService, which
+                // provides the views for this collection.
+                val intent = Intent(context, StackWidgetService::class.java).apply {
+                    // Add the widget ID to the intent extras.
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                }
+                // Instantiate the RemoteViews object for the widget layout.
+                val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
+                    // Set up the RemoteViews object to use a RemoteViews adapter.
+                    // This adapter connects to a RemoteViewsService through the
+                    // specified intent.
+                    // This is how you populate the data.
+                    setRemoteAdapter(R.id.stack_view, intent)
+
+                    // The empty view is displayed when the collection has no items.
+                    // It must be in the same layout used to instantiate the
+                    // RemoteViews object.
                     setEmptyView(R.id.stack_view, R.id.empty_view)
                 }
 
