@@ -261,6 +261,43 @@ fun DialUseStateExample(
 // [END android_compose_components_dial_usestate]
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DialUseStateUsageExample() {
+    var showDialExample by remember { mutableStateOf(false) }
+    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+    // [START android_compose_components_dial_usestate_usage]
+    var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
+
+    // [START_EXCLUDE]
+    // Trigger time picker or other UI
+    // [END_EXCLUDE]
+    DialUseStateExample(
+        onDismiss = {
+            showDialExample = false
+        },
+        onConfirm = {
+                time ->
+            selectedTime = time
+            showDialExample = false
+        },
+    )
+
+    // [START_EXCLUDE]
+    // Display selected time
+    // [END_EXCLUDE]
+    if (selectedTime != null) {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
+        cal.set(Calendar.MINUTE, selectedTime!!.minute)
+        cal.isLenient = false
+        Text("Selected time = ${formatter.format(cal.time)}")
+    } else {
+        Text("No time selected.")
+    }
+    // [END android_compose_components_dial_usestate_usage]
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_input_usestate]
 @Composable
 fun InputUseStateExample(

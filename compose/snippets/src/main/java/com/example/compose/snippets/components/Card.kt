@@ -47,12 +47,23 @@ fun CardExamples() {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        CardMinimalExample()
         ElevatedCardExample()
         FilledCardExample()
         OutlinedCardExample()
         CustomCardExample { Log.d("custom card", "hello word") }
     }
 }
+
+@Preview
+// [START android_compose_components_card_minimal]
+@Composable
+fun CardMinimalExample() {
+    Card() {
+        Text(text = "Hello, world!")
+    }
+}
+// [END android_compose_components_card_minimal]
 
 // [START android_compose_components_customcard]
 @Composable
