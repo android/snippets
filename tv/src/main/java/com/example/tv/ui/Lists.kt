@@ -20,8 +20,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.BringIntoViewSpec
 import androidx.compose.foundation.gestures.LocalBringIntoViewSpec
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -29,6 +27,9 @@ import com.example.tv.data.Movie
 import com.example.tv.data.Section
 
 // [START android_tv_compose_lists_movie_catalog]
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+
 @Composable
 fun MovieCatalog(movies: List<Movie>) {
     LazyRow {
@@ -111,8 +112,8 @@ private fun CustomSpecCatalog(sectionList: List<Section>) {
     // [END android_tv_compose_lists_apply_custom_spec]
 }
 
-// [START android_tv_compose_lists_opt_out]
 @OptIn(ExperimentalFoundationApi::class)
+// [START android_tv_compose_lists_opt_out]
 private val DefaultBringIntoViewSpec = object : BringIntoViewSpec {}
 
 // [START_EXCLUDE silent]
