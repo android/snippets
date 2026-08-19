@@ -96,16 +96,7 @@ private fun CustomSpecCatalog(sectionList: List<Section>) {
         LazyColumn {
             items(sectionList) { section ->
                 // This row and its items will respect the 30% pivot
-                LazyRow {
-                    // [START_EXCLUDE]
-                    items(section.movieList) { movie ->
-                        MovieCard(
-                            movie = movie,
-                            onClick = { /* Handle click */ }
-                        )
-                    }
-                    // [END_EXCLUDE]
-                }
+                LazyRow { /* ... */ }
             }
         }
     }
@@ -126,20 +117,7 @@ PositionFocusedItemInLazyLayout {
         item {
             // This row will ignore the custom pivot and use default behavior
             CompositionLocalProvider(LocalBringIntoViewSpec provides DefaultBringIntoViewSpec) {
-                LazyRow {
-                    // [START_EXCLUDE]
-                    item {
-                        MovieCard(
-                            movie = Movie(
-                                "Title",
-                                "Description",
-                                "https://example.com/poster.jpg",
-                                "https://example.com/bg.jpg"
-                            )
-                        )
-                    }
-                    // [END_EXCLUDE]
-                }
+                LazyRow { /* ... */ }
             }
         }
     }
