@@ -50,7 +50,7 @@ class TestSyncSnippets {
     }
     // [END android_compose_test_runWithoutImplicitWaitSample]
 
-    // [START testBidirectionalInteropUIUpdates_old]
+    // [START android_compose_test_testBidirectionalInteropUIUpdates_old]
     @Test
     fun testBidirectionalInteropUIUpdates_old() {
         val scenario = launchFragmentInContainer<InteropFragment>()
@@ -68,9 +68,9 @@ class TestSyncSnippets {
             assert(fragment.legacyTextView.text.toString() == "Compose Clicks: 1")
         }
     }
-    // [END testBidirectionalInteropUIUpdates_old]
+    // [END android_compose_test_testBidirectionalInteropUIUpdates_old]
 
-    // [START testBidirectionalInteropUIUpdates_new]
+    // [START android_compose_test_testBidirectionalInteropUIUpdates_new]
     @Test
     fun testBidirectionalInteropUIUpdates_new() {
         val scenario = launchFragmentInContainer<InteropFragment>()
@@ -84,7 +84,7 @@ class TestSyncSnippets {
             assert(fragment.legacyTextView.text.toString() == "Compose Clicks: 1")
         }
     }
-    // [END testBidirectionalInteropUIUpdates_new]
+    // [END android_compose_test_testBidirectionalInteropUIUpdates_new]
 
     @Composable fun MainScreen() { }
 
