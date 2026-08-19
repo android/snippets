@@ -38,36 +38,28 @@ private object LayoutsResponsive {
             appWidgetManager: AppWidgetManager,
             appWidgetIds: IntArray
             // [END_EXCLUDE]
-            /*
-            ...
-             */
+            /* ... */
         ) {
             val smallView = RemoteViews(
                 // [START_EXCLUDE silent]
                 context.packageName,
                 R.layout.widget_weather_forecast_small
                 // [END_EXCLUDE]
-                /*
-                ...
-                 */
+                /* ... */
             )
             val tallView = RemoteViews(
                 // [START_EXCLUDE silent]
                 context.packageName,
                 R.layout.widget_weather_forecast_medium
                 // [END_EXCLUDE]
-                /*
-                ...
-                 */
+                /* ... */
             )
             val wideView = RemoteViews(
                 // [START_EXCLUDE silent]
                 context.packageName,
                 R.layout.widget_weather_forecast_large
                 // [END_EXCLUDE]
-                /*
-                ...
-                 */
+                /* ... */
             )
 
             val viewMapping: Map<SizeF, RemoteViews> = mapOf(
