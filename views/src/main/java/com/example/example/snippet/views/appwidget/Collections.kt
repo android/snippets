@@ -202,16 +202,17 @@ private object CollectionsProviderPendingIntent {
         ) {
             // Update each of the widgets with the remote adapter.
             appWidgetIds.forEach { appWidgetId ->
+
+                // Sets up the intent that points to the StackViewService that
+                // provides the views for this collection.
+                val intent = Intent(context, StackWidgetService::class.java).apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    // When intents are compared, the extras are ignored, so embed
+                    // the extra sinto the data so that the extras are not ignored.
+                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                }
                 val rv = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-                    // In Android 12 (API level 31) and higher, use RemoteCollectionItems
-                    // to pass the collection directly.
-                    val itemsBuilder = RemoteViews.RemoteCollectionItems.Builder()
-                    for (index in 0 until 10) {
-                        val itemViews = RemoteViews(context.packageName, R.layout.widget_item)
-                        itemViews.setTextViewText(R.id.widget_item, "$index!")
-                        itemsBuilder.addItem(index.toLong(), itemViews)
-                    }
-                    setRemoteAdapter(R.id.stack_view, itemsBuilder.build())
+                    setRemoteAdapter(R.id.stack_view, intent)
 
                     // The empty view is displayed when the collection has no items.
                     // It must be a sibling of the collection view.
