@@ -27,17 +27,12 @@ private fun runtimeModRemoteViewsSnippet(remoteView: RemoteViews) {
     // [START android_views_appwidgets_enhance_runtime_mod_remoteviews]
     // Set the colors of a progress bar at runtime.
     remoteView.setColorStateList(
-        /* viewId = */ R.id.progress,
-        /* methodName = */ "setProgressTintList",
-        /* value = */ createProgressColorStateList()
+        R.id.progress, "setProgressTintList", createProgressColorStateList()
     )
 
     // Specify exact sizes for margins.
     remoteView.setViewLayoutMargin(
-        /* viewId = */ R.id.text,
-        /* type = */ RemoteViews.MARGIN_END,
-        /* value = */ 8f,
-        /* units = */ TypedValue.COMPLEX_UNIT_DIP
+        R.id.text, RemoteViews.MARGIN_END, 8f, TypedValue.COMPLEX_UNIT_DIP
     )
     // [END android_views_appwidgets_enhance_runtime_mod_remoteviews]
 }
