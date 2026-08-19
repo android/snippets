@@ -171,12 +171,8 @@ private object CollectionsProviderPendingIntent {
 
     class StackWidgetProvider : AppWidgetProvider() {
 
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
+        // [START_EXCLUDE]
+        // ...
         // [END_EXCLUDE]
 
         // Called when the BroadcastReceiver receives an Intent broadcast.
@@ -272,16 +268,12 @@ private object CollectionsFactoryFillInIntent {
             // deferred to onDataSetChanged() or getViewAt(). Taking more than 20
             // seconds on this call results in an ANR.
             widgetItems = List(REMOTE_VIEW_COUNT) { index -> WidgetItem("$index!") }
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            ...
-            // [START_EXCLUDE silent]
-            */
+            // [START_EXCLUDE]
+            // ...
             // [END_EXCLUDE]
         }
 
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         override fun onDataSetChanged() {}
         override fun onDestroy() {}
         override fun getCount(): Int = widgetItems.size
@@ -289,11 +281,6 @@ private object CollectionsFactoryFillInIntent {
         override fun getViewTypeCount(): Int = 1
         override fun getItemId(position: Int): Long = position.toLong()
         override fun hasStableIds(): Boolean = true
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
         // [END_EXCLUDE]
 
         override fun getViewAt(position: Int): RemoteViews {
@@ -313,21 +300,13 @@ private object CollectionsFactoryFillInIntent {
                 // Make it possible to distinguish the individual on-click
                 // action of a given item.
                 setOnClickFillInIntent(R.id.widget_item, fillInIntent)
-                // [START_EXCLUDE silent]
-                /*
-                // [END_EXCLUDE]
-                ...
-                // [START_EXCLUDE silent]
-                */
+                // [START_EXCLUDE]
+                // ...
                 // [END_EXCLUDE]
             }
         }
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
+        // [START_EXCLUDE]
+        // ...
         // [END_EXCLUDE]
     }
     // [END android_views_appwidgets_collections_factory_fill_in_intent]
@@ -344,12 +323,8 @@ private fun remoteCollectionItemsSnippet(
     val itemLayouts = listOf(
         R.layout.item_type_1,
         R.layout.item_type_2,
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
+        // [START_EXCLUDE]
+        // ...
         // [END_EXCLUDE]
     )
 
@@ -358,12 +333,8 @@ private fun remoteCollectionItemsSnippet(
         RemoteViews.RemoteCollectionItems.Builder()
             .addItem(/* id= */ ID_1, RemoteViews(context.packageName, R.layout.item_type_1))
             .addItem(/* id= */ ID_2, RemoteViews(context.packageName, R.layout.item_type_2))
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            ...
-            // [START_EXCLUDE silent]
-            */
+            // [START_EXCLUDE]
+            // ...
             // [END_EXCLUDE]
             .setViewTypeCount(itemLayouts.count())
             .build()
