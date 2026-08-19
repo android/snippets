@@ -188,7 +188,7 @@ private object CollectionsProviderPendingIntent {
                 // EXTRA_ITEM represents a custom value provided by the Intent
                 // passed to the setOnClickFillInIntent() method to indicate the
                 // position of the clicked item. See StackRemoteViewsFactory in
-                // <a href="#setup-fill-in-intent">Set the fill-in Intent</a> for details.
+                // Set the fill-in Intent for details.
                 val viewIndex: Int = intent.getIntExtra(EXTRA_ITEM, 0)
                 Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
             }
