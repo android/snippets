@@ -243,7 +243,12 @@ private object CollectionsProviderPendingIntent {
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
                     data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
 
-                    PendingIntent.getBroadcast(context, 0, this, PendingIntent.FLAG_UPDATE_CURRENT)
+                    // The template must be mutable, because each item fills in its
+                    // own extras through setOnClickFillInIntent().
+                    PendingIntent.getBroadcast(
+                        context, 0, this,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                    )
                 }
                 rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent)
 

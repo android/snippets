@@ -47,7 +47,7 @@ private fun discoverabilitySnippet(context: Context) {
                      */
                 // [END_EXCLUDE]
             ),
-            /* flags = */ PendingIntent.FLAG_UPDATE_CURRENT
+            /* flags = */ PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         appWidgetManager.requestPinAppWidget(myProvider, null, successCallback)
