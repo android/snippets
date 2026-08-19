@@ -187,7 +187,7 @@ private object SnippetDeepLinksAfter {
                 .mapNotNull { it.match(request) }
                 .maxOrNull()
 
-            val initialBackStack = when (matchResult) {
+            val backStack = when (matchResult) {
                 null -> listOf(HomeKey)
                 is BackStackMatchResult<*, *> -> {
                     @Suppress("UNCHECKED_CAST")
@@ -196,7 +196,7 @@ private object SnippetDeepLinksAfter {
                 else -> listOf(matchResult.key)
             }
 
-            // Use initialBackStack to initialize your navigation state
+            // Use backStack with NavDisplay
         }
     }
     // [END android_compose_navigation3_deeplinks_after_activity]

@@ -85,14 +85,59 @@ enum class UserDetailsTab { INFO, ACTIVITY, SETTINGS }
 @Serializable
 data class UserDetailsKey(val id: Int, val initialTab: UserDetailsTab = UserDetailsTab.INFO) : NavKey
 
-object CampaignIdExtrasKey : RequestExtrasKey<String>
+val DeepLinkRequest.Companion.MimeTypeExtrasKey: RequestExtrasKey<String>
+    inline get() = DeepLinkRequest.Companion.MimeTypeExtrasKey
+
+// [START android_compose_navigation3_deeplinks_custom_matcher]
+class TelDeepLinkMatcher : DeepLinkMatcher<DialerKey, DeepLinkMatcher.MatchResult<DialerKey>>() {
+    override fun matchRequest(request: DeepLinkRequest): MatchResult<DialerKey>? {
+        val uri = request.uri ?: return null
+        if (uri.scheme != "tel") return null
+
+        // Note: schemeSpecificPart is only available on Android
+        val phoneNumber = uri.schemeSpecificPart ?: return null
+        return MatchResult(DialerKey(phoneNumber = phoneNumber))
+    }
+}
+// [END android_compose_navigation3_deeplinks_custom_matcher]
+
+// [START android_compose_navigation3_deeplinks_custom_matcher_result]
+class TelMatchResult(
+    key: DialerKey,
+    val isExactMatch: Boolean,
+    val patternLength: Int
+) : DeepLinkMatcher.MatchResult<DialerKey>(key) {
+    override fun compareTo(other: DeepLinkMatcher.MatchResult<DialerKey>): Int {
+        if (other !is TelMatchResult) {
+            // Determine precedence relative to other MatchResult types (e.g. UriMatchResult)
+            return 1
+        }
+
+        // An exact match wins over a wildcard/prefix match
+        if (isExactMatch && !other.isExactMatch) return 1
+        if (!isExactMatch && other.isExactMatch) return -1
+
+        // The more specific (longer) pattern wins (e.g., tel:1800* versus tel:*)
+        val lengthDiff = this.patternLength - other.patternLength
+        if (lengthDiff != 0) {
+            return lengthDiff
+        }
+
+        return 0
+    }
+}
+// [END android_compose_navigation3_deeplinks_custom_matcher_result]
 
 class DeepLinkSnippets {
 
     fun requestCreation() {
         // [START android_compose_navigation3_deeplinks_request]
-        // Create a request with only a URI
+        // Create a request with a String URI
         val request = DeepLinkRequest(uri = "https://www.example.com/home")
+
+        // Create a request from a DeepLinkUri
+        val deepLinkUri = DeepLinkUri("https://www.example.com/home")
+        val requestFromUri = DeepLinkRequest(uri = deepLinkUri)
 
         // Create a request with a URI and action
         val requestWithAction = DeepLinkRequest(
@@ -105,7 +150,7 @@ class DeepLinkSnippets {
             uri = "https://www.example.com/image",
             extras = requestExtras {
                 put(DeepLinkRequest.ActionExtrasKey, "android.intent.action.VIEW")
-                put(MimeTypeExtrasKey, "image/png")
+                put(DeepLinkRequest.MimeTypeExtrasKey, "image/png")
             }
         )
         // [END android_compose_navigation3_deeplinks_request]
@@ -120,22 +165,24 @@ class DeepLinkSnippets {
     fun requestExtrasDsl() {
         // [START android_compose_navigation3_deeplinks_extras_dsl]
         val extras: RequestExtras = requestExtras {
-            put(MimeTypeExtrasKey, "application/json")
+            put(DeepLinkRequest.MimeTypeExtrasKey, "application/json")
             put(DeepLinkRequest.ActionExtrasKey, Intent.ACTION_VIEW)
         }
 
         // Access typed values using the get operator
-        val mimeType: String? = extras[MimeTypeExtrasKey]
+        val mimeType: String? = extras[DeepLinkRequest.MimeTypeExtrasKey]
         val action: String? = extras[DeepLinkRequest.ActionExtrasKey]
 
         // Create extras using helper functions and combine them
         val mimeTypeExtras: RequestExtras = DeepLinkRequest.mimeTypeExtra("application/json")
         val combinedExtras: RequestExtras = extras + DeepLinkRequest.actionExtra(Intent.ACTION_VIEW)
         // [END android_compose_navigation3_deeplinks_extras_dsl]
+    }
 
+    private object SnippetCustomExtras {
         // [START android_compose_navigation3_deeplinks_custom_extras]
         // Define a custom typed key:
-        // object CampaignIdExtrasKey : RequestExtrasKey<String>
+        object CampaignIdExtrasKey : RequestExtrasKey<String>
 
         val customExtras: RequestExtras = requestExtras {
             put(CampaignIdExtrasKey, "123")
@@ -171,8 +218,6 @@ class DeepLinkSnippets {
 
     fun uriMatcher() {
         // [START android_compose_navigation3_deeplinks_uri_matcher]
-        // @Serializable data class UserProfileKey(val id: String): NavKey // Defined outside
-
         val userProfilePatternUri = DeepLinkUri("www.example.com/users/{id}")
         val userProfileMatcher = UriDeepLinkMatcher(userProfilePatternUri, serializer<UserProfileKey>())
 
@@ -184,8 +229,6 @@ class DeepLinkSnippets {
 
     fun uriMatcherQuery() {
         // [START android_compose_navigation3_deeplinks_uri_matcher_query]
-        // Defined outside: SortOrder, SearchFilters, SearchKey
-
         val pattern = DeepLinkUri("www.example.com/search?q={query}&category={category}&sortBy={sortBy}")
         val matcher = UriDeepLinkMatcher(pattern, serializer<SearchKey>())
         val request = DeepLinkRequest("https://www.example.com/search?q=kotlin&category=books&sortBy=DATE")
@@ -196,56 +239,12 @@ class DeepLinkSnippets {
 
     fun uriMatcherValidation() {
         // [START android_compose_navigation3_deeplinks_uri_matcher_validation]
-        // Defined outside: UserDetailsTab, UserDetailsKey
-
         val matcher = UriDeepLinkMatcher(
             DeepLinkUri("example.com/user/{id}?tab={initialTab}"),
             serializer<UserDetailsKey>()
         )
         // [END android_compose_navigation3_deeplinks_uri_matcher_validation]
     }
-
-    // [START android_compose_navigation3_deeplinks_custom_matcher]
-    // @Serializable data class DialerKey(val phoneNumber: String?) : NavKey // Defined outside
-
-    class TelDeepLinkMatcher : DeepLinkMatcher<DialerKey, DeepLinkMatcher.MatchResult<DialerKey>>() {
-        override fun matchRequest(request: DeepLinkRequest): MatchResult<DialerKey>? {
-            val uri = request.uri ?: return null
-            if (uri.scheme != "tel") return null
-
-            // Note: schemeSpecificPart is only available on Android
-            val phoneNumber = uri.schemeSpecificPart ?: return null
-            return MatchResult(DialerKey(phoneNumber = phoneNumber))
-        }
-    }
-    // [END android_compose_navigation3_deeplinks_custom_matcher]
-
-    // [START android_compose_navigation3_deeplinks_custom_matcher_result]
-    class TelMatchResult(
-        key: DialerKey,
-        val isExactMatch: Boolean,
-        val patternLength: Int
-    ) : DeepLinkMatcher.MatchResult<DialerKey>(key) {
-        override fun compareTo(other: DeepLinkMatcher.MatchResult<DialerKey>): Int {
-            if (other !is TelMatchResult) {
-                // Determine precedence relative to other MatchResult types (e.g. UriMatchResult)
-                return 1
-            }
-           
-            // An exact match wins over a wildcard/prefix match
-            if (isExactMatch && !other.isExactMatch) return 1
-            if (!isExactMatch && other.isExactMatch) return -1
-           
-            // The more specific (longer) pattern wins (e.g., tel:1800* vs tel:*)
-            val lengthDiff = this.patternLength - other.patternLength
-            if (lengthDiff != 0) {
-                return lengthDiff
-            }
-           
-            return 0
-        }
-    }
-    // [END android_compose_navigation3_deeplinks_custom_matcher_result]
 
     fun backStackMatcher() {
         // [START android_compose_navigation3_deeplinks_backstack]
@@ -272,7 +271,7 @@ class DeepLinkSnippets {
 val deepLinkMatchers = listOf(
     StaticKeyDeepLinkMatcher(HomeKey, listOf(DeepLinkMatcher.actionFilter(Intent.ACTION_VIEW))),
     UriDeepLinkMatcher(DeepLinkUri("www.example.com/users/{id}"), serializer<UserProfileKey>()),
-    DeepLinkSnippets.TelDeepLinkMatcher()
+    TelDeepLinkMatcher()
 )
 
 class MainActivity : ComponentActivity() {
@@ -302,6 +301,9 @@ class MainActivity : ComponentActivity() {
 object FeatureADeepLinkModule {
     @IntoSet
     @Provides
+    // [START_EXCLUDE]
+    @JvmSuppressWildcards
+    // [END_EXCLUDE]
     fun provideUserMatcher(): DeepLinkMatcher<*, *> {
         return UriDeepLinkMatcher(
             DeepLinkUri("www.example.com/users/{id}"),
@@ -312,6 +314,9 @@ object FeatureADeepLinkModule {
 // [END android_compose_navigation3_deeplinks_modularization_feature]
 
 // [START android_compose_navigation3_deeplinks_modularization_app]
+// [START_EXCLUDE]
+@dagger.hilt.android.AndroidEntryPoint
+// [END_EXCLUDE]
 class MainActivityWithDI : ComponentActivity() {
     @Inject
     lateinit var deepLinkMatchers: Set<@JvmSuppressWildcards DeepLinkMatcher<*, *>>
