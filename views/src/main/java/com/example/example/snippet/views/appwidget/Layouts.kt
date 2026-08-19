@@ -88,9 +88,9 @@ private object LayoutsExact {
             // Get the new sizes.
             val sizes = newOptions?.let {
                 BundleCompat.getParcelableArrayList(
-                    /* in = */ it,
-                    /* key = */ AppWidgetManager.OPTION_APPWIDGET_SIZES,
-                    /* clazz = */ SizeF::class.java
+                    it,
+                    AppWidgetManager.OPTION_APPWIDGET_SIZES,
+                    SizeF::class.java
                 )
             }
             // Check that the list of sizes is provided by the launcher.
