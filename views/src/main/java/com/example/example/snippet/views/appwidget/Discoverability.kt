@@ -39,12 +39,8 @@ private fun discoverabilitySnippet(context: Context) {
             /* context = */ context,
             /* requestCode = */ 0,
             /* intent = */ Intent(
-                // [START_EXCLUDE silent]
-                    /*
-                    // [END_EXCLUDE]
-                    ...
-                    // [START_EXCLUDE silent]
-                     */
+                // [START_EXCLUDE]
+                context, ExampleAppWidgetProvider::class.java
                 // [END_EXCLUDE]
             ),
             /* flags = */ PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
