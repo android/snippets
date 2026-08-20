@@ -15,6 +15,7 @@
      limitations under the License.
 -->
 <!-- [START android_views_appwidgets_enhance_smooth_transitions] -->
+<!-- Top-level layout of the widget. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/background"
     android:layout_width="match_parent"
