@@ -34,9 +34,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalMediaQueryApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.UiMediaScope.Posture
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.mediaQuery
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -281,3 +284,54 @@ private fun TextCard(
     }
 }
 // [END android_compose_grid_overlay_helper_text_card]
+
+// [START android_compose_grid_tabletop_config_setup]
+enum class VideoPlayerArea { Player, Controller }
+
+// Default: Single area layout with overlay (controls on top of player)
+val defaultConfig: GridConfigurationScope.() -> Unit = {
+    row(1f)
+    column(1f)
+    area(areaId = VideoPlayerArea.Player, row = 1, column = 1)
+    area(areaId = VideoPlayerArea.Controller, row = 1, column = 1)
+}
+
+// Tabletop: Two rows splitting content across the fold
+val tabletopConfig: GridConfigurationScope.() -> Unit = {
+    row(0.5f)
+    row(0.5f)
+    column(1f)
+    area(areaId = VideoPlayerArea.Player, row = 1, column = 1) // Top half above fold
+    area(areaId = VideoPlayerArea.Controller, row = 2, column = 1) // Bottom half below fold
+}
+// [END android_compose_grid_tabletop_config_setup]
+
+@OptIn(ExperimentalMediaQueryApi::class)
+@Composable
+@Preview
+private fun GridTabletop() {
+    // [START android_compose_grid_tabletop]
+    val config = mediaQuery {
+        when (windowPosture) {
+            Posture.Tabletop -> tabletopConfig
+            else -> defaultConfig
+        }
+    }
+
+    Grid(config = config) {
+        Box(
+            modifier = Modifier
+                .gridItem(areaId = VideoPlayerArea.Player)
+        ) {
+            // VideoPlayerContent
+        }
+
+        Box(
+            modifier = Modifier
+                .gridItem(areaId = VideoPlayerArea.Controller)
+        ) {
+            // PlaybackControlsContent
+        }
+    }
+    // [END android_compose_grid_tabletop]
+}
