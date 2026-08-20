@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.navigation
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import kotlin.reflect.KClass
@@ -124,3 +125,20 @@ private object SnippetLifecycleBefore {
         // [END android_compose_navigation3_lifecycle_before]
     }
 }
+
+private object SnippetDeepLinksBefore {
+    @Serializable data class RouteA(val id: String)
+
+    fun NavGraphBuilder.deepLinksBefore() {
+        // [START android_compose_navigation3_deeplinks_before]
+        composable<RouteA>(
+            deepLinks = listOf(
+                navDeepLink { uriPattern = "example.com/user/{id}" }
+            )
+        ) {
+            // ...
+        }
+        // [END android_compose_navigation3_deeplinks_before]
+    }
+}
+
