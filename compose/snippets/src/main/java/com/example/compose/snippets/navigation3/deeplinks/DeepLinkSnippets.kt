@@ -17,6 +17,7 @@
 package com.example.compose.snippets.navigation3.deeplinks
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.navigation3.runtime.NavKey
@@ -25,11 +26,14 @@ import androidx.navigation3.runtime.deeplink.BackStackMatchResult
 import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest.Companion.MimeTypeExtrasKey
+import androidx.navigation3.runtime.deeplink.DeepLinkSerializer
 import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.IntentExtrasKey
 import androidx.navigation3.runtime.deeplink.RequestExtras
 import androidx.navigation3.runtime.deeplink.RequestExtrasKey
 import androidx.navigation3.runtime.deeplink.StaticKeyDeepLinkMatcher
 import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.UriMatchResult
 import androidx.navigation3.runtime.deeplink.actionExtra
 import androidx.navigation3.runtime.deeplink.actionFilter
 import androidx.navigation3.runtime.deeplink.invoke
@@ -41,7 +45,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.multibindings.IntoSet
 import javax.inject.Inject
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.serializer
 
 // Define keys used in snippets
@@ -72,13 +78,20 @@ data object MovieKey : NavKey
 @Serializable
 data class MovieDetailsKey(val id: String) : NavKey
 
-enum class SortOrder { RELEVANCE, DATE, RATING }
+enum class SortOrder { RELEVANCE, DATE, POPULARITY }
 
 @Serializable
-data class SearchFilters(val category: String, val sortBy: SortOrder)
+data class SearchFilters(
+    val category: String,
+    val sortBy: SortOrder = SortOrder.RELEVANCE
+)
 
 @Serializable
-data class SearchKey(val query: String, val filters: SearchFilters) : NavKey
+data class SearchKey(
+    val query: String,
+    val page: Int = 1,
+    val filters: SearchFilters
+) : NavKey
 
 enum class UserDetailsTab { INFO, ACTIVITY, SETTINGS }
 
@@ -87,6 +100,78 @@ data class UserDetailsKey(val id: Int, val initialTab: UserDetailsTab = UserDeta
 
 val DeepLinkRequest.Companion.MimeTypeExtrasKey: RequestExtrasKey<String>
     inline get() = DeepLinkRequest.Companion.MimeTypeExtrasKey
+
+// [START android_compose_navigation3_deeplinks_custom_serializer]
+@Serializable
+data class Filter(val key: String, val value: String)
+
+object FilterSerializer : DeepLinkSerializer<Filter>() {
+    override val serialName: String = "com.example.Filter"
+
+    override fun deserialize(value: String): Filter {
+        val parts = value.split(":", limit = 2)
+        if (parts.size < 2) {
+            throw SerializationException("Invalid filter: $value. Expected 'key:value'.")
+        }
+        return Filter(key = parts[0], value = parts[1])
+    }
+
+    override fun serialize(value: Filter): String = "${value.key}:${value.value}"
+}
+
+@Serializable
+data class SearchResultsKey(
+    val query: String,
+    val filters: List<@Serializable(with = FilterSerializer::class) Filter> = emptyList()
+) : NavKey
+// [START_EXCLUDE]
+fun customSerializerUsage() {
+// [END_EXCLUDE]
+    val searchResultsPattern = DeepLinkUri("www.example.com/search?q={query}&filter={filters}")
+    val searchResultsMatcher = UriDeepLinkMatcher(searchResultsPattern, serializer<SearchResultsKey>())
+
+    val request = DeepLinkRequest(uri = "https://www.example.com/search?q=phone&filter=brand:pixel&filter=color:hazel")
+    val matchResult = searchResultsMatcher.match(request)
+    val key = matchResult?.key
+// SearchResultsKey(query = "phone", filters = listOf(Filter("brand", "pixel"), Filter("color", "hazel")))
+// [START_EXCLUDE]
+}
+// [END_EXCLUDE]
+// [END android_compose_navigation3_deeplinks_custom_serializer]
+
+// [START android_compose_navigation3_deeplinks_uri_matcher_unsupported]
+// Throws IllegalArgumentException: Map decoding is not supported.
+@Serializable
+data class InvalidMapKey(val tags: Map<String, String>) : NavKey
+
+// Throws SerializationException: Only collections of primitives are supported.
+@Serializable
+data class InvalidListKey(val filters: List<Filter>) : NavKey
+
+// Fix: Annotate the element with @Serializable(with = FilterSerializer::class)
+@Serializable
+data class ValidListKey(
+    val filters: List<@Serializable(with = FilterSerializer::class) Filter>
+) : NavKey
+// [END android_compose_navigation3_deeplinks_uri_matcher_unsupported]
+
+// [START android_compose_navigation3_deeplinks_custom_uri_matcher]
+class LegacyPrefixUriDeepLinkMatcher<T : Any>(
+    uriPattern: DeepLinkUri,
+    serializer: KSerializer<T>
+) : UriDeepLinkMatcher<T>(uriPattern, serializer) {
+
+    override fun matchUri(uri: DeepLinkUri): UriMatchResult<T>? {
+        val path = uri.path
+        val normalizedUri = if (path != null && path.startsWith("/legacy/")) {
+            DeepLinkUri(uri.toString().replaceFirst("/legacy", ""))
+        } else {
+            uri
+        }
+        return super.matchUri(normalizedUri)
+    }
+}
+// [END android_compose_navigation3_deeplinks_custom_uri_matcher]
 
 // [START android_compose_navigation3_deeplinks_custom_matcher]
 class TelDeepLinkMatcher : DeepLinkMatcher<DialerKey, DeepLinkMatcher.MatchResult<DialerKey>>() {
@@ -156,9 +241,29 @@ class DeepLinkSnippets {
         // [END android_compose_navigation3_deeplinks_request]
     }
 
-    fun requestFromIntent(intent: Intent) {
+    fun requestFromIntent() {
         // [START android_compose_navigation3_deeplinks_request_intent]
-        val request = DeepLinkRequest(intent = intent)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("https://www.example.com/item/42")
+            type = "application/json"
+            putExtra("user_id", "123")
+        }
+
+        val request = DeepLinkRequest(
+            intent = intent,
+            extras = requestExtras {
+                put(SnippetCustomExtras.CampaignIdExtrasKey, "spring_promo")
+            }
+        )
+
+        // The resulting DeepLinkRequest contains:
+        val uri = request.uri // "https://www.example.com/item/42"
+        val action = request.extras[DeepLinkRequest.ActionExtrasKey] // "android.intent.action.VIEW"
+        val mimeType = request.extras[DeepLinkRequest.MimeTypeExtrasKey] // "application/json"
+        val intentExtras: android.os.Bundle? =
+            request.extras[DeepLinkRequest.IntentExtrasKey]
+        val userId: String? = intentExtras?.getString("user_id") // "123"
+        val campaignId: String? = request.extras[SnippetCustomExtras.CampaignIdExtrasKey] // "spring_promo"
         // [END android_compose_navigation3_deeplinks_request_intent]
     }
 
@@ -179,7 +284,7 @@ class DeepLinkSnippets {
         // [END android_compose_navigation3_deeplinks_extras_dsl]
     }
 
-    private object SnippetCustomExtras {
+    object SnippetCustomExtras {
         // [START android_compose_navigation3_deeplinks_custom_extras]
         // Define a custom typed key:
         object CampaignIdExtrasKey : RequestExtrasKey<String>
@@ -218,10 +323,10 @@ class DeepLinkSnippets {
 
     fun uriMatcher() {
         // [START android_compose_navigation3_deeplinks_uri_matcher]
-        val userProfilePatternUri = DeepLinkUri("www.example.com/users/{id}")
-        val userProfileMatcher = UriDeepLinkMatcher(userProfilePatternUri, serializer<UserProfileKey>())
+        val userProfilePattern = DeepLinkUri("www.example.com/users/{id}")
+        val userProfileMatcher = UriDeepLinkMatcher(userProfilePattern, serializer<UserProfileKey>())
 
-        val request = DeepLinkRequest("https://www.example.com/users/123")
+        val request = DeepLinkRequest(uri = "https://www.example.com/users/123")
         val matchResult = userProfileMatcher.match(request)
         val key = matchResult?.key // UserProfileKey(id = "123")
         // [END android_compose_navigation3_deeplinks_uri_matcher]
@@ -229,21 +334,14 @@ class DeepLinkSnippets {
 
     fun uriMatcherQuery() {
         // [START android_compose_navigation3_deeplinks_uri_matcher_query]
-        val pattern = DeepLinkUri("www.example.com/search?q={query}&category={category}&sortBy={sortBy}")
-        val matcher = UriDeepLinkMatcher(pattern, serializer<SearchKey>())
-        val request = DeepLinkRequest("https://www.example.com/search?q=kotlin&category=books&sortBy=DATE")
-        val matchResult = matcher.match(request)
-        val key = matchResult?.key // SearchKey(query = "kotlin", filters = SearchFilters(category = "books", sortBy = SortOrder.DATE))
-        // [END android_compose_navigation3_deeplinks_uri_matcher_query]
-    }
+        val searchPattern = DeepLinkUri("www.example.com/search?q={query}&page={page}&category={category}&sortBy={sortBy}")
+        val searchMatcher = UriDeepLinkMatcher(searchPattern, serializer<SearchKey>())
 
-    fun uriMatcherValidation() {
-        // [START android_compose_navigation3_deeplinks_uri_matcher_validation]
-        val matcher = UriDeepLinkMatcher(
-            DeepLinkUri("example.com/user/{id}?tab={initialTab}"),
-            serializer<UserDetailsKey>()
-        )
-        // [END android_compose_navigation3_deeplinks_uri_matcher_validation]
+        val request = DeepLinkRequest(uri = "https://www.example.com/search?q=kotlin&category=books&sortBy=DATE")
+        val matchResult = searchMatcher.match(request)
+
+        val key = matchResult?.key // SearchKey(query = "kotlin", page = 1, filters = SearchFilters(category = "books", sortBy = SortOrder.DATE))
+        // [END android_compose_navigation3_deeplinks_uri_matcher_query]
     }
 
     fun backStackMatcher() {

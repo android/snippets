@@ -164,18 +164,8 @@ private object SnippetDeepLinksAfter {
     // [END android_compose_navigation3_deeplinks_after_matcher]
 
     // [START android_compose_navigation3_deeplinks_after_activity]
-    val deepLinkMatchers = listOf(
+    val deepLinkMatchers: List<DeepLinkMatcher<*, *>> = listOf(
         userMatcher,
-        // [START_EXCLUDE]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE]
-        */
-        object : DeepLinkMatcher<NavKey, DeepLinkMatcher.MatchResult<NavKey>>() {
-            override fun matchRequest(request: DeepLinkRequest): MatchResult<NavKey>? = null
-        }
-        // [END_EXCLUDE]
     )
 
     class MainActivity : ComponentActivity() {
