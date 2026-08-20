@@ -178,9 +178,7 @@ private object CollectionsProviderPendingIntent {
 
     class StackWidgetProvider : AppWidgetProvider() {
 
-        // [START_EXCLUDE]
         // ...
-        // [END_EXCLUDE]
 
         // Called when the BroadcastReceiver receives an Intent broadcast.
         // Checks whether the intent's action is TOAST_ACTION. If it is, the
@@ -281,9 +279,7 @@ private object CollectionsFactoryFillInIntent {
             // deferred to onDataSetChanged() or getViewAt(). Taking more than 20
             // seconds on this call results in an ANR.
             widgetItems = List(REMOTE_VIEW_COUNT) { index -> WidgetItem("$index!") }
-            // [START_EXCLUDE]
             // ...
-            // [END_EXCLUDE]
         }
 
         // [START_EXCLUDE]
@@ -313,14 +309,10 @@ private object CollectionsFactoryFillInIntent {
                 // Make it possible to distinguish the individual on-click
                 // action of a given item.
                 setOnClickFillInIntent(R.id.widget_item, fillInIntent)
-                // [START_EXCLUDE]
                 // ...
-                // [END_EXCLUDE]
             }
         }
-        // [START_EXCLUDE]
         // ...
-        // [END_EXCLUDE]
     }
     // [END android_views_appwidgets_collections_factory_fill_in_intent]
 }
@@ -336,9 +328,7 @@ private fun remoteCollectionItemsSnippet(
     val itemLayouts = listOf(
         R.layout.item_type_1,
         R.layout.item_type_2,
-        // [START_EXCLUDE]
         // ...
-        // [END_EXCLUDE]
     )
 
     remoteView.setRemoteAdapter(
@@ -346,9 +336,7 @@ private fun remoteCollectionItemsSnippet(
         RemoteViews.RemoteCollectionItems.Builder()
             .addItem(/* id= */ ID_1, RemoteViews(context.packageName, R.layout.item_type_1))
             .addItem(/* id= */ ID_2, RemoteViews(context.packageName, R.layout.item_type_2))
-            // [START_EXCLUDE]
             // ...
-            // [END_EXCLUDE]
             .setViewTypeCount(itemLayouts.count())
             .build()
     )
