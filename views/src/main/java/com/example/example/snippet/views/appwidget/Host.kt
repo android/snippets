@@ -19,12 +19,8 @@ package com.example.example.snippet.views.appwidget
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
-import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-
-private val AppWidgetProviderInfo.componentName: ComponentName
-    get() = provider
 
 private class HostActivity : Activity() {
     fun displayBindingDialog(
@@ -36,7 +32,7 @@ private class HostActivity : Activity() {
         // [START android_views_appwidgets_host_bind_dialog]
         val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, info.componentName)
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, info.provider)
             // This is the options bundle described in the preceding section.
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS, options)
         }
