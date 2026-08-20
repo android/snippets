@@ -937,9 +937,9 @@ object GlanceInteroperability {
 
 private object SnapScrollingSnippet {
 
+    // [START android_compose_glance_snap_scrolling]
     private data class ColorItem(val color: Color, val name: String)
 
-    // [START android_compose_glance_snap_scrolling]
     @Composable
     fun SnapScrollLayout() {
         val height = LocalSize.current.height
