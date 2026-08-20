@@ -215,11 +215,11 @@ private fun PredictiveBackHandlerFlowExample(isBackHandlerEnabled: Boolean) {
     PredictiveBackHandler(enabled = isBackHandlerEnabled) { progress: Flow<BackEventCompat> ->
         try {
             progress.collect { backEvent ->
-                // Update your UI or animation based on backEvent.progress
+                // Update your UI or animation based on backEvent.progress.
             }
-            // Handle the final back action (e.g., navigate back)
+            // Handle the final back action (e.g., navigate back).
         } catch (e: CancellationException) {
-            // Back gesture was cancelled, reset your UI
+            // Back gesture was cancelled, reset your UI.
         }
     }
     // [END android_predictive_back_handler_progress]
@@ -238,11 +238,11 @@ fun DetailScreen(onBack: () -> Unit) {
                 scale = 1f - backEvent.progress
                 xOffset = backEvent.progress * 100f
             }
-            // User completed gesture
+            // User completed gesture.
             onBack()
         } catch (e: CancellationException) {
-            // User cancelled gesture
-            // Animate scale and xOffset back to 1f and 0f respectively
+            // User cancelled gesture.
+            // Animate scale and xOffset back to 1f and 0f respectively.
             scope.launch {
                 animate(scale, 1f) { value, _ -> scale = value }
             }

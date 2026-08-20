@@ -266,11 +266,11 @@ private class SetupE2ESnippetsActivity : ComponentActivity() {
 
     private fun statusBarIconsExample(window: Window) {
         // [START android_compose_e2e_status_bar_icons]
-        // Set status bar icons to dark
+        // Set status bar icons to dark.
         WindowCompat.getInsetsController(window, window.decorView)
             .isAppearanceLightStatusBars = true
 
-        // Set status bar icons to light
+        // Set status bar icons to light.
         WindowCompat.getInsetsController(window, window.decorView)
             .isAppearanceLightStatusBars = false
         // [END android_compose_e2e_status_bar_icons]
