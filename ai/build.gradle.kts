@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.firebase.ai)
     implementation(libs.firebase.ondevice)
     implementation(libs.guava.android)
+    implementation(libs.mlkit.genai.prompt)
+    ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)
