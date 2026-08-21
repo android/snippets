@@ -178,4 +178,7 @@ dependencies {
 
     androidTestImplementation(libs.androidx.glance.testing)
     androidTestImplementation(libs.androidx.glance.appwidget.testing)
+
+    debugImplementation(libs.fragment.testing.manifest)
+    androidTestImplementation(libs.fragment.testing)
 }
