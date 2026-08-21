@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.androidx.activity.compose) // For ComponentActivity
+    implementation(libs.androidx.security.app.authenticator)
 }
