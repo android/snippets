@@ -288,21 +288,23 @@ private fun TextCard(
 // [START android_compose_grid_tabletop_config_setup]
 enum class VideoPlayerArea { Player, Controller }
 
-// Default: Single area layout with overlay (controls on top of player)
-val defaultConfig: GridConfigurationScope.() -> Unit = {
-    row(1f)
-    column(1f)
-    area(areaId = VideoPlayerArea.Player, row = 1, column = 1)
-    area(areaId = VideoPlayerArea.Controller, row = 1, column = 1)
-}
+object PlayerGridConfig {
+    // Default: Single area layout with overlay (controls on top of player)
+    val defaultConfig: GridConfigurationScope.() -> Unit = {
+        row(1f)
+        column(1f)
+        area(areaId = VideoPlayerArea.Player, row = 1, column = 1)
+        area(areaId = VideoPlayerArea.Controller, row = 1, column = 1)
+    }
 
-// Tabletop: Two rows splitting content across the fold
-val tabletopConfig: GridConfigurationScope.() -> Unit = {
-    row(0.5f)
-    row(0.5f)
-    column(1f)
-    area(areaId = VideoPlayerArea.Player, row = 1, column = 1) // Top half above fold
-    area(areaId = VideoPlayerArea.Controller, row = 2, column = 1) // Bottom half below fold
+    // Tabletop: Two rows splitting content across the fold
+    val tabletopConfig: GridConfigurationScope.() -> Unit = {
+        row(0.5f)
+        row(0.5f)
+        column(1f)
+        area(areaId = VideoPlayerArea.Player, row = 1, column = 1) // Top half above fold
+        area(areaId = VideoPlayerArea.Controller, row = 2, column = 1) // Bottom half below fold
+    }
 }
 // [END android_compose_grid_tabletop_config_setup]
 
@@ -313,8 +315,8 @@ private fun GridTabletop() {
     // [START android_compose_grid_tabletop]
     val config = mediaQuery {
         when (windowPosture) {
-            Posture.Tabletop -> tabletopConfig
-            else -> defaultConfig
+            Posture.Tabletop -> PlayerGridConfig.tabletopConfig
+            else -> PlayerGridConfig.defaultConfig
         }
     }
 
