@@ -127,7 +127,6 @@ fun HandlingBackWithTransitionState(
 
 
 // [START android_compose_predictiveback_navevent_animation]
-
 object Routes {
     const val SCREEN_A = "Screen A"
     const val SCREEN_B = "Screen B"
