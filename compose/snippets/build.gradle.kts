@@ -77,6 +77,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     val composeBom = platform(libs.androidx.compose.bom)
