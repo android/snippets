@@ -72,6 +72,7 @@ dependencies {
     // CameraX dependencies
     implementation(libs.androidx.camera.core)
     implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.compose)
     implementation(libs.androidx.camera.viewfinder.compose)
