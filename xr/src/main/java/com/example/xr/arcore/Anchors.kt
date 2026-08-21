@@ -17,21 +17,21 @@
 package com.example.xr.arcore
 
 import androidx.xr.arcore.Anchor
-import androidx.xr.arcore.AnchorCreateSuccess
-import androidx.xr.arcore.Trackable
+import androidx.xr.arcore.Plane
+import androidx.xr.runtime.AnchorPersistenceMode
 import androidx.xr.runtime.Config
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.Pose
-import androidx.xr.scenecore.AnchorEntity
+import androidx.xr.scenecore.AnchorSpace
 import androidx.xr.scenecore.Entity
 import androidx.xr.scenecore.scene
 
 fun configureAnchoring(session: Session) {
     // [START androidxr_arcore_anchoring_configure]
-    val newConfig = session.config.copy(
-        anchorPersistence = Config.AnchorPersistenceMode.LOCAL,
-    )
+    val newConfig = Config.Builder(session.config)
+        .setAnchorPersistence(AnchorPersistenceMode.LOCAL)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -41,22 +41,15 @@ fun configureAnchoring(session: Session) {
 }
 
 private fun createAnchorAtPose(session: Session, pose: Pose) {
-    val pose = Pose()
     // [START androidxr_arcore_anchor_create]
-    when (val result = Anchor.create(session, pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
-    }
+    val anchor = Anchor.create(session, pose)
     // [END androidxr_arcore_anchor_create]
 }
 
-private fun createAnchorAtTrackable(trackable: Trackable<*>) {
+private fun createAnchorAtAnchorable(plane: Plane) {
     val pose = Pose()
     // [START androidxr_arcore_anchor_create_trackable]
-    when (val result = trackable.createAnchor(pose)) {
-        is AnchorCreateSuccess -> { /* anchor stored in `result.anchor`. */ }
-        else -> { /* handle failure */ }
-    }
+    val anchor = plane.createAnchor(pose)
     // [END androidxr_arcore_anchor_create_trackable]
 }
 
@@ -66,7 +59,7 @@ private fun attachEntityToAnchor(
     anchor: Anchor
 ) {
     // [START androidxr_arcore_entity_tracks_anchor]
-    AnchorEntity.create(session, anchor).apply {
+    AnchorSpace.create(session, anchor).apply {
         parent = session.scene.activitySpace
         addChild(entity)
     }

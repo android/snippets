@@ -36,18 +36,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.xr.compose.spatial.ContentEdge
 import androidx.xr.compose.spatial.Orbiter
-import androidx.xr.compose.spatial.OrbiterOffsetType
+import androidx.xr.compose.spatial.OrbiterAlignment
+import androidx.xr.compose.spatial.OrbiterEdgeOffsetType
 import androidx.xr.compose.spatial.Subspace
-import androidx.xr.compose.subspace.MovePolicy
-import androidx.xr.compose.subspace.ResizePolicy
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.SpatialRow
 import androidx.xr.compose.subspace.layout.SpatialRoundedCornerShape
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
+import androidx.xr.compose.subspace.layout.movable
+import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
+import androidx.xr.compose.unit.DpVolumeOffset
 import com.example.xr.R
 
 @Composable
@@ -57,9 +58,9 @@ private fun OrbiterExampleSubspace() {
         SpatialPanel(
             SubspaceModifier
                 .height(824.dp)
-                .width(1400.dp),
-            dragPolicy = MovePolicy(),
-            resizePolicy = ResizePolicy(),
+                .width(1400.dp)
+                .resizable()
+                .movable(),
         ) {
             SpatialPanelContent()
             OrbiterExample()
@@ -72,9 +73,10 @@ private fun OrbiterExampleSubspace() {
 @Composable
 fun OrbiterExample() {
     Orbiter(
-        position = ContentEdge.Bottom,
-        offset = 96.dp,
-        alignment = Alignment.CenterHorizontally
+        alignment = OrbiterAlignment.BottomCenter(
+            edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+            offset = DpVolumeOffset(y = 96.dp)
+        ),
     ) {
         Surface(Modifier.clip(CircleShape)) {
             Row(
@@ -102,9 +104,10 @@ fun OrbiterAnchoringExample() {
     Subspace {
         SpatialRow {
             Orbiter(
-                position = ContentEdge.Top,
-                offset = 8.dp,
-                offsetType = OrbiterOffsetType.InnerEdge,
+                alignment = OrbiterAlignment.TopCenter(
+                    edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+                    offset = DpVolumeOffset(y = 8.dp)
+                ),
                 shape = SpatialRoundedCornerShape(size = CornerSize(50))
             ) {
                 Text(
@@ -151,9 +154,10 @@ private fun Ui2DToOribiter() {
 
     // New XR differentiated approach
     Orbiter(
-        position = ContentEdge.Start,
-        offset = dimensionResource(R.dimen.start_orbiter_padding),
-        alignment = Alignment.Top
+        alignment = OrbiterAlignment.TopStart(
+            edgeOffsetType = OrbiterEdgeOffsetType.OuterEdge,
+            offset = DpVolumeOffset(x = dimensionResource(R.dimen.start_orbiter_padding))
+        )
     ) {
         NavigationRail()
     }

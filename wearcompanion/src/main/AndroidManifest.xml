@@ -35,6 +35,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".notifications.LaunchOnWearActivity" />
+
         <!-- [START android_wearcompanion_notification_bridge_manifest] -->
         <!-- Beware, this can have unintended consequences before the user is signed-in -->
         <meta-data

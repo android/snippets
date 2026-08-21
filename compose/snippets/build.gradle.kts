@@ -16,7 +16,6 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.parcelize)
@@ -24,10 +23,12 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt())
-        {minorApiLevel = 1}} // Android 16 QPR 2
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -46,6 +47,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
         }
@@ -54,10 +56,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -79,6 +77,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.glance.preview)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.adaptive.layout)
     implementation(libs.androidx.compose.material3.adaptive.navigation)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.compose.material3.windowsizeclass)
     implementation(libs.androidx.compose.material)
 
     implementation(libs.androidx.compose.runtime)
@@ -118,6 +119,7 @@ dependencies {
     implementation(libs.androidx.glance.material3)
 
     implementation(libs.androidx.window.core)
+    implementation(libs.androidx.window)
 
     implementation(libs.accompanist.theme.adapter.appcompat)
     implementation(libs.accompanist.theme.adapter.material3)
@@ -129,6 +131,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.pip)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)
@@ -139,7 +142,13 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.compose.material3.adaptive.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     implementation(libs.androidx.recyclerview)
 
@@ -161,6 +170,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.glance.appwidget.preview)
 
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4.accessibility)

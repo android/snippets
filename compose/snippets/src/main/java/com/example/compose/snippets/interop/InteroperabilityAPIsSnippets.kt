@@ -257,7 +257,7 @@ class MyView(context: Context) : View(context) {
 
     fun clear() { }
 }
-// [END_EXCLUDE silent]
+// [END_EXCLUDE]
 // [END android_compose_interop_apis_views_in_compose]
 
 // [START android_compose_interop_apis_android_view_binding]

@@ -1,0 +1,17 @@
+# Android-specific
+/build
+/captures
+*.iml
+.externalNativeBuild
+.kotlin
+
+# Release artifacts
+/release
+*.aab
+*.apk
+
+# Local configuration
+local.properties
+
+# OS-specific
+.DS_Store

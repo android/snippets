@@ -1,0 +1,66 @@
+/*
+ * Copyright 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.snippets.room.creatingviews
+
+import androidx.room3.Dao
+import androidx.room3.Database
+import androidx.room3.DatabaseView
+import androidx.room3.Entity
+import androidx.room3.PrimaryKey
+import androidx.room3.RoomDatabase
+
+@Entity
+data class User(
+    @PrimaryKey val id: Long,
+    val name: String?,
+    val departmentId: Long
+)
+
+@Entity
+data class Department(
+    @PrimaryKey val id: Long,
+    val name: String?
+)
+
+@Dao
+interface UserDao
+
+// [START android_room3_creating_views_view]
+@DatabaseView(
+    """
+    SELECT User.id, User.name, User.departmentId, Department.name AS departmentName
+    FROM User INNER JOIN Department ON User.departmentId = Department.id
+    """
+)
+data class UserDetail(
+    val id: Long,
+    val name: String?,
+    val departmentId: Long,
+    val departmentName: String?
+)
+// [END android_room3_creating_views_view]
+
+// [START android_room3_creating_views_db]
+@Database(
+    entities = [User::class, Department::class],
+    views = [UserDetail::class],
+    version = 1
+)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+// [END android_room3_creating_views_db]

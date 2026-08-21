@@ -83,7 +83,7 @@ class AlwaysOnActivity : ComponentActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             when {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_GRANTED -> {
+                        PackageManager.PERMISSION_GRANTED -> {
                     Log.d(TAG, "POST_NOTIFICATIONS permission already granted")
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
@@ -186,7 +186,7 @@ fun WearApp() {
                                 if (runningService != null) {
                                     Log.d(TAG, "Stopping ${runningService?.simpleName}")
                                     context.stopService(Intent(context, runningService))
-                                 }
+                                }
                                 Log.d(TAG, "Starting ${serviceClass.simpleName}")
                                 val intent = Intent(context, serviceClass)
                                 context.startForegroundService(intent)

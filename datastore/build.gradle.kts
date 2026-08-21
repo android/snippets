@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
 
     // [START android_datastore_proto_plugin]
@@ -13,14 +12,20 @@ plugins {
     // [END android_datastore_serialization_plugin]
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("11")
+    }
+}
+
 android {
     namespace = "com.example.datastore.snippets"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.datastore.snippets"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -39,11 +44,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget("11")
-        }
     }
     buildFeatures {
         compose = true
@@ -107,7 +107,7 @@ dependencies {
 // [START android_datastore_proto_task]
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.32.1"
+        artifact = "com.google.protobuf:protoc:4.34.0"
     }
     generateProtoTasks {
         all().forEach { task ->

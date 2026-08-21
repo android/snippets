@@ -19,12 +19,12 @@ plugins {
 
 android {
     namespace = "com.example.simpledigital"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.simpledigital"
         minSdk = 36
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0.0"
     }

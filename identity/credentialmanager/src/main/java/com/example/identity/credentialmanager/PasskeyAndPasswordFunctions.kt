@@ -17,6 +17,7 @@
 package com.example.identity.credentialmanager
 
 import android.content.Context
+import android.content.MutableContextWrapper
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -106,12 +107,14 @@ class PasskeyAndPasswordFunctions(
             // [END android_identity_prepare_get_credential]
             // getCredential request without handling exception.
             // [START android_identity_launch_sign_in_flow_1]
+            // Use an activity-based context to avoid undefined system UI
+            // launching behavior.
+            val context = MutableContextWrapper(activityContext)
             coroutineScope {
                 try {
                     result = credentialManager.getCredential(
-                        // Use an activity-based context to avoid undefined system UI
-                        // launching behavior.
-                        context = activityContext,
+                        // Use MutableContextWrapper to avoid memory leak during configuration changes
+                        context = context,
                         request = credentialRequest
                     )
                     handleSignIn(result)
@@ -135,6 +138,47 @@ class PasskeyAndPasswordFunctions(
             // [END android_identity_handle_exceptions_no_credential]
         }
     }
+
+    fun signInWithPassword() {
+        // [START android_identity_password_get_request]
+        val getPasswordOption = GetPasswordOption()
+
+        val credentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(getPasswordOption)
+            .build()
+        // [END android_identity_password_get_request]
+
+        runBlocking {
+            // [START android_identity_password_get_credential]
+            // Use an activity-based context to avoid undefined system UI
+            // launching behavior.
+            val context = MutableContextWrapper(activityContext)
+            coroutineScope {
+                try {
+                    val result = credentialManager.getCredential(
+                        // Use MutableContextWrapper to avoid memory leak during configuration changes
+                        context = context,
+                        request = credentialRequest
+                    )
+                    handlePasswordSignIn(result)
+                } catch (e: GetCredentialException) {
+                    // Handle failure
+                }
+            }
+            // [END android_identity_password_get_credential]
+        }
+    }
+
+    // [START android_identity_password_handle_sign_in]
+    fun handlePasswordSignIn(result: GetCredentialResponse) {
+        val credential = result.credential
+        if (credential is PasswordCredential) {
+            val username = credential.id
+            val password = credential.password
+            // Use id and password to send to your server to validate and authenticate
+        }
+    }
+    // [END android_identity_password_handle_sign_in]
 
     fun autofillImplementation(
         requestJson: String
@@ -248,12 +292,14 @@ class PasskeyAndPasswordFunctions(
 
         // Execute createCredential asynchronously to register credentials
         // for a user account.
+        // Use an activity-based context to avoid undefined system UI
+        // launching behavior.
+        val context = MutableContextWrapper(activityContext)
         coroutineScope {
             try {
                 val result = credentialManager.createCredential(
-                    // Use an activity-based context to avoid undefined system
-                    // UI launching behavior
-                    context = activityContext,
+                    // Use MutableContextWrapper to avoid memory leak during configuration changes
+                    context = context,
                     request = createPublicKeyCredentialRequest,
                 )
                 //  Handle passkey creation result
@@ -305,13 +351,15 @@ class PasskeyAndPasswordFunctions(
             CreatePasswordRequest(id = username, password = password)
 
         // Create credential and handle result.
+        // Use an activity-based context to avoid undefined system UI
+        // launching behavior.
+        val context = MutableContextWrapper(activityContext)
         coroutineScope {
             try {
                 val result =
                     credentialManager.createCredential(
-                        // Use an activity based context to avoid undefined
-                        // system UI launching behavior.
-                        activityContext,
+                        // Use MutableContextWrapper to avoid memory leak during configuration changes
+                        context = context,
                         createPasswordRequest
                     )
                 // Handle register password result

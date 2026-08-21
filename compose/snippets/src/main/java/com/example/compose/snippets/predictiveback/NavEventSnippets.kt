@@ -18,11 +18,8 @@
 
 package com.example.compose.snippets.predictiveback
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent.EDGE_LEFT
-import android.view.MotionEvent.EDGE_RIGHT
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.MainThread
@@ -135,6 +132,7 @@ object Routes {
     const val SCREEN_A = "Screen A"
     const val SCREEN_B = "Screen B"
 }
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,7 +156,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@SuppressLint("ConfigurationScreenWidthHeight")
+
 @Composable
 fun ScreenB(
     backEventState: NavigationEventState<NavigationEventInfo>,
@@ -186,8 +184,8 @@ fun ScreenB(
         (widthDp.value / 20f) - 8
     }
     val offsetX = when (swipeEdge) {
-        EDGE_LEFT -> (backProgress * maxShift).dp
-        EDGE_RIGHT -> (-backProgress * maxShift).dp
+        NavigationEvent.EDGE_LEFT -> (backProgress * maxShift).dp
+        NavigationEvent.EDGE_RIGHT -> (-backProgress * maxShift).dp
         else -> 0.dp
     }
     NavigationBackHandler(
@@ -219,9 +217,9 @@ class MyComponent: NavigationEventDispatcherOwner {
 
 // [START android_compose_predictiveback_navevent_activity_own_dispatcher]
 class MyCustomActivity : ComponentActivity() {
-
+    // [START_EXCLUDE silent]
     lateinit var myNavigationEventHandler: NavigationEventHandler<NavigationEventInfo>
-
+    // [END_EXCLUDE]
     fun addMyHandler() {
         // navigationEventDispatcher provided by the ComponentActivity
         navigationEventDispatcher.addHandler(myNavigationEventHandler)

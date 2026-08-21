@@ -22,12 +22,10 @@ import androidx.xr.runtime.math.FloatSize3d
 import androidx.xr.scenecore.ResizableComponent
 import androidx.xr.scenecore.ResizeEvent
 import androidx.xr.scenecore.SurfaceEntity
-import java.util.concurrent.Executor
 
 private fun resizableComponentExample(
     session: Session,
     surfaceEntity: SurfaceEntity,
-    executor: Executor
 ) {
     // [START androidxr_scenecore_resizableComponentExample]
     val resizableComponent = ResizableComponent.create(session) { event ->

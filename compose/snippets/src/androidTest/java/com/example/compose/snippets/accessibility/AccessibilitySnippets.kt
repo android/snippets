@@ -33,7 +33,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.tryPerformAccessibilityChecks
 import androidx.compose.ui.unit.dp
@@ -116,9 +116,9 @@ class AccessibilityTest {
     }
 // [END android_compose_accessibility_testing_validator]
 
-    private val nodeMatcher = SemanticsMatcher(description = "DUMMY") { it.isRoot }
+    private val nodeMatcher = SemanticsMatcher(description = "Placeholder") { it.isRoot }
 
-    @Ignore("Dummy test")
+    @Ignore("Placeholder test")
 // [START android_compose_accessibility_testing]
     @Test
     fun test() {

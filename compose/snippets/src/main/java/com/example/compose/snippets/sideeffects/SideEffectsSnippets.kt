@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -52,6 +53,9 @@ import com.example.compose.snippets.interop.FirebaseAnalytics
 import com.example.compose.snippets.interop.User
 import com.example.compose.snippets.kotlin.Message
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -262,4 +266,55 @@ fun DerivedStateOfWrongUsage() {
     val fullNameBad by remember { derivedStateOf { "$firstName $lastName" } } // This is bad!!!
     val fullNameCorrect = "$firstName $lastName" // This is correct
     // [END android_compose_side_effects_derivedstateof_wrong]
+}
+
+@Composable
+private fun SnapshotFlowExample() {
+    // [START android_compose_side_effects_snapshotflow]
+    val listState = rememberLazyListState()
+
+    LazyColumn(state = listState) {
+        // ...
+    }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .map { index -> index > 0 }
+            .distinctUntilChanged()
+            .filter { it == true }
+            .collect {
+                MyAnalyticsService.sendScrolledPastFirstItemEvent()
+            }
+    }
+    // [END android_compose_side_effects_snapshotflow]
+}
+
+private object MyAnalyticsService {
+    fun sendScrolledPastFirstItemEvent() {}
+}
+
+private object RestartingEffectsSnippet {
+    // [START android_compose_side_effects_restarting_effects]
+    @Composable
+    fun HomeScreen(
+        lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+        onStart: () -> Unit, // Send the 'started' analytics event
+        onStop: () -> Unit // Send the 'stopped' analytics event
+    ) {
+        // These values never change in Composition
+        val currentOnStart by rememberUpdatedState(onStart)
+        val currentOnStop by rememberUpdatedState(onStop)
+
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, event ->
+                /* ... */
+            }
+
+            lifecycleOwner.lifecycle.addObserver(observer)
+            onDispose {
+                lifecycleOwner.lifecycle.removeObserver(observer)
+            }
+        }
+    }
+    // [END android_compose_side_effects_restarting_effects]
 }
