@@ -58,6 +58,7 @@ engageCore = "1.6.0"
 firebase-ai = "17.15.0"
 firebase-bom = "34.17.0"
 firebase-ondevice = "16.0.0-beta03"
+fragment-testing = "1.9.0"
 genaiSchemaCompiler = "1.0.0-alpha1"
 glance-wear = "1.0.0-alpha12"
 glide = "1.0.0-beta10"
@@ -291,6 +292,8 @@ engage-core = { module = "com.google.android.engage:engage-core", version.ref = 
 firebase-ai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ondevice = { module = "com.google.firebase:firebase-ai-ondevice", version.ref = "firebase-ondevice" }
+fragment-testing-manifest = { module = "androidx.fragment:fragment-testing-manifest", version.ref = "fragment-testing" }
+fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragment-testing" }
 genai-schema-compiler = { module = "com.google.mlkit:genai-schema-compiler", version.ref = "genaiSchemaCompiler" }
 glance-appwidget-preview = { module = "androidx.glance:glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 glance-preview = { module = "androidx.glance:glance-preview", version.ref = "androidx-glance-appwidget" }
