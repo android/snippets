@@ -103,4 +103,5 @@ allprojects {
 }
 
 apply("${project.rootDir}/buildscripts/toml-updater-config.gradle")
+apply<ExtractSnippetsPlugin>()
 
