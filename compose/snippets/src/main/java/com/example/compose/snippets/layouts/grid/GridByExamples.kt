@@ -22,18 +22,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
+import androidx.compose.foundation.layout.GridConfigurationScope
 import androidx.compose.foundation.layout.GridTrackSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalMediaQueryApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.UiMediaScope.Posture
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.mediaQuery
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Preview(showBackground = true)
 // [START android_compose_grid_layout_table_in_grid]
@@ -209,4 +219,121 @@ private fun WideClassicCardPreview() {
         extraText = "Extra text",
         modifier = Modifier.padding(16.dp)
     )
+}
+
+// [START android_compose_grid_overlay_config_setup]
+enum class Areas { A, B, C, OVERLAY }
+
+val gridConfig: GridConfigurationScope.() -> Unit = {
+    repeat(4) {
+        column(GridTrackSize.Fixed(100.dp))
+    }
+    repeat(2) {
+        row(GridTrackSize.Fixed(100.dp))
+    }
+    area(areaId = Areas.A, row = 1, column = 1, columnSpan = 2)
+    area(areaId = Areas.B, row = 1, column = 3, columnSpan = 2)
+    area(areaId = Areas.C, row = 2, column = 1, columnSpan = 2)
+    // Define a named area spanning multiple columns that overlaps other cells
+    area(areaId = Areas.OVERLAY, row = 2, column = 2, columnSpan = 3)
+}
+
+// [END android_compose_grid_overlay_config_setup]
+
+
+@Composable
+@Preview
+private fun GridOverlayCard() {
+// [START android_compose_grid_overlay]
+    Grid(
+        config = gridConfig,
+    ) {
+        TextCard("A", Modifier.gridItem(areaId = Areas.A))
+        TextCard("B", Modifier.gridItem(areaId = Areas.B))
+
+        // Base Layer C
+        TextCard("C", Modifier.gridItem(areaId = Areas.C))
+
+        // Overlay Layer (placed in the named area, overlapping C by sharing column 2)
+        TextCard(
+            "OVERLAY",
+            Modifier.gridItem(areaId = Areas.OVERLAY),
+            color = Color(0xDD4B608D)
+        )
+    }
+// [END android_compose_grid_overlay]
+}
+
+// [START android_compose_grid_overlay_helper_text_card]
+// Helper Component to render Grid content
+@Composable
+private fun TextCard(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color(0xFF424242)
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(4.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(color),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = text, color = Color.White, fontSize = 24.sp)
+    }
+}
+// [END android_compose_grid_overlay_helper_text_card]
+
+// [START android_compose_grid_tabletop_config_setup]
+enum class VideoPlayerArea { Player, Controller }
+
+object PlayerGridConfig {
+    // Default: Single area layout with overlay (controls on top of player)
+    val defaultConfig: GridConfigurationScope.() -> Unit = {
+        row(1f)
+        column(1f)
+        area(areaId = VideoPlayerArea.Player, row = 1, column = 1)
+        area(areaId = VideoPlayerArea.Controller, row = 1, column = 1)
+    }
+
+    // Tabletop: Two rows splitting content across the fold
+    val tabletopConfig: GridConfigurationScope.() -> Unit = {
+        row(0.5f)
+        row(0.5f)
+        column(1f)
+        area(areaId = VideoPlayerArea.Player, row = 1, column = 1) // Top half above fold
+        area(areaId = VideoPlayerArea.Controller, row = 2, column = 1) // Bottom half below fold
+    }
+}
+// [END android_compose_grid_tabletop_config_setup]
+
+@OptIn(ExperimentalMediaQueryApi::class)
+@Composable
+@Preview
+private fun GridTabletop() {
+    // [START android_compose_grid_tabletop]
+    val config = mediaQuery {
+        when (windowPosture) {
+            Posture.Tabletop -> PlayerGridConfig.tabletopConfig
+            else -> PlayerGridConfig.defaultConfig
+        }
+    }
+
+    Grid(config = config) {
+        Box(
+            modifier = Modifier
+                .gridItem(areaId = VideoPlayerArea.Player)
+        ) {
+            // VideoPlayerContent
+        }
+
+        Box(
+            modifier = Modifier
+                .gridItem(areaId = VideoPlayerArea.Controller)
+        ) {
+            // PlaybackControlsContent
+        }
+    }
+    // [END android_compose_grid_tabletop]
 }
