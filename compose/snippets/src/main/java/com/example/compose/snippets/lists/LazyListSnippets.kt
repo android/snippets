@@ -854,3 +854,16 @@ fun ScrollingGrid() {
     }
 }
 // [END android_compose_layout_scrollable_grid]
+
+@Composable
+private fun LazyVerticalGridAdaptiveSample() {
+    // [START android_compose_layout_scrollable_grid_adaptive]
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 20.dp)
+        // [START_EXCLUDE silent]
+        , content = {}
+        // [END_EXCLUDE]
+    )
+    // [END android_compose_layout_scrollable_grid_adaptive]
+}
+

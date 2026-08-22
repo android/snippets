@@ -80,6 +80,15 @@ fun CustomCardExample(event: () -> Unit) {
 }
 // [END android_compose_components_customcard]
 
+// [START android_compose_components_card_minimal]
+@Composable
+fun CardMinimalExample() {
+    Card() {
+        Text(text = "Hello, world!")
+    }
+}
+// [END android_compose_components_card_minimal]
+
 @Preview
 // [START android_compose_components_elevatedcard]
 @Composable
