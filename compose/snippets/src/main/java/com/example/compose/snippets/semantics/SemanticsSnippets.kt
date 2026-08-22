@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
@@ -43,4 +45,21 @@ private fun Merging() {
         Text("Like")
     }
     // [END android_compose_semantics_merging]
+}
+
+@Preview
+@Composable
+private fun CustomContentDescription() {
+    // [START android_compose_testing_semantics_content_description]
+    MyButton(
+        modifier = Modifier.semantics { contentDescription = "Add to favorites" }
+    )
+    // [END android_compose_testing_semantics_content_description]
+}
+
+@Composable
+private fun MyButton(modifier: Modifier = Modifier) {
+    Button(onClick = {}, modifier = modifier) {
+        Text("Like")
+    }
 }
