@@ -145,6 +145,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.collections.immutable)
     implementation(libs.androidx.compose.material3.adaptive.navigation3)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
