@@ -158,6 +158,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.glide.compose)
 
+    implementation(libs.androidx.ink.brush)
+    implementation(libs.androidx.ink.brush.compose)
+
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
