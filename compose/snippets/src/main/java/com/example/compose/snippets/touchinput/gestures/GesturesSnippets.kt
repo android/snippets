@@ -19,6 +19,9 @@
 package com.example.compose.snippets.touchinput.gestures
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
@@ -87,6 +90,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.compose.ui.util.fastRoundToInt
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -423,13 +433,168 @@ private object NestedScrollInterop {
     }
     // [END android_compose_touchinput_gestures_nested_scroll_interop_activity]
 
+    private val ToolbarHeight = 56.dp
+
+    @Composable
+    private fun TopAppBar(modifier: Modifier = Modifier) {}
+
+    // [START android_compose_touchinput_gestures_nested_scroll_interop_compose_parent_android_child]
+    @Composable
+    private fun NestedScrollInteropComposeParentWithAndroidChildExample() {
+        val toolbarHeightPx = with(LocalDensity.current) { ToolbarHeight.roundToPx().toFloat() }
+        val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
+
+        // Sets up the nested scroll connection between the Box composable parent
+        // and the child AndroidView containing the RecyclerView
+        val nestedScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    // Updates the toolbar offset based on the scroll to enable
+                    // collapsible behaviour
+                    val delta = available.y
+                    val newOffset = toolbarOffsetHeightPx.value + delta
+                    toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
+                    return Offset.Zero
+                }
+            }
+        }
+
+        Box(
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(nestedScrollConnection)
+        ) {
+            TopAppBar(
+                modifier = Modifier
+                    .height(ToolbarHeight)
+                    .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
+            )
+
+            AndroidView(
+                { context ->
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.view_in_compose_nested_scroll_interop, null).apply {
+                            with(findViewById<RecyclerView>(R.id.main_list)) {
+                                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                                adapter = NestedScrollInteropAdapter()
+                            }
+                        }.also {
+                            // Nested scrolling interop is enabled when
+                            // nested scroll is enabled for the root View
+                            ViewCompat.setNestedScrollingEnabled(it, true)
+                        }
+                },
+                // ...
+                // [START_EXCLUDE silent]
+                modifier = Modifier.fillMaxSize()
+                // [END_EXCLUDE]
+            )
+        }
+    }
+
+    private class NestedScrollInteropAdapter :
+        Adapter<NestedScrollInteropAdapter.NestedScrollInteropViewHolder>() {
+        val items = (1..10).map { it.toString() }
+
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): NestedScrollInteropViewHolder {
+            return NestedScrollInteropViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item, parent, false)
+            )
+        }
+
+        override fun onBindViewHolder(holder: NestedScrollInteropViewHolder, position: Int) {
+            // ...
+        }
+
+        class NestedScrollInteropViewHolder(view: View) : ViewHolder(view) {
+            fun bind(item: String) {
+                // ...
+            }
+        }
+        // ...
+        // [START_EXCLUDE silent]
+        override fun getItemCount(): Int = items.size
+        // [END_EXCLUDE]
+    }
+    // [END android_compose_touchinput_gestures_nested_scroll_interop_compose_parent_android_child]
+
+    // [START android_compose_touchinput_gestures_nested_scroll_interop_scrollable_view_in_compose]
+    @Composable
+    fun ViewInComposeNestedScrollInteropExample() {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .scrollable(rememberScrollableState {
+                    // View component deltas should be reflected in Compose
+                    // components that participate in nested scrolling
+                    it
+                }, Orientation.Vertical)
+        ) {
+            AndroidView(
+                { context ->
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.list_item, null)
+                        .apply {
+                            // Nested scrolling interop is enabled when
+                            // nested scroll is enabled for the root View
+                            ViewCompat.setNestedScrollingEnabled(this, true)
+                        }
+                }
+            )
+        }
+    }
+    // [END android_compose_touchinput_gestures_nested_scroll_interop_scrollable_view_in_compose]
+
+    // [START android_compose_touchinput_gestures_nested_scroll_interop_bottom_sheet_fragment]
+    class BottomSheetFragment : BottomSheetDialogFragment() {
+
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            val rootView: View = inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
+
+            rootView.findViewById<ComposeView>(R.id.compose_view).apply {
+                setContent {
+                    val nestedScrollInterop = rememberNestedScrollInteropConnection()
+                    LazyColumn(
+                        Modifier
+                            .nestedScroll(nestedScrollInterop)
+                            .fillMaxSize()
+                    ) {
+                        item {
+                            Text(text = "Bottom sheet title")
+                        }
+                        items(10) {
+                            Text(
+                                text = "List item number $it",
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
+                return rootView
+            }
+        }
+    }
+    // [END android_compose_touchinput_gestures_nested_scroll_interop_bottom_sheet_fragment]
+
     object R {
         object id {
             val compose_view = 1
+            val main_list = 2
         }
 
         object layout {
             val activity_main = 0
+            val view_in_compose_nested_scroll_interop = 1
+            val list_item = 2
+            val fragment_bottom_sheet = 3
         }
     }
 }
