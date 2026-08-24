@@ -22,14 +22,19 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.drawWithContent
@@ -232,4 +237,28 @@ fun MeshGradientAnimation(modifier: Modifier = Modifier) {
             .paint(gradientPainter)
     )
     // [END android_compose_graphics_mesh_gradient_animation]
+}
+
+@Preview
+@Composable
+fun MeshGradientExamplesScreen() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item(key = "basic") {
+            MeshGradientBasic()
+        }
+        item(key = "control_points") {
+            MeshGradientControlPoints()
+        }
+        item(key = "complex") {
+            MeshGradientComplex()
+        }
+        item(key = "animation") {
+            MeshGradientAnimation()
+        }
+    }
 }
