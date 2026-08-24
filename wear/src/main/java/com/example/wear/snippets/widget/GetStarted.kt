@@ -31,7 +31,6 @@ import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -116,9 +115,8 @@ fun ModularWidgetContent() {
 fun HelloWidgetPreview(
     @PreviewParameter(SquircleAllWidgetPreviewParams::class) params: WearWidgetParams,
 ) {
-    val widget = remember { HelloWidget() }
     WearWidgetPreview(
-        widget = widget,
+        widget = HelloWidget(),
         params = params,
     )
 }
@@ -149,7 +147,7 @@ fun HelloWidgetCatalogPreview(
     @PreviewParameter(RectangularLargeWidgetPreviewParams::class) params: WearWidgetParams,
 ) {
     WearWidgetPreview(
-        widget = remember { HelloWidget() },
+        widget = HelloWidget(),
         params = params,
     )
 }
