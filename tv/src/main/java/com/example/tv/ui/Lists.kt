@@ -122,7 +122,6 @@ PositionFocusedItemInLazyLayout {
         }
     }
 }
-// [START_EXCLUDE silent]
-}
-// [END_EXCLUDE]
 // [END android_tv_compose_lists_opt_out]
+}
+
