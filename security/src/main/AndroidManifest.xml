@@ -29,6 +29,39 @@
         android:name="com.example.snippets.permission.WRITE_DATA"
         android:protectionLevel="signature" />
 
+    <!--[START android_security_custom_permission_signature_manifest]-->
+    <permission
+        android:name="com.example.snippets.permission.ACCESS_SECURE_API"
+        android:protectionLevel="signature" />
+    <!--[END android_security_custom_permission_signature_manifest]-->
+
+    <!--[START android_security_custom_permission_known_signer_manifest]-->
+    <permission
+        android:name="com.example.snippets.permission.PARTNER_API"
+        android:protectionLevel="signature|knownSigner"
+        android:knownCerts="@array/trusted_partner_certs" />
+    <!--[END android_security_custom_permission_known_signer_manifest]-->
+
+    <!--[START android_security_content_provider_read_write_manifest]-->
+    <!-- Partner read permission (OS-validated via knownSigner) -->
+    <permission
+        android:name="com.example.snippets.permission.READ_DATA_PARTNER"
+        android:protectionLevel="signature|knownSigner"
+        android:knownCerts="@array/trusted_partner_certs" />
+
+    <!-- Owner-only write permission -->
+    <permission
+        android:name="com.example.snippets.permission.WRITE_DATA_OWNER"
+        android:protectionLevel="signature" />
+    <!--[END android_security_content_provider_read_write_manifest]-->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application>
         <!--[START android_security_custom_permission_activity_manifest]-->
         <activity
@@ -51,6 +84,56 @@
             android:writePermission="com.example.snippets.permission.WRITE_DATA"
             android:grantUriPermissions="false" />
         <!--[END android_security_contentprovider_manifest]-->
+
+        <activity
+            android:name=".permissions.CameraActivity"
+            android:exported="false" />
+
+        <!--[START android_security_custom_permission_service_manifest]-->
+        <service
+            android:name=".permissions.SecureDataService"
+            android:exported="true"
+            android:permission="com.example.snippets.permission.ACCESS_SECURE_API">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_GET_DATA" />
+            </intent-filter>
+        </service>
+        <!--[END android_security_custom_permission_service_manifest]-->
+
+        <!--[START android_security_known_signer_service_manifest]-->
+        <service
+            android:name=".permissions.PartnerDataService"
+            android:exported="true"
+            android:permission="com.example.snippets.permission.PARTNER_API">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_GET_PARTNER_DATA" />
+            </intent-filter>
+        </service>
+        <!--[END android_security_known_signer_service_manifest]-->
+
+        <!--[START android_security_protected_broadcast_receiver_manifest]-->
+        <receiver
+            android:name=".permissions.MyProtectedReceiver"
+            android:exported="true"
+            android:permission="com.example.snippets.permission.ACCESS_SECURE_API">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_SECRET_UPDATE" />
+            </intent-filter>
+        </receiver>
+        <!--[END android_security_protected_broadcast_receiver_manifest]-->
+
+        <service
+            android:name=".permissions.FineGrainedBoundService"
+            android:exported="false" />
+
+        <!--[START android_security_provider_read_write_manifest]-->
+        <provider
+            android:name=".permissions.PartnerSecureDataProvider"
+            android:authorities="com.example.snippets.partnerprovider"
+            android:exported="true"
+            android:readPermission="com.example.snippets.permission.READ_DATA_PARTNER"
+            android:writePermission="com.example.snippets.permission.WRITE_DATA_OWNER" />
+        <!--[END android_security_provider_read_write_manifest]-->
     </application>
 
 </manifest>
