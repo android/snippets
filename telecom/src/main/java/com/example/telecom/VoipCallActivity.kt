@@ -16,7 +16,11 @@
 
 package com.example.telecom
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
 import androidx.activity.ComponentActivity
@@ -91,4 +95,27 @@ class VoipCallActivity : ComponentActivity() {
     private fun getCallDetails(uuid: String?) { }
 
     private fun launchCall(callDetails: Any) { }
+
+    @RequiresApi(Build.VERSION_CODES.CINNAMON_BUN)
+    private fun launchIntegratedCallLogSettings() {
+        // [START android_telecom_launch_integrated_call_log_settings]
+        val intent = Intent(TelecomManager.ACTION_CONFIGURE_CALL_LOG_INTEGRATION)
+        startActivity(intent)
+        // [END android_telecom_launch_integrated_call_log_settings]
+    }
+
+    @RequiresApi(Build.VERSION_CODES.CINNAMON_BUN)
+    // [START android_telecom_voip_call_log_preference_receiver]
+    val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == TelecomManager.ACTION_VOIP_CALL_LOG_PREFERENCE) {
+                // Status of the Unified Call History of the app
+                val isEnabled = intent.getBooleanExtra(
+                    TelecomManager.EXTRA_VOIP_CALL_LOG_PREFERENCE_STATUS,
+                    true
+                )
+            }
+        }
+    }
+    // [END android_telecom_voip_call_log_preference_receiver]
 }

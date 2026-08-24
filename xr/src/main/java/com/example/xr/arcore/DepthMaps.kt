@@ -18,8 +18,8 @@ package com.example.xr.arcore
 
 import android.content.Context
 import androidx.xr.arcore.Depth
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.DepthEstimationMode
-import androidx.xr.runtime.ExperimentalXrDeviceLifecycleApi
 import androidx.xr.runtime.RenderingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -27,9 +27,9 @@ import androidx.xr.runtime.XrDevice
 
 private fun configureDepthEstimation(session: Session) {
     // [START androidxr_arcore_depthmaps_configure]
-    val newConfig = session.config.copy(
-        depthEstimation = DepthEstimationMode.SMOOTH_ONLY,
-    )
+    val newConfig = Config.Builder(session.config)
+        .setDepthEstimation(DepthEstimationMode.SMOOTH_ONLY)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -38,7 +38,6 @@ private fun configureDepthEstimation(session: Session) {
     // [END androidxr_arcore_depthmaps_configure]
 }
 
-@OptIn(ExperimentalXrDeviceLifecycleApi::class)
 private fun checkLeftDepthSupport(context: Context) {
     // [START androidxr_arcore_depthmaps_check_support]
     val xrDevice = XrDevice.getCurrentDevice(context)

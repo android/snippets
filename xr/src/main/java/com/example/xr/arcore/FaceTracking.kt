@@ -21,6 +21,7 @@ import androidx.xr.arcore.Face
 import androidx.xr.arcore.FaceBlendShapeType
 import androidx.xr.arcore.FaceConfidenceRegion
 import androidx.xr.arcore.TrackingState
+import androidx.xr.runtime.Config
 import androidx.xr.runtime.FaceTrackingMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
@@ -29,9 +30,9 @@ import androidx.xr.runtime.SessionConfigureSuccess
 @SuppressLint("RestrictedApi")
 private fun configureFaceTracking(session: Session) {
     // [START androidxr_arcore_faceTracking_configure]
-    val newConfig = session.config.copy(
-        faceTracking = FaceTrackingMode.BLEND_SHAPES,
-    )
+    val newConfig = Config.Builder(session.config)
+        .setFaceTracking(FaceTrackingMode.BLEND_SHAPES)
+        .build()
     when (val result = session.configure(newConfig)) {
         is SessionConfigureSuccess -> TODO(/* Success! */)
         else ->
@@ -43,7 +44,7 @@ private fun configureFaceTracking(session: Session) {
 @Suppress("UnusedVariable")
 private suspend fun getUserFace(session: Session) {
     // [START androidxr_arcore_faceTracking_getFace]
-    val face = Face.getUserFace(session) ?: return
+    val face = Face.getUserFace(session)
     face.state.collect { state ->
         if (state.trackingState != TrackingState.TRACKING) return@collect
 

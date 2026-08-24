@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 // [START android_appfunction_dependencies]
     implementation(libs.androidx.appfunctions)
-    implementation(libs.androidx.appfunctions.service)
     ksp(libs.androidx.appfunctions.compiler)
 // [END android_appfunction_dependencies]
     implementation(libs.androidx.compose.foundation)
@@ -62,11 +61,14 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlinx.metadata.jvm)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ai)
     implementation(libs.firebase.ondevice)
     implementation(libs.guava.android)
+    implementation(libs.mlkit.genai.prompt)
+    ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -116,9 +116,9 @@ class AccessibilityTest {
     }
 // [END android_compose_accessibility_testing_validator]
 
-    private val nodeMatcher = SemanticsMatcher(description = "DUMMY") { it.isRoot }
+    private val nodeMatcher = SemanticsMatcher(description = "Placeholder") { it.isRoot }
 
-    @Ignore("Dummy test")
+    @Ignore("Placeholder test")
 // [START android_compose_accessibility_testing]
     @Test
     fun test() {

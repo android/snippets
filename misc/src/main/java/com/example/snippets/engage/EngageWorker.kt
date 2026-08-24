@@ -21,11 +21,13 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.google.android.engage.common.datamodel.ClusterType
 import com.google.android.engage.service.AppEngageErrorCode
 import com.google.android.engage.service.AppEngageException
 import com.google.android.engage.service.AppEngagePublishClient
 import com.google.android.engage.service.AppEngagePublishStatusCode
 import com.google.android.engage.service.PublishStatusRequest
+import com.google.android.engage.service.ServiceAvailabilityRequest
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.tasks.await
 
@@ -47,19 +49,29 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
             return Result.failure()
         }
 
-        // Check if engage service is available before publishing.
-        val isAvailable = client.isServiceAvailable.await()
-
-        // If the service is not available, do not attempt to publish and indicate failure.
-        if (!isAvailable) {
-            return Result.failure()
+        val publishType = inputData.getString(Constants.PUBLISH_TYPE_KEY)
+        val intendedClusterType = when (publishType) {
+            Constants.PUBLISH_TYPE_RECOMMENDATIONS -> ClusterType.TYPE_RECOMMENDATION
+            Constants.PUBLISH_TYPE_FEATURED -> ClusterType.TYPE_FEATURED
+            Constants.PUBLISH_TYPE_CONTINUATION -> ClusterType.TYPE_CONTINUATION
+            Constants.PUBLISH_TYPE_USER_ACCOUNT_MANAGEMENT -> ClusterType.TYPE_ENGAGEMENT
+            else -> ClusterType.TYPE_UNKNOWN
         }
 
-        val publishType = inputData.getString(Constants.PUBLISH_TYPE_KEY)
+        if (intendedClusterType != ClusterType.TYPE_UNKNOWN) {
+            val request = ServiceAvailabilityRequest.Builder()
+                .addIntendedClusterType(intendedClusterType)
+                .build()
+            val availabilityMap = client.isServiceAvailable(request).await()
+            if (availabilityMap[intendedClusterType] != true) {
+                return Result.failure()
+            }
+        }
+
         return when (publishType) {
             Constants.PUBLISH_TYPE_RECOMMENDATIONS -> publishRecommendations()
             // Constants.PUBLISH_TYPE_FEATURED -> publishFeatured()
-            // Constants.PUBLISH_TYPE_CONTINUATION-> publishContinuation()
+            Constants.PUBLISH_TYPE_CONTINUATION -> publishContinuation()
             Constants.PUBLISH_TYPE_USER_ACCOUNT_MANAGEMENT -> publishUserAccountManagement()
             else -> Result.failure()
         }
@@ -70,6 +82,21 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         val publishTask: Task<Void> =
             client.publishRecommendationClusters(
                 clusterRequestFactory.constructRecommendationClustersRequest()
+            )
+        return publishAndProvideResult(publishTask)
+    }
+
+    private suspend fun publishContinuation(): Result {
+        // Empty Continuation Guard: If there is no continuation content,
+        // we must delete the cluster instead of publishing an empty one on the UI.
+        if (getContinuationData().isEmpty()) {
+            val deleteTask = client.deleteContinuationCluster()
+            return publishAndProvideResult(deleteTask)
+        }
+
+        val publishTask: Task<Void> =
+            client.publishContinuationCluster(
+                clusterRequestFactory.constructContinuationClusterRequest()
             )
         return publishAndProvideResult(publishTask)
     }
@@ -102,6 +129,13 @@ class EngageWorker(context: Context, workerParams: WorkerParameters) : Coroutine
         // Implement your app's sign-in check logic here.
         // [START_EXCLUDE]
         return true
+        // [END_EXCLUDE]
+    }
+
+    private fun getContinuationData(): List<Any> {
+        // Implement your app's data loading logic here.
+        // [START_EXCLUDE]
+        return emptyList()
         // [END_EXCLUDE]
     }
 

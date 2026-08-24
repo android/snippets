@@ -105,7 +105,8 @@ class VerifiedEmailFunctions(
                     // [START_EXCLUDE]
                     // 1. Parse the outer JSON wrapper to get the `vp_token`
                     val responseData = JSONObject(responseJsonString)
-                    val vpToken = responseData.getJSONObject("vp_token")
+                    val dataObject = responseData.getJSONObject("data")
+                    val vpToken = dataObject.getJSONObject("vp_token")
 
                     // 2. Extract the raw SD-JWT string
                     val credentialId = vpToken.keys().next()
@@ -201,12 +202,15 @@ class VerifiedEmailFunctions(
     /*
     // Example of the raw JSON response from credential.credentialJson:
     {
-      "vp_token": {
-        // This key matches the 'id' you set in your dcql_query
-        "user_info_query": [
-          // The SD-JWT string (Issuer JWT ~ Disclosures ~ Key Binding JWT)
-          "eyJhbGciOiJ...~WyI...IiwgImVtYWlsIiwgInVzZXJAZXhhbXBsZS5jb20iXQ~...~eyJhbGciOiJ..."
-        ]
+      "protocol": "openid4vp-v1-unsigned",
+      "data": {
+        "vp_token": {
+          // This key matches the 'id' you set in your dcql_query
+          "user_info_query": [
+            // The SD-JWT string (Issuer JWT ~ Disclosures ~ Key Binding JWT)
+            "eyJhbGciOiJ...~WyI...IiwgImVtYWlsIiwgInVzZXJAZXhhbXBsZS5jb20iXQ~...~eyJhbGciOiJ..."
+          ]
+        }
       }
     }
 
@@ -267,7 +271,7 @@ data class ServerResponse(val json: String)
 object SdJwtParser {
     fun parse(sdJwt: String): JSONObject {
         // In a real implementation, this would parse the SD-JWT and return the claims.
-        // For this example, we'll return a dummy JSON object.
+        // For this example, we'll return a placeholder JSON object.
         return JSONObject().apply {
             put("email", "example@example.com")
             put("name", "Example User")

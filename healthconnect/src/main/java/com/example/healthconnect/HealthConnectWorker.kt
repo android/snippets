@@ -19,7 +19,6 @@ package com.example.healthconnect
 import android.content.Context
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectFeatures
-import androidx.health.connect.client.feature.ExperimentalFeatureAvailabilityApi
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -40,7 +39,6 @@ class ScheduleWorker(appContext: Context, workerParams: WorkerParameters) :
 // [END android_healthconnect_background_read_worker]
 
 // [START android_healthconnect_background_read_workmanager]
-@OptIn(ExperimentalFeatureAvailabilityApi::class)
 fun enqueueBackgroundReadWorker(context: Context, healthConnectClient: HealthConnectClient) {
     if (healthConnectClient
             .features

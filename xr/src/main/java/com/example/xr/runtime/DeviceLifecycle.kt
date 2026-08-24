@@ -22,7 +22,6 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
-import androidx.xr.runtime.ExperimentalXrDeviceLifecycleApi
 import androidx.xr.runtime.XrDevice
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.currentCoroutineContext
@@ -31,7 +30,6 @@ import kotlinx.coroutines.flow.flowOf
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @OptIn(
-    ExperimentalXrDeviceLifecycleApi::class,
     ExperimentalProjectedApi::class,
     ExperimentalCoroutinesApi::class,
 )

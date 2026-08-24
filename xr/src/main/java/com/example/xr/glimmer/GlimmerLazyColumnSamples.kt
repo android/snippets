@@ -32,7 +32,9 @@ fun GlimmerLazyColumnSample() {
         item { ListItem { Text("Footer") } }
     }
 }
+// [END androidxr_glimmer_lazy_column]
 
+// [START androidxr_glimmer_lazy_column_with_title]
 @Composable
 fun GlimmerLazyColumnWithTitleChipSample() {
     val ingredientItems =
@@ -41,4 +43,4 @@ fun GlimmerLazyColumnWithTitleChipSample() {
         items(ingredientItems) { text -> ListItem { Text(text) } }
     }
 }
-// [END androidxr_glimmer_lazy_column]
+// [END androidxr_glimmer_lazy_column_with_title]

@@ -17,6 +17,13 @@
 package com.example.snippets.engage
 
 import com.google.android.engage.books.datamodel.EbookEntity
+import com.google.android.engage.video.datamodel.MovieEntity
+import com.google.android.engage.video.datamodel.RatingSystem
+
+class MovieData {
+    val id: String = "movie_123"
+    val title: String = "Example Movie"
+}
 
 // [START android_engage_item_to_entity_converter_implementation]
 object ItemToEntityConverter {
@@ -32,3 +39,19 @@ object ItemToEntityConverter {
     }
 }
 // [END android_engage_item_to_entity_converter_implementation]
+
+// [START android_engage_dual_content_rating_example]
+fun convertMovie(movie: MovieData): MovieEntity {
+    val ratingSystem = RatingSystem.Builder()
+        .setAgencyName("MPAA")
+        .setRating("PG-13")
+        .build()
+    return MovieEntity.Builder()
+        .setEntityId(movie.id)
+        .setName(movie.title)
+        // ... other fields
+        .addContentRating(ratingSystem) // Recommended API
+        .addContentRatingsLegacy(listOf("MPAA:PG-13")) // Legacy API for backward compatibility
+        .build()
+}
+// [END android_engage_dual_content_rating_example]

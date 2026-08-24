@@ -29,11 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
-import androidx.xr.compose.subspace.ResizePolicy
 import androidx.xr.compose.subspace.SpatialPanel
+import androidx.xr.compose.subspace.layout.MovePolicy
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
+import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.transformingMovable
 import androidx.xr.compose.subspace.layout.width
 
@@ -45,8 +46,8 @@ private fun SpatialPanelExample() {
             SubspaceModifier
                 .height(824.dp)
                 .width(1400.dp)
-                .transformingMovable(),
-            resizePolicy = ResizePolicy(),
+                .movable()
+                .resizable(),
         ) {
             SpatialPanelContent()
         }
@@ -82,8 +83,7 @@ private fun ContentInSpatialPanel() {
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         Subspace {
             SpatialPanel(
-                modifier = SubspaceModifier.transformingMovable(),
-                resizePolicy = ResizePolicy(),
+                modifier = SubspaceModifier.movable().resizable(),
             ) {
                 AppContent()
             }

@@ -20,8 +20,7 @@ package com.example.compose.snippets.predictiveback
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent.EDGE_LEFT
-import android.view.MotionEvent.EDGE_RIGHT
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.MainThread
@@ -185,8 +184,8 @@ fun ScreenB(
         (widthDp.value / 20f) - 8
     }
     val offsetX = when (swipeEdge) {
-        EDGE_LEFT -> (backProgress * maxShift).dp
-        EDGE_RIGHT -> (-backProgress * maxShift).dp
+        NavigationEvent.EDGE_LEFT -> (backProgress * maxShift).dp
+        NavigationEvent.EDGE_RIGHT -> (-backProgress * maxShift).dp
         else -> 0.dp
     }
     NavigationBackHandler(

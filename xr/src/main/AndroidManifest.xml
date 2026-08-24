@@ -24,11 +24,12 @@
         android:label="XR"
         tools:ignore="MissingApplicationIcon">
         <activity
-            android:name="com.example.xr.projected.GlassesMainActivity"
+            android:name="com.example.xr.projected.ProjectedMainActivity"
             android:exported="true"
-            android:requiredDisplayCategory="@string/display_category_xr_projected">
+            android:requiredDisplayCategory="android.hardware.display.category.XR_PROJECTED">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.XR_PROJECTED_LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity

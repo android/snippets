@@ -33,6 +33,10 @@ class AppDataRepository {
     fun getRecommendations(): List<AppData> {
         return emptyList()
     }
+
+    fun getContinuationData(): List<AppData> {
+        return emptyList()
+    }
 }
 
 @SuppressLint("UseKtx")
@@ -62,11 +66,28 @@ class ClusterRequestFactory(context: Context) {
 
         val items = appDataRepository.getRecommendations()
         val recommendationCluster = com.google.android.engage.common.datamodel.RecommendationCluster.Builder()
+            .setTitle("Recommended Content") // Required field
+            .setRecommendationClusterType(com.google.android.engage.common.datamodel.RecommendationClusterType.TYPE_TOP_PICKS_FOR_YOU) // Required field
         for (item in items) {
             recommendationCluster.addEntity(ItemToEntityConverter.convert(item))
         }
         return com.google.android.engage.service.PublishRecommendationClustersRequest.Builder()
             .addRecommendationCluster(recommendationCluster.build())
+            .setAccountProfile(accountProfile) // Set the account profile on the request for personalization/sync
+            .build()
+    }
+
+    fun constructContinuationClusterRequest(): com.google.android.engage.service.PublishContinuationClusterRequest {
+        val items = appDataRepository.getContinuationData()
+
+        val continuationCluster = com.google.android.engage.common.datamodel.ContinuationCluster.Builder()
+            .setAccountProfile(accountProfile) // Set the account profile on the request for personalization/sync
+
+        for (item in items) {
+            continuationCluster.addEntity(ItemToEntityConverter.convert(item))
+        }
+        return com.google.android.engage.service.PublishContinuationClusterRequest.Builder()
+            .setContinuationCluster(continuationCluster.build())
             .build()
     }
 
