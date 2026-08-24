@@ -56,6 +56,7 @@ import com.example.compose.snippets.components.TooltipExamples
 import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
 import com.example.compose.snippets.graphics.BitmapFromComposableFullSnippet
 import com.example.compose.snippets.graphics.BrushExamplesScreen
+import com.example.compose.snippets.graphics.MeshGradientExamplesScreen
 import com.example.compose.snippets.images.ImageExamplesScreen
 import com.example.compose.snippets.landing.LandingScreen
 import com.example.compose.snippets.layouts.PagerExamples
@@ -94,6 +95,7 @@ class SnippetsActivity : ComponentActivity() {
                                     Destination.ShapesExamples -> ApplyPolygonAsClipImage()
                                     Destination.SharedElementExamples -> PlaceholderSizeAnimated_Demo()
                                     Destination.PagerExamples -> PagerExamples()
+                                    Destination.MeshGradientExamples -> MeshGradientExamplesScreen()
                                 }
                             }
                         }
