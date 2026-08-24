@@ -42,7 +42,7 @@ import androidx.glance.wear.WearWidgetData
 import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.color
 import androidx.glance.wear.core.WearWidgetParams
-import androidx.glance.wear.tooling.preview.RectangularLargeWidgetPreviewParams
+import androidx.glance.wear.tooling.preview.RectangularAllWidgetPreviewParams
 import androidx.glance.wear.tooling.preview.RoundAllWidgetPreviewParams
 import androidx.glance.wear.tooling.preview.SquircleAllWidgetPreviewParams
 import androidx.glance.wear.tooling.preview.WearWidgetPreview
@@ -139,12 +139,12 @@ fun HelloWidgetContentPreview(
 
 // [START android_wear_widget_catalog_preview]
 @Preview(
-    name = "Play Store Catalog Asset",
+    name = "Widget Preview Asset",
     device = "spec:width=1000dp,height=1000dp,dpi=320",
 )
 @Composable
 fun HelloWidgetCatalogPreview(
-    @PreviewParameter(RectangularLargeWidgetPreviewParams::class) params: WearWidgetParams,
+    @PreviewParameter(RectangularAllWidgetPreviewParams::class) params: WearWidgetParams,
 ) {
     WearWidgetPreview(
         widget = HelloWidget(),
