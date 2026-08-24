@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+package com.android.snippets.build.extractor
+
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -102,7 +105,7 @@ class ExtractSnippetsTest {
      * Tests nested and overlapping regions with inner delimiter stripping.
      */
     @Test
-    fun testCanonicalDevsiteNestedAndOverlappingRegions() {
+    fun testCanonicalNestedAndOverlappingRegions() {
         val text = """
             one
             abc [START foo] def
@@ -359,4 +362,127 @@ class ExtractSnippetsTest {
         assertEquals(1, warnings.size)
         assertTrue(warnings[0].contains("unclosed [START_EXCLUDE] block"))
     }
+
+    @Test
+    fun testEndExcludeAndEndRegionOnSameLine() {
+        val code = """
+            // [START my_tag]
+            val a = 1
+            // [START_EXCLUDE]
+            val b = 2
+            // [END_EXCLUDE] // [END my_tag]
+        """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        val snippet = SnippetExtractor.parseRegion(code, "my_tag", onWarning = { warnings.add(it) })
+        assertEquals("val a = 1\n// ...", snippet)
+        assertEquals(0, warnings.size)
+    }
+
+    @Test
+    fun testAnyDelimiterRegexRequiresTagName() {
+        // Bare [START] or [END] without a tag name should not be treated as a valid delimiter
+        assertFalse(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [START]"))
+        assertFalse(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [END]"))
+
+        // Valid region tags and exclude tags should match
+        assertTrue(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [START my_tag]"))
+        assertTrue(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [END my_tag]"))
+        assertTrue(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [START_EXCLUDE]"))
+        assertTrue(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [START_EXCLUDE silent]"))
+        assertTrue(SnippetExtractor.ANY_DELIMITER_REGEX.containsMatchIn("// [END_EXCLUDE]"))
+    }
+
+    @Test
+    fun testMultipleExcludeBlocksInSingleRegion() {
+        val code = """
+            // [START multi_exclude]
+            import com.example.internal.Secret
+            // [START_EXCLUDE]
+            import com.example.internal.Hidden
+            // [END_EXCLUDE]
+            
+            fun run() {
+                // [START_EXCLUDE]
+                val x = Secret()
+                // [END_EXCLUDE]
+                println("Visible")
+            }
+            // [END multi_exclude]
+        """.trimIndent()
+
+        val snippet = SnippetExtractor.parseRegion(code, "multi_exclude")
+        val expected = """
+            import com.example.internal.Secret
+            // ...
+            
+            fun run() {
+                // ...
+                println("Visible")
+            }
+        """.trimIndent()
+
+        assertEquals(expected, snippet)
+    }
+
+    @Test
+    fun testWarningReportingForNestedExclude() {
+        val code = """
+            // [START tag]
+            // [START_EXCLUDE]
+            // [START_EXCLUDE]
+            val x = 1
+            // [END_EXCLUDE]
+            // [END tag]
+        """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        SnippetExtractor.parseRegion(code, "tag", onWarning = { warnings.add(it) })
+        assertTrue(warnings.any { it.contains("Nested or duplicate [START_EXCLUDE] found") })
+    }
+
+    @Test
+    fun testWarningReportingForOrphanEndExclude() {
+        val code = """
+            // [START tag]
+            val x = 1
+            // [END_EXCLUDE]
+            // [END tag]
+        """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        SnippetExtractor.parseRegion(code, "tag", onWarning = { warnings.add(it) })
+        assertTrue(warnings.any { it.contains("[END_EXCLUDE] found without matching [START_EXCLUDE]") })
+    }
+
+    @Test
+    fun testWarningReportingForOrphanEndTag() {
+        val code = """
+            val x = 1
+            // [END orphan_tag]
+        """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        SnippetExtractor.extractRegions(code.split("\n"), onWarning = { warnings.add(it) })
+        assertTrue(warnings.any { it.contains("[END orphan_tag] found without matching [START orphan_tag]") })
+    }
+
+    @Test
+    fun testTargetTagFilteringIgnoresUnrelatedTags() {
+        val code = """
+            // [START desired_tag]
+            val visible = 1
+            // [END desired_tag]
+            
+            // [START unrelated_tag]
+            val hidden = 2
+            // [END unrelated_tag]
+        """.trimIndent()
+
+        val extracted = SnippetExtractor.extractRegions(code.split("\n"), targetTag = "desired_tag")
+        assertEquals(1, extracted.size)
+        assertTrue(extracted.containsKey("desired_tag"))
+        assertFalse(extracted.containsKey("unrelated_tag"))
+    }
 }
+

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package com.android.snippets.build.extractor
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -45,12 +47,16 @@ import org.gradle.api.Project
  *
  * **3. Filter by a specific region tag in a module (e.g. Compose snippets):**
  * ```bash
+ * ./gradlew :compose:snippets:extractSnippets --tag=android_compose_navigation3_basic_2
+ * # Or using property flag:
  * ./gradlew :compose:snippets:extractSnippets -Ptag=android_compose_navigation3_basic_2
  * ```
  * Output: Saved to `compose/snippets/build/extracted-snippets/android_compose_navigation3_basic_2.kt`.
  *
  * **4. Filter by package or directory substring in a module (e.g. Room database snippets):**
  * ```bash
+ * ./gradlew :room:extractSnippets --package=migration
+ * # Or using property flag:
  * ./gradlew :room:extractSnippets -Ppackage=migration
  * ```
  * Output: Saved to `room/build/extracted-snippets/` for matching snippets under `room/.../migration/`.
@@ -61,7 +67,10 @@ class ExtractSnippetsPlugin : Plugin<Project> {
         project.subprojects {
             tasks.register("extractSnippets", ExtractSnippetsTask::class.java) {
                 group = "documentation"
-                description = "Extracts DevSite snippets for $name matching DevSite transformations."
+                description = "Extracts documentation snippets for $name matching documentation site transformations."
+
+                targetTag.convention(project.providers.gradleProperty("tag"))
+                targetPackage.convention(project.providers.gradleProperty("package"))
 
                 sourceFiles.setFrom(
                     fileTree(projectDir) {
@@ -75,12 +84,6 @@ class ExtractSnippetsPlugin : Plugin<Project> {
                         exclude(
                             "**/build/**",
                             "**/spotless/**",
-                            "**/test/**",
-                            "**/androidTest/**",
-                            "**/commonTest/**",
-                            "**/jvmTest/**",
-                            "**/iosTest/**",
-                            "**/desktopTest/**",
                             "**/.gradle/**",
                             "**/.idea/**",
                             "**/*.png",
@@ -98,7 +101,7 @@ class ExtractSnippetsPlugin : Plugin<Project> {
         // Register root task that aggregates all subprojects
         project.tasks.register("extractSnippets") {
             group = "documentation"
-            description = "Extracts DevSite snippets across all submodules."
+            description = "Extracts documentation snippets across all submodules."
             dependsOn(project.subprojects.map { "${it.path}:extractSnippets" })
         }
     }

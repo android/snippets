@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package com.android.snippets.build.extractor
+
 import java.io.File
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
@@ -27,13 +29,14 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.options.Option
 
 object SnippetExtractor {
     val START_TAG_REGEX = Regex("""\[START\s+([\w_\-]+)\]""")
     val END_TAG_REGEX = Regex("""\[END\s+([\w_\-]+)\]""")
     val START_EXCLUDE_REGEX = Regex("""\[START_EXCLUDE(?:\s+(silent))?\]""")
     val END_EXCLUDE_REGEX = Regex("""\[END_EXCLUDE\]""")
-    val ANY_DELIMITER_REGEX = Regex("""\[(?:START|END)(?:_EXCLUDE)?(?:\s+[\w_\-]+)?\]""")
+    val ANY_DELIMITER_REGEX = Regex("""\[(?:(?:START|END)\s+[\w_\-]+|(?:START_EXCLUDE(?:\s+silent)?|END_EXCLUDE))\]""")
 
     /**
      * Creates a language-appropriate ellipses comment, preserving leading whitespace and comment prefix.
@@ -51,7 +54,7 @@ object SnippetExtractor {
     }
 
     /**
-     * Extracts and transforms regions from lines of code, matching DevSite transformations.
+     * Extracts and transforms regions from lines of code, matching documentation site transformations.
      *
      * @param lines Source lines.
      * @param targetTag Optional tag name to filter for a single region tag.
@@ -97,7 +100,6 @@ object SnippetExtractor {
                     onWarning("Line $lineNumber: [END_EXCLUDE] found without matching [START_EXCLUDE]")
                 }
                 inExclude = false
-                return@forEachIndexed
             }
 
             // 3. Collect active line content (ignore lines that contain region tag delimiters)
@@ -153,15 +155,13 @@ abstract class ExtractSnippetsTask : DefaultTask() {
 
     @get:Input
     @get:Optional
-    val targetTag: Property<String> = project.objects.property(String::class.java).convention(
-        project.providers.gradleProperty("tag")
-    )
+    @get:Option(option = "tag", description = "Filter extraction to a specific snippet tag")
+    abstract val targetTag: Property<String>
 
     @get:Input
     @get:Optional
-    val targetPackage: Property<String> = project.objects.property(String::class.java).convention(
-        project.providers.gradleProperty("package")
-    )
+    @get:Option(option = "package", description = "Filter extraction to file paths containing this substring")
+    abstract val targetPackage: Property<String>
 
     @TaskAction
     fun extract() {
