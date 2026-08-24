@@ -60,7 +60,7 @@ firebase-bom = "34.17.0"
 firebase-ondevice = "16.0.0-beta03"
 fragment-testing = "1.9.0"
 genaiSchemaCompiler = "1.0.0-alpha1"
-glance-wear = "1.0.0-alpha12"
+glance-wear = "1.0.0-alpha14"
 glide = "1.0.0-beta10"
 google-ar-core = "1.54.0"
 google-maps = "20.0.0"
@@ -208,6 +208,7 @@ androidx-glance-material3 = { module = "androidx.glance:glance-material3", versi
 androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
 androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "glance-wear" }
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
+androidx-glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-preview", version.ref = "glance-wear" }
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
