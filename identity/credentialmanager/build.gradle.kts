@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.android.identity.googleid)
     // [END android_identity_siwg_gradle_dependencies]
+
+    implementation(libs.androidx.credentials.providerevents)
     implementation(libs.okhttp)
     implementation(libs.kotlin.coroutines.okhttp)
     implementation(libs.androidx.webkit)
