@@ -25,7 +25,6 @@ import androidx.navigation3.runtime.deeplink.ActionExtrasKey
 import androidx.navigation3.runtime.deeplink.BackStackMatchResult
 import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
 import androidx.navigation3.runtime.deeplink.DeepLinkRequest
-import androidx.navigation3.runtime.deeplink.DeepLinkRequest.Companion.MimeTypeExtrasKey
 import androidx.navigation3.runtime.deeplink.DeepLinkSerializer
 import androidx.navigation3.runtime.deeplink.DeepLinkUri
 import androidx.navigation3.runtime.deeplink.IntentExtrasKey
@@ -45,6 +44,7 @@ import androidx.savedstate.read
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.multibindings.IntoSet
 import javax.inject.Inject
@@ -74,12 +74,6 @@ data object PreferencesScreen : NavKey
 
 @Serializable
 data class DialerKey(val phoneNumber: String?) : NavKey
-
-val DeepLinkRequest.Companion.MimeTypeExtrasKey: RequestExtrasKey<String>
-    inline get() = DeepLinkRequest.Companion.MimeTypeExtrasKey
-
-fun DeepLinkRequest.Companion.mimeTypeExtra(mimeType: String): RequestExtras =
-    requestExtras { put(MimeTypeExtrasKey, mimeType) }
 
 // [START android_compose_navigation3_deeplinks_filter_serializer]
 @Serializable
@@ -202,7 +196,7 @@ object DeepLinkSnippets {
             uri = "https://www.example.com/image",
             extras = requestExtras {
                 put(DeepLinkRequest.ActionExtrasKey, "android.intent.action.VIEW")
-                put(DeepLinkRequest.MimeTypeExtrasKey, "image/png")
+                put(DeepLinkRequest.Companion.MimeTypeExtrasKey, "image/png")
             }
         )
         // [END android_compose_navigation3_deeplinks_request]
@@ -228,7 +222,7 @@ object DeepLinkSnippets {
         // The resulting DeepLinkRequest contains:
         val uri = request.uri // "https://www.example.com/item/42"
         val action = request.extras[DeepLinkRequest.ActionExtrasKey] // "android.intent.action.VIEW"
-        val mimeType = request.extras[DeepLinkRequest.MimeTypeExtrasKey] // "application/json"
+        val mimeType = request.extras[DeepLinkRequest.Companion.MimeTypeExtrasKey] // "application/json"
         val intentExtras: SavedState? =
             request.extras[DeepLinkRequest.IntentExtrasKey]
         val userId: String? = intentExtras?.read { getStringOrNull("user_id") } // "123"
@@ -239,12 +233,12 @@ object DeepLinkSnippets {
     fun requestExtrasDsl() {
         // [START android_compose_navigation3_deeplinks_extras_dsl]
         val extras: RequestExtras = requestExtras {
-            put(DeepLinkRequest.MimeTypeExtrasKey, "application/json")
+            put(DeepLinkRequest.Companion.MimeTypeExtrasKey, "application/json")
             put(DeepLinkRequest.ActionExtrasKey, Intent.ACTION_VIEW)
         }
 
         // Access typed values using the get operator
-        val mimeType: String? = extras[DeepLinkRequest.MimeTypeExtrasKey]
+        val mimeType: String? = extras[DeepLinkRequest.Companion.MimeTypeExtrasKey]
         val action: String? = extras[DeepLinkRequest.ActionExtrasKey]
 
         // Create extras using helper functions and combine them
@@ -535,9 +529,7 @@ object FeatureADeepLinkModule {
 // [END android_compose_navigation3_deeplinks_modularization_feature]
 
 // [START android_compose_navigation3_deeplinks_modularization_app]
-// [START_EXCLUDE silent]
-@dagger.hilt.android.AndroidEntryPoint
-// [END_EXCLUDE]
+@AndroidEntryPoint
 class MainActivityWithDI : ComponentActivity() {
     @Inject
     lateinit var deepLinkMatchers: Set<@JvmSuppressWildcards DeepLinkMatcher<*, *>>
