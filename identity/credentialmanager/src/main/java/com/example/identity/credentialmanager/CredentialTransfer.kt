@@ -89,7 +89,7 @@ class CredentialExportActivity : AppCompatActivity() {
             return
         }
 
-        // 2. Validate CallingAppInfo and secret `credentialId`
+        // 2. Validate CallingAppInfo and secret `credId`
         val callingAppPackage = request.callingAppInfo.packageName
         val receivedCredId = request.credId
         if (!verifySecretEntryId(receivedCredId) || !isTrustedImporter(callingAppPackage)) {
