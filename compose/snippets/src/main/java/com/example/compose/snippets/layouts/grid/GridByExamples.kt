@@ -222,20 +222,17 @@ private fun WideClassicCardPreview() {
 }
 
 // [START android_compose_grid_overlay_config_setup]
-enum class Areas { A, B, C, OVERLAY }
+enum class Areas { BASE, OVERLAY }
 
 val gridConfig: GridConfigurationScope.() -> Unit = {
-    repeat(4) {
+    repeat(3) {
         column(GridTrackSize.Fixed(100.dp))
     }
-    repeat(2) {
-        row(GridTrackSize.Fixed(100.dp))
-    }
-    area(areaId = Areas.A, row = 1, column = 1, columnSpan = 2)
-    area(areaId = Areas.B, row = 1, column = 3, columnSpan = 2)
-    area(areaId = Areas.C, row = 2, column = 1, columnSpan = 2)
+    row(GridTrackSize.Fixed(100.dp))
+
+    area(areaId = Areas.BASE, row = 1, column = 1, columnSpan = 2)
     // Define a named area spanning multiple columns that overlaps other cells
-    area(areaId = Areas.OVERLAY, row = 2, column = 2, columnSpan = 3)
+    area(areaId = Areas.OVERLAY, row = 1, column = 2, columnSpan = 2)
 }
 
 // [END android_compose_grid_overlay_config_setup]
@@ -248,13 +245,9 @@ private fun GridOverlayCard() {
     Grid(
         config = gridConfig,
     ) {
-        TextCard("A", Modifier.gridItem(areaId = Areas.A))
-        TextCard("B", Modifier.gridItem(areaId = Areas.B))
-
-        // Base Layer C
-        TextCard("C", Modifier.gridItem(areaId = Areas.C))
-
-        // Overlay Layer (placed in the named area, overlapping C by sharing column 2)
+        // Base Layer
+        TextCard("BASE", Modifier.gridItem(areaId = Areas.BASE))
+        // Overlay Layer
         TextCard(
             "OVERLAY",
             Modifier.gridItem(areaId = Areas.OVERLAY),
