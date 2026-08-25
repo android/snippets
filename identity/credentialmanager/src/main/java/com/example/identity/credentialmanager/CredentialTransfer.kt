@@ -194,7 +194,7 @@ private fun parseAndSaveImportedCredentials(cxfJsonString: String) {
 private fun handleImportFailure(e: ImportCredentialsException) {}
 // [END android_identity_transfer_import]
 
-fun customWasmMatcherUsage() {
+suspend fun customWasmMatcherUsage() {
     // [START android_identity_transfer_custom_wasm]
     // Loading a custom WASM matcher
     val customMatcherBytes = context.assets.open("my_custom_matcher.wasm").use { it.readBytes() }
