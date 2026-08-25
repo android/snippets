@@ -143,10 +143,11 @@ class CredentialExportActivity : AppCompatActivity() {
         setResult(Activity.RESULT_CANCELED)
         finish()
     }
-
+    // [START_EXCLUDE silent]
     // Helper functions to make it compile
     private fun getStoredSecretEntryId(): String = "secret"
     private fun buildFidoCxfJsonPayload(requestedTypes: Set<String>, requestedExtensions: Set<String>): String = "{}"
+    // [END_EXCLUDE]
 }
 // [END android_identity_transfer_export_activity]
 
