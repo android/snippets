@@ -147,7 +147,8 @@ class VerifiedEmailFunctions(
         // [START android_identity_parse_response]
         // 1. Parse the outer JSON wrapper to get the `vp_token`
         val responseData = JSONObject(responseJsonString)
-        val vpToken = responseData.getJSONObject("vp_token")
+        val dataObject = responseData.getJSONObject("data")
+        val vpToken = dataObject.getJSONObject("vp_token")
 
         // 2. Extract the raw SD-JWT string
         val credentialId = vpToken.keys().next()
