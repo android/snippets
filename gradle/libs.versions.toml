@@ -20,6 +20,7 @@ androidx-corektx = "1.19.0"
 androidx-corepip = "1.0.0-alpha02"
 androidx-credentials = "1.7.0-alpha03"
 androidx-credentials-play-services-auth = "1.7.0-alpha03"
+androidx-credentials-providerevents = "1.0.0-alpha06"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment = "1.8.9"
 androidx-glance-appwidget = "1.3.0-alpha02"
@@ -193,6 +194,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-core-telecom = { module = "androidx.core:core-telecom", version.ref = "androidx-core-telecom" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials-play-services-auth" }
+androidx-credentials-providerevents = { group = "androidx.credentials", name = "providerevents", version.ref = "androidx-credentials-providerevents" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "dataStore" }
 androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastoreCore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
