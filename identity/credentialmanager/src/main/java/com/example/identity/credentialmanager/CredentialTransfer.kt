@@ -43,17 +43,17 @@ val providerEventsManager = ProviderEventsManager.create(context)
 // [END android_identity_transfer_instantiation]
 
 // [START android_identity_transfer_register]
-suspend fun registerMyVaultForExport(
+suspend fun registerMyProviderForExport(
     providerEventsManager: ProviderEventsManager,
-    vaultIcon: Bitmap,
+    providerIcon: Bitmap,
     // Randomly generated and stored in encrypted storage
     secretEntryId: String
 ) {
     val entry = ExportEntry(
         id = secretEntryId,
-        accountDisplayName = "MyVault Personal",
+        accountDisplayName = "MyProvider Personal",
         userDisplayName = "alice@example.com",
-        icon = vaultIcon,
+        icon = providerIcon,
         supportedCredentialTypes = setOf(
             CredentialTypes.CREDENTIAL_TYPE_BASIC_AUTH, // Passwords
             CredentialTypes.CREDENTIAL_TYPE_PUBLIC_KEY, // Passkeys
@@ -89,9 +89,9 @@ class CredentialExportActivity : AppCompatActivity() {
             return
         }
 
-        // 2. Validate CallingAppInfo and secret `credId`
+        // 2. Validate CallingAppInfo and secret `credentialId`
         val callingAppPackage = request.callingAppInfo.packageName
-        val receivedCredId = request.credId
+        val receivedCredId = request.credentialId
         if (!verifySecretEntryId(receivedCredId) || !isTrustedImporter(callingAppPackage)) {
             // Secret ID mismatch or untrusted caller -> abort
             sendExceptionAndFinish(ImportCredentialsNoExportOptionException("Unauthorized request"))
@@ -129,9 +129,9 @@ class CredentialExportActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun verifySecretEntryId(credId: String): Boolean {
-        // Check if credId matches what you stored when calling RegisterExportRequest
-        return credId == getStoredSecretEntryId()
+    private fun verifySecretEntryId(credentialId: String): Boolean {
+        // Check if credentialId matches what you stored when calling RegisterExportRequest
+        return credentialId == getStoredSecretEntryId()
     }
 
     private fun isTrustedImporter(packageName: String): Boolean {
