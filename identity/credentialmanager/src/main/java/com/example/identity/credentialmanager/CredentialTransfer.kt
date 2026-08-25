@@ -91,7 +91,7 @@ class CredentialExportActivity : AppCompatActivity() {
 
         // 2. Validate CallingAppInfo and secret `credentialId`
         val callingAppPackage = request.callingAppInfo.packageName
-        val receivedCredId = request.credentialId
+        val receivedCredId = request.credId
         if (!verifySecretEntryId(receivedCredId) || !isTrustedImporter(callingAppPackage)) {
             // Secret ID mismatch or untrusted caller -> abort
             sendExceptionAndFinish(ImportCredentialsNoExportOptionException("Unauthorized request"))
