@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace = "com.example.media"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -19,13 +23,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlin {
-        jvmToolchain(17)
-    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.androidx.media3.exoplayer)
 }
