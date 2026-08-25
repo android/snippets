@@ -158,7 +158,7 @@ private object SnippetDeepLinksAfter {
 
     // [START android_compose_navigation3_deeplinks_after_matcher]
     val userMatcher = UriDeepLinkMatcher(
-        DeepLinkUri("example.com/user/{id}"),
+        DeepLinkUri("www.example.com/user/{id}"),
         serializer<RouteA>()
     )
     // [END android_compose_navigation3_deeplinks_after_matcher]

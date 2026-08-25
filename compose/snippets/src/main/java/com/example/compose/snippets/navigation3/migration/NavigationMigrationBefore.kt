@@ -133,7 +133,7 @@ private object SnippetDeepLinksBefore {
         // [START android_compose_navigation3_deeplinks_before]
         composable<RouteA>(
             deepLinks = listOf(
-                navDeepLink { uriPattern = "example.com/user/{id}" }
+                navDeepLink { uriPattern = "www.example.com/user/{id}" }
             )
         ) {
             // ...
