@@ -46,7 +46,8 @@ val providerEventsManager = ProviderEventsManager.create(context)
 suspend fun registerMyVaultForExport(
     providerEventsManager: ProviderEventsManager,
     vaultIcon: Bitmap,
-    secretEntryId: String // Randomly generated & stored in encrypted storage
+    // Randomly generated and stored in encrypted storage
+    secretEntryId: String
 ) {
     val entry = ExportEntry(
         id = secretEntryId,
