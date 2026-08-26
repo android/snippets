@@ -29,7 +29,6 @@ import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingFlowParams.SubscriptionUpdateParams
 import com.android.billingclient.api.BillingProgramAvailabilityDetails.BillingChoiceAvailabilityDetails.ChoiceScreenType
 import com.android.billingclient.api.BillingProgramReportingDetails
-import com.android.billingclient.api.BillingProgramReportingDetailsListener
 import com.android.billingclient.api.BillingProgramReportingDetailsParams
 import com.android.billingclient.api.BillingProgramReportingDetailsParams.DeveloperBillingType
 import com.android.billingclient.api.BillingResult
@@ -60,11 +59,11 @@ private class Integration(
     private val offerTokenNewPlan: String,
 ) {
 
-    private suspend fun startConnection() {
+    private suspend fun startConnectionGoogleRenderedInApp() {
         // [START android_playbilling_billingchoice_start_connection]
         // Build the parameters to enable the Billing Choice program and assign the listener
         // to handle user selection of the developer-provided billing option.
-        val params = EnableBillingProgramParams.newBuilder()
+        val enableBillingProgramParams = EnableBillingProgramParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
             .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
             .build()
@@ -79,7 +78,7 @@ private class Integration(
         val billingClient = BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases(pendingPurchasesParams)
-            .enableBillingProgram(params)
+            .enableBillingProgram(enableBillingProgramParams)
             .build()
 
         // Establish a connection to Google Play
@@ -88,25 +87,29 @@ private class Integration(
                 // Called when the connection setup process completes.
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
                     // Resume the coroutine and pass back the BillingResult to the caller.
-                    continuation.resume(billingResult)
+                    if (continuation.isActive) {
+                        continuation.resume(billingResult)
+                    }
                 }
 
                 // Called if the connection to the Play Store service is dropped.
                 // This prevents the await or suspension point from hanging indefinitely.
                 override fun onBillingServiceDisconnected() {
-                    continuation.resume(
-                        BillingResult.newBuilder()
-                            .setResponseCode(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED)
-                            .setDebugMessage("Billing service disconnected during connection setup")
-                            .build()
-                    )
+                    if (continuation.isActive) {
+                        continuation.resume(
+                            BillingResult.newBuilder()
+                                .setResponseCode(BillingResponseCode.SERVICE_DISCONNECTED)
+                                .setDebugMessage("Billing service disconnected during connection setup")
+                                .build()
+                        )
+                    }
                 }
             })
         }
         // [END android_playbilling_billingchoice_start_connection]
     }
 
-    private suspend fun verifyAvailabilityGoogleRendered(billingClient: BillingClient) {
+    private suspend fun verifyAvailabilityGoogleRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_verify_avail_google_rendered]
         val (billingResult, billingProgramAvailabilityDetails) = billingClient.isBillingProgramAvailable(BillingProgram.BILLING_CHOICE)
 
@@ -125,7 +128,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_verify_avail_google_rendered]
     }
 
-    private fun launchBillingFlow(billingClient: BillingClient) {
+    private fun launchBillingFlowGoogleRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_launch_billing_flow]
         val developerBillingOptionParams = DeveloperBillingOptionParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
@@ -140,10 +143,10 @@ private class Integration(
         // [END android_playbilling_billingchoice_launch_billing_flow]
     }
 
-    private suspend fun startConnection1b() {
+    private suspend fun startConnectionDevRenderedInApp() {
         // [START android_playbilling_billingchoice_start_connection_dev_rendered]
         // Build the parameters to enable the Billing Choice program.
-        val params = EnableBillingProgramParams.newBuilder()
+        val enableBillingProgramParams = EnableBillingProgramParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
             .build()
 
@@ -157,7 +160,7 @@ private class Integration(
         val billingClient = BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases(pendingPurchasesParams)
-            .enableBillingProgram(params)
+            .enableBillingProgram(enableBillingProgramParams)
             .build()
 
         // Establish a connection to Google Play
@@ -166,25 +169,29 @@ private class Integration(
                 // Called when the connection setup process completes.
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
                     // Resume the coroutine and pass back the BillingResult to the caller.
-                    continuation.resume(billingResult)
+                    if (continuation.isActive) {
+                        continuation.resume(billingResult)
+                    }
                 }
 
                 // Called if the connection to the Play Store service is dropped.
                 // This prevents the await or suspension point from hanging indefinitely.
                 override fun onBillingServiceDisconnected() {
-                    continuation.resume(
-                        BillingResult.newBuilder()
-                            .setResponseCode(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED)
-                            .setDebugMessage("Billing service disconnected during connection setup")
-                            .build()
-                    )
+                    if (continuation.isActive) {
+                        continuation.resume(
+                            BillingResult.newBuilder()
+                                .setResponseCode(BillingResponseCode.SERVICE_DISCONNECTED)
+                                .setDebugMessage("Billing service disconnected during connection setup")
+                                .build()
+                        )
+                    }
                 }
             })
         }
         // [END android_playbilling_billingchoice_start_connection_dev_rendered]
     }
 
-    private suspend fun verifyAvailabilityDevRendered(billingClient: BillingClient) {
+    private suspend fun verifyAvailabilityDevRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_verify_avail_dev_rendered]
         val (billingResult, billingProgramAvailabilityDetails) =
             billingClient.isBillingProgramAvailable(BillingProgram.BILLING_CHOICE)
@@ -209,11 +216,11 @@ private class Integration(
         // [END android_playbilling_billingchoice_verify_avail_dev_rendered]
     }
 
-    private suspend fun getBillingChoiceInfo(billingClient: BillingClient) {
+    private suspend fun getBillingChoiceInfoDevRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_get_info]
         // 1. Create the params required for the request
         val params = GetBillingChoiceInfoParams.newBuilder()
-            .setBillingProgram(BillingClient.BillingProgram.BILLING_CHOICE)
+            .setBillingProgram(BillingProgram.BILLING_CHOICE)
             .setPlayBillingChoiceImageLayout(GetBillingChoiceInfoParams.ImageLayout.RECTANGULAR_FOUR_BY_ONE)
             .build()
 
@@ -236,7 +243,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_get_info]
     }
 
-    private suspend fun createExternalTransactionTokenInApp(billingClient: BillingClient) {
+    private suspend fun createExternalTransactionTokenDevRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_create_token_in_app]
         // Build the parameters specifying the billing program and that the billing type is IN_APP.
         val params = BillingProgramReportingDetailsParams.newBuilder()
@@ -262,7 +269,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_create_token_in_app]
     }
 
-    private suspend fun verifyAvailabilityGoogleRendered2a(billingClient: BillingClient) {
+    private suspend fun verifyAvailabilityGoogleRenderedWebLink(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_verify_avail_google_rendered_link]
         // Check the availability of the billing choice program asynchronously using coroutines
         val (billingResult, billingProgramAvailabilityDetails) =
@@ -289,7 +296,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_verify_avail_google_rendered_link]
     }
 
-    private suspend fun createExternalTransactionTokenExternalLink(billingClient: BillingClient) {
+    private suspend fun createExternalTransactionTokenGoogleRenderedWebLink(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_create_token_external_link]
         // Build the parameters for creating reporting details
         val params =
@@ -318,7 +325,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_create_token_external_link]
     }
 
-    private fun launchBillingFlow2a(transactionToken: String?) {
+    private fun launchBillingFlowGoogleRenderedWebLink(transactionToken: String) {
         // [START android_playbilling_billingchoice_launch_flow_external_link]
         // Build the developer billing option parameters with the external link URI,
         // the transaction token, and browser/app launch mode.
@@ -334,7 +341,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_launch_flow_external_link]
     }
 
-    private suspend fun verifyAvailabilityDevRendered2b(billingClient: BillingClient) {
+    private suspend fun verifyAvailabilityDevRenderedWebLink(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_verify_avail_dev_rendered_link]
         // Check the availability of the billing choice program asynchronously using a coroutine
         val (billingResult, billingProgramAvailabilityDetails) =
@@ -363,13 +370,14 @@ private class Integration(
         // [END android_playbilling_billingchoice_verify_avail_dev_rendered_link]
     }
 
-    private fun launchExternalLink2b(billingClient: BillingClient) {
+    private fun launchExternalLinkDevRenderedWebLink(billingClient: BillingClient, transactionToken: String) {
         // [START android_playbilling_billingchoice_launch_external_link]
         // An activity reference from which the purchase flow will be launched.
         val activity: Activity = this.activity
 
         val params = LaunchExternalLinkParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
+            .setExternalTransactionToken(transactionToken)
             // You can pass along the external transaction token from
             // BillingProgramReportingDetails as a URL parameter in the URI
             .setLinkUri(yourLinkUri)
@@ -392,11 +400,11 @@ private class Integration(
         // [END android_playbilling_billingchoice_launch_external_link]
     }
 
-    private fun subsReplacement1a(billingClient: BillingClient) {
+    private fun subsReplacementGoogleRenderedInApp(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_subs_replacement_1a]
         // The external transaction ID from the current
         // alternative billing subscription.
-        val externalTransactionId = "your_external_transaction_id"
+        val externalTransactionId = "external_transaction_id"
 
         val developerBillingOptionParams = DeveloperBillingOptionParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
@@ -415,7 +423,7 @@ private class Integration(
                 )
             )
             .setSubscriptionUpdateParams(
-                BillingFlowParams.SubscriptionUpdateParams.newBuilder()
+                SubscriptionUpdateParams.newBuilder()
                     .setOriginalExternalTransactionId(externalTransactionId)
                     .build()
             )
@@ -429,13 +437,13 @@ private class Integration(
         // [END android_playbilling_billingchoice_subs_replacement_1a]
     }
 
-    private fun subsReplacement2aParams() {
+    private fun subsReplacementGoogleRenderedWebLinkParams() {
         // [START android_playbilling_billingchoice_subs_replacement_2a_params]
-        val externalTransactionId = "your_external_transaction_id"
+        val externalTransactionId = "external_transaction_id"
 
         // 1. Construct DeveloperBillingOptionParams indicating the billing program
         val developerBillingOptionParams = DeveloperBillingOptionParams.newBuilder()
-            .setBillingProgram(BillingClient.BillingProgram.BILLING_CHOICE)
+            .setBillingProgram(BillingProgram.BILLING_CHOICE)
             .build()
 
         // 2. Build BillingFlowParams combining DeveloperBillingOptionParams and SubscriptionUpdateParams
@@ -460,7 +468,7 @@ private class Integration(
         // [END android_playbilling_billingchoice_subs_replacement_2a_params]
     }
 
-    private fun subsReplacement2aToken(billingClient: BillingClient) {
+    private suspend fun subsReplacementGoogleRenderedWebLinkToken(billingClient: BillingClient) {
         // [START android_playbilling_billingchoice_subs_replacement_2a_token]
         val params =
             BillingProgramReportingDetailsParams.newBuilder()
@@ -468,27 +476,22 @@ private class Integration(
                 .setDeveloperBillingType(DeveloperBillingType.EXTERNAL_LINK)
                 .build()
 
-        billingClient.createBillingProgramReportingDetailsAsync(
-            params,
-            object : BillingProgramReportingDetailsListener {
-                override fun onCreateBillingProgramReportingDetailsResponse(
-                    billingResult: BillingResult,
-                    billingProgramReportingDetails: BillingProgramReportingDetails?
-                ) {
-                    if (billingResult.responseCode != BillingResponseCode.OK) {
-                        // Handle failures such as retrying due to network errors.
-                        return
-                    }
-                    val externalTransactionToken =
-                        billingProgramReportingDetails?.externalTransactionToken
-                    // Persist the external transaction token locally. Pass it to
-                    // the external website using DeveloperBillingOptionParams when
-                    // launchBillingFlow is called.
-                }
-            }
-        )
+        val (billingResult, billingProgramReportingDetails) =
+            billingClient.createBillingProgramReportingDetails(params)
+
+        if (billingResult.responseCode != BillingResponseCode.OK) {
+            // Handle failures such as retrying due to network errors.
+            return
+        }
+
+        val externalTransactionToken =
+            billingProgramReportingDetails?.externalTransactionToken
+        // Persist the external transaction token locally. Pass it to
+        // the external website using DeveloperBillingOptionParams when
+        // launchBillingFlow is called.
         // [END android_playbilling_billingchoice_subs_replacement_2a_token]
     }
+
 
     private fun loadImage(url: String, imageView: ImageView) {}
 }
