@@ -20,6 +20,7 @@ androidx-corektx = "1.19.0"
 androidx-corepip = "1.0.0-alpha02"
 androidx-credentials = "1.7.0-alpha03"
 androidx-credentials-play-services-auth = "1.7.0-alpha03"
+androidx-credentials-providerevents = "1.0.0-alpha06"
 androidx-emoji2-views = "1.6.0"
 androidx-fragment = "1.8.9"
 androidx-glance-appwidget = "1.3.0-alpha02"
@@ -58,8 +59,9 @@ engageCore = "1.6.0"
 firebase-ai = "17.15.0"
 firebase-bom = "34.17.0"
 firebase-ondevice = "16.0.0-beta03"
+fragment-testing = "1.9.0"
 genaiSchemaCompiler = "1.0.0-alpha1"
-glance-wear = "1.0.0-alpha12"
+glance-wear = "1.0.0-alpha14"
 glide = "1.0.0-beta10"
 google-ar-core = "1.54.0"
 google-maps = "20.0.0"
@@ -192,6 +194,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-core-telecom = { module = "androidx.core:core-telecom", version.ref = "androidx-core-telecom" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidx-credentials-play-services-auth" }
+androidx-credentials-providerevents = { group = "androidx.credentials.providerevents", name = "providerevents", version.ref = "androidx-credentials-providerevents" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "dataStore" }
 androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastoreCore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
@@ -207,6 +210,7 @@ androidx-glance-material3 = { module = "androidx.glance:glance-material3", versi
 androidx-glance-testing = { module = "androidx.glance:glance-testing", version.ref = "androidx-glance-appwidget" }
 androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "glance-wear" }
 androidx-glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
+androidx-glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-preview", version.ref = "glance-wear" }
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
@@ -291,6 +295,8 @@ engage-core = { module = "com.google.android.engage:engage-core", version.ref = 
 firebase-ai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ondevice = { module = "com.google.firebase:firebase-ai-ondevice", version.ref = "firebase-ondevice" }
+fragment-testing-manifest = { module = "androidx.fragment:fragment-testing-manifest", version.ref = "fragment-testing" }
+fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragment-testing" }
 genai-schema-compiler = { module = "com.google.mlkit:genai-schema-compiler", version.ref = "genaiSchemaCompiler" }
 glance-appwidget-preview = { module = "androidx.glance:glance-appwidget-preview", version.ref = "androidx-glance-appwidget" }
 glance-preview = { module = "androidx.glance:glance-preview", version.ref = "androidx-glance-appwidget" }
