@@ -28,7 +28,6 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingFlowParams.SubscriptionUpdateParams
 import com.android.billingclient.api.BillingProgramAvailabilityDetails.BillingChoiceAvailabilityDetails.ChoiceScreenType
-import com.android.billingclient.api.BillingProgramReportingDetails
 import com.android.billingclient.api.BillingProgramReportingDetailsParams
 import com.android.billingclient.api.BillingProgramReportingDetailsParams.DeveloperBillingType
 import com.android.billingclient.api.BillingResult
@@ -491,7 +490,6 @@ private class Integration(
         // launchBillingFlow is called.
         // [END android_playbilling_billingchoice_subs_replacement_2a_token]
     }
-
 
     private fun loadImage(url: String, imageView: ImageView) {}
 }
