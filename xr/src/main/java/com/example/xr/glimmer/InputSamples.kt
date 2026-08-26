@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.aiglasses.camera.snippets
+package com.example.xr.glimmer
 
 import android.os.Bundle
 import android.util.Log
@@ -48,8 +48,7 @@ import androidx.xr.projected.ProjectedInputEvent.ProjectedInputAction.Companion.
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-// [START androidxr_projected_touchpad_input]
+import kotlinx.coroutines.CancellationException
 
 @Composable
 fun TouchpadInputSnippet(
@@ -114,6 +113,8 @@ class CameraActionInputSnippetActivity : ComponentActivity() {
                         } finally {
                             projectedActivity.close()
                         }
+                    } catch (e: CancellationException) {
+                        throw e
                     } catch (e: Exception) {
                         Log.w("CameraActionSnippet", "ProjectedActivityCompat unavailable: ${e.message}")
                     }
@@ -142,9 +143,9 @@ class MotionGestureInputSnippetActivity : ComponentActivity() {
 
     override fun dispatchGenericMotionEvent(ev: MotionEvent): Boolean {
         val actionName = when (ev.actionMasked) {
-            MotionEvent.ACTION_DOWN -> "ACTION_DOWN"
-            MotionEvent.ACTION_MOVE -> "ACTION_MOVE"
-            MotionEvent.ACTION_UP -> "ACTION_UP"
+            MotionEvent.ACTION_DOWN -> "ACTION_DOWN" // First contact with the glasses touchpad
+            MotionEvent.ACTION_MOVE -> "ACTION_MOVE" // Contact moving across the glasses touchpad
+            MotionEvent.ACTION_UP -> "ACTION_UP"     // Contact lifted from the glasses touchpad
             else -> "ACTION_${ev.actionMasked}"
         }
 
@@ -153,6 +154,7 @@ class MotionGestureInputSnippetActivity : ComponentActivity() {
             "MotionEvent: action=$actionName x=${ev.x} y=${ev.y}"
         )
 
+        // Delegate to super unless intentionally consuming the event
         return super.dispatchGenericMotionEvent(ev)
     }
 }
