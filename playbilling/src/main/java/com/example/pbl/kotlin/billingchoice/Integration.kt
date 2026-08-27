@@ -53,7 +53,6 @@ private class Integration(
     private val productDetailsParamsList: List<BillingFlowParams.ProductDetailsParams>,
     private val playBillingLoyaltyTextView: TextView,
     private val playBillingImageView: ImageView,
-    private val yourLinkUri: Uri,
     private val productDetailsNewPlan: ProductDetails,
     private val offerTokenNewPlan: String,
 ) {
@@ -324,7 +323,10 @@ private class Integration(
         // [END android_playbilling_billingchoice_create_token_external_link]
     }
 
-    private fun launchBillingFlowGoogleRenderedWebLink(transactionToken: String) {
+    private fun launchBillingFlowGoogleRenderedWebLink(
+        billingClient: BillingClient,
+        transactionToken: String
+    ) {
         // [START android_playbilling_billingchoice_launch_flow_external_link]
         // Build the developer billing option parameters with the external link URI,
         // the transaction token, and browser/app launch mode.
@@ -337,6 +339,11 @@ private class Integration(
                     DeveloperBillingOptionParams.LaunchMode.LAUNCH_IN_EXTERNAL_BROWSER_OR_APP
                 )
                 .build()
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .enableDeveloperBillingOption(developerBillingOptionParams)
+            .build()
+        val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
         // [END android_playbilling_billingchoice_launch_flow_external_link]
     }
 
@@ -369,10 +376,14 @@ private class Integration(
         // [END android_playbilling_billingchoice_verify_avail_dev_rendered_link]
     }
 
-    private fun launchExternalLinkDevRenderedWebLink(billingClient: BillingClient, transactionToken: String) {
+    private fun launchExternalLinkDevRenderedWebLink(
+        billingClient: BillingClient,
+        transactionToken: String,
+        activity: Activity,
+        yourLinkUri: Uri
+    ) {
         // [START android_playbilling_billingchoice_launch_external_link]
         // An activity reference from which the purchase flow will be launched.
-        val activity: Activity = this.activity
 
         val params = LaunchExternalLinkParams.newBuilder()
             .setBillingProgram(BillingProgram.BILLING_CHOICE)
