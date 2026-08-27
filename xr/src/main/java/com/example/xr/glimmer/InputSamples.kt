@@ -45,6 +45,7 @@ import androidx.xr.glimmer.TitleChip
 import androidx.xr.glimmer.onIndirectPointerGesture
 import androidx.xr.projected.ProjectedActivityCompat
 import androidx.xr.projected.ProjectedInputEvent.ProjectedInputAction.Companion.TOGGLE_APP_CAMERA
+import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -91,6 +92,7 @@ fun TouchpadInputSnippet(
 
 // [START androidxr_projected_camera_action]
 
+@OptIn(ExperimentalProjectedApi::class)
 class CameraActionInputSnippetActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
