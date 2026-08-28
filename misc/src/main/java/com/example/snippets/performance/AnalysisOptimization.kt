@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.snippets.BuildConfig
 
 // [START android_performance_appstartup_strict_mode]
 class MyApplication : Application() {
@@ -67,8 +68,4 @@ private fun ConditionalCompositionSnippet() {
 
 @Composable
 private fun MyComposable() {
-}
-
-private object BuildConfig {
-    const val DEBUG = true
 }
