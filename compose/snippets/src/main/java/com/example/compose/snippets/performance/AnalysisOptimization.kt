@@ -26,9 +26,8 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // [START_EXCLUDE]
-        System.gc()
-        // [END_EXCLUDE]
+        // ...
+
         if (BuildConfig.DEBUG)
             StrictMode.setThreadPolicy(
                 StrictMode.ThreadPolicy.Builder()
@@ -36,9 +35,8 @@ class MyApplication : Application() {
                     .penaltyDeath()
                     .build()
             )
-        // [START_EXCLUDE]
-        System.gc()
-        // [END_EXCLUDE]
+
+        // ...
     }
 }
 // [END android_performance_appstartup_strict_mode]
