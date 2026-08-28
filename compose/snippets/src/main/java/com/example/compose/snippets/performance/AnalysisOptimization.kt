@@ -24,7 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.snippets.BuildConfig
+import com.example.compose.snippets.BuildConfig
 
 // [START android_performance_appstartup_strict_mode]
 class MyApplication : Application() {
