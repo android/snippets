@@ -122,7 +122,7 @@ private fun FocusRestorationNavigationRailSample(
         modifier = modifier
             .focusProperties {
                 // Redirect focus to the selected item when focus enters the navigation rail
-                enter = { selectedRequester }
+                onEnter = { selectedRequester.requestFocus() }
             }
             .focusGroup()
     ) {
@@ -166,16 +166,13 @@ private fun FocusRestorationDynamicListSample(
             .focusRequester(containerRequester)
             .focusProperties {
                 // Save the focused child when focus exits the container
-                exit = {
+                onExit = {
                     containerRequester.saveFocusedChild()
-                    FocusRequester.Default
                 }
                 // Restore the previously focused child when focus enters, or fall back to first item
-                enter = {
-                    if (containerRequester.restoreFocusedChild()) {
-                        FocusRequester.Cancel
-                    } else {
-                        firstItemRequester
+                onEnter = {
+                    if (!containerRequester.restoreFocusedChild()) {
+                        firstItemRequester.requestFocus()
                     }
                 }
             }
