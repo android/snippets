@@ -51,12 +51,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.CancellationException
 
+// [START androidxr_projected_touchpad_input]
+
 @Composable
 fun TouchpadInputSnippet(
+    modifier: Modifier = Modifier,
     onTap: () -> Unit = {},
     onSwipeForward: () -> Unit = {},
-    onSwipeBackward: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onSwipeBackward: () -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
 
