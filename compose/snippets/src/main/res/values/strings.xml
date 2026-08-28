@@ -60,5 +60,18 @@
     <string name="reply_label">Reply</string>
     <string name="replied">Replied</string>
     <string name="content">content</string>
-
+    <string name="hello">Hello!</string>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <plurals name="numberOfSongsAvailable">
+        <item quantity="one">%d song found.</item>
+        <item quantity="other">%d songs found.</item>
+    </plurals>
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+    <string name="hello_new_document_counter">Hello new document</string>
+    <string name="reusing_document_counter">Reusing document</string>
 </resources>
