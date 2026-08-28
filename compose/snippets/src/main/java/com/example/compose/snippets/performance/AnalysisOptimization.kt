@@ -18,12 +18,6 @@ package com.example.snippets.performance
 
 import android.app.Application
 import android.os.StrictMode
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.example.compose.snippets.BuildConfig
 
 // [START android_performance_appstartup_strict_mode]
@@ -48,24 +42,3 @@ class MyApplication : Application() {
     }
 }
 // [END android_performance_appstartup_strict_mode]
-
-@Composable
-private fun ConditionalCompositionSnippet() {
-    // [START android_performance_appstartup_conditional_composition]
-    var shouldLoad by remember { mutableStateOf(false) }
-
-    if (shouldLoad) {
-        MyComposable()
-    }
-    // [END android_performance_appstartup_conditional_composition]
-
-    // [START android_performance_appstartup_conditional_composition_effect]
-    LaunchedEffect(Unit) {
-        shouldLoad = true
-    }
-    // [END android_performance_appstartup_conditional_composition_effect]
-}
-
-@Composable
-private fun MyComposable() {
-}
