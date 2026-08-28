@@ -83,7 +83,7 @@ private fun FocusRestorationFallbackSample(items: List<String>) {
     val firstItemRequester = remember { FocusRequester() }
 
     LazyColumn(
-        modifier = Modifier.focusRestorer { firstItemRequester }
+        modifier = Modifier.focusRestorer(firstItemRequester)
     ) {
         itemsIndexed(items) { index, item ->
             val itemModifier = if (index == 0) {
