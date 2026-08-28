@@ -16,4 +16,13 @@
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
+    <androidx.emoji2.widget.EmojiTextView
+        android:id="@+id/emoji_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

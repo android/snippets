@@ -45,16 +45,16 @@ fun scheduleWork(context: Context) {
 // [START android_background_restrictions_worker_triggered_content]
 class MyWorker(
     appContext: Context,
-    private val params: WorkerParameters
+    params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
         StringBuilder().apply {
             append("Media content has changed:\n")
-            params.triggeredContentAuthorities
+            triggeredContentAuthorities
                 .takeIf { it.isNotEmpty() }
                 ?.let { authorities ->
                     append("Authorities: ${authorities.joinToString(", ")}\n")
-                    append(params.triggeredContentUris.joinToString("\n"))
+                    append(triggeredContentUris.joinToString("\n"))
                 } ?: append("(No content)")
             Log.i(TAG, toString())
         }

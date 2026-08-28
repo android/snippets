@@ -43,6 +43,60 @@ class SampleBootReceiver : BroadcastReceiver() {
 }
 // [END android_background_alarms_boot_receiver]
 
+private class ElapsedRealtimeOneTimeSnippet(private val context: Context) {
+    // [START android_background_alarms_elapsed_realtime_one_time]
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
+    /* ... */
+    // [START_EXCLUDE silent]
+    fun schedule() {
+        // [END_EXCLUDE]
+        alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        alarmMgr?.set(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            SystemClock.elapsedRealtime() + 60 * 1000,
+            alarmIntent
+        )
+        // [END android_background_alarms_elapsed_realtime_one_time]
+    }
+}
+
+private class RtcRepeatingPreciseSnippet(private val context: Context) {
+    // [START android_background_alarms_rtc_repeating_precise]
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
+    /* ... */
+    // [START_EXCLUDE silent]
+    fun schedule() {
+        // [END_EXCLUDE]
+        alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+
+        // Set the alarm to start at 8:30 a.m.
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 30)
+        }
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 20 minutes.
+        alarmMgr?.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 20,
+            alarmIntent
+        )
+        // [END android_background_alarms_rtc_repeating_precise]
+    }
+}
+
 private class AlarmExamples(private val context: Context) {
     private var alarmMgr: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
@@ -78,24 +132,6 @@ private class AlarmExamples(private val context: Context) {
         // [END android_background_alarms_elapsed_realtime_repeating]
     }
 
-    fun elapsedRealtimeOneTime() {
-        // [START android_background_alarms_elapsed_realtime_one_time]
-        var alarmMgr: AlarmManager? = null
-        lateinit var alarmIntent: PendingIntent
-        // ...
-        alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
-
-        alarmMgr?.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + 60 * 1000,
-            alarmIntent
-        )
-        // [END android_background_alarms_elapsed_realtime_one_time]
-    }
-
     fun rtcRepeating() {
         // [START android_background_alarms_rtc_repeating]
         // Set the alarm to start at approximately 2:00 p.m.
@@ -113,34 +149,6 @@ private class AlarmExamples(private val context: Context) {
             alarmIntent
         )
         // [END android_background_alarms_rtc_repeating]
-    }
-
-    fun rtcRepeatingPrecise() {
-        // [START android_background_alarms_rtc_repeating_precise]
-        var alarmMgr: AlarmManager? = null
-        lateinit var alarmIntent: PendingIntent
-        // ...
-        alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
-
-        // Set the alarm to start at 8:30 a.m.
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 8)
-            set(Calendar.MINUTE, 30)
-        }
-
-        // setRepeating() lets you specify a precise custom interval--in this case,
-        // 20 minutes.
-        alarmMgr?.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            1000 * 60 * 20,
-            alarmIntent
-        )
-        // [END android_background_alarms_rtc_repeating_precise]
     }
 
     fun cancelDirect() {
