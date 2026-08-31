@@ -71,10 +71,10 @@
             android:authorities="com.example.snippets.androidx-startup"
             android:exported="false">
           <meta-data
-              android:name="com.example.snippets.ActivityEmbeddingKotlinSnippets.SplitInitializer"
+              android:name="com.example.snippets.ActivityEmbeddingKotlinSnippets$SplitInitializer"
               android:value="androidx.startup" />
           <meta-data
-              android:name="com.example.snippets.ActivityEmbeddingJavaSnippets.SplitInitializer"
+              android:name="com.example.snippets.ActivityEmbeddingJavaSnippets$SplitInitializer"
               android:value="androidx.startup" />
         </provider>
 <!--    [START android_engage_broadcast_receiver_static]-->

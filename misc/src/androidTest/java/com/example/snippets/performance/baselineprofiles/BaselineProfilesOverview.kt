@@ -16,13 +16,14 @@
 
 package com.example.snippets.performance.baselineprofiles
 
-import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.Direction
+import androidx.test.uiautomator.textAsString
+import androidx.test.uiautomator.uiAutomator
 import org.junit.Rule
 import org.junit.Test
 
-private const val PACKAGE_NAME = "com.example.app"
+private const val PACKAGE_NAME = "com.example.snippets"
 
 // [START android_performance_baselineprofiles_overview_generator]
 class BaselineProfileGenerator {
@@ -48,23 +49,3 @@ class BaselineProfileGenerator {
     }
 }
 // [END android_performance_baselineprofiles_overview_generator]
-
-private class OverviewElementScope {
-    val viewIdResourceName: String = ""
-    fun textAsString(): String = ""
-}
-
-private class OverviewElement {
-    fun click() {}
-    fun fling(direction: Direction) {}
-}
-
-private class OverviewUiAutomatorScope {
-    fun startApp(packageName: String) {}
-    fun onElement(block: OverviewElementScope.() -> Boolean): OverviewElement = OverviewElement()
-    fun pressBack() {}
-}
-
-private fun MacrobenchmarkScope.uiAutomator(block: OverviewUiAutomatorScope.() -> Unit) {
-    OverviewUiAutomatorScope().block()
-}
