@@ -83,8 +83,8 @@ dependencies {
     implementation(libs.engage.core)
 
     implementation(libs.androidx.metrics.performance)
-    implementation(libs.androidx.benchmark.macro.junit4)
-    implementation(libs.androidx.uiautomator)
+    androidTestImplementation(libs.androidx.benchmark.macro.junit4)
+    androidTestImplementation(libs.androidx.uiautomator)
     implementation(libs.junit)
     implementation(libs.androidx.test.ext.junit)
     implementation(libs.androidx.test.runner)
