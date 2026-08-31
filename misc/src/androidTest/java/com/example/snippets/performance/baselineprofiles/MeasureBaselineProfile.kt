@@ -18,11 +18,11 @@ package com.example.snippets.performance.baselineprofiles
 
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
-import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.uiautomator.uiAutomator
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -78,18 +78,3 @@ class ColdStartupBenchmark {
     }
 }
 // [END android_performance_baselineprofiles_measure_compilation_modes]
-
-private class MeasureElementScope {
-    val viewIdResourceName: String = ""
-}
-
-private class MeasureElement
-
-private class MeasureUiAutomatorScope {
-    fun startApp(packageName: String) {}
-    fun onElement(timeout: Long = 0L, block: MeasureElementScope.() -> Boolean): MeasureElement = MeasureElement()
-}
-
-private fun MacrobenchmarkScope.uiAutomator(block: MeasureUiAutomatorScope.() -> Unit) {
-    MeasureUiAutomatorScope().block()
-}
