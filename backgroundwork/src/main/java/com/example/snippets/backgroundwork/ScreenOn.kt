@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.background
+package com.example.snippets.backgroundwork
 
 import android.app.Activity
 import android.os.Bundle
 import android.view.WindowManager
-import com.example.compose.snippets.R
 
 // [START android_background_awake_screen_on]
 class MainActivity : Activity() {

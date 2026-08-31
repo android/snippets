@@ -78,9 +78,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
-    implementation("androidx.work:work-testing:2.10.0")
-    implementation("androidx.work:work-rxjava2:2.10.0")
-    implementation(libs.androidx.test.ext.junit)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     val composeBom = platform(libs.androidx.compose.bom)

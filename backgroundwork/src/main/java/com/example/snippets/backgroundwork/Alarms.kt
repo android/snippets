@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.background
+package com.example.snippets.backgroundwork
 
 import android.app.AlarmManager
 import android.app.PendingIntent
