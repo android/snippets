@@ -29,7 +29,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.androidx.work.runtime)
-    implementation("androidx.work:work-testing:2.10.0")
-    implementation("androidx.work:work-rxjava2:2.10.0")
-    implementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.work.testing)
+    androidTestImplementation(libs.androidx.work.rxjava2)
 }
