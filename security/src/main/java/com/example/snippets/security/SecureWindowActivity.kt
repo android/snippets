@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.snippets.security
 
 import android.os.Bundle
@@ -25,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.example.snippets.security.R
 
 class SecureWindowActivity : ComponentActivity() {
 
