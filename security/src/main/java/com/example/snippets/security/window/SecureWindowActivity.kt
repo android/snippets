@@ -35,7 +35,7 @@ class SecureWindowActivity : ComponentActivity() {
         // Treat the content of the window as secure, preventing it from appearing in screenshots
         // or from being viewed on non-secure displays. On Android 17+ (API 37+), this also
         // opts-out the view from Content Capture,
-        // See {@link android.view.ContentCaptureManager}.
+        // See {@link android.view.contentcapture.ContentCaptureManager}.
         // [START android_security_secure_window]
         window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
