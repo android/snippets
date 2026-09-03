@@ -35,6 +35,7 @@ import androidx.navigation3.runtime.deeplink.actionExtra
 import androidx.navigation3.runtime.deeplink.actionFilter
 import androidx.navigation3.runtime.deeplink.invoke
 import androidx.navigation3.runtime.deeplink.requestExtras
+import androidx.navigation3.runtime.deeplink.withBackStack
 import androidx.savedstate.SavedState
 import androidx.savedstate.read
 import kotlinx.serialization.Serializable
@@ -150,28 +151,54 @@ object DeepLinkSnippets {
 }
 
 // [START android_compose_navigation3_deeplinks_match_request]
-val deepLinkMatchers = listOf(
-    StaticKeyDeepLinkMatcher(HomeKey, listOf(DeepLinkMatcher.actionFilter(Intent.ACTION_VIEW))),
-    UriDeepLinkMatcher(DeepLinkUri("www.example.com/users/{id}"), serializer<UserProfileKey>()),
-    TelDeepLinkMatcher()
+// 1. Instantiate your DeepLinkMatcher instances.
+val homeMatcher = StaticKeyDeepLinkMatcher(HomeKey, listOf(DeepLinkMatcher.actionFilter(Intent.ACTION_VIEW)))
+
+val userProfileMatcher = UriDeepLinkMatcher(
+    DeepLinkUri("www.example.com/users/{id}"),
+    serializer<UserProfileKey>()
+).withBackStack { matchResult ->
+    listOf(HomeKey, matchResult.key)
+}
+
+val telMatcher = TelDeepLinkMatcher()
+
+// 2. Collate all of your DeepLinkMatcher instances.
+//    Note: Collating matchers with different generic types requires wildcards,
+//    erasing the specific generic types.
+val deepLinkMatchers: List<DeepLinkMatcher<*, *>> = listOf(
+    homeMatcher,
+    userProfileMatcher,
+    telMatcher
 )
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // ...
-        val request = DeepLinkRequest(intent = intent)
-        val matchResult = deepLinkMatchers
-            .mapNotNull { it.match(request) }
-            .maxOrNull()
 
-        val backStack = when (matchResult) {
+        // 3. Create a DeepLinkRequest from the incoming Intent
+        val request = DeepLinkRequest(intent = intent)
+
+        // 4. Match the request against all matchers and find the best match.
+        //    Because DeepLinkMatcher.MatchResult implements Comparable, you can
+        //    use maxOrNull() to find the best match.
+        val matchResult = deepLinkMatchers
+            .mapNotNull { it.match(request) } // List<DeepLinkMatcher.MatchResult<*>>
+            .maxOrNull() // DeepLinkMatcher.MatchResult<*>?
+
+        // 5. Create the back stack from the match result (or fall back to a default).
+        val backStack: List<NavKey> = when (matchResult) {
+            // If no match is found, use the default back stack (e.g., HomeKey)
             null -> listOf(HomeKey)
+            // If a BackStackMatchResult is found, use the back stack from the result
             is BackStackMatchResult<*, *> -> {
+                // Because star-projected matchers erase the key type, cast the back stack to List<NavKey>.
                 @Suppress("UNCHECKED_CAST")
                 matchResult.backStack as List<NavKey>
             }
-            else -> listOf(matchResult.key)
+            // Otherwise, use the key from the match result to make a single-item back stack
+            else -> listOf(matchResult.key as NavKey)
         }
     }
 }
