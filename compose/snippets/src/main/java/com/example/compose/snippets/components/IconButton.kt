@@ -21,8 +21,13 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -122,3 +127,37 @@ fun MomentaryIconButtonExample() {
     }
 }
 // [END android_compose_components_momentaryiconbuttons]
+
+// [START android_compose_expressive_components_animatediconbuttons]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconButtonWithAnimatedShapeSample() {
+    IconButton(
+        onClick = { /* doSomething() */ },
+        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
+    ) {
+        Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+    }
+}
+// [END android_compose_expressive_components_animatediconbuttons]
+
+// [START android_compose_expressive_components_animatedtoggleiconbuttons]
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconToggleButtonWithAnimatedShapeSample() {
+    var checked by remember { mutableStateOf(false) }
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
+    ) {
+        if (checked) {
+            Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+        } else {
+            Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
+        }
+    }
+}
+// [END android_compose_expressive_components_animatedtoggleiconbuttons]
