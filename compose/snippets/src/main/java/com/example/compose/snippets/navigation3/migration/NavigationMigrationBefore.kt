@@ -18,22 +18,24 @@ package com.example.compose.snippets.navigation3.migration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.StateFlow
-import androidx.navigation.NavHostController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
-import kotlinx.serialization.Serializable
 import kotlin.reflect.KClass
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
 
 // Dummy screens for compilation
 @Composable private fun ScreenA(title: String) {}
@@ -122,5 +124,33 @@ private object SnippetLifecycleBefore {
         val lifecycleOwner = navController.currentBackStackEntry!!
         val state by flow.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
         // [END android_compose_navigation3_lifecycle_before]
+    }
+}
+
+private object SnippetResultBefore {
+    data class Contact(val name: String = "")
+    class ComposeMessageViewModel : ViewModel() {
+        fun onRecipientSelected(contact: Contact) {}
+    }
+
+    @Composable
+    fun ResultBeforeSnippet(
+        navController: NavController,
+        contact: Contact,
+        viewModel: ComposeMessageViewModel
+    ) {
+        // [START android_compose_navigation3_result_before]
+        // Sender destination:
+        navController.previousBackStackEntry?.savedStateHandle?.set("contact_key", contact)
+        navController.popBackStack()
+
+        // Receiver destination:
+        val lifecycleOwner = LocalLifecycleOwner.current
+        navController.currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<Contact>("contact_key")
+            ?.observe(lifecycleOwner) { contact ->
+                viewModel.onRecipientSelected(contact)
+            }
+        // [END android_compose_navigation3_result_before]
     }
 }
