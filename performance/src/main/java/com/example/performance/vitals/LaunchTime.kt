@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.performance.vitals
+package com.example.android.performance.vitals
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,7 +29,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private object LaunchTimeSnippet {
     // [START android_performance_launch_time_fully_drawn_reporter]
     class MainActivity : ComponentActivity() {
 
@@ -74,7 +73,6 @@ private object LaunchTimeSnippet {
         }
     }
     // [END android_performance_launch_time_fully_drawn_reporter]
-}
 
 @Composable
 private fun ReportFullyDrawnTheme(content: @Composable () -> Unit) {
