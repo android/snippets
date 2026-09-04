@@ -16,6 +16,8 @@
 
 package com.example.media
 
+import android.hardware.DisplayLuts
+import android.hardware.LutProperties
 import android.view.SurfaceControl
 
 private fun applyLutExample() {
@@ -28,30 +30,6 @@ private fun applyLutExample() {
         LutProperties.SAMPLING_KEY_MAX_RGB
     )
     luts.set(entry)
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
     SurfaceControl.Transaction().setLuts(sc, luts).apply()
-    // [START_EXCLUDE silent]
-    */
-    // [END_EXCLUDE]
     // [END android_media_hdr_lut_apply]
-}
-
-// Platform API shims for API 36 DisplayLuts
-class DisplayLuts {
-    class Entry(
-        val data: FloatArray,
-        val dimension: Int,
-        val samplingKey: Int
-    )
-
-    fun set(entry: Entry) {}
-    fun set(first: Entry, second: Entry) {}
-}
-
-object LutProperties {
-    const val ONE_DIMENSION = 1
-    const val THREE_DIMENSIONS = 3
-    const val SAMPLING_KEY_MAX_RGB = 1
 }

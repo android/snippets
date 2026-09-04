@@ -16,7 +16,6 @@
 
 package com.example.media
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
@@ -29,65 +28,57 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 
 class MediaProjectionActivity : ComponentActivity() {
 
-    private var mediaProjection: MediaProjection? = null
     private var virtualDisplay: VirtualDisplay? = null
 
     fun startProjection() {
         // [START android_media_projection_start]
         val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java)
-        var mediaProjection : MediaProjection
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
+        var mediaProjection: MediaProjection
+
         val startMediaProjection = registerForActivityResult(
             StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 mediaProjection = mediaProjectionManager
                     .getMediaProjection(result.resultCode, result.data!!)
+                    // [START_EXCLUDE silent]
+                    ?: error("MediaProjection token missing")
+                // [END_EXCLUDE]
             }
         }
-        // [START_EXCLUDE silent]
-        */
-        val startMediaProjection = registerForActivityResult(
-            StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                mediaProjection = mediaProjectionManager
-                    .getMediaProjection(result.resultCode, result.data!!)!!
-            }
-        }
-        // [END_EXCLUDE]
 
         startMediaProjection.launch(mediaProjectionManager.createScreenCaptureIntent())
         // [END android_media_projection_start]
     }
 
     fun createVirtualDisplayExample(
+        mediaProjection: MediaProjection,
         width: Int,
         height: Int,
         screenDensity: Int,
         surface: Surface
     ) {
-        val proj = mediaProjection ?: return
         // [START android_media_projection_virtual_display]
-        virtualDisplay = proj.createVirtualDisplay(
-                             "ScreenCapture",
-                             width,
-                             height,
-                             screenDensity,
-                             DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                             surface,
-                             null, null)
+        virtualDisplay = mediaProjection.createVirtualDisplay(
+            "ScreenCapture",
+            width,
+            height,
+            screenDensity,
+            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+            surface,
+            null, null
+        )
         // [END android_media_projection_virtual_display]
     }
 
     fun getWindowMetricsExample(context: Context) {
         // [START android_media_projection_window_context_metrics]
-        val windowContext = context.createWindowContext(context.display!!,
-              WindowManager.LayoutParams.TYPE_APPLICATION, null)
+        val windowContext = context.createWindowContext(
+            context.display!!,
+            WindowManager.LayoutParams.TYPE_APPLICATION, null
+        )
         val projectionMetrics = windowContext.getSystemService(WindowManager::class.java)
-              .maximumWindowMetrics
+            .maximumWindowMetrics
         // [END android_media_projection_window_context_metrics]
     }
 }
