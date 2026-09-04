@@ -22,21 +22,17 @@ import android.media.MediaCodecList
 import android.media.MediaCrypto
 import android.media.MediaFormat
 import android.view.Display
+import android.view.Display.HdrCapabilities.HDR_TYPE_HLG
 import android.view.Surface
 import android.view.SurfaceView
-import java.nio.ByteBuffer
-import java.util.ArrayDeque
 import java.util.Queue
-
-// Constant for HDR_TYPE_HLG (Display.HdrCapabilities.HDR_TYPE_HLG)
-private const val HDR_TYPE_HLG = 2
 
 private fun checkHdrSupport(display: Display?) {
     // [START android_media_hdr_playback_check_support]
     // Check if display supports the HDR type
     val capabilities = display?.hdrCapabilities?.supportedHdrTypes ?: intArrayOf()
     if (!capabilities.contains(HDR_TYPE_HLG)) {
-      throw RuntimeException("Display does not support desired HDR type")
+        throw RuntimeException("Display does not support desired HDR type")
     }
     // [END android_media_hdr_playback_check_support]
 }
@@ -61,29 +57,32 @@ private fun mediaCodecHdrFlow(
     // Here is a standard MediaCodec playback flow
     val codec: MediaCodec = MediaCodec.createByCodecName(codecName)
     val surface: Surface = surfaceView.holder.surface
-    val callback: MediaCodec.Callback = (object : MediaCodec.Callback() {
-       override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
-          queue.offer(index)
-       }
+    val callback: MediaCodec.Callback = (
+        object : MediaCodec.Callback() {
+            override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
+                queue.offer(index)
+            }
 
-       override fun onOutputBufferAvailable(
-          codec: MediaCodec,
-          index: Int,
-          info: MediaCodec.BufferInfo
-       ) {
-          codec.releaseOutputBuffer(index, timestamp)
-       }
+            override fun onOutputBufferAvailable(
+                codec: MediaCodec,
+                index: Int,
+                info: MediaCodec.BufferInfo
+            ) {
+                codec.releaseOutputBuffer(index, timestamp)
+            }
 
-       override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-          // handle error
-       }
+            override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
+                // handle error
+            }
 
-       override fun onOutputFormatChanged(
-          codec: MediaCodec, format: MediaFormat
-       ) {
-          // handle format change
-       }
-    })
+            override fun onOutputFormatChanged(
+                codec: MediaCodec,
+                format: MediaFormat
+            ) {
+                // handle format change
+            }
+        }
+        )
 
     codec.setCallback(callback)
     codec.configure(format, surface, crypto, 0 /* flags */)
@@ -93,20 +92,20 @@ private fun mediaCodecHdrFlow(
     // [END_EXCLUDE]
     while (/* until EOS */) {
     // [START_EXCLUDE silent]
-    */
+     */
     while (isStreaming) {
-    // [END_EXCLUDE]
-       val index = queue.poll()
-       val buffer = codec.getInputBuffer(index)
-       // [START_EXCLUDE silent]
+        // [END_EXCLUDE]
+        val index = queue.poll()
+        val buffer = codec.getInputBuffer(index)
+        // [START_EXCLUDE silent]
        /*
        // [END_EXCLUDE]
        buffer?.put(/* write bitstream */)
        // [START_EXCLUDE silent]
-       */
-       buffer?.put(byteArrayOf())
-       // [END_EXCLUDE]
-       codec.queueInputBuffer(index, offset, size, timestamp, flags)
+        */
+        buffer?.put(byteArrayOf())
+        // [END_EXCLUDE]
+        codec.queueInputBuffer(index, offset, size, timestamp, flags)
     }
     codec.stop()
     codec.release()

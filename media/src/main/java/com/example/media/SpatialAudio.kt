@@ -35,8 +35,8 @@ private fun querySpatializer(audioManager: AudioManager) {
 private fun disableChannelConstraintsPlayer(context: Context, exoPlayer: ExoPlayer) {
     // [START android_media_spatial_audio_disable_channel_constraints_player]
     exoPlayer.trackSelectionParameters = DefaultTrackSelector.Parameters.Builder(context)
-      .setConstrainAudioChannelCountToDeviceCapabilities(false)
-      .build()
+        .setConstrainAudioChannelCountToDeviceCapabilities(false)
+        .build()
     // [END android_media_spatial_audio_disable_channel_constraints_player]
 }
 
@@ -49,20 +49,20 @@ private fun disableChannelConstraintsSelector(context: Context) {
     // [END_EXCLUDE]
     ...
     // [START_EXCLUDE silent]
-    */
+     */
     // [END_EXCLUDE]
     trackSelector.parameters = trackSelector.buildUponParameters()
-      .setConstrainAudioChannelCountToDeviceCapabilities(false)
-      .build()
+        .setConstrainAudioChannelCountToDeviceCapabilities(false)
+        .build()
     // [END android_media_spatial_audio_disable_channel_constraints_selector]
 }
 
 private fun setMaxAudioChannels(exoPlayer: ExoPlayer) {
     // [START android_media_spatial_audio_set_max_channels]
     exoPlayer.trackSelectionParameters = exoPlayer.trackSelectionParameters
-      .buildUpon()
-      .setMaxAudioChannelCount(2)
-      .build()
+        .buildUpon()
+        .setMaxAudioChannelCount(2)
+        .build()
     // [END android_media_spatial_audio_set_max_channels]
 }
 
