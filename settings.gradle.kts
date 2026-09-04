@@ -60,5 +60,6 @@ include(
     ":cars",
     ":installprompt",
     ":telecom",
-    ":room"
+    ":room",
+    ":performance"
 )
