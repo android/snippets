@@ -16,7 +16,6 @@
 
 package com.example.media
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.widget.ImageView
@@ -24,30 +23,23 @@ import androidx.fragment.app.Fragment
 
 class UltraHdrDisplayFragment : Fragment() {
 
-    private val binding = FragmentBinding()
+    private lateinit var binding: FragmentBinding
 
     fun displayUltraHdr(bitmap: Bitmap) {
         // [START android_media_ultra_hdr_display_window_color_mode]
         val bitmap = /* Get Bitmap from Image Resource */
-        // [START_EXCLUDE silent]
-        /*
+            // [START_EXCLUDE silent]
+            bitmap
         // [END_EXCLUDE]
         binding.imageContainer.setImageBitmap(bitmap)
 
         // Set color mode of the activity to the correct color mode.
         requireActivity().window.colorMode =
-           if (bitmap.hasGainmap()) ActivityInfo.COLOR_MODE_HDR else ActivityInfo.COLOR_MODE_DEFAULT
-        // [START_EXCLUDE silent]
-        */
-        bitmap
-        binding.imageContainer.setImageBitmap(bitmap)
-        requireActivity().window.colorMode =
-           if (bitmap.hasGainmap()) ActivityInfo.COLOR_MODE_HDR else ActivityInfo.COLOR_MODE_DEFAULT
-        // [END_EXCLUDE]
+            if (bitmap.hasGainmap()) ActivityInfo.COLOR_MODE_HDR else ActivityInfo.COLOR_MODE_DEFAULT
         // [END android_media_ultra_hdr_display_window_color_mode]
     }
 
     private class FragmentBinding {
-        val imageContainer = ImageView(null)
+        lateinit var imageContainer: ImageView
     }
 }

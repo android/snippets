@@ -26,40 +26,42 @@ import java.util.concurrent.Executor
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-// [START android_media_ai_enhancement_surface_initialize_engine]
-class SurfaceMediaSetupViewModel(application: Application) : AndroidViewModel(application) {
-    private val enhancementClient = Enhancement.getClient(application)
-    fun initializeEnhancementEngine() {
-        viewModelScope.launch {
-            try {
-                // 1. Verify hardware capability
-                val isSupported = enhancementClient.isDeviceSupportedAsync()
-                if (!isSupported) {
-                    notifyUiDeviceIncompatible()
-                    return@launch
+private object SurfaceModeLifecycleSnippet {
+    // [START android_media_ai_enhancement_surface_initialize_engine]
+    class MediaSetupViewModel(application: Application) : AndroidViewModel(application) {
+        private val enhancementClient = Enhancement.getClient(application)
+        fun initializeEnhancementEngine() {
+            viewModelScope.launch {
+                try {
+                    // 1. Verify hardware capability
+                    val isSupported = enhancementClient.isDeviceSupportedAsync()
+                    if (!isSupported) {
+                        notifyUiDeviceIncompatible()
+                        return@launch
+                    }
+                    // 2. Verify and download the Google Play services ML modules
+                    val isInstalled = enhancementClient.isModuleInstalledAsync()
+                    if (!isInstalled) {
+                        notifyUiDownloadingModels()
+                        enhancementClient.installModule().await() 
+                    }
+                    notifyUiEngineReady()
+                } catch (e: Exception) {
+                    // Handle potential errors during session creation or image
+                    // processing.
+                    handleInitializationError(e)
                 }
-                // 2. Verify and download the Google Play services ML modules
-                val isInstalled = enhancementClient.isModuleInstalledAsync()
-                if (!isInstalled) {
-                    notifyUiDownloadingModels()
-                    enhancementClient.installModule().await() 
-                }
-                notifyUiEngineReady()
-            } catch (e: Exception) {
-                // Handle potential errors during session creation or image
-                // processing.
-                handleInitializationError(e)
             }
         }
+        // [START_EXCLUDE silent]
+        private fun notifyUiDeviceIncompatible() {}
+        private fun notifyUiDownloadingModels() {}
+        private fun notifyUiEngineReady() {}
+        private fun handleInitializationError(e: Exception) {}
+        // [END_EXCLUDE]
     }
-    // [START_EXCLUDE silent]
-    private fun notifyUiDeviceIncompatible() {}
-    private fun notifyUiDownloadingModels() {}
-    private fun notifyUiEngineReady() {}
-    private fun handleInitializationError(e: Exception) {}
-    // [END_EXCLUDE]
+    // [END android_media_ai_enhancement_surface_initialize_engine]
 }
-// [END android_media_ai_enhancement_surface_initialize_engine]
 
 private suspend fun singleFrameSnapshot(
     imageReader: ImageReader,

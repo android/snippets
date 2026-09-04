@@ -94,22 +94,11 @@ suspend fun EnhancementClient.createSessionAsync(
         }
 
         // Handles errors during the initial request trigger.
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        this.createSession(options, callback).addOnFailureListener(executor) { e ->
-            if (continuation.isActive) {
-                continuation.resumeWithException(e)
-            }
-        }
-        // [START_EXCLUDE silent]
-        */
         this@createSessionAsync.createSession(options, callback).addOnFailureListener(executor) { e ->
             if (continuation.isActive) {
                 continuation.resumeWithException(e)
             }
         }
-        // [END_EXCLUDE]
     }
 }
 
@@ -223,8 +212,6 @@ interface EnhancementClient {
     fun isModuleInstalled(): Task<Boolean>
     fun installModule(): Task<Void>
     fun createSession(options: EnhancementOptions, callback: EnhancementSessionCallback): Task<Void>
-    suspend fun isDeviceSupportedAsync(): Boolean = false
-    suspend fun isModuleInstalledAsync(): Boolean = false
 }
 
 interface EnhancementSession {
