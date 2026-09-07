@@ -19,6 +19,7 @@
 package com.example.compose.snippets.layouts.grid
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalGridApi
 import androidx.compose.foundation.layout.Grid
@@ -28,6 +29,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -330,3 +333,61 @@ private fun GridTabletop() {
     }
     // [END android_compose_grid_tabletop]
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun GridWithLazyColumnPreview() {
+    GridWithLazyColumn(items = List(6) { "Item $it" })
+}
+
+// [START android_compose_grid_with_lazy_column_setup]
+enum class ScreenArea {
+    Header,
+    Content,
+    Footer
+}
+
+
+val lazyConfig: GridConfigurationScope.() -> Unit = {
+    column(minmax(0.dp, 1.fr))
+    row(GridTrackSize.MaxContent)
+    row(minmax(0.dp, 1.fr))
+    row(GridTrackSize.MaxContent)
+
+    area(ScreenArea.Header, row = 1, column = 1)
+    area(ScreenArea.Content, row = 2, column = 1)
+    area(ScreenArea.Footer, row = 3, column = 1)
+    gap(8.dp)
+}
+// [END android_compose_grid_with_lazy_column_setup]
+
+
+// [START android_compose_grid_with_lazy_column]
+@Composable
+fun GridWithLazyColumn(
+    modifier: Modifier = Modifier,
+    items: List<String> = emptyList(),
+) {
+    Grid(
+        modifier = modifier.fillMaxSize(),
+        config = lazyConfig
+    ) {
+        Text("Header", Modifier.gridItem(ScreenArea.Header).padding(16.dp))
+        Text("Footer", Modifier.gridItem(ScreenArea.Footer).padding(16.dp))
+
+        // LazyColumn placed in the content area for large datasets
+        LazyColumn(
+            modifier = Modifier
+                .gridItem(ScreenArea.Content)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(items) { item ->
+                Text(item, Modifier.padding(16.dp))
+            }
+        }
+    }
+}
+// [END android_compose_grid_with_lazy_column]
+
