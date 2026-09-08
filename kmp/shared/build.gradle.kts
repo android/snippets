@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.android.lint)
 }
 
@@ -12,6 +13,10 @@ kotlin {
         namespace = "com.example.kmp.snippets.shared"
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
+
+        compilerOptions {
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.example.kmp.snippets.MyParcelize")
+        }
 
         withHostTestBuilder {
         }
