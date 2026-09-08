@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2026 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- [START android_security_known_signer_certs_xml] -->
+    <!-- SHA-256 fingerprints of trusted partner certificates (lowercase, no colons) -->
+    <string-array name="trusted_partner_certs" tools:ignore="Typos">
+        <item>103938ee4537e59e8ee792f654504fb8346fc6b346d0bbc4415fc339fcfc8ec1</item>
+    </string-array>
+    <!-- [END android_security_known_signer_certs_xml] -->
+</resources>
