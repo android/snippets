@@ -16,7 +16,11 @@
 
 package com.example.snippets.security.permissions
 
+import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -24,12 +28,21 @@ import androidx.core.content.ContextCompat
 // [START android_security_runtime_permission_request]
 class CameraActivity : ComponentActivity() {
 
+    private val permission = Manifest.permission.CAMERA
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 startCameraPreview()
             } else {
-                showPermissionDeniedFeedback()
+                if (!shouldShowRequestPermissionRationale(permission)) {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    }
+                    startActivity(intent)
+                } else {
+                    showPermissionDeniedFeedback()
+                }
             }
         }
 

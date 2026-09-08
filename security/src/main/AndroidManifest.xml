@@ -61,6 +61,7 @@
         android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application>
         <!--[START android_security_custom_permission_activity_manifest]-->
@@ -87,6 +88,12 @@
 
         <activity
             android:name=".permissions.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".permissions.LocationPermissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".permissions.MediaPickerActivity"
             android:exported="false" />
 
         <!--[START android_security_custom_permission_service_manifest]-->
