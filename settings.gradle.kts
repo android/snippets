@@ -45,6 +45,7 @@ include(
     ":wear",
     ":wearcompanion",
     ":views",
+    ":media",
     ":misc",
     ":security",
     ":identity:credentialmanager",
