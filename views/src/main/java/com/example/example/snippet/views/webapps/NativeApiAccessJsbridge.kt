@@ -42,7 +42,7 @@ private fun webMessageListenerSnippet(webView: WebView) {
 }
 
 // [START android_views_webapps_web_message_binary]
-fun setupWebView(webView: WebView) {
+private fun setupWebView(webView: WebView) {
     if (WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
         val listener = WebViewCompat.WebMessageListener { view, message, sourceOrigin, isMainFrame, replyProxy ->
 
