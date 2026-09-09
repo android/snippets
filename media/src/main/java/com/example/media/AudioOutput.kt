@@ -29,7 +29,7 @@ class AudioOutputActivity : Activity() {
     override fun onResume() {
         super.onResume()
         // [START android_media_platform_output_volume_control_stream]
-        volumeControlStream = AudioManager.STREAM_MUSIC
+        setVolumeControlStream(AudioManager.STREAM_MUSIC)
         // [END android_media_platform_output_volume_control_stream]
     }
 
@@ -44,21 +44,19 @@ class AudioOutputActivity : Activity() {
     }
     // [END android_media_platform_output_becoming_noisy_receiver]
 
-    fun setupMediaSession(context: Context) {
-        // [START android_media_platform_output_register_noisy_receiver]
-        val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-        val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
+    // [START android_media_platform_output_register_noisy_receiver]
+    private val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+    private val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
 
-        val callback = object : MediaSessionCompat.Callback() {
+    private val callback = object : MediaSessionCompat.Callback() {
 
-            override fun onPlay() {
-                context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
-            }
-
-            override fun onStop() {
-                context.unregisterReceiver(myNoisyAudioStreamReceiver)
-            }
+        override fun onPlay() {
+            registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
         }
-        // [END android_media_platform_output_register_noisy_receiver]
+
+        override fun onStop() {
+            unregisterReceiver(myNoisyAudioStreamReceiver)
+        }
     }
+    // [END android_media_platform_output_register_noisy_receiver]
 }

@@ -17,12 +17,9 @@
 package com.example.media
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
-import android.net.wifi.WifiManager
 import android.os.IBinder
-import android.os.PowerManager
 
 // [START android_media_platform_mediaplayer_background_prepare_async]
 private const val ACTION_PLAY: String = "com.example.action.PLAY"
@@ -49,66 +46,8 @@ class MyService : Service(), MediaPlayer.OnPreparedListener {
         mediaPlayer.start()
     }
 
+    // [START_EXCLUDE silent]
     override fun onBind(intent: Intent?): IBinder? = null
+    // [END_EXCLUDE]
 }
 // [END android_media_platform_mediaplayer_background_prepare_async]
-
-// [START android_media_platform_mediaplayer_background_error_listener]
-class MyErrorService : Service(), MediaPlayer.OnErrorListener {
-
-    private var mediaPlayer: MediaPlayer? = null
-
-    fun initMediaPlayer() {
-        // ...initialize the MediaPlayer here...
-        mediaPlayer?.setOnErrorListener(this)
-    }
-
-    override fun onError(mp: MediaPlayer, what: Int, extra: Int): Boolean {
-        // ... react appropriately ...
-        // The MediaPlayer has moved to the Error state, must be reset!
-        return true
-    }
-
-    override fun onBind(intent: Intent?): IBinder? = null
-}
-// [END android_media_platform_mediaplayer_background_error_listener]
-
-class MediaPlayerBackgroundSnippets(private val context: Context) {
-    fun setupWakeLock() {
-        // [START android_media_platform_mediaplayer_background_wake_mode]
-        val mediaPlayer = MediaPlayer().apply {
-            // ... other initialization here ...
-            setWakeMode(context.applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
-        }
-        // [END android_media_platform_mediaplayer_background_wake_mode]
-    }
-
-    fun wifiLockUsage() {
-        // [START android_media_platform_mediaplayer_background_wifi_lock_acquire]
-        val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiLock: WifiManager.WifiLock =
-            wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "mylock")
-
-        wifiLock.acquire()
-        // [END android_media_platform_mediaplayer_background_wifi_lock_acquire]
-
-        // [START android_media_platform_mediaplayer_background_wifi_lock_release]
-        wifiLock.release()
-        // [END android_media_platform_mediaplayer_background_wifi_lock_release]
-    }
-}
-
-// [START android_media_platform_mediaplayer_background_release]
-class MyCleanupService : Service() {
-
-    private var mediaPlayer: MediaPlayer? = null
-    // ...
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaPlayer?.release()
-    }
-
-    override fun onBind(intent: Intent?): IBinder? = null
-}
-// [END android_media_platform_mediaplayer_background_release]

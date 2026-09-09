@@ -23,7 +23,6 @@ import android.database.Cursor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
-import android.provider.MediaStore
 
 class MediaPlayerResolver(
     private val context: Context,
@@ -33,7 +32,7 @@ class MediaPlayerResolver(
     fun queryMedia() {
         // [START android_media_platform_mediaplayer_resolver_query]
         val resolver: ContentResolver = contentResolver
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val cursor: Cursor? = resolver.query(uri, null, null, null, null)
         when {
             cursor == null -> {
@@ -43,8 +42,8 @@ class MediaPlayerResolver(
                 // no media on the device
             }
             else -> {
-                val titleColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
-                val idColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
+                val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
+                val idColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
                 do {
                     val thisId = cursor.getLong(idColumn)
                     val thisTitle = cursor.getString(titleColumn)
@@ -59,7 +58,7 @@ class MediaPlayerResolver(
     fun playContentUri(id: Long) {
         // [START android_media_platform_mediaplayer_resolver_play_uri]
         val contentUri: Uri =
-            ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+            ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
 
         val mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
