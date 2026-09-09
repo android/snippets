@@ -280,6 +280,8 @@ fun FragmentInComposeExample() {
 
 // [START_EXCLUDE silent]
 class MyFragment : Fragment()
+class HomeFragment : Fragment()
+class LibraryFragment : Fragment()
 // [END_EXCLUDE]
 // [END android_compose_interop_apis_fragments_in_compose]
 
@@ -287,14 +289,16 @@ class MyFragment : Fragment()
 fun FragmentInPagerExample(pagerState: PagerState) {
     // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
     HorizontalPager(state = pagerState) { page ->
-        AndroidFragment<MyFragment>(
-            // Dynamically cap the lifecycle state based on whether the page is selected
-            maxLifecycle = if (pagerState.currentPage == page) {
-                Lifecycle.State.RESUMED
-            } else {
-                Lifecycle.State.STARTED
-            }
-        )
+        // Dynamically cap the lifecycle state based on whether the page is selected
+        val maxLifecycle = if (pagerState.currentPage == page) {
+            Lifecycle.State.RESUMED
+        } else {
+            Lifecycle.State.STARTED
+        }
+        when (page) {
+            0 -> AndroidFragment<HomeFragment>(maxLifecycle = maxLifecycle)
+            1 -> AndroidFragment<LibraryFragment>(maxLifecycle = maxLifecycle)
+        }
     }
     // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
 }
