@@ -37,8 +37,9 @@ class VolumeShaperSnippets(
     }
 
     fun createShaper(config: VolumeShaper.Configuration) {
+        var volumeShaper: VolumeShaper
         // [START android_media_platform_volumeshaper_create_shaper]
-        var volumeShaper = myMediaPlayer.createVolumeShaper(config)
+        volumeShaper = myMediaPlayer.createVolumeShaper(config)
         volumeShaper = myAudioTrack.createVolumeShaper(config)
         // [END android_media_platform_volumeshaper_create_shaper]
 
