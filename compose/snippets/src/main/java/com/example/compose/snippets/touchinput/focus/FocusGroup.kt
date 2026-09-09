@@ -26,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.tooling.preview.Preview
 
+@Preview(showBackground = true)
 @Composable
 private fun FocusGroupOnEnterSample() {
     // [START android_compose_touchinput_focus_group_on_enter]
