@@ -16,18 +16,17 @@
 
 package com.example.media
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.content.Context
 import android.database.Cursor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 
-class MediaPlayerResolver(
-    private val context: Context,
-    private val contentResolver: ContentResolver
-) {
+class MediaPlayerResolver : Activity() {
+
+    private var mediaPlayer: MediaPlayer? = null
 
     fun queryMedia() {
         // [START android_media_platform_mediaplayer_resolver_query]
@@ -60,19 +59,21 @@ class MediaPlayerResolver(
         val contentUri: Uri =
             ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
 
-        val mediaPlayer = MediaPlayer().apply {
+        mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .build()
             )
-            setDataSource(context.applicationContext, contentUri)
+            setDataSource(applicationContext, contentUri)
         }
 
         // ...prepare and start...
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+        // [START_EXCLUDE silent]
+        mediaPlayer?.prepare()
+        mediaPlayer?.start()
+        // [END_EXCLUDE]
         // [END android_media_platform_mediaplayer_resolver_play_uri]
     }
 }
