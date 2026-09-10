@@ -43,9 +43,10 @@ import androidx.compose.ui.unit.dp
 // [START android_compose_performance_backwards_write_layout_bad]
 // ❌ BAD: Read in Composition, Written in Layout (onSizeChanged)
 @Composable
-fun AspectRatioImage(painter: Painter) {
+fun BadAspectRatioImage(painter: Painter) {
     var calculatedHeight by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
+
     // State read during COMPOSITION:
     Image(
         painter = painter,
@@ -62,34 +63,39 @@ fun AspectRatioImage(painter: Painter) {
             }
     )
 }
-// [END android_compose_performance_backwards_write_layout_bad]
 
-// [START android_compose_performance_backwards_write_layout_good]
-// ✅ GOOD: Measure and coordinate heights in Phase 2 (Layout) without recomposition
+// ✅ GOOD: Measure and calculate aspect ratio height in Phase 2 (Layout) without recomposition
 @Composable
-fun EqualHeightRow(
-    content: @Composable () -> Unit,
+fun GoodAspectRatioImage(
+    painter: Painter,
+    aspectRatio: Float = 16f / 9f,
     modifier: Modifier = Modifier
 ) {
     Layout(
-        content = content,
+        content = {
+            Image(
+                painter = painter,
+                contentDescription = "Dynamic Image"
+            )
+        },
         modifier = modifier
     ) { measurables, constraints ->
-        val placeables = measurables.map { it.measure(constraints) }
-        val maxHeight = placeables.maxOfOrNull { it.height } ?: 0
-        layout(
-            width = placeables.sumOf { it.width },
-            height = maxHeight
-        ) {
-            var xPosition = 0
-            placeables.forEach { placeable ->
-                placeable.placeRelative(x = xPosition, y = 0)
-                xPosition += placeable.width
-            }
+        val width = constraints.maxWidth
+        val height = (width / aspectRatio).toInt() // Illustrative, you can use Modifier.aspectRatio()
+        val imageConstraints = constraints.copy(
+            minWidth = width,
+            maxWidth = width,
+            minHeight = height,
+            maxHeight = height
+        )
+        val placeable = measurables.first().measure(imageConstraints)
+        layout(width, height) {
+            placeable.placeRelative(0, 0)
         }
     }
 }
 // [END android_compose_performance_backwards_write_layout_good]
+
 
 // [START android_compose_performance_backwards_write_layout_subcomposition]
 // ✅ Okay option: Subcomposition delays Composition until parent constraints are known
@@ -135,12 +141,11 @@ fun BadCounter() {
 
 // [START android_compose_performance_backwards_write_ok_counter]
 // Acceptable - but error-prone as someone may add a read before the write : Direct write in Composable body before read
-// Prefer writing to state in a callback or SideEffect, or using rememberUpdatedState
 @Composable
 fun OkCounter() {
     var count by remember { mutableIntStateOf(0) }
     Button(onClick = {}) {
-        count++ // State still write in Composition
+        count++ // State  write in Composition
     }
     Text("Count: $count") // State read in Composition
 }
