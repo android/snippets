@@ -17,4 +17,6 @@
 <resources>
     <string name="empty_view_text">Empty</string>
     <string name="email_sent">Email sent</string>
+    <string name="email_archived">Email archived</string>
+    <string name="undo_string">Undo</string>
 </resources>
