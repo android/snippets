@@ -71,15 +71,16 @@ fun DecoratorsResultEventBus() {
     val resultEventBus = rememberResultEventBus()
 
     NavDisplay(
-        // [START_EXCLUDE]
+        /* ... */
+        // [START_EXCLUDE silent]
         backStack = rememberNavBackStack(Home),
         entryProvider = entryProvider<NavKey> {
             entry<Home> { Text("Welcome to Nav3") }
         },
         // [END_EXCLUDE]
         entryDecorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-            rememberResultEventBusNavEntryDecorator<NavKey>(resultEventBus = resultEventBus)
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberResultEventBusNavEntryDecorator(resultEventBus = resultEventBus)
         )
     )
     // [END android_compose_navigation3_decorator_result_hoist]

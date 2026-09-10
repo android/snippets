@@ -157,10 +157,8 @@ private object SnippetResultAfter {
     @Composable private fun ContactPickerScreen(onContactSelected: (Contact) -> Unit) {}
     @Composable private fun ComposeMessageContent(recipient: Contact?) {}
 
-    // [START android_compose_navigation3_result_after]
-    // [START_EXCLUDE]
     fun EntryProviderScope<NavKey>.entryProviderResult(navigator: Navigator) {
-    // [END_EXCLUDE]
+        // [START android_compose_navigation3_result_after]
         // Sender destination (in entryProvider):
         entry<ContactPickerRoute> {
             val resultBus = LocalResultEventBus.current
@@ -172,18 +170,16 @@ private object SnippetResultAfter {
                 }
             )
         }
-    // [START_EXCLUDE]
-    }
-    // [END_EXCLUDE]
 
-    // Receiver destination:
-    @Composable
-    fun ComposeMessageScreen(viewModel: ComposeMessageViewModel = viewModel()) {
-        ResultEffect<Contact> { contact ->
-            viewModel.onRecipientSelected(contact)
+        // Receiver destination:
+        @Composable
+        fun ComposeMessageScreen(viewModel: ComposeMessageViewModel = viewModel()) {
+            ResultEffect<Contact> { contact ->
+                viewModel.onRecipientSelected(contact)
+            }
+
+            ComposeMessageContent(recipient = viewModel.recipient)
         }
-
-        ComposeMessageContent(recipient = viewModel.recipient)
+        // [END android_compose_navigation3_result_after]
     }
-    // [END android_compose_navigation3_result_after]
 }

@@ -16,10 +16,12 @@
 
 package com.example.compose.snippets.navigation3.results
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.EntryProviderScope
@@ -66,7 +68,7 @@ class ComposeMessageViewModel : ViewModel() {
     }
 }
 
-class CheckoutViewModel : ViewModel() {
+class RideSummaryViewModel : ViewModel() {
     var pickupAddress: Address? = null
     var destinationAddress: Address? = null
     fun onPickupAddressSelected(address: Address) {
@@ -92,23 +94,35 @@ fun ContactPicker(onSelect: (Contact) -> Unit) {}
 fun AddressPicker(onSelect: (Address) -> Unit) {}
 
 @Composable
+fun AddressPickerScreen(onAddressSelected: (Address) -> Unit) {
+    AddressPicker(onSelect = onAddressSelected)
+}
+
+@Composable
+fun ContactPickerScreen(onContactSelected: (Contact) -> Unit) {
+    ContactPicker(onSelect = onContactSelected)
+}
+
+@Composable
 fun ComposeMessageContent(recipient: Contact?, onPickContact: () -> Unit) {}
 
 @Composable
-fun CheckoutContent(
+fun RideSummaryContent(
     pickupAddress: Address?,
     destinationAddress: Address?,
-    onOpenAddressPicker: () -> Unit
+    onPickPickup: () -> Unit,
+    onPickDestination: () -> Unit
 ) {}
 
 @Composable
 fun ProductListContent(activeFilter: ProductFilter, onOpenFilterPicker: () -> Unit) {}
 
 @Composable
-fun OrderSummaryContent(
-    pickupAddress: Address?,
-    destinationAddress: Address?,
-    onOpenAddressPicker: () -> Unit
+fun ThemePreviewContent(
+    primaryColor: Color,
+    accentColor: Color,
+    onPickPrimary: () -> Unit,
+    onPickAccent: () -> Unit
 ) {}
 
 private object BasicResultSnippet {
@@ -117,7 +131,7 @@ private object BasicResultSnippet {
         // [START android_compose_navigation3_result_basic]
         NavDisplay(
             /* ... */
-            // [START_EXCLUDE]
+            // [START_EXCLUDE silent]
             backStack = rememberNavBackStack(HomeScreenRoute),
             entryProvider = entryProvider {
                 entry<HomeScreenRoute> { }
@@ -132,73 +146,102 @@ private object BasicResultSnippet {
     }
 }
 
-private object SendResultTypeSnippet {
-    // [START android_compose_navigation3_result_send_type]
-    // Pure, decoupled screen composable
-    @Composable
-    fun ContactPickerScreen(
-        onContactSelected: (Contact) -> Unit
-    ) {
-        ContactPicker(onSelect = onContactSelected)
-    }
-
-    // [START_EXCLUDE]
-    fun EntryProviderScope<NavKey>.contactPickerEntry(navigator: Navigator) {
-    // [END_EXCLUDE]
-        // In your entryProvider:
-        entry<ContactPickerRoute> {
-            val resultBus = LocalResultEventBus.current
-
-            ContactPickerScreen(
-                onContactSelected = { selectedContact ->
-                    // Send result by type
-                    resultBus.sendResult<Contact>(result = selectedContact)
-                    navigator.goBack()
-                }
-            )
-        }
-    // [START_EXCLUDE]
-    }
-    // [END_EXCLUDE]
-    // [END android_compose_navigation3_result_send_type]
-}
-
 private object SendResultKeySnippet {
+    /*
     // [START android_compose_navigation3_result_send_key]
-    // Pure, decoupled screen composable
-    @Composable
-    fun AddressPickerScreen(
-        onAddressSelected: (Address) -> Unit
-    ) {
-        AddressPicker(onSelect = onAddressSelected)
-    }
-
-    // [START_EXCLUDE]
+    import androidx.compose.runtime.Composable
+    import androidx.navigation3.runtime.result.LocalResultEventBus
+    // [START_EXCLUDE silent]
+    */
     fun EntryProviderScope<NavKey>.addressPickerEntry(navigator: Navigator) {
     // [END_EXCLUDE]
-        // In your entryProvider:
-        entry<AddressPickerRoute> {
-            val resultBus = LocalResultEventBus.current
 
-            AddressPickerScreen(
-                onAddressSelected = { selectedAddress ->
-                    // Send result with an explicit key
-                    resultBus.sendResult<Address>(
-                        resultKey = "pickup_address",
-                        result = selectedAddress
-                    )
-                    navigator.goBack()
-                }
-            )
-        }
-    // [START_EXCLUDE]
+    entry<AddressPickerRoute> {
+        val resultBus = LocalResultEventBus.current
+
+        AddressPickerScreen(
+            onAddressSelected = { selectedAddress: Address ->
+                resultBus.sendResult(
+                    resultKey = "pickup_address",
+                    result = selectedAddress
+                )
+                navigator.goBack()
+            }
+        )
     }
-    // [END_EXCLUDE]
     // [END android_compose_navigation3_result_send_key]
+    }
+}
+
+private object SendResultTypeSnippet {
+    /*
+    // [START android_compose_navigation3_result_send_type]
+    import androidx.compose.runtime.Composable
+    import androidx.navigation3.runtime.result.LocalResultEventBus
+    // [START_EXCLUDE silent]
+    */
+    fun EntryProviderScope<NavKey>.contactPickerEntry(navigator: Navigator) {
+    // [END_EXCLUDE]
+
+    entry<ContactPickerRoute> {
+        val resultBus = LocalResultEventBus.current
+
+        ContactPickerScreen(
+            onContactSelected = { selectedContact: Contact ->
+                resultBus.sendResult(result = selectedContact)
+                navigator.goBack()
+            }
+        )
+    }
+    // [END android_compose_navigation3_result_send_type]
+    }
+}
+
+private object ReceiveEffectKeySnippet {
+    /*
+    // [START android_compose_navigation3_result_effect_key]
+    import androidx.compose.runtime.Composable
+    import androidx.lifecycle.viewmodel.compose.viewModel
+    import androidx.navigation3.runtime.result.ResultEffect
+    // [START_EXCLUDE silent]
+    */
+    // [END_EXCLUDE]
+
+    @Composable
+    fun RideSummaryScreen(
+        onOpenAddressPicker: (key: String) -> Unit,
+        viewModel: RideSummaryViewModel = viewModel()
+    ) {
+        ResultEffect<Address>(resultKey = "pickup_address") { address ->
+            viewModel.onPickupAddressSelected(address)
+        }
+
+        ResultEffect<Address>(resultKey = "destination_address") { address ->
+            viewModel.onDestinationAddressSelected(address)
+        }
+
+        RideSummaryContent(
+            pickupAddress = viewModel.pickupAddress,
+            destinationAddress = viewModel.destinationAddress,
+            onPickPickup = { onOpenAddressPicker("pickup_address") },
+            onPickDestination = { onOpenAddressPicker("destination_address") }
+        )
+    }
+    // [END android_compose_navigation3_result_effect_key]
 }
 
 private object ReceiveEffectTypeSnippet {
+    /*
     // [START android_compose_navigation3_result_effect_type]
+    import androidx.compose.material3.SnackbarHostState
+    import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.remember
+    import androidx.lifecycle.viewmodel.compose.viewModel
+    import androidx.navigation3.runtime.result.ResultEffect
+    // [START_EXCLUDE silent]
+    */
+    // [END_EXCLUDE]
+
     @Composable
     fun ComposeMessageScreen(
         onPickContact: () -> Unit,
@@ -219,33 +262,54 @@ private object ReceiveEffectTypeSnippet {
     // [END android_compose_navigation3_result_effect_type]
 }
 
-private object ReceiveEffectKeySnippet {
-    // [START android_compose_navigation3_result_effect_key]
+private object ReceiveStateKeySnippet {
+    /*
+    // [START android_compose_navigation3_result_state_key]
+    import androidx.compose.material3.MaterialTheme
+    import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.getValue
+    import androidx.compose.ui.graphics.Color
+    import androidx.navigation3.runtime.result.LocalResultEventBus
+    // [START_EXCLUDE silent]
+    */
+    // [END_EXCLUDE]
+
     @Composable
-    fun CheckoutScreen(
-        onOpenAddressPicker: () -> Unit,
-        viewModel: CheckoutViewModel = viewModel()
+    fun ThemePreviewScreen(
+        onOpenColorPicker: (key: String) -> Unit
     ) {
-        // Listen for results associated with a specific key
-        ResultEffect<Address>(resultKey = "pickup_address") { address ->
-            viewModel.onPickupAddressSelected(address)
-        }
+        val resultBus = LocalResultEventBus.current
 
-        ResultEffect<Address>(resultKey = "destination_address") { address ->
-            viewModel.onDestinationAddressSelected(address)
-        }
+        val primaryColor by resultBus.conflateAsState<Color>(
+            resultKey = "primary_color",
+            defaultValue = MaterialTheme.colorScheme.primary
+        )
 
-        CheckoutContent(
-            pickupAddress = viewModel.pickupAddress,
-            destinationAddress = viewModel.destinationAddress,
-            onOpenAddressPicker = onOpenAddressPicker
+        val accentColor by resultBus.conflateAsState<Color>(
+            resultKey = "accent_color",
+            defaultValue = MaterialTheme.colorScheme.tertiary
+        )
+
+        ThemePreviewContent(
+            primaryColor = primaryColor,
+            accentColor = accentColor,
+            onPickPrimary = { onOpenColorPicker("primary_color") },
+            onPickAccent = { onOpenColorPicker("accent_color") }
         )
     }
-    // [END android_compose_navigation3_result_effect_key]
+    // [END android_compose_navigation3_result_state_key]
 }
 
 private object ReceiveStateTypeSnippet {
+    /*
     // [START android_compose_navigation3_result_state_type]
+    import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.getValue
+    import androidx.navigation3.runtime.result.LocalResultEventBus
+    // [START_EXCLUDE silent]
+    */
+    // [END_EXCLUDE]
+
     @Composable
     fun FilterableProductListScreen(
         initialFilter: ProductFilter = ProductFilter.All,
@@ -266,66 +330,63 @@ private object ReceiveStateTypeSnippet {
     // [END android_compose_navigation3_result_state_type]
 }
 
-private object ReceiveStateKeySnippet {
-    // [START android_compose_navigation3_result_state_key]
-    @Composable
-    fun OrderSummaryScreen(
-        onOpenAddressPicker: () -> Unit
-    ) {
-        val resultBus = LocalResultEventBus.current
-
-        // Observe latest result with an explicit key as Compose State
-        val pickupAddress by resultBus.conflateAsState<Address?>(
-            resultKey = "pickup_address",
-            defaultValue = null
-        )
-
-        val destinationAddress by resultBus.conflateAsState<Address?>(
-            resultKey = "destination_address",
-            defaultValue = null
-        )
-
-        OrderSummaryContent(
-            pickupAddress = pickupAddress,
-            destinationAddress = destinationAddress,
-            onOpenAddressPicker = onOpenAddressPicker
-        )
-    }
-    // [END android_compose_navigation3_result_state_key]
-}
-
 private object HoistedBusSnippet {
+    /*
     // [START android_compose_navigation3_result_hoist]
+    import androidx.compose.runtime.Composable
+    import androidx.navigation3.runtime.result.rememberResultEventBus
+    import androidx.navigation3.runtime.result.rememberResultEventBusNavEntryDecorator
+    import androidx.navigation3.ui.NavDisplay
+    // [START_EXCLUDE silent]
+    */
     @Composable
     fun HoistedResultNavigation() {
-        // Hoist the ResultEventBus at the top level
-        val resultEventBus = rememberResultEventBus()
+    // [END_EXCLUDE]
 
-        // Pass the hoisted bus to the decorator
-        val resultEventBusNavEntryDecorator =
-            rememberResultEventBusNavEntryDecorator<NavKey>(
-                resultEventBus = resultEventBus
-            )
+    // Hoist the ResultEventBus at the top level
+    val resultEventBus = rememberResultEventBus()
 
-        NavDisplay(
-            /* ... */
-            // [START_EXCLUDE]
-            backStack = rememberNavBackStack(HomeScreenRoute),
-            entryProvider = entryProvider {
-                entry<HomeScreenRoute> { }
-            },
-            // [END_EXCLUDE]
-            entryDecorators = listOf(
-                rememberSaveableStateHolderNavEntryDecorator(),
-                resultEventBusNavEntryDecorator
-            )
+    // Pass the hoisted bus to the decorator
+    val resultEventBusNavEntryDecorator =
+        // [START_EXCLUDE silent]
+        rememberResultEventBusNavEntryDecorator<NavKey>(resultEventBus = resultEventBus)
+        /*
+        // [END_EXCLUDE]
+        rememberResultEventBusNavEntryDecorator(
+            resultEventBus = resultEventBus
         )
-    }
+        // [START_EXCLUDE silent]
+        */
+        // [END_EXCLUDE]
+
+    NavDisplay(
+        /* ... */
+        // [START_EXCLUDE silent]
+        backStack = rememberNavBackStack(HomeScreenRoute),
+        entryProvider = entryProvider<NavKey> {
+            entry<HomeScreenRoute> { }
+        },
+        // [END_EXCLUDE]
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            resultEventBusNavEntryDecorator
+        )
+    )
     // [END android_compose_navigation3_result_hoist]
+    }
 }
 
 private object ClearResultSnippet {
+    /*
     // [START android_compose_navigation3_result_clear]
+    import androidx.compose.runtime.Composable
+    import androidx.lifecycle.viewmodel.compose.viewModel
+    import androidx.navigation3.runtime.result.LocalResultEventBus
+    import androidx.navigation3.runtime.result.ResultEffect
+    // [START_EXCLUDE silent]
+    */
+    // [END_EXCLUDE]
+
     @Composable
     fun NotificationSettingsScreen(
         viewModel: NotificationViewModel = viewModel()
