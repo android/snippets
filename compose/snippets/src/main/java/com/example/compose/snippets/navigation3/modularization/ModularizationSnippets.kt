@@ -22,6 +22,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.deeplink.BackStackMatchResult
+import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.DeepLinkRequest
+import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.invoke
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.example.compose.snippets.navigation3.ContentGreen
@@ -29,10 +35,13 @@ import com.example.compose.snippets.navigation3.ContentRed
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.multibindings.IntoSet
 import javax.inject.Inject
 import kotlin.collections.emptyList
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 data object KeyA : NavKey
 data object KeyA2 : NavKey
@@ -122,6 +131,56 @@ class MainActivity : ComponentActivity() {
     }
 }
 // [END android_compose_navigation3_modularization_4]
+
+@Serializable
+private data class UserProfileKey(val id: String) : NavKey
+
+private data object HomeKey : NavKey
+
+// [START android_compose_navigation3_deeplinks_modularization_feature]
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+object FeatureADeepLinkModule {
+    @IntoSet
+    @Provides
+    // [START_EXCLUDE silent]
+    @JvmSuppressWildcards
+    // [END_EXCLUDE]
+    fun provideUserMatcher(): DeepLinkMatcher<*, *> {
+        return UriDeepLinkMatcher(
+            DeepLinkUri("www.example.com/users/{id}"),
+            serializer<UserProfileKey>()
+        )
+    }
+}
+// [END android_compose_navigation3_deeplinks_modularization_feature]
+
+// [START android_compose_navigation3_deeplinks_modularization_app]
+@AndroidEntryPoint
+class MainActivityWithDI : ComponentActivity() {
+    @Inject
+    lateinit var deepLinkMatchers: Set<@JvmSuppressWildcards DeepLinkMatcher<*, *>>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val request = DeepLinkRequest(intent = intent)
+        val matchResult = deepLinkMatchers
+            .mapNotNull { it.match(request) }
+            .maxOrNull()
+
+        val backStack = when (matchResult) {
+            null -> listOf(HomeKey)
+            is BackStackMatchResult<*, *> -> {
+                @Suppress("UNCHECKED_CAST")
+                matchResult.backStack as List<NavKey>
+            }
+            else -> listOf(matchResult.key)
+        }
+    }
+}
+// [END android_compose_navigation3_deeplinks_modularization_app]
+
 
 
 

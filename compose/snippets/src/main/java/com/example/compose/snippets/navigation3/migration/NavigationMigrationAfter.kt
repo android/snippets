@@ -30,8 +30,18 @@ import androidx.navigation3.runtime.result.LocalResultEventBus
 import androidx.navigation3.runtime.result.ResultEffect
 import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.navigation3.runtime.deeplink.BackStackMatchResult
+import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.DeepLinkRequest
+import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.invoke
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 // Dummy screens for compilation
 @Composable private fun ScreenA(title: String) {}
@@ -183,3 +193,44 @@ private object SnippetResultAfter {
         // [END android_compose_navigation3_result_after]
     }
 }
+
+private object SnippetDeepLinksAfter {
+    @Serializable data class RouteA(val id: String) : NavKey
+    @Serializable data object HomeKey : NavKey
+
+    // [START android_compose_navigation3_deeplinks_after_matcher]
+    val userMatcher = UriDeepLinkMatcher(
+        DeepLinkUri("www.example.com/user/{id}"),
+        serializer<RouteA>()
+    )
+    // [END android_compose_navigation3_deeplinks_after_matcher]
+
+    // [START android_compose_navigation3_deeplinks_after_activity]
+    val deepLinkMatchers: List<DeepLinkMatcher<*, *>> = listOf(
+        userMatcher,
+    )
+
+    class MainActivity : ComponentActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+            val request = DeepLinkRequest(intent = intent)
+            val matchResult = deepLinkMatchers
+                .mapNotNull { it.match(request) }
+                .maxOrNull()
+
+            val backStack = when (matchResult) {
+                null -> listOf(HomeKey)
+                is BackStackMatchResult<*, *> -> {
+                    @Suppress("UNCHECKED_CAST")
+                    matchResult.backStack as List<NavKey>
+                }
+                else -> listOf(matchResult.key)
+            }
+
+            // Use backStack with NavDisplay
+        }
+    }
+    // [END android_compose_navigation3_deeplinks_after_activity]
+}
+
