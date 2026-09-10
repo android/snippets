@@ -14,11 +14,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<!-- [START android_security_known_signer_certs_xml] -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- [START android_security_known_signer_certs_xml] -->
     <!-- SHA-256 fingerprints of trusted partner certificates (lowercase, no colons) -->
     <string-array name="trusted_partner_certs" tools:ignore="Typos">
         <item>103938ee4537e59e8ee792f654504fb8346fc6b346d0bbc4415fc339fcfc8ec1</item>
     </string-array>
-    <!-- [END android_security_known_signer_certs_xml] -->
 </resources>
+<!-- [END android_security_known_signer_certs_xml] -->

@@ -20,36 +20,18 @@ import android.Manifest
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 
-// [START android_security_sequential_location_permission]
 class LocationPermissionActivity : ComponentActivity() {
 
-    // Step 1: Register launcher for ACCESS_FINE_LOCATION and ACCESS_COARSE_LOCATION
+    // [START android_security_sequential_location_permission]
     private val foregroundLocationLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val fineLocationGranted =
-                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)
-            val coarseLocationGranted =
-                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false)
-
-            if (fineLocationGranted || coarseLocationGranted) {
-                // Foreground location access granted. Now request background location in a distinct step.
-                requestBackgroundLocation()
-            } else {
-                onForegroundLocationDenied()
+            val fineGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            val coarseGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+            if (fineGranted || coarseGranted) {
+                startForegroundLocationUpdates()
             }
         }
 
-    // Step 2: Register a separate launcher for ACCESS_BACKGROUND_LOCATION
-    private val backgroundLocationLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                onBackgroundLocationGranted()
-            } else {
-                onBackgroundLocationDenied()
-            }
-        }
-
-    // Request foreground permissions first
     fun requestForegroundLocation() {
         foregroundLocationLauncher.launch(
             arrayOf(
@@ -59,21 +41,24 @@ class LocationPermissionActivity : ComponentActivity() {
         )
     }
 
-    // Request background location only after foreground permissions have been granted
+    // Background location requested only AFTER foreground is granted and user explicitly opts in:
+    private val backgroundLocationLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startBackgroundTracking()
+            }
+        }
+    // [END android_security_sequential_location_permission]
+
     fun requestBackgroundLocation() {
         backgroundLocationLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     }
 
-    private fun onForegroundLocationDenied() {
-        // Handle foreground location denial
+    private fun startForegroundLocationUpdates() {
+        // Start foreground location updates
     }
 
-    private fun onBackgroundLocationGranted() {
+    private fun startBackgroundTracking() {
         // Start background location updates
     }
-
-    private fun onBackgroundLocationDenied() {
-        // Handle background location denial; proceed with foreground-only features
-    }
 }
-// [END android_security_sequential_location_permission]

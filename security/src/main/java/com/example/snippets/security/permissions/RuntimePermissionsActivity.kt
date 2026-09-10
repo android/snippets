@@ -21,53 +21,56 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 
 // [START android_security_runtime_permission_request]
-class CameraActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
-    private val permission = Manifest.permission.CAMERA
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 startCameraPreview()
             } else {
-                if (!shouldShowRequestPermissionRationale(permission)) {
+                if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    // User selected 'Don't ask again' or permanently denied.
+                    // Direct user to Application Details Settings.
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                         data = Uri.fromParts("package", packageName, null)
                     }
                     startActivity(intent)
                 } else {
-                    showPermissionDeniedFeedback()
+                    showSnackbar("Camera permission is required to preview camera feed.")
                 }
             }
         }
 
-    fun checkAndLaunchCamera(permission: String) {
+    fun requestCameraPermissionSafely() {
+        val permission = Manifest.permission.CAMERA
         when {
             ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
                 startCameraPreview()
             }
-            // Handle the case where the user denied the permission before.
             shouldShowRequestPermissionRationale(permission) -> {
-                showPermissionRationaleAndRetry(permission)
+                showSnackbar("Camera permission is needed to preview camera feed.")
+                cameraLauncher.launch(permission)
             }
             else -> {
-                // Request the permission for the first time.
-                requestPermissionLauncher.launch(permission)
+                cameraLauncher.launch(permission)
             }
         }
     }
 
-    private fun showPermissionRationaleAndRetry(permission: String) {
-        // UI logic to explain why the permission is needed, then re-trigger launch:
-        // requestPermissionLauncher.launch(permission)
+    private fun startCameraPreview() {
+        Log.d("MainActivity", "Camera preview started")
     }
 
-    private fun startCameraPreview() { /* Camera preview initialization logic */ }
-    private fun showPermissionDeniedFeedback() { /* UI warning indicating permission is required */ }
+    private fun showSnackbar(msg: String) {
+        Log.i("MainActivity", msg)
+    }
 }
 // [END android_security_runtime_permission_request]
+
+typealias CameraActivity = MainActivity
