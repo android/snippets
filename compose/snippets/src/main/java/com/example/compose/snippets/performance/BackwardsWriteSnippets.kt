@@ -39,8 +39,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 
-// [START android_compose_performance_backwards_write_read_comp_write_layout]
-// [START android_compose_performance_backwards_write_layout_bad]
+// [START android_compose_performance_backwards_write_layout]
 // ❌ BAD: Read in Composition, Written in Layout (onSizeChanged)
 @Composable
 fun BadAspectRatioImage(painter: Painter) {
@@ -94,7 +93,7 @@ fun GoodAspectRatioImage(
         }
     }
 }
-// [END android_compose_performance_backwards_write_layout_good]
+// [END android_compose_performance_backwards_write_layout]
 
 
 // [START android_compose_performance_backwards_write_layout_subcomposition]
@@ -107,7 +106,6 @@ fun SizedContent() {
     }
 }
 // [END android_compose_performance_backwards_write_layout_subcomposition]
-// [END android_compose_performance_backwards_write_read_comp_write_layout]
 
 // [START android_compose_performance_backwards_write_read_comp_write_draw]
 // ❌ BAD: Read in Composition, Written in Draw ()
@@ -127,7 +125,6 @@ fun BadBackwardsWriteDraw() {
 // [END android_compose_performance_backwards_write_read_comp_write_draw]
 
 // [START android_compose_performance_backwards_write_read_comp_write_comp]
-// [START android_compose_performance_backwards_write_bad_counter]
 // ❌ BAD: Direct write in Composable body after read
 @Composable
 fun BadCounter() {
@@ -137,9 +134,6 @@ fun BadCounter() {
         count += 1 // State write in Composition (Backwards write!)
     }
 }
-// [END android_compose_performance_backwards_write_bad_counter]
-
-// [START android_compose_performance_backwards_write_ok_counter]
 // Acceptable - but error-prone as someone may add a read before the write : Direct write in Composable body before read
 @Composable
 fun OkCounter() {
@@ -149,5 +143,4 @@ fun OkCounter() {
     }
     Text("Count: $count") // State read in Composition
 }
-// [END android_compose_performance_backwards_write_ok_counter]
 // [END android_compose_performance_backwards_write_read_comp_write_comp]
