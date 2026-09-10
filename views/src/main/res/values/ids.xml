@@ -15,6 +15,5 @@
      limitations under the License.
 -->
 <resources>
-    <string name="empty_view_text">Empty</string>
-    <string name="email_sent">Email sent</string>
+    <item name="myCoordinatorLayout" type="id" />
 </resources>
