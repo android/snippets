@@ -32,7 +32,7 @@ class PartnerDataService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 }
 
-class PartnerSecureDataProvider : ContentProvider() {
+open class SecureDataProvider : ContentProvider() {
     override fun onCreate(): Boolean = true
 
     override fun query(
@@ -56,3 +56,5 @@ class PartnerSecureDataProvider : ContentProvider() {
         selectionArgs: Array<String>?
     ): Int = 0
 }
+
+class PartnerSecureDataProvider : SecureDataProvider()

@@ -16,70 +16,49 @@
 
 package com.example.snippets.security.permissions
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.os.Binder
-import android.os.Process
-import android.util.Base64
 import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 
-class PermissionErrorHandling(private val context: Context) {
+class PermissionErrorHandling : ComponentActivity() {
+
+    private val locationManager: LocationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
 
     // [START android_security_permission_error_handling]
-    fun safeLocationAccess(locationManager: LocationManager) {
-        val pm = context.packageManager
-        try {
-            @Suppress("DEPRECATION")
-            val info = pm.getPackageInfo("com.unknown.app", PackageManager.GET_SIGNATURES)
-        } catch (e: PackageManager.NameNotFoundException) {
-            Log.e("PERMISSION_ERROR", "Requested package information is not installed.", e)
-            // Abort actions calling the target package
+    fun performLocationAccess() {
+        val fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (fine != PackageManager.PERMISSION_GRANTED && coarse != PackageManager.PERMISSION_GRANTED) {
+            requestForegroundLocation()
+            return
         }
 
         try {
-            // Calling API requiring ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION
-            val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (lastLocation != null) {
-                displayLocationData(lastLocation)
-            }
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            processLocation(location)
         } catch (e: SecurityException) {
-            Log.w("PERMISSION_DENIED", "Attempted to access location without GPS permission", e)
-            // Fallback logic: Use a default location or guide user to enter location manually
-            useDefaultLocation()
+            Log.e("LocationAccess", "Permission revoked at runtime", e)
         }
     }
     // [END android_security_permission_error_handling]
 
-    // [START android_security_caller_signature_verification]
+    fun safeLocationAccess(locationManager: LocationManager) {
+        performLocationAccess()
+    }
+
     fun verifyCallerIdentity(trustedSha256: String) {
-        val callingUid = Binder.getCallingUid()
-        if (callingUid == Process.myUid()) {
-            return
-        }
-
-        val pm = context.packageManager
-        val packages = pm.getPackagesForUid(callingUid)
-        if (packages.isNullOrEmpty()) {
-            throw SecurityException("Unknown caller UID: $callingUid")
-        }
-
-        val callingPackage = packages[0]
-        val trustedSha256Raw = Base64.decode(trustedSha256, Base64.DEFAULT)
-        // API 28+ handles signing key lineage and avoids manual cert parsing
-        val isTrusted = pm.hasSigningCertificate(
-            callingPackage,
-            trustedSha256Raw,
-            PackageManager.CERT_INPUT_SHA256
-        )
-
-        if (!isTrusted) {
-            throw SecurityException("Caller signature verification failed for $callingPackage")
+        if (!CallerVerifier.isCallerAuthorized(this)) {
+            throw SecurityException("Caller signature verification failed")
         }
     }
-    // [END android_security_caller_signature_verification]
 
-    private fun displayLocationData(location: Location) {}
-    private fun useDefaultLocation() {}
+    private fun requestForegroundLocation() {}
+    private fun processLocation(location: Location?) {}
 }

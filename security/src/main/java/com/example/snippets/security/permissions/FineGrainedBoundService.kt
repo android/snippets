@@ -20,38 +20,43 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 
 // Stub interface representing AIDL generated interface
 interface IMyService {
     fun getData(): String
     fun modifyData(newData: String)
+
+    abstract class Stub : Binder(), IMyService
 }
 
 // [START android_security_service_enforce_calling_permission]
-class FineGrainedBoundService : Service() {
+class SecureBoundService : Service() {
 
-    private val binder = object : Binder(), IMyService {
+    private val binder = object : IMyService.Stub() {
         override fun getData(): String {
-            // Enforce read permission on the caller
-            enforceCallingPermission(
-                "com.example.snippets.permission.READ_DATA",
-                "Caller does not have READ_DATA permission"
-            )
-            return "Sensitive data from service"
+            // Read-only operation guarded by manifest-level permission
+            return "Confidential Data"
         }
 
         override fun modifyData(newData: String) {
-            // Enforce write permission on the caller
-            enforceCallingPermission(
+            // MUST use enforceCallingPermission or checkCallingPermission.
+            // NEVER use checkCallingOrSelfPermission or enforceCallingOrSelfPermission.
+            this@SecureBoundService.enforceCallingPermission(
                 "com.example.snippets.permission.WRITE_DATA",
-                "Caller does not have WRITE_DATA permission"
+                "Caller lacks WRITE_DATA permission"
             )
-            // Perform modification
+            updateInternalState(newData)
+            Log.d("SecureBoundService", "Data modified to: $newData with proper WRITE_DATA permission check")
         }
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        return binder
+    override fun onBind(intent: Intent?): IBinder = binder
+
+    private fun updateInternalState(data: String) {
+        // Internal state update logic
     }
 }
 // [END android_security_service_enforce_calling_permission]
+
+typealias FineGrainedBoundService = SecureBoundService

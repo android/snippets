@@ -21,62 +21,50 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 
 // [START android_security_protected_broadcast_send]
 fun sendProtectedBroadcast(context: Context) {
-    val intent = Intent("com.example.snippets.ACTION_SECRET_UPDATE")
-    // Enforce permission requirements during broadcast dispatch
-    context.sendBroadcast(intent, "com.example.snippets.permission.ACCESS_SECURE_API")
+    val intent = Intent("com.example.permissions.ACTION_SECRET_UPDATE").apply {
+        setPackage("com.example.partner")
+    }
+    context.sendBroadcast(intent, "com.example.permissions.RECEIVE_SECRET_UPDATE")
 }
 // [END android_security_protected_broadcast_send]
 
-// [START android_security_broadcast_sender_identity]
-@Suppress("ObsoleteSdkInt")
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-fun sendBroadcastWithIdentity(context: Context) {
-    val intent = Intent("com.example.snippets.ACTION_SECRET_UPDATE")
-
-    // Opt-in to sharing sender identity
-    val options = BroadcastOptions.makeBasic().apply {
-        setShareIdentityEnabled(true)
+fun Context.sendBroadcastWithIdentity() {
+    // [START android_security_broadcast_sender_identity]
+    // Sender: Enforce permission and share identity
+    val intent = Intent("com.example.permissions.ACTION_SECRET_UPDATE").apply {
+        setPackage("com.example.partner") // Explicit target
     }
+    val isUdc = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+    val options = if (isUdc) {
+        BroadcastOptions.makeBasic().apply {
+            setShareIdentityEnabled(true)
+        }.toBundle()
+    } else null
 
-    context.sendBroadcast(
-        intent,
-        "com.example.snippets.permission.ACCESS_SECURE_API",
-        options.toBundle()
-    )
+    sendBroadcast(intent, "com.example.permissions.RECEIVE_SECRET_UPDATE", options)
+    // [END android_security_broadcast_sender_identity]
 }
-// [END android_security_broadcast_sender_identity]
 
 // [START android_security_broadcast_receiver_verify_identity]
-class MyProtectedReceiver : BroadcastReceiver() {
-    @Suppress("ObsoleteSdkInt")
+// Receiver: Validate sender on Android 14+
+class ProtectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == "com.example.snippets.ACTION_SECRET_UPDATE") {
-            // Retrieve the sender's package name on Android 14+
-            val senderPackage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                sentFromPackage
-            } else {
-                null
-            }
-
-            if (senderPackage != null) {
-                try {
-                    // Verify the sender's identity using AppAuthenticator
-                    CallerVerifier(context).enforceCaller(senderPackage)
-                    processUpdate(intent)
-                } catch (e: SecurityException) {
-                    Log.w("SECURITY_ALERT", "Untrusted broadcast sender: $senderPackage", e)
+        if (intent.action == "com.example.permissions.ACTION_SECRET_UPDATE") {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                val sender = sentFromPackage
+                if (sender != null && sender != "com.example.trusted_sender") {
+                    return // Reject unauthorized sender
                 }
-            } else {
-                Log.w("SECURITY_ALERT", "Broadcast received without sender identity")
             }
+            processUpdate(intent)
         }
     }
 
     private fun processUpdate(intent: Intent) {}
 }
 // [END android_security_broadcast_receiver_verify_identity]
+
+typealias MyProtectedReceiver = ProtectedReceiver

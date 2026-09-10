@@ -21,32 +21,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 
-// [START android_security_photo_picker_request]
 class MediaPickerActivity : ComponentActivity() {
 
-    // Registers a photo picker activity launcher in single-select mode.
-    // The photo picker provides safe, direct access to media items without requiring
-    // READ_EXTERNAL_STORAGE or READ_MEDIA_IMAGES permissions.
-    private val launcher =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+    // [START android_security_photo_picker_request]
+    private val photoPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                // Access the media directly using the returned URI without storage permissions.
-                handleSelectedImage(uri)
-            } else {
-                handleNoImageSelected()
+                handleImageUri(uri)
             }
         }
 
     fun selectPhoto() {
-        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        photoPickerLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
     }
+    // [END android_security_photo_picker_request]
 
-    private fun handleSelectedImage(uri: Uri) {
+    private fun handleImageUri(uri: Uri) {
         // Direct URI access without requesting storage permissions
     }
-
-    private fun handleNoImageSelected() {
-        // Picker was cancelled or no photo was selected
-    }
 }
-// [END android_security_photo_picker_request]
