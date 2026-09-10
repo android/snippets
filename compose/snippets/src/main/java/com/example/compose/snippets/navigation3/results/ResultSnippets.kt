@@ -348,16 +348,9 @@ private object HoistedBusSnippet {
 
     // Pass the hoisted bus to the decorator
     val resultEventBusNavEntryDecorator =
-        // [START_EXCLUDE silent]
-        rememberResultEventBusNavEntryDecorator<NavKey>(resultEventBus = resultEventBus)
-        /*
-        // [END_EXCLUDE]
-        rememberResultEventBusNavEntryDecorator(
+        rememberResultEventBusNavEntryDecorator<NavKey>(
             resultEventBus = resultEventBus
         )
-        // [START_EXCLUDE silent]
-        */
-        // [END_EXCLUDE]
 
     NavDisplay(
         /* ... */
