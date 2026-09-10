@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -45,7 +45,7 @@ import java.util.concurrent.Executor
 
 @Composable
 private fun InitializeCamera2Snippet() {
-  // [START android_camerax_initialize_provider_camera2]
+  // [START android_camera_camerax_initialize_provider_camera2]
   val context = LocalContext.current
   val lifecycleOwner = LocalLifecycleOwner.current
   LaunchedEffect(context, lifecycleOwner) {
@@ -75,29 +75,29 @@ private fun InitializeCamera2Snippet() {
       imageAnalysis
     )
   }
-  // [END android_camerax_initialize_provider_camera2]
+  // [END android_camera_camerax_initialize_provider_camera2]
 }
 
 private fun ViewPreviewSnippet2(preview: Preview, previewView: androidx.camera.view.PreviewView) {
-  // [START android_camerax_view_preview_camera2]
+  // [START android_camera_camerax_view_preview_camera2]
   preview.setSurfaceProvider(previewView.surfaceProvider)
-  // [END android_camerax_view_preview_camera2]
+  // [END android_camera_camerax_view_preview_camera2]
 }
 
 @Composable
 private fun ComposePreviewSnippet2() {
-  // [START android_camerax_compose_preview_camera2]
+  // [START android_camera_camerax_compose_preview_camera2]
   var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
   val preview = remember {
     Preview.Builder().build().apply {
       setSurfaceProvider { request -> surfaceRequest = request }
     }
   }
-  // [END android_camerax_compose_preview_camera2]
+  // [END android_camera_camerax_compose_preview_camera2]
 }
 
 private fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Executor, lensFacing: Int) {
-  // [START android_camerax_capture_photo_camera2]
+  // [START android_camera_camerax_capture_photo_camera2]
   imageCapture.takePicture(
     cameraExecutor,
     object : ImageCapture.OnImageCapturedCallback() {
@@ -127,11 +127,11 @@ private fun CapturePhotoSnippet2(imageCapture: ImageCapture, cameraExecutor: Exe
       }
     }
   )
-  // [END android_camerax_capture_photo_camera2]
+  // [END android_camera_camerax_capture_photo_camera2]
 }
 
 private fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: Executor) {
-  // [START android_camerax_image_analysis]
+  // [START android_camera_camerax_image_analysis]
   imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
     try {
       val rotationDegrees = imageProxy.imageInfo.rotationDegrees
@@ -142,12 +142,12 @@ private fun ImageAnalysisSnippet(imageAnalysis: ImageAnalysis, cameraExecutor: E
       imageProxy.close()
     }
   }
-  // [END android_camerax_image_analysis]
+  // [END android_camera_camerax_image_analysis]
 }
 
 @ExperimentalCamera2Interop
 private fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
-  // [START android_camerax_camera2_interop]
+  // [START android_camera_camerax_camera2_interop]
   // Use Camera2Interop to set Camera2-specific capture options
   val extender = Camera2Interop.Extender(imageCaptureBuilder)
   extender.setCaptureRequestOption(
@@ -157,5 +157,5 @@ private fun Camera2InteropSnippet(imageCaptureBuilder: ImageCapture.Builder) {
     CaptureRequest.FLASH_MODE,
     CaptureRequest.FLASH_MODE_TORCH
   )
-  // [END android_camerax_camera2_interop]
+  // [END android_camera_camerax_camera2_interop]
 }

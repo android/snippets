@@ -15,7 +15,7 @@
  */
 
 @file:android.annotation.SuppressLint("MissingPermission", "NewApi")
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.app.Activity
 import android.content.Context
@@ -85,7 +85,7 @@ private fun snippet_immutability_1(
     exec: Executor,
     listener: Consumer<VideoRecordEvent>
 ) {
-  // [START android_camerax_skill_immutability_1]
+  // [START android_camera_camerax_skill_immutability_1]
   // WRONG
   run {
     val pending = recorder.prepareRecording(context, opts)
@@ -106,24 +106,24 @@ private fun snippet_immutability_1(
     pending = pending.withAudioEnabled() // Reassignment
     val active = pending.start(exec, listener)
   }
-  // [END android_camerax_skill_immutability_1]
+  // [END android_camera_camerax_skill_immutability_1]
 }
 
 private fun snippet_immutability_2(width: Int, height: Int, displayRotation: Int) {
-  // [START android_camerax_skill_immutability_2]
+  // [START android_camera_camerax_skill_immutability_2]
   val viewport = ViewPort.Builder(Rational(width, height), displayRotation)
       .setScaleType(ViewPort.FILL_CENTER)
       .build()
-  // [END android_camerax_skill_immutability_2]
+  // [END android_camera_camerax_skill_immutability_2]
 }
 
 
 private fun snippet_xr_1(xrSession: XrSession, frameTime: Long, eyeIndex: Int) {
-  // [START android_camerax_skill_xr_1]
+  // [START android_camera_camerax_skill_xr_1]
   // Example: Querying the spatial pose for the current camera frame
   val headPose = xrSession.getHeadPose(frameTime)
   val projectionMatrix = headPose.getProjectionMatrix(eyeIndex)
-  // [END android_camerax_skill_xr_1]
+  // [END android_camera_camerax_skill_xr_1]
 }
 
 private suspend fun snippet_low_light_1(
@@ -134,7 +134,7 @@ private suspend fun snippet_low_light_1(
     imageCapture: ImageCapture, 
     preview: Preview
 ) {
-  // [START android_camerax_skill_low_light_1]
+  // [START android_camera_camerax_skill_low_light_1]
   // Use ListenableFuture.await() extension function for coroutine support
   val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).await()
   if (extensionsManager.isExtensionAvailable(cameraSelector, ExtensionMode.NIGHT)) {
@@ -143,28 +143,28 @@ private suspend fun snippet_low_light_1(
       )
       cameraProvider.bindToLifecycle(lifecycleOwner, nightSelector, imageCapture, preview)
   }
-  // [END android_camerax_skill_low_light_1]
+  // [END android_camera_camerax_skill_low_light_1]
 }
 
 private fun snippet_low_light_2() {
-  // [START android_camerax_skill_low_light_2]
+  // [START android_camera_camerax_skill_low_light_2]
       val imageCapture = ImageCapture.Builder()
           .setPostviewEnabled(true)
           .build()
-  // [END android_camerax_skill_low_light_2]
+  // [END android_camera_camerax_skill_low_light_2]
 }
 
 private suspend fun snippet_low_light_3(context: Context, cameraProvider: ProcessCameraProvider, camera: Camera, strength: Int) {
-  // [START android_camerax_skill_low_light_3]
+  // [START android_camera_camerax_skill_low_light_3]
       // Set the strength of the active extension (e.g. NIGHT mode intensity)
       val extensionsManager = ExtensionsManager.getInstanceAsync(context, cameraProvider).await()
       val extensionsControl = extensionsManager.getCameraExtensionsControl(camera.cameraControl)
       extensionsControl?.setExtensionStrength(strength)
-  // [END android_camerax_skill_low_light_3]
+  // [END android_camera_camerax_skill_low_light_3]
 }
 
 private suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOptions: ImageCapture.OutputFileOptions) {
-  // [START android_camerax_skill_low_light_4]
+  // [START android_camera_camerax_skill_low_light_4]
       // Use the suspend extension function for takePicture to avoid callback boilerplate
       try {
           val result = imageCapture.takePicture(outputOptions)
@@ -172,22 +172,22 @@ private suspend fun snippet_low_light_4(imageCapture: ImageCapture, outputOption
       } catch (e: ImageCaptureException) {
           // Handle capture failure
       }
-  // [END android_camerax_skill_low_light_4]
+  // [END android_camera_camerax_skill_low_light_4]
 }
 
 
 private fun snippet_low_light_5(camera: Camera) {
-  // [START android_camerax_skill_low_light_5]
+  // [START android_camera_camerax_skill_low_light_5]
       // Enable Low Light Boost (LLB) natively in CameraX 1.4+
       camera.cameraControl.enableLowLightBoostAsync(true)
-  // [END android_camerax_skill_low_light_5]
+  // [END android_camera_camerax_skill_low_light_5]
 }
 
 private const val PREVIEW = 1
 private const val VIDEO_CAPTURE = 2
 
 private fun snippet_low_light_6(executor: Executor, llbSurfaceProcessor: SurfaceProcessor, preview: Preview, videoCapture: UseCase) {
-  // [START android_camerax_skill_low_light_6]
+  // [START android_camera_camerax_skill_low_light_6]
       val effect = SimpleCameraEffect(
           CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE,
           executor,
@@ -200,11 +200,11 @@ private fun snippet_low_light_6(executor: Executor, llbSurfaceProcessor: Surface
           .addUseCase(videoCapture)
           .addEffect(effect)
           .build()
-  // [END android_camerax_skill_low_light_6]
+  // [END android_camera_camerax_skill_low_light_6]
 }
 
 private fun snippet_effects_1(executor: Executor, useCaseGroupBuilder: UseCaseGroup.Builder) {
-  // [START android_camerax_skill_effects_1]
+  // [START android_camera_camerax_skill_effects_1]
   // 1. Create the CameraEffect
   // The targets bitmask can be any combination of PREVIEW, VIDEO_CAPTURE, or IMAGE_CAPTURE
   val targets = CameraEffect.PREVIEW or CameraEffect.VIDEO_CAPTURE or CameraEffect.IMAGE_CAPTURE
@@ -217,29 +217,29 @@ private fun snippet_effects_1(executor: Executor, useCaseGroupBuilder: UseCaseGr
   
   // 2. Apply to UseCaseGroup
   useCaseGroupBuilder.addEffect(effect)
-  // [END android_camerax_skill_effects_1]
+  // [END android_camera_camerax_skill_effects_1]
 }
 
 
 private fun snippet_mlkit_spatial_1(previewView: PreviewView, imageProxy: ImageProxy) {
-  // [START android_camerax_skill_mlkit_spatial_1]
+  // [START android_camera_camerax_skill_mlkit_spatial_1]
   val transform = previewView.viewPort?.let { viewPort ->
       // Use CameraX's built-in coordinate mapper
       viewPort.getTransformationMatrix(imageProxy.imageInfo.rotationDegrees)
   }
-  // [END android_camerax_skill_mlkit_spatial_1]
+  // [END android_camera_camerax_skill_mlkit_spatial_1]
 }
 
 private fun snippet_mlkit_spatial_2(landmark: FaceLandmark, analysisWidth: Float, screenWidth: Float, analysisHeight: Float, screenHeight: Float) {
-  // [START android_camerax_skill_mlkit_spatial_2]
+  // [START android_camera_camerax_skill_mlkit_spatial_2]
   // Example: Converting a Pose landmark to a Screen Coordinate
   val screenX = landmark.position.x / analysisWidth * screenWidth
   val screenY = landmark.position.y / analysisHeight * screenHeight
-  // [END android_camerax_skill_mlkit_spatial_2]
+  // [END android_camera_camerax_skill_mlkit_spatial_2]
 }
 
 private fun snippet_foldables_1(lifecycleScope: LifecycleCoroutineScope, lifecycle: Lifecycle, windowInfoTracker: WindowInfoTracker, activity: Activity, updateCameraLayout: (FoldingFeature?) -> Unit) {
-  // [START android_camerax_skill_foldables_1]
+  // [START android_camera_camerax_skill_foldables_1]
   lifecycleScope.launch {
       lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
           windowInfoTracker.windowLayoutInfo(activity)
@@ -252,11 +252,11 @@ private fun snippet_foldables_1(lifecycleScope: LifecycleCoroutineScope, lifecyc
               }
       }
   }
-  // [END android_camerax_skill_foldables_1]
+  // [END android_camera_camerax_skill_foldables_1]
 }
 
 private fun snippet_foldables_2(viewfinder: View, display: Display, preview: Preview) {
-  // [START android_camerax_skill_foldables_2]
+  // [START android_camera_camerax_skill_foldables_2]
   val viewport = ViewPort.Builder(Rational(viewfinder.width, viewfinder.height), display.rotation)
       .setScaleType(ViewPort.FILL_CENTER)
       .build()
@@ -265,13 +265,13 @@ private fun snippet_foldables_2(viewfinder: View, display: Display, preview: Pre
       .addUseCase(preview)
       .setViewPort(viewport)
       .build()
-  // [END android_camerax_skill_foldables_2]
+  // [END android_camera_camerax_skill_foldables_2]
 }
 
 
 @android.annotation.SuppressLint("UnsafeOptInUsageError", "WrongConstant")
 private fun snippet_thermals_1() {
-  // [START android_camerax_skill_thermals_1]
+  // [START android_camera_camerax_skill_thermals_1]
   // In CameraX: Set the hint on your Use Case
   val preview = Preview.Builder()
       .setTargetName("Preview")
@@ -281,11 +281,11 @@ private fun snippet_thermals_1() {
           )
       }
       .build()
-  // [END android_camerax_skill_thermals_1]
+  // [END android_camera_camerax_skill_thermals_1]
 }
 
 private fun snippet_thermals_2(context: Context) {
-  // [START android_camerax_skill_thermals_2]
+  // [START android_camera_camerax_skill_thermals_2]
   val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
   powerManager.addThermalStatusListener { status ->
       when (status) {
@@ -301,29 +301,29 @@ private fun snippet_thermals_2(context: Context) {
           }
       }
   }
-  // [END android_camerax_skill_thermals_2]
+  // [END android_camera_camerax_skill_thermals_2]
 }
 
 private suspend fun snippet_testing_1(context: Context) {
-  // [START android_camerax_skill_testing_1]
+  // [START android_camera_camerax_skill_testing_1]
   // Use awaitInstance() extension function for coroutine-based provider retrieval
   val cameraProvider = ProcessCameraProvider.awaitInstance(context)
-  // [END android_camerax_skill_testing_1]
+  // [END android_camera_camerax_skill_testing_1]
 }
 
 
 private fun snippet_testing_2() {
-  // [START android_camerax_skill_testing_2]
+  // [START android_camera_camerax_skill_testing_2]
   // Create a Fake ImageProxy for ML Testing (Fakes over Mocks)
   val fakeImage = FakeImageProxy(w = 640, h = 480)
   
   // Feed the fake buffer into your analyzer
-  // [END android_camerax_skill_testing_2]
+  // [END android_camera_camerax_skill_testing_2]
 }
 
 
 private fun snippet_wear_os_1(context: Context, previewView: PreviewView) {
-  // [START android_camerax_skill_wear_os_1]
+  // [START android_camera_camerax_skill_wear_os_1]
   // Example: Sending a viewfinder frame to the watch
   val bitmap = previewView.bitmap // Capture current frame
   if (bitmap != null) {
@@ -334,14 +334,14 @@ private fun snippet_wear_os_1(context: Context, previewView: PreviewView) {
       Wearable.getDataClient(context).putDataItem(request.asPutDataRequest())
   }
   
-  // [END android_camerax_skill_wear_os_1]
+  // [END android_camera_camerax_skill_wear_os_1]
 }
 
 private fun snippet_wear_os_2(context: Context, nodeId: String) {
-  // [START android_camerax_skill_wear_os_2]
+  // [START android_camera_camerax_skill_wear_os_2]
   // Watch sends a trigger to the phone
   Wearable.getMessageClient(context).sendMessage(nodeId, "/camera/capture", null)
-  // [END android_camerax_skill_wear_os_2]
+  // [END android_camera_camerax_skill_wear_os_2]
 }
 
 // --- PLACEHOLDERS AND HELPERS ---
