@@ -16,10 +16,19 @@
 
 package com.example.snippets.ai
 
+import com.google.adk.kt.agents.Instruction
+import com.google.adk.kt.agents.LlmAgent
+import com.google.adk.kt.annotations.Param
+import com.google.adk.kt.annotations.Tool
+import com.google.adk.kt.models.Gemini
+import com.google.adk.kt.models.mlkit.GenaiPrompt
+import com.google.adk.kt.runners.InMemoryRunner
+import com.google.adk.kt.sessions.InMemorySessionService
+import com.google.adk.kt.types.Content
+import com.google.adk.kt.types.Part
+import com.google.adk.kt.types.Role
 import com.google.mlkit.genai.prompt.GenerativeModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 // [START android_ai_adk_define_agent]
@@ -44,8 +53,8 @@ object HelloTimeAgent {
                 ?: error("GOOGLE_API_KEY environment variable not set."),
         ),
         instruction = Instruction(
-            "You are a helpful assistant that tells the current time in a city. "
-                + "Use the 'getCurrentTime' tool for this purpose."
+            "You are a helpful assistant that tells the current time in a city. " +
+                "Use the 'getCurrentTime' tool for this purpose."
         ),
         tools = TimeService().generatedTools(),
     )
@@ -79,7 +88,7 @@ private fun runAgentExample(scope: CoroutineScope) {
     // [END android_ai_adk_run_agent]
 }
 
-private fun onDeviceModelExample(generativeModel: GenerativeModel) {
+private fun onDeviceModelExample(mockGenerativeModel: GenerativeModel) {
     // [START android_ai_adk_on_device_models]
     // Create an ML Kit GenerativeModel for on-device inference
     // [START_EXCLUDE silent]
@@ -87,7 +96,8 @@ private fun onDeviceModelExample(generativeModel: GenerativeModel) {
     // [END_EXCLUDE]
     val generativeModel: GenerativeModel = // ... initialize using ML Kit
     // [START_EXCLUDE silent]
-    */
+     */
+    val generativeModel: GenerativeModel = mockGenerativeModel
     // [END_EXCLUDE]
     val onDeviceModel = GenaiPrompt.create(
         generativeModel = generativeModel,
@@ -99,35 +109,4 @@ private fun onDeviceModelExample(generativeModel: GenerativeModel) {
         instruction = Instruction("You are a helpful assistant."),
     )
     // [END android_ai_adk_on_device_models]
-}
-
-annotation class Tool
-annotation class Param(val value: String)
-
-class Instruction(val value: String)
-open class BaseModel
-class Gemini(val name: String, val apiKey: String) : BaseModel()
-
-class LlmAgent(
-    val name: String,
-    val description: String = "",
-    val model: BaseModel,
-    val instruction: Instruction,
-    val tools: List<Any> = emptyList(),
-)
-
-fun TimeService.generatedTools(): List<Any> = emptyList()
-
-class InMemorySessionService
-class InMemoryRunner(val agent: LlmAgent, val sessionService: InMemorySessionService) {
-    fun runAsync(userId: String, sessionId: String, newMessage: Content): Flow<AdkRunnerEvent> = flowOf()
-}
-
-enum class Role { USER, MODEL }
-class Part(val text: String)
-class Content(val role: Role, val parts: List<Part>)
-class AdkRunnerEvent(val content: Content?)
-
-object GenaiPrompt {
-    fun create(generativeModel: GenerativeModel, name: String): BaseModel = BaseModel()
 }

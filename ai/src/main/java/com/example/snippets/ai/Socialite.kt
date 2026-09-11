@@ -27,7 +27,7 @@ import com.google.firebase.ai.type.content
 @OptIn(PublicPreviewAPI::class)
 private fun createGenerativeModel(): GenerativeModel {
     // [START android_ai_socialite_generative_model]
-    val generativeModel = GenerativeModel(
+    val generativeModel = Firebase.ai.generativeModel(
         // Set the model name to the latest Gemini model.
         modelName = "gemini-2.0-flash-lite-001",
         // Set a system instruction to set the behavior of the model.
@@ -48,17 +48,6 @@ private fun startChatExample(generativeModel: GenerativeModel, chatId: String): 
     )
     // [END android_ai_socialite_start_chat]
     return chat
-}
-
-@OptIn(PublicPreviewAPI::class)
-private fun GenerativeModel(
-    modelName: String,
-    systemInstruction: Content? = null,
-): GenerativeModel {
-    return Firebase.ai.generativeModel(
-        modelName = modelName,
-        systemInstruction = systemInstruction,
-    )
 }
 
 private fun getMessageHistory(chatId: String): List<Content> = emptyList()
