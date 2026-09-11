@@ -130,7 +130,7 @@ fun BadBackwardsWriteDraw() {
 fun BadCounter() {
     var count by remember { mutableIntStateOf(0) }
     Text("Count: $count") // State read in Composition
-    Box {
+    Button(onClick = {}) {
         count++ // State write in Composition (Backwards write!)
     }
 }
@@ -138,7 +138,7 @@ fun BadCounter() {
 @Composable
 fun OkCounter() {
     var count by remember { mutableIntStateOf(0) }
-    Box {
+    Button(onClick = {}) {
         count++ // State  write in Composition
     }
     Text("Count: $count") // State read in Composition
