@@ -290,14 +290,16 @@ fun FragmentInPagerExample(pagerState: PagerState) {
     // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
     HorizontalPager(state = pagerState) { page ->
         // Dynamically cap the lifecycle state based on whether the page is selected
-        val maxLifecycle = if (pagerState.currentPage == page) {
+        val maxLifecycle = if (pagerState.settledPage == page) {
             Lifecycle.State.RESUMED
         } else {
             Lifecycle.State.STARTED
         }
+
         when (page) {
             0 -> AndroidFragment<HomeFragment>(maxLifecycle = maxLifecycle)
             1 -> AndroidFragment<LibraryFragment>(maxLifecycle = maxLifecycle)
+            /* Other pages and corresponding fragments */
         }
     }
     // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
