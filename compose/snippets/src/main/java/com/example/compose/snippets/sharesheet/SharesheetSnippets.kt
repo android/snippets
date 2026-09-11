@@ -25,7 +25,6 @@ import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.service.chooser.ChooserAction
-import android.service.chooser.ChooserTarget
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.IntentCompat
@@ -176,43 +175,24 @@ fun sharesheetCustomActions(context: Context, previewText: String) {
 // [END android_provide_custom_actions]
 
 fun customTargets(context: Context, previewText: String) {
-    val chooserTargetJessica = ChooserTarget(
-        "ChooserTargetJessica",
-        Icon.createWithResource(context, R.drawable.ic_logo),
-        0f,
-        ComponentName(context.packageName, context.packageName + ".SharesheetActivity"),
-        null
-    )
-    val chooserTargetSpyros = ChooserTarget(
-        "ChooserTargetSpyros",
-        Icon.createWithResource(context, R.drawable.ic_logo),
-        0f,
-        ComponentName(context.packageName, context.packageName + ".SharesheetActivity"),
-        null
-    )
-    val intentTargetNearbyShare = Intent().apply {
-        component = ComponentName(context.packageName, "${context.packageName}.AnActivity")
+// [START android_provide_custom_targets]
+    val sendIntent = Intent(ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, previewText)
     }
-    val intentTargetMaps = Intent(Intent.ACTION_VIEW).apply {
-        setPackage("com.google.android.apps.maps")
+
+    val customIntent = Intent().apply {
+        component = ComponentName(context.packageName, "${context.packageName}.CustomActivity")
     }
-    val sendIntent = Intent(ACTION_SEND)
-        .setType("text/plain")
-        .putExtra(Intent.EXTRA_TEXT, previewText)
-    val shareIntent = Intent.createChooser(sendIntent, null)
-    // [START android_provide_custom_targets]
-    val share = Intent.createChooser(shareIntent, null).apply {
-        putExtra(
-            Intent.EXTRA_CHOOSER_TARGETS,
-            arrayOf(chooserTargetJessica, chooserTargetSpyros)
-        )
+
+    val shareIntent = Intent.createChooser(sendIntent, null).apply {
         putExtra(
             Intent.EXTRA_INITIAL_INTENTS,
-            arrayOf(intentTargetNearbyShare, intentTargetMaps)
+            arrayOf(customIntent)
         )
     }
-    // [END android_provide_custom_targets]
-    context.startActivity(share)
+    context.startActivity(shareIntent)
+// [END android_provide_custom_targets]
 }
 
 // [START android_exclude_specific_targets]
