@@ -1,7 +1,7 @@
 /*                                                                                  @android/devrel-snippets
 /ai/                                                                                @android/devrel-ai
 # /bluetoothle/                                                                       @android/
-/camerax/                                                                           @android/devrel-camera-media
+/camera/                                                                            @android/devrel-camera-media
 /cars/                                                                              @android/devrel-car
 /compose/                                                                           @android/devrel-compose
 /compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/       @android/devrel-adaptive-apps

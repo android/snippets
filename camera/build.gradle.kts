@@ -28,11 +28,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.camerax.snippets"
+    namespace = "com.example.camera.snippets"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.camerax.snippets"
+        applicationId = "com.example.camera.snippets"
         minSdk = 23
         targetSdk = 37
         versionCode = 1

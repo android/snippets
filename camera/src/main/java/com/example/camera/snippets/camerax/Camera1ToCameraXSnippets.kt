@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -49,7 +49,7 @@ import java.util.concurrent.Executor
 
 @Composable
 fun InitializeCameraSnippet() {
-  // [START android_camerax_initialize_provider]
+  // [START android_camera_camerax_initialize_provider]
   val context = LocalContext.current
   val lifecycleOwner = LocalLifecycleOwner.current
   LaunchedEffect(context, lifecycleOwner) {
@@ -74,13 +74,13 @@ fun InitializeCameraSnippet() {
     )
     val cameraControl = camera.cameraControl
   }
-  // [END android_camerax_initialize_provider]
+  // [END android_camera_camerax_initialize_provider]
 }
 
 fun ViewPreviewSnippet(preview: Preview, previewView: androidx.camera.view.PreviewView) {
-  // [START android_camerax_view_preview]
+  // [START android_camera_camerax_view_preview]
   preview.setSurfaceProvider(previewView.surfaceProvider)
-  // [END android_camerax_view_preview]
+  // [END android_camera_camerax_view_preview]
 }
 
 fun ViewTapToFocusSnippet(
@@ -89,24 +89,24 @@ fun ViewTapToFocusSnippet(
   y: Float,
   cameraControl: androidx.camera.core.CameraControl?,
 ) {
-  // [START android_camerax_view_tap_to_focus]
+  // [START android_camera_camerax_view_tap_to_focus]
   val factory = previewView.meteringPointFactory
   val point = factory.createPoint(x, y) // x, y from touch event
   val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF).build()
   cameraControl?.startFocusAndMetering(action)
-  // [END android_camerax_view_tap_to_focus]
+  // [END android_camera_camerax_view_tap_to_focus]
 }
 
 @Composable
 fun ComposePreviewSnippet() {
-  // [START android_camerax_compose_preview]
+  // [START android_camera_camerax_compose_preview]
   var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
   val preview = remember {
     Preview.Builder().build().apply {
       setSurfaceProvider { request -> surfaceRequest = request }
     }
   }
-  // [END android_camerax_compose_preview]
+  // [END android_camera_camerax_compose_preview]
 }
 
 @Composable
@@ -114,7 +114,7 @@ fun ComposeRenderViewfinderSnippet(
   surfaceRequest: SurfaceRequest?,
   coordinateTransformer: MutableCoordinateTransformer,
 ) {
-  // [START android_camerax_compose_viewfinder]
+  // [START android_camera_camerax_compose_viewfinder]
   surfaceRequest?.let { request ->
     CameraXViewfinder(
       surfaceRequest = request,
@@ -122,7 +122,7 @@ fun ComposeRenderViewfinderSnippet(
       modifier = Modifier
     )
   }
-  // [END android_camerax_compose_viewfinder]
+  // [END android_camera_camerax_compose_viewfinder]
 }
 
 @Composable
@@ -132,7 +132,7 @@ fun ComposeTapToFocusSnippet(
   request: SurfaceRequest,
   cameraControl: androidx.camera.core.CameraControl?,
 ) {
-  // [START android_camerax_compose_tap_to_focus]
+  // [START android_camera_camerax_compose_tap_to_focus]
   // Inside your tap gesture handler...
   val surfaceCoords = with(coordinateTransformer) { offset.transform() }
   val factory = SurfaceOrientedMeteringPointFactory(
@@ -142,7 +142,7 @@ fun ComposeTapToFocusSnippet(
   val point = factory.createPoint(surfaceCoords.x, surfaceCoords.y)
   val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF).build()
   cameraControl?.startFocusAndMetering(action)
-  // [END android_camerax_compose_tap_to_focus]
+  // [END android_camera_camerax_compose_tap_to_focus]
 }
 
 @Composable
@@ -152,7 +152,7 @@ fun ComposeRotationSnippet(
   preview: Preview,
   configuration: Any,
 ) {
-  // [START android_camerax_compose_rotation]
+  // [START android_camera_camerax_compose_rotation]
   LaunchedEffect(configuration) {
     if (!view.isInEditMode) {
       val rotation = view.display?.rotation ?: Surface.ROTATION_0
@@ -160,11 +160,11 @@ fun ComposeRotationSnippet(
       preview.targetRotation = rotation
     }
   }
-  // [END android_camerax_compose_rotation]
+  // [END android_camera_camerax_compose_rotation]
 }
 
 fun CapturePhotoSnippet(imageCapture: ImageCapture, cameraExecutor: Executor, lensFacing: Int) {
-  // [START android_camerax_capture_photo]
+  // [START android_camera_camerax_capture_photo]
   imageCapture.takePicture(
     cameraExecutor,
     object : ImageCapture.OnImageCapturedCallback() {
@@ -194,16 +194,16 @@ fun CapturePhotoSnippet(imageCapture: ImageCapture, cameraExecutor: Executor, le
       }
     }
   )
-  // [END android_camerax_capture_photo]
+  // [END android_camera_camerax_capture_photo]
 }
 
 fun SwitchCamerasSnippet() {
   var lensFacing = CameraSelector.LENS_FACING_BACK
-  // [START android_camerax_switch_cameras]
+  // [START android_camera_camerax_switch_cameras]
   lensFacing = if (lensFacing == CameraSelector.LENS_FACING_BACK) {
     CameraSelector.LENS_FACING_FRONT
   } else {
     CameraSelector.LENS_FACING_BACK
   }
-  // [END android_camerax_switch_cameras]
+  // [END android_camera_camerax_switch_cameras]
 }
