@@ -78,10 +78,10 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
-    implementation("androidx.work:work-testing:2.10.0")
-    implementation("androidx.work:work-rxjava2:2.10.0")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
-    implementation("org.hamcrest:hamcrest:2.2")
+    implementation(libs.androidx.work.testing)
+    implementation(libs.androidx.work.rxjava2)
+    implementation(libs.rxjava2)
+    implementation(libs.hamcrest)
     implementation(libs.junit)
     implementation(libs.androidx.test.core)
     implementation(libs.androidx.test.ext.junit)

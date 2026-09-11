@@ -68,6 +68,7 @@ google-maps = "20.0.0"
 gradle-versions = "0.59.0"
 guava = "33.6.0-jre"
 guava-android = "33.6.0-jre"
+hamcrest = "2.2"
 health-connect = "1.2.0-alpha04"
 hilt = "2.60.1"
 horologist = "0.8.3-alpha"
@@ -107,6 +108,7 @@ robolectric = "4.16.1"
 roborazzi = "1.70.0"
 room = "2.8.4"
 room3 = "3.0.1"
+rxjava2 = "2.2.21"
 spotless = "8.9.0"
 sqlite = "2.7.0"
 targetSdk = "37"
@@ -284,6 +286,8 @@ androidx-window-core = { module = "androidx.window:window-core", version.ref = "
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work-runtime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work-runtime" }
+androidx-work-rxjava2 = { module = "androidx.work:work-rxjava2", version.ref = "androidx-work-runtime" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work-runtime" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-camera2" }
@@ -314,6 +318,7 @@ horologist-compose-layout = { module = "com.google.android.horologist:horologist
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
 horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -334,6 +339,7 @@ play-services-wearable = { module = "com.google.android.gms:play-services-wearab
 reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
