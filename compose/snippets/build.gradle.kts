@@ -78,6 +78,14 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.work.testing)
+    implementation(libs.androidx.work.rxjava2)
+    implementation(libs.rxjava2)
+    implementation(libs.hamcrest)
+    implementation(libs.junit)
+    implementation(libs.androidx.test.core)
+    implementation(libs.androidx.test.ext.junit)
+    implementation(libs.androidx.test.runner)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     val composeBom = platform(libs.androidx.compose.bom)
