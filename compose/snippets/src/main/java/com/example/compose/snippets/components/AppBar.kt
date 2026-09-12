@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -32,6 +33,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Mic
@@ -41,13 +43,16 @@ import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -61,6 +66,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
@@ -85,6 +91,10 @@ fun AppBarExamples(
             "topBarLarge" -> LargeTopAppBarExample()
             "topBarNavigation" -> TopBarNavigationExample { navigateBack() }
             "multiSelection" -> AppBarMultiSelectionExample()
+            "topBarSubtitle" -> SimpleCenterAlignedTopAppBarWithSubtitle()
+            "topBarEnterAlways" -> EnterAlwaysTopAppBar()
+            "topBarMediumFlexible" -> ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar()
+            "topBarLargeFlexible" -> ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar()
             else -> AppBarOptions(
                 toBottom = { selection = "bottomBar" },
                 toTopBarSmall = { selection = "topBar" },
@@ -93,6 +103,10 @@ fun AppBarExamples(
                 toTopBarLarge = { selection = "topBarLarge" },
                 toTopBarNavigation = { selection = "topBarNavigation" },
                 toMultiSelection = { selection = "multiSelection" },
+                toTopBarSubtitle = { selection = "topBarSubtitle" },
+                toTopBarEnterAlways = { selection = "topBarEnterAlways" },
+                toTopBarMediumFlexible = { selection = "topBarMediumFlexible" },
+                toTopBarLargeFlexible = { selection = "topBarLargeFlexible" },
             )
         }
     }
@@ -107,6 +121,10 @@ fun AppBarOptions(
     toTopBarLarge: () -> Unit,
     toTopBarNavigation: () -> Unit,
     toMultiSelection: () -> Unit,
+    toTopBarSubtitle: () -> Unit,
+    toTopBarEnterAlways: () -> Unit,
+    toTopBarMediumFlexible: () -> Unit,
+    toTopBarLargeFlexible: () -> Unit,
 ) {
     Column() {
         Button({ toBottom() }) {
@@ -129,6 +147,18 @@ fun AppBarOptions(
         }
         Button({ toMultiSelection() }) {
             Text("Top bar with multi selection list")
+        }
+        Button({ toTopBarSubtitle() }) {
+            Text("Top bar with subtitle")
+        }
+        Button({ toTopBarEnterAlways() }) {
+            Text("Enter always top bar")
+        }
+        Button({ toTopBarMediumFlexible() }) {
+            Text("Medium flexible top bar")
+        }
+        Button({ toTopBarLargeFlexible() }) {
+            Text("Large flexible top bar")
         }
     }
 }
@@ -551,4 +581,203 @@ private fun LazyListMultiSelectionPreview() {
         listItems,
         modifier = Modifier
     )
+}
+
+// [START android_compose_expressive_components_centeralignedtopappbarwithsubtitle]
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SimpleCenterAlignedTopAppBarWithSubtitle() {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+// [END android_compose_expressive_components_centeralignedtopappbarwithsubtitle]
+
+@Preview
+@Composable
+private fun SimpleCenterAlignedTopAppBarWithSubtitlePreview() {
+    SimpleCenterAlignedTopAppBarWithSubtitle()
+}
+
+// [START android_compose_expressive_components_alwaysentertopappbar]
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EnterAlwaysTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+// [END android_compose_expressive_components_alwaysentertopappbar]
+
+@Preview
+@Composable
+private fun EnterAlwaysTopAppBarPreview() {
+    EnterAlwaysTopAppBar()
+}
+
+// [START android_compose_expressive_components_exituntillcollapsedtopappbar]
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            MediumFlexibleTopAppBar(
+                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+// [END android_compose_expressive_components_exituntillcollapsedtopappbar]
+
+@Preview
+@Composable
+private fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBarPreview() {
+    ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar()
+}
+
+// [START android_compose_expressive_components_exituntillcollapsedlargetopappbar]
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeFlexibleTopAppBar(
+                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+// [END android_compose_expressive_components_exituntillcollapsedlargetopappbar]
+
+@Preview
+@Composable
+private fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBarPreview() {
+    ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar()
 }
