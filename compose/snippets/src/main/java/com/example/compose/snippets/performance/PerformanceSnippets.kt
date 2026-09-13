@@ -33,6 +33,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -304,4 +305,25 @@ class Snack
 @Composable
 private fun animateColorBetween(color1: Color, color2: Color): State<Color> {
     return remember { mutableStateOf(color1) }
+}
+
+@Composable
+private fun ConditionalCompositionSnippet() {
+    // [START android_compose_performance_conditional_composition]
+    var shouldLoad by remember { mutableStateOf(false) }
+
+    if (shouldLoad) {
+        MyComposable()
+    }
+    // [END android_compose_performance_conditional_composition]
+
+    // [START android_compose_performance_conditional_composition_effect]
+    LaunchedEffect(Unit) {
+        shouldLoad = true
+    }
+    // [END android_compose_performance_conditional_composition_effect]
+}
+
+@Composable
+private fun MyComposable() {
 }
