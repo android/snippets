@@ -19,12 +19,9 @@ package com.example.compose.snippets.system
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -50,17 +47,16 @@ fun createDynamicShortcut(context: Context) {
 
 fun pinShortcut(context: Context) {
     // [START android_shortcuts_pin_shortcut]
-    val shortcutManager = context.getSystemService<ShortcutManager>()
-
-    if (shortcutManager!!.isRequestPinShortcutSupported) {
+    if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
         // Enable the existing shortcut with the ID "my-shortcut".
-        val pinShortcutInfo = ShortcutInfo.Builder(context, "my-shortcut").build()
+        val pinShortcutInfo = ShortcutInfoCompat.Builder(context, "my-shortcut").build()
 
         // Create the PendingIntent object only if your app needs to be notified
         // that the user let the shortcut be pinned. If the pinning operation fails,
         // your app isn't notified. Assume here that the app implements a method
         // called createShortcutResultIntent() that returns a broadcast intent.
-        val pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo)
+        val pinnedShortcutCallbackIntent =
+            ShortcutManagerCompat.createShortcutResultIntent(context, pinShortcutInfo)
 
         // Configure the intent so that your app's broadcast receiver gets the
         // callback successfully. For details, see PendingIntent.getBroadcast().
@@ -69,7 +65,8 @@ fun pinShortcut(context: Context) {
             pinnedShortcutCallbackIntent, /* flags */ PendingIntent.FLAG_IMMUTABLE
         )
 
-        shortcutManager.requestPinShortcut(
+        ShortcutManagerCompat.requestPinShortcut(
+            context,
             pinShortcutInfo,
             successCallback.intentSender
         )
