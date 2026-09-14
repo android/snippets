@@ -17,6 +17,7 @@
 package com.example.media
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -25,28 +26,33 @@ import android.os.Looper
 import android.support.v4.media.session.MediaControllerCompat
 import java.util.concurrent.TimeUnit
 
-private class AudioFocusManager(private val context: Context, private val mediaController: MediaControllerCompat) {
+private class AudioFocusManager(
+    context: Context
+) : ContextWrapper(context), AudioManager.OnAudioFocusChangeListener {
     private lateinit var audioManager: AudioManager
     private lateinit var focusRequest: AudioFocusRequest
     private val handler = Handler(Looper.getMainLooper())
-    private var delayedStopRunnable = Runnable {
-        mediaController.transportControls.stop()
-    }
 
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         onAudioFocusChange(focusChange)
     }
 
+    private var playbackDelayed = false
+    private var resumeOnFocusGain = false
+    private val focusLock = Any()
+
     private fun requestFocusPostOreo() {
         // [START android_media_audio_focus_request]
         // initializing variables for audio focus and playback management
-        audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).run {
-            setAudioAttributes(AudioAttributes.Builder().run {
-                setUsage(AudioAttributes.USAGE_GAME)
-                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                build()
-            })
+            setAudioAttributes(
+                AudioAttributes.Builder().run {
+                    setUsage(AudioAttributes.USAGE_GAME)
+                    setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    build()
+                }
+            )
             setAcceptsDelayedFocusGain(true)
             setOnAudioFocusChangeListener(afChangeListener, handler)
             build()
@@ -72,16 +78,12 @@ private class AudioFocusManager(private val context: Context, private val mediaC
                 else -> false
             }
         }
-        // [END android_media_audio_focus_request]
-    }
 
-    private var playbackDelayed = false
-    private var resumeOnFocusGain = false
-    private val focusLock = Any()
-
-    private fun onAudioFocusChange(focusChange: Int) {
-        // [START android_media_audio_focus_request_listener_impl]
         // implementing OnAudioFocusChangeListener to react to focus changes
+        // [START_EXCLUDE silent]
+    }
+    // [END_EXCLUDE]
+    override fun onAudioFocusChange(focusChange: Int) {
         when (focusChange) {
             AudioManager.AUDIOFOCUS_GAIN ->
                 if (playbackDelayed || resumeOnFocusGain) {
@@ -110,29 +112,22 @@ private class AudioFocusManager(private val context: Context, private val mediaC
                 // ... pausing or ducking depends on your app
             }
         }
-        // [END android_media_audio_focus_request_listener_impl]
     }
+    // [END android_media_audio_focus_request]
 
-    @Suppress("DEPRECATION")
     private fun requestFocusPreOreo() {
         // [START android_media_audio_focus_request_pre_o]
-        audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         lateinit var afChangeListener: AudioManager.OnAudioFocusChangeListener
 
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
-        // [END_EXCLUDE]
+        // ...
         // Request audio focus for playback
         val result: Int = audioManager.requestAudioFocus(
-                afChangeListener,
-                // Use the music stream.
-                AudioManager.STREAM_MUSIC,
-                // Request permanent focus.
-                AudioManager.AUDIOFOCUS_GAIN
+            afChangeListener,
+            // Use the music stream.
+            AudioManager.STREAM_MUSIC,
+            // Request permanent focus.
+            AudioManager.AUDIOFOCUS_GAIN
         )
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -141,47 +136,48 @@ private class AudioFocusManager(private val context: Context, private val mediaC
         // [END android_media_audio_focus_request_pre_o]
     }
 
-    @Suppress("DEPRECATION")
     private fun abandonFocusExample(afChangeListener: AudioManager.OnAudioFocusChangeListener) {
         // [START android_media_audio_focus_abandon]
         audioManager.abandonAudioFocus(afChangeListener)
         // [END android_media_audio_focus_abandon]
     }
 
-    private fun setupHandlerChangeListener() {
-        // [START android_media_audio_focus_change_listener]
-        val handler = Handler()
-        val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
-            when (focusChange) {
-                AudioManager.AUDIOFOCUS_LOSS -> {
-                    // Permanent loss of audio focus
-                    // Pause playback immediately
-                    mediaController.transportControls.pause()
-                    // Wait 30 seconds before stopping playback
-                    handler.postDelayed(delayedStopRunnable, TimeUnit.SECONDS.toMillis(30))
-                }
-                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                    // Pause playback
-                }
-                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                    // Lower the volume, keep playing
-                }
-                AudioManager.AUDIOFOCUS_GAIN -> {
-                    // Your app has been granted audio focus again
-                    // Raise volume to normal, restart playback if necessary
-                }
-            }
-        }
-        // [END android_media_audio_focus_change_listener]
-
-        // [START android_media_audio_focus_delayed_stop_runnable]
-        var delayedStopRunnable = Runnable {
-            mediaController.transportControls.stop()
-        }
-        // [END android_media_audio_focus_delayed_stop_runnable]
-    }
-
     private fun playbackNow() {}
     private fun pausePlayback() {}
     private fun isPlaying(): Boolean = true
+}
+
+private class AudioFocusLegacyChangeHandler(
+    private val mediaController: MediaControllerCompat
+) {
+    // [START android_media_audio_focus_change_listener]
+    private val handler = Handler()
+    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+        when (focusChange) {
+            AudioManager.AUDIOFOCUS_LOSS -> {
+                // Permanent loss of audio focus
+                // Pause playback immediately
+                mediaController.transportControls.pause()
+                // Wait 30 seconds before stopping playback
+                handler.postDelayed(delayedStopRunnable, TimeUnit.SECONDS.toMillis(30))
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                // Pause playback
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                // Lower the volume, keep playing
+            }
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                // Your app has been granted audio focus again
+                // Raise volume to normal, restart playback if necessary
+            }
+        }
+    }
+    // [END android_media_audio_focus_change_listener]
+
+    // [START android_media_audio_focus_delayed_stop_runnable]
+    private var delayedStopRunnable = Runnable {
+        mediaController.transportControls.stop()
+    }
+    // [END android_media_audio_focus_delayed_stop_runnable]
 }

@@ -20,14 +20,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.annotation.OptIn
-import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.MediaBrowserServiceCompat
+import androidx.media.app.NotificationCompat
 import androidx.media.utils.MediaConstants.SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_NEXT
 import androidx.media.utils.MediaConstants.SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_PREV
 import androidx.media3.common.MediaItem
@@ -57,68 +57,70 @@ private const val CHANNEL_ID = "playback_channel"
 @OptIn(UnstableApi::class)
 // [START android_media_surfaces_mobile_custom_command_buttons]
 class CustomControlsPlaybackService : MediaSessionService() {
-  private val customCommandFavorites = SessionCommand(ACTION_FAVORITES, Bundle.EMPTY)
-  private var mediaSession: MediaSession? = null
+    private val customCommandFavorites = SessionCommand(ACTION_FAVORITES, Bundle.EMPTY)
+    private var mediaSession: MediaSession? = null
 
-  override fun onCreate() {
-    super.onCreate()
-    val favoriteButton =
-      CommandButton.Builder(CommandButton.ICON_HEART_UNFILLED)
-        .setDisplayName("Save to favorites")
-        .setSessionCommand(customCommandFavorites)
-        .build()
-    val player = ExoPlayer.Builder(this).build()
-    // Build the session with a custom layout.
-    mediaSession =
-      MediaSession.Builder(this, player)
-        .setCallback(MyCallback())
-        .setMediaButtonPreferences(ImmutableList.of(favoriteButton))
-        .build()
-  }
-
-  private inner class MyCallback : MediaSession.Callback {
-    override fun onConnect(
-      session: MediaSession,
-      controller: MediaSession.ControllerInfo
-    ): ConnectionResult {
-    // Set available player and session commands.
-    return AcceptedResultBuilder(session)
-      .setAvailableSessionCommands(
-        ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
-          .add(customCommandFavorites)
-          .build()
-      )
-      .build()
+    override fun onCreate() {
+        super.onCreate()
+        val favoriteButton =
+            CommandButton.Builder(CommandButton.ICON_HEART_UNFILLED)
+                .setDisplayName("Save to favorites")
+                .setSessionCommand(customCommandFavorites)
+                .build()
+        val player = ExoPlayer.Builder(this).build()
+        // Build the session with a custom layout.
+        mediaSession =
+            MediaSession.Builder(this, player)
+                .setCallback(MyCallback())
+                .setMediaButtonPreferences(ImmutableList.of(favoriteButton))
+                .build()
     }
 
-    override fun onCustomCommand(
-      session: MediaSession,
-      controller: MediaSession.ControllerInfo,
-      customCommand: SessionCommand,
-      args: Bundle
-    ): ListenableFuture<SessionResult> {
-      if (customCommand.customAction == ACTION_FAVORITES) {
-        // Do custom logic here
-        saveToFavorites(session.player.currentMediaItem)
-        return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
-      }
-      return super.onCustomCommand(session, controller, customCommand, args)
+    private inner class MyCallback : MediaSession.Callback {
+        override fun onConnect(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo
+        ): ConnectionResult {
+            // Set available player and session commands.
+            return AcceptedResultBuilder(session)
+                .setAvailableSessionCommands(
+                    ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
+                        .add(customCommandFavorites)
+                        .build()
+                )
+                .build()
+        }
+
+        override fun onCustomCommand(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo,
+            customCommand: SessionCommand,
+            args: Bundle
+        ): ListenableFuture<SessionResult> {
+            if (customCommand.customAction == ACTION_FAVORITES) {
+                // Do custom logic here
+                saveToFavorites(session.player.currentMediaItem)
+                return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            return super.onCustomCommand(session, controller, customCommand, args)
+        }
     }
-  }
 
-  override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
-    return mediaSession
-  }
+    // [START_EXCLUDE silent]
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
+        return mediaSession
+    }
 
-  private fun saveToFavorites(item: MediaItem?) {}
+    private fun saveToFavorites(item: MediaItem?) {}
+    // [END_EXCLUDE]
 }
 // [END android_media_surfaces_mobile_custom_command_buttons]
 
-private fun addStandardActions(context: Context, notificationBuilder: NotificationCompat.Builder) {
+private fun addStandardActions(context: Context, notificationBuilder: CoreNotificationCompat.Builder) {
     // [START android_media_surfaces_mobile_add_standard_actions]
     val session = MediaSessionCompat(context, TAG)
     val playbackStateBuilder = PlaybackStateCompat.Builder()
-    val style = androidx.media.app.NotificationCompat.MediaStyle()
+    val style = NotificationCompat.MediaStyle()
 
     // For this example, the media is currently paused:
     val state = PlaybackStateCompat.STATE_PAUSED
@@ -127,11 +129,13 @@ private fun addStandardActions(context: Context, notificationBuilder: Notificati
     playbackStateBuilder.setState(state, position, playbackSpeed)
 
     // And the user can play, skip to next or previous, and seek
-    val stateActions = (PlaybackStateCompat.ACTION_PLAY
-        or PlaybackStateCompat.ACTION_PLAY_PAUSE
-        or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-        or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        or PlaybackStateCompat.ACTION_SEEK_TO) // adding the seek action enables seeking with the seekbar
+    val stateActions = (
+        PlaybackStateCompat.ACTION_PLAY
+            or PlaybackStateCompat.ACTION_PLAY_PAUSE
+            or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+            or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+            or PlaybackStateCompat.ACTION_SEEK_TO
+        ) // adding the seek action enables seeking with the seekbar
     playbackStateBuilder.setActions(stateActions)
 
     // ... do more setup here ...
@@ -144,10 +148,12 @@ private fun addStandardActions(context: Context, notificationBuilder: Notificati
 
 private fun slotReservationExtras(session: MediaSessionCompat) {
     // [START android_media_surfaces_mobile_slot_reservation_extras]
-    session.setExtras(Bundle().apply {
-        putBoolean(SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_PREV, true)
-        putBoolean(SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_NEXT, true)
-    })
+    session.setExtras(
+        Bundle().apply {
+            putBoolean(SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_PREV, true)
+            putBoolean(SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_NEXT, true)
+        }
+    )
     // [END android_media_surfaces_mobile_slot_reservation_extras]
 }
 
@@ -156,7 +162,14 @@ private fun addCustomActions(playbackStateBuilder: PlaybackStateCompat.Builder) 
     val customAction = PlaybackStateCompat.CustomAction.Builder(
         "com.example.MY_CUSTOM_ACTION", // action ID
         "Custom Action", // title - used as content description for the button
+        // [START_EXCLUDE silent]
         android.R.drawable.ic_media_play
+        /*
+        // [END_EXCLUDE]
+        R.drawable.ic_custom_action
+        // [START_EXCLUDE silent]
+         */
+        // [END_EXCLUDE]
     ).build()
 
     playbackStateBuilder.addCustomAction(customAction)
@@ -165,7 +178,7 @@ private fun addCustomActions(playbackStateBuilder: PlaybackStateCompat.Builder) 
 
 private fun playbackStateCallback(session: MediaSessionCompat) {
     // [START android_media_surfaces_mobile_playback_state_callback]
-    val callback = object: MediaSessionCompat.Callback() {
+    val callback = object : MediaSessionCompat.Callback() {
         override fun onPlay() {
             // start playback
         }
@@ -186,7 +199,7 @@ private fun playbackStateCallback(session: MediaSessionCompat) {
             // jump to position in track
         }
 
-        override fun onCustomAction(action: String?, extras: Bundle?) {
+        override fun onCustomAction(action: String, extras: Bundle?) {
             when (action) {
                 CUSTOM_ACTION_1 -> doCustomAction1(extras)
                 CUSTOM_ACTION_2 -> doCustomAction2(extras)
@@ -195,7 +208,6 @@ private fun playbackStateCallback(session: MediaSessionCompat) {
                 }
             }
         }
-
     }
 
     session.setCallback(callback)
@@ -212,13 +224,7 @@ private class MobileResumptionBrowserService : MediaBrowserServiceCompat() {
         clientUid: Int,
         rootHints: Bundle?
     ): BrowserRoot? {
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        ...
-        // [START_EXCLUDE silent]
-        */
-        // [END_EXCLUDE]
+        // ...
         // Verify that the specified package is SystemUI. You'll need to write your 
         // own logic to do this.
         if (isSystem(clientPackageName, clientUid)) {
@@ -259,20 +265,32 @@ private fun preAndroid13Notification(
     albumArtBitmap: Bitmap
 ) {
     // [START android_media_surfaces_mobile_pre_android_13_notification]
-    var notification = NotificationCompat.Builder(context, CHANNEL_ID)
-    // Show controls on lock screen even when user hides sensitive content.
-    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-    .setSmallIcon(android.R.drawable.ic_media_play)
-    // Add media control buttons that invoke intents in your media service
-    .addAction(android.R.drawable.ic_media_previous, "Previous", prevPendingIntent) // #0
-    .addAction(android.R.drawable.ic_media_pause, "Pause", pausePendingIntent) // #1
-    .addAction(android.R.drawable.ic_media_next, "Next", nextPendingIntent) // #2
-    // Apply the media style template
-    .setStyle(MediaStyleNotificationHelper.MediaStyle(mediaSession)
-    .setShowActionsInCompactView(1 /* #1: pause button */))
-    .setContentTitle("Wonderful music")
-    .setContentText("My Awesome Band")
-    .setLargeIcon(albumArtBitmap)
-    .build()
+    var notification = CoreNotificationCompat.Builder(context, CHANNEL_ID)
+        // Show controls on lock screen even when user hides sensitive content.
+        .setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
+        // [START_EXCLUDE silent]
+        .setSmallIcon(android.R.drawable.ic_media_play)
+        .addAction(android.R.drawable.ic_media_previous, "Previous", prevPendingIntent) // #0
+        .addAction(android.R.drawable.ic_media_pause, "Pause", pausePendingIntent) // #1
+        .addAction(android.R.drawable.ic_media_next, "Next", nextPendingIntent) // #2
+        /*
+        // [END_EXCLUDE]
+        .setSmallIcon(R.drawable.ic_stat_player)
+        // Add media control buttons that invoke intents in your media service
+        .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent) // #0
+        .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent) // #1
+        .addAction(R.drawable.ic_next, "Next", nextPendingIntent) // #2
+        // [START_EXCLUDE silent]
+         */
+        // [END_EXCLUDE]
+        // Apply the media style template
+        .setStyle(
+            MediaStyleNotificationHelper.MediaStyle(mediaSession)
+                .setShowActionsInCompactView(1 /* #1: pause button */)
+        )
+        .setContentTitle("Wonderful music")
+        .setContentText("My Awesome Band")
+        .setLargeIcon(albumArtBitmap)
+        .build()
     // [END android_media_surfaces_mobile_pre_android_13_notification]
 }
