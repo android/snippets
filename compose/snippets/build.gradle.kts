@@ -63,8 +63,6 @@ android {
         compose = true
         // Disable unused AGP features
         viewBinding = true
-
-        buildConfig = true
     }
 
     packaging.resources {
