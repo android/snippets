@@ -128,7 +128,7 @@ wearOngoing = "1.1.0"
 wearPhoneInteractions = "1.1.1"
 wearRemoteInteractions = "1.2.0"
 wearToolingPreview = "1.0.0"
-webkit = "1.16.0"
+webkit = "1.17.0"
 wfp = "1.0.0"
 
 [libraries]
