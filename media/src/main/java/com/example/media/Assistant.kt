@@ -112,8 +112,9 @@ private class MyMediaBrowserService : MediaBrowserServiceCompat() {
             // If you return null, then the media browser will not be able to connect and
             // no further calls will be made to other media browsing methods.
             Log.i(
-                TAG, "OnGetRoot: Browsing NOT ALLOWED for unknown caller. Returning empty "
-                    + "browser root so all apps can use MediaController. $clientPackageName"
+                TAG,
+                "OnGetRoot: Browsing NOT ALLOWED for unknown caller. Returning empty " +
+                    "browser root so all apps can use MediaController. $clientPackageName"
             )
             return MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_EMPTY_ROOT, null)
         }

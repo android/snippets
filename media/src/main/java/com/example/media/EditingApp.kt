@@ -34,8 +34,8 @@ import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.Composition.HDR_MODE_KEEP_HDR
 import androidx.media3.transformer.EditedMediaItem
-import androidx.media3.transformer.Effects
 import androidx.media3.transformer.EditedMediaItemSequence
+import androidx.media3.transformer.Effects
 import androidx.media3.transformer.Transformer
 import com.google.common.collect.ImmutableList
 import kotlin.math.min
@@ -54,7 +54,8 @@ private fun configureTranscode(context: Context) {
 private fun setHdrMode(videoSequence: EditedMediaItemSequence) {
     // [START android_media_editing_set_hdr_mode]
     val composition = Composition.Builder(
-        ImmutableList.of(videoSequence))
+        ImmutableList.of(videoSequence)
+    )
         .setHdrMode(HDR_MODE_KEEP_HDR)
         .build()
     // [END android_media_editing_set_hdr_mode]
@@ -121,37 +122,22 @@ private fun previewEffects(context: Context, inputMediaItem: MediaItem, zoomEffe
 @OptIn(UnstableApi::class)
 private fun previewAudioEffects(context: Context, channelMixingProcessor: ChannelMixingAudioProcessor) {
     // [START android_media_editing_preview_audio_effects]
-    val player = ExoPlayer.Builder(context, object : DefaultRenderersFactory(context) {
-        override fun buildAudioSink(
-            context: Context,
-            enableFloatOutput: Boolean,
-            enableAudioTrackPlaybackParams: Boolean,
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            enableOffload: Boolean
-            // [START_EXCLUDE silent]
-            */
-            // [END_EXCLUDE]
-        ): AudioSink? {
-            return DefaultAudioSink.Builder(context)
-                .setEnableFloatOutput(enableFloatOutput)
-                .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
-                // [START_EXCLUDE silent]
-                /*
-                // [END_EXCLUDE]
-                .setOffloadMode(if (enableOffload) {
-                         DefaultAudioSink.OFFLOAD_MODE_ENABLED_GAPLESS_REQUIRED
-                     } else {
-                         DefaultAudioSink.OFFLOAD_MODE_DISABLED
-                     })
-                // [START_EXCLUDE silent]
-                */
-                // [END_EXCLUDE]
-                .setAudioProcessors(arrayOf(channelMixingProcessor))
-                .build()
+    val player = ExoPlayer.Builder(
+        context,
+        object : DefaultRenderersFactory(context) {
+            override fun buildAudioSink(
+                context: Context,
+                enableFloatOutput: Boolean,
+                enableAudioTrackPlaybackParams: Boolean
+            ): AudioSink? {
+                return DefaultAudioSink.Builder(context)
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .setAudioProcessors(arrayOf(channelMixingProcessor))
+                    .build()
             }
-        }).build()
+        }
+    ).build()
     // [END android_media_editing_preview_audio_effects]
 }
 
