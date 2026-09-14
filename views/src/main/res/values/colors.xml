@@ -16,4 +16,5 @@
 -->
 <resources>
     <color name="my_background_color">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
 </resources>
