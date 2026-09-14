@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.snippets.performance.baselineprofiles
+package com.example.android.performance.baselineprofiles
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.Direction
