@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.snippets.performance.startupprofiles
+package com.example.android.performance.startupprofiles
 
 import android.content.Intent
 import androidx.benchmark.macro.MacrobenchmarkScope
