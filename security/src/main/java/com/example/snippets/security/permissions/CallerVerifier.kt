@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
-import android.util.Log
 
 // [START android_security_caller_verifier]
 // [START android_security_caller_signature_verification]
@@ -74,10 +73,6 @@ object CallerVerifier {
             data[i / 2] = ((Character.digit(s[i], 16) shl 4) + Character.digit(s[i + 1], 16)).toByte()
         }
         return data
-    }
-
-    private fun processSensitiveData(payload: String?) {
-        Log.d("SecureDataService", "Processing data safely: $payload")
     }
 }
 // [END android_security_caller_signature_verification]
