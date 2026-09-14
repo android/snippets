@@ -16,16 +16,13 @@
 
 package com.example.media
 
-import android.app.PendingIntent
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.annotation.OptIn
-import androidx.core.app.NotificationCompat as CoreNotificationCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.app.NotificationCompat
 import androidx.media.utils.MediaConstants.SESSION_EXTRAS_KEY_SLOT_RESERVATION_SKIP_TO_NEXT
@@ -38,7 +35,6 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSession.ConnectionResult
 import androidx.media3.session.MediaSession.ConnectionResult.AcceptedResultBuilder
 import androidx.media3.session.MediaSessionService
-import androidx.media3.session.MediaStyleNotificationHelper
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
 import com.google.common.collect.ImmutableList
@@ -52,7 +48,6 @@ private const val TAG = "SurfacesMobile"
 private const val MY_RECENTS_ROOT_ID = "MY_RECENTS_ROOT_ID"
 private const val MY_MEDIA_ROOT_ID = "MY_MEDIA_ROOT_ID"
 private const val MY_EMPTY_ROOT_ID = "MY_EMPTY_ROOT_ID"
-private const val CHANNEL_ID = "playback_channel"
 
 @OptIn(UnstableApi::class)
 // [START android_media_surfaces_mobile_custom_command_buttons]
@@ -116,7 +111,10 @@ class CustomControlsPlaybackService : MediaSessionService() {
 }
 // [END android_media_surfaces_mobile_custom_command_buttons]
 
-private fun addStandardActions(context: Context, notificationBuilder: CoreNotificationCompat.Builder) {
+private fun addStandardActions(
+    context: Context,
+    notificationBuilder: androidx.core.app.NotificationCompat.Builder
+) {
     // [START android_media_surfaces_mobile_add_standard_actions]
     val session = MediaSessionCompat(context, TAG)
     val playbackStateBuilder = PlaybackStateCompat.Builder()
@@ -253,44 +251,4 @@ private class MobileResumptionBrowserService : MediaBrowserServiceCompat() {
     ) {
         result.sendResult(null)
     }
-}
-
-@OptIn(UnstableApi::class)
-private fun preAndroid13Notification(
-    context: Context,
-    mediaSession: MediaSession,
-    prevPendingIntent: PendingIntent,
-    pausePendingIntent: PendingIntent,
-    nextPendingIntent: PendingIntent,
-    albumArtBitmap: Bitmap
-) {
-    // [START android_media_surfaces_mobile_pre_android_13_notification]
-    var notification = CoreNotificationCompat.Builder(context, CHANNEL_ID)
-        // Show controls on lock screen even when user hides sensitive content.
-        .setVisibility(CoreNotificationCompat.VISIBILITY_PUBLIC)
-        // [START_EXCLUDE silent]
-        .setSmallIcon(android.R.drawable.ic_media_play)
-        .addAction(android.R.drawable.ic_media_previous, "Previous", prevPendingIntent) // #0
-        .addAction(android.R.drawable.ic_media_pause, "Pause", pausePendingIntent) // #1
-        .addAction(android.R.drawable.ic_media_next, "Next", nextPendingIntent) // #2
-        /*
-        // [END_EXCLUDE]
-        .setSmallIcon(R.drawable.ic_stat_player)
-        // Add media control buttons that invoke intents in your media service
-        .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent) // #0
-        .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent) // #1
-        .addAction(R.drawable.ic_next, "Next", nextPendingIntent) // #2
-        // [START_EXCLUDE silent]
-         */
-        // [END_EXCLUDE]
-        // Apply the media style template
-        .setStyle(
-            MediaStyleNotificationHelper.MediaStyle(mediaSession)
-                .setShowActionsInCompactView(1 /* #1: pause button */)
-        )
-        .setContentTitle("Wonderful music")
-        .setContentText("My Awesome Band")
-        .setLargeIcon(albumArtBitmap)
-        .build()
-    // [END android_media_surfaces_mobile_pre_android_13_notification]
 }
