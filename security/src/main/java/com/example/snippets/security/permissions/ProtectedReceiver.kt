@@ -24,17 +24,17 @@ import android.os.Build
 
 // [START android_security_protected_broadcast_send]
 fun sendProtectedBroadcast(context: Context) {
-    val intent = Intent("com.example.permissions.ACTION_SECRET_UPDATE").apply {
+    val intent = Intent("com.example.snippets.permission.ACTION_SECRET_UPDATE").apply {
         setPackage("com.example.partner")
     }
-    context.sendBroadcast(intent, "com.example.permissions.RECEIVE_SECRET_UPDATE")
+    context.sendBroadcast(intent, "com.example.snippets.permission.RECEIVE_SECRET_UPDATE")
 }
 // [END android_security_protected_broadcast_send]
 
 fun Context.sendBroadcastWithIdentity() {
     // [START android_security_broadcast_sender_identity]
     // Sender: Enforce permission and share identity
-    val intent = Intent("com.example.permissions.ACTION_SECRET_UPDATE").apply {
+    val intent = Intent("com.example.snippets.permission.ACTION_SECRET_UPDATE").apply {
         setPackage("com.example.partner") // Explicit target
     }
     val isUdc = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
@@ -44,7 +44,7 @@ fun Context.sendBroadcastWithIdentity() {
         }.toBundle()
     } else null
 
-    sendBroadcast(intent, "com.example.permissions.RECEIVE_SECRET_UPDATE", options)
+    sendBroadcast(intent, "com.example.snippets.permission.RECEIVE_SECRET_UPDATE", options)
     // [END android_security_broadcast_sender_identity]
 }
 
@@ -52,10 +52,10 @@ fun Context.sendBroadcastWithIdentity() {
 // Receiver: Validate sender on Android 14+
 class ProtectedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == "com.example.permissions.ACTION_SECRET_UPDATE") {
+        if (intent.action == "com.example.snippets.permission.ACTION_SECRET_UPDATE") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 val sender = sentFromPackage
-                if (sender != null && sender != "com.example.trusted_sender") {
+                if (sender != "com.example.trusted_sender") {
                     return // Reject unauthorized sender
                 }
             }
@@ -66,5 +66,3 @@ class ProtectedReceiver : BroadcastReceiver() {
     private fun processUpdate(intent: Intent) {}
 }
 // [END android_security_broadcast_receiver_verify_identity]
-
-typealias MyProtectedReceiver = ProtectedReceiver

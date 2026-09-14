@@ -56,5 +56,3 @@ open class SecureDataProvider : ContentProvider() {
         selectionArgs: Array<String>?
     ): Int = 0
 }
-
-class PartnerSecureDataProvider : SecureDataProvider()

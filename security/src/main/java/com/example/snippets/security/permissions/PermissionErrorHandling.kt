@@ -40,8 +40,14 @@ class PermissionErrorHandling : ComponentActivity() {
             return
         }
 
+        val provider = if (fine == PackageManager.PERMISSION_GRANTED) {
+            LocationManager.GPS_PROVIDER
+        } else {
+            LocationManager.NETWORK_PROVIDER
+        }
+
         try {
-            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val location = locationManager.getLastKnownLocation(provider)
             processLocation(location)
         } catch (e: SecurityException) {
             Log.e("LocationAccess", "Permission revoked at runtime", e)
@@ -53,7 +59,7 @@ class PermissionErrorHandling : ComponentActivity() {
         performLocationAccess()
     }
 
-    fun verifyCallerIdentity(trustedSha256: String) {
+    fun verifyCallerIdentity() {
         if (!CallerVerifier.isCallerAuthorized(this)) {
             throw SecurityException("Caller signature verification failed")
         }

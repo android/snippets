@@ -27,7 +27,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 
 // [START android_security_runtime_permission_request]
-class MainActivity : ComponentActivity() {
+class RuntimePermissionsActivity : ComponentActivity() {
 
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -64,13 +64,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startCameraPreview() {
-        Log.d("MainActivity", "Camera preview started")
+        Log.d("RuntimePermissionsActivity", "Camera preview started")
     }
 
     private fun showSnackbar(msg: String) {
-        Log.i("MainActivity", msg)
+        Log.i("RuntimePermissionsActivity", msg)
     }
 }
 // [END android_security_runtime_permission_request]
-
-typealias CameraActivity = MainActivity

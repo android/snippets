@@ -32,7 +32,7 @@
     <!--[END android_security_content_provider_read_write_manifest]-->
 
     <permission
-        android:name="com.example.permissions.RECEIVE_SECRET_UPDATE"
+        android:name="com.example.snippets.permission.RECEIVE_SECRET_UPDATE"
         android:protectionLevel="signature" />
 
     <!--[START android_security_custom_permission_signature_manifest]-->
@@ -80,7 +80,7 @@
         <!--[END android_security_contentprovider_manifest]-->
 
         <activity
-            android:name=".permissions.MainActivity"
+            android:name=".permissions.RuntimePermissionsActivity"
             android:exported="false" />
         <activity
             android:name=".permissions.LocationPermissionActivity"
@@ -115,16 +115,21 @@
         <receiver
             android:name=".permissions.ProtectedReceiver"
             android:exported="true"
-            android:permission="com.example.permissions.RECEIVE_SECRET_UPDATE">
+            android:permission="com.example.snippets.permission.RECEIVE_SECRET_UPDATE">
             <intent-filter>
-                <action android:name="com.example.permissions.ACTION_SECRET_UPDATE" />
+                <action android:name="com.example.snippets.permission.ACTION_SECRET_UPDATE" />
             </intent-filter>
         </receiver>
         <!--[END android_security_protected_broadcast_receiver_manifest]-->
 
         <service
             android:name=".permissions.SecureBoundService"
-            android:exported="false" />
+            android:exported="true"
+            android:permission="com.example.snippets.permission.READ_DATA">
+            <intent-filter>
+                <action android:name="com.example.snippets.ACTION_BIND_SECURE_SERVICE" />
+            </intent-filter>
+        </service>
 
         <!--[START android_security_provider_read_write_manifest]-->
         <provider
