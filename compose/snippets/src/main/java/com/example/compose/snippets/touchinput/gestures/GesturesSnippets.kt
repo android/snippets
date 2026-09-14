@@ -95,6 +95,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
@@ -475,7 +476,7 @@ private object NestedScrollInterop {
                     LayoutInflater.from(context)
                         .inflate(R.layout.view_in_compose_nested_scroll_interop, null).apply {
                             with(findViewById<RecyclerView>(R.id.main_list)) {
-                                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                                layoutManager = LinearLayoutManager(context, VERTICAL, false)
                                 adapter = NestedScrollInteropAdapter()
                             }
                         }.also {
