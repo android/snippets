@@ -18,7 +18,6 @@ package com.example.snippets.performance
 
 import android.app.Application
 import android.os.StrictMode
-import com.example.compose.snippets.BuildConfig
 
 // [START android_performance_appstartup_strict_mode]
 class MyApplication : Application() {
@@ -40,3 +39,7 @@ class MyApplication : Application() {
     }
 }
 // [END android_performance_appstartup_strict_mode]
+
+private object BuildConfig {
+    const val DEBUG = true
+}
