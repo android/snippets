@@ -82,7 +82,6 @@ dependencies {
 
     implementation(libs.engage.core)
 
-    implementation(libs.androidx.metrics.performance)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -90,6 +89,4 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.benchmark.macro.junit4)
-    androidTestImplementation(libs.androidx.uiautomator)
 }

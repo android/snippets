@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.snippets.performance.benchmarking
+package com.example.android.performance.benchmarking
 
 import androidx.benchmark.macro.FrameTimingMetric
 import androidx.benchmark.macro.StartupMode
