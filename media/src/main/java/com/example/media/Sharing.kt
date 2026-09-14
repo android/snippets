@@ -22,7 +22,10 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.transformer.Transformer
 
 @OptIn(UnstableApi::class)
-private fun setupHdrToSdrTransformer(context: Context) {
+private fun setupHdrToSdrTransformer(
+    context: Context,
+    listener: Transformer.Listener
+) {
     // [START android_media_sharing_hdr_to_sdr]
     val transformer = Transformer.Builder(context)
         // [START_EXCLUDE silent]
@@ -33,9 +36,14 @@ private fun setupHdrToSdrTransformer(context: Context) {
                 .setHdrMode(TransformationRequest.HDR_MODE_TONE_MAP_HDR_TO_SDR)
                 .build())
         // [START_EXCLUDE silent]
-        */
+         */
         // [END_EXCLUDE]
-        .addListener(object : Transformer.Listener {})
+        .addListener(
+            // [START_EXCLUDE silent]
+            listener
+            // [END_EXCLUDE]
+            /* ... */
+        )
         .build()
     // [END android_media_sharing_hdr_to_sdr]
 }

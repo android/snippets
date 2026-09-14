@@ -44,12 +44,14 @@ private fun createMediaSession(context: Context) {
 class PlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
 
+    // Create your Player and MediaSession in the onCreate lifecycle event
     override fun onCreate() {
         super.onCreate()
         val player = ExoPlayer.Builder(this).build()
         mediaSession = MediaSession.Builder(this, player).build()
     }
 
+    // Remember to release the player and media session in onDestroy
     override fun onDestroy() {
         mediaSession?.run {
             player.release()
@@ -59,11 +61,14 @@ class PlaybackService : MediaSessionService() {
         super.onDestroy()
     }
 
+    // [START_EXCLUDE silent]
     // [START android_media_playback_app_on_get_session]
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
-        return mediaSession
-    }
+    // This example always accepts the connection request
+    override fun onGetSession(
+        controllerInfo: MediaSession.ControllerInfo
+    ): MediaSession? = mediaSession
     // [END android_media_playback_app_on_get_session]
+    // [END_EXCLUDE]
 }
 // [END android_media_playback_app_playback_service]
 
@@ -72,14 +77,16 @@ private class PlayerActivity : Activity() {
 
     // [START android_media_playback_app_connect_ui]
     override fun onStart() {
+        // [START_EXCLUDE silent]
         super.onStart()
+        // [END_EXCLUDE]
         val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
         val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
         controllerFuture.addListener({
             // Call controllerFuture.get() to retrieve the MediaController.
             // MediaController implements the Player interface, so it can be
             // attached to the PlayerView UI component.
-            playerView.player = controllerFuture.get()
+            playerView.setPlayer(controllerFuture.get())
         }, MoreExecutors.directExecutor())
     }
     // [END android_media_playback_app_connect_ui]
