@@ -264,7 +264,7 @@ public class ActivityEmbeddingJavaSnippets {
 
     /** @noinspection InnerClassMayBeStatic */
     // [START android_activity_embedding_SplitInitializer_class_java]
-    public static class SplitInitializer implements Initializer<RuleController> {
+    public class SplitInitializer implements Initializer<RuleController> {
 
         @NonNull
         @Override
