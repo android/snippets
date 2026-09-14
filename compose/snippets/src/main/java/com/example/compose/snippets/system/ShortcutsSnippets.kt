@@ -49,7 +49,15 @@ fun pinShortcut(context: Context) {
     // [START android_shortcuts_pin_shortcut]
     if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
         // Enable the existing shortcut with the ID "my-shortcut".
-        val pinShortcutInfo = ShortcutInfoCompat.Builder(context, "my-shortcut").build()
+        val pinShortcutInfo = ShortcutInfoCompat.Builder(context, "my-shortcut")
+            .setShortLabel("Website")
+            .setIntent(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.mysite.example.com/")
+                )
+            )
+            .build()
 
         // Create the PendingIntent object only if your app needs to be notified
         // that the user let the shortcut be pinned. If the pinning operation fails,
