@@ -35,6 +35,7 @@ dependencyResolutionManagement {
 rootProject.name = "snippets"
 include(
     ":ai",
+    ":backgroundwork",
     ":bluetoothle",
     ":compose:recomposehighlighter",
     ":kotlin",
