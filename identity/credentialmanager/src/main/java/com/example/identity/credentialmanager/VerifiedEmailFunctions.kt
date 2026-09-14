@@ -24,8 +24,8 @@ import androidx.credentials.DigitalCredential
 import androidx.credentials.ExperimentalDigitalCredentialApi
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetDigitalCredentialOption
-import kotlinx.coroutines.coroutineScope
 import java.security.SecureRandom
+import kotlinx.coroutines.coroutineScope
 import org.json.JSONObject
 
 /**
