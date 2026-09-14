@@ -137,8 +137,8 @@ class VerifiedEmailFunctions(
             } catch (e: Exception) {
                 // handle exceptions - Up to the developer
             }
-            // [END android_identity_get_verified_user_info_response]
         }
+        // [END android_identity_get_verified_user_info_response]
     }
 
     /**
