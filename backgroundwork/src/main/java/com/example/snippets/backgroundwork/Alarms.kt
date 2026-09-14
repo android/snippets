@@ -45,9 +45,9 @@ class SampleBootReceiver : BroadcastReceiver() {
 
 private class ElapsedRealtimeOneTimeSnippet(private val context: Context) {
     // [START android_background_alarms_elapsed_realtime_one_time]
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
-    /* ... */
+        private var alarmMgr: AlarmManager? = null
+        private lateinit var alarmIntent: PendingIntent
+        /* ... */
     // [START_EXCLUDE silent]
     fun schedule() {
         // [END_EXCLUDE]
@@ -67,9 +67,9 @@ private class ElapsedRealtimeOneTimeSnippet(private val context: Context) {
 
 private class RtcRepeatingPreciseSnippet(private val context: Context) {
     // [START android_background_alarms_rtc_repeating_precise]
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
-    /* ... */
+        private var alarmMgr: AlarmManager? = null
+        private lateinit var alarmIntent: PendingIntent
+        /* ... */
     // [START_EXCLUDE silent]
     fun schedule() {
         // [END_EXCLUDE]

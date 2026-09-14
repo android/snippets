@@ -40,6 +40,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 private object SleepWorkerBasic {
+    // SleepWorker would normally live in src/main/java. It is here so this file can
+    // show several SleepWorker examples next to their tests.
     // [START android_background_testing_sleep_worker_basic]
     class SleepWorker(context: Context, parameters: WorkerParameters) :
         Worker(context, parameters) {
@@ -81,6 +83,8 @@ private object SleepWorkerBasic {
 }
 
 private object SleepWorkerInputData {
+    // SleepWorker would normally live in src/main/java. It is here so this file can
+    // show several SleepWorker examples next to their tests.
     // [START android_background_testing_sleep_worker_input_data]
     class SleepWorker(context: Context, parameters: WorkerParameters) :
         Worker(context, parameters) {
@@ -128,6 +132,8 @@ private object SleepWorkerInputData {
 }
 
 private object SleepWorkerCoroutine {
+    // SleepWorker would normally live in src/main/java. It is here so this file can
+    // show several SleepWorker examples next to their tests.
     // [START android_background_testing_coroutine_worker]
     class SleepWorker(context: Context, parameters: WorkerParameters) :
         CoroutineWorker(context, parameters) {
@@ -161,6 +167,8 @@ private object SleepWorkerCoroutine {
 }
 
 private object SleepWorkerRx {
+    // SleepWorker would normally live in src/main/java. It is here so this file can
+    // show several SleepWorker examples next to their tests.
     // [START android_background_testing_rx_worker]
     class SleepWorker(
         context: Context,
