@@ -279,6 +279,27 @@ private object BackwardsWrite {
     // [END android_compose_performance_backwardswrite]
 }
 
+@Composable
+private fun ConditionalCompositionSnippet() {
+    // [START android_compose_performance_conditional_composition]
+    var shouldLoad by remember { mutableStateOf(false) }
+
+    if (shouldLoad) {
+        MyComposable()
+    }
+    // [END android_compose_performance_conditional_composition]
+
+    // [START android_compose_performance_conditional_composition_effect]
+    LaunchedEffect(Unit) {
+        shouldLoad = true
+    }
+    // [END android_compose_performance_conditional_composition_effect]
+}
+
+@Composable
+private fun MyComposable() {
+}
+
 /***
  * Fakes needed for snippets to build:
  ***/
@@ -307,23 +328,4 @@ private fun animateColorBetween(color1: Color, color2: Color): State<Color> {
     return remember { mutableStateOf(color1) }
 }
 
-@Composable
-private fun ConditionalCompositionSnippet() {
-    // [START android_compose_performance_conditional_composition]
-    var shouldLoad by remember { mutableStateOf(false) }
-
-    if (shouldLoad) {
-        MyComposable()
-    }
-    // [END android_compose_performance_conditional_composition]
-
-    // [START android_compose_performance_conditional_composition_effect]
-    LaunchedEffect(Unit) {
-        shouldLoad = true
-    }
-    // [END android_compose_performance_conditional_composition_effect]
-}
-
-@Composable
-private fun MyComposable() {
-}
+/* END Fakes */

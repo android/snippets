@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.snippets.performance
+package com.example.compose.snippets.performance
 
 import android.app.Application
 import android.os.StrictMode
@@ -27,13 +27,14 @@ class MyApplication : Application() {
 
         // ...
 
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(
                 StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyDeath()
                     .build()
             )
+        }
 
         // ...
     }
