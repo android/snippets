@@ -29,7 +29,42 @@ import android.service.chooser.ChooserTarget
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.IntentCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.example.compose.snippets.R
+
+@Composable
+fun SharesheetNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable(route = "home") {
+            // Home screen
+        }
+        // [START android_receive_data_nav_deeplink]
+        composable(
+            route = "incoming_share",
+            deepLinks = listOf(
+                navDeepLink {
+                    action = Intent.ACTION_SEND
+                    mimeType = "text/plain"
+                },
+                navDeepLink {
+                    action = Intent.ACTION_SEND
+                    mimeType = "image/*"
+                },
+                navDeepLink {
+                    action = Intent.ACTION_SEND_MULTIPLE
+                    mimeType = "image/*"
+                }
+            )
+        ) {
+            SharesheetHandler()
+        }
+        // [END android_receive_data_nav_deeplink]
+    }
+}
 
 // [START android_handle_intent_action_data_sent]
 @Composable
@@ -38,9 +73,9 @@ fun SharesheetHandler() {
     val intent = (context as? Activity)?.intent
 
     when (intent?.action) {
-        ACTION_SEND -> {
-            if ("text/plain" == intent.type) {
-                handleSendText(intent) // Handle text being sent.
+        Intent.ACTION_SEND -> {
+            if (intent.type == "text/plain") {
+                handleSendText(intent) // Handle text being sent
             } else if (intent.type?.startsWith("image/") == true) {
                 handleSendImage(intent) // Handle single image being sent
             }
@@ -58,21 +93,24 @@ fun SharesheetHandler() {
     }
 }
 
-fun handleSendText(intent: Intent) {
+private fun handleSendText(intent: Intent) {
     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-        // Update ViewModel state to change state of text being shared
+        // Update UI state with the shared text
     }
 }
 
-fun handleSendImage(intent: Intent) {
-    IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-        // Update ViewModel state to change state of image being shared
+private fun handleSendImage(intent: Intent) {
+    val imageUri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+    imageUri?.let {
+        // Update UI state with the shared image
     }
 }
 
-fun handleSendMultipleImages(intent: Intent) {
-    IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-        // Update ViewModel state to change state of image(s) being shared
+private fun handleSendMultipleImages(intent: Intent) {
+    val imageUris =
+        IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+    imageUris?.let {
+        // Update UI state with the shared images
     }
 }
 // [END android_handle_intent_action_data_sent]
@@ -82,8 +120,7 @@ fun handleSendAndExtraText(intent: Intent) {
     IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
         // Handle the EXTRA_TEXT as well
         val extraText = intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
-        // Update ViewModel state to change state image being shared and the EXTRA_TEXT
-        // if available
+        // Update UI state with the shared image and the EXTRA_TEXT if available
     }
     // [END android_handle_intent_handle_extra_text]
 }
