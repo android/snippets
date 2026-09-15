@@ -33,18 +33,21 @@ jobs:
   build_ios:
     name: Build iOS app
     runs-on: macos-latest
+    permissions:
+      contents: read
     steps:
-      - uses: maxim-lobanov/setup-xcode@v1
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
         with:
           xcode-version: latest-stable
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Build iOS app
-        uses: mxcl/xcodebuild@v3
+        uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5 # v3.6.0
         with:
-          xcode: ^16
           scheme: iosApp
           platform: iOS
           action: build
