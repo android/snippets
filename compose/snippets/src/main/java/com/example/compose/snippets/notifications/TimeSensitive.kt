@@ -29,7 +29,6 @@ import android.os.IBinder
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +39,8 @@ import androidx.compose.runtime.setValue
 import androidx.core.app.NotificationCompat
 import com.example.compose.snippets.R
 
-@RequiresApi(Build.VERSION_CODES.O)
+private const val CHANNEL_ID = "channelId"
+
 // [START android_notifications_time_sensitive_channel]
 class DACapp : Application() {
     override fun onCreate() {
@@ -65,9 +65,7 @@ private fun NotificationPermissionSample() {
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { hasNotificationPermission = it }
     )
-    // [START_EXCLUDE]
-    val fillerCode = Unit
-    // [END_EXCLUDE]
+    // ...
     Button(
         onClick = {
             if (!hasNotificationPermission) {
