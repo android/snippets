@@ -65,9 +65,10 @@ private object UiLayerSnippet2 {
         // [END_EXCLUDE]
     ) : ViewModel() {
 
-        val uiState: NewsUiState = // [START_EXCLUDE]
+        val uiState: NewsUiState = /* ... */
+            // [START_EXCLUDE silent]
             NewsUiState()
-        // [END_EXCLUDE]
+            // [END_EXCLUDE]
     }
     // [END android_architecture_ui_layer_viewmodel_expose_state]
 }
