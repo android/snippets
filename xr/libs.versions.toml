@@ -1,11 +1,11 @@
 [versions]
-androidx-xr-arcore = "1.0.0-beta02"
-androidx-xr-arcore-play-services = "1.0.0-beta02"
+androidx-xr-arcore = "1.0.0-rc01"
+androidx-xr-arcore-play-services = "1.0.0-rc01"
 androidx-xr-compose = "1.0.0-alpha17"
-androidx-xr-glimmer = "1.0.0-alpha18"
+androidx-xr-glimmer = "1.0.0-alpha19"
 # Keep the Projected dependency on alpha10 until the emulator supports the latest APIs - b/544045508
-androidx-xr-projected = "1.0.0-alpha10"
-androidx-xr-scenecore = "1.0.0-beta02"
+androidx-xr-projected = "1.0.0-alpha12"
+androidx-xr-scenecore = "1.0.0-rc01"
 
 [libraries]
 androidx-xr-arcore = { module = "androidx.xr.arcore:arcore", version.ref = "androidx-xr-arcore" }
