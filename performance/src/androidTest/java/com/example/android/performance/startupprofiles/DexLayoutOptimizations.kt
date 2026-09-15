@@ -17,10 +17,10 @@
 package com.example.android.performance.startupprofiles
 
 import android.content.Intent
-import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.uiautomator.uiAutomator
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,11 +52,3 @@ class BaselineProfileGenerator {
     }
 }
 // [END android_performance_startupprofiles_generator]
-
-private class UiAutomatorScope(val packageName: String) {
-    fun startIntent(intent: Intent) {}
-}
-
-private fun MacrobenchmarkScope.uiAutomator(block: UiAutomatorScope.() -> Unit) {
-    UiAutomatorScope(packageName).block()
-}
