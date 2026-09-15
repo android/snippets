@@ -18,7 +18,7 @@
 
     <application
         android:allowBackup="true"
-        android:label="CameraX Snippets"
+        android:label="Camera Snippets"
         android:supportsRtl="true">
     </application>
 
