@@ -16,6 +16,7 @@
 
 package com.example.example.snippet.views.haptics
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
@@ -41,7 +42,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -52,9 +52,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.example.snippet.views.R
@@ -173,6 +172,7 @@ private fun checkSinglePrimitiveSupportedSnippet() {
     // [END android_views_haptics_custom_check_single_primitive]
 }
 
+@SuppressLint("WrongConstant")
 @RequiresApi(Build.VERSION_CODES.S)
 private fun checkMultiplePrimitivesSupportedSnippet() {
     // [START android_views_haptics_custom_check_multiple_primitives]
@@ -537,7 +537,7 @@ fun BouncingSpringAnimation() {
             .width(screenWidth)
             .height(screenHeight)
     ) {
-        DrawSpring(mutableStateOf(springX), mutableStateOf(springY))
+        DrawSpring(springX, springY)
         DrawFloor()
         if (!isAnimating) {
             DrawText("Tap to restart")
@@ -550,7 +550,6 @@ fun BouncingSpringAnimation() {
 // [START android_views_haptics_custom_rocket_launch]
 @Composable
 fun RocketLaunchAnimation() {
-    val context = LocalContext.current
     val screenHeight = remember { mutableFloatStateOf(0f) }
     var rocketPositionY by remember { mutableFloatStateOf(0f) }
     var isLaunched by remember { mutableStateOf(false) }
@@ -588,7 +587,7 @@ fun RocketLaunchAnimation() {
                     isLaunched = true
                 }
             }
-            .background(Color(context.getColor(R.color.background)))
+            .background(colorResource(R.color.background))
             .onSizeChanged { screenHeight.floatValue = it.height.toFloat() }
     ) {
         drawRocket(rocketPositionY)
@@ -781,7 +780,7 @@ private fun getScreenDimensions(context: Context): Pair<Dp, Dp> = Pair(800.dp, 4
 private fun resetAnimation() {}
 
 @Composable
-private fun DrawSpring(springX: MutableState<Dp>, springY: MutableState<Dp>) {}
+private fun DrawSpring(springX: Dp, springY: Dp) {}
 
 @Composable
 private fun DrawFloor() {}
