@@ -50,8 +50,7 @@ private class MainActivity : Activity()
 private object DeclareServiceSnippet {
     // [START android_views_device_control_declare_service]
     class MyCustomControlService : ControlsProviderService() {
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = TODO()
 
         override fun createPublisherFor(controlIds: List<String>): Flow.Publisher<Control> = TODO()
@@ -76,8 +75,7 @@ private object DeclareConstantsSnippet {
     private const val THERMOSTAT_TYPE = DeviceTypes.TYPE_THERMOSTAT
 
     class MyCustomControlService : ControlsProviderService() {
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = TODO()
 
         override fun createPublisherFor(controlIds: List<String>): Flow.Publisher<Control> = TODO()
@@ -94,13 +92,6 @@ private object DeclareConstantsSnippet {
 
 @OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
 private object CreatePublisherAllAvailableSnippet {
-    private const val LIGHT_ID = 1234
-    private const val LIGHT_TITLE = "My fancy light"
-    private const val LIGHT_TYPE = DeviceTypes.TYPE_LIGHT
-    private const val THERMOSTAT_ID = 5678
-    private const val THERMOSTAT_TITLE = "My fancy thermostat"
-    private const val THERMOSTAT_TYPE = DeviceTypes.TYPE_THERMOSTAT
-
     // [START android_views_device_control_create_publisher_all_available]
     class MyCustomControlService : ControlsProviderService() {
 
@@ -205,7 +196,13 @@ class MyCustomControlService : ControlsProviderService() {
         ),
     )
 
-    private fun <T> createStatefulControl(id: Int, title: String, type: Int, state: T, template: ControlTemplate): Control {
+    private fun <T> createStatefulControl(
+        id: Int,
+        title: String,
+        type: Int,
+        state: T,
+        template: ControlTemplate,
+    ): Control {
         val intent = Intent(this, MainActivity::class.java)
             .putExtra(EXTRA_MESSAGE, "$title $state")
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
