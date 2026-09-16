@@ -21,10 +21,13 @@ import androidx.activity.BackEventCompat
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animate
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,21 +36,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import kotlin.coroutines.cancellation.CancellationException
 
 @Serializable data object Home
 @Serializable data object Settings
@@ -200,3 +208,58 @@ private enum class DrawerState {
 }
 
 private val DrawerWidth = 300.dp
+
+@Composable
+private fun PredictiveBackHandlerFlowExample(isBackHandlerEnabled: Boolean) {
+    // [START android_predictive_back_handler_progress]
+    PredictiveBackHandler(enabled = isBackHandlerEnabled) { progress: Flow<BackEventCompat> ->
+        try {
+            progress.collect { backEvent ->
+                // Update your UI or animation based on backEvent.progress.
+            }
+            // Handle the final back action (e.g., navigate back).
+        } catch (e: CancellationException) {
+            // Back gesture was cancelled, reset your UI.
+        }
+    }
+    // [END android_predictive_back_handler_progress]
+}
+
+// [START android_predictive_back_handler_custom_transition]
+@Composable
+fun DetailScreen(onBack: () -> Unit) {
+    var scale by remember { mutableFloatStateOf(1f) }
+    var xOffset by remember { mutableFloatStateOf(0f) }
+    val scope = rememberCoroutineScope()
+
+    PredictiveBackHandler { progressFlow ->
+        try {
+            progressFlow.collectLatest { backEvent ->
+                scale = 1f - backEvent.progress
+                xOffset = backEvent.progress * 100f
+            }
+            // User completed gesture.
+            onBack()
+        } catch (e: CancellationException) {
+            // User cancelled gesture.
+            // Animate scale and xOffset back to 1f and 0f respectively.
+            scope.launch {
+                animate(scale, 1f) { value, _ -> scale = value }
+            }
+            scope.launch {
+                animate(xOffset, 0f) { value, _ -> xOffset = value }
+            }
+        }
+    }
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Surface(
+            modifier = Modifier
+                .size(200.dp)
+                .scale(scale)
+                .offset { IntOffset(x = xOffset.dp.roundToPx(), y = 0) },
+            color = Color.Blue
+        ) {}
+    }
+}
+// [END android_predictive_back_handler_custom_transition]
+

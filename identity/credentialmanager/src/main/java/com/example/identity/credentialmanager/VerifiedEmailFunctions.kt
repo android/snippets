@@ -25,6 +25,7 @@ import androidx.credentials.ExperimentalDigitalCredentialApi
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetDigitalCredentialOption
 import java.security.SecureRandom
+import kotlinx.coroutines.coroutineScope
 import org.json.JSONObject
 
 /**
@@ -91,49 +92,51 @@ class VerifiedEmailFunctions(
         // [END android_identity_get_verified_user_info_request]
 
         // [START android_identity_get_verified_user_info_response]
-        try {
-            // Requesting Digital Credential from user...
-            val result = credentialManager.getCredential(activity, request)
-
-            when (val credential = result.credential) {
-                is DigitalCredential -> {
-                    val responseJsonString = credential.credentialJson
-
-                    // Successfully received digital credential response.
-
-                    // Next, parse this response and send it to your server.
-                    // [START_EXCLUDE]
-                    // 1. Parse the outer JSON wrapper to get the `vp_token`
-                    val responseData = JSONObject(responseJsonString)
-                    val dataObject = responseData.getJSONObject("data")
-                    val vpToken = dataObject.getJSONObject("vp_token")
-
-                    // 2. Extract the raw SD-JWT string
-                    val credentialId = vpToken.keys().next()
-                    val rawSdJwt = vpToken.getJSONArray(credentialId).getString(0)
-
-                    // 3. Use your parser to get the verified claims.
-                    // Note: You would have to first split the SD-JWT and "kb" portions
-                    // and then parse the SD-JWT portion using either a local implementation // or a library.
-                    // Server-side validation/parsing is highly recommended.
-                    val claims = SdJwtParser.parse(rawSdJwt)
-                    Log.d("TAG", "Parsed Claims: ${claims.toString(2)}")
-
-                    // 4. Create your VerifiedUserInfo object with REAL data
-                    val userInfo = VerifiedUserInfo(
-                        email = claims.getString("email"),
-                        displayName = claims.optString("name", claims.getString("email"))
-                    )
-                    // handle response - Up to the developer
-                    // [END_EXCLUDE]
+        coroutineScope {
+            try {
+                // Requesting Digital Credential from user...
+                val result = credentialManager.getCredential(activity, request)
+    
+                when (val credential = result.credential) {
+                    is DigitalCredential -> {
+                        val responseJsonString = credential.credentialJson
+    
+                        // Successfully received digital credential response.
+    
+                        // Next, parse this response and send it to your server.
+                        // [START_EXCLUDE]
+                        // 1. Parse the outer JSON wrapper to get the `vp_token`
+                        val responseData = JSONObject(responseJsonString)
+                        val dataObject = responseData.getJSONObject("data")
+                        val vpToken = dataObject.getJSONObject("vp_token")
+    
+                        // 2. Extract the raw SD-JWT string
+                        val credentialId = vpToken.keys().next()
+                        val rawSdJwt = vpToken.getJSONArray(credentialId).getString(0)
+    
+                        // 3. Use your parser to get the verified claims.
+                        // Note: You would have to first split the SD-JWT and "kb" portions
+                        // and then parse the SD-JWT portion using either a local implementation // or a library.
+                        // Server-side validation/parsing is highly recommended.
+                        val claims = SdJwtParser.parse(rawSdJwt)
+                        Log.d("TAG", "Parsed Claims: ${claims.toString(2)}")
+    
+                        // 4. Create your VerifiedUserInfo object with REAL data
+                        val userInfo = VerifiedUserInfo(
+                            email = claims.getString("email"),
+                            displayName = claims.optString("name", claims.getString("email"))
+                        )
+                        // handle response - Up to the developer
+                        // [END_EXCLUDE]
+                    }
+    
+                    else -> {
+                        // handle Unexpected State() - Up to the developer
+                    }
                 }
-
-                else -> {
-                    // handle Unexpected State() - Up to the developer
-                }
+            } catch (e: Exception) {
+                // handle exceptions - Up to the developer
             }
-        } catch (e: Exception) {
-            // handle exceptions - Up to the developer
         }
         // [END android_identity_get_verified_user_info_response]
     }
@@ -147,7 +150,8 @@ class VerifiedEmailFunctions(
         // [START android_identity_parse_response]
         // 1. Parse the outer JSON wrapper to get the `vp_token`
         val responseData = JSONObject(responseJsonString)
-        val vpToken = responseData.getJSONObject("vp_token")
+        val dataObject = responseData.getJSONObject("data")
+        val vpToken = dataObject.getJSONObject("vp_token")
 
         // 2. Extract the raw SD-JWT string
         val credentialId = vpToken.keys().next()
