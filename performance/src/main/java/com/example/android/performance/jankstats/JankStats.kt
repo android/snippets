@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.snippets.performance.jankstats
+package com.example.android.performance.jankstats
 
 import android.view.View
 import androidx.activity.ComponentActivity
