@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
@@ -50,6 +51,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+
 
 private object StateHoldersSnippet1 {
     // [START android_architecture_stateholders_ui_state_simple_counter]
@@ -84,8 +89,7 @@ private object StateHoldersSnippet2 {
         }
 
         // Create the LazyColumn with the lazyListState
-        // ...
-        /* [START_EXCLUDE silent] */
+        /* [START_EXCLUDE] */
         LazyColumn(state = listState) {
             items(contacts) { Text(it.name) }
         }
@@ -139,8 +143,7 @@ private object StateHoldersSnippet4 {
         val listState = rememberLazyListState()
 
         // Create the LazyColumn with the lazyListState
-        // ...
-        /* [START_EXCLUDE silent] */
+        /* [START_EXCLUDE] */
         LazyColumn(state = listState) {
             items(contacts) { Text(it.name) }
         }
@@ -173,13 +176,13 @@ object StateHoldersSnippet5 {
         newsRepository: NewsRepository
     ) : ViewModel() {
 
-        val uiState: StateFlow<AuthorScreenUiState> = /* [START_EXCLUDE] */ MutableStateFlow(AuthorScreenUiState()) /* [END_EXCLUDE] */
+        val uiState: StateFlow<AuthorScreenUiState> =
+            /* [START_EXCLUDE] */
+            MutableStateFlow(AuthorScreenUiState())
+            /* [END_EXCLUDE] */
 
         // Business logic
-        fun followAuthor(followed: Boolean) {
-            /* [START_EXCLUDE silent] */
-            /* [END_EXCLUDE] */
-        }
+        fun followAuthor(followed: Boolean) {/* ... */}
     }
     // [END android_architecture_stateholders_hilt_author_viewmodel]
 }
@@ -255,12 +258,15 @@ private object StateHoldersSnippet8 {
         fun toSomeState(): SomeState = SomeState()
     }
 
-    private fun <T, R> StateFlow<T>.map(transform: (T) -> R): StateFlow<R> =
-        MutableStateFlow(transform(value))
-
     // [START android_architecture_stateholders_dependencies_pass_params]
-    class MyScreenViewModel(/* ... */) /* [START_EXCLUDE silent] */ : ViewModel() /* [END_EXCLUDE] */ {
-        val uiState: StateFlow<MyScreenUiState> = /* ... */ /* [START_EXCLUDE silent] */ MutableStateFlow(MyScreenUiState()) /* [END_EXCLUDE] */
+    class MyScreenViewModel(/* ... */)
+        /* [START_EXCLUDE silent] */
+        : ViewModel()
+        /* [END_EXCLUDE] */ {
+        val uiState: StateFlow<MyScreenUiState> = /* ... */
+            /* [START_EXCLUDE silent] */
+            MutableStateFlow(MyScreenUiState())
+            /* [END_EXCLUDE] */
         fun doSomething() { /* ... */ }
         fun doAnotherThing() { /* ... */ }
         // ...
@@ -295,7 +301,10 @@ private object StateHoldersSnippet8 {
         modifier: Modifier = Modifier,
         viewModel: MyScreenViewModel = viewModel(),
         state: MyScreenState = rememberMyScreenState(
-            someState = viewModel.uiState.map { it.toSomeState() },
+            someState = viewModel.uiState.map { it.toSomeState() }
+                /* [START_EXCLUDE silent] */
+                .stateIn(viewModel.viewModelScope, SharingStarted.WhileSubscribed(5_000), SomeState()),
+                /* [END_EXCLUDE] */
             doSomething = viewModel::doSomething
         ),
         // ...

@@ -41,10 +41,8 @@ private object DataLayerSnippet1 {
 
     // [START android_architecture_data_layer_repository_constructor]
     class ExampleRepository(
-        // network
-        private val exampleRemoteDataSource: ExampleRemoteDataSource,
-        // database
-        private val exampleLocalDataSource: ExampleLocalDataSource
+        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
+        private val exampleLocalDataSource: ExampleLocalDataSource // database
     ) { /* ... */ }
     // [END android_architecture_data_layer_repository_constructor]
 }
@@ -56,15 +54,16 @@ private object DataLayerSnippet2 {
 
     // [START android_architecture_data_layer_expose_apis]
     class ExampleRepository(
-        // network
-        private val exampleRemoteDataSource: ExampleRemoteDataSource,
-        // database
-        private val exampleLocalDataSource: ExampleLocalDataSource
+        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
+        private val exampleLocalDataSource: ExampleLocalDataSource // database
     ) {
 
-        val data: Flow<Example> = /* [START_EXCLUDE] */ flowOf(Example()) /* [END_EXCLUDE] */
+        val data: Flow<Example> =
+            /* [START_EXCLUDE] */
+            flowOf(Example())
+            /* [END_EXCLUDE] */
 
-        suspend fun modifyData(example: Example) { /* [START_EXCLUDE silent] */ /* [END_EXCLUDE] */ }
+        suspend fun modifyData(example: Example) {/* ... */}
     }
     // [END android_architecture_data_layer_expose_apis]
 }

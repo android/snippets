@@ -127,7 +127,7 @@ private object StateProductionSnippet3 {
     }
 
     class AddEditTaskViewModel(
-        /* [START_EXCLUDE silent] */
+        /* [START_EXCLUDE] */
         private val tasksRepository: TasksRepository = object : TasksRepository {
             override suspend fun saveTask(task: Task) {}
         }
@@ -173,7 +173,7 @@ private object StateProductionSnippet4 {
     )
 
     class AddEditTaskViewModel(
-        /* [START_EXCLUDE silent] */
+        /* [START_EXCLUDE] */
         private val tasksRepository: TasksRepository = object : TasksRepository {
             override suspend fun saveTask(task: Task) {}
         }
