@@ -109,10 +109,9 @@ private class TimeSensitiveNotificationActivity : ComponentActivity() {
     }
 }
 
-private class TimeSensitiveOngoingService : Service() {
+class TimeSensitiveOngoingService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
-    @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notificationId = 1
         val notification = NotificationCompat.Builder(this, CHANNEL_ID).build()
