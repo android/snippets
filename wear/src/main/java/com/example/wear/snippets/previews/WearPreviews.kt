@@ -18,8 +18,6 @@ package com.example.wear.snippets.previews
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.tooling.preview.Preview
@@ -212,20 +210,14 @@ fun InboxScreenScrolledMiddlePreview() {
 @WearPreviewLargeRound
 @Composable
 fun InboxScreenBottomEdgeButtonPreview() {
-    val columnState = rememberTransformingLazyColumnState(
-        initialAnchorItemIndex = sampleMessages.lastIndex
-    )
-    LaunchedEffect(columnState) {
-        columnState.scroll {
-            withFrameNanos { }
-        }
-    }
     MaterialTheme {
         AppScaffold {
             // Anchors on the last item so the EdgeButton is visible at the bottom
             InboxScreen(
                 messages = sampleMessages,
-                columnState = columnState
+                columnState = rememberTransformingLazyColumnState(
+                    initialAnchorItemIndex = sampleMessages.lastIndex
+                )
             )
         }
     }
