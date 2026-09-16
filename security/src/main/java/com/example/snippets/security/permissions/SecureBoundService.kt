@@ -58,5 +58,3 @@ class SecureBoundService : Service() {
     }
 }
 // [END android_security_service_enforce_calling_permission]
-
-typealias FineGrainedBoundService = SecureBoundService
