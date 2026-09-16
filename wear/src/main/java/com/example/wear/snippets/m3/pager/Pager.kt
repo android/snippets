@@ -26,55 +26,76 @@ import androidx.wear.compose.foundation.pager.VerticalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.AnimatedPage
 import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.HorizontalPagerScaffold
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
+import androidx.wear.compose.material3.PagerScaffoldDefaults
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.VerticalPagerScaffold
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 
 @Composable
 fun HorizontalPager() {
     // [START android_wear_horizontal_pager]
     AppScaffold {
         val pagerState = rememberPagerState(pageCount = { 10 })
-        val columnState = rememberTransformingLazyColumnState()
-        val contentPadding = rememberResponsiveColumnPadding(
-            first = ColumnItemType.ListHeader,
-            last = ColumnItemType.BodyText,
-        )
+
         HorizontalPagerScaffold(pagerState = pagerState) {
             HorizontalPager(
                 state = pagerState,
+                flingBehavior =
+                    PagerScaffoldDefaults.snapWithSpringFlingBehavior(
+                        state = pagerState
+                    ),
             ) { page ->
                 AnimatedPage(pageIndex = page, pagerState = pagerState) {
+                    val columnState = rememberTransformingLazyColumnState()
+                    val transformationSpec = rememberTransformationSpec()
+
                     ScreenScaffold(
                         scrollState = columnState,
-                        contentPadding = contentPadding
                     ) { contentPadding ->
                         TransformingLazyColumn(
                             state = columnState,
-                            contentPadding = contentPadding
+                            contentPadding = contentPadding,
                         ) {
                             item {
                                 ListHeader(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .transformedHeight(this, transformationSpec)
+                                        .minimumVerticalContentPadding(
+                                            ListHeaderDefaults.minimumTopListContentPadding
+                                        ),
+                                    transformation = SurfaceTransformation(transformationSpec),
                                 ) {
                                     Text(text = "Pager sample")
                                 }
                             }
                             item {
-                                if (page == 0) {
-                                    Text(text = "Page #$page. Swipe right")
-                                }
-                                else{
-                                    Text(text = "Page #$page. Swipe left and right")
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .transformedHeight(this, transformationSpec)
+                                        .minimumVerticalContentPadding(
+                                            CardDefaults.minimumVerticalListContentPadding
+                                        ),
+                                    transformation = SurfaceTransformation(transformationSpec),
+                                ) {
+                                    if (page == 0) {
+                                        Text(text = "Page #$page. Swipe right")
+                                    } else {
+                                        Text(text = "Page #$page. Swipe left and right")
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
             }
         }
@@ -90,11 +111,15 @@ fun verticalPager() {
 
         VerticalPagerScaffold(pagerState = pagerState) {
             VerticalPager(
-                state = pagerState
+                state = pagerState,
+                flingBehavior =
+                    PagerScaffoldDefaults.snapWithSpringFlingBehavior(
+                        state = pagerState
+                    ),
             ) { page ->
                 AnimatedPage(pageIndex = page, pagerState = pagerState) {
                     ScreenScaffold {
-                        ///…
+                        // ...
                     }
                 }
             }
