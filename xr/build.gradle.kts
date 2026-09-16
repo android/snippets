@@ -41,31 +41,24 @@ kotlin {
 val snapshotVersion: String? by project
 val isUsingSnapshot = snapshotVersion != null
 
-
-val implementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
-    xrLibs.androidx.xr.arcore.asProvider(),
-    xrLibs.androidx.xr.arcore.play.services,
-    xrLibs.androidx.xr.glimmer.asProvider(),
-    xrLibs.androidx.xr.glimmer.googlefonts,
-    xrLibs.androidx.xr.projected.asProvider(),
-    xrLibs.androidx.xr.scenecore.asProvider(),
-    xrLibs.androidx.xr.compose,
-)
-val testImplementationXrLibraries = listOf<Provider<MinimalExternalModuleDependency>>(
-    xrLibs.androidx.xr.projected.testing,
-    xrLibs.androidx.xr.arcore.testing,
-    xrLibs.androidx.xr.scenecore.testing,
-)
-
 dependencies {
-    if (isUsingSnapshot) {
-        implementationXrLibraries.forEach {
-            implementation(it.toSnapshotDependency())
-        }
-        testImplementationXrLibraries.forEach {
-            testImplementation(it.toSnapshotDependency())
-        }
+    implementation(xrLibs.androidx.xr.arcore.asProvider() orSnapshot "1.1.0")
+    implementation(xrLibs.androidx.xr.arcore.play.services orSnapshot "1.1.0")
+    implementation(xrLibs.androidx.xr.glimmer.asProvider() orSnapshot "1.0.0")
+    implementation(xrLibs.androidx.xr.glimmer.googlefonts orSnapshot "1.0.0")
+    // Don't update the Projected dependency until the emulator supports the latest APIs: b/544045508
+    // implementation(xrLibs.androidx.xr.projected.testing orSnapshot "1.0.0")
+    implementation(xrLibs.androidx.xr.projected.asProvider())
+    implementation(xrLibs.androidx.xr.scenecore.asProvider() orSnapshot "1.1.0")
+    implementation(xrLibs.androidx.xr.compose orSnapshot "1.0.0")
 
+    // Don't update the Projected dependency until the emulator supports the latest APIs: b/544045508
+    // testImplementation(xrLibs.androidx.xr.projected.testing orSnapshot "1.0.0")
+    testImplementation(xrLibs.androidx.xr.projected.testing)
+    testImplementation(xrLibs.androidx.xr.arcore.testing orSnapshot "1.1.0")
+    testImplementation(xrLibs.androidx.xr.scenecore.testing orSnapshot "1.1.0")
+
+    if (isUsingSnapshot) {
         // Snapshot versions will reference a non-public impress version.
         constraints {
             implementation("com.google.ar:impress") {
@@ -79,13 +72,6 @@ dependencies {
                     strictly("0.0.13")
                 }
             }
-        }
-    } else {
-        implementationXrLibraries.forEach {
-            implementation(it)
-        }
-        testImplementationXrLibraries.forEach {
-            testImplementation(it)
         }
     }
 
@@ -134,17 +120,15 @@ dependencies {
     testImplementation(libs.kotlin.test)
 }
 
-fun Provider<MinimalExternalModuleDependency>.toSnapshotDependency(): Provider<MinimalExternalModuleDependency> =
+infix fun Provider<MinimalExternalModuleDependency>.orSnapshot(version: String): Provider<MinimalExternalModuleDependency> =
     this.map { dependency ->
-        // Don't update the Projected dependency until the emulator supports the latest APIs
-        // b/544045508
-        if (dependency.module.group == "androidx.xr.projected") {
-            dependency
-        } else {
+        if (isUsingSnapshot) {
             dependency.copy().apply {
                 version {
-                    strictly("1.0.0-SNAPSHOT")
+                    strictly("$version-SNAPSHOT")
                 }
             }
+        } else {
+            dependency
         }
     }
