@@ -37,14 +37,14 @@ class VolumeShaperSnippets(
     }
 
     fun createShaper(config: VolumeShaper.Configuration) {
-        var volumeShaper: VolumeShaper
+        var shaper: VolumeShaper
         // [START android_media_platform_volumeshaper_create_shaper]
-        volumeShaper = myMediaPlayer.createVolumeShaper(config)
-        volumeShaper = myAudioTrack.createVolumeShaper(config)
+        shaper = myMediaPlayer.createVolumeShaper(config)
+        shaper = myAudioTrack.createVolumeShaper(config)
         // [END android_media_platform_volumeshaper_create_shaper]
 
         // [START android_media_platform_volumeshaper_apply_play]
-        volumeShaper.apply(VolumeShaper.Operation.PLAY)
+        shaper.apply(VolumeShaper.Operation.PLAY)
         // [END android_media_platform_volumeshaper_apply_play]
 
         // [START android_media_platform_volumeshaper_replace_config]
@@ -54,7 +54,7 @@ class VolumeShaperSnippets(
             .setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR)
             .build()
         val join = true
-        volumeShaper.replace(newConfig, VolumeShaper.Operation.PLAY, join)
+        shaper.replace(newConfig, VolumeShaper.Operation.PLAY, join)
         // [END android_media_platform_volumeshaper_replace_config]
     }
 }

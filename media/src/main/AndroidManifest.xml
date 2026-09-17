@@ -16,6 +16,10 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required by AudioManager.setPreferredMixerAttributes and
+         clearPreferredMixerAttributes, used in ImproveAudioPlayback.kt. -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
     <application />
 
 </manifest>
