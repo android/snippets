@@ -20,10 +20,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.OptIn
+// [START android_media_surfaces_mobile_pre_android_13_notification]
 import androidx.core.app.NotificationCompat
+// [END android_media_surfaces_mobile_pre_android_13_notification]
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
+// [START android_media_surfaces_mobile_pre_android_13_notification]
 import androidx.media3.session.MediaStyleNotificationHelper
+// [END android_media_surfaces_mobile_pre_android_13_notification]
 
 private const val CHANNEL_ID = "playback_channel"
 
@@ -56,10 +60,8 @@ private fun preAndroid13Notification(
          */
         // [END_EXCLUDE]
         // Apply the media style template
-        .setStyle(
-            MediaStyleNotificationHelper.MediaStyle(mediaSession)
-                .setShowActionsInCompactView(1 /* #1: pause button */)
-        )
+        .setStyle(MediaStyleNotificationHelper.MediaStyle(mediaSession)
+            .setShowActionsInCompactView(1 /* #1: pause button */))
         .setContentTitle("Wonderful music")
         .setContentText("My Awesome Band")
         .setLargeIcon(albumArtBitmap)

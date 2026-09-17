@@ -100,8 +100,8 @@ class CustomControlsPlaybackService : MediaSessionService() {
             return super.onCustomCommand(session, controller, customCommand, args)
         }
     }
-
     // [START_EXCLUDE silent]
+
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
         return mediaSession
     }

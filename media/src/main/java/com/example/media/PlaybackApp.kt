@@ -61,14 +61,14 @@ class PlaybackService : MediaSessionService() {
         super.onDestroy()
     }
 
-    // [START_EXCLUDE silent]
+    // [END android_media_playback_app_playback_service]
     // [START android_media_playback_app_on_get_session]
     // This example always accepts the connection request
     override fun onGetSession(
         controllerInfo: MediaSession.ControllerInfo
     ): MediaSession? = mediaSession
     // [END android_media_playback_app_on_get_session]
-    // [END_EXCLUDE]
+    // [START android_media_playback_app_playback_service]
 }
 // [END android_media_playback_app_playback_service]
 
@@ -82,12 +82,15 @@ private class PlayerActivity : Activity() {
         // [END_EXCLUDE]
         val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
         val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
-        controllerFuture.addListener({
-            // Call controllerFuture.get() to retrieve the MediaController.
-            // MediaController implements the Player interface, so it can be
-            // attached to the PlayerView UI component.
-            playerView.setPlayer(controllerFuture.get())
-        }, MoreExecutors.directExecutor())
+        controllerFuture.addListener(
+            {
+                // Call controllerFuture.get() to retrieve the MediaController.
+                // MediaController implements the Player interface, so it can be
+                // attached to the PlayerView UI component.
+                playerView.setPlayer(controllerFuture.get())
+            },
+            MoreExecutors.directExecutor()
+        )
     }
     // [END android_media_playback_app_connect_ui]
 }
