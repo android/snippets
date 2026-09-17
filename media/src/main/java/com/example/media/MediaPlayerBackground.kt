@@ -29,6 +29,7 @@ class MyService : Service(), MediaPlayer.OnPreparedListener {
     private var mMediaPlayer: MediaPlayer? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // ...
         val action: String? = intent?.action
         when (action) {
             ACTION_PLAY -> {
@@ -38,7 +39,9 @@ class MyService : Service(), MediaPlayer.OnPreparedListener {
                 }
             }
         }
+        // [START_EXCLUDE]
         return START_NOT_STICKY
+        // [END_EXCLUDE]
     }
 
     /** Called when MediaPlayer is ready */

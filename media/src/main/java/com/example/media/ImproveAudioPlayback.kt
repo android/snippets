@@ -69,7 +69,7 @@ class ImproveAudioPlayback(
         // API.
         val audioTrack = AudioTrack.Builder()
             .setAudioAttributes(attr)
-            .setAudioFormat(mixerAttributes.format)
+            .setAudioFormat(mixerAttributes!!.format)
             .build()
 
         // Clear all preferred mixer attributes related stuff when
@@ -83,7 +83,7 @@ class ImproveAudioPlayback(
         override fun onPreferredMixerAttributesChanged(
             attributes: AudioAttributes,
             device: AudioDeviceInfo,
-            mixerAttributes: AudioMixerAttributes?
+            mixerAttributes: AudioMixerAttributes?,
         ) {
             // Do something when preferred mixer attributes changed
         }
