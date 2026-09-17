@@ -98,11 +98,11 @@ private fun mediaCodecHdrFlow(
         val index = queue.poll()
         val buffer = codec.getInputBuffer(index)
         // [START_EXCLUDE silent]
-       /*
-       // [END_EXCLUDE]
-       buffer?.put(/* write bitstream */)
-       // [START_EXCLUDE silent]
-        */
+        /*
+        // [END_EXCLUDE]
+        buffer?.put(/* write bitstream */)
+        // [START_EXCLUDE silent]
+         */
         buffer?.put(byteArrayOf())
         // [END_EXCLUDE]
         codec.queueInputBuffer(index, offset, size, timestamp, flags)
