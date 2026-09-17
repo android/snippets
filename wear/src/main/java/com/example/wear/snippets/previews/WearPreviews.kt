@@ -91,7 +91,6 @@ fun MessageDetailScreenPreview() {
 @Preview(
     name = "XL Round Watch (240dp)",
     device = "spec:width=240dp,height=240dp,dpi=320,isRound=true",
-    showSystemUi = true,
     showBackground = true,
     backgroundColor = 0xFF000000
 )
@@ -110,7 +109,6 @@ fun WorkoutScreenXlPreview() {
     name = "1. Standard Large Round",
     group = "Layout extremes",
     device = WearDevices.LARGE_ROUND,
-    showSystemUi = true,
     backgroundColor = 0xFF000000,
     showBackground = true
 )
@@ -120,7 +118,6 @@ fun WorkoutScreenXlPreview() {
     device = WearDevices.SMALL_ROUND,
     fontScale = 1.24f,
     locale = "de-rDE",
-    showSystemUi = true,
     backgroundColor = 0xFF000000,
     showBackground = true
 )
