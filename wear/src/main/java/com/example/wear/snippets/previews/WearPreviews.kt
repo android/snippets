@@ -18,8 +18,6 @@ package com.example.wear.snippets.previews
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,7 +91,6 @@ fun MessageDetailScreenPreview() {
 @Preview(
     name = "XL Round Watch (240dp)",
     device = "spec:width=240dp,height=240dp,dpi=320,isRound=true",
-    showSystemUi = true,
     showBackground = true,
     backgroundColor = 0xFF000000
 )
@@ -112,7 +109,6 @@ fun WorkoutScreenXlPreview() {
     name = "1. Standard Large Round",
     group = "Layout extremes",
     device = WearDevices.LARGE_ROUND,
-    showSystemUi = true,
     backgroundColor = 0xFF000000,
     showBackground = true
 )
@@ -122,7 +118,6 @@ fun WorkoutScreenXlPreview() {
     device = WearDevices.SMALL_ROUND,
     fontScale = 1.24f,
     locale = "de-rDE",
-    showSystemUi = true,
     backgroundColor = 0xFF000000,
     showBackground = true
 )
@@ -212,20 +207,14 @@ fun InboxScreenScrolledMiddlePreview() {
 @WearPreviewLargeRound
 @Composable
 fun InboxScreenBottomEdgeButtonPreview() {
-    val columnState = rememberTransformingLazyColumnState(
-        initialAnchorItemIndex = sampleMessages.lastIndex
-    )
-    LaunchedEffect(columnState) {
-        columnState.scroll {
-            withFrameNanos { }
-        }
-    }
     MaterialTheme {
         AppScaffold {
             // Anchors on the last item so the EdgeButton is visible at the bottom
             InboxScreen(
                 messages = sampleMessages,
-                columnState = columnState
+                columnState = rememberTransformingLazyColumnState(
+                    initialAnchorItemIndex = sampleMessages.lastIndex
+                )
             )
         }
     }
