@@ -36,7 +36,7 @@ class JvmTestingDbSnippets {
     }
 }
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class TestDatabase : RoomDatabase()
 
 @Entity
