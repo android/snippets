@@ -97,6 +97,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.compose.snippets.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -584,20 +585,6 @@ private object NestedScrollInterop {
         }
     }
     // [END android_compose_touchinput_gestures_nested_scroll_interop_bottom_sheet_fragment]
-
-    object R {
-        object id {
-            val compose_view = 1
-            val main_list = 2
-        }
-
-        object layout {
-            val activity_main = 0
-            val view_in_compose_nested_scroll_interop = 1
-            val list_item = 2
-            val fragment_bottom_sheet = 3
-        }
-    }
 }
 
 // [START android_compose_touchinput_gestures_draggable]
