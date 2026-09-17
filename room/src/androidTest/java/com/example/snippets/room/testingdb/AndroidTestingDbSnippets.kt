@@ -81,7 +81,7 @@ interface UserDao {
     suspend fun findUsersByName(name: String): List<User>
 }
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class TestDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 }

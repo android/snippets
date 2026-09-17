@@ -30,8 +30,7 @@ private class DeprecatedConfigSnippets {
     // [START android_compose_test_config_deprecated]
     @get:Rule
     val rule = createComposeRule(
-        effectContext = EmptyCoroutineContext,
-        testTimeout = 30.seconds
+        effectContext = EmptyCoroutineContext
     )
 
     // OR
