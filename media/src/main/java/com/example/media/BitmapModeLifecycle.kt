@@ -19,6 +19,7 @@ package com.example.media
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import android.view.Surface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
@@ -141,24 +142,24 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
     // Publicly exposed UI state flow for observation.
     val uiState: StateFlow<EnhancementUiState> = _uiState.asStateFlow()
 
-// Initialize client to interact with the Media Enhancement service.
+    // Initialize client to interact with the Media Enhancement service.
     private val enhancementClient: EnhancementClient = Enhancement.getClient(application)
 
-// Single-thread executor for processing background enhancement tasks.
+    // Single-thread executor for processing background enhancement tasks.
     private val enhancementExecutor = Executors.newSingleThreadExecutor()
 
-// Track session state to enable reuse across multiple processing calls.
+    // Track session state to enable reuse across multiple processing calls.
     private var enhancementSession: EnhancementSession? = null
 
-// Primary function to trigger the enhancement workflow for a provided bitmap.
+    // Primary function to trigger the enhancement workflow for a provided bitmap.
     fun enhanceImage(bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { it.copy(isLoading = true, enhancementError = null) }
             try {
                 // 1. Establish the session lazily on demand
 
-// Define enhancement options (for example, enable upscale, tonemapping) based
-// on bitmap dimensions.
+                // Define enhancement options (for example, enable upscale, tonemapping) based
+                // on bitmap dimensions.
                 if (enhancementSession == null) {
                     val options = EnhancementOptions(
                         bitmap.width,
@@ -182,7 +183,7 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
                 _uiState.update { it.copy(enhancementError = e.message) }
             } finally {
 
-// Ensure loading state is reset regardless of the outcome.
+                // Ensure loading state is reset regardless of the outcome.
                 _uiState.update { it.copy(isLoading = false) }
             }
         }
@@ -248,8 +249,8 @@ data class EnhancementOptions(
     val enableUpscale: Boolean = false,
     val enableFaceDetection: Boolean = false
 ) {
-    fun setInputSurface(surface: android.view.Surface) {}
-    fun setOutputSurface(surface: android.view.Surface) {}
+    fun setInputSurface(surface: Surface) {}
+    fun setOutputSurface(surface: Surface) {}
 }
 
 data class Status(val statusCode: Int, val statusMessage: String)

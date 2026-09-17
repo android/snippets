@@ -44,13 +44,7 @@ private fun disableChannelConstraintsPlayer(context: Context, exoPlayer: ExoPlay
 private fun disableChannelConstraintsSelector(context: Context) {
     // [START android_media_spatial_audio_disable_channel_constraints_selector]
     val trackSelector = DefaultTrackSelector(context)
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    ...
-    // [START_EXCLUDE silent]
-     */
-    // [END_EXCLUDE]
+    // ...
     trackSelector.parameters = trackSelector.buildUponParameters()
         .setConstrainAudioChannelCountToDeviceCapabilities(false)
         .build()
