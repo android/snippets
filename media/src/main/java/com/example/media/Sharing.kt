@@ -19,11 +19,16 @@ package com.example.media
 import android.content.Context
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.transformer.Composition
+import androidx.media3.transformer.Composition.HDR_MODE_TONE_MAP_HDR_TO_SDR_USING_OPEN_GL
+import androidx.media3.transformer.EditedMediaItemSequence
 import androidx.media3.transformer.Transformer
+import com.google.common.collect.ImmutableList
 
 @OptIn(UnstableApi::class)
 private fun setupHdrToSdrTransformer(
     context: Context,
+    videoSequence: EditedMediaItemSequence,
     listener: Transformer.Listener
 ) {
     // [START android_media_sharing_hdr_to_sdr]
@@ -31,19 +36,16 @@ private fun setupHdrToSdrTransformer(
         // [START_EXCLUDE silent]
         /*
         // [END_EXCLUDE]
-        .setTransformationRequest(
-            TransformationRequest.Builder()
-                .setHdrMode(TransformationRequest.HDR_MODE_TONE_MAP_HDR_TO_SDR)
-                .build())
+        .addListener(/* ... */)
         // [START_EXCLUDE silent]
          */
+        .addListener(listener)
         // [END_EXCLUDE]
-        .addListener(
-            // [START_EXCLUDE silent]
-            listener
-            // [END_EXCLUDE]
-            /* ... */
-        )
+        .build()
+    val composition = Composition.Builder(
+        ImmutableList.of(videoSequence)
+    )
+        .setHdrMode(HDR_MODE_TONE_MAP_HDR_TO_SDR_USING_OPEN_GL)
         .build()
     // [END android_media_sharing_hdr_to_sdr]
 }
