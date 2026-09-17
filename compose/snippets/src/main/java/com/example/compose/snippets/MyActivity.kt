@@ -22,6 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.ui.res.stringResource
 
+// [START android_activities_intro_my_activity]
 class MyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,3 +31,4 @@ class MyActivity : ComponentActivity() {
         }
     }
 }
+// [END android_activities_intro_my_activity]
