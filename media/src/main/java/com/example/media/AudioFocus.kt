@@ -28,14 +28,12 @@ import java.util.concurrent.TimeUnit
 
 private class AudioFocusManager(
     context: Context
-) : ContextWrapper(context), AudioManager.OnAudioFocusChangeListener {
+) : ContextWrapper(context) {
     private lateinit var audioManager: AudioManager
     private lateinit var focusRequest: AudioFocusRequest
     private val handler = Handler(Looper.getMainLooper())
 
-    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
-        onAudioFocusChange(focusChange)
-    }
+    private val afChangeListener = AudioFocusHandler()
 
     private var playbackDelayed = false
     private var resumeOnFocusGain = false
@@ -80,40 +78,43 @@ private class AudioFocusManager(
         }
 
         // implementing OnAudioFocusChangeListener to react to focus changes
-        // [START_EXCLUDE silent]
+        // [END android_media_audio_focus_request]
     }
-    // [END_EXCLUDE]
-    override fun onAudioFocusChange(focusChange: Int) {
-        when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN ->
-                if (playbackDelayed || resumeOnFocusGain) {
-                    synchronized(focusLock) {
-                        playbackDelayed = false
-                        resumeOnFocusGain = false
+
+    private inner class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
+        // [START android_media_audio_focus_request]
+        override fun onAudioFocusChange(focusChange: Int) {
+            when (focusChange) {
+                AudioManager.AUDIOFOCUS_GAIN ->
+                    if (playbackDelayed || resumeOnFocusGain) {
+                        synchronized(focusLock) {
+                            playbackDelayed = false
+                            resumeOnFocusGain = false
+                        }
+                        playbackNow()
                     }
-                    playbackNow()
+                AudioManager.AUDIOFOCUS_LOSS -> {
+                    synchronized(focusLock) {
+                        resumeOnFocusGain = false
+                        playbackDelayed = false
+                    }
+                    pausePlayback()
                 }
-            AudioManager.AUDIOFOCUS_LOSS -> {
-                synchronized(focusLock) {
-                    resumeOnFocusGain = false
-                    playbackDelayed = false
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                    synchronized(focusLock) {
+                        // only resume if playback is being interrupted
+                        resumeOnFocusGain = isPlaying()
+                        playbackDelayed = false
+                    }
+                    pausePlayback()
                 }
-                pausePlayback()
-            }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                synchronized(focusLock) {
-                    // only resume if playback is being interrupted
-                    resumeOnFocusGain = isPlaying()
-                    playbackDelayed = false
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                    // ... pausing or ducking depends on your app
                 }
-                pausePlayback()
-            }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                // ... pausing or ducking depends on your app
             }
         }
+        // [END android_media_audio_focus_request]
     }
-    // [END android_media_audio_focus_request]
 
     private fun requestFocusPreOreo() {
         // [START android_media_audio_focus_request_pre_o]
