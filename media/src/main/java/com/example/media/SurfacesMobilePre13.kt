@@ -27,6 +27,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 // [START android_media_surfaces_mobile_pre_android_13_notification]
 import androidx.media3.session.MediaStyleNotificationHelper
+
 // [END android_media_surfaces_mobile_pre_android_13_notification]
 
 private const val CHANNEL_ID = "playback_channel"
