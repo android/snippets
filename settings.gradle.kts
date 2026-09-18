@@ -41,7 +41,7 @@ include(
     ":kotlin",
     ":compose:snippets",
     ":datastore",
-    ":camerax",
+    ":camera",
     ":watchface",
     ":wear",
     ":wearcompanion",
