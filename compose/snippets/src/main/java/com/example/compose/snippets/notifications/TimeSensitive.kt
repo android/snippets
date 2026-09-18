@@ -42,7 +42,7 @@ import com.example.compose.snippets.R
 private const val CHANNEL_ID = "channelId"
 
 // [START android_notifications_time_sensitive_channel]
-class DACapp : Application() {
+class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         val channel = NotificationChannel(
