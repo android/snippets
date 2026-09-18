@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.test
 
+import android.view.View
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -23,17 +24,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRootWithViewInteraction
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -41,6 +53,15 @@ class InteroperabilitySnippets {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    // View ids and a view holder the pages name but do not declare. The blocks
+    // below are scoped to Views in the host app, so these stand in for it.
+    private val recyclerViewId = android.R.id.list
+    private val rootViewId = android.R.id.content
+    private val viewPagerViewId = android.R.id.tabcontent
+    private val fragmentRootViewId = android.R.id.primary
+
+    private class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     // [START android_compose_testing_interop_espresso]
     @Test
@@ -53,6 +74,46 @@ class InteroperabilitySnippets {
         Espresso.onView(withText("Hello Compose")).check(matches(isDisplayed()))
     }
     // [END android_compose_testing_interop_espresso]
+
+    @OptIn(ExperimentalTestApi::class)
+    // [START android_compose_testing_interop_scoped_list_item]
+    @Test
+    fun testComposeButtonInsideRecyclerViewItem() = runComposeUiTest {
+        // Scroll to the desired position using Espresso
+        Espresso.onView(withId(recyclerViewId))
+            .perform(RecyclerViewActions.scrollToPosition<MyViewHolder>(3))
+
+        // Define an Espresso ViewInteraction that uniquely identifies the row
+        val rowView = Espresso.onView(
+            allOf(
+                withId(rootViewId),
+                hasDescendant(withText("Item #3"))
+            )
+        )
+
+        // Scope the Compose search strictly to that specific row View
+        onRootWithViewInteraction(rowView)
+            .onNode(hasText("Like"))
+            .performClick()
+    }
+    // [END android_compose_testing_interop_scoped_list_item]
+
+    @OptIn(ExperimentalTestApi::class)
+    // [START android_compose_testing_interop_scoped_viewpager]
+    @Test
+    fun testComposeButtonInsideViewPagerItem() = runComposeUiTest {
+        // Swipe to the desired page using Espresso
+        Espresso.onView(withId(viewPagerViewId)).perform(swipeLeft())
+
+        // Identify the specific container view using Espresso
+        val fragmentB = Espresso.onView(withId(fragmentRootViewId))
+
+        // The generic text "Save" is now unique within this view scope
+        onRootWithViewInteraction(fragmentB)
+            .onNode(hasText("Save"))
+            .assertIsDisplayed()
+    }
+    // [END android_compose_testing_interop_scoped_viewpager]
 
     @Composable
     fun UiAutomatorTestTagsExample() {
