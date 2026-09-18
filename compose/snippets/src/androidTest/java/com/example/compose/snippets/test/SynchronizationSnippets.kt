@@ -16,14 +16,18 @@
 
 package com.example.compose.snippets.test
 
+import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createComposeRule
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
 import androidx.compose.ui.test.waitUntilNodeCount
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,6 +44,25 @@ class SynchronizationSnippets {
     private val idlingResource = object : IdlingResource {
         override val isIdleNow: Boolean = true
     }
+
+    // [START android_compose_testing_synchronization_counter]
+    @Test
+    fun counterTest() {
+        val myCounter = mutableStateOf(0) // State that can cause recompositions.
+        var lastSeenValue = 0 // Used to track recompositions.
+        composeTestRule.setContent {
+            Text(myCounter.value.toString())
+            lastSeenValue = myCounter.value
+        }
+        myCounter.value = 1 // The state changes, but there is no recomposition.
+
+        // Fails because nothing triggered a recomposition.
+        assertTrue(lastSeenValue == 1)
+
+        // Passes because the assertion triggers recomposition.
+        composeTestRule.onNodeWithText("1").assertExists()
+    }
+    // [END android_compose_testing_synchronization_counter]
 
     @Test
     fun disableAutoSyncExample() {
