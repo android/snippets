@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.example.snippet.views.quicksettings
+package com.example.compose.snippets.quicksettings
 
+import android.content.Intent
 import android.graphics.drawable.Icon
+import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 
-// [START android_views_quicksettings_tile_service]
+// [START android_quicksettings_tile_service]
 class MyQSTileService : TileService() {
 
     // Called when the user adds your tile.
@@ -46,11 +48,11 @@ class MyQSTileService : TileService() {
         super.onTileRemoved()
     }
 }
-// [END android_views_quicksettings_tile_service]
+// [END android_quicksettings_tile_service]
 
 class UpdateTileService : TileService() {
 
-    // [START android_views_quicksettings_update_tile]
+    // [START android_quicksettings_update_tile]
     data class StateModel(val enabled: Boolean, val label: String, val icon: Icon)
 
     override fun onStartListening() {
@@ -62,14 +64,14 @@ class UpdateTileService : TileService() {
         qsTile.icon = state.icon
         qsTile.updateTile()
     }
-    // [END android_views_quicksettings_update_tile]
+    // [END android_quicksettings_update_tile]
 
     private fun getStateFromService(): StateModel = TODO("Read the state your tile reflects.")
 }
 
 class HandleTapsTileService : TileService() {
 
-    // [START android_views_quicksettings_handle_taps]
+    // [START android_quicksettings_handle_taps]
     var counter = 0
     override fun onClick() {
         super.onClick()
@@ -79,5 +81,13 @@ class HandleTapsTileService : TileService() {
         qsTile.contentDescription = qsTile.label
         qsTile.updateTile()
     }
-    // [END android_views_quicksettings_handle_taps]
+    // [END android_quicksettings_handle_taps]
+
+    private fun launchActivityWithFlag(intent: Intent) {
+        // [START android_quicksettings_launch_activity]
+        if (Build.VERSION.SDK_INT >= 28) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        // [END android_quicksettings_launch_activity]
+    }
 }
