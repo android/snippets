@@ -115,6 +115,9 @@ class InteroperabilitySnippets {
     }
     // [END android_compose_testing_interop_scoped_viewpager]
 
+    // The page's block ignores the Scaffold's content padding. Suppressed here
+    // rather than adding a parameter the page does not print.
+    @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun UiAutomatorTestTagsExample() {
         // [START android_compose_testing_interop_uiautomator_testtags]
