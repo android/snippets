@@ -28,4 +28,11 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.androidx.work.runtime)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.work.testing)
+    androidTestImplementation(libs.androidx.work.rxjava2)
 }
