@@ -18,16 +18,30 @@ package com.example.compose.snippets.navigation3.migration
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.result.LocalResultEventBus
+import androidx.navigation3.runtime.result.ResultEffect
 import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.navigation3.runtime.deeplink.BackStackMatchResult
+import androidx.navigation3.runtime.deeplink.DeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.DeepLinkRequest
+import androidx.navigation3.runtime.deeplink.DeepLinkUri
+import androidx.navigation3.runtime.deeplink.UriDeepLinkMatcher
+import androidx.navigation3.runtime.deeplink.invoke
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 // Dummy screens for compilation
 @Composable private fun ScreenA(title: String) {}
@@ -141,3 +155,82 @@ private object SnippetLifecycleAfter {
         // [END android_compose_navigation3_lifecycle_after]
     }
 }
+
+private object SnippetResultAfter {
+    @Serializable data object ContactPickerRoute : NavKey
+    data class Contact(val name: String = "")
+    class ComposeMessageViewModel : ViewModel() {
+        val recipient: Contact? = null
+        fun onRecipientSelected(contact: Contact) {}
+    }
+
+    @Composable private fun ContactPickerScreen(onContactSelected: (Contact) -> Unit) {}
+    @Composable private fun ComposeMessageContent(recipient: Contact?) {}
+
+    fun EntryProviderScope<NavKey>.entryProviderResult(navigator: Navigator) {
+        // [START android_compose_navigation3_result_after]
+        // Sender destination (in entryProvider):
+        entry<ContactPickerRoute> {
+            val resultBus = LocalResultEventBus.current
+
+            ContactPickerScreen(
+                onContactSelected = { contact ->
+                    resultBus.sendResult<Contact>(result = contact)
+                    navigator.goBack()
+                }
+            )
+        }
+
+        // Receiver destination:
+        @Composable
+        fun ComposeMessageScreen(viewModel: ComposeMessageViewModel = viewModel()) {
+            ResultEffect<Contact> { contact ->
+                viewModel.onRecipientSelected(contact)
+            }
+
+            ComposeMessageContent(recipient = viewModel.recipient)
+        }
+        // [END android_compose_navigation3_result_after]
+    }
+}
+
+private object SnippetDeepLinksAfter {
+    @Serializable data class RouteA(val id: String) : NavKey
+    @Serializable data object HomeKey : NavKey
+
+    // [START android_compose_navigation3_deeplinks_after_matcher]
+    val userMatcher = UriDeepLinkMatcher(
+        DeepLinkUri("www.example.com/user/{id}"),
+        serializer<RouteA>()
+    )
+    // [END android_compose_navigation3_deeplinks_after_matcher]
+
+    // [START android_compose_navigation3_deeplinks_after_activity]
+    val deepLinkMatchers: List<DeepLinkMatcher<*, *>> = listOf(
+        userMatcher,
+    )
+
+    class MainActivity : ComponentActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+            val request = DeepLinkRequest(intent = intent)
+            val matchResult = deepLinkMatchers
+                .mapNotNull { it.match(request) }
+                .maxOrNull()
+
+            val backStack = when (matchResult) {
+                null -> listOf(HomeKey)
+                is BackStackMatchResult<*, *> -> {
+                    @Suppress("UNCHECKED_CAST")
+                    matchResult.backStack as List<NavKey>
+                }
+                else -> listOf(matchResult.key)
+            }
+
+            // Use backStack with NavDisplay
+        }
+    }
+    // [END android_compose_navigation3_deeplinks_after_activity]
+}
+
