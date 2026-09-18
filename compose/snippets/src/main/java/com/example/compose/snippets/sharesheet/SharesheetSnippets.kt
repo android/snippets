@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.sharesheet
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -25,8 +24,8 @@ import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.service.chooser.ChooserAction
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.IntentCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -68,8 +67,8 @@ fun SharesheetNavHost() {
 // [START android_handle_intent_action_data_sent]
 @Composable
 fun SharesheetHandler() {
-    val context = LocalContext.current
-    val intent = (context as? Activity)?.intent
+    val activity = LocalActivity.current
+    val intent = activity?.intent
 
     when (intent?.action) {
         Intent.ACTION_SEND -> {
