@@ -252,6 +252,175 @@ CATEGORIES = [
                             {"param": "checked", "type": "Boolean", "desc": "Active toggle state."},
                             {"param": "onCheckedChange", "type": "(Boolean) -> Unit", "desc": "Toggle state callback."}
                         ]
+                    },
+                    {
+                        "id": "toggle-button",
+                        "title": "Toggle button",
+                        "tag": "android_compose_expressive_components_filledtogglebutton",
+                        "description": "Material 3 Expressive filled toggle button switching between active and inactive states.",
+                        "when_to_use": ["Use for binary state selection with high visual prominence."],
+                        "how_to_use": ["Call <code>ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "checked", "type": "Boolean", "desc": "Toggle state."},
+                            {"param": "onCheckedChange", "type": "(Boolean) -> Unit", "desc": "Toggle callback."}
+                        ]
+                    },
+                    {
+                        "id": "elevated-toggle-button",
+                        "title": "Elevated toggle button",
+                        "tag": "android_compose_expressive_components_elevatedtogglebutton",
+                        "description": "Material 3 Expressive elevated toggle button with drop shadow elevation.",
+                        "when_to_use": ["Use when elevated separation is needed on complex or patterned backgrounds."],
+                        "how_to_use": ["Call <code>ElevatedToggleButton(checked = checked, onCheckedChange = { ... }) { Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "checked", "type": "Boolean", "desc": "Toggle state."},
+                            {"param": "onCheckedChange", "type": "(Boolean) -> Unit", "desc": "Toggle callback."}
+                        ]
+                    },
+                    {
+                        "id": "tonal-toggle-button",
+                        "title": "Tonal toggle button",
+                        "tag": "android_compose_expressive_components_tonaltogglebutton",
+                        "description": "Material 3 Expressive tonal toggle button with medium emphasis secondary container styling.",
+                        "when_to_use": ["Use for secondary toggle actions."],
+                        "how_to_use": ["Call <code>TonalToggleButton(checked = checked, onCheckedChange = { ... }) { Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "checked", "type": "Boolean", "desc": "Toggle state."},
+                            {"param": "onCheckedChange", "type": "(Boolean) -> Unit", "desc": "Toggle callback."}
+                        ]
+                    },
+                    {
+                        "id": "outlined-toggle-button",
+                        "title": "Outlined toggle button",
+                        "tag": "android_compose_expressive_components_outlinedtogglebutton",
+                        "description": "Material 3 Expressive outlined toggle button with subtle stroke border.",
+                        "when_to_use": ["Use for secondary toggle actions without fill background."],
+                        "how_to_use": ["Call <code>OutlinedToggleButton(checked = checked, onCheckedChange = { ... }) { Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "checked", "type": "Boolean", "desc": "Toggle state."},
+                            {"param": "onCheckedChange", "type": "(Boolean) -> Unit", "desc": "Toggle callback."}
+                        ]
+                    },
+                    {
+                        "id": "button-with-icon-sample",
+                        "title": "Button with icon",
+                        "tag": "android_compose_expressive_components_buttonwithicon",
+                        "description": "Material 3 Expressive standard button featuring a start icon with adaptive spacing.",
+                        "when_to_use": ["Use when icons reinforce button meaning and action context."],
+                        "how_to_use": ["Call <code>Button(contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true)) { Icon(...); Spacer(...); Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "contentPadding", "type": "PaddingValues", "desc": "Calculated via ButtonDefaults.contentPaddingFor."}
+                        ]
+                    },
+                    {
+                        "id": "toggle-button-with-icon",
+                        "title": "Toggle button with icon",
+                        "tag": "android_compose_expressive_components_togglebuttonwithicon",
+                        "description": "Material 3 Expressive toggle button displaying dynamic checked/unchecked icons.",
+                        "when_to_use": ["Use for toggleable favorite or like actions."],
+                        "how_to_use": ["Call <code>ToggleButton(checked = checked, onCheckedChange = { ... }) { Icon(if (checked) Icons.Filled... else Icons.Outlined...); Text(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "checked", "type": "Boolean", "desc": "Toggle state."}
+                        ]
+                    },
+                    {
+                        "id": "xsmall-button-with-icon",
+                        "title": "Extra small button with icon",
+                        "tag": "android_compose_expressive_components_xmsallbuttonwithicon",
+                        "description": "Material 3 Expressive compact extra-small button designed for dense layouts.",
+                        "when_to_use": ["Use in compact cards, tables, or dense toolbars."],
+                        "how_to_use": ["Set <code>modifier = Modifier.heightIn(ButtonDefaults.ExtraSmallContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "heightIn", "type": "Dp", "desc": "ButtonDefaults.ExtraSmallContainerHeight"}
+                        ]
+                    },
+                    {
+                        "id": "xsmall-toggle-button-with-icon",
+                        "title": "Extra small toggle button with icon",
+                        "tag": "android_compose_expressive_components_xmsalltogglebuttonwithicon",
+                        "description": "Material 3 Expressive compact extra-small toggle button with adaptive shape.",
+                        "when_to_use": ["Use in dense toggle groups."],
+                        "how_to_use": ["Pass <code>shapes = ToggleButtonDefaults.shapesFor(ButtonDefaults.ExtraSmallContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "ToggleButtonShapes", "desc": "Shapes sized for extra small container."}
+                        ]
+                    },
+                    {
+                        "id": "medium-button-with-icon",
+                        "title": "Medium button with icon",
+                        "tag": "android_compose_expressive_components_mediumbuttonwithicon",
+                        "description": "Material 3 Expressive medium height button with typography and icon sizing.",
+                        "when_to_use": ["Use for standard emphasis actions in expressive designs."],
+                        "how_to_use": ["Set <code>modifier = Modifier.heightIn(ButtonDefaults.MediumContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "heightIn", "type": "Dp", "desc": "ButtonDefaults.MediumContainerHeight"}
+                        ]
+                    },
+                    {
+                        "id": "medium-toggle-button-with-icon",
+                        "title": "Medium toggle button with icon",
+                        "tag": "android_compose_expressive_components_mediumtogglebuttonwithicon",
+                        "description": "Material 3 Expressive medium height toggle button.",
+                        "when_to_use": ["Use for expressive medium toggle controls."],
+                        "how_to_use": ["Pass <code>shapes = ToggleButtonDefaults.shapesFor(ButtonDefaults.MediumContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "ToggleButtonShapes", "desc": "Shapes for medium container height."}
+                        ]
+                    },
+                    {
+                        "id": "large-button-with-icon",
+                        "title": "Large button with icon",
+                        "tag": "android_compose_expressive_components_largebuttonwithicon",
+                        "description": "Material 3 Expressive large container height button for prominent actions.",
+                        "when_to_use": ["Use on hero landing sections or large screen layouts."],
+                        "how_to_use": ["Set <code>modifier = Modifier.heightIn(ButtonDefaults.LargeContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "heightIn", "type": "Dp", "desc": "ButtonDefaults.LargeContainerHeight"}
+                        ]
+                    },
+                    {
+                        "id": "large-toggle-button-with-icon",
+                        "title": "Large toggle button with icon",
+                        "tag": "android_compose_expressive_components_largetogglebuttonwithicon",
+                        "description": "Material 3 Expressive large container height toggle button.",
+                        "when_to_use": ["Use for prominent toggle selectors on tablets and large screens."],
+                        "how_to_use": ["Pass <code>shapes = ToggleButtonDefaults.shapesFor(ButtonDefaults.LargeContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "ToggleButtonShapes", "desc": "Shapes for large container height."}
+                        ]
+                    },
+                    {
+                        "id": "xlarge-button-with-icon",
+                        "title": "Extra large button with icon",
+                        "tag": "android_compose_expressive_components_xlargebuttonwithicon",
+                        "description": "Material 3 Expressive extra large button for maximum prominence.",
+                        "when_to_use": ["Use for primary call-to-actions on foldables and tablets."],
+                        "how_to_use": ["Set <code>modifier = Modifier.heightIn(ButtonDefaults.ExtraLargeContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "heightIn", "type": "Dp", "desc": "ButtonDefaults.ExtraLargeContainerHeight"}
+                        ]
+                    },
+                    {
+                        "id": "xlarge-toggle-button-with-icon",
+                        "title": "Extra large toggle button with icon",
+                        "tag": "android_compose_expressive_components_xlargetogglebuttonwithicon",
+                        "description": "Material 3 Expressive extra large toggle button.",
+                        "when_to_use": ["Use for high-prominence toggle switches on large screens."],
+                        "how_to_use": ["Pass <code>shapes = ToggleButtonDefaults.shapesFor(ButtonDefaults.ExtraLargeContainerHeight)</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "ToggleButtonShapes", "desc": "Shapes for extra large container height."}
+                        ]
+                    },
+                    {
+                        "id": "square-toggle-button",
+                        "title": "Square toggle button",
+                        "tag": "android_compose_expressive_components_squaretogglebutton",
+                        "description": "Material 3 Expressive square toggle button with morphing corner shapes.",
+                        "when_to_use": ["Use in compact toolbars or square grid toggle panels."],
+                        "how_to_use": ["Pass <code>shapes = ToggleButtonShapes(shape = ToggleButtonDefaults.squareShape, pressedShape = ToggleButtonDefaults.pressedShape, checkedShape = ToggleButtonDefaults.roundShape)</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "ToggleButtonShapes", "desc": "Square, pressed, and checked shape configuration."}
+                        ]
                     }
                 ]
             },
@@ -325,6 +494,76 @@ CATEGORIES = [
                             {"param": "floatingActionButton", "type": "@Composable () -> Unit", "desc": "FAB slot inside toolbar."},
                             {"param": "content", "type": "@Composable RowScope.() -> Unit", "desc": "Action icons slot."}
                         ]
+                    },
+                    {
+                        "id": "medium-fab",
+                        "title": "Medium floating action button",
+                        "tag": "android_compose_expressive_components_mediumfab",
+                        "description": "Material 3 Expressive medium floating action button.",
+                        "when_to_use": ["Use when standard FAB is too small and large FAB is too large."],
+                        "how_to_use": ["Call <code>MediumFloatingActionButton(onClick = { ... }) { Icon(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "onClick", "type": "() -> Unit", "desc": "Action callback."}
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "icon-button",
+                "title": "Icon button",
+                "file": "IconButton.kt",
+                "description": "Icon buttons allow users to take actions and make choices with a single tap, using compact icon-only visual representation.",
+                "when_to_use": [
+                    "<strong>Compact Actions:</strong> Use in toolbars, app bars, cards, and dialog headers.",
+                    "<strong>Toggle Actions:</strong> Use to toggle bookmark, favorite, or pin states.",
+                    "<strong>Expressive Motion:</strong> Use expressive animated shape variants for tactile feedback."
+                ],
+                "how_to_use": [
+                    "Supply an <code>onClick: () -> Unit</code> lambda to execute the button action.",
+                    "Pass an <code>Icon</code> composable inside the content slot with appropriate <code>contentDescription</code>.",
+                    "Use <code>IconButtonDefaults.shapes()</code> or <code>toggleableShapes()</code> for expressive morphing animations."
+                ],
+                "api_highlights": [
+                    {"param": "onClick", "type": "() -> Unit", "desc": "Action callback."},
+                    {"param": "shapes", "type": "IconButtonShapes?", "desc": "Expressive shape morphing configuration."},
+                    {"param": "colors", "type": "IconButtonColors", "desc": "Container and content colors."}
+                ],
+                "examples": [
+                    {
+                        "id": "toggle-icon-button",
+                        "title": "Toggle icon button",
+                        "tag": "android_compose_components_togglebuttonexample",
+                        "description": "Icon button that switches between selected and unselected icon states.",
+                        "when_to_use": ["Favorite, bookmark, or pin toggles."],
+                        "how_to_use": ["Call <code>IconButton(onClick = { isToggled = !isToggled }) { Icon(...) }</code>."],
+                        "api_highlights": [{"param": "onClick", "type": "() -> Unit", "desc": "Click callback."}]
+                    },
+                    {
+                        "id": "momentary-icon-button",
+                        "title": "Momentary icon button",
+                        "tag": "android_compose_components_momentaryiconbuttons",
+                        "description": "Momentary repeat-on-press icon button for rapid continuous increments/decrements.",
+                        "when_to_use": ["Fast-forward, rewind, or volume steppers."],
+                        "how_to_use": ["Track <code>isPressed</code> interaction state to repeat actions on interval."],
+                        "api_highlights": [{"param": "interactionSource", "type": "MutableInteractionSource", "desc": "Interaction state tracking."}]
+                    },
+                    {
+                        "id": "animated-icon-button",
+                        "title": "Icon button with animated shape",
+                        "tag": "android_compose_expressive_components_animatediconbuttons",
+                        "description": "Material 3 Expressive icon button with dynamic corner shape morphing on press.",
+                        "when_to_use": ["Tactile feedback in expressive Material 3 designs."],
+                        "how_to_use": ["Pass <code>shapes = IconButtonDefaults.shapes()</code> to <code>IconButton(...)</code>."],
+                        "api_highlights": [{"param": "shapes", "type": "IconButtonShapes", "desc": "IconButtonDefaults.shapes()."}]
+                    },
+                    {
+                        "id": "animated-toggle-icon-button",
+                        "title": "Icon toggle button with animated shape",
+                        "tag": "android_compose_expressive_components_animatedtoggleiconbuttons",
+                        "description": "Material 3 Expressive icon toggle button with morphing shape between checked and unchecked states.",
+                        "when_to_use": ["Expressive toggle buttons (lock/unlock, bookmark, favorite)."],
+                        "how_to_use": ["Call <code>IconToggleButton(checked = checked, onCheckedChange = { ... }, shapes = IconButtonDefaults.toggleableShapes())</code>."],
+                        "api_highlights": [{"param": "shapes", "type": "IconToggleButtonShapes", "desc": "IconButtonDefaults.toggleableShapes()."}]
                     }
                 ]
             }
@@ -408,6 +647,94 @@ CATEGORIES = [
                         "description": "Material 3 Expressive contained loading indicator positioned within an elevated container surface.",
                         "when_to_use": ["Use as a floating or centered overlay indicator above content."],
                         "how_to_use": ["Call <code>ContainedLoadingIndicator()</code>."],
+                        "api_highlights": [
+                            {"param": "modifier", "type": "Modifier", "desc": "Layout modifier."}
+                        ]
+                    },
+                    {
+                        "id": "determinate-linear-wavy-indicator",
+                        "title": "Determinate linear wavy progress indicator",
+                        "tag": "android_compose_expressive_components_determinatelinearwavyindicator",
+                        "description": "Material 3 Expressive linear progress indicator featuring playful wavy animation curves.",
+                        "when_to_use": ["Use during file downloads or progress steps where expressive wavy motion enhances delight."],
+                        "how_to_use": ["Call <code>LinearWavyProgressIndicator(progress = { animatedProgress })</code>."],
+                        "api_highlights": [
+                            {"param": "progress", "type": "() -> Float", "desc": "Progress lambda returning 0.0 to 1.0."}
+                        ]
+                    },
+                    {
+                        "id": "indeterminate-linear-wavy-indicator",
+                        "title": "Indeterminate linear wavy progress indicator",
+                        "tag": "android_compose_expressive_components_indeterminatelinearwavyindicator",
+                        "description": "Material 3 Expressive indeterminate linear wavy indicator providing smooth animated wave flow.",
+                        "when_to_use": ["Use for indeterminate continuous background operations."],
+                        "how_to_use": ["Call <code>LinearWavyProgressIndicator()</code>."],
+                        "api_highlights": [
+                            {"param": "modifier", "type": "Modifier", "desc": "Layout modifier."}
+                        ]
+                    },
+                    {
+                        "id": "determinate-circular-wavy-indicator",
+                        "title": "Determinate circular wavy progress indicator",
+                        "tag": "android_compose_expressive_components_determinatecircularwavyindicator",
+                        "description": "Material 3 Expressive circular wavy progress indicator with animated undulating borders.",
+                        "when_to_use": ["Use for expressive circular meters, timers, and step progress."],
+                        "how_to_use": ["Call <code>CircularWavyProgressIndicator(progress = { animatedProgress })</code>."],
+                        "api_highlights": [
+                            {"param": "progress", "type": "() -> Float", "desc": "Progress lambda returning 0.0 to 1.0."}
+                        ]
+                    },
+                    {
+                        "id": "indeterminate-circular-wavy-indicator",
+                        "title": "Indeterminate circular wavy progress indicator",
+                        "tag": "android_compose_expressive_components_indeterminatecircularwavyindicator",
+                        "description": "Material 3 Expressive indeterminate circular wavy progress indicator.",
+                        "when_to_use": ["Use for indeterminate loading with vibrant expressive motion."],
+                        "how_to_use": ["Call <code>CircularWavyProgressIndicator()</code>."],
+                        "api_highlights": [
+                            {"param": "modifier", "type": "Modifier", "desc": "Layout modifier."}
+                        ]
+                    },
+                    {
+                        "id": "determinate-linear-expressive-indicator",
+                        "title": "Determinate linear progress indicator (Expressive)",
+                        "tag": "android_compose_expressive_components_determinatelinearindicator",
+                        "description": "Material 3 Expressive linear progress indicator with animated progress tracking and slider controls.",
+                        "when_to_use": ["Use for trackable uploads and task completion."],
+                        "how_to_use": ["Call <code>LinearProgressIndicator(progress = { animatedProgress })</code>."],
+                        "api_highlights": [
+                            {"param": "progress", "type": "() -> Float", "desc": "Progress value."}
+                        ]
+                    },
+                    {
+                        "id": "indeterminate-linear-expressive-indicator",
+                        "title": "Indeterminate linear progress indicator (Expressive)",
+                        "tag": "android_compose_expressive_components_indeterminatelinearindicator",
+                        "description": "Material 3 Expressive indeterminate linear progress indicator.",
+                        "when_to_use": ["Use for indeterminate background operations."],
+                        "how_to_use": ["Call <code>LinearProgressIndicator()</code>."],
+                        "api_highlights": [
+                            {"param": "modifier", "type": "Modifier", "desc": "Layout modifier."}
+                        ]
+                    },
+                    {
+                        "id": "determinate-circular-expressive-indicator",
+                        "title": "Determinate circular progress indicator (Expressive)",
+                        "tag": "android_compose_expressive_components_determinatecircularindicator",
+                        "description": "Material 3 Expressive circular progress indicator with animated progress state.",
+                        "when_to_use": ["Use for circular progress meters and completion gauges."],
+                        "how_to_use": ["Call <code>CircularProgressIndicator(progress = { animatedProgress })</code>."],
+                        "api_highlights": [
+                            {"param": "progress", "type": "() -> Float", "desc": "Progress value."}
+                        ]
+                    },
+                    {
+                        "id": "indeterminate-circular-expressive-indicator",
+                        "title": "Indeterminate circular progress indicator (Expressive)",
+                        "tag": "android_compose_expressive_components_indeterminatecircularindicator",
+                        "description": "Material 3 Expressive indeterminate circular progress indicator.",
+                        "when_to_use": ["Use for standard indeterminate loading spinners."],
+                        "how_to_use": ["Call <code>CircularProgressIndicator()</code>."],
                         "api_highlights": [
                             {"param": "modifier", "type": "Modifier", "desc": "Layout modifier."}
                         ]
@@ -673,6 +1000,52 @@ CATEGORIES = [
                         "when_to_use": ["High-emphasis landing screens."],
                         "how_to_use": ["Call <code>LargeTopAppBar(...)</code>."],
                         "api_highlights": [{"param": "scrollBehavior", "type": "TopAppBarScrollBehavior?", "desc": "Scroll collapse."}]
+                    },
+                    {
+                        "id": "center-aligned-top-app-bar-with-subtitle",
+                        "title": "Center-aligned top app bar with subtitle",
+                        "tag": "android_compose_expressive_components_centeralignedtopappbarwithsubtitle",
+                        "description": "Material 3 Expressive center-aligned top app bar featuring both title and subtitle headers with scroll collapse behavior.",
+                        "when_to_use": ["Use when secondary contextual metadata (e.g. document status, subtitle) is needed."],
+                        "how_to_use": ["Call <code>CenterAlignedTopAppBar(title = { Text(...) }, subtitle = { Text(...) }, scrollBehavior = scrollBehavior)</code>."],
+                        "api_highlights": [
+                            {"param": "subtitle", "type": "@Composable () -> Unit", "desc": "Subtitle slot."},
+                            {"param": "scrollBehavior", "type": "TopAppBarScrollBehavior", "desc": "Scroll behavior."}
+                        ]
+                    },
+                    {
+                        "id": "always-enter-top-app-bar",
+                        "title": "Always-enter top app bar",
+                        "tag": "android_compose_expressive_components_alwaysentertopappbar",
+                        "description": "Material 3 Expressive top app bar with enterAlways scroll behavior, immediately reappearing on scroll up.",
+                        "when_to_use": ["Use in feed screens where immediate access to navigation actions on upward scroll is desired."],
+                        "how_to_use": ["Set <code>scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()</code>."],
+                        "api_highlights": [
+                            {"param": "scrollBehavior", "type": "TopAppBarScrollBehavior", "desc": "TopAppBarDefaults.enterAlwaysScrollBehavior()."}
+                        ]
+                    },
+                    {
+                        "id": "medium-flexible-top-app-bar",
+                        "title": "Medium flexible top app bar",
+                        "tag": "android_compose_expressive_components_exituntillcollapsedtopappbar",
+                        "description": "Material 3 Expressive medium flexible top app bar with centered title and exitUntilCollapsed behavior.",
+                        "when_to_use": ["Use on category or section pages with flexible expanding headers."],
+                        "how_to_use": ["Call <code>MediumFlexibleTopAppBar(title = { Text(...) }, subtitle = { Text(...) }, titleHorizontalAlignment = Alignment.CenterHorizontally, scrollBehavior = scrollBehavior)</code>."],
+                        "api_highlights": [
+                            {"param": "titleHorizontalAlignment", "type": "Alignment.Horizontal", "desc": "Horizontal alignment."},
+                            {"param": "scrollBehavior", "type": "TopAppBarScrollBehavior", "desc": "TopAppBarDefaults.exitUntilCollapsedScrollBehavior()."}
+                        ]
+                    },
+                    {
+                        "id": "large-flexible-top-app-bar",
+                        "title": "Large flexible top app bar",
+                        "tag": "android_compose_expressive_components_exituntillcollapsedlargetopappbar",
+                        "description": "Material 3 Expressive large flexible top app bar offering high-prominence typography and smooth collapse dynamics.",
+                        "when_to_use": ["Use on primary landing screens and detail dashboards."],
+                        "how_to_use": ["Call <code>LargeFlexibleTopAppBar(title = { Text(...) }, subtitle = { Text(...) }, titleHorizontalAlignment = Alignment.CenterHorizontally, scrollBehavior = scrollBehavior)</code>."],
+                        "api_highlights": [
+                            {"param": "scrollBehavior", "type": "TopAppBarScrollBehavior", "desc": "Scroll collapse behavior."}
+                        ]
                     }
                 ]
             },
@@ -702,6 +1075,61 @@ CATEGORIES = [
                         "when_to_use": ["Expanded tablet or desktop screens."],
                         "how_to_use": ["Call <code>NavigationRail { NavigationRailItem(...) }</code>."],
                         "api_highlights": [{"param": "selected", "type": "Boolean", "desc": "Selected state."}]
+                    },
+                    {
+                        "id": "vertical-items-navigation-bar",
+                        "title": "Vertical items navigation bar",
+                        "tag": "android_compose_expressive_components_verticalitemsnavigationbarexample",
+                        "description": "Material 3 Expressive navigation bar with vertically stacked icon and text items.",
+                        "when_to_use": ["Standard bottom navigation bar on phones and compact layouts."],
+                        "how_to_use": ["Call <code>ShortNavigationBar { ShortNavigationBarItem(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "selected", "type": "Boolean", "desc": "Selection state."}
+                        ]
+                    },
+                    {
+                        "id": "horizontal-items-navigation-bar",
+                        "title": "Horizontal items navigation bar",
+                        "tag": "android_compose_expressive_components_horizontalitemsnavigationbarexample",
+                        "description": "Material 3 Expressive navigation bar with horizontal icon and label layout.",
+                        "when_to_use": ["Use in wide compact screens or landscape orientations."],
+                        "how_to_use": ["Call <code>ShortNavigationBar { ShortNavigationBarItem(..., labelPosition = NavigationItemLabelPosition.Start) }</code>."],
+                        "api_highlights": [
+                            {"param": "labelPosition", "type": "NavigationItemLabelPosition", "desc": "Label position."}
+                        ]
+                    },
+                    {
+                        "id": "wide-navigation-rail",
+                        "title": "Wide navigation rail",
+                        "tag": "android_compose_expressive_components_widenavigationrailexample",
+                        "description": "Material 3 Expressive expandable wide navigation rail for medium and large screens.",
+                        "when_to_use": ["Use on foldables, tablets, and desktop interfaces."],
+                        "how_to_use": ["Call <code>WideNavigationRail(state = rememberWideNavigationRailState(), header = { ... }) { WideNavigationRailItem(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "state", "type": "WideNavigationRailState", "desc": "Tracks expanded / collapsed rail state."}
+                        ]
+                    },
+                    {
+                        "id": "modal-wide-navigation-rail",
+                        "title": "Modal wide navigation rail",
+                        "tag": "android_compose_expressive_components_modalwidenavigationrailexample",
+                        "description": "Material 3 Expressive modal wide navigation rail sliding open over content.",
+                        "when_to_use": ["Use when rail content should overlay screen content without resizing layout."],
+                        "how_to_use": ["Call <code>ModalWideNavigationRail(state = state, header = { ... }) { WideNavigationRailItem(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "state", "type": "WideNavigationRailState", "desc": "Rail state controller."}
+                        ]
+                    },
+                    {
+                        "id": "dismissible-modal-wide-navigation-rail",
+                        "title": "Dismissible modal wide navigation rail",
+                        "tag": "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample",
+                        "description": "Material 3 Expressive modal wide navigation rail that completely collapses offscreen when dismissed.",
+                        "when_to_use": ["Use for temporary navigation side sheets on large tablets."],
+                        "how_to_use": ["Call <code>ModalWideNavigationRail(state = state, hideOnCollapse = true) { WideNavigationRailItem(...) }</code>."],
+                        "api_highlights": [
+                            {"param": "hideOnCollapse", "type": "Boolean", "desc": "Hides rail entirely when collapsed."}
+                        ]
                     }
                 ]
             },
@@ -889,6 +1317,17 @@ CATEGORIES = [
                         "when_to_use": ["Rich action menus."],
                         "how_to_use": ["Call <code>DropdownMenuWithDetails()</code>."],
                         "api_highlights": [{"param": "leadingIcon", "type": "@Composable () -> Unit", "desc": "Leading icon."}]
+                    },
+                    {
+                        "id": "grouped-menu",
+                        "title": "Grouped menu with button group",
+                        "tag": "android_compose_expressive_components_groupedmenusample",
+                        "description": "Material 3 Expressive grouped dropdown menu featuring labeled sections, dividers, and attached button groups.",
+                        "when_to_use": ["Complex contextual menus, rich action menus, and social reaction toolbars."],
+                        "how_to_use": ["Use <code>DropdownMenuPopup</code> with <code>DropdownMenuGroup</code> and <code>ButtonGroup</code>."],
+                        "api_highlights": [
+                            {"param": "shapes", "type": "MenuShapes", "desc": "MenuDefaults.groupShape and MenuDefaults.itemShape."}
+                        ]
                     }
                 ]
             },
@@ -1062,6 +1501,45 @@ CATEGORIES = [
 ]
 
 IMPORT_MAP = {
+    "toggle-button": "androidx.compose.material3.ToggleButton",
+    "elevated-toggle-button": "androidx.compose.material3.ElevatedToggleButton",
+    "tonal-toggle-button": "androidx.compose.material3.TonalToggleButton",
+    "outlined-toggle-button": "androidx.compose.material3.OutlinedToggleButton",
+    "button-with-icon-sample": "androidx.compose.material3.Button",
+    "toggle-button-with-icon": "androidx.compose.material3.ToggleButton",
+    "xsmall-button-with-icon": "androidx.compose.material3.Button",
+    "xsmall-toggle-button-with-icon": "androidx.compose.material3.ToggleButton",
+    "medium-button-with-icon": "androidx.compose.material3.Button",
+    "medium-toggle-button-with-icon": "androidx.compose.material3.ToggleButton",
+    "large-button-with-icon": "androidx.compose.material3.Button",
+    "large-toggle-button-with-icon": "androidx.compose.material3.ToggleButton",
+    "xlarge-button-with-icon": "androidx.compose.material3.Button",
+    "xlarge-toggle-button-with-icon": "androidx.compose.material3.ToggleButton",
+    "square-toggle-button": "androidx.compose.material3.ToggleButton",
+    "medium-fab": "androidx.compose.material3.MediumFloatingActionButton",
+    "icon-button": "androidx.compose.material3.IconButton",
+    "toggle-icon-button": "androidx.compose.material3.IconButton",
+    "momentary-icon-button": "androidx.compose.material3.IconButton",
+    "animated-icon-button": "androidx.compose.material3.IconButton",
+    "animated-toggle-icon-button": "androidx.compose.material3.IconToggleButton",
+    "determinate-linear-wavy-indicator": "androidx.compose.material3.LinearWavyProgressIndicator",
+    "indeterminate-linear-wavy-indicator": "androidx.compose.material3.LinearWavyProgressIndicator",
+    "determinate-circular-wavy-indicator": "androidx.compose.material3.CircularWavyProgressIndicator",
+    "indeterminate-circular-wavy-indicator": "androidx.compose.material3.CircularWavyProgressIndicator",
+    "determinate-linear-expressive-indicator": "androidx.compose.material3.LinearProgressIndicator",
+    "indeterminate-linear-expressive-indicator": "androidx.compose.material3.LinearProgressIndicator",
+    "determinate-circular-expressive-indicator": "androidx.compose.material3.CircularProgressIndicator",
+    "indeterminate-circular-expressive-indicator": "androidx.compose.material3.CircularProgressIndicator",
+    "center-aligned-top-app-bar-with-subtitle": "androidx.compose.material3.CenterAlignedTopAppBar",
+    "always-enter-top-app-bar": "androidx.compose.material3.TopAppBar",
+    "medium-flexible-top-app-bar": "androidx.compose.material3.MediumFlexibleTopAppBar",
+    "large-flexible-top-app-bar": "androidx.compose.material3.LargeFlexibleTopAppBar",
+    "vertical-items-navigation-bar": "androidx.compose.material3.ShortNavigationBar",
+    "horizontal-items-navigation-bar": "androidx.compose.material3.ShortNavigationBar",
+    "wide-navigation-rail": "androidx.compose.material3.WideNavigationRail",
+    "modal-wide-navigation-rail": "androidx.compose.material3.ModalWideNavigationRail",
+    "dismissible-modal-wide-navigation-rail": "androidx.compose.material3.ModalWideNavigationRail",
+    "grouped-menu": "androidx.compose.material3.DropdownMenuGroup",
     # Actions
     "segmented-button": "androidx.compose.material3.SegmentedButton",
     "single-choice-segmented-button": "androidx.compose.material3.SingleChoiceSegmentedButtonRow",

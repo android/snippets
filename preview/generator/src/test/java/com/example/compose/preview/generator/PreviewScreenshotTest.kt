@@ -1087,8 +1087,14 @@ class PreviewScreenshotTest {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(320.dp, 160.dp)) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Date Input Modal", fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = "10/24/2024", onValueChange = {}, label = { Text("Date") })
+                Spacer(Modifier.height(12.dp))
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    modifier = Modifier.fillMaxWidth(0.9f).padding(8.dp)
+                ) {
+                    Text("10/24/2024", modifier = Modifier.padding(12.dp), fontWeight = FontWeight.Medium)
+                }
             }
         }
     }

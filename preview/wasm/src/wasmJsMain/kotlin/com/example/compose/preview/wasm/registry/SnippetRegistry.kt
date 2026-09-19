@@ -145,7 +145,7 @@ object SnippetRegistry {
             description = "Material 3 Expressive button with icon and medium container height.",
             tags = listOf("button", "expressive", "icon", "action"),
             codeSnippet = "",
-            composable = { CenteredBox { ButtonWithIconExample(onClick = {}) } }
+            composable = { CenteredBox { ButtonWithIconSample() } }
         ),
         ComponentSnippet(
             id = "split-button",

@@ -211,24 +211,7 @@ fun SquareButtonExample(onClick: () -> Unit) {
         Text("Square")
     }
 }""",
-        "button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ButtonWithIconExample(onClick: () -> Unit) {
-    val size = ButtonDefaults.MediumContainerHeight
-    Button(
-        onClick = { onClick() },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            Icons.Filled.Edit,
-            contentDescription = "Edit",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Edit", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
+        "button-with-icon" to """""",
         "split-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SplitButtonExample(onClick: () -> Unit) {
@@ -273,6 +256,234 @@ fun ButtonGroupExample() {
                 Text(label)
             }
         }
+    }
+}""",
+        "toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
+}""",
+        "elevated-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ElevatedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Elevated Button")
+    }
+}""",
+        "tonal-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun TonalToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+}""",
+        "outlined-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun OutlinedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Outlined Button")
+    }
+}""",
+        "button-with-icon-sample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ButtonWithIconSample() {
+    Button(
+        onClick = { /* Do something! */ },
+        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
+        Text("Like")
+    }
+}""",
+        "toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Icon(
+            if (checked) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("Like")
+    }
+}""",
+        "xsmall-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}""",
+        "xsmall-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}""",
+        "medium-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumButtonWithIconSample() {
+    val size = ButtonDefaults.MediumContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "medium-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.MediumContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "large-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LargeButtonWithIconSample() {
+    val size = ButtonDefaults.LargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "large-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.LargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "xlarge-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XLargeButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "xlarge-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XLargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}""",
+        "square-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SquareToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    val shapes =
+        ToggleButtonShapes(
+            shape = ToggleButtonDefaults.squareShape,
+            pressedShape = ToggleButtonDefaults.pressedShape,
+            checkedShape = ToggleButtonDefaults.roundShape,
+        )
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
+        Text("Button")
     }
 }""",
         "button-examples" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -354,25 +565,6 @@ fun SquareButtonExample(onClick: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ButtonWithIconExample(onClick: () -> Unit) {
-    val size = ButtonDefaults.MediumContainerHeight
-    Button(
-        onClick = { onClick() },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            Icons.Filled.Edit,
-            contentDescription = "Edit",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Edit", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
 fun SplitButtonExample(onClick: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     SplitButtonLayout(
@@ -416,6 +608,249 @@ fun ButtonGroupExample() {
                 Text(label)
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ElevatedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Elevated Button")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun TonalToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun OutlinedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Outlined Button")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ButtonWithIconSample() {
+    Button(
+        onClick = { /* Do something! */ },
+        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
+        Text("Like")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Icon(
+            if (checked) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("Like")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumButtonWithIconSample() {
+    val size = ButtonDefaults.MediumContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.MediumContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LargeButtonWithIconSample() {
+    val size = ButtonDefaults.LargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.LargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XLargeButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            Icons.Filled.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XLargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SquareToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    val shapes =
+        ToggleButtonShapes(
+            shape = ToggleButtonDefaults.squareShape,
+            pressedShape = ToggleButtonDefaults.pressedShape,
+            checkedShape = ToggleButtonDefaults.roundShape,
+        )
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
+        Text("Button")
     }
 }""",
         "fab" to """@Composable
@@ -477,6 +912,17 @@ fun FloatingToolbarExample() {
             }
         }
     )
+}""",
+        "medium-fab" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumFloatingActionButtonSample() {
+    MediumFloatingActionButton(onClick = {}) {
+        Icon(
+            Icons.Filled.Add,
+            contentDescription = "Add",
+            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
+        )
+    }
 }""",
         "floating-action-button" to """@Composable
 fun Example(onClick: () -> Unit) {
@@ -541,6 +987,163 @@ fun FloatingToolbarExample() {
             }
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumFloatingActionButtonSample() {
+    MediumFloatingActionButton(onClick = {}) {
+        Icon(
+            Icons.Filled.Add,
+            contentDescription = "Add",
+            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
+        )
+    }
+}""",
+        "toggle-icon-button" to """@Preview
+@Composable
+fun ToggleIconButtonExample() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}""",
+        "momentary-icon-button" to """@Preview()
+@Composable
+fun MomentaryIconButtonExample() {
+    var pressedCount by remember { mutableIntStateOf(0) }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        MomentaryIconButton(
+            unselectedImage = R.drawable.fast_rewind,
+            selectedImage = R.drawable.fast_rewind_filled,
+            stepDelay = 100L,
+            onClick = { pressedCount -= 1 },
+            contentDescription = "Decrease count button"
+        )
+        Spacer(modifier = Modifier)
+        Text("advanced by ${"$" + ""}pressedCount frames")
+        Spacer(modifier = Modifier)
+        MomentaryIconButton(
+            unselectedImage = R.drawable.fast_forward,
+            selectedImage = R.drawable.fast_forward_filled,
+            contentDescription = "Increase count button",
+            stepDelay = 100L,
+            onClick = { pressedCount += 1 }
+        )
+    }
+}""",
+        "animated-icon-button" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconButtonWithAnimatedShapeSample() {
+    IconButton(
+        onClick = { /* doSomething() */ },
+        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
+    ) {
+        Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+    }
+}""",
+        "animated-toggle-icon-button" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconToggleButtonWithAnimatedShapeSample() {
+    var checked by remember { mutableStateOf(false) }
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
+    ) {
+        if (checked) {
+            Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+        } else {
+            Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
+        }
+    }
+}""",
+        "icon-button" to """@Preview
+@Composable
+fun ToggleIconButtonExample() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+@Preview()
+@Composable
+fun MomentaryIconButtonExample() {
+    var pressedCount by remember { mutableIntStateOf(0) }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        MomentaryIconButton(
+            unselectedImage = R.drawable.fast_rewind,
+            selectedImage = R.drawable.fast_rewind_filled,
+            stepDelay = 100L,
+            onClick = { pressedCount -= 1 },
+            contentDescription = "Decrease count button"
+        )
+        Spacer(modifier = Modifier)
+        Text("advanced by ${"$" + ""}pressedCount frames")
+        Spacer(modifier = Modifier)
+        MomentaryIconButton(
+            unselectedImage = R.drawable.fast_forward,
+            selectedImage = R.drawable.fast_forward_filled,
+            contentDescription = "Increase count button",
+            stepDelay = 100L,
+            onClick = { pressedCount += 1 }
+        )
+    }
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconButtonWithAnimatedShapeSample() {
+    IconButton(
+        onClick = { /* doSomething() */ },
+        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
+    ) {
+        Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+    }
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconToggleButtonWithAnimatedShapeSample() {
+    var checked by remember { mutableStateOf(false) }
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
+    ) {
+        if (checked) {
+            Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+        } else {
+            Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
+        }
+    }
 }""",
         "badge" to """@Composable
 fun BadgeExample() {
@@ -692,6 +1295,118 @@ fun LoadingIndicatorExample() {
 fun ContainedLoadingIndicatorExample() {
     ContainedLoadingIndicator()
 }""",
+        "determinate-linear-wavy-indicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LinearWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "indeterminate-linear-wavy-indicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateLinearWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
+}""",
+        "determinate-circular-wavy-indicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun CircularWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "indeterminate-circular-wavy-indicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateCircularWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
+}""",
+        "determinate-linear-expressive-indicator" to """@Preview
+@Composable
+fun LinearProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "indeterminate-linear-expressive-indicator" to """@Preview
+@Composable
+fun IndeterminateLinearProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
+}""",
+        "determinate-circular-expressive-indicator" to """@Preview
+@Composable
+fun CircularProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "indeterminate-circular-expressive-indicator" to """@Preview
+@Composable
+fun IndeterminateCircularProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
+}""",
         "progress-indicator" to """@Composable
 fun IndeterminateCircularIndicator() {
     var loading by remember { mutableStateOf(false) }
@@ -759,6 +1474,126 @@ fun LoadingIndicatorExample() {
 @Composable
 fun ContainedLoadingIndicatorExample() {
     ContainedLoadingIndicator()
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LinearWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateLinearWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun CircularWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+
+@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateCircularWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
+}
+
+@Preview
+@Composable
+fun LinearProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun IndeterminateLinearProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
+}
+
+@Preview
+@Composable
+fun CircularProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun IndeterminateCircularProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
 }""",
         "plain-tooltip" to """@Composable
 fun PlainTooltipExample(
@@ -1714,6 +2549,169 @@ fun LargeTopAppBarExample() {
         ScrollContent(innerPadding)
     }
 }""",
+        "center-aligned-top-app-bar-with-subtitle" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SimpleCenterAlignedTopAppBarWithSubtitle() {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "always-enter-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EnterAlwaysTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "medium-flexible-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            MediumFlexibleTopAppBar(
+                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "large-flexible-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeFlexibleTopAppBar(
+                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
         "app-bar-examples" to """@Composable
 fun CenterAlignedTopAppBarExample() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -1861,6 +2859,173 @@ fun LargeTopAppBarExample() {
     ) { innerPadding ->
         ScrollContent(innerPadding)
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SimpleCenterAlignedTopAppBarWithSubtitle() {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EnterAlwaysTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            MediumFlexibleTopAppBar(
+                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeFlexibleTopAppBar(
+                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
 }""",
         "navigation-bar" to """@Composable
 fun NavigationBarExample(modifier: Modifier = Modifier) {
@@ -1922,6 +3087,268 @@ fun NavigationRailExample(modifier: Modifier = Modifier) {
         AppNavHost(navController, startDestination)
     }
 }""",
+        "vertical-items-navigation-bar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ShortNavigationBarSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
+
+    ShortNavigationBar {
+        items.forEachIndexed { index, item ->
+            ShortNavigationBarItem(
+                icon = {
+                    Icon(
+                        if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = null,
+                    )
+                },
+                label = { Text(item) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
+            )
+        }
+    }
+}""",
+        "horizontal-items-navigation-bar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ShortNavigationBarWithHorizontalItemsSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
+
+    Column {
+        Text(
+            "Note: this is configuration is better displayed in medium screen sizes.",
+            Modifier.padding(16.dp),
+        )
+
+        Spacer(Modifier.height(32.dp))
+
+        ShortNavigationBar(arrangement = ShortNavigationBarArrangement.Centered) {
+            items.forEachIndexed { index, item ->
+                ShortNavigationBarItem(
+                    iconPosition = NavigationItemIconPosition.Start,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+    }
+}""",
+        "wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
+@Composable
+fun WideNavigationRailResponsiveSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxWidth()) {
+        WideNavigationRail(
+            state = state,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
+                            },
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded) {
+                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                    } else {
+                        Icon(Icons.Filled.Menu, "Expand rail")
+                    }
+                }
+            },
+        ) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        val imageVector =
+                            if (selectedItem == index) {
+                                selectedIcons[index]
+                            } else {
+                                unselectedIcons[index]
+                            }
+                        Icon(imageVector = imageVector, contentDescription = null)
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+    }
+
+    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
+    // smaller screens.
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        onDispose {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+}""",
+        "modal-wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
+@Composable
+fun ModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxWidth()) {
+        ModalWideNavigationRail(
+            state = state,
+            // Note: the value of expandedHeaderTopPadding depends on the layout of your screen in
+            // order to achieve the best alignment.
+            expandedHeaderTopPadding = 64.dp,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
+                            },
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded)
+                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                    else Icon(Icons.Filled.Menu, "Expand rail")
+                }
+            },
+        ) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            contentDescription = item,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+
+        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
+        // in smaller screens.
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            onDispose {
+                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            }
+        }
+    }
+}""",
+        "dismissible-modal-wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun DismissibleModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Settings)
+    val unselectedIcons = listOf(Icons.Outlined.Home, Icons.Outlined.Search, Icons.Outlined.Settings)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxSize()) {
+        ModalWideNavigationRail(state = state, hideOnCollapse = true) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = true,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        scope.launch { state.collapse() }
+                    },
+                )
+            }
+        }
+
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            val currentPage = items.get(selectedItem)
+            Button(onClick = { scope.launch { state.expand() } }, Modifier.padding(32.dp)) {
+                Text(text = "${"$" + ""}currentPage Page\nOpen modal rail", textAlign = TextAlign.Center)
+            }
+        }
+    }
+}""",
         "navigation-examples" to """@Composable
 fun NavigationBarExample(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -1981,6 +3408,273 @@ fun NavigationRailExample(modifier: Modifier = Modifier) {
             }
         }
         AppNavHost(navController, startDestination)
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ShortNavigationBarSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
+
+    ShortNavigationBar {
+        items.forEachIndexed { index, item ->
+            ShortNavigationBarItem(
+                icon = {
+                    Icon(
+                        if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = null,
+                    )
+                },
+                label = { Text(item) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ShortNavigationBarWithHorizontalItemsSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
+
+    Column {
+        Text(
+            "Note: this is configuration is better displayed in medium screen sizes.",
+            Modifier.padding(16.dp),
+        )
+
+        Spacer(Modifier.height(32.dp))
+
+        ShortNavigationBar(arrangement = ShortNavigationBarArrangement.Centered) {
+            items.forEachIndexed { index, item ->
+                ShortNavigationBarItem(
+                    iconPosition = NavigationItemIconPosition.Start,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
+@Composable
+fun WideNavigationRailResponsiveSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxWidth()) {
+        WideNavigationRail(
+            state = state,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
+                            },
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded) {
+                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                    } else {
+                        Icon(Icons.Filled.Menu, "Expand rail")
+                    }
+                }
+            },
+        ) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        val imageVector =
+                            if (selectedItem == index) {
+                                selectedIcons[index]
+                            } else {
+                                unselectedIcons[index]
+                            }
+                        Icon(imageVector = imageVector, contentDescription = null)
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+    }
+
+    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
+    // smaller screens.
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        onDispose {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
+@Composable
+fun ModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxWidth()) {
+        ModalWideNavigationRail(
+            state = state,
+            // Note: the value of expandedHeaderTopPadding depends on the layout of your screen in
+            // order to achieve the best alignment.
+            expandedHeaderTopPadding = 64.dp,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
+                            },
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded)
+                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                    else Icon(Icons.Filled.Menu, "Expand rail")
+                }
+            },
+        ) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            contentDescription = item,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+
+        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
+        // in smaller screens.
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            onDispose {
+                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun DismissibleModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Settings)
+    val unselectedIcons = listOf(Icons.Outlined.Home, Icons.Outlined.Search, Icons.Outlined.Settings)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxSize()) {
+        ModalWideNavigationRail(state = state, hideOnCollapse = true) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = true,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        scope.launch { state.collapse() }
+                    },
+                )
+            }
+        }
+
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            val currentPage = items.get(selectedItem)
+            Button(onClick = { scope.launch { state.expand() } }, Modifier.padding(32.dp)) {
+                Text(text = "${"$" + ""}currentPage Page\nOpen modal rail", textAlign = TextAlign.Center)
+            }
+        }
     }
 }""",
         "modal-navigation-drawer" to """@Composable
@@ -2920,6 +4614,115 @@ fun DropdownMenuWithDetails() {
         }
     }
 }""",
+        "grouped-menu" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun GroupedMenuSample() {
+    val groupInteractionSource = remember { MutableInteractionSource() }
+    var expanded by remember { mutableStateOf(false) }
+    val groupLabels = listOf("Modification", "Navigation")
+    val groupItemLabels = listOf(listOf("Edit", "Settings"), listOf("Home", "More Options"))
+    val groupItemLeadingIcons =
+        listOf(listOf(Icons.Outlined.Edit, Icons.Outlined.Settings), listOf(null, Icons.Outlined.Info))
+    val groupItemCheckedLeadingIcons =
+        listOf(
+            listOf(Icons.Filled.Edit, Icons.Filled.Settings),
+            listOf(Icons.Filled.Check, Icons.Filled.Info),
+        )
+    val groupItemTrailingIcons: List<List<ImageVector?>> =
+        listOf(listOf(null, null), listOf(Icons.Outlined.Home, Icons.Outlined.MoreVert))
+    val groupItemCheckedTrailingIcons: List<List<ImageVector?>> =
+        listOf(listOf(null, null), listOf(Icons.Filled.Home, Icons.Filled.MoreVert))
+    val groupItemSupportingText: List<List<String?>> =
+        listOf(listOf("Edit mode", null), listOf(null, "Opens menu"))
+    val checked = remember {
+        listOf(mutableStateListOf(false, false), mutableStateListOf(false, false))
+    }
+
+    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)) {
+        // Icon button should have a tooltip associated with it for a11y.
+        TooltipBox(
+            positionProvider =
+                TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
+            tooltip = { PlainTooltip { Text("Localized description") } },
+            state = rememberTooltipState(),
+        ) {
+            IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+            }
+        }
+        DropdownMenuPopup(expanded = expanded, onDismissRequest = { expanded = false }) {
+            val groupCount = groupLabels.size
+            groupLabels.fastForEachIndexed { groupIndex, label ->
+                DropdownMenuGroup(
+                    shapes = MenuDefaults.groupShape(groupIndex, groupCount),
+                    interactionSource = groupInteractionSource,
+                ) {
+                    MenuDefaults.Label { Text(label) }
+                    HorizontalDivider(modifier = Modifier.padding(MenuDefaults.HorizontalDividerPadding))
+                    val groupItemCount = groupItemLabels[groupIndex].size
+                    groupItemLabels[groupIndex].fastForEachIndexed { itemIndex, itemLabel ->
+                        DropdownMenuItem(
+                            text = { Text(itemLabel) },
+                            supportingText =
+                                groupItemSupportingText[groupIndex][itemIndex]?.let { supportingText ->
+                                    { Text(supportingText) }
+                                },
+                            shapes = MenuDefaults.itemShape(itemIndex, groupItemCount),
+                            leadingIcon =
+                                groupItemLeadingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                    {
+                                        Icon(
+                                            iconData,
+                                            modifier = Modifier.size(MenuDefaults.LeadingIconSize),
+                                            contentDescription = null,
+                                        )
+                                    }
+                                },
+                            checkedLeadingIcon = {
+                                Icon(
+                                    groupItemCheckedLeadingIcons[groupIndex][itemIndex],
+                                    modifier = Modifier.size(MenuDefaults.LeadingIconSize),
+                                    contentDescription = null,
+                                )
+                            },
+                            trailingIcon =
+                                if (checked[groupIndex][itemIndex]) {
+                                    groupItemCheckedTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                        {
+                                            Icon(
+                                                iconData,
+                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    groupItemTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                        {
+                                            Icon(
+                                                iconData,
+                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                },
+                            checked = checked[groupIndex][itemIndex],
+                            onCheckedChange = { checked[groupIndex][itemIndex] = it },
+                        )
+                    }
+                }
+
+                if (groupIndex != groupCount - 1) {
+                    Spacer(Modifier.height(MenuDefaults.GroupSpacing))
+                }
+            }
+            if (checked.last().last()) {
+                DropdownMenuButtonGroup()
+            }
+        }
+    }
+}""",
         "menu-examples" to """@Composable
 fun MinimalDropdownMenu() {
     var expanded by remember { mutableStateOf(false) }
@@ -3025,6 +4828,116 @@ fun DropdownMenuWithDetails() {
                 trailingIcon = { Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun GroupedMenuSample() {
+    val groupInteractionSource = remember { MutableInteractionSource() }
+    var expanded by remember { mutableStateOf(false) }
+    val groupLabels = listOf("Modification", "Navigation")
+    val groupItemLabels = listOf(listOf("Edit", "Settings"), listOf("Home", "More Options"))
+    val groupItemLeadingIcons =
+        listOf(listOf(Icons.Outlined.Edit, Icons.Outlined.Settings), listOf(null, Icons.Outlined.Info))
+    val groupItemCheckedLeadingIcons =
+        listOf(
+            listOf(Icons.Filled.Edit, Icons.Filled.Settings),
+            listOf(Icons.Filled.Check, Icons.Filled.Info),
+        )
+    val groupItemTrailingIcons: List<List<ImageVector?>> =
+        listOf(listOf(null, null), listOf(Icons.Outlined.Home, Icons.Outlined.MoreVert))
+    val groupItemCheckedTrailingIcons: List<List<ImageVector?>> =
+        listOf(listOf(null, null), listOf(Icons.Filled.Home, Icons.Filled.MoreVert))
+    val groupItemSupportingText: List<List<String?>> =
+        listOf(listOf("Edit mode", null), listOf(null, "Opens menu"))
+    val checked = remember {
+        listOf(mutableStateListOf(false, false), mutableStateListOf(false, false))
+    }
+
+    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)) {
+        // Icon button should have a tooltip associated with it for a11y.
+        TooltipBox(
+            positionProvider =
+                TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
+            tooltip = { PlainTooltip { Text("Localized description") } },
+            state = rememberTooltipState(),
+        ) {
+            IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+            }
+        }
+        DropdownMenuPopup(expanded = expanded, onDismissRequest = { expanded = false }) {
+            val groupCount = groupLabels.size
+            groupLabels.fastForEachIndexed { groupIndex, label ->
+                DropdownMenuGroup(
+                    shapes = MenuDefaults.groupShape(groupIndex, groupCount),
+                    interactionSource = groupInteractionSource,
+                ) {
+                    MenuDefaults.Label { Text(label) }
+                    HorizontalDivider(modifier = Modifier.padding(MenuDefaults.HorizontalDividerPadding))
+                    val groupItemCount = groupItemLabels[groupIndex].size
+                    groupItemLabels[groupIndex].fastForEachIndexed { itemIndex, itemLabel ->
+                        DropdownMenuItem(
+                            text = { Text(itemLabel) },
+                            supportingText =
+                                groupItemSupportingText[groupIndex][itemIndex]?.let { supportingText ->
+                                    { Text(supportingText) }
+                                },
+                            shapes = MenuDefaults.itemShape(itemIndex, groupItemCount),
+                            leadingIcon =
+                                groupItemLeadingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                    {
+                                        Icon(
+                                            iconData,
+                                            modifier = Modifier.size(MenuDefaults.LeadingIconSize),
+                                            contentDescription = null,
+                                        )
+                                    }
+                                },
+                            checkedLeadingIcon = {
+                                Icon(
+                                    groupItemCheckedLeadingIcons[groupIndex][itemIndex],
+                                    modifier = Modifier.size(MenuDefaults.LeadingIconSize),
+                                    contentDescription = null,
+                                )
+                            },
+                            trailingIcon =
+                                if (checked[groupIndex][itemIndex]) {
+                                    groupItemCheckedTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                        {
+                                            Icon(
+                                                iconData,
+                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    groupItemTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
+                                        {
+                                            Icon(
+                                                iconData,
+                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                },
+                            checked = checked[groupIndex][itemIndex],
+                            onCheckedChange = { checked[groupIndex][itemIndex] = it },
+                        )
+                    }
+                }
+
+                if (groupIndex != groupCount - 1) {
+                    Spacer(Modifier.height(MenuDefaults.GroupSpacing))
+                }
+            }
+            if (checked.last().last()) {
+                DropdownMenuButtonGroup()
+            }
         }
     }
 }""",

@@ -57,6 +57,13 @@ val pullSnippets by tasks.registering(Sync::class) {
         into("com/example/compose/snippets/components")
         filter { line ->
             line.replace("LocalLocale.current.platformLocale", "Locale.getDefault()")
+                .replace("import android.app.Activity", "// import android.app.Activity")
+                .replace("import android.content.pm.ActivityInfo", "// import android.content.pm.ActivityInfo")
+                .replace("import androidx.compose.ui.platform.LocalContext", "// import androidx.compose.ui.platform.LocalContext")
+                .replace("val context = LocalContext.current", "val context: Any? = null")
+                .replace("ActivityInfo.SCREEN_ORIENTATION_PORTRAIT", "0")
+                .replace("ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED", "-1")
+                .replace("(context as? Activity)?.requestedOrientation", "// (context as? Activity)?.requestedOrientation")
         }
     }
     into(layout.buildDirectory.dir("generated/sources/composeSnippets/wasmJsMain/kotlin"))
