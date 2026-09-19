@@ -11,7 +11,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         snapshotVersion?.let {
             println("https://androidx.dev/snapshots/builds/$it/artifacts/repository/")
@@ -25,6 +25,45 @@ dependencyResolutionManagement {
         }
         google()
         mavenCentral()
+        ivy {
+            name = "Node.js"
+            url = uri("https://nodejs.org/dist")
+            patternLayout {
+                artifact("v[revision]/[artifact](-v[revision]-[classifier]).[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeGroup("org.nodejs")
+            }
+        }
+        ivy {
+            name = "Yarn"
+            url = uri("https://github.com/yarnpkg/yarn/releases/download")
+            patternLayout {
+                artifact("v[revision]/[artifact](-v[revision]).[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeGroup("com.yarnpkg")
+            }
+        }
+        ivy {
+            name = "Binaryen"
+            url = uri("https://github.com/WebAssembly/binaryen/releases/download")
+            patternLayout {
+                artifact("version_[revision]/[artifact]-version_[revision]-[classifier].[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeGroup("com.github.webassembly")
+            }
+        }
     }
     versionCatalogs {
         create("xrLibs") {
@@ -61,5 +100,7 @@ include(
     ":installprompt",
     ":telecom",
     ":room",
-    ":performance"
+    ":performance",
+    ":preview:wasm",
+    ":preview:generator"
 )

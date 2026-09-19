@@ -25,9 +25,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
@@ -37,15 +43,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 @Composable
 fun FloatingActionButtonExamples() {
     Column(
         modifier = Modifier
-            .padding(48.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+            .padding(16.dp)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Text("Floating toolbar (Expressive):")
+        FloatingToolbarExample()
         Text("Floating action button:")
         Example(onClick = { Log.d("FAB", "FAB clicked.") })
         Text("Small floating action button:")
@@ -103,3 +115,31 @@ fun LargeExample(onClick: () -> Unit) {
     }
 }
 // [END android_compose_components_largefab]
+
+// [START android_compose_components_floatingtoolbar]
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun FloatingToolbarExample() {
+    HorizontalFloatingToolbar(
+        expanded = true,
+        floatingActionButton = {
+            FloatingToolbarDefaults.VibrantFloatingActionButton(
+                onClick = { /* action */ },
+            ) {
+                Icon(Icons.Filled.Add, "Add")
+            }
+        },
+        content = {
+            IconButton(onClick = { /* action */ }) {
+                Icon(Icons.Filled.Edit, "Edit")
+            }
+            IconButton(onClick = { /* action */ }) {
+                Icon(Icons.Filled.Favorite, "Favorite")
+            }
+            IconButton(onClick = { /* action */ }) {
+                Icon(Icons.Filled.MoreVert, "More")
+            }
+        }
+    )
+}
+// [END android_compose_components_floatingtoolbar]

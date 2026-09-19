@@ -24,7 +24,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ContainedLoadingIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,16 +44,24 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 @Preview
 @Composable
 fun ProgressIndicatorExamples() {
     Column(
         modifier = Modifier
-            .padding(48.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+            .padding(16.dp)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Text("Loading indicator (Expressive):")
+        LoadingIndicatorExample()
+        Text("Contained loading indicator (Expressive):")
+        ContainedLoadingIndicatorExample()
         Text("Determinate linear indicator:")
         LinearDeterminateIndicator()
         Text("Indeterminate linear indicator:")
@@ -175,3 +186,20 @@ fun IndeterminateCircularIndicator() {
     )
 }
 // [END android_compose_components_indeterminateindicator]
+
+// [START android_compose_components_loadingindicator]
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LoadingIndicatorExample() {
+    LoadingIndicator()
+}
+// [END android_compose_components_loadingindicator]
+
+// [START android_compose_components_containedloadingindicator]
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ContainedLoadingIndicatorExample() {
+    ContainedLoadingIndicator()
+}
+// [END android_compose_components_containedloadingindicator]
+

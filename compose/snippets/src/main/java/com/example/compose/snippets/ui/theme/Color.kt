@@ -26,6 +26,21 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+// Android Green and Blue Theme Colors
+val AndroidGreen = Color(0xFF3DDC84)
+val AndroidGreenDark = Color(0xFF00875A)
+val AndroidGreenLight = Color(0xFF79F2A6)
+val AndroidBlue = Color(0xFF4285F4)
+val AndroidBlueDark = Color(0xFF1A73E8)
+val AndroidBlueLight = Color(0xFF8AB4F8)
+
+val GreenPrimary40 = Color(0xFF006D3B)
+val GreenPrimary80 = Color(0xFF55E18B)
+val BlueSecondary40 = Color(0xFF00639B)
+val BlueSecondary80 = Color(0xFF82CFFF)
+val TealTertiary40 = Color(0xFF006972)
+val TealTertiary80 = Color(0xFF82D5E3)
+
 val LavenderDark = Color(0xff23009e)
 val LavenderLight = Color(0xFFDDBEFC)
 
