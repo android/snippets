@@ -50,7 +50,7 @@ fun dslEntryProvider() {
         // [START android_compose_navigation3_metadata_2]
         entry<Home>(metadata = mapOf("key" to "value")) { /* ... */ }
         entry<Conversation>(metadata = { key: Conversation ->
-            mapOf("key" to "value: ${key.id})")
+            mapOf("key" to "value: ${key.id}")
         }) { /* ... */ }
         // [END android_compose_navigation3_metadata_2]
     }
