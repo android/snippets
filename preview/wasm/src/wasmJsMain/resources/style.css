@@ -1,0 +1,1044 @@
+/*
+ * Material 3 Jetpack Compose Previews - Developer Android Branding
+ * Shared Stylesheet
+ */
+
+:root {
+    --android-green: #3DDC84;
+    --android-green-dark: #006D3B;
+    --android-green-container: #D4F7DF;
+    --android-blue: #4285F4;
+    --android-blue-dark: #00639B;
+    --android-blue-container: #D1E4FF;
+    --bg-primary: #ffffff;
+    --bg-surface: #f8f9fa;
+    --bg-surface-variant: #f1f3f4;
+    --border-color: #dadce0;
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --code-bg: #1e1e1e;
+    --code-text: #e8eaed;
+    --callout-bg: #e8f5e9;
+    --callout-border: #3DDC84;
+    --callout-blue-bg: #e8f0fe;
+    --callout-blue-border: #4285F4;
+    --nav-width: 270px;
+    --toc-width: 240px;
+    --shadow: 0 1px 3px rgba(60,64,67,0.12), 0 1px 2px rgba(60,64,67,0.24);
+    --shadow-lg: 0 4px 12px rgba(60,64,67,0.15);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-surface: #1e1e1e;
+    --bg-surface-variant: #28292a;
+    --border-color: #3c4043;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --code-bg: #0d1117;
+    --code-text: #f0f6fc;
+    --callout-bg: #14291e;
+    --callout-border: #3DDC84;
+    --callout-blue-bg: #17263c;
+    --callout-blue-border: #4285F4;
+    --shadow: 0 1px 3px rgba(0,0,0,0.5);
+    --shadow-lg: 0 6px 16px rgba(0,0,0,0.6);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Google Sans', 'Google Sans Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.65;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+code, pre, kbd, samp {
+    font-family: 'Google Sans Code', monospace;
+}
+
+/* Header & Brand */
+.devsite-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.devsite-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.devsite-brand-logo {
+    height: 32px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+[data-theme="dark"] .devsite-brand-logo {
+    content: url("https://www.gstatic.com/devrel-devsite/prod/v826fb839c0b38141980abf47020a61dc3ff340cbde624f57178f4c01d184ef87/android/images/lockup-dark-theme.png");
+}
+
+.devsite-brand-badge {
+    background: linear-gradient(135deg, var(--android-green-container), var(--android-blue-container));
+    color: var(--android-green-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.devsite-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    font-family: 'Google Sans', sans-serif;
+    transition: all 0.15s ease;
+}
+
+.header-btn:hover {
+    background-color: var(--bg-surface-variant);
+    border-color: var(--android-green);
+}
+
+/* Layout */
+.doc-layout {
+    display: flex;
+    min-height: calc(100vh - 64px);
+}
+
+/* Left Sidebar (devsite-book-nav) */
+.devsite-book-nav {
+    width: var(--nav-width);
+    flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: 16px 0;
+}
+
+.nav-filter-box {
+    padding: 0 16px 12px 16px;
+    position: relative;
+}
+
+.nav-filter-icon {
+    position: absolute;
+    left: 26px;
+    top: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.nav-filter-box input {
+    width: 100%;
+    padding: 7px 10px 7px 30px;
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    outline: none;
+    font-family: 'Google Sans', sans-serif;
+}
+
+.nav-filter-box input:focus {
+    border-color: var(--android-green);
+}
+
+.nav-tree-section {
+    padding: 4px 16px 8px 16px;
+}
+
+.nav-overview-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-overview-link:hover {
+    background-color: var(--bg-surface-variant);
+}
+
+.nav-overview-link.active {
+    background-color: var(--android-green-container);
+    color: var(--android-green-dark);
+    font-weight: 700;
+}
+
+.nav-tree-category {
+    margin-bottom: 4px;
+}
+
+.nav-category-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px 6px 16px;
+    user-select: none;
+    color: var(--text-secondary);
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.nav-category-list {
+    list-style: none;
+}
+
+.nav-item {
+    margin: 1px 8px;
+}
+
+.nav-link {
+    display: block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: background-color 0.15s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--bg-surface-variant);
+}
+
+.nav-link.active {
+    background-color: var(--android-green-container);
+    color: var(--android-green-dark);
+    font-weight: 600;
+}
+
+[data-theme="dark"] .nav-link.active {
+    background-color: rgba(61, 220, 132, 0.15);
+    color: var(--android-green);
+}
+
+.nav-parent-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-parent-row .nav-link {
+    flex: 1;
+    min-width: 0;
+}
+
+.nav-sub-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    line-height: 1;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-sub-toggle:hover {
+    background-color: var(--bg-surface-variant);
+    color: var(--text-primary);
+}
+
+.nav-sub-arrow {
+    display: inline-block;
+}
+
+.nav-sub-list {
+    list-style: none;
+    padding-left: 14px;
+    margin: 4px 0 6px 6px;
+    border-left: 2px solid var(--border-color);
+}
+
+.nav-sub-item {
+    margin: 2px 0;
+}
+
+.nav-sub-link {
+    display: block;
+    padding: 4px 8px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.nav-sub-link:hover {
+    background-color: var(--bg-surface-variant);
+    color: var(--text-primary);
+}
+
+.nav-sub-link.active {
+    color: var(--android-green-dark);
+    font-weight: 600;
+    background-color: var(--android-green-container);
+}
+
+[data-theme="dark"] .nav-sub-link.active {
+    color: var(--android-green);
+    background-color: rgba(61, 220, 132, 0.15);
+}
+
+/* Article & Common Sections */
+.devsite-article {
+    flex: 1;
+    max-width: 920px;
+    padding: 32px 48px 64px 48px;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.category-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--android-green-dark);
+    background: var(--android-green-container);
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .category-tag {
+    color: var(--android-green);
+    background: rgba(61, 220, 132, 0.15);
+}
+
+.import-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Google Sans Code', 'Roboto Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: var(--bg-surface-variant);
+    border: 1px solid var(--border-color);
+    padding: 3px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: all;
+}
+
+.import-tag:hover {
+    background: var(--bg-surface);
+    border-color: var(--android-green);
+    color: var(--android-green-dark);
+}
+
+[data-theme="dark"] .import-tag:hover {
+    color: var(--android-green);
+}
+
+.component-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.component-lead {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.devsite-callout {
+    background-color: var(--callout-bg);
+    border-left: 4px solid var(--callout-border);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.devsite-callout svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    fill: var(--android-green-dark);
+    margin-top: 2px;
+}
+
+.devsite-callout-content strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.devsite-callout-content p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.devsite-callout-content a {
+    color: var(--android-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.section-heading {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 36px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Screenshot Preview */
+.screenshot-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.preview-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    background-color: #fff;
+}
+
+/* Interactive WASM Runner */
+.wasm-runner-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--bg-surface);
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+}
+
+.wasm-runner-header {
+    background-color: var(--bg-surface-variant);
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wasm-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--android-green-dark);
+}
+
+.wasm-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--android-green);
+    animation: pulse 2s infinite;
+}
+
+.wasm-theme-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-picker-label {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-swatches {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.theme-swatch:hover {
+    transform: scale(1.18);
+}
+
+.theme-swatch.active {
+    border-color: var(--text-primary);
+    transform: scale(1.22);
+    box-shadow: 0 0 0 2px var(--bg-surface), 0 0 0 4px var(--android-green);
+}
+
+.theme-custom-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    border: 1px dashed var(--border-color);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.theme-custom-label input[type="color"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.custom-color-icon {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    pointer-events: none;
+    line-height: 1;
+}
+
+.wasm-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.wasm-btn {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wasm-btn:hover {
+    background-color: var(--bg-surface-variant);
+    border-color: var(--android-green);
+}
+
+.wasm-frame-container {
+    width: 100%;
+    height: 380px;
+    background-color: var(--bg-primary);
+    position: relative;
+}
+
+.wasm-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.wasm-runner-footer {
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Lists */
+.doc-list {
+    margin-left: 20px;
+    margin-bottom: 24px;
+}
+
+.doc-list li {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+/* Code Snippet Container */
+.code-container {
+    background-color: var(--code-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+}
+
+.code-header {
+    background-color: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #9aa0a6;
+    font-size: 0.8rem;
+    font-family: 'Google Sans Code', monospace;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.copy-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #e8eaed;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-family: 'Google Sans', sans-serif;
+}
+
+.copy-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--android-green);
+}
+
+.code-block {
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--code-text);
+}
+
+.code-footer {
+    background-color: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 0.8rem;
+}
+
+.code-link {
+    color: var(--android-green);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.code-link:hover {
+    color: #2bb368;
+    text-decoration: underline;
+}
+
+/* Prism Kotlin Syntax Highlighting */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #8b949e;
+    font-style: italic;
+}
+
+.token.punctuation {
+    color: #e8eaed;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+    color: #79c0ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+    color: #a5d6ff;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+    color: #79c0ff;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #ff7b72;
+    font-weight: 600;
+}
+
+.token.function {
+    color: #d2a8ff;
+    font-weight: 500;
+}
+
+.token.class-name {
+    color: #ffa657;
+}
+
+.token.annotation {
+    color: #e5c07b;
+    font-weight: 600;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #ffa657;
+}
+
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+/* API Tables */
+.api-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 0.9rem;
+}
+
+.api-table th {
+    background-color: var(--bg-surface-variant);
+    color: var(--text-primary);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+}
+
+.api-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.api-table code {
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.82rem;
+    background-color: var(--bg-surface-variant);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Example & Catalog Cards */
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.example-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--bg-surface);
+    text-decoration: none;
+    color: var(--text-primary);
+    display: block;
+    transition: all 0.2s ease;
+}
+
+.example-card:hover {
+    border-color: var(--android-green);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.example-card-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.example-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.example-card-link {
+    font-size: 0.85rem;
+    color: var(--android-blue);
+    font-weight: 500;
+}
+
+/* Catalog Grid (for Overview Index) */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.catalog-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 16px;
+}
+
+.catalog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--android-green);
+}
+
+.catalog-card-img-container {
+    width: 100%;
+    height: 160px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    margin-bottom: 12px;
+}
+
+.catalog-card-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.catalog-card-category {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--android-green-dark);
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+.catalog-card-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.catalog-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+    margin-top: 48px;
+}
+
+.bottom-nav-link {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.bottom-nav-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.bottom-nav-title {
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 500;
+    color: var(--android-blue);
+}
+
+/* Right TOC / Scrollspy (devsite-page-nav) */
+.devsite-page-nav {
+    width: var(--toc-width);
+    flex-shrink: 0;
+    padding: 32px 24px;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+}
+
+.page-nav-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.page-nav-list {
+    list-style: none;
+    border-left: 2px solid var(--border-color);
+    padding-left: 12px;
+}
+
+.page-nav-item {
+    margin-bottom: 8px;
+}
+
+.page-nav-link {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: block;
+    transition: color 0.15s ease;
+}
+
+.page-nav-link:hover {
+    color: var(--text-primary);
+}
+
+.page-nav-link.active {
+    color: var(--android-green-dark);
+    font-weight: 600;
+}
+
+[data-theme="dark"] .page-nav-link.active {
+    color: var(--android-green);
+}
+
+/* Feedback & Report Problem */
+.feedback-card {
+    margin-top: 36px;
+    margin-bottom: 24px;
+    padding: 18px 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.feedback-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.feedback-desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.report-btn {
+    color: var(--text-primary);
+}
+
+.report-btn:hover {
+    border-color: #ea4335;
+    color: #ea4335;
+}
+
+[data-theme="dark"] .report-btn:hover {
+    border-color: #f28b82;
+    color: #f28b82;
+}
+

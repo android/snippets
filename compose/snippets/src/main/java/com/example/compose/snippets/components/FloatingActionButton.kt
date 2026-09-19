@@ -21,7 +21,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -30,21 +33,20 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun FloatingActionButtonExamples() {
@@ -66,6 +68,8 @@ fun FloatingActionButtonExamples() {
         LargeExample(onClick = { Log.d("FAB", "Large FAB clicked.") })
         Text("Floating action button with text:")
         ExtendedExample(onClick = { Log.d("FAB", "Extended FAB clicked.") })
+        Text("Medium floating action button:")
+        MediumFloatingActionButtonSample()
     }
 }
 
@@ -143,3 +147,17 @@ fun FloatingToolbarExample() {
     )
 }
 // [END android_compose_components_floatingtoolbar]
+
+// [START android_compose_expressive_components_mediumfab]
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun MediumFloatingActionButtonSample() {
+    MediumFloatingActionButton(onClick = {}) {
+        Icon(
+            Icons.Filled.Add,
+            contentDescription = "Add",
+            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
+        )
+    }
+}
+// [END android_compose_expressive_components_mediumfab]
