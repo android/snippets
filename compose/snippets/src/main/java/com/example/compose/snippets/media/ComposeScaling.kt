@@ -157,7 +157,7 @@ private fun DynamicWindowSizing() {
 }
 
 // [START android_media3_compose_scaling_player_fit]
-@OptIn(ExperimentalApi::class)
+@OptIn(UnstableApi::class, ExperimentalApi::class)
 @Composable
 private fun MediaPlayer(
     player: Player,
@@ -172,7 +172,7 @@ private fun MediaPlayer(
 // [END android_media3_compose_scaling_player_fit]
 
 // [START android_media3_compose_scaling_dynamic_toggle]
-@OptIn(ExperimentalApi::class)
+@OptIn(UnstableApi::class, ExperimentalApi::class)
 @Composable
 fun ZoomableVideoPlayer(
     player: Player,
