@@ -35,12 +35,13 @@ dependencyResolutionManagement {
 rootProject.name = "snippets"
 include(
     ":ai",
+    ":backgroundwork",
     ":bluetoothle",
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
     ":datastore",
-    ":camerax",
+    ":camera",
     ":watchface",
     ":wear",
     ":wearcompanion",
@@ -60,5 +61,6 @@ include(
     ":cars",
     ":installprompt",
     ":telecom",
-    ":room"
+    ":room",
+    ":performance"
 )
