@@ -67,10 +67,9 @@ class ExitAnimationActivity : Activity() {
     // [START android_views_splash_screen_exit_animation]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         setContentView(R.layout.main_activity)
         // [END_EXCLUDE]
-        // ...
 
         // Add a callback that's called when the splash screen is animating to the
         // app content.
