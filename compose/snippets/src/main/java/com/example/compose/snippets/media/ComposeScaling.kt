@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:kotlin.OptIn(ExperimentalMediaQueryApi::class)
+
 package com.example.compose.snippets.media
 
 import android.app.Activity
@@ -26,7 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalMediaQueryApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.derivedMediaQuery
 import androidx.compose.ui.input.pointer.pointerInput
@@ -44,13 +46,15 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.common.Player
+import androidx.media3.common.util.ExperimentalApi
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.compose.material3.Player
 import androidx.media3.ui.compose.material3.PlayerDefaults
 import androidx.media3.ui.compose.material3.buttons.MuteButton
+import androidx.window.core.layout.WindowSizeClass
 
 // [START android_media3_compose_scaling_non_immersive_insets]
-@OptIn(UnstableApi::class)
+@OptIn(UnstableApi::class, ExperimentalApi::class)
 @Composable
 fun NonImmersiveVideoPlayer(
     player: Player,
@@ -153,6 +157,7 @@ private fun DynamicWindowSizing() {
 }
 
 // [START android_media3_compose_scaling_player_fit]
+@OptIn(ExperimentalApi::class)
 @Composable
 private fun MediaPlayer(
     player: Player,
@@ -167,6 +172,7 @@ private fun MediaPlayer(
 // [END android_media3_compose_scaling_player_fit]
 
 // [START android_media3_compose_scaling_dynamic_toggle]
+@OptIn(ExperimentalApi::class)
 @Composable
 fun ZoomableVideoPlayer(
     player: Player,
