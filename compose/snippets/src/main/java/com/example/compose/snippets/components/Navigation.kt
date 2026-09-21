@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Box
@@ -26,22 +28,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuOpen
-import androidx.compose.material.icons.filled.Album
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.PlaylistAddCircle
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -125,9 +111,9 @@ enum class Destination(
     val icon: ImageVector,
     val contentDescription: String
 ) {
-    SONGS("songs", "Songs", Icons.Default.MusicNote, "Songs"),
-    ALBUM("album", "Album", Icons.Default.Album, "Album"),
-    PLAYLISTS("playlist", "Playlist", Icons.Default.PlaylistAddCircle, "Playlist")
+    SONGS("songs", "Songs", AppIcons.MusicNote, "Songs"),
+    ALBUM("album", "Album", AppIcons.Album, "Album"),
+    PLAYLISTS("playlist", "Playlist", AppIcons.PlaylistAddCircle, "Playlist")
 }
 
 @Composable
@@ -266,7 +252,7 @@ fun ShortNavigationBarSample() {
             ShortNavigationBarItem(
                 icon = {
                     Icon(
-                        if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
                         contentDescription = null,
                     )
                 },
@@ -301,7 +287,7 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
                     iconPosition = NavigationItemIconPosition.Start,
                     icon = {
                         Icon(
-                            if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
                             contentDescription = null,
                         )
                     },
@@ -323,9 +309,9 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
 fun WideNavigationRailResponsiveSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
     val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -352,9 +338,9 @@ fun WideNavigationRailResponsiveSample() {
                     },
                 ) {
                     if (state.targetValue == WideNavigationRailValue.Expanded) {
-                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
                     } else {
-                        Icon(Icons.Filled.Menu, "Expand rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
                     }
                 }
             },
@@ -369,7 +355,7 @@ fun WideNavigationRailResponsiveSample() {
                             } else {
                                 unselectedIcons[index]
                             }
-                        Icon(imageVector = imageVector, contentDescription = null)
+                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
                     },
                     label = { Text(item) },
                     selected = selectedItem == index,
@@ -413,9 +399,9 @@ fun WideNavigationRailResponsiveSample() {
 fun ModalWideNavigationRailSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
     val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -445,8 +431,8 @@ fun ModalWideNavigationRailSample() {
                     },
                 ) {
                     if (state.targetValue == WideNavigationRailValue.Expanded)
-                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
-                    else Icon(Icons.Filled.Menu, "Expand rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
+                    else Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
                 }
             },
         ) {
@@ -499,8 +485,8 @@ fun ModalWideNavigationRailSample() {
 fun DismissibleModalWideNavigationRailSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Settings)
-    val unselectedIcons = listOf(Icons.Outlined.Home, Icons.Outlined.Search, Icons.Outlined.Settings)
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
+    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -511,7 +497,7 @@ fun DismissibleModalWideNavigationRailSample() {
                     railExpanded = true,
                     icon = {
                         Icon(
-                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
                             contentDescription = null,
                         )
                     },

@@ -16,14 +16,14 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.graphics.vector.ImageVector
+
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,7 +56,7 @@ fun ToggleIconButtonExample() {
         onClick = { isToggled = !isToggled }
     ) {
         Icon(
-            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
+            painter = rememberVectorPainter(if (isToggled) AppIcons.FavoriteFilled else AppIcons.Favorite),
             contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
         )
     }
@@ -66,8 +66,8 @@ fun ToggleIconButtonExample() {
 // [START android_compose_components_iconbutton]
 @Composable
 fun MomentaryIconButton(
-    unselectedImage: Int,
-    selectedImage: Int,
+    unselectedImage: ImageVector,
+    selectedImage: ImageVector,
     contentDescription: String,
     modifier: Modifier = Modifier,
     stepDelay: Long = 100L, // Minimum value is 1L milliseconds.
@@ -90,7 +90,7 @@ fun MomentaryIconButton(
         interactionSource = interactionSource
     ) {
         Icon(
-            painter = if (isPressed) painterResource(id = selectedImage) else painterResource(id = unselectedImage),
+            painter = rememberVectorPainter(if (isPressed) selectedImage else unselectedImage),
             contentDescription = contentDescription,
         )
     }
@@ -108,8 +108,8 @@ fun MomentaryIconButtonExample() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         MomentaryIconButton(
-            unselectedImage = R.drawable.fast_rewind,
-            selectedImage = R.drawable.fast_rewind_filled,
+            unselectedImage = AppIcons.FastRewind,
+            selectedImage = AppIcons.FastRewindFilled,
             stepDelay = 100L,
             onClick = { pressedCount -= 1 },
             contentDescription = "Decrease count button"
@@ -118,8 +118,8 @@ fun MomentaryIconButtonExample() {
         Text("advanced by $pressedCount frames")
         Spacer(modifier = Modifier)
         MomentaryIconButton(
-            unselectedImage = R.drawable.fast_forward,
-            selectedImage = R.drawable.fast_forward_filled,
+            unselectedImage = AppIcons.FastForward,
+            selectedImage = AppIcons.FastForwardFilled,
             contentDescription = "Increase count button",
             stepDelay = 100L,
             onClick = { pressedCount += 1 }
@@ -137,7 +137,7 @@ fun IconButtonWithAnimatedShapeSample() {
         onClick = { /* doSomething() */ },
         shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
     ) {
-        Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+        Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
     }
 }
 // [END android_compose_expressive_components_animatediconbuttons]
@@ -154,9 +154,9 @@ fun IconToggleButtonWithAnimatedShapeSample() {
         shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
     ) {
         if (checked) {
-            Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
         } else {
-            Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
         }
     }
 }

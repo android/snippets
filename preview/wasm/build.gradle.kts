@@ -42,7 +42,6 @@ kotlin {
                 implementation("org.jetbrains.compose.runtime:runtime:1.12.0")
                 implementation("org.jetbrains.compose.foundation:foundation:1.12.0")
                 implementation("org.jetbrains.compose.material3:material3:1.12.0-alpha03")
-                implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
                 implementation("org.jetbrains.compose.ui:ui:1.12.0")
                 implementation("org.jetbrains.compose.components:components-resources:1.12.0")
             }
@@ -86,9 +85,9 @@ tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false
 }
 
-tasks.register<Copy>("packageStaticSite") {
+val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
-    description = "Packages the complete static website (HTML, WASM, JS, and screenshots) for GitHub Pages"
+    description = "Packages the static website with fast-compiling development WASM binary (for local development)"
     dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources")
 
     into(layout.buildDirectory.dir("dist/site"))
@@ -98,8 +97,35 @@ tasks.register<Copy>("packageStaticSite") {
         include("**/*")
     }
 
-    // Copy compiled WASM and JS from compileSync
+    // Copy compiled development WASM and JS from compileSync
     from(layout.buildDirectory.dir("compileSync/wasmJs/main/developmentExecutable/kotlin")) {
+        include("*.wasm")
+        include("*.mjs")
+        include("*.js")
+        include("*.map")
+    }
+
+    // Copy skiko runtime (skiko.wasm, skiko.mjs)
+    from(layout.buildDirectory.dir("compose/skiko-runtime-processed-wasmjs")) {
+        include("skiko.wasm")
+        include("skiko.mjs")
+    }
+}
+
+val packageStaticSite by tasks.registering(Copy::class) {
+    group = "distribution"
+    description = "Packages the complete static website with optimized production WASM binary for deployment"
+    dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources")
+
+    into(layout.buildDirectory.dir("dist/site"))
+
+    // Copy static website HTML & assets
+    from("src/wasmJsMain/resources") {
+        include("**/*")
+    }
+
+    // Copy compiled production WASM and JS from compileSync
+    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/kotlin")) {
         include("*.wasm")
         include("*.mjs")
         include("*.js")

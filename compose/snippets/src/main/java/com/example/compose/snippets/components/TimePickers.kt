@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,9 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.EditCalendar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -358,9 +357,9 @@ fun AdvancedTimePickerExample(
 
     /** The icon used for the icon button that switches from dial to input */
     val toggleIcon = if (showDial) {
-        Icons.Filled.EditCalendar
+        AppIcons.EditCalendar
     } else {
-        Icons.Filled.AccessTime
+        AppIcons.AccessTime
     }
 
     AdvancedTimePickerDialog(
@@ -369,7 +368,7 @@ fun AdvancedTimePickerExample(
         toggle = {
             IconButton(onClick = { showDial = !showDial }) {
                 Icon(
-                    imageVector = toggleIcon,
+                    painter = rememberVectorPainter(toggleIcon),
                     contentDescription = "Time picker type toggle",
                 )
             }

@@ -1,131 +1,270 @@
-# Compose Snippets Web Preview & WASM Runner
+# Jetpack Compose Web Previews & Interactive WASM Runner
 
-A static preview catalog and interactive WebAssembly (WASM) runner for Jetpack Compose snippets in this repository.
+A static documentation catalog and live WebAssembly (WASM) interactive runner for the Jetpack Compose snippets in this repository.
 
-Built to run and preview Material Design 3 composables directly in any modern browser, deployed to GitHub Pages without modifying the Android Compose dependencies or downgrading Compose versions in `:compose:snippets`.
+Built with **Compose Multiplatform 1.12 for WebAssembly (WASM-JS)**, this system runs real Material Design 3 composables directly in modern web browsers, embedded within official Google Developer (`developer.android.com`) styled documentation pages and deployed statically to GitHub Pages.
 
 ---
 
-## Features
+## Key Features
 
-- **Dedicated Component Documentation Pages (`components/<id>.html`)**:
-  - Separate dedicated page for each of the 25 Material 3 composables matching **developer.android.com** branding.
-  - Comprehensive documentation:
-    - **Overview & Description**: Role and visual style of the composable.
-    - **When to Use**: Specific scenarios, comparisons with alternatives, and Material Design guidelines.
-    - **How to Use**: Practical instructions, state management, and accessibility considerations.
-    - **Key API Parameters**: Detailed parameters table (types, default values, callbacks).
-    - **Real Code Snippets**: Extracted directly from `compose/snippets/src/main/java/com/example/compose/snippets/components/<File>.kt` (using the official `// [START ...]` tags).
-    - **Direct GitHub Repository Mapping**: Explicit banner stating: *"Part of the android/snippets repository on GitHub"* linking directly to the source file in `github.com/android/snippets`.
-  - **Embedded Live WASM Runner**:
-    - Embedded directly into the page flow (no modal dialogs!).
-    - Fully interactive Compose canvas with reload, fullscreen, and light/dark theme synchronization.
-  - **Sequential Navigation**: Next / Previous buttons to navigate across all components.
+- **130 Dedicated Component & Example Pages (`components/<id>.html`)**:
+  - Separate dedicated page for every component and individual example snippet (e.g., `filled-button.html`, `large-toggle-button-with-icon.html`, `date-picker-modal.html`).
+  - **Overview & Usage**: Purpose, design guidelines, and comparisons from `developer.android.com/develop/ui/compose/components`.
+  - **Key API Parameters**: Detailed parameter tables listing parameter types, default values, and functional descriptions.
+  - **Real Code Snippets**: Extracted directly from `compose/snippets/src/main/java/com/example/compose/snippets/components/*.kt` using official `// [START ...]` and `// [END ...]` documentation tags.
+  - **Interactive Live WASM Preview**: Real-time Skiko canvas embedded in a Google Pixel 11 Pro phone device frame with reload, fullscreen, and light/dark theme synchronization.
+  - **Static Roborazzi Preview**: Fallback pre-rendered screenshot captured from unit and preview tests.
+
+- **Interactive Material 3 Theme Builder (`theme-builder.html`)**:
+  - Interactive tonal palette presets: **Android Green**, **Monochrome**, **Material 3 Purple**, **Google Blue**, **Ocean Teal**, **Terracotta Rose**, and **Amber Gold**.
+  - Custom brand seed color picker dynamically generating accessible M3 tonal palettes.
+  - Live app preview rendering Material 3 components in real time.
+  - Interactive Color Roles grid showing current hex values with one-click copy.
+  - Ready-to-use Compose code export (`Theme.kt` and `Color.kt`).
 
 - **Static Catalog Website (`index.html`)**:
-  - Live search and filter by category or component name.
-  - Light and Dark theme toggle adhering to the **Android Green & Blue** palette.
-  - Direct links to dedicated component pages.
-  - Developer.android.com branding with Android robot icon and repository link.
-
-- **Interactive WASM Runner (`wasm.html`)**:
-  - Built with **Compose Multiplatform 1.12.0 for WebAssembly (WASM-JS)**.
-  - Runs full Compose UI rendering natively on HTML5 Canvas via Skiko WebAssembly.
-  - Supports dynamic theme toggling and single-snippet isolation.
-
-- **Android Green & Blue Theming**:
-  - Replaces default purple colors with official Android branding colors:
-    - **Android Green**: Primary `#3DDC84`, Container `#00522A` / `#D4F7DF`, OnPrimary `#00391C`
-    - **Android Blue**: Secondary `#4285F4`, Container `#004975` / `#D1E4FF`, OnSecondary `#003253`
-  - Consistent across both Android app `:compose:snippets` and Compose WASM `:preview:wasm`.
-
-- **Direct Extraction from `:compose:snippets`**:
-  - Snippets are dynamically extracted directly from `compose/snippets/src/main/java/com/example/compose/snippets/components/*.kt` using the repository's `// [START ...]` and `// [END ...]` documentation tags. No synthetic or generated code snippets are used.
-
-- **Screenshot Generation on Merge**:
-  - Integration script (`preview/generator/scripts/run-preview-daemon.sh`) supporting [compose-preview-daemon](https://github.com/yschimke/compose-preview-daemon) / `render-cli` with an automated fallback generator and component page generator.
-  - Automated CI deployment via GitHub Actions (`.github/workflows/deploy-preview-pages.yml`).
+  - Live search and category filtering across all 130 snippets and 34 component families.
+  - Zero-dependency styling: 100% pure CSS and Google Sans typography without external Node.js runtime or build dependencies.
 
 ---
 
-## Component Catalog (25 Snippets Across 6 Categories)
+## Component Catalog (130 Snippets Across 6 Categories)
 
-| Category | Snippets |
+| Category | Component Families Covered |
 | :--- | :--- |
-| **Buttons & Actions** | Button Examples (Filled, Elevated, Tonal, Outlined, Text), Floating Action Button (FAB, Small, Large, Extended), Segmented Buttons (Single & Multi-Select) |
-| **Containment & Sheets** | Card Examples (Filled, Elevated, Outlined), Dialog Examples (Alert Dialog, Basic Dialog), Bottom Sheet (Modal Bottom Sheet), Dividers & Scaffold |
-| **Navigation** | App Bars (Small, Center-Aligned, Medium, Large), Navigation Bar & Rail, Navigation Drawer (Modal Drawer) |
-| **Selection & Inputs** | Checkbox Examples (Standard & Tri-State), Switch Examples, Radio Button, Slider Examples (Continuous, Steps, Range), Chip Examples (Assist, Filter, Input, Suggestion), Date Picker, Time Picker |
-| **Feedback & Communication** | Badge Examples, Progress Indicators (Linear, Circular, Indeterminate), Tooltip Examples (Plain & Rich) |
-| **Lists & Menus** | Search Bar (Docked & Expanded), Menu Examples (Dropdown & Exposed), Carousel (Horizontal Multi-Browse), Swipe to Dismiss (SwipeToDismissBox) |
+| **Buttons & Actions** | Buttons (Filled, Tonal, Elevated, Outlined, Text, Square, Animated Shape), Floating Action Buttons (Standard, Small, Large, Medium, Extended), Icon Buttons (Standard, Toggle, Animated, Momentary), Segmented Buttons (Single-Choice, Multi-Choice) |
+| **Containment & Sheets** | Cards (Filled, Elevated, Outlined), Dialogs (Alert, Minimal), Bottom Sheets (Modal, Partial), Dividers (Horizontal, Vertical), Scaffolds |
+| **Navigation** | App Bars (Center-Aligned, Small, Medium, Large, Flexible, Always-Enter), Navigation Bars, Navigation Rails (Standard, Modal, Wide, Dismissible), Navigation Drawers (Modal) |
+| **Selection & Inputs** | Checkboxes (Standard, Tri-State, Parent-Child), Switches (Standard, Minimal, With Icon), Sliders (Continuous, Steps, Range), Chips (Assist, Filter, Input, Suggestion), Date Pickers (Modal, Docked, Input), Time Pickers (Dialog, Input) |
+| **Feedback & Communication** | Badges (Standard, Numbered), Progress Indicators (Linear, Circular, Indeterminate, Determinate, Expressive, Wavy), Tooltips (Plain, Rich) |
+| **Lists & Menus** | Search Bars (Simple, Docked), Menus (Dropdown, Exposed, Scrollable, Grouped), Carousels (Multi-Browse, Uncontained), Swipe to Dismiss (`SwipeToDismissBox`) |
 
 ---
 
-## Architecture
+## Architecture & Directory Layout
 
 ```
 snippets/
-├── compose/snippets/                  # Unaltered Android Compose module (Android Compose BOM)
-│   └── src/main/java/.../ui/theme/    # Updated with Android Green & Blue palette
+├── compose/snippets/                          # Android Jetpack Compose snippets module
+│   └── src/main/java/.../snippets/components/ # Canonical snippet Kotlin files with [START]/[END] tags
+│
 ├── preview/
-│   ├── wasm/                          # Compose Multiplatform WASM-JS module
-│   │   ├── src/wasmJsMain/kotlin/     # WASM Compose App & 25 Component Snippet implementations
-│   │   │   └── .../preview/wasm/
-│   │   │       ├── model/             # Category and Snippet data structures
-│   │   │       ├── registry/          # SnippetRegistry mapping IDs to Composables & Code
-│   │   │       ├── snippets/          # Categorized Material 3 Composable Snippets
-│   │   │       ├── theme/             # Android Green & Blue Theme for Compose WASM
-│   │   │       └── WasmPreviewApp.kt  # Root WASM Application with routing & controls
-│   │   └── src/wasmJsMain/resources/  # Static web assets
-│   │       ├── index.html             # Catalog UI (Search, Filter, Modal, Theme Toggle)
-│   │       ├── wasm.html              # Dedicated WASM Canvas Runner
-│   │       └── screenshots/           # 25 Preview PNGs
-│   ├── generator/                     # Preview screenshot generator & daemon integration
-│   │   ├── generate_preview_images.py # Standalone screenshot generator
-│   │   └── scripts/run-preview-daemon.sh # compose-preview-daemon / CI entrypoint
-│   └── README.md
-└── .github/workflows/
-    └── deploy-preview-pages.yml       # GitHub Actions workflow for building & deploying to GitHub Pages
+│   ├── README.md                              # This documentation
+│   ├── serve.py                               # Local development HTTP server with WASM MIME types
+│   │
+│   ├── generator/                             # Documentation page & code map generator (Python)
+│   │   ├── config.py                          # Paths, output dirs, and autogenerated banner templates
+│   │   ├── component_data.py                  # Metadata definitions for 34 component families & 130 examples
+│   │   ├── component_template.py              # HTML template for dedicated component pages
+│   │   ├── generate_component_pages.py        # Main entrypoint: generates all HTML pages & SnippetCodeMap.kt
+│   │   ├── generate_preview_images.py         # Screenshot generator integration
+│   │   ├── index_page.py                      # Generator for catalog index (index.html)
+│   │   ├── navigation.py                      # Left sidebar hierarchy builder
+│   │   ├── snippet_extractor.py               # AST/tag extractor generating SnippetCodeMap.kt
+│   │   └── theme_builder_page.py              # Generator for Material 3 Theme Builder page
+│   │
+│   └── wasm/                                  # Compose Multiplatform WASM-JS module
+│       ├── build.gradle.kts                   # Kotlin Multiplatform WASM build script
+│       └── src/wasmJsMain/
+│           ├── kotlin/.../preview/wasm/
+│           │   ├── WasmPreviewApp.kt          # Root WASM coordinator Composable (routing & theme sync)
+│           │   ├── main.kt                    # Canvas initialization entrypoint
+│           │   ├── model/                     # Data models (ComponentCategory, ComponentSnippet)
+│           │   ├── navigation/
+│           │   │   └── UrlNavigation.kt       # URL parameters, hash routing, density scale, iframe detection
+│           │   ├── ui/
+│           │   │   ├── SnippetCatalogView.kt  # Catalog overview grid with search & filter chips
+│           │   │   ├── SnippetDetailView.kt   # Individual snippet preview with code inspector & copy
+│           │   │   └── ThemePickerSidePanel.kt# Fullscreen theme settings side drawer
+│           │   ├── registry/
+│           │   │   ├── SnippetRegistry.kt     # Central registry aggregator & snippet lookup engine
+│           │   │   ├── SnippetCommon.kt       # Shared Composable helpers (CenteredBox)
+│           │   │   ├── ButtonSnippets.kt      # Buttons, FABs, Segmented Buttons, Toggle Buttons
+│           │   │   ├── ContainmentSnippets.kt # Cards, Dialogs, Sheets, Dividers, Scaffolds
+│           │   │   ├── NavigationSnippets.kt  # App Bars, Navigation Bars, Rails, Drawers
+│           │   │   ├── SelectionSnippets.kt   # Checkboxes, Switches, Sliders, Chips, Pickers
+│           │   │   ├── FeedbackSnippets.kt    # Badges, Progress Indicators, Tooltips
+│           │   │   ├── ListsMenusSnippets.kt  # Search Bars, Menus, Carousels, Swipe items
+│           │   │   └── SnippetCodeMap.kt      # [AUTOGENERATED] Code map of raw snippet sources
+│           │   └── theme/
+│           │       ├── Theme.kt               # M3 Color Schemes (Android Green, Monochrome, Presets, Dynamic)
+│           │       └── Type.kt                # Typography definitions (Google Sans, Roboto)
+│           │
+│           └── resources/                     # Static web assets & generated HTML
+│               ├── style.css                  # Pure CSS stylesheet (developer.android.com branding)
+│               ├── wasm.html                  # Standalone Skiko WASM canvas runner
+│               ├── index.html                 # [AUTOGENERATED] Catalog landing page
+│               ├── theme-builder.html         # [AUTOGENERATED] Theme builder tool page
+│               ├── components/                # [AUTOGENERATED] 130 dedicated component pages
+│               └── screenshots/               # Preview images (130 PNGs)
+```
+
+---
+
+## Autogenerated vs. Handcrafted Files
+
+> [!IMPORTANT]
+> The following files are **AUTOGENERATED** and must **NOT** be modified manually. Any direct modifications will be overwritten when running the generator scripts.
+
+| File / Directory | Generated By | Source to Edit Instead | Git Status |
+| :--- | :--- | :--- | :--- |
+| `preview/wasm/src/wasmJsMain/kotlin/.../registry/SnippetCodeMap.kt` | `preview/generator/snippet_extractor.py` | `compose/snippets/src/main/java/.../components/*.kt` | Tracked |
+| `preview/wasm/src/wasmJsMain/resources/index.html` | `preview/generator/index_page.py` | `preview/generator/index_page.py` | **Ignored** (Generated in CI) |
+| `preview/wasm/src/wasmJsMain/resources/theme-builder.html` | `preview/generator/theme_builder_page.py` | `preview/generator/theme_builder_page.py` | **Ignored** (Generated in CI) |
+| `preview/wasm/src/wasmJsMain/resources/components/*.html` | `preview/generator/generate_component_pages.py` | `preview/generator/component_template.py` or `component_data.py` | **Ignored** (Generated in CI) |
+| `preview/wasm/src/wasmJsMain/resources/screenshots/*.png` | `preview/generator/generate_preview_images.py` | Compose Roborazzi / LayoutLib tests | **Ignored** (Generated in CI) |
+| `preview/wasm/build/dist/site/` | Gradle task `:preview:wasm:packageStaticSite` | Source files under `preview/wasm/` | **Ignored** (Build artifact) |
+
+> [!NOTE]
+> All generated HTML documentation pages and screenshot PNGs are excluded from Git via `.gitignore`. The CI workflow ([.github/workflows/deploy-preview-pages.yml](file:///.github/workflows/deploy-preview-pages.yml)) generates them **100% on the fly** before packaging and deploying to GitHub Pages. This keeps Git history lean, avoids binary bloat, and prevents noisy PR diffs.
+
+All autogenerated files include a prominent banner at the very top:
+```html
+<!--
+  =============================================================================
+  AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY!
+  =============================================================================
+  This file was automatically generated by: preview/generator/<script>.py
+  ...
+-->
+```
+
+---
+
+## Icon Strategy & Guidelines (`AppIcons`)
+
+### 1. Prohibition of `androidx.compose.material.icons`
+To ensure optimal performance, multiplatform compatibility, and lightweight distribution, **do not use `androidx.compose.material.icons`** (e.g. `Icons.Filled.*`, `Icons.Outlined.*`, or `material-icons-extended`) anywhere in the component snippets or preview runner:
+- The standard material icons dependency pulls in heavy class generation and can introduce multiplatform incompatibilities in WebAssembly targets.
+- By relying on self-contained vector paths, snippets can be compiled natively on both Android and WebAssembly targets without bulky transitive dependencies.
+
+### 2. Sourcing Outlined Icons from Google Fonts
+All icons are sourced directly from [Google Fonts Material Symbols](https://fonts.google.com/icons) in the **Outlined** style:
+- Icons are defined centrally in [AppIcons.kt](file:///Users/riggaroo/Documents/GitHub/snippets/compose/snippets/src/main/java/com/example/compose/snippets/components/AppIcons.kt) as lazy-loaded `ImageVector` objects using Skia-compatible path data.
+- Path data is derived directly from the official Google [material-design-icons](https://github.com/google/material-design-icons) repository (`symbols/android/<icon>/materialsymbolsoutlined/`).
+
+### 3. Rendering via `rememberVectorPainter`
+Instead of inflating XML drawables at runtime with `painterResource(R.drawable.*)` (which fails on non-Android platforms like WASM), always render icons using `rememberVectorPainter`:
+
+```kotlin
+Icon(
+    painter = rememberVectorPainter(AppIcons.ArrowBack),
+    contentDescription = "Back"
+)
+```
+
+### 4. How to Add a New Icon
+If a new snippet requires an icon not yet present in `AppIcons`:
+1. Search for the icon on [fonts.google.com/icons](https://fonts.google.com/icons) (select **Outlined** style).
+2. Locate the corresponding 24px Android vector XML path from the official Google [material-design-icons](https://github.com/google/material-design-icons) repository at `symbols/android/<name>/materialsymbolsoutlined/<name>_24px.xml`.
+3. Add the icon to `compose/snippets/src/main/java/com/example/compose/snippets/components/AppIcons.kt`:
+   ```kotlin
+   val YourNewIcon: ImageVector by lazy {
+       materialSymbol("YourNewIcon", "M...pathData...")
+   }
+   ```
+4. Run the `./gradlew :preview:wasm:pullSnippets` task (or compile the WASM project) so the updated `AppIcons.kt` is synchronized to the WASM source tree.
+
+---
+
+## How to Add a New Snippet
+
+Follow these 5 steps to add a new Composable snippet to both the documentation website and the live WASM runner:
+
+### Step 1: Write the Composable Snippet
+Add your Composable function to the appropriate file in `compose/snippets/src/main/java/com/example/compose/snippets/components/<Component>.kt`. Wrap the code in standard tag comments:
+
+```kotlin
+// [START android_compose_components_mycomponent]
+@Composable
+fun MyComponentExample() {
+    // Composable implementation here
+    // Note: If using icons, always use rememberVectorPainter(AppIcons.<Icon>)
+}
+// [END android_compose_components_mycomponent]
+```
+
+### Step 2: Register Component Metadata
+Open [preview/generator/component_data.py](file:///Users/riggaroo/Documents/GitHub/snippets/preview/generator/component_data.py) and add the snippet metadata to the corresponding category and component family:
+
+```python
+{
+    "id": "my-component-example",
+    "title": "My Component Example",
+    "tag": "android_compose_components_mycomponent",
+    "description": "Short description of what this example demonstrates.",
+    "api_highlights": ["MyComponent", "MyComponentDefaults"]
+}
+```
+
+### Step 3: Register in the WASM Snippet Provider
+Open the relevant category file in `preview/wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry/`:
+- `ButtonSnippets.kt` (Buttons, FABs, Segmented Buttons)
+- `ContainmentSnippets.kt` (Cards, Dialogs, Bottom Sheets, Scaffolds)
+- `NavigationSnippets.kt` (App Bars, Rails, Drawers, Navigation Bars)
+- `SelectionSnippets.kt` (Checkboxes, Switches, Sliders, Chips, Pickers)
+- `FeedbackSnippets.kt` (Badges, Progress Indicators, Tooltips)
+- `ListsMenusSnippets.kt` (Search Bars, Menus, Carousels, Swipe to Dismiss)
+
+Add your `ComponentSnippet` definition:
+
+```kotlin
+ComponentSnippet(
+    id = "my-component-example",
+    title = "My Component Example",
+    category = ComponentCategory.BUTTONS, // Or appropriate category
+    description = "Short description of what this example demonstrates.",
+    tags = listOf("my-component", "example"),
+    composable = { CenteredBox { MyComponentExample() } }
+)
+```
+
+### Step 4: Regenerate Documentation Pages & Code Map
+Run the Python generator script from the project root:
+
+```bash
+python3 preview/generator/generate_component_pages.py
+```
+
+This will:
+1. Extract the raw source code between `// [START ...]` tags and regenerate `SnippetCodeMap.kt`.
+2. Generate the dedicated HTML page `components/my-component-example.html`.
+3. Update `index.html` and the left-sidebar navigation across all pages.
+
+### Step 5: Build and Package the Static Site
+Compile the Kotlin WASM binary and bundle all static assets into `preview/wasm/build/dist/site`:
+
+```bash
+./gradlew :preview:wasm:packageStaticSite
 ```
 
 ---
 
 ## Local Development & Testing
 
-### 1. Build and Package Static Website
-Run the packaging task to compile the Kotlin WASM binary and assemble all static assets:
+### 1. Serve the Static Site Locally
+To run the full static site with proper WASM MIME types and CORS headers:
 
 ```bash
-./gradlew :preview:wasm:packageStaticSite
+python3 preview/serve.py 8000
 ```
 
-This generates the complete static website bundle at:
-```
-preview/wasm/build/dist/site/
-├── index.html
-├── wasm.html
-├── skiko.wasm
-├── skiko.mjs
-├── snippets-preview-wasm.wasm
-├── snippets-preview-wasm.mjs
-├── snippets-preview-wasm.import-object.mjs
-├── custom-formatters.js
-└── screenshots/
-    └── *.png (25 component preview images)
-```
+Then open [http://localhost:8000](http://localhost:8000) in any modern web browser:
+- Catalog Index: `http://localhost:8000/index.html`
+- Theme Builder: `http://localhost:8000/theme-builder.html`
+- Component Pages: `http://localhost:8000/components/<id>.html`
+- Standalone WASM: `http://localhost:8000/wasm.html?snippet=<id>&standalone=true`
 
-### 2. Preview Locally
-Serve the static bundle with any local HTTP server:
+### 2. Fast Development Rebuilds
+For rapid iteration during development:
+- **Regenerate HTML/docs**: `python3 preview/generator/generate_component_pages.py` (instant)
+- **Compile WASM only**: `./gradlew :preview:wasm:compileKotlinWasmJs` (~1s incremental)
+- **Package development site**: `./gradlew :preview:wasm:packageDevelopmentSite` (fast development build)
+- **Package production site**: `./gradlew :preview:wasm:packageStaticSite` (optimized production release)
 
-```bash
-cd preview/wasm/build/dist/site
-python3 -m http.server 8000
-```
-
-Then open [http://localhost:8000](http://localhost:8000) in your browser.
-
-### 3. Generate Screenshots
-To re-generate or update preview screenshots:
+### 3. Re-generating Preview Screenshots
+To capture or refresh screenshot previews for the catalog:
 
 ```bash
 ./preview/generator/scripts/run-preview-daemon.sh
@@ -133,11 +272,11 @@ To re-generate or update preview screenshots:
 
 ---
 
-## GitHub Actions & GitHub Pages Deployment
+## GitHub Actions & Automated Deployment
 
-The repository includes an automated workflow at [deploy-preview-pages.yml](file:///.github/workflows/deploy-preview-pages.yml):
-1. Runs automatically on `push` to `main` (and verifies builds on PRs).
-2. Sets up Java 25 and Python.
-3. Generates preview screenshots via `./preview/generator/scripts/run-preview-daemon.sh`.
-4. Compiles the WASM app and packages the static site via `./gradlew :preview:wasm:packageStaticSite`.
-5. Deploys the static bundle in `preview/wasm/build/dist/site` directly to GitHub Pages.
+The repository includes an automated CI/CD workflow at [.github/workflows/deploy-preview-pages.yml](file:///.github/workflows/deploy-preview-pages.yml):
+1. Runs on every pull request and push to `main`.
+2. Sets up JDK 25 and Python.
+3. Runs `python3 preview/generator/generate_component_pages.py` to ensure code snippets and documentation are 100% in sync with `:compose:snippets`.
+4. Executes `./gradlew :preview:wasm:packageStaticSite`.
+5. Automatically deploys the static preview site from `preview/wasm/build/dist/site` to **GitHub Pages**.

@@ -80,13 +80,36 @@
                     data = JSON.parse(data);
                 }
                 if (!data) return;
-                const currentHash = window.location.hash.replace(/^#/, '');
-                const params = new URLSearchParams(currentHash);
+                let currentHash = window.location.hash.replace(/^#/, '');
+                let route = '';
+                let queryStr = currentHash;
+                if (currentHash.startsWith('/')) {
+                    const qIdx = currentHash.indexOf('?');
+                    if (qIdx !== -1) {
+                        route = currentHash.substring(0, qIdx);
+                        queryStr = currentHash.substring(qIdx + 1);
+                    } else {
+                        route = currentHash;
+                        queryStr = '';
+                    }
+                }
+                const params = new URLSearchParams(queryStr);
                 if (data.theme) params.set('theme', data.theme);
                 if (data.dark !== undefined) params.set('theme', data.dark ? 'dark' : 'light');
                 if (data.preset) params.set('preset', data.preset);
                 if (data.color) params.set('seed', data.color);
-                window.location.hash = params.toString();
+                if (data.snippet) {
+                    route = '/snippet/' + data.snippet;
+                }
+                if (data.density !== undefined) params.set('density', data.density);
+                if (data.scale !== undefined) params.set('scale', data.scale);
+                if (data.densityScale !== undefined) params.set('densityScale', data.densityScale);
+                const newQuery = params.toString();
+                if (route) {
+                    window.location.hash = route + (newQuery ? '?' + newQuery : '');
+                } else {
+                    window.location.hash = newQuery;
+                }
             } catch (e) {}
         });
 

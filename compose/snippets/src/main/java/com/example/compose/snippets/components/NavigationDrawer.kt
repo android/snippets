@@ -1,3 +1,6 @@
+package com.example.compose.snippets.components
+
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 /*
  * Copyright 2024 The Android Open Source Project
  *
@@ -22,10 +25,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Help
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -98,14 +97,14 @@ fun DetailedDrawerExample(
                     NavigationDrawerItem(
                         label = { Text("Settings") },
                         selected = false,
-                        icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
                         badge = { Text("20") }, // Placeholder
                         onClick = { /* Handle click */ }
                     )
                     NavigationDrawerItem(
                         label = { Text("Help and feedback") },
                         selected = false,
-                        icon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
+                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
                         onClick = { /* Handle click */ },
                     )
                     Spacer(Modifier.height(12.dp))
@@ -128,7 +127,7 @@ fun DetailedDrawerExample(
                                 }
                             }
                         }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Menu")
                         }
                     }
                 )

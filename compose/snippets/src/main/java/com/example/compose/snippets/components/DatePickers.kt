@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -28,8 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -245,7 +245,7 @@ fun DatePickerDocked() {
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = !showDatePicker }) {
                     Icon(
-                        imageVector = Icons.Default.DateRange,
+                        painter = rememberVectorPainter(AppIcons.DateRange),
                         contentDescription = "Select date"
                     )
                 }
@@ -289,7 +289,7 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
         label = { Text("DOB") },
         placeholder = { Text("MM/DD/YYYY") },
         trailingIcon = {
-            Icon(Icons.Default.DateRange, contentDescription = "Select date")
+            Icon(painter = rememberVectorPainter(AppIcons.DateRange), contentDescription = "Select date")
         },
         modifier = modifier
             .fillMaxWidth()

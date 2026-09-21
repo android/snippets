@@ -59,6 +59,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF191C19),
             surfaceVariant = Color(0xFFDCE5DB),
             onSurfaceVariant = Color(0xFF414942),
+            surfaceTint = Color(0xFF006D3B),
+            surfaceDim = Color(0xFFD8DBD4),
+            surfaceBright = Color(0xFFF7FBF4),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF1F5EE),
+            surfaceContainer = Color(0xFFEBF0E8),
+            surfaceContainerHigh = Color(0xFFE6EAE3),
+            surfaceContainerHighest = Color(0xFFE0E5DD),
             outline = Color(0xFF717971),
             outlineVariant = Color(0xFFC0C9BF)
         ),
@@ -81,6 +89,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFE1E3DE),
             surfaceVariant = Color(0xFF414942),
             onSurfaceVariant = Color(0xFFC0C9BF),
+            surfaceTint = Color(0xFF78DA99),
+            surfaceDim = Color(0xFF101411),
+            surfaceBright = Color(0xFF363A36),
+            surfaceContainerLowest = Color(0xFF0B0F0C),
+            surfaceContainerLow = Color(0xFF191C19),
+            surfaceContainer = Color(0xFF1D201D),
+            surfaceContainerHigh = Color(0xFF272B27),
+            surfaceContainerHighest = Color(0xFF323632),
             outline = Color(0xFF8B938A),
             outlineVariant = Color(0xFF414942)
         )
@@ -108,6 +124,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF1D1B20),
             surfaceVariant = Color(0xFFE7E0EC),
             onSurfaceVariant = Color(0xFF49454F),
+            surfaceTint = Color(0xFF6750A4),
+            surfaceDim = Color(0xFFDED8E1),
+            surfaceBright = Color(0xFFFEF7FF),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF7F2FA),
+            surfaceContainer = Color(0xFFF3EDF7),
+            surfaceContainerHigh = Color(0xFFECE6F0),
+            surfaceContainerHighest = Color(0xFFE6E0E9),
             outline = Color(0xFF79747E),
             outlineVariant = Color(0xFFCAC4D0)
         ),
@@ -130,6 +154,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFE6E0E9),
             surfaceVariant = Color(0xFF49454F),
             onSurfaceVariant = Color(0xFFCAC4D0),
+            surfaceTint = Color(0xFFD0BCFF),
+            surfaceDim = Color(0xFF141218),
+            surfaceBright = Color(0xFF3B383E),
+            surfaceContainerLowest = Color(0xFF0F0D13),
+            surfaceContainerLow = Color(0xFF1D1B20),
+            surfaceContainer = Color(0xFF211F26),
+            surfaceContainerHigh = Color(0xFF2B2930),
+            surfaceContainerHighest = Color(0xFF36343B),
             outline = Color(0xFF938F99),
             outlineVariant = Color(0xFF49454F)
         )
@@ -157,6 +189,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF1A1B1F),
             surfaceVariant = Color(0xFFE1E2EC),
             onSurfaceVariant = Color(0xFF44474F),
+            surfaceTint = Color(0xFF005AC1),
+            surfaceDim = Color(0xFFDAD9DE),
+            surfaceBright = Color(0xFFFDFBFF),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF4F3F8),
+            surfaceContainer = Color(0xFFEEEDF2),
+            surfaceContainerHigh = Color(0xFFE8E7EC),
+            surfaceContainerHighest = Color(0xFFE2E2E7),
             outline = Color(0xFF74777F),
             outlineVariant = Color(0xFFC4C6D0)
         ),
@@ -179,6 +219,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFE3E2E6),
             surfaceVariant = Color(0xFF44474F),
             onSurfaceVariant = Color(0xFFC4C6D0),
+            surfaceTint = Color(0xFFADC6FF),
+            surfaceDim = Color(0xFF1A1B1F),
+            surfaceBright = Color(0xFF3A393E),
+            surfaceContainerLowest = Color(0xFF0E0E12),
+            surfaceContainerLow = Color(0xFF1A1B1F),
+            surfaceContainer = Color(0xFF1E1F24),
+            surfaceContainerHigh = Color(0xFF292A2E),
+            surfaceContainerHighest = Color(0xFF343439),
             outline = Color(0xFF8E9099),
             outlineVariant = Color(0xFF44474F)
         )
@@ -206,6 +254,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF191C1C),
             surfaceVariant = Color(0xFFDAE4E4),
             onSurfaceVariant = Color(0xFF3F4948),
+            surfaceTint = Color(0xFF006A6A),
+            surfaceDim = Color(0xFFD7DAD8),
+            surfaceBright = Color(0xFFFAFDFB),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF1F5F3),
+            surfaceContainer = Color(0xFFEBEFED),
+            surfaceContainerHigh = Color(0xFFE5EAE7),
+            surfaceContainerHighest = Color(0xFFE0E4E1),
             outline = Color(0xFF6F7979),
             outlineVariant = Color(0xFFBEC8C8)
         ),
@@ -228,6 +284,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFE0E3E3),
             surfaceVariant = Color(0xFF3F4948),
             onSurfaceVariant = Color(0xFFBEC8C8),
+            surfaceTint = Color(0xFF4CDADA),
+            surfaceDim = Color(0xFF191C1C),
+            surfaceBright = Color(0xFF393C3B),
+            surfaceContainerLowest = Color(0xFF0D1010),
+            surfaceContainerLow = Color(0xFF191C1C),
+            surfaceContainer = Color(0xFF1D2020),
+            surfaceContainerHigh = Color(0xFF272B2A),
+            surfaceContainerHighest = Color(0xFF323535),
             outline = Color(0xFF899392),
             outlineVariant = Color(0xFF3F4948)
         )
@@ -255,6 +319,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF201A1A),
             surfaceVariant = Color(0xFFF5DDDC),
             onSurfaceVariant = Color(0xFF534343),
+            surfaceTint = Color(0xFF904A4E),
+            surfaceDim = Color(0xFFE2D7D6),
+            surfaceBright = Color(0xFFFFF8F7),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFFCF1F0),
+            surfaceContainer = Color(0xFFF6EBEA),
+            surfaceContainerHigh = Color(0xFFF0E5E5),
+            surfaceContainerHighest = Color(0xFFEAE0DF),
             outline = Color(0xFF857372),
             outlineVariant = Color(0xFFD8C2C1)
         ),
@@ -277,6 +349,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFEDE0DF),
             surfaceVariant = Color(0xFF534343),
             onSurfaceVariant = Color(0xFFD8C2C1),
+            surfaceTint = Color(0xFFFFB3B6),
+            surfaceDim = Color(0xFF1A1112),
+            surfaceBright = Color(0xFF3C3132),
+            surfaceContainerLowest = Color(0xFF0F0708),
+            surfaceContainerLow = Color(0xFF1A1112),
+            surfaceContainer = Color(0xFF1F1516),
+            surfaceContainerHigh = Color(0xFF2A1F20),
+            surfaceContainerHighest = Color(0xFF35292B),
             outline = Color(0xFFA08C8C),
             outlineVariant = Color(0xFF534343)
         )
@@ -304,6 +384,14 @@ enum class ThemePreset(
             onSurface = Color(0xFF1F1B16),
             surfaceVariant = Color(0xFFF0E0CF),
             onSurfaceVariant = Color(0xFF4F4539),
+            surfaceTint = Color(0xFF825500),
+            surfaceDim = Color(0xFFDFD9D1),
+            surfaceBright = Color(0xFFFFFBFF),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF9F3EB),
+            surfaceContainer = Color(0xFFF3EDE5),
+            surfaceContainerHigh = Color(0xFFEDE7DF),
+            surfaceContainerHighest = Color(0xFFE7E1D9),
             outline = Color(0xFF817567),
             outlineVariant = Color(0xFFD3C4B4)
         ),
@@ -326,6 +414,14 @@ enum class ThemePreset(
             onSurface = Color(0xFFEAE1D9),
             surfaceVariant = Color(0xFF4F4539),
             onSurfaceVariant = Color(0xFFD3C4B4),
+            surfaceTint = Color(0xFFFFB951),
+            surfaceDim = Color(0xFF1F1B16),
+            surfaceBright = Color(0xFF413C36),
+            surfaceContainerLowest = Color(0xFF14100C),
+            surfaceContainerLow = Color(0xFF1F1B16),
+            surfaceContainer = Color(0xFF24201A),
+            surfaceContainerHigh = Color(0xFF2F2A24),
+            surfaceContainerHighest = Color(0xFF3A352F),
             outline = Color(0xFF9C8F80),
             outlineVariant = Color(0xFF4F4539)
         )
@@ -353,6 +449,17 @@ enum class ThemePreset(
             onSurface = Color(0xFF1F1F1F),
             surfaceVariant = Color(0xFFF1F3F4),
             onSurfaceVariant = Color(0xFF5F6368),
+            surfaceTint = Color(0xFF5F6368),
+            surfaceDim = Color(0xFFDCDCDC),
+            surfaceBright = Color(0xFFF8F9FA),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF6F6F6),
+            surfaceContainer = Color(0xFFF0F1F2),
+            surfaceContainerHigh = Color(0xFFEAEBED),
+            surfaceContainerHighest = Color(0xFFE2E3E5),
+            inverseSurface = Color(0xFF303030),
+            inverseOnSurface = Color(0xFFF1F1F1),
+            inversePrimary = Color(0xFFC6C6C6),
             outline = Color(0xFF80868B),
             outlineVariant = Color(0xFFDADCE0)
         ),
@@ -375,6 +482,17 @@ enum class ThemePreset(
             onSurface = Color(0xFFE8EAED),
             surfaceVariant = Color(0xFF28292A),
             onSurfaceVariant = Color(0xFFBDC1C6),
+            surfaceTint = Color(0xFFBDC1C6),
+            surfaceDim = Color(0xFF121212),
+            surfaceBright = Color(0xFF38393A),
+            surfaceContainerLowest = Color(0xFF0D0D0E),
+            surfaceContainerLow = Color(0xFF191A1B),
+            surfaceContainer = Color(0xFF1E1F20),
+            surfaceContainerHigh = Color(0xFF28292A),
+            surfaceContainerHighest = Color(0xFF333435),
+            inverseSurface = Color(0xFFE8EAED),
+            inverseOnSurface = Color(0xFF1E1F20),
+            inversePrimary = Color(0xFF5E5E5E),
             outline = Color(0xFF9AA0A6),
             outlineVariant = Color(0xFF3C4043)
         )
@@ -404,38 +522,74 @@ fun generateDynamicColorScheme(seed: Color, darkTheme: Boolean): ColorScheme {
             blue = min(1f, b * 1.3f + 0.2f)
         )
         val container = Color(red = r * 0.45f, green = g * 0.45f, blue = b * 0.45f)
+        val secondary = Color(red = min(1f, b * 1.1f + 0.2f), green = min(1f, r * 1.1f + 0.2f), blue = min(1f, g * 1.1f + 0.2f))
+        val secContainer = Color(red = b * 0.35f + 0.1f, green = r * 0.35f + 0.1f, blue = g * 0.35f + 0.1f)
+        val tertiary = Color(red = min(1f, g * 1.1f + 0.2f), green = min(1f, b * 1.1f + 0.2f), blue = min(1f, r * 1.1f + 0.2f))
+        val tertContainer = Color(red = g * 0.35f + 0.1f, green = b * 0.35f + 0.1f, blue = r * 0.35f + 0.1f)
         darkColorScheme(
             primary = primary,
             onPrimary = Color(0xFF001F0F),
             primaryContainer = container,
             onPrimaryContainer = Color(0xFFE0FFE0),
-            secondary = Color(red = min(1f, b * 1.1f + 0.2f), green = min(1f, r * 1.1f + 0.2f), blue = min(1f, g * 1.1f + 0.2f)),
+            secondary = secondary,
             onSecondary = Color(0xFF1A1A1A),
+            secondaryContainer = secContainer,
+            onSecondaryContainer = Color(0xFFD2E8D4),
+            tertiary = tertiary,
+            onTertiary = Color(0xFF02363F),
+            tertiaryContainer = tertContainer,
+            onTertiaryContainer = Color(0xFFBEEAF5),
             background = Color(0xFF121413),
             onBackground = Color(0xFFE1E3DF),
             surface = Color(0xFF121413),
             onSurface = Color(0xFFE1E3DF),
             surfaceVariant = Color(0xFF3B443E),
             onSurfaceVariant = Color(0xFFBEC8C1),
+            surfaceTint = primary,
+            surfaceDim = Color(0xFF121413),
+            surfaceBright = Color(0xFF383A38),
+            surfaceContainerLowest = Color(0xFF0D0F0E),
+            surfaceContainerLow = Color(0xFF191C1A),
+            surfaceContainer = Color(0xFF1E211F),
+            surfaceContainerHigh = Color(0xFF282B29),
+            surfaceContainerHighest = Color(0xFF333634),
             outline = Color(0xFF88938C),
             outlineVariant = Color(0xFF3B443E)
         )
     } else {
         val primary = Color(red = r * 0.75f, green = g * 0.75f, blue = b * 0.75f)
         val container = Color(red = min(1f, r * 0.25f + 0.75f), green = min(1f, g * 0.25f + 0.75f), blue = min(1f, b * 0.25f + 0.75f))
+        val secondary = Color(red = b * 0.6f, green = r * 0.6f, blue = g * 0.6f)
+        val secContainer = Color(red = min(1f, b * 0.2f + 0.8f), green = min(1f, r * 0.2f + 0.8f), blue = min(1f, g * 0.2f + 0.8f))
+        val tertiary = Color(red = g * 0.6f, green = b * 0.6f, blue = r * 0.6f)
+        val tertContainer = Color(red = min(1f, g * 0.2f + 0.8f), green = min(1f, b * 0.2f + 0.8f), blue = min(1f, r * 0.2f + 0.8f))
         lightColorScheme(
             primary = primary,
             onPrimary = Color.White,
             primaryContainer = container,
             onPrimaryContainer = Color(0xFF00210E),
-            secondary = Color(red = b * 0.6f, green = r * 0.6f, blue = g * 0.6f),
+            secondary = secondary,
             onSecondary = Color.White,
+            secondaryContainer = secContainer,
+            onSecondaryContainer = Color(0xFF141B15),
+            tertiary = tertiary,
+            onTertiary = Color.White,
+            tertiaryContainer = tertContainer,
+            onTertiaryContainer = Color(0xFF101C1A),
             background = Color(0xFFFCFDFB),
             onBackground = Color(0xFF191C1A),
             surface = Color(0xFFFCFDFB),
             onSurface = Color(0xFF191C1A),
             surfaceVariant = Color(0xFFDCE5DC),
             onSurfaceVariant = Color(0xFF414942),
+            surfaceTint = primary,
+            surfaceDim = Color(0xFFDADCDA),
+            surfaceBright = Color(0xFFF9FAF8),
+            surfaceContainerLowest = Color(0xFFFFFFFF),
+            surfaceContainerLow = Color(0xFFF3F5F3),
+            surfaceContainer = Color(0xFFEDEFED),
+            surfaceContainerHigh = Color(0xFFE7E9E7),
+            surfaceContainerHighest = Color(0xFFE1E3E1),
             outline = Color(0xFF717972),
             outlineVariant = Color(0xFFC0C9BF)
         )
@@ -464,7 +618,7 @@ fun parseHexColor(hex: String?): Color? {
 @Composable
 fun AndroidSnippetsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    preset: ThemePreset = ThemePreset.ANDROID_GREEN,
+    preset: ThemePreset = ThemePreset.MONOCHROME,
     customSeed: Color? = null,
     content: @Composable () -> Unit
 ) {
@@ -474,8 +628,11 @@ fun AndroidSnippetsTheme(
         else -> preset.lightColorScheme
     }
 
+    val typography = rememberGoogleSansTypography()
+
     MaterialTheme(
         colorScheme = colorScheme,
+        typography = typography,
         content = content
     )
 }

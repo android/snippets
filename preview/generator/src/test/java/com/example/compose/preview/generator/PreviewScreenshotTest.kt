@@ -16,12 +16,13 @@
 
 package com.example.compose.preview.generator
 
+import com.example.compose.snippets.components.AppIcons
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,25 +43,52 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
-val AndroidGreen = Color(0xFF3DDC84)
-val AndroidGreenDark = Color(0xFF006D3B)
-val AndroidGreenContainer = Color(0xFFC7F3D6)
-val AndroidBlue = Color(0xFF4285F4)
-val AndroidBlueDark = Color(0xFF00639B)
-val AndroidBlueContainer = Color(0xFFCDE5FF)
+val MonoPrimary = Color(0xFF000000)
+val MonoPrimaryContainer = Color(0xFFE0E0E0)
+val MonoSecondary = Color(0xFF5F6368)
+val MonoSecondaryContainer = Color(0xFFE8EAED)
+val MonoTertiary = Color(0xFF3C4043)
+val MonoTertiaryContainer = Color(0xFFDADCE0)
+
+val AndroidGreen = MonoSecondary
+val AndroidGreenDark = MonoPrimary
+val AndroidGreenContainer = MonoPrimaryContainer
+val AndroidBlue = MonoTertiary
+val AndroidBlueDark = MonoSecondary
+val AndroidBlueContainer = MonoSecondaryContainer
 
 private val PreviewColorScheme = lightColorScheme(
-    primary = AndroidGreenDark,
+    primary = Color(0xFF000000),
     onPrimary = Color.White,
-    primaryContainer = AndroidGreenContainer,
-    onPrimaryContainer = AndroidGreenDark,
-    secondary = AndroidBlueDark,
+    primaryContainer = Color(0xFFE0E0E0),
+    onPrimaryContainer = Color(0xFF1F1F1F),
+    secondary = Color(0xFF5F6368),
     onSecondary = Color.White,
-    secondaryContainer = AndroidBlueContainer,
-    onSecondaryContainer = AndroidBlueDark,
-    background = Color(0xFFF8FAF9),
-    surface = Color.White,
-    surfaceVariant = Color(0xFFF1F5F2)
+    secondaryContainer = Color(0xFFE8EAED),
+    onSecondaryContainer = Color(0xFF1F1F1F),
+    tertiary = Color(0xFF3C4043),
+    onTertiary = Color.White,
+    tertiaryContainer = Color(0xFFDADCE0),
+    onTertiaryContainer = Color(0xFF1F1F1F),
+    background = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF1F1F1F),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF1F1F1F),
+    surfaceVariant = Color(0xFFF1F3F4),
+    onSurfaceVariant = Color(0xFF5F6368),
+    surfaceTint = Color(0xFF5F6368),
+    surfaceDim = Color(0xFFDCDCDC),
+    surfaceBright = Color(0xFFF8F9FA),
+    surfaceContainerLowest = Color(0xFFFFFFFF),
+    surfaceContainerLow = Color(0xFFF6F6F6),
+    surfaceContainer = Color(0xFFF0F1F2),
+    surfaceContainerHigh = Color(0xFFEAEBED),
+    surfaceContainerHighest = Color(0xFFE2E3E5),
+    inverseSurface = Color(0xFF303030),
+    inverseOnSurface = Color(0xFFF1F1F1),
+    inversePrimary = Color(0xFFC6C6C6),
+    outline = Color(0xFF80868B),
+    outlineVariant = Color(0xFFDADCE0)
 )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -90,7 +118,7 @@ class PreviewScreenshotTest {
                 Box(
                     modifier = Modifier
                         .size(480.dp, 270.dp)
-                        .background(Color(0xFFF8FAF9))
+                        .background(Color(0xFFFFFFFF))
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -123,14 +151,14 @@ class PreviewScreenshotTest {
                 SplitButtonLayout(
                     leadingButton = {
                         SplitButtonDefaults.LeadingButton(onClick = {}) {
-                            Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize))
+                            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize))
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                             Text("Edit")
                         }
                     },
                     trailingButton = {
                         SplitButtonDefaults.TrailingButton(checked = false, onCheckedChange = {}) {
-                            Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize))
+                            Icon(painter = rememberVectorPainter(AppIcons.KeyboardArrowDown), contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize))
                         }
                     }
                 )
@@ -154,13 +182,13 @@ class PreviewScreenshotTest {
                 expanded = true,
                 floatingActionButton = {
                     FloatingToolbarDefaults.VibrantFloatingActionButton(onClick = {}) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
+                        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
                     }
                 },
                 content = {
-                    IconButton(onClick = {}) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
-                    IconButton(onClick = {}) { Icon(Icons.Default.Favorite, contentDescription = "Favorite") }
-                    IconButton(onClick = {}) { Icon(Icons.Default.MoreVert, contentDescription = "More") }
+                    IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit") }
+                    IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite") }
+                    IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More") }
                 }
             )
             Row(
@@ -168,14 +196,14 @@ class PreviewScreenshotTest {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SmallFloatingActionButton(onClick = {}) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
+                    Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
                 }
                 FloatingActionButton(onClick = {}) {
-                    Icon(Icons.Default.Edit, contentDescription = "Edit")
+                    Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit")
                 }
                 ExtendedFloatingActionButton(
                     onClick = {},
-                    icon = { Icon(Icons.Default.Add, null) },
+                    icon = { Icon(painter = rememberVectorPainter(AppIcons.Add), null) },
                     text = { Text("Extended") }
                 )
             }
@@ -275,7 +303,7 @@ class PreviewScreenshotTest {
             modifier = Modifier.heightIn(size),
             contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
         ) {
-            Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
             Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
             Text("Edit", style = ButtonDefaults.textStyleFor(size))
         }
@@ -286,14 +314,14 @@ class PreviewScreenshotTest {
         SplitButtonLayout(
             leadingButton = {
                 SplitButtonDefaults.LeadingButton(onClick = {}) {
-                    Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize))
+                    Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize))
                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                     Text("Edit")
                 }
             },
             trailingButton = {
                 SplitButtonDefaults.TrailingButton(checked = false, onCheckedChange = {}) {
-                    Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize))
+                    Icon(painter = rememberVectorPainter(AppIcons.KeyboardArrowDown), contentDescription = null, modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize))
                 }
             }
         )
@@ -313,7 +341,7 @@ class PreviewScreenshotTest {
     @Test
     fun testFab() = captureComponent("fab") {
         FloatingActionButton(onClick = {}) {
-            Icon(Icons.Default.Add, contentDescription = "Floating action button")
+            Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button")
         }
     }
 
@@ -321,7 +349,7 @@ class PreviewScreenshotTest {
     fun testExtendedFab() = captureComponent("extended-fab") {
         ExtendedFloatingActionButton(
             onClick = {},
-            icon = { Icon(Icons.Default.Edit, null) },
+            icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), null) },
             text = { Text("Extended FAB") }
         )
     }
@@ -329,14 +357,14 @@ class PreviewScreenshotTest {
     @Test
     fun testSmallFab() = captureComponent("small-fab") {
         SmallFloatingActionButton(onClick = {}) {
-            Icon(Icons.Default.Add, contentDescription = "Small FAB")
+            Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small FAB")
         }
     }
 
     @Test
     fun testLargeFab() = captureComponent("large-fab") {
         LargeFloatingActionButton(onClick = {}) {
-            Icon(Icons.Default.Add, contentDescription = "Large FAB")
+            Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large FAB")
         }
     }
 
@@ -346,13 +374,13 @@ class PreviewScreenshotTest {
             expanded = true,
             floatingActionButton = {
                 FloatingToolbarDefaults.VibrantFloatingActionButton(onClick = {}) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
+                    Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
                 }
             },
             content = {
-                IconButton(onClick = {}) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
-                IconButton(onClick = {}) { Icon(Icons.Default.Favorite, contentDescription = "Favorite") }
-                IconButton(onClick = {}) { Icon(Icons.Default.MoreVert, contentDescription = "More") }
+                IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit") }
+                IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite") }
+                IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More") }
             }
         )
     }
@@ -361,13 +389,13 @@ class PreviewScreenshotTest {
     fun testBadgeExamples() = captureComponent("badge-examples") {
         Row(horizontalArrangement = Arrangement.spacedBy(36.dp), verticalAlignment = Alignment.CenterVertically) {
             BadgedBox(badge = { Badge { Text("8") } }) {
-                Icon(Icons.Default.Mail, contentDescription = "Mail", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
+                Icon(painter = rememberVectorPainter(AppIcons.Mail), contentDescription = "Mail", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
             }
             BadgedBox(badge = { Badge { Text("99+") } }) {
-                Icon(Icons.Default.Notifications, contentDescription = "Notifications", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
+                Icon(painter = rememberVectorPainter(AppIcons.Notifications), contentDescription = "Notifications", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
             }
             BadgedBox(badge = { Badge() }) {
-                Icon(Icons.Default.ShoppingCart, contentDescription = "Cart", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
+                Icon(painter = rememberVectorPainter(AppIcons.ShoppingCart), contentDescription = "Cart", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
             }
         }
     }
@@ -417,7 +445,7 @@ class PreviewScreenshotTest {
             modifier = Modifier.fillMaxWidth(0.85f)
         ) {
             Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Info, contentDescription = null, tint = AndroidGreenDark, modifier = Modifier.size(32.dp))
+                Icon(painter = rememberVectorPainter(AppIcons.Info), contentDescription = null, tint = AndroidGreenDark, modifier = Modifier.size(32.dp))
                 Spacer(Modifier.width(16.dp))
                 Column {
                     Text("Plain & Rich Tooltips", fontWeight = FontWeight.Bold, color = AndroidGreenDark, fontSize = 15.sp)
@@ -485,7 +513,7 @@ class PreviewScreenshotTest {
                 ) {
                     Box(Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(if (i == 0) Icons.Default.Star else Icons.Default.Favorite, null, tint = AndroidGreenDark)
+                            Icon(painter = rememberVectorPainter(if (i == 0) AppIcons.Star else AppIcons.Favorite), null, tint = AndroidGreenDark)
                             Spacer(Modifier.height(8.dp))
                             Text("Card ${i + 1}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
                         }
@@ -499,7 +527,7 @@ class PreviewScreenshotTest {
     fun testDialogExamples() = captureComponent("dialog-examples") {
         AlertDialog(
             onDismissRequest = {},
-            icon = { Icon(Icons.Default.Info, null, tint = AndroidGreenDark) },
+            icon = { Icon(painter = rememberVectorPainter(AppIcons.Info), null, tint = AndroidGreenDark) },
             title = { Text("Confirm Action") },
             text = { Text("Material 3 dialog with Android Green accent theme.") },
             confirmButton = { TextButton(onClick = {}) { Text("Confirm") } },
@@ -532,19 +560,19 @@ class PreviewScreenshotTest {
             topBar = {
                 TopAppBar(
                     title = { Text("Scaffold TopBar", fontSize = 15.sp) },
-                    navigationIcon = { Icon(Icons.Default.Menu, null, Modifier.padding(start = 8.dp)) },
+                    navigationIcon = { Icon(painter = rememberVectorPainter(AppIcons.Menu), null, Modifier.padding(start = 8.dp)) },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = AndroidGreenContainer)
                 )
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = {}, modifier = Modifier.size(42.dp)) {
-                    Icon(Icons.Default.Add, null)
+                    Icon(painter = rememberVectorPainter(AppIcons.Add), null)
                 }
             },
             bottomBar = {
                 NavigationBar(Modifier.height(50.dp)) {
-                    NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home", fontSize = 10.sp) })
-                    NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Person, null) }, label = { Text("Profile", fontSize = 10.sp) })
+                    NavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home", fontSize = 10.sp) })
+                    NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Person), null) }, label = { Text("Profile", fontSize = 10.sp) })
                 }
             }
         ) { padding ->
@@ -559,12 +587,12 @@ class PreviewScreenshotTest {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth(0.9f)) {
             CenterAlignedTopAppBar(
                 title = { Text("Center Aligned", fontSize = 15.sp) },
-                navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.ArrowBack, null) } },
-                actions = { IconButton(onClick = {}) { Icon(Icons.Default.Settings, null) } }
+                navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.ArrowBack), null) } },
+                actions = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) } }
             )
             TopAppBar(
                 title = { Text("Small Top Bar", fontSize = 15.sp) },
-                navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.Menu, null) } },
+                navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = AndroidGreenContainer)
             )
         }
@@ -574,9 +602,9 @@ class PreviewScreenshotTest {
     fun testNavigationExamples() = captureComponent("navigation-examples") {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth(0.9f)) {
             NavigationBar {
-                NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
-                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Search, null) }, label = { Text("Search") })
-                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Settings, null) }, label = { Text("Settings") })
+                NavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
+                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) }, label = { Text("Settings") })
             }
         }
     }
@@ -586,9 +614,9 @@ class PreviewScreenshotTest {
         ModalDrawerSheet(modifier = Modifier.width(260.dp)) {
             Text("Mailbox", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             HorizontalDivider()
-            NavigationDrawerItem(label = { Text("Inbox (12)") }, selected = true, onClick = {}, icon = { Icon(Icons.Default.Mail, null) })
-            NavigationDrawerItem(label = { Text("Sent") }, selected = false, onClick = {}, icon = { Icon(Icons.Default.Send, null) })
-            NavigationDrawerItem(label = { Text("Favorites") }, selected = false, onClick = {}, icon = { Icon(Icons.Default.Favorite, null) })
+            NavigationDrawerItem(label = { Text("Inbox (12)") }, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Mail), null) })
+            NavigationDrawerItem(label = { Text("Sent") }, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Send), null) })
+            NavigationDrawerItem(label = { Text("Favorites") }, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Favorite), null) })
         }
     }
 
@@ -616,8 +644,8 @@ class PreviewScreenshotTest {
     @Test
     fun testChipExamples() = captureComponent("chip-examples") {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            AssistChip(onClick = {}, label = { Text("Assist") }, leadingIcon = { Icon(Icons.Default.Star, null, Modifier.size(18.dp)) })
-            FilterChip(selected = true, onClick = {}, label = { Text("Filter") }, leadingIcon = { Icon(Icons.Default.Check, null, Modifier.size(18.dp)) })
+            AssistChip(onClick = {}, label = { Text("Assist") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Star), null, Modifier.size(18.dp)) })
+            FilterChip(selected = true, onClick = {}, label = { Text("Filter") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Check), null, Modifier.size(18.dp)) })
             InputChip(selected = false, onClick = {}, label = { Text("Input") })
             SuggestionChip(onClick = {}, label = { Text("Suggestion") })
         }
@@ -637,7 +665,7 @@ class PreviewScreenshotTest {
                 Spacer(Modifier.height(10.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text("September 2026", fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
-                    Icon(Icons.Default.KeyboardArrowDown, null, Modifier.size(18.dp))
+                    Icon(painter = rememberVectorPainter(AppIcons.KeyboardArrowDown), null, Modifier.size(18.dp))
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -667,10 +695,10 @@ class PreviewScreenshotTest {
             modifier = Modifier.width(180.dp)
         ) {
             Column(Modifier.padding(vertical = 4.dp)) {
-                DropdownMenuItem(text = { Text("Edit") }, onClick = {}, leadingIcon = { Icon(Icons.Default.Edit, null) })
-                DropdownMenuItem(text = { Text("Share") }, onClick = {}, leadingIcon = { Icon(Icons.Default.Share, null) })
+                DropdownMenuItem(text = { Text("Edit") }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), null) })
+                DropdownMenuItem(text = { Text("Share") }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Share), null) })
                 HorizontalDivider()
-                DropdownMenuItem(text = { Text("Delete", color = MaterialTheme.colorScheme.error) }, onClick = {}, leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) })
+                DropdownMenuItem(text = { Text("Delete", color = MaterialTheme.colorScheme.error) }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Delete), null, tint = MaterialTheme.colorScheme.error) })
             }
         }
     }
@@ -717,7 +745,7 @@ class PreviewScreenshotTest {
                 Switch(
                     checked = true,
                     onCheckedChange = {},
-                    thumbContent = { Icon(Icons.Default.Check, null, Modifier.size(SwitchDefaults.IconSize)) }
+                    thumbContent = { Icon(painter = rememberVectorPainter(AppIcons.Check), null, Modifier.size(SwitchDefaults.IconSize)) }
                 )
                 Text("Switch with Icon")
             }
@@ -780,8 +808,8 @@ class PreviewScreenshotTest {
                     expanded = false,
                     onExpandedChange = {},
                     placeholder = { Text("Search components...") },
-                    leadingIcon = { Icon(Icons.Default.Search, null) },
-                    trailingIcon = { Icon(Icons.Default.Close, null) }
+                    leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) },
+                    trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Close), null) }
                 )
             },
             expanded = false,
@@ -802,7 +830,7 @@ class PreviewScreenshotTest {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.onErrorContainer)
+                Icon(painter = rememberVectorPainter(AppIcons.Delete), null, tint = MaterialTheme.colorScheme.onErrorContainer)
                 Card(
                     modifier = Modifier.fillMaxHeight().weight(1f).padding(start = 12.dp),
                     shape = RoundedCornerShape(8.dp)
@@ -818,14 +846,14 @@ class PreviewScreenshotTest {
     @Test
     fun testBadge() = captureComponent("badge") {
         BadgedBox(badge = { Badge { Text("8") } }) {
-            Icon(Icons.Default.Mail, contentDescription = "Mail", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
+            Icon(painter = rememberVectorPainter(AppIcons.Mail), contentDescription = "Mail", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
         }
     }
 
     @Test
     fun testBadgeInteractive() = captureComponent("badge-interactive") {
         BadgedBox(badge = { Badge { Text("99+") } }) {
-            Icon(Icons.Default.Notifications, contentDescription = "Notifications", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
+            Icon(painter = rememberVectorPainter(AppIcons.Notifications), contentDescription = "Notifications", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
         }
     }
 
@@ -872,7 +900,7 @@ class PreviewScreenshotTest {
                 ) {
                     Box(Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(if (i == 0) Icons.Default.Star else Icons.Default.Favorite, null, tint = AndroidGreenDark)
+                            Icon(painter = rememberVectorPainter(if (i == 0) AppIcons.Star else AppIcons.Favorite), null, tint = AndroidGreenDark)
                             Spacer(Modifier.height(8.dp))
                             Text("Item ${i + 1}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
                         }
@@ -892,7 +920,7 @@ class PreviewScreenshotTest {
                 ) {
                     Box(Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(Icons.Default.Image, null, tint = AndroidBlueDark)
+                            Icon(painter = rememberVectorPainter(AppIcons.Image), null, tint = AndroidBlueDark)
                             Spacer(Modifier.height(8.dp))
                             Text("Slide ${i + 1}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
                         }
@@ -906,7 +934,7 @@ class PreviewScreenshotTest {
     fun testAlertDialog() = captureComponent("alert-dialog") {
         AlertDialog(
             onDismissRequest = {},
-            icon = { Icon(Icons.Default.Info, null, tint = AndroidGreenDark) },
+            icon = { Icon(painter = rememberVectorPainter(AppIcons.Info), null, tint = AndroidGreenDark) },
             title = { Text("Alert Dialog") },
             text = { Text("Presents urgent information or decisions.") },
             confirmButton = { TextButton(onClick = {}) { Text("Confirm") } },
@@ -937,7 +965,7 @@ class PreviewScreenshotTest {
             modifier = Modifier.size(300.dp, 200.dp)
         ) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Icon(Icons.Default.Image, null, Modifier.size(48.dp), tint = AndroidGreenDark)
+                Icon(painter = rememberVectorPainter(AppIcons.Image), null, Modifier.size(48.dp), tint = AndroidGreenDark)
                 Spacer(Modifier.height(12.dp))
                 Text("Dialog with Image", fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
@@ -968,8 +996,8 @@ class PreviewScreenshotTest {
     fun testCenterAlignedTopAppBar() = captureComponent("center-aligned-top-app-bar") {
         CenterAlignedTopAppBar(
             title = { Text("Center Aligned") },
-            navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.Menu, null) } },
-            actions = { IconButton(onClick = {}) { Icon(Icons.Default.Settings, null) } },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
+            actions = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) } },
             modifier = Modifier.fillMaxWidth(0.9f)
         )
     }
@@ -978,7 +1006,7 @@ class PreviewScreenshotTest {
     fun testSmallTopAppBar() = captureComponent("small-top-app-bar") {
         TopAppBar(
             title = { Text("Small Top Bar") },
-            navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.Menu, null) } },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = AndroidGreenContainer),
             modifier = Modifier.fillMaxWidth(0.9f)
         )
@@ -988,7 +1016,7 @@ class PreviewScreenshotTest {
     fun testMediumTopAppBar() = captureComponent("medium-top-app-bar") {
         MediumTopAppBar(
             title = { Text("Medium Top Bar") },
-            navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.Menu, null) } },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
             modifier = Modifier.fillMaxWidth(0.9f)
         )
     }
@@ -997,7 +1025,7 @@ class PreviewScreenshotTest {
     fun testLargeTopAppBar() = captureComponent("large-top-app-bar") {
         LargeTopAppBar(
             title = { Text("Large Top Bar") },
-            navigationIcon = { IconButton(onClick = {}) { Icon(Icons.Default.Menu, null) } },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
             modifier = Modifier.fillMaxWidth(0.9f)
         )
     }
@@ -1005,17 +1033,17 @@ class PreviewScreenshotTest {
     @Test
     fun testNavigationBar() = captureComponent("navigation-bar") {
         NavigationBar(Modifier.fillMaxWidth(0.9f)) {
-            NavigationBarItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
-            NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Search, null) }, label = { Text("Search") })
-            NavigationBarItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Person, null) }, label = { Text("Profile") })
+            NavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
+            NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Person), null) }, label = { Text("Profile") })
         }
     }
 
     @Test
     fun testNavigationRail() = captureComponent("navigation-rail") {
         NavigationRail(Modifier.height(200.dp)) {
-            NavigationRailItem(selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
-            NavigationRailItem(selected = false, onClick = {}, icon = { Icon(Icons.Default.Search, null) }, label = { Text("Search") })
+            NavigationRailItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            NavigationRailItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
         }
     }
 
@@ -1024,8 +1052,8 @@ class PreviewScreenshotTest {
         ModalDrawerSheet(modifier = Modifier.width(260.dp)) {
             Text("Navigation Drawer", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             HorizontalDivider()
-            NavigationDrawerItem(label = { Text("Home") }, selected = true, onClick = {}, icon = { Icon(Icons.Default.Home, null) })
-            NavigationDrawerItem(label = { Text("Settings") }, selected = false, onClick = {}, icon = { Icon(Icons.Default.Settings, null) })
+            NavigationDrawerItem(label = { Text("Home") }, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) })
+            NavigationDrawerItem(label = { Text("Settings") }, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) })
         }
     }
 
@@ -1049,17 +1077,17 @@ class PreviewScreenshotTest {
 
     @Test
     fun testAssistChip() = captureComponent("assist-chip") {
-        AssistChip(onClick = {}, label = { Text("Assist Chip") }, leadingIcon = { Icon(Icons.Default.Settings, null) })
+        AssistChip(onClick = {}, label = { Text("Assist Chip") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) })
     }
 
     @Test
     fun testFilterChip() = captureComponent("filter-chip") {
-        FilterChip(selected = true, onClick = {}, label = { Text("Filter Chip") }, leadingIcon = { Icon(Icons.Default.Check, null) })
+        FilterChip(selected = true, onClick = {}, label = { Text("Filter Chip") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Check), null) })
     }
 
     @Test
     fun testInputChip() = captureComponent("input-chip") {
-        InputChip(selected = true, onClick = {}, label = { Text("Input Chip") }, trailingIcon = { Icon(Icons.Default.Close, null) })
+        InputChip(selected = true, onClick = {}, label = { Text("Input Chip") }, trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Close), null) })
     }
 
     @Test
@@ -1154,8 +1182,8 @@ class PreviewScreenshotTest {
     fun testDropdownMenuWithDetails() = captureComponent("dropdown-menu-with-details") {
         Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(220.dp)) {
             Column {
-                DropdownMenuItem(text = { Text("Refresh") }, onClick = {}, leadingIcon = { Icon(Icons.Default.Refresh, null) })
-                DropdownMenuItem(text = { Text("Settings") }, onClick = {}, leadingIcon = { Icon(Icons.Default.Settings, null) })
+                DropdownMenuItem(text = { Text("Refresh") }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Refresh), null) })
+                DropdownMenuItem(text = { Text("Settings") }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) })
             }
         }
     }
@@ -1180,7 +1208,7 @@ class PreviewScreenshotTest {
                     expanded = false,
                     onExpandedChange = {},
                     placeholder = { Text("Search...") },
-                    leadingIcon = { Icon(Icons.Default.Search, null) }
+                    leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }
                 )
             },
             expanded = false,
@@ -1200,7 +1228,7 @@ class PreviewScreenshotTest {
                     expanded = false,
                     onExpandedChange = {},
                     placeholder = { Text("Docked search...") },
-                    leadingIcon = { Icon(Icons.Default.Search, null) }
+                    leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }
                 )
             },
             expanded = false,
@@ -1234,7 +1262,7 @@ class PreviewScreenshotTest {
         Switch(
             checked = true,
             onCheckedChange = {},
-            thumbContent = { Icon(Icons.Default.Check, null, Modifier.size(SwitchDefaults.IconSize)) }
+            thumbContent = { Icon(painter = rememberVectorPainter(AppIcons.Check), null, Modifier.size(SwitchDefaults.IconSize)) }
         )
     }
 
@@ -1250,7 +1278,7 @@ class PreviewScreenshotTest {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.onErrorContainer)
+                Icon(painter = rememberVectorPainter(AppIcons.Delete), null, tint = MaterialTheme.colorScheme.onErrorContainer)
                 Card(
                     modifier = Modifier.fillMaxHeight().weight(1f).padding(start = 12.dp),
                     shape = RoundedCornerShape(8.dp)
@@ -1317,13 +1345,422 @@ class PreviewScreenshotTest {
             topBar = {
                 TopAppBar(
                     title = { Text("Scaffold", fontSize = 15.sp) },
-                    navigationIcon = { Icon(Icons.Default.Menu, null, Modifier.padding(start = 8.dp)) },
+                    navigationIcon = { Icon(painter = rememberVectorPainter(AppIcons.Menu), null, Modifier.padding(start = 8.dp)) },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = AndroidGreenContainer)
                 )
             }
         ) { padding ->
             Box(Modifier.padding(padding).fillMaxSize().padding(12.dp)) {
                 Text("Scaffold Content", fontSize = 13.sp, color = Color.Gray)
+            }
+        }
+    }
+
+    @Test
+    fun testToggleButton() = captureComponent("toggle-button") {
+        ToggleButton(checked = true, onCheckedChange = {}) {
+            Text("Toggle Button")
+        }
+    }
+
+    @Test
+    fun testElevatedToggleButton() = captureComponent("elevated-toggle-button") {
+        ElevatedToggleButton(checked = true, onCheckedChange = {}) {
+            Text("Elevated Toggle")
+        }
+    }
+
+    @Test
+    fun testTonalToggleButton() = captureComponent("tonal-toggle-button") {
+        TonalToggleButton(checked = true, onCheckedChange = {}) {
+            Text("Tonal Toggle")
+        }
+    }
+
+    @Test
+    fun testOutlinedToggleButton() = captureComponent("outlined-toggle-button") {
+        OutlinedToggleButton(checked = true, onCheckedChange = {}) {
+            Text("Outlined Toggle")
+        }
+    }
+
+    @Test
+    fun testButtonWithIconSample() = captureComponent("button-with-icon-sample") {
+        val size = ButtonDefaults.MinHeight
+        Button(
+            onClick = {},
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Button with icon", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testToggleButtonWithIcon() = captureComponent("toggle-button-with-icon") {
+        ToggleButton(checked = true, onCheckedChange = {}) {
+            Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("Favorite")
+        }
+    }
+
+    @Test
+    fun testXsmallButtonWithIcon() = captureComponent("xsmall-button-with-icon") {
+        val size = ButtonDefaults.ExtraSmallContainerHeight
+        Button(
+            onClick = {},
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Extra Small", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testXsmallToggleButtonWithIcon() = captureComponent("xsmall-toggle-button-with-icon") {
+        val size = ButtonDefaults.ExtraSmallContainerHeight
+        ToggleButton(
+            checked = true,
+            onCheckedChange = {},
+            shapes = ToggleButtonDefaults.shapesFor(size),
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Extra Small", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testMediumButtonWithIcon() = captureComponent("medium-button-with-icon") {
+        val size = ButtonDefaults.MediumContainerHeight
+        Button(
+            onClick = {},
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Medium Button", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testMediumToggleButtonWithIcon() = captureComponent("medium-toggle-button-with-icon") {
+        val size = ButtonDefaults.MediumContainerHeight
+        ToggleButton(
+            checked = true,
+            onCheckedChange = {},
+            shapes = ToggleButtonDefaults.shapesFor(size),
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Medium Toggle", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testLargeButtonWithIcon() = captureComponent("large-button-with-icon") {
+        val size = ButtonDefaults.LargeContainerHeight
+        Button(
+            onClick = {},
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Large Button", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testLargeToggleButtonWithIcon() = captureComponent("large-toggle-button-with-icon") {
+        val size = ButtonDefaults.LargeContainerHeight
+        ToggleButton(
+            checked = true,
+            onCheckedChange = {},
+            shapes = ToggleButtonDefaults.shapesFor(size),
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Large Toggle", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testXlargeButtonWithIcon() = captureComponent("xlarge-button-with-icon") {
+        val size = ButtonDefaults.ExtraLargeContainerHeight
+        Button(
+            onClick = {},
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Extra Large", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testXlargeToggleButtonWithIcon() = captureComponent("xlarge-toggle-button-with-icon") {
+        val size = ButtonDefaults.ExtraLargeContainerHeight
+        ToggleButton(
+            checked = true,
+            onCheckedChange = {},
+            shapes = ToggleButtonDefaults.shapesFor(size),
+            modifier = Modifier.heightIn(size),
+            contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true)
+        ) {
+            Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null, modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)))
+            Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+            Text("Extra Large", style = ButtonDefaults.textStyleFor(size))
+        }
+    }
+
+    @Test
+    fun testSquareToggleButton() = captureComponent("square-toggle-button") {
+        ToggleButton(
+            checked = true,
+            onCheckedChange = {},
+            shapes = ToggleButtonShapes(
+                shape = ToggleButtonDefaults.squareShape,
+                pressedShape = ToggleButtonDefaults.pressedShape,
+                checkedShape = ToggleButtonDefaults.roundShape,
+            )
+        ) {
+            Text("Square")
+        }
+    }
+
+    @Test
+    fun testMediumFab() = captureComponent("medium-fab") {
+        MediumFloatingActionButton(onClick = {}) {
+            Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Medium FAB")
+        }
+    }
+
+    @Test
+    fun testIconButton() = captureComponent("icon-button") {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite", tint = AndroidGreenDark) }
+            IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) { Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock") }
+            IconToggleButton(checked = true, onCheckedChange = {}, shapes = IconButtonDefaults.toggleableShapes()) { Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock") }
+        }
+    }
+
+    @Test
+    fun testToggleIconButton() = captureComponent("toggle-icon-button") {
+        IconButton(onClick = {}) {
+            Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite", tint = AndroidGreenDark)
+        }
+    }
+
+    @Test
+    fun testMomentaryIconButton() = captureComponent("momentary-icon-button") {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.PlayArrow), contentDescription = "Rewind", modifier = Modifier.size(32.dp)) }
+            Text("advanced by 0 frames", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.PlayArrow), contentDescription = "Forward", modifier = Modifier.size(32.dp)) }
+        }
+    }
+
+    @Test
+    fun testAnimatedIconButton() = captureComponent("animated-icon-button") {
+        IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) {
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock", tint = AndroidGreenDark)
+        }
+    }
+
+    @Test
+    fun testAnimatedToggleIconButton() = captureComponent("animated-toggle-icon-button") {
+        IconToggleButton(checked = true, onCheckedChange = {}, shapes = IconButtonDefaults.toggleableShapes()) {
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock", tint = AndroidGreenDark)
+        }
+    }
+
+    @Test
+    fun testDeterminateLinearWavyIndicator() = captureComponent("determinate-linear-wavy-indicator") {
+        LinearWavyProgressIndicator(progress = { 0.7f }, modifier = Modifier.fillMaxWidth(0.85f))
+    }
+
+    @Test
+    fun testIndeterminateLinearWavyIndicator() = captureComponent("indeterminate-linear-wavy-indicator") {
+        LinearWavyProgressIndicator(modifier = Modifier.fillMaxWidth(0.85f))
+    }
+
+    @Test
+    fun testDeterminateCircularWavyIndicator() = captureComponent("determinate-circular-wavy-indicator") {
+        CircularWavyProgressIndicator(progress = { 0.7f }, modifier = Modifier.size(48.dp))
+    }
+
+    @Test
+    fun testIndeterminateCircularWavyIndicator() = captureComponent("indeterminate-circular-wavy-indicator") {
+        CircularWavyProgressIndicator(modifier = Modifier.size(48.dp))
+    }
+
+    @Test
+    fun testDeterminateLinearExpressiveIndicator() = captureComponent("determinate-linear-expressive-indicator") {
+        LinearProgressIndicator(progress = { 0.7f }, modifier = Modifier.fillMaxWidth(0.85f))
+    }
+
+    @Test
+    fun testIndeterminateLinearExpressiveIndicator() = captureComponent("indeterminate-linear-expressive-indicator") {
+        LinearProgressIndicator(modifier = Modifier.fillMaxWidth(0.85f))
+    }
+
+    @Test
+    fun testDeterminateCircularExpressiveIndicator() = captureComponent("determinate-circular-expressive-indicator") {
+        CircularProgressIndicator(progress = { 0.7f }, modifier = Modifier.size(48.dp))
+    }
+
+    @Test
+    fun testIndeterminateCircularExpressiveIndicator() = captureComponent("indeterminate-circular-expressive-indicator") {
+        CircularProgressIndicator(modifier = Modifier.size(48.dp))
+    }
+
+    @Test
+    fun testCenterAlignedTopAppBarWithSubtitle() = captureComponent("center-aligned-top-app-bar-with-subtitle") {
+        CenterAlignedTopAppBar(
+            title = {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Page Title", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text("Subtitle text", fontSize = 12.sp, color = Color.Gray)
+                }
+            },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.ArrowBack), null) } },
+            actions = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.MoreVert), null) } },
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+    }
+
+    @Test
+    fun testAlwaysEnterTopAppBar() = captureComponent("always-enter-top-app-bar") {
+        TopAppBar(
+            title = { Text("Always Enter Top App Bar") },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = AndroidGreenContainer),
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+    }
+
+    @Test
+    fun testMediumFlexibleTopAppBar() = captureComponent("medium-flexible-top-app-bar") {
+        MediumFlexibleTopAppBar(
+            title = { Text("Medium Flexible App Bar") },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+    }
+
+    @Test
+    fun testLargeFlexibleTopAppBar() = captureComponent("large-flexible-top-app-bar") {
+        LargeFlexibleTopAppBar(
+            title = { Text("Large Flexible App Bar") },
+            navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+    }
+
+    @Test
+    fun testVerticalItemsNavigationBar() = captureComponent("vertical-items-navigation-bar") {
+        ShortNavigationBar(modifier = Modifier.fillMaxWidth(0.9f)) {
+            ShortNavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
+            ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Person), null) }, label = { Text("Profile") })
+        }
+    }
+
+    @Test
+    fun testHorizontalItemsNavigationBar() = captureComponent("horizontal-items-navigation-bar") {
+        ShortNavigationBar(modifier = Modifier.fillMaxWidth(0.9f)) {
+            ShortNavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Favorite), null) }, label = { Text("Favorites") })
+            ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) }, label = { Text("Settings") })
+        }
+    }
+
+    @Test
+    fun testWideNavigationRail() = captureComponent("wide-navigation-rail") {
+        WideNavigationRail(modifier = Modifier.height(220.dp)) {
+            WideNavigationRailItem(railExpanded = false, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            WideNavigationRailItem(railExpanded = false, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
+            WideNavigationRailItem(railExpanded = false, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) }, label = { Text("Settings") })
+        }
+    }
+
+    @Test
+    fun testModalWideNavigationRail() = captureComponent("modal-wide-navigation-rail") {
+        val state = rememberWideNavigationRailState()
+        ModalWideNavigationRail(state = state, modifier = Modifier.height(220.dp)) {
+            WideNavigationRailItem(railExpanded = true, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            WideNavigationRailItem(railExpanded = true, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Mail), null) }, label = { Text("Inbox") })
+        }
+    }
+
+    @Test
+    fun testDismissibleModalWideNavigationRail() = captureComponent("dismissible-modal-wide-navigation-rail") {
+        val state = rememberWideNavigationRailState()
+        ModalWideNavigationRail(state = state, modifier = Modifier.height(220.dp)) {
+            WideNavigationRailItem(railExpanded = true, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+            WideNavigationRailItem(railExpanded = true, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Star), null) }, label = { Text("Starred") })
+        }
+    }
+
+    @Test
+    fun testGroupedMenu() = captureComponent("grouped-menu") {
+        Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(200.dp)) {
+            DropdownMenuGroup(
+                shapes = MenuDefaults.groupShape(0, 1),
+            ) {
+                DropdownMenuItem(text = { Text("Option 1") }, onClick = {})
+                DropdownMenuItem(text = { Text("Option 2") }, onClick = {})
+                DropdownMenuItem(text = { Text("Option 3") }, onClick = {})
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Test
+    fun testThemeBuilder() = captureComponent("theme-builder") {
+        Column(
+            modifier = Modifier.width(360.dp).padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            CenterAlignedTopAppBar(
+                title = { Text("App Theme Preview", fontSize = 16.sp, fontWeight = FontWeight.SemiBold) },
+                navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
+                actions = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Search), null) } },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+            )
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text("Dynamic Color Scheme", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    Text("Real-time preview of Material 3 color roles applied across surfaces and components.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    Spacer(Modifier.height(8.dp))
+                    FilledTonalButton(onClick = {}) { Text("Explore Tokens") }
+                }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = {}) { Text("Filled") }
+                FilledTonalButton(onClick = {}) { Text("Tonal") }
+                OutlinedButton(onClick = {}) { Text("Outlined") }
+            }
+            NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
+                NavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
+                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Notifications), null) }, label = { Text("Alerts") })
+                NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) }, label = { Text("Settings") })
             }
         }
     }

@@ -52,11 +52,11 @@ dependencies {
 
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.foundation)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    testImplementation(project(":compose:snippets"))
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.compose.ui.test.junit4)

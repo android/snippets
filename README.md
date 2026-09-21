@@ -7,5 +7,15 @@ In addition, by having CI running on this repo, we can ensure that the code snip
 
 It is a work in progress, as many snippets are still embedded as static HTML.
 
+## Interactive WebAssembly Previews & Documentation
+
+This repository features an interactive web catalog and live WebAssembly (WASM) runner powered by **Compose Multiplatform for WASM-JS**.
+
+- **Interactive Documentation**: 130+ dedicated component documentation pages styled after `developer.android.com`.
+- **Live Skiko WASM Canvas**: Run Material 3 composables directly in your browser within a simulated Google Pixel 11 Pro frame.
+- **Material 3 Theme Builder**: Customize tonal palettes, preview themes live, and export Compose theme code.
+
+For more details on building, running, and contributing new snippets or icons, see the [Preview Documentation](preview/README.md).
+
 # Contributing
 We love contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.

@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,32 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsBike
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
-import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
-import androidx.compose.material.icons.automirrored.outlined.Help
-import androidx.compose.material.icons.automirrored.outlined.OpenInNew
-import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.TagFaces
-import androidx.compose.material.icons.filled.ThumbDown
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Feedback
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ButtonGroupDefaults
@@ -137,7 +113,7 @@ fun MinimalDropdownMenu() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -174,7 +150,7 @@ fun LongBasicDropdownMenu() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -208,7 +184,7 @@ fun DropdownMenuWithDetails() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -217,12 +193,12 @@ fun DropdownMenuWithDetails() {
             // First section
             DropdownMenuItem(
                 text = { Text("Profile") },
-                leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Person), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
                 text = { Text("Settings") },
-                leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
 
@@ -231,8 +207,8 @@ fun DropdownMenuWithDetails() {
             // Second section
             DropdownMenuItem(
                 text = { Text("Send Feedback") },
-                leadingIcon = { Icon(Icons.Outlined.Feedback, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Feedback), contentDescription = null) },
+                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Send), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
 
@@ -241,13 +217,13 @@ fun DropdownMenuWithDetails() {
             // Third section
             DropdownMenuItem(
                 text = { Text("About") },
-                leadingIcon = { Icon(Icons.Outlined.Info, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Info), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
                 text = { Text("Help") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
+                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.OpenInNew), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
         }
@@ -270,7 +246,7 @@ fun DropdownFilter(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(Icons.Default.Tune, "Filters")
+        Icon(painter = rememberVectorPainter(AppIcons.Tune), contentDescription = "Filters")
         FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time") })
         DropdownFilterChip()
         FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible") })
@@ -287,8 +263,8 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             selected = selectedChipText != null,
             onClick = { isDropdownExpanded = !isDropdownExpanded },
             label = { Text(if (selectedChipText == null) "Type" else "$selectedChipText") },
-            leadingIcon = { if (selectedChipText != null) Icon(Icons.Default.Check, null) },
-            trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+            leadingIcon = { if (selectedChipText != null) Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null) },
+            trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.ArrowDropDown), contentDescription = null) },
         )
         DropdownMenu(
             expanded = isDropdownExpanded,
@@ -296,7 +272,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
         ) {
             DropdownMenuItem(
                 text = { Text("Running") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsRun, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsRun), contentDescription = null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Running") null else "Running"
@@ -304,7 +280,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Walking") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsWalk, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsWalk), contentDescription = null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Walking") null else "Walking"
@@ -312,7 +288,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Hiking") },
-                leadingIcon = { Icon(Icons.Default.Hiking, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Hiking), contentDescription = null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Hiking") null else "Hiking"
@@ -320,7 +296,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Cycling") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsBike, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsBike), contentDescription = null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Cycling") null else "Cycling"
@@ -346,16 +322,16 @@ fun GroupedMenuSample() {
     val groupLabels = listOf("Modification", "Navigation")
     val groupItemLabels = listOf(listOf("Edit", "Settings"), listOf("Home", "More Options"))
     val groupItemLeadingIcons =
-        listOf(listOf(Icons.Outlined.Edit, Icons.Outlined.Settings), listOf(null, Icons.Outlined.Info))
+        listOf(listOf(AppIcons.Edit, AppIcons.Settings), listOf(null, AppIcons.Info))
     val groupItemCheckedLeadingIcons =
         listOf(
-            listOf(Icons.Filled.Edit, Icons.Filled.Settings),
-            listOf(Icons.Filled.Check, Icons.Filled.Info),
+            listOf(AppIcons.Edit, AppIcons.Settings),
+            listOf(AppIcons.Check, AppIcons.Info),
         )
     val groupItemTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(Icons.Outlined.Home, Icons.Outlined.MoreVert))
+        listOf(listOf(null, null), listOf(AppIcons.Home, AppIcons.MoreVert))
     val groupItemCheckedTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(Icons.Filled.Home, Icons.Filled.MoreVert))
+        listOf(listOf(null, null), listOf(AppIcons.Home, AppIcons.MoreVert))
     val groupItemSupportingText: List<List<String?>> =
         listOf(listOf("Edit mode", null), listOf(null, "Opens menu"))
     val checked = remember {
@@ -371,7 +347,7 @@ fun GroupedMenuSample() {
             state = rememberTooltipState(),
         ) {
             IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "Localized description")
             }
         }
         DropdownMenuPopup(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -466,13 +442,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.ThumbUp, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.ThumbUp, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = "Localized description")
                     },
                     text = { Text("Thumbs up") },
                     onClick = {},
@@ -489,13 +465,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.ThumbDown, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.ThumbDown, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = "Localized description")
                     },
                     text = { Text("Thumbs down") },
                     onClick = {},
@@ -512,13 +488,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.TagFaces, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.TagFaces, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = "Localized description")
                     },
                     text = { Text("Emotes") },
                     onClick = {},

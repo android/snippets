@@ -16,7 +16,7 @@
 
 package com.example.compose.snippets
 
-import NavigationDrawerExamples
+import com.example.compose.snippets.components.NavigationDrawerExamples
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.activity.ComponentActivity

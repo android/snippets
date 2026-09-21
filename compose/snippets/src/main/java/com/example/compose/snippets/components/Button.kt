@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,12 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonGroup
@@ -262,7 +258,7 @@ fun ButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Favorite,
+            painter = rememberVectorPainter(AppIcons.Favorite),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
         )
@@ -279,7 +275,7 @@ fun ToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
     ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
         Icon(
-            if (checked) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.IconSize),
         )
@@ -298,7 +294,7 @@ fun SplitButtonExample(onClick: () -> Unit) {
         leadingButton = {
             SplitButtonDefaults.LeadingButton(onClick = { onClick() }) {
                 Icon(
-                    Icons.Filled.Edit,
+                    painter = rememberVectorPainter(AppIcons.Edit),
                     modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize),
                     contentDescription = "Edit",
                 )
@@ -312,7 +308,7 @@ fun SplitButtonExample(onClick: () -> Unit) {
                 onCheckedChange = { expanded = it },
             ) {
                 Icon(
-                    Icons.Filled.KeyboardArrowDown,
+                    painter = rememberVectorPainter(AppIcons.KeyboardArrowDown),
                     modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize),
                     contentDescription = "Options",
                 )
@@ -352,7 +348,7 @@ fun XSmallButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -376,7 +372,7 @@ fun XSmallToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -397,7 +393,7 @@ fun MediumButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -421,7 +417,7 @@ fun MediumToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -442,7 +438,7 @@ fun LargeButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -466,7 +462,7 @@ fun LargeToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -487,7 +483,7 @@ fun XLargeButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -511,7 +507,7 @@ fun XLargeToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )

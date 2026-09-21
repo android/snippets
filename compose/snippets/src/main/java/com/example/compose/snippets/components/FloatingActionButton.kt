@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,11 +27,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
@@ -79,7 +76,7 @@ fun Example(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = { onClick() },
     ) {
-        Icon(Icons.Filled.Add, "Floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button.")
     }
 }
 // [END android_compose_components_fab]
@@ -89,7 +86,7 @@ fun Example(onClick: () -> Unit) {
 fun ExtendedExample(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = { onClick() },
-        icon = { Icon(Icons.Filled.Edit, "Extended floating action button.") },
+        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Extended floating action button.") },
         text = { Text(text = "Extended FAB") },
     )
 }
@@ -103,7 +100,7 @@ fun SmallExample(onClick: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.secondary
     ) {
-        Icon(Icons.Filled.Add, "Small floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small floating action button.")
     }
 }
 // [END android_compose_components_smallfab]
@@ -115,7 +112,7 @@ fun LargeExample(onClick: () -> Unit) {
         onClick = { onClick() },
         shape = CircleShape,
     ) {
-        Icon(Icons.Filled.Add, "Large floating action button")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large floating action button")
     }
 }
 // [END android_compose_components_largefab]
@@ -130,18 +127,18 @@ fun FloatingToolbarExample() {
             FloatingToolbarDefaults.VibrantFloatingActionButton(
                 onClick = { /* action */ },
             ) {
-                Icon(Icons.Filled.Add, "Add")
+                Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
             }
         },
         content = {
             IconButton(onClick = { /* action */ }) {
-                Icon(Icons.Filled.Edit, "Edit")
+                Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit")
             }
             IconButton(onClick = { /* action */ }) {
-                Icon(Icons.Filled.Favorite, "Favorite")
+                Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite")
             }
             IconButton(onClick = { /* action */ }) {
-                Icon(Icons.Filled.MoreVert, "More")
+                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More")
             }
         }
     )
@@ -154,7 +151,7 @@ fun FloatingToolbarExample() {
 fun MediumFloatingActionButtonSample() {
     MediumFloatingActionButton(onClick = {}) {
         Icon(
-            Icons.Filled.Add,
+            painter = rememberVectorPainter(AppIcons.Add),
             contentDescription = "Add",
             modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
         )
