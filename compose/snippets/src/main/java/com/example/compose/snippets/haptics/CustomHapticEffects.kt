@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.example.snippet.views.haptics
+package com.example.compose.snippets.haptics
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -56,7 +56,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.example.snippet.views.R
+import com.example.compose.snippets.R
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.pow
@@ -72,7 +72,7 @@ private val onOffTimings = longArrayOf(0, 100)
 private const val onOffRepeatIdx = -1
 
 private fun rampUpPatternSnippet() {
-    // [START android_views_haptics_custom_ramp_up]
+    // [START android_haptics_custom_ramp_up]
     val timings: LongArray = longArrayOf(
         50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200
     )
@@ -86,11 +86,11 @@ private fun rampUpPatternSnippet() {
             timings, amplitudes, repeatIndex
         )
     )
-    // [END android_views_haptics_custom_ramp_up]
+    // [END android_haptics_custom_ramp_up]
 }
 
 private object RepeatingPatternScope {
-    // [START android_views_haptics_custom_repeating]
+    // [START android_haptics_custom_repeating]
     fun startVibrating() {
         val timings: LongArray = longArrayOf(50, 50, 100, 50, 50)
         val amplitudes: IntArray = intArrayOf(64, 128, 255, 128, 64)
@@ -106,11 +106,11 @@ private object RepeatingPatternScope {
     fun stopVibrating() {
         vibrator.cancel()
     }
-    // [END android_views_haptics_custom_repeating]
+    // [END android_haptics_custom_repeating]
 }
 
 private fun patternWithFallbackSnippet() {
-    // [START android_views_haptics_custom_fallback]
+    // [START android_haptics_custom_fallback]
     if (vibrator.hasAmplitudeControl()) {
         vibrator.vibrate(
             VibrationEffect.createWaveform(
@@ -124,12 +124,12 @@ private fun patternWithFallbackSnippet() {
             )
         )
     }
-    // [END android_views_haptics_custom_fallback]
+    // [END android_haptics_custom_fallback]
 }
 
 @RequiresApi(Build.VERSION_CODES.R)
 private fun createComposedVibrationEffectsSnippet() {
-    // [START android_views_haptics_custom_composition_basic]
+    // [START android_haptics_custom_composition_basic]
     vibrator.vibrate(
         VibrationEffect.startComposition().addPrimitive(
             VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
@@ -137,12 +137,12 @@ private fun createComposedVibrationEffectsSnippet() {
             VibrationEffect.Composition.PRIMITIVE_CLICK
         ).compose()
     )
-    // [END android_views_haptics_custom_composition_basic]
+    // [END android_haptics_custom_composition_basic]
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
 private fun addGapsBetweenVibrationPrimitivesSnippet() {
-    // [START android_views_haptics_custom_composition_delays]
+    // [START android_haptics_custom_composition_delays]
     val delayMs = 100
     vibrator.vibrate(
         VibrationEffect.startComposition().addPrimitive(
@@ -153,12 +153,12 @@ private fun addGapsBetweenVibrationPrimitivesSnippet() {
             VibrationEffect.Composition.PRIMITIVE_THUD, 1.0f, delayMs
         ).compose()
     )
-    // [END android_views_haptics_custom_composition_delays]
+    // [END android_haptics_custom_composition_delays]
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
 private fun checkSinglePrimitiveSupportedSnippet() {
-    // [START android_views_haptics_custom_check_single_primitive]
+    // [START android_haptics_custom_check_single_primitive]
     val primitive = VibrationEffect.Composition.PRIMITIVE_LOW_TICK
 
     if (vibrator.areAllPrimitivesSupported(primitive)) {
@@ -169,24 +169,24 @@ private fun checkSinglePrimitiveSupportedSnippet() {
     } else {
         // Play a predefined effect or custom pattern as a fallback.
     }
-    // [END android_views_haptics_custom_check_single_primitive]
+    // [END android_haptics_custom_check_single_primitive]
 }
 
 @SuppressLint("WrongConstant")
 @RequiresApi(Build.VERSION_CODES.S)
 private fun checkMultiplePrimitivesSupportedSnippet() {
-    // [START android_views_haptics_custom_check_multiple_primitives]
+    // [START android_haptics_custom_check_multiple_primitives]
     val primitives: IntArray = intArrayOf(
         VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
         VibrationEffect.Composition.PRIMITIVE_TICK,
         VibrationEffect.Composition.PRIMITIVE_CLICK
     )
     val supported: BooleanArray = vibrator.arePrimitivesSupported(*primitives)
-    // [END android_views_haptics_custom_check_multiple_primitives]
+    // [END android_haptics_custom_check_multiple_primitives]
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
-// [START android_views_haptics_custom_resist_screen]
+// [START android_haptics_custom_resist_screen]
 @Composable
 fun ResistScreen() {
     // Control variables for the dragging of the indicator.
@@ -236,10 +236,10 @@ fun ResistScreen() {
         }
     }
 }
-// [END android_views_haptics_custom_resist_screen]
+// [END android_haptics_custom_resist_screen]
 
 @RequiresApi(Build.VERSION_CODES.R)
-// [START android_views_haptics_custom_expand_screen]
+// [START android_haptics_custom_expand_screen]
 enum class ExpandShapeState {
     Collapsed,
     Expanded
@@ -285,10 +285,10 @@ fun ExpandScreen() {
         }
     }
 }
-// [END android_views_haptics_custom_expand_screen]
+// [END android_haptics_custom_expand_screen]
 
 @RequiresApi(Build.VERSION_CODES.S)
-// [START android_views_haptics_custom_wobble_screen]
+// [START android_haptics_custom_wobble_screen]
 @Composable
 fun WobbleScreen() {
     // Control variables for the dragging and animating state of the elastic.
@@ -356,10 +356,10 @@ fun nextSpinScale(displacement: Float): Float {
     val randomOffset: Float = Random.Default.nextFloat() * 0.2f - 0.1f
     return (displacement + randomOffset).absoluteValue.coerceIn(0f, 1f)
 }
-// [END android_views_haptics_custom_wobble_screen]
+// [END android_haptics_custom_wobble_screen]
 
 @RequiresApi(Build.VERSION_CODES.S)
-// [START android_views_haptics_custom_bounce_screen]
+// [START android_haptics_custom_bounce_screen]
 enum class BallPosition {
     Start,
     End
@@ -411,11 +411,11 @@ fun BounceScreen() {
         }
     }
 }
-// [END android_views_haptics_custom_bounce_screen]
+// [END android_haptics_custom_bounce_screen]
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private fun basicEnvelopeBuilderSnippet() {
-    // [START android_views_haptics_custom_basic_envelope]
+    // [START android_haptics_custom_basic_envelope]
     vibrator.vibrate(
         VibrationEffect.BasicEnvelopeBuilder()
             .setInitialSharpness(0.0f)
@@ -423,12 +423,12 @@ private fun basicEnvelopeBuilderSnippet() {
             .addControlPoint(0.0f, 1.0f, 100)
             .build()
     )
-    // [END android_views_haptics_custom_basic_envelope]
+    // [END android_haptics_custom_basic_envelope]
 }
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private fun waveformEnvelopeBuilderSnippet() {
-    // [START android_views_haptics_custom_waveform_envelope]
+    // [START android_haptics_custom_waveform_envelope]
     vibrator.vibrate(
         VibrationEffect.WaveformEnvelopeBuilder()
             .addControlPoint(1.0f, 60f, 50)
@@ -437,11 +437,11 @@ private fun waveformEnvelopeBuilderSnippet() {
             .addControlPoint(0.0f, 60f, 50)
             .build()
     )
-    // [END android_views_haptics_custom_waveform_envelope]
+    // [END android_haptics_custom_waveform_envelope]
 }
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
-// [START android_views_haptics_custom_bouncing_spring]
+// [START android_haptics_custom_bouncing_spring]
 @Composable
 fun BouncingSpringAnimation() {
     var springX by remember { mutableStateOf(SPRING_WIDTH) }
@@ -544,10 +544,10 @@ fun BouncingSpringAnimation() {
         }
     }
 }
-// [END android_views_haptics_custom_bouncing_spring]
+// [END android_haptics_custom_bouncing_spring]
 
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
-// [START android_views_haptics_custom_rocket_launch]
+// [START android_haptics_custom_rocket_launch]
 @Composable
 fun RocketLaunchAnimation() {
     val screenHeight = remember { mutableFloatStateOf(0f) }
@@ -634,9 +634,9 @@ private fun playVibration(
             .build()
     )
 }
-// [END android_views_haptics_custom_rocket_launch]
+// [END android_haptics_custom_rocket_launch]
 
-// [START android_views_haptics_custom_lavabeats]
+// [START android_haptics_custom_lavabeats]
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private fun createEnvelopeEffect(
     beatParameters: List<BeatParameter>
@@ -702,7 +702,7 @@ data class BeatParameter(
     val steps: Int = 0,
     val isFrequencyType: Boolean = false,
 )
-// [END android_views_haptics_custom_lavabeats]
+// [END android_haptics_custom_lavabeats]
 
 private const val MAX_DRAG_DISTANCE = 500f
 private const val SPIN_MIN_DISPLACEMENT = 0.05f
