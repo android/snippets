@@ -100,15 +100,19 @@
                 if (data.color) params.set('seed', data.color);
                 if (data.snippet) {
                     route = '/snippet/' + data.snippet;
+                } else if (!route) {
+                    const searchSnippet = new URLSearchParams(window.location.search).get('snippet');
+                    if (searchSnippet) {
+                        route = '/snippet/' + searchSnippet;
+                    }
                 }
                 if (data.density !== undefined) params.set('density', data.density);
                 if (data.scale !== undefined) params.set('scale', data.scale);
                 if (data.densityScale !== undefined) params.set('densityScale', data.densityScale);
                 const newQuery = params.toString();
-                if (route) {
-                    window.location.hash = route + (newQuery ? '?' + newQuery : '');
-                } else {
-                    window.location.hash = newQuery;
+                const targetHash = route ? (route + (newQuery ? '?' + newQuery : '')) : newQuery;
+                if (window.location.hash.replace(/^#/, '') !== targetHash) {
+                    window.location.hash = targetHash;
                 }
             } catch (e) {}
         });

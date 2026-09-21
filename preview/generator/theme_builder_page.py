@@ -706,9 +706,6 @@ fun AppTheme(
             }
             if (frame && frame.contentWindow) {
                 try {
-                    frame.contentWindow.location.hash = hash;
-                } catch (e) {}
-                try {
                     frame.contentWindow.postMessage(JSON.stringify({
                         type: 'SET_THEME',
                         snippet: 'theme-builder',
