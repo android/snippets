@@ -34,8 +34,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.metrics.performance)
     androidTestImplementation(libs.androidx.benchmark.macro.junit4)
-    androidTestImplementation(libs.androidx.uiautomator)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.uiautomator)
 }
 
