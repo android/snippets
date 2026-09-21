@@ -49,7 +49,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.wear.compose.foundation.LocalReduceMotion
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -78,48 +77,47 @@ fun BoardingPassCard(
     shape: Shape = RoundedCornerShape(18.dp),
     statusBadge: @Composable () -> Unit = {}
 ) {
-    // 1. Check reduced motion and presence of SurfaceTransformation
-    val reduceMotion = LocalReduceMotion.current
-    val activeTransformation = transformation.takeUnless { reduceMotion }
-
-    // 2. Create morphing container painter
+    // 1. Create morphing container painter
     val backgroundPainter = ColorPainter(MaterialTheme.colorScheme.surfaceContainer)
-    val finalPainter = if (activeTransformation != null) {
-        remember(activeTransformation, backgroundPainter, shape) {
-            activeTransformation.createContainerPainter(backgroundPainter, shape, border = null)
+    val finalPainter = if (transformation != null) {
+        remember(transformation, backgroundPainter, shape) {
+            transformation.createContainerPainter(backgroundPainter, shape, border = null)
         }
     } else {
         backgroundPainter
     }
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            // 3a. Container layer: Scales, fades, and tilts the card surface
+        modifier = Modifier
+            // 2a. Container layer: Scales, fades, and tilts the whole card surface
             .then(
-                if (activeTransformation != null) {
+                if (transformation != null) {
                     Modifier.graphicsLayer {
-                        activeTransformation.run { applyContainerTransformation() }
+                        transformation.run { applyContainerTransformation() }
                     }
                 } else Modifier
             )
-            // 3b. Morphing background: Drawn inside the transformed container layer
+            // 2b. Caller modifier: Includes Modifier.transformedHeight in a list
+            .then(modifier)
+            .fillMaxWidth()
+            // 2c. Shape clip: Only needed without a transformation, because the
+            // painter from createContainerPainter clips itself to the shape
+            .then(if (transformation == null) Modifier.clip(shape) else Modifier)
+            // 2d. Morphing background: Drawn inside the transformed container layer
             .drawBehind {
                 with(finalPainter) {
                     draw(size)
                 }
             }
-            // 3c. Content layer: Fades content earlier and clips children to shape
+            // 2e. Content layer: Fades content earlier and clips children to shape
             .then(
-                if (activeTransformation != null) {
+                if (transformation != null) {
                     Modifier.graphicsLayer {
                         this.shape = shape
                         this.clip = true
-                        activeTransformation.run { applyContentTransformation() }
+                        transformation.run { applyContentTransformation() }
                     }
-                } else {
-                    Modifier.clip(shape)
-                }
+                } else Modifier
             )
             .padding(horizontal = 14.dp, vertical = 10.dp)
     ) {
@@ -201,10 +199,10 @@ fun BoardingPassListSample(flights: List<FlightInfo>) {
                     seat = flight.seat,
                     departureTime = flight.time,
                     modifier = Modifier
+                        .transformedHeight(this, transformationSpec)
                         .minimumVerticalContentPadding(
                             CardDefaults.minimumVerticalListContentPadding
-                        )
-                        .transformedHeight(this, transformationSpec),
+                        ),
                     transformation = SurfaceTransformation(transformationSpec)
                 )
             }
