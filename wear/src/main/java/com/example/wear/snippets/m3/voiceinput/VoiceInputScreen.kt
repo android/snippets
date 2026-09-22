@@ -32,13 +32,15 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wear.R
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 /**
  * Shows voice input option
@@ -61,11 +63,9 @@ fun VoiceInputScreen() {
             }
 
         val scrollState = rememberTransformingLazyColumnState()
+        val transformationSpec = rememberTransformationSpec()
         ScreenScaffold(
             scrollState = scrollState,
-            contentPadding = rememberResponsiveColumnPadding(
-                first = ColumnItemType.Button
-            )
         ) { contentPadding ->
             TransformingLazyColumn(
                 contentPadding = contentPadding,
@@ -92,7 +92,13 @@ fun VoiceInputScreen() {
                         },
                         label = { Text(stringResource(R.string.voice_input_label)) },
                         secondaryLabel = { Text(textForVoiceInput) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ButtonDefaults.minimumVerticalListContentPadding
+                            ),
+                        transformation = SurfaceTransformation(transformationSpec),
                     )
                 }
             }
