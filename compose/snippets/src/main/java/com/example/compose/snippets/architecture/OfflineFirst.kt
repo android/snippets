@@ -200,9 +200,9 @@ private object OfflineFirstSnippet5 {
     // [START android_architecture_offline_first_author_viewmodel_catch]
     class AuthorViewModel(
         authorsRepository: AuthorsRepository,
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         authorId: String = ""
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) : ViewModel() {
         private val authorId: String = /* [START_EXCLUDE] */ authorId /* [END_EXCLUDE] */
 
@@ -233,9 +233,9 @@ private object OfflineFirstSnippet6 {
 
     class AuthorViewModel(
         authorsRepository: AuthorsRepository,
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         authorId: String = ""
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) : ViewModel() {
         private val authorId: String = /* [START_EXCLUDE] */ authorId /* [END_EXCLUDE] */
 
@@ -269,9 +269,9 @@ private object OfflineFirstSnippet7 {
 private object OfflineFirstSnippet8 {
     const val NETWORK_PAGE_SIZE = 20
     data class FeedItem(val id: String)
-    /* [START_EXCLUDE silent] */
+    // [START_EXCLUDE silent]
     @OptIn(ExperimentalPagingApi::class)
-    /* [END_EXCLUDE] */
+    // [END_EXCLUDE]
     class FeedRemoteMediator(/* ... */) : RemoteMediator<Int, FeedItem>() {
         override suspend fun load(
             loadType: androidx.paging.LoadType,
@@ -283,18 +283,18 @@ private object OfflineFirstSnippet8 {
     class FeedRepository(/* ... */) {
 
         fun feedPagingSource(): PagingSource<Int, FeedItem> {
-            /* [START_EXCLUDE] */
+            // [START_EXCLUDE]
             return object : androidx.paging.PagingSource<Int, FeedItem>() {
                 override fun getRefreshKey(state: PagingState<Int, FeedItem>): Int? = null
                 override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FeedItem> =
                     LoadResult.Page(emptyList(), null, null)
             }
-            /* [END_EXCLUDE] */
+            // [END_EXCLUDE]
         }
     }
-    /* [START_EXCLUDE silent] */
+    // [START_EXCLUDE silent]
     @OptIn(ExperimentalPagingApi::class)
-    /* [END_EXCLUDE] */
+    // [END_EXCLUDE]
     class FeedViewModel(
         private val feedRepository: FeedRepository
     ) : ViewModel() {
@@ -323,10 +323,10 @@ private object OfflineFirstSnippet9 {
 
     // [START android_architecture_offline_first_push_sync]
     class UserDataRepository(
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         private val networkDataSource: NetworkDataSource = NetworkDataSource(),
         private val localDataSource: LocalDataSource = LocalDataSource()
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) {
 
         suspend fun synchronize() {
@@ -341,6 +341,12 @@ private object OfflineFirstSnippet10 {
     object Sync
     const val SyncWorkName = "SyncWork"
 
+    class SyncWorker {
+        companion object {
+            fun startUpSyncWork(): OneTimeWorkRequest = OneTimeWorkRequestBuilder<DelegatingWorker>().build()
+        }
+    }
+
     // [START android_architecture_offline_first_sync_initializer]
     class SyncInitializer : Initializer<Sync> {
         override fun create(context: Context): Sync {
@@ -350,19 +356,21 @@ private object OfflineFirstSnippet10 {
                 enqueueUniqueWork(
                     SyncWorkName,
                     ExistingWorkPolicy.KEEP,
-                    SyncWorkerStub.startUpSyncWork()
+                    SyncWorker.startUpSyncWork()
                 )
             }
             return Sync
         }
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     }
     // [END android_architecture_offline_first_sync_initializer]
 }
 
 private object OfflineFirstSnippet11 {
+    class SyncWorker
+
     // [START android_architecture_offline_first_sync_work_request]
     /**
      Create a WorkRequest to call the SyncWorker using a DelegatingWorker.
@@ -376,7 +384,7 @@ private object OfflineFirstSnippet11 {
         .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
         .setConstraints(SyncConstraints)
         // Delegate to the SyncWorker.
-        .setInputData(SyncWorkerStub::class.delegatedData())
+        .setInputData(SyncWorker::class.delegatedData())
         .build()
 
     val SyncConstraints
@@ -399,14 +407,14 @@ private object OfflineFirstSnippet12 {
 
     // [START android_architecture_offline_first_sync_worker]
     class SyncWorker(
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         appContext: Context,
         workerParams: WorkerParameters,
         private val topicRepository: TopicRepository = TopicRepository(),
         private val authorsRepository: AuthorsRepository = AuthorsRepository(),
         private val newsRepository: NewsRepository = NewsRepository(),
         private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) : CoroutineWorker(appContext, workerParams), Synchronizer {
 
         override suspend fun doWork(): Result = withContext(ioDispatcher) {
@@ -426,10 +434,6 @@ private object OfflineFirstSnippet12 {
 
 private class DelegatingWorker(context: Context, params: WorkerParameters) : ListenableWorker(context, params) {
     override fun startWork() = throw UnsupportedOperationException()
-}
-
-private object SyncWorkerStub {
-    fun startUpSyncWork(): OneTimeWorkRequest = OneTimeWorkRequestBuilder<DelegatingWorker>().build()
 }
 
 private fun KClass<*>.delegatedData(): Data = workDataOf("worker_class_name" to (qualifiedName ?: simpleName.orEmpty()))
