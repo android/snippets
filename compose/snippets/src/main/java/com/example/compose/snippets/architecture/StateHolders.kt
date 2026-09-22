@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
@@ -51,9 +50,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 
 
 private object StateHoldersSnippet1 {
@@ -89,11 +85,11 @@ private object StateHoldersSnippet2 {
         }
 
         // Create the LazyColumn with the lazyListState
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         LazyColumn(state = listState) {
             items(contacts) { Text(it.name) }
         }
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
 
         // Show or hide the button (UI logic) based on the list scroll position
         AnimatedVisibility(visible = !isAtTopOfList) {
@@ -143,11 +139,11 @@ private object StateHoldersSnippet4 {
         val listState = rememberLazyListState()
 
         // Create the LazyColumn with the lazyListState
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         LazyColumn(state = listState) {
             items(contacts) { Text(it.name) }
         }
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
 
         // Perform UI logic that depends on information from business logic
         if (deepLinkedContact != null && contacts.isNotEmpty()) {
@@ -177,9 +173,9 @@ object StateHoldersSnippet5 {
     ) : ViewModel() {
 
         val uiState: StateFlow<AuthorScreenUiState> =
-            /* [START_EXCLUDE] */
+            // [START_EXCLUDE]
             MutableStateFlow(AuthorScreenUiState())
-            /* [END_EXCLUDE] */
+            // [END_EXCLUDE]
 
         // Business logic
         fun followAuthor(followed: Boolean) {/* ... */}
@@ -225,9 +221,9 @@ private object StateHoldersSnippet7 {
     // [START android_architecture_stateholders_compoundable_state_holders]
     @Stable
     class DrawerState(/* ... */) {
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         class SwipeableState(vararg args: Any?)
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
         internal val swipeableState = SwipeableState(/* ... */)
         // ...
     }
@@ -258,15 +254,20 @@ private object StateHoldersSnippet8 {
         fun toSomeState(): SomeState = SomeState()
     }
 
+    // Lets the snippet pass `uiState.map { ... }` where a StateFlow is expected.
+    fun <T, R> StateFlow<T>.map(transform: (T) -> R): StateFlow<R> =
+        MutableStateFlow(transform(value))
+
     // [START android_architecture_stateholders_dependencies_pass_params]
     class MyScreenViewModel(/* ... */)
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         : ViewModel()
-        /* [END_EXCLUDE] */ {
+        // [END_EXCLUDE]
+        {
         val uiState: StateFlow<MyScreenUiState> = /* ... */
-            /* [START_EXCLUDE silent] */
+            // [START_EXCLUDE silent]
             MutableStateFlow(MyScreenUiState())
-            /* [END_EXCLUDE] */
+            // [END_EXCLUDE]
         fun doSomething() { /* ... */ }
         fun doAnotherThing() { /* ... */ }
         // ...
@@ -301,10 +302,7 @@ private object StateHoldersSnippet8 {
         modifier: Modifier = Modifier,
         viewModel: MyScreenViewModel = viewModel(),
         state: MyScreenState = rememberMyScreenState(
-            someState = viewModel.uiState.map { it.toSomeState() }
-                /* [START_EXCLUDE silent] */
-                .stateIn(viewModel.viewModelScope, SharingStarted.WhileSubscribed(5_000), SomeState()),
-                /* [END_EXCLUDE] */
+            someState = viewModel.uiState.map { it.toSomeState() },
             doSomething = viewModel::doSomething
         ),
         // ...

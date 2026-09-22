@@ -324,9 +324,9 @@ private object EventsSnippet10 {
     class DobValidationViewModel(/* ... */) : ViewModel() {
         var uiState by mutableStateOf(DobValidationUiState())
             private set
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         fun validateInput() {}
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     }
 
     @Composable
