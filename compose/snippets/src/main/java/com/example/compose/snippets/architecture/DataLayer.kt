@@ -41,8 +41,10 @@ private object DataLayerSnippet1 {
 
     // [START android_architecture_data_layer_repository_constructor]
     class ExampleRepository(
-        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
-        private val exampleLocalDataSource: ExampleLocalDataSource // database
+        // network
+        private val exampleRemoteDataSource: ExampleRemoteDataSource,
+        // database
+        private val exampleLocalDataSource: ExampleLocalDataSource
     ) { /* ... */ }
     // [END android_architecture_data_layer_repository_constructor]
 }
@@ -54,16 +56,18 @@ private object DataLayerSnippet2 {
 
     // [START android_architecture_data_layer_expose_apis]
     class ExampleRepository(
-        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
-        private val exampleLocalDataSource: ExampleLocalDataSource // database
+        // network
+        private val exampleRemoteDataSource: ExampleRemoteDataSource,
+        // database
+        private val exampleLocalDataSource: ExampleLocalDataSource
     ) {
 
         val data: Flow<Example> =
-            /* [START_EXCLUDE] */
+            // [START_EXCLUDE]
             flowOf(Example())
-            /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
 
-        suspend fun modifyData(example: Example) {/* ... */}
+        suspend fun modifyData(example: Example) { /* ... */ }
     }
     // [END android_architecture_data_layer_expose_apis]
 }
@@ -181,9 +185,9 @@ private object DataLayerSnippet8 {
 
     // [START android_architecture_data_layer_external_scope_constructor]
     class NewsRepository(
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         newsRemoteDataSource: NewsRemoteDataSource,
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
         // This could be CoroutineScope(SupervisorJob() + Dispatchers.Default).
         private val externalScope: CoroutineScope
     ) { /* ... */ }
@@ -202,10 +206,10 @@ private object DataLayerSnippet9 {
         private val externalScope: CoroutineScope
     ) {
         /* ... */
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         private val latestNewsMutex = Mutex()
         private var latestNews: List<ArticleHeadline> = emptyList()
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
 
         suspend fun getLatestNews(refresh: Boolean = false): List<ArticleHeadline> {
             return if (refresh) {

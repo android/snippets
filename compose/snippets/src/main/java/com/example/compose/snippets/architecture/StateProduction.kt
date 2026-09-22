@@ -127,11 +127,11 @@ private object StateProductionSnippet3 {
     }
 
     class AddEditTaskViewModel(
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         private val tasksRepository: TasksRepository = object : TasksRepository {
             override suspend fun saveTask(task: Task) {}
         }
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) : ViewModel() {
 
         private val _uiState = MutableAddEditTaskUiState()
@@ -173,11 +173,11 @@ private object StateProductionSnippet4 {
     )
 
     class AddEditTaskViewModel(
-        /* [START_EXCLUDE] */
+        // [START_EXCLUDE]
         private val tasksRepository: TasksRepository = object : TasksRepository {
             override suspend fun saveTask(task: Task) {}
         }
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
     ) : ViewModel() {
 
         private val _uiState = MutableStateFlow(AddEditTaskUiState())
@@ -344,9 +344,9 @@ object StateProductionSnippet8 {
         savedStateHandle: SavedStateHandle
     ) : ViewModel() {
 
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         private val taskId: String = ""
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
         private var _isTaskDeleted by mutableStateOf(false)
         private val _task = tasksRepository.getTaskStream(taskId)
 
@@ -390,9 +390,9 @@ object StateProductionSnippet9 {
         savedStateHandle: SavedStateHandle
     ) : ViewModel() {
 
-        /* [START_EXCLUDE silent] */
+        // [START_EXCLUDE silent]
         private val taskId: String = ""
-        /* [END_EXCLUDE] */
+        // [END_EXCLUDE]
         private val _isTaskDeleted = MutableStateFlow(false)
         private val _task = tasksRepository.getTaskStream(taskId)
 
