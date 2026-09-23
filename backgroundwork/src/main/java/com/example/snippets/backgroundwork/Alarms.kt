@@ -44,13 +44,11 @@ class SampleBootReceiver : BroadcastReceiver() {
 // [END android_background_alarms_boot_receiver]
 
 private class ElapsedRealtimeOneTimeSnippet(private val context: Context) {
-    // [START android_background_alarms_elapsed_realtime_one_time]
-        private var alarmMgr: AlarmManager? = null
-        private lateinit var alarmIntent: PendingIntent
-        // ...
-    // [START_EXCLUDE silent]
     fun schedule() {
-        // [END_EXCLUDE]
+        // [START android_background_alarms_elapsed_realtime_one_time]
+        var alarmMgr: AlarmManager? = null
+        lateinit var alarmIntent: PendingIntent
+        // ...
         alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -66,13 +64,11 @@ private class ElapsedRealtimeOneTimeSnippet(private val context: Context) {
 }
 
 private class RtcRepeatingPreciseSnippet(private val context: Context) {
-    // [START android_background_alarms_rtc_repeating_precise]
-        private var alarmMgr: AlarmManager? = null
-        private lateinit var alarmIntent: PendingIntent
-        // ...
-    // [START_EXCLUDE silent]
     fun schedule() {
-        // [END_EXCLUDE]
+        // [START android_background_alarms_rtc_repeating_precise]
+        var alarmMgr: AlarmManager? = null
+        lateinit var alarmIntent: PendingIntent
+        // ...
         alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
