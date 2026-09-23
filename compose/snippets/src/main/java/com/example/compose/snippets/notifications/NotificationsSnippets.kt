@@ -62,7 +62,7 @@ import com.example.compose.snippets.notifications.ReplyReceiver.Companion.KEY_TE
 import com.example.compose.snippets.touchinput.Button
 import kotlin.random.Random
 
-val CHANNEL_ID = "channelId"
+private const val CHANNEL_ID = "channelId"
 
 @Composable
 fun NotificationSnippets(context: Context) {

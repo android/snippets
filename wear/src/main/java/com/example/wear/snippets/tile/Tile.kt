@@ -45,12 +45,19 @@ import androidx.wear.protolayout.expression.DynamicBuilders
 import androidx.wear.protolayout.expression.PlatformHealthSources
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
+import androidx.wear.protolayout.material3.MaterialScope
+import androidx.wear.protolayout.material3.Typography.BODY_LARGE
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
+import androidx.wear.protolayout.material3.text
+import androidx.wear.protolayout.types.layoutString
+import androidx.wear.tiles.Material3TileService
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.RequestBuilders.ResourcesRequest
+import androidx.wear.tiles.RequestBuilders.TileRequest
 import androidx.wear.tiles.TileBuilders.Tile
 import androidx.wear.tiles.TileService
+import androidx.wear.tiles.tile
 import com.example.wear.R
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -80,6 +87,25 @@ class MyTileService : TileService() {
 }
 
 // [END android_wear_tile_mytileservice]
+
+private object Material3TileServiceSnippet {
+    // [START android_wear_tile_material3tileservice]
+    class MyTileService : Material3TileService() {
+
+        override suspend fun MaterialScope.tileResponse(requestParams: TileRequest): Tile =
+            tile(
+                timeline =
+                Timeline.fromLayoutElement(
+                    primaryLayout(
+                        mainSlot = {
+                            text("Hello, World!".layoutString, typography = BODY_LARGE)
+                        }
+                    )
+                )
+            )
+    }
+    // [END android_wear_tile_material3tileservice]
+}
 
 fun simpleLayout(context: Context) =
     Text.Builder(context, "Hello World!")
