@@ -258,12 +258,10 @@ private object StateHoldersSnippet8 {
     fun <T, R> StateFlow<T>.map(transform: (T) -> R): StateFlow<R> =
         MutableStateFlow(transform(value))
 
+    fun viewModel(): MyScreenViewModel = MyScreenViewModel()
+
     // [START android_architecture_stateholders_dependencies_pass_params]
-    class MyScreenViewModel(/* ... */)
-        // [START_EXCLUDE silent]
-        : ViewModel()
-        // [END_EXCLUDE]
-        {
+    class MyScreenViewModel(/* ... */) {
         val uiState: StateFlow<MyScreenUiState> = /* ... */
             // [START_EXCLUDE silent]
             MutableStateFlow(MyScreenUiState())
