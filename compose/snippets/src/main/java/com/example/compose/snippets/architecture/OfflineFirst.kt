@@ -204,7 +204,10 @@ private object OfflineFirstSnippet5 {
         authorId: String = ""
         // [END_EXCLUDE]
     ) : ViewModel() {
-        private val authorId: String = /* [START_EXCLUDE] */ authorId /* [END_EXCLUDE] */
+        private val authorId: String =
+            // [START_EXCLUDE]
+            authorId
+            // [END_EXCLUDE]
 
         // Observe author information
         private val authorStream: Flow<Author> =
@@ -237,7 +240,10 @@ private object OfflineFirstSnippet6 {
         authorId: String = ""
         // [END_EXCLUDE]
     ) : ViewModel() {
-        private val authorId: String = /* [START_EXCLUDE] */ authorId /* [END_EXCLUDE] */
+        private val authorId: String =
+            // [START_EXCLUDE]
+            authorId
+            // [END_EXCLUDE]
 
         // Observe author information and map to LCE state
         val authorUiState: StateFlow<AuthorUiState> =
@@ -266,12 +272,10 @@ private object OfflineFirstSnippet7 {
     // [END android_architecture_offline_first_user_data_repository_write]
 }
 
+@OptIn(ExperimentalPagingApi::class)
 private object OfflineFirstSnippet8 {
     const val NETWORK_PAGE_SIZE = 20
     data class FeedItem(val id: String)
-    // [START_EXCLUDE silent]
-    @OptIn(ExperimentalPagingApi::class)
-    // [END_EXCLUDE]
     class FeedRemoteMediator(/* ... */) : RemoteMediator<Int, FeedItem>() {
         override suspend fun load(
             loadType: androidx.paging.LoadType,
@@ -292,9 +296,6 @@ private object OfflineFirstSnippet8 {
             // [END_EXCLUDE]
         }
     }
-    // [START_EXCLUDE silent]
-    @OptIn(ExperimentalPagingApi::class)
-    // [END_EXCLUDE]
     class FeedViewModel(
         private val feedRepository: FeedRepository
     ) : ViewModel() {
