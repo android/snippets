@@ -277,6 +277,7 @@ private class MultipleStreamsActivity : Activity() {
             // [START_EXCLUDE silent]
             override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
             override fun surfaceDestroyed(holder: SurfaceHolder) {}
+            // [END_EXCLUDE]
             // ...
         })
         // [END android_camera2_multiple_camera_streams_surfaceview_callback]
