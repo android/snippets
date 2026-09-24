@@ -16,6 +16,7 @@
 
 package com.example.snippets.backgroundwork
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.concurrent.futures.await
 import androidx.work.Constraints
@@ -27,9 +28,11 @@ import androidx.work.WorkerParameters
 import java.util.UUID
 
 private const val PHOTO_UPLOAD_WORK_NAME = "photo_upload"
+@SuppressLint("StaticFieldLeak")
+private lateinit var context: Context
 
 // [START android_background_update_photo_upload_work]
-suspend fun updatePhotoUploadWork(context: Context) {
+suspend fun updatePhotoUploadWork() {
     // Get instance of WorkManager.
     val workManager = WorkManager.getInstance(context)
 
