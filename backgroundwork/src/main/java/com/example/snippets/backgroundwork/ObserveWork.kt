@@ -16,18 +16,15 @@
 
 package com.example.snippets.backgroundwork
 
-// [START android_background_observe_progress_worker]
 import android.content.Context
 import androidx.work.CoroutineWorker
-import androidx.work.Data
-import androidx.work.WorkerParameters
-import kotlinx.coroutines.delay
-// [END android_background_observe_progress_worker]
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import java.util.UUID
+import kotlinx.coroutines.delay
 
 // [START android_background_observe_progress_worker]
 class ProgressWorker(context: Context, parameters: WorkerParameters) :
