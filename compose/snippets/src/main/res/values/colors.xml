@@ -24,4 +24,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="default_widget_background">#FFF</color>
     <color name="outline_color">#FFF</color>
+    <color name="background">#FFFFFF</color>
 </resources>
