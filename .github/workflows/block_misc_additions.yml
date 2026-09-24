@@ -1,0 +1,31 @@
+name: Block New Files in misc
+
+on:
+  pull_request:
+    paths:
+      - 'misc/**'
+
+jobs:
+  check-misc-additions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for new files in misc
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          
+          # Check for added files (A) in the misc/ directory
+          ADDED_FILES=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }} HEAD -- misc/)
+
+          if [ -n "$ADDED_FILES" ]; then
+            echo "Error: New files are not allowed in the misc/ directory."
+            echo "The following new files were detected:"
+            echo "$ADDED_FILES"
+            exit 1
+          else
+            echo "No new files detected in misc/."
+          fi
