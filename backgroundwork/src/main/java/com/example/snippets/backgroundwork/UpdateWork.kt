@@ -72,6 +72,6 @@ private fun trackWorkGeneration(context: Context, oldWorkRequestId: UUID) {
     // [END android_background_track_work_generation]
 }
 
-private class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }

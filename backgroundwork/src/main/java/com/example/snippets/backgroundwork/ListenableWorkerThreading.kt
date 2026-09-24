@@ -132,7 +132,7 @@ private fun downloadAsynchronously(url: String, callback: Callback) {}
 private val cancelDownloadsRunnable = Runnable {}
 private val executor: Executor = Executors.newSingleThreadExecutor()
 
-private class ExampleRemoteListenableWorker(
+class ExampleRemoteListenableWorker(
     context: Context,
     parameters: WorkerParameters
 ) : RemoteListenableWorker(context, parameters) {
