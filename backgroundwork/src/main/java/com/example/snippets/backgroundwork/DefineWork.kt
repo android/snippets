@@ -195,10 +195,10 @@ internal class MyWork(context: Context, workerParams: WorkerParameters) : Worker
     override fun doWork(): Result = Result.success()
 }
 
-private class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
 
-private class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
