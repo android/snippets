@@ -30,7 +30,7 @@ class MyApplication() : Application(), Configuration.Provider {
 }
 // [END android_background_custom_configuration_on_demand]
 
-private fun manualInitialization(context: Context) {
+private fun Context.manualInitialization() {
     // [START android_background_custom_configuration_manual_init]
     // provide custom configuration
     val myConfig = Configuration.Builder()
@@ -38,6 +38,6 @@ private fun manualInitialization(context: Context) {
         .build()
 
     // initialize WorkManager
-    WorkManager.initialize(context, myConfig)
+    WorkManager.initialize(this, myConfig)
     // [END android_background_custom_configuration_manual_init]
 }

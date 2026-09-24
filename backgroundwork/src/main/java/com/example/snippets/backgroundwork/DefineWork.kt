@@ -180,15 +180,13 @@ class UploadWork(appContext: Context, workerParams: WorkerParameters) :
 }
 
 // Create a WorkRequest for your Worker and sending it input
-private fun createUploadWork() {
-    val myUploadWork = OneTimeWorkRequestBuilder<UploadWork>()
-        .setInputData(
-            workDataOf(
-                "IMAGE_URI" to "http://..."
-            )
+val myUploadWork = OneTimeWorkRequestBuilder<UploadWork>()
+    .setInputData(
+        workDataOf(
+            "IMAGE_URI" to "http://..."
         )
-        .build()
-}
+    )
+    .build()
 // [END android_background_assign_input_data]
 
 internal class MyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
