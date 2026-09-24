@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.example.snippet.views.notifications
+package com.example.compose.snippets.notifications
 
 import android.Manifest
 import android.graphics.Bitmap
@@ -22,7 +22,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.example.snippet.views.R
+import com.example.compose.snippets.R
 
 private const val CHANNEL_ID = "channelId"
 
@@ -38,12 +38,12 @@ private class MainActivity : ComponentActivity() {
         val GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL"
 
         val newMessageNotification = NotificationCompat.Builder(this@MainActivity, CHANNEL_ID)
-                .setSmallIcon(R.drawable.new_mail)
-                .setContentTitle(emailObject.getSenderName())
-                .setContentText(emailObject.getSubject())
-                .setLargeIcon(emailObject.getSenderAvatar())
-                .setGroup(GROUP_KEY_WORK_EMAIL)
-                .build()
+            .setSmallIcon(R.drawable.new_mail)
+            .setContentTitle(emailObject.getSenderName())
+            .setContentText(emailObject.getSubject())
+            .setLargeIcon(emailObject.getSenderAvatar())
+            .setGroup(GROUP_KEY_WORK_EMAIL)
+            .build()
         // [END android_views_notifications_group_notification]
     }
 
@@ -55,35 +55,37 @@ private class MainActivity : ComponentActivity() {
         val GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL"
 
         val newMessageNotification1 = NotificationCompat.Builder(this@MainActivity, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notify_email_status)
-                .setContentTitle(emailObject1.getSummary())
-                .setContentText("You will not believe...")
-                .setGroup(GROUP_KEY_WORK_EMAIL)
-                .build()
+            .setSmallIcon(R.drawable.ic_notify_email_status)
+            .setContentTitle(emailObject1.getSummary())
+            .setContentText("You will not believe...")
+            .setGroup(GROUP_KEY_WORK_EMAIL)
+            .build()
 
         val newMessageNotification2 = NotificationCompat.Builder(this@MainActivity, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notify_email_status)
-                .setContentTitle(emailObject2.getSummary())
-                .setContentText("Please join us to celebrate the...")
-                .setGroup(GROUP_KEY_WORK_EMAIL)
-                .build()
+            .setSmallIcon(R.drawable.ic_notify_email_status)
+            .setContentTitle(emailObject2.getSummary())
+            .setContentText("Please join us to celebrate the...")
+            .setGroup(GROUP_KEY_WORK_EMAIL)
+            .build()
 
         val summaryNotification = NotificationCompat.Builder(this@MainActivity, CHANNEL_ID)
-                .setContentTitle(emailObject.getSummary())
-                // Set content text to support devices running API level < 24.
-                .setContentText("Two new messages")
-                .setSmallIcon(R.drawable.ic_notify_summary_status)
-                // Build summary info into InboxStyle template.
-                .setStyle(NotificationCompat.InboxStyle()
-                        .addLine("Alex Faarborg Check this out")
-                        .addLine("Jeff Chang Launch Party")
-                        .setBigContentTitle("2 new messages")
-                        .setSummaryText("janedoe@example.com"))
-                // Specify which group this notification belongs to.
-                .setGroup(GROUP_KEY_WORK_EMAIL)
-                // Set this notification as the summary for the group.
-                .setGroupSummary(true)
-                .build()
+            .setContentTitle(emailObject.getSummary())
+            // Set content text to support devices running API level < 24.
+            .setContentText("Two new messages")
+            .setSmallIcon(R.drawable.ic_notify_summary_status)
+            // Build summary info into InboxStyle template.
+            .setStyle(
+                NotificationCompat.InboxStyle()
+                    .addLine("Alex Faarborg Check this out")
+                    .addLine("Jeff Chang Launch Party")
+                    .setBigContentTitle("2 new messages")
+                    .setSummaryText("janedoe@example.com")
+            )
+            // Specify which group this notification belongs to.
+            .setGroup(GROUP_KEY_WORK_EMAIL)
+            // Set this notification as the summary for the group.
+            .setGroupSummary(true)
+            .build()
 
         NotificationManagerCompat.from(this).apply {
             notify(emailNotificationId1, newMessageNotification1)
