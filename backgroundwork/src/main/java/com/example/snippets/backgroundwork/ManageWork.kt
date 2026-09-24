@@ -123,6 +123,6 @@ private fun cancelWork(workManager: WorkManager, syncWorker: WorkRequest) {
     // [END android_background_cancel_work]
 }
 
-private class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
