@@ -27,6 +27,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.content.MediaType
 import androidx.compose.foundation.content.ReceiveContentListener
+import androidx.compose.foundation.content.TransferableContent
 import androidx.compose.foundation.content.consume
 import androidx.compose.foundation.content.contentReceiver
 import androidx.compose.foundation.content.hasMediaType
@@ -103,10 +104,8 @@ private fun CopyWithClipEntrySample() {
 
 @Composable
 private fun PasteWithClipboardManagerSample() {
-    // [START android_compose_touchinput_copyandpaste_paste_text]
-    // [START_EXCLUDE]
     val clipboardManager = LocalClipboardManager.current
-    // [END_EXCLUDE]
+    // [START android_compose_touchinput_copyandpaste_paste_text]
     val textFieldState = rememberTextFieldState()
 
     Column {
@@ -132,10 +131,8 @@ private fun PasteWithClipboardManagerSample() {
 
 @Composable
 private fun CopyRichContentSample() {
-    // [START android_compose_touchinput_copyandpaste_copy_rich_content]
-    // [START_EXCLUDE]
     val clipboardManager = LocalClipboardManager.current
-    // [END_EXCLUDE]
+    // [START android_compose_touchinput_copyandpaste_copy_rich_content]
     // Get a reference to the context
     val context = LocalContext.current
 
@@ -199,7 +196,7 @@ private fun PasteRichContentSample() {
     // [END android_compose_touchinput_copyandpaste_paste_rich_content]
 }
 
-private fun HasMediaTypeSample(transferableContent: androidx.compose.foundation.content.TransferableContent) {
+private fun HasMediaTypeSample(transferableContent: TransferableContent) {
     // [START android_compose_touchinput_copyandpaste_has_media_type]
     transferableContent.hasMediaType(MediaType.Image)
     // [END android_compose_touchinput_copyandpaste_has_media_type]
