@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.content.Context
 import android.hardware.camera2.CameraCharacteristics

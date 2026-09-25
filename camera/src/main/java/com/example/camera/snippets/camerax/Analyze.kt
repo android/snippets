@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.util.Size
 import androidx.camera.core.CameraSelector

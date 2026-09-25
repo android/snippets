@@ -53,9 +53,6 @@ android {
     buildFeatures {
         compose = true
     }
-    lint {
-        abortOnError = false
-    }
 }
 
 dependencies {
@@ -76,15 +73,15 @@ dependencies {
     implementation(libs.androidx.camera.compose)
     implementation(libs.androidx.camera.viewfinder.compose)
     implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.mlkit.vision)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.concurrent.futures.ktx)
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.camera.video)
     implementation(libs.androidx.camera.effects)
     implementation(libs.androidx.media3.effect)
+    implementation(libs.mlkit.barcode.scanning)
     implementation(libs.mlkit.face.detection)
-    implementation("androidx.camera:camera-mlkit-vision:${libs.versions.androidx.cameraX.get()}")
-    implementation("com.google.mlkit:barcode-scanning:17.3.0")
     implementation(libs.androidx.window)
     implementation(libs.play.services.wearable)
     implementation(libs.mockito.kotlin)
