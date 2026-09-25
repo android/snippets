@@ -27,6 +27,12 @@ import java.util.UUID
 import kotlinx.coroutines.delay
 
 // [START android_background_observe_progress_worker]
+// import android.content.Context
+// import androidx.work.CoroutineWorker
+// import androidx.work.Data
+// import androidx.work.WorkerParameters
+// import kotlinx.coroutines.delay
+
 class ProgressWorker(context: Context, parameters: WorkerParameters) :
     CoroutineWorker(context, parameters) {
 
@@ -49,13 +55,13 @@ class ProgressWorker(context: Context, parameters: WorkerParameters) :
 private suspend fun observeProgressFlow(applicationContext: Context, requestId: UUID) {
     // [START android_background_observe_progress_flow]
     WorkManager.getInstance(applicationContext)
-        // requestId is the WorkRequest id
+        // requestId is the WorkRequest id.
         .getWorkInfoByIdFlow(requestId)
         .collect { workInfo: WorkInfo? ->
             if (workInfo != null) {
                 val progress = workInfo.progress
                 val value = progress.getInt("Progress", 0)
-                // Do something with progress information
+                // Do something with progress information.
             }
         }
     // [END android_background_observe_progress_flow]

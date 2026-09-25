@@ -32,12 +32,12 @@ class MyApplication() : Application(), Configuration.Provider {
 
 private fun Context.manualInitialization() {
     // [START android_background_custom_configuration_manual_init]
-    // provide custom configuration
+    // provide custom configuration.
     val myConfig = Configuration.Builder()
         .setMinimumLoggingLevel(android.util.Log.INFO)
         .build()
 
-    // initialize WorkManager
+    // initialize WorkManager.
     WorkManager.initialize(this, myConfig)
     // [END android_background_custom_configuration_manual_init]
 }
