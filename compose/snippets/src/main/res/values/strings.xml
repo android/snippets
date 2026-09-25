@@ -74,4 +74,8 @@
     <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
     <string name="hello_new_document_counter">Hello new document</string>
     <string name="reusing_document_counter">Reusing document</string>
+    <!-- [START android_resources_localization_login_submit_button] -->
+    <!-- The action for submitting a form. This text is on a button that can fit 30 chars -->
+    <string name="login_submit_button">Sign in</string>
+    <!-- [END android_resources_localization_login_submit_button] -->
 </resources>
