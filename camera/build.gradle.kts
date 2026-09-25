@@ -57,6 +57,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -72,12 +73,14 @@ dependencies {
     implementation(libs.androidx.camera.compose)
     implementation(libs.androidx.camera.viewfinder.compose)
     implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.mlkit.vision)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.concurrent.futures.ktx)
     implementation(libs.androidx.camera.extensions)
     implementation(libs.androidx.camera.video)
     implementation(libs.androidx.camera.effects)
     implementation(libs.androidx.media3.effect)
+    implementation(libs.mlkit.barcode.scanning)
     implementation(libs.mlkit.face.detection)
     implementation(libs.androidx.window)
     implementation(libs.play.services.wearable)
