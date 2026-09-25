@@ -16,6 +16,7 @@
 
 package com.example.snippets.backgroundwork
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
 import androidx.work.BackoffPolicy
@@ -58,7 +59,7 @@ private fun scheduleOneTimeWorkBuilder() {
     // [START android_background_schedule_one_time_work_builder]
     val uploadWorkRequest: WorkRequest =
         OneTimeWorkRequestBuilder<MyWork>()
-            // Additional configuration
+            // Additional configuration.
             .build()
     // [END android_background_schedule_one_time_work_builder]
 }
@@ -104,7 +105,7 @@ private fun schedulePeriodicWork() {
     // [START android_background_periodic_work_request]
     val saveRequest =
         PeriodicWorkRequestBuilder<SaveImageToFileWorker>(1, TimeUnit.HOURS)
-            // Additional configuration
+            // Additional configuration.
             .build()
     // [END android_background_periodic_work_request]
 }
@@ -112,9 +113,9 @@ private fun schedulePeriodicWork() {
 private fun schedulePeriodicWorkFlex() {
     // [START android_background_periodic_work_request_flex]
     val myUploadWork = PeriodicWorkRequestBuilder<SaveImageToFileWorker>(
-        1, TimeUnit.HOURS, // repeatInterval (the period cycle)
+        1, TimeUnit.HOURS, // repeatInterval (the period cycle).
         15, TimeUnit.MINUTES
-    ) // flexInterval
+    ) // flexInterval.
         .build()
     // [END android_background_periodic_work_request_flex]
 }
@@ -162,7 +163,7 @@ private fun tagWork() {
 }
 
 // [START android_background_assign_input_data]
-// Define the Worker requiring input
+// Define the Worker requiring input.
 class UploadWork(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
 
@@ -173,13 +174,12 @@ class UploadWork(appContext: Context, workerParams: WorkerParameters) :
         uploadFile(imageUriInput)
         return Result.success()
     }
-    // [START_EXCLUDE silent]
+    // [START_EXCLUDE]
     private fun uploadFile(uri: String) {}
     // [END_EXCLUDE]
-    // ...
 }
 
-// Create a WorkRequest for your Worker and sending it input
+// Create a WorkRequest for your Worker and sending it input.
 val myUploadWork = OneTimeWorkRequestBuilder<UploadWork>()
     .setInputData(
         workDataOf(
@@ -189,14 +189,17 @@ val myUploadWork = OneTimeWorkRequestBuilder<UploadWork>()
     .build()
 // [END android_background_assign_input_data]
 
-internal class MyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+@SuppressLint("WorkerHasAPublicModifier")
+private class MyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
 
-class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+@SuppressLint("WorkerHasAPublicModifier")
+private class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
 
-class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+@SuppressLint("WorkerHasAPublicModifier")
+private class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }

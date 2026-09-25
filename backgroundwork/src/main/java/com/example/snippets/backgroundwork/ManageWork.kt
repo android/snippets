@@ -16,6 +16,7 @@
 
 package com.example.snippets.backgroundwork
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.work.Constraints
@@ -37,10 +38,10 @@ private fun manageWorkEnqueue(requireContext: () -> Context) {
     // [START_EXCLUDE silent]
     /*
     // [END_EXCLUDE]
-    val myWork: WorkRequest = // ... OneTime or PeriodicWork
+    val myWork: WorkRequest = // ... OneTime or PeriodicWork.
     // [START_EXCLUDE silent]
      */
-    val myWork: WorkRequest = OneTimeWorkRequestBuilder<MyWork>().build()
+    val myWork: WorkRequest = OneTimeWorkRequestBuilder<SendLogsWorker>().build()
     // [END_EXCLUDE]
     WorkManager.getInstance(requireContext()).enqueue(myWork)
     // [END android_background_manage_work_enqueue]
@@ -66,13 +67,13 @@ private fun Context.uniquePeriodicWork() {
 
 private fun observeWorkQuery(workManager: WorkManager, syncWorker: WorkRequest) {
     // [START android_background_observe_work_query]
-    // by id
+    // by id.
     workManager.getWorkInfoById(syncWorker.id) // ListenableFuture<WorkInfo>
 
-    // by name
+    // by name.
     workManager.getWorkInfosForUniqueWork("sync") // ListenableFuture<List<WorkInfo>>
 
-    // by tag
+    // by tag.
     workManager.getWorkInfosByTag("syncTag") // ListenableFuture<List<WorkInfo>>
     // [END android_background_observe_work_query]
 }
@@ -112,17 +113,18 @@ private fun complexWorkQueries(workManager: WorkManager) {
 
 private fun cancelWork(workManager: WorkManager, syncWorker: WorkRequest) {
     // [START android_background_cancel_work]
-    // by id
+    // by id.
     workManager.cancelWorkById(syncWorker.id)
 
-    // by name
+    // by name.
     workManager.cancelUniqueWork("sync")
 
-    // by tag
+    // by tag.
     workManager.cancelAllWorkByTag("syncTag")
     // [END android_background_cancel_work]
 }
 
-class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+@SuppressLint("WorkerHasAPublicModifier")
+private class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }

@@ -47,7 +47,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
             ?: return Result.failure()
         val outputFile = inputData.getString(KEY_OUTPUT_FILE_NAME)
             ?: return Result.failure()
-        // Mark the Worker as important
+        // Mark the Worker as important.
         val progress = "Starting Download"
         setForeground(createForegroundInfo(progress))
         download(inputUrl, outputFile)
@@ -55,9 +55,9 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
     }
 
     private fun download(inputUrl: String, outputFile: String) {
-        // Downloads a file and updates bytes read
+        // Downloads a file and updates bytes read.
         // Calls setForeground() periodically when it needs to update
-        // the ongoing Notification
+        // the ongoing Notification.
     }
     // Creates an instance of ForegroundInfo which can be used to update the
     // ongoing notification.
@@ -65,11 +65,11 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
         val id = applicationContext.getString(R.string.notification_channel_id)
         val title = applicationContext.getString(R.string.notification_title)
         val cancel = applicationContext.getString(R.string.cancel_download)
-        // This PendingIntent can be used to cancel the worker
+        // This PendingIntent can be used to cancel the worker.
         val intent = WorkManager.getInstance(applicationContext)
             .createCancelPendingIntent(getId())
 
-        // Create a Notification channel if necessary
+        // Create a Notification channel if necessary.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel()
         }
@@ -81,7 +81,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
             .setSmallIcon(R.drawable.ic_work_notification)
             .setOngoing(true)
             // Add the cancel action to the notification which can
-            // be used to cancel the worker
+            // be used to cancel the worker.
             .addAction(android.R.drawable.ic_delete, cancel, intent)
             .build()
 
@@ -90,7 +90,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannel() {
-        // Create a Notification channel
+        // Create a Notification channel.
     }
 
     companion object {
@@ -100,7 +100,8 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
 }
 // [END android_background_long_running_coroutine_worker]
 
-class ForegroundServiceTypeSnippet(
+@SuppressLint("WorkerHasAPublicModifier")
+private class ForegroundServiceTypeSnippet(
     context: Context,
     parameters: WorkerParameters
 ) : CoroutineWorker(context, parameters) {
