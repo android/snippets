@@ -16,7 +16,7 @@
 
 package com.example.camera.snippets.camerax
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.camera.mlkit.vision.MlKitAnalyzer
 import androidx.camera.view.CameraController
 import androidx.camera.view.CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED
@@ -25,26 +25,26 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 
-private fun mlKitAnalyzerSnippet(
-    cameraController: CameraController,
-    context: Context,
-) {
-    // [START android_camerax_mlkitanalyzer_qrcode]
-    // create BarcodeScanner object
-    val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-        .build()
-    val barcodeScanner = BarcodeScanning.getClient(options)
+private class MlKitAnalyzerActivity : ComponentActivity() {
+    @Suppress("DEPRECATION")
+    private fun setUpQrCodeAnalyzer(cameraController: CameraController) {
+        // [START android_camerax_mlkitanalyzer_qrcode]
+        // create BarcodeScanner object.
+        val options = BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .build()
+        val barcodeScanner = BarcodeScanning.getClient(options)
 
-    cameraController.setImageAnalysisAnalyzer(
-        ContextCompat.getMainExecutor(context),
-        MlKitAnalyzer(
-            listOf(barcodeScanner),
-            COORDINATE_SYSTEM_VIEW_REFERENCED,
-            ContextCompat.getMainExecutor(context)
-        ) { result: MlKitAnalyzer.Result? ->
-            // The value of result.getResult(barcodeScanner) can be used directly for drawing UI overlay.
-        }
-    )
-    // [END android_camerax_mlkitanalyzer_qrcode]
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(this),
+            MlKitAnalyzer(
+                listOf(barcodeScanner),
+                COORDINATE_SYSTEM_VIEW_REFERENCED,
+                ContextCompat.getMainExecutor(this)
+            ) { result: MlKitAnalyzer.Result? ->
+                // The value of result.getResult(barcodeScanner) can be used directly for drawing UI overlay.
+            }
+        )
+        // [END android_camerax_mlkitanalyzer_qrcode]
+    }
 }

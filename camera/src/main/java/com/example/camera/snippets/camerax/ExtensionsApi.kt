@@ -33,6 +33,9 @@ private class ExtensionsActivity : AppCompatActivity() {
     private lateinit var surfaceProvider: Preview.SurfaceProvider
 
     // [START android_camerax_extensions_enable_night]
+    // import androidx.camera.extensions.ExtensionMode
+    // import androidx.camera.extensions.ExtensionsManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +43,7 @@ private class ExtensionsActivity : AppCompatActivity() {
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(applicationContext)
         cameraProviderFuture.addListener({
-            // Obtain an instance of a process camera provider
+            // Obtain an instance of a process camera provider.
             // The camera provider provides access to the set of cameras associated with the device.
             // The camera obtained from the provider will be bound to the activity lifecycle.
             val cameraProvider = cameraProviderFuture.get()
@@ -48,12 +51,12 @@ private class ExtensionsActivity : AppCompatActivity() {
             val extensionsManagerFuture =
                 ExtensionsManager.getInstanceAsync(applicationContext, cameraProvider)
             extensionsManagerFuture.addListener({
-                // Obtain an instance of the extensions manager
+                // Obtain an instance of the extensions manager.
                 // The extensions manager enables a camera to use extension capabilities available on
                 // the device.
                 val extensionsManager = extensionsManagerFuture.get()
 
-                // Select the camera
+                // Select the camera.
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
                 // Query if extension is available.
@@ -64,7 +67,7 @@ private class ExtensionsActivity : AppCompatActivity() {
                     try {
                         cameraProvider.unbindAll()
 
-                        // Retrieve a night extension enabled camera selector
+                        // Retrieve a night extension enabled camera selector.
                         val nightCameraSelector =
                             extensionsManager.getExtensionEnabledCameraSelector(
                                 cameraSelector,
@@ -80,8 +83,8 @@ private class ExtensionsActivity : AppCompatActivity() {
                         // or SurfaceView. The SurfaceProvider can be obtained from the PreviewView.
                         preview.setSurfaceProvider(surfaceProvider)
 
-                        // Returns an instance of the camera bound to the lifecycle
-                        // Use this camera object to control various operations with the camera
+                        // Returns an instance of the camera bound to the lifecycle.
+                        // Use this camera object to control various operations with the camera.
                         // Example: flash, zoom, focus metering etc.
                         val camera = cameraProvider.bindToLifecycle(
                             lifecycleOwner,

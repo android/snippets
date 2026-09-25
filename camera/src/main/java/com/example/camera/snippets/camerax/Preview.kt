@@ -17,6 +17,7 @@
 package com.example.camera.snippets.camerax
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -26,18 +27,26 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 
-// [START android_camerax_preview_request_provider]
-private class MainActivity : AppCompatActivity() {
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-    override fun onCreate(savedInstanceState: Bundle?) {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        /* [START_EXCLUDE silent] */
-        checkProviderSnippet(cameraProviderFuture)
-        /* [END_EXCLUDE] */
-    }
-// [END android_camerax_preview_request_provider]
+private object PreviewRequestProviderSnippet {
+    // [START android_camerax_preview_request_provider]
+    // import androidx.camera.lifecycle.ProcessCameraProvider
+    // import com.google.common.util.concurrent.ListenableFuture
 
-    private fun checkProviderSnippet(cameraProviderFuture: ListenableFuture<ProcessCameraProvider>) {
+    class MainActivity : AppCompatActivity() {
+        private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        }
+    }
+    // [END android_camerax_preview_request_provider]
+}
+
+private class PreviewUseCaseActivity : ComponentActivity() {
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var previewView: PreviewView
+
+    private fun checkProvider() {
         // [START android_camerax_preview_check_provider]
         cameraProviderFuture.addListener(
             Runnable {
@@ -49,8 +58,6 @@ private class MainActivity : AppCompatActivity() {
         // [END android_camerax_preview_check_provider]
     }
 
-    private lateinit var previewView: PreviewView
-
     // [START android_camerax_preview_bind]
     fun bindPreview(cameraProvider: ProcessCameraProvider) {
         var preview: Preview = Preview.Builder()
@@ -60,21 +67,23 @@ private class MainActivity : AppCompatActivity() {
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
 
-        preview.setSurfaceProvider(previewView.surfaceProvider)
+        preview.setSurfaceProvider(previewView.getSurfaceProvider())
 
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
     }
     // [END android_camerax_preview_bind]
 }
 
-private fun previewControlsSnippet(viewFinder: PreviewView) {
+private fun previewImplementationModeSnippet(viewFinder: PreviewView) {
     // [START android_camerax_preview_implementation_mode]
-    // viewFinder is a PreviewView instance
+    // viewFinder is a PreviewView instance.
     viewFinder.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
     // [END android_camerax_preview_implementation_mode]
+}
 
+private fun previewScaleTypeSnippet(viewFinder: PreviewView) {
     // [START android_camerax_preview_scale_type]
-    // viewFinder is a PreviewView instance
+    // viewFinder is a PreviewView instance.
     viewFinder.scaleType = PreviewView.ScaleType.FIT_CENTER
     // [END android_camerax_preview_scale_type]
 }
