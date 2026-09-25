@@ -16,6 +16,7 @@
 
 package com.example.snippets.backgroundwork
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -84,7 +85,8 @@ private fun remoteCoroutineWorkerRequest(): OneTimeWorkRequest {
 private fun downloadSynchronously(url: String): String = ""
 private fun saveData(data: String) {}
 
-class ExampleRemoteCoroutineWorker(
+@SuppressLint("WorkerHasAPublicModifier")
+private class ExampleRemoteCoroutineWorker(
     context: Context,
     parameters: WorkerParameters
 ) : RemoteCoroutineWorker(context, parameters) {
