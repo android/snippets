@@ -17,6 +17,7 @@
 package com.example.camera.snippets.camerax
 
 import android.util.Size
+import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -24,33 +25,34 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.LifecycleOwner
 import java.util.concurrent.Executor
 
-private fun bindImageAnalysis(
-    cameraProvider: ProcessCameraProvider,
-    cameraSelector: CameraSelector,
-    preview: Preview,
-    executor: Executor,
-    lifecycleOwner: LifecycleOwner,
-) {
-    val imageAnalysis =
+private class ImageAnalysisActivity : ComponentActivity() {
+
+    @Suppress("DEPRECATION")
+    private fun bindImageAnalysis(
+        cameraProvider: ProcessCameraProvider,
+        cameraSelector: CameraSelector,
+        preview: Preview,
+        executor: Executor,
+    ) {
         // [START android_camerax_analyze_bind_lifecycle]
-        ImageAnalysis.Builder()
+        val imageAnalysis = ImageAnalysis.Builder()
             // enable the following line if RGBA output is needed.
             // .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
             .setTargetResolution(Size(1280, 720))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-    imageAnalysis.setAnalyzer(
-        executor,
-        ImageAnalysis.Analyzer { imageProxy ->
-            val rotationDegrees = imageProxy.imageInfo.rotationDegrees
-            // insert your code here.
-            /* [START_EXCLUDE] */
-            // [END_EXCLUDE] */
-            // after done, release the ImageProxy object
-            imageProxy.close()
-        }
-    )
+        imageAnalysis.setAnalyzer(
+            executor,
+            ImageAnalysis.Analyzer { imageProxy ->
+                val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+                // Insert your code here
+                // ...
+                // after done, release the ImageProxy object.
+                imageProxy.close()
+            }
+        )
 
-    cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, imageAnalysis, preview)
-    // [END android_camerax_analyze_bind_lifecycle]
+        cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, imageAnalysis, preview)
+        // [END android_camerax_analyze_bind_lifecycle]
+    }
 }
