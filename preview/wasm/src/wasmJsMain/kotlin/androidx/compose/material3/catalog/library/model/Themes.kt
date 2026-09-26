@@ -33,7 +33,7 @@ data class Theme(
     val markExpressiveComponents: Boolean = true,
     val customColor: Color? = null,
     val preset: ThemePreset = ThemePreset.MONOCHROME,
-    val densityScale: Float = 1.3f,
+    val densityScale: Float = 1.25f,
 ) {
     constructor(
         map: Map<String, Float>

@@ -81,7 +81,7 @@ private val PreviewColorScheme = lightColorScheme(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [36], qualifiers = "w360dp-h200dp-xhdpi")
+@Config(sdk = [36], qualifiers = "w384dp-h216dp-xhdpi")
 class PreviewScreenshotTest {
 
     @get:Rule
@@ -108,7 +108,7 @@ class PreviewScreenshotTest {
             MaterialTheme(colorScheme = PreviewColorScheme) {
                 Box(
                     modifier = Modifier
-                        .size(360.dp, 200.dp)
+                        .size(384.dp, 216.dp)
                         .background(Color(0xFFFFFFFF)),
                     contentAlignment = Alignment.Center
                 ) {

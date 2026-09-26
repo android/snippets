@@ -119,65 +119,45 @@ fun ButtonExamples() {
 }
 
 // [START android_compose_components_filledbutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilledButtonExample(onClick: () -> Unit) {
-    Button(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
+    Button(onClick = { onClick() }) {
         Text("Filled")
     }
 }
 // [END android_compose_components_filledbutton]
 
 // [START android_compose_components_filledtonalbutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilledTonalButtonExample(onClick: () -> Unit) {
-    FilledTonalButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
+    FilledTonalButton(onClick = { onClick() }) {
         Text("Tonal")
     }
 }
 // [END android_compose_components_filledtonalbutton]
 
 // [START android_compose_components_elevatedbutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ElevatedButtonExample(onClick: () -> Unit) {
-    ElevatedButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
+    ElevatedButton(onClick = { onClick() }) {
         Text("Elevated")
     }
 }
 // [END android_compose_components_elevatedbutton]
 
 // [START android_compose_components_outlinedbutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OutlinedButtonExample(onClick: () -> Unit) {
-    OutlinedButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
+    OutlinedButton(onClick = { onClick() }) {
         Text("Outlined")
     }
 }
 // [END android_compose_components_outlinedbutton]
 
 // [START android_compose_components_textbutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TextButtonExample(onClick: () -> Unit) {
-    TextButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
+    TextButton(onClick = { onClick() }) {
         Text("Text Button")
     }
 }

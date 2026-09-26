@@ -140,5 +140,5 @@ fun extractDensityScale(search: String, hash: String, standalone: Boolean): Floa
             return parsed
         }
     }
-    return 1.3f
+    return 1.25f
 }
