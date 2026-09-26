@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose Snippets - WASM Runner</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "@js-joda/core": "https://cdn.jsdelivr.net/npm/@js-joda/core@5.6.3/+esm"
+        }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;600;700&family=Google+Sans+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: transparent;
+            font-family: 'Google Sans', 'Google Sans Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        #composeApp {
+            width: 100%;
+            height: 100%;
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #5f6368;
+            font-size: 0.875rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(95, 99, 104, 0.2);
+            border-top: 3px solid #5f6368;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <span>Loading WebAssembly Compose App...</span>
+    </div>
+    <div id="composeApp"></div>
+
+    <script>
+        window.addEventListener('error', (e) => {
+            console.error("WINDOW ERROR:", e.message, e.filename, e.lineno, e.error);
+        });
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error("UNHANDLED REJECTION:", e.reason);
+        });
+
+        window.addEventListener('message', (event) => {
+            try {
+                let data = event.data;
+                if (typeof data === 'string' && data.startsWith('{')) {
+                    data = JSON.parse(data);
+                }
+                if (!data) return;
+                let currentHash = window.location.hash.replace(/^#/, '');
+                let route = '';
+                let queryStr = currentHash;
+                if (currentHash.startsWith('/')) {
+                    const qIdx = currentHash.indexOf('?');
+                    if (qIdx !== -1) {
+                        route = currentHash.substring(0, qIdx);
+                        queryStr = currentHash.substring(qIdx + 1);
+                    } else {
+                        route = currentHash;
+                        queryStr = '';
+                    }
+                }
+                const params = new URLSearchParams(queryStr);
+                if (data.theme) params.set('theme', data.theme);
+                if (data.dark !== undefined) params.set('theme', data.dark ? 'dark' : 'light');
+                if (data.preset) params.set('preset', data.preset);
+                if (data.color) params.set('seed', data.color);
+                if (data.snippet) {
+                    route = '/snippet/' + data.snippet;
+                } else if (!route) {
+                    const searchSnippet = new URLSearchParams(window.location.search).get('snippet');
+                    if (searchSnippet) {
+                        route = '/snippet/' + searchSnippet;
+                    }
+                }
+                if (data.density !== undefined) params.set('density', data.density);
+                if (data.scale !== undefined) params.set('scale', data.scale);
+                if (data.densityScale !== undefined) params.set('densityScale', data.densityScale);
+                const newQuery = params.toString();
+                const targetHash = route ? (route + (newQuery ? '?' + newQuery : '')) : newQuery;
+                if (window.location.hash.replace(/^#/, '') !== targetHash) {
+                    window.location.hash = targetHash;
+                }
+            } catch (e) {}
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const observer = new MutationObserver(() => {
+                const canvas = document.querySelector('canvas');
+                if (canvas) {
+                    const loader = document.getElementById('loading');
+                    if (loader) loader.style.display = 'none';
+                    observer.disconnect();
+                }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
+    <script type="module" src="snippets-preview-wasm.mjs"></script>
+</body>
+</html>
