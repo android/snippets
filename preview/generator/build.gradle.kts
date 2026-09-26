@@ -46,7 +46,7 @@ android {
 
     sourceSets {
         getByName("test") {
-            java.srcDir("../wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry")
+            kotlin.directories.add("../wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry")
         }
     }
 }
