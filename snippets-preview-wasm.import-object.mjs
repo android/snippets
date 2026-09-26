@@ -194,282 +194,30 @@ const js_code = {
         return result;
          },
     'kotlin.js.jsThrow' : (e) => { throw e; },
-    'androidx.compose.material3.internal.getFirstDayOfWeek' : (locale) => { try { 
-               return new Intl.Locale(locale).weekInfo.firstDay; 
-            } catch (error) { 
-               return -1; 
-          }},
-    'androidx.compose.material3.internal.getIs24HourFormat' : (localeTag) => {
-                var locale = new Intl.Locale(localeTag);
-                // Check for the hourCycles property first
-                if (locale.hourCycles) {
-                    return locale.hourCycles.includes('h23') || locale.hourCycles.includes('h24') ? 1 : 0;
-                }
-
-                // Fallback to hourCycle property
-                if (locale.hourCycle) {
-                    return locale.hourCycle === 'h23' || locale.hourCycle === 'h24' ? 1 : 0;
-                }
-                return -1;
-            },
-    'androidx.compose.material3.internal.emptyLocaleOptions' : () => new Object(),
-    'androidx.compose.material3.internal.Date_$external_fun' : () => new Date(),
-    'androidx.compose.material3.internal.Date_$external_fun_1' : (p0) => new Date(p0),
-    'androidx.compose.material3.internal.Date_$external_fun_2' : (p0, p1, p2) => new Date(p0, p1, p2),
-    'androidx.compose.material3.internal.getDay_$external_fun' : (_this, ) => _this.getDay(),
-    'androidx.compose.material3.internal.toLocaleDateString_$external_fun' : (_this, p0, p1, isDefault0) => _this.toLocaleDateString(p0, isDefault0 ? undefined : p1, ),
-    'androidx.compose.material3.internal.Companion_$external_fun' : () => new Date(),
-    'androidx.compose.material3.internal.now_$external_fun' : (_this, ) => _this.now(),
-    'androidx.compose.material3.internal.Companion_$external_object_getInstance' : () => Date,
-    'androidx.compose.material3.internal.Companion_$external_class_instanceof' : (x) => x instanceof Date,
-    'androidx.compose.material3.internal.Companion_$external_class_get' : () => Date,
-    'androidx.compose.material3.internal.localeMatcher_$external_prop_getter' : (_this) => _this.localeMatcher,
-    'androidx.compose.material3.internal.localeMatcher_$external_prop_setter' : (_this, v) => _this.localeMatcher = v,
-    'androidx.compose.material3.internal.timeZone_$external_prop_getter' : (_this) => _this.timeZone,
-    'androidx.compose.material3.internal.timeZone_$external_prop_setter' : (_this, v) => _this.timeZone = v,
-    'androidx.compose.material3.internal.hour12_$external_prop_getter' : (_this) => _this.hour12,
-    'androidx.compose.material3.internal.hour12_$external_prop_setter' : (_this, v) => _this.hour12 = v,
-    'androidx.compose.material3.internal.formatMatcher_$external_prop_getter' : (_this) => _this.formatMatcher,
-    'androidx.compose.material3.internal.formatMatcher_$external_prop_setter' : (_this, v) => _this.formatMatcher = v,
-    'androidx.compose.material3.internal.weekday_$external_prop_getter' : (_this) => _this.weekday,
-    'androidx.compose.material3.internal.weekday_$external_prop_setter' : (_this, v) => _this.weekday = v,
-    'androidx.compose.material3.internal.era_$external_prop_getter' : (_this) => _this.era,
-    'androidx.compose.material3.internal.era_$external_prop_setter' : (_this, v) => _this.era = v,
-    'androidx.compose.material3.internal.year_$external_prop_getter' : (_this) => _this.year,
-    'androidx.compose.material3.internal.year_$external_prop_setter' : (_this, v) => _this.year = v,
-    'androidx.compose.material3.internal.month_$external_prop_getter' : (_this) => _this.month,
-    'androidx.compose.material3.internal.month_$external_prop_setter' : (_this, v) => _this.month = v,
-    'androidx.compose.material3.internal.day_$external_prop_getter' : (_this) => _this.day,
-    'androidx.compose.material3.internal.day_$external_prop_setter' : (_this, v) => _this.day = v,
-    'androidx.compose.material3.internal.hour_$external_prop_getter' : (_this) => _this.hour,
-    'androidx.compose.material3.internal.hour_$external_prop_setter' : (_this, v) => _this.hour = v,
-    'androidx.compose.material3.internal.minute_$external_prop_getter' : (_this) => _this.minute,
-    'androidx.compose.material3.internal.minute_$external_prop_setter' : (_this, v) => _this.minute = v,
-    'androidx.compose.material3.internal.second_$external_prop_getter' : (_this) => _this.second,
-    'androidx.compose.material3.internal.second_$external_prop_setter' : (_this, v) => _this.second = v,
-    'androidx.compose.material3.internal.timeZoneName_$external_prop_getter' : (_this) => _this.timeZoneName,
-    'androidx.compose.material3.internal.timeZoneName_$external_prop_setter' : (_this, v) => _this.timeZoneName = v,
-    'androidx.compose.material3.internal.Date_$external_class_instanceof' : (x) => x instanceof Date,
-    'androidx.compose.material3.internal.Date_$external_class_get' : () => Date,
-    'androidx.compose.material3.internal.weakMap_js_code' : () => (new WeakMap()),
-    'androidx.compose.material3.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
-    'androidx.compose.material3.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
-    'org.jetbrains.compose.resources.jsExportBlobAsArrayBuffer' : (blob) => blob.arrayBuffer(),
-    'org.jetbrains.compose.resources.jsFetchWithSignal' : (url, signal) => window.fetch(url, { signal }),
-    'org.jetbrains.compose.resources.AbortController_$external_fun' : () => new AbortController(),
-    'org.jetbrains.compose.resources.signal_$external_prop_getter' : (_this) => _this.signal,
-    'org.jetbrains.compose.resources.abort_$external_fun' : (_this, ) => _this.abort(),
-    'org.jetbrains.compose.resources.AbortController_$external_class_instanceof' : (x) => x instanceof AbortController,
-    'org.jetbrains.compose.resources.AbortController_$external_class_get' : () => AbortController,
-    'org.jetbrains.compose.resources.supportsCacheApi' : () => Boolean(window.caches),
-    'org.jetbrains.compose.resources.copyArrayBufferToWasmMemory' : (ab, ptr) => {
-          const data = new Uint8Array(ab);
-          new Uint8Array(wasmExports.memory.buffer).set(data, ptr);
-    },
-    'org.jetbrains.compose.resources.Intl_$external_fun' : () => new Intl(),
-    'org.jetbrains.compose.resources.Locale_$external_fun' : (p0) => new Intl.Locale(p0),
-    'org.jetbrains.compose.resources.language_$external_prop_getter' : (_this) => _this.language,
-    'org.jetbrains.compose.resources.script_$external_prop_getter' : (_this) => _this.script,
-    'org.jetbrains.compose.resources.region_$external_prop_getter' : (_this) => _this.region,
-    'org.jetbrains.compose.resources.Locale_$external_class_instanceof' : (x) => x instanceof Intl.Locale,
-    'org.jetbrains.compose.resources.Locale_$external_class_get' : () => Intl.Locale,
-    'org.jetbrains.compose.resources.Intl_$external_class_instanceof' : (x) => x instanceof Intl,
-    'org.jetbrains.compose.resources.Intl_$external_class_get' : () => Intl,
-    'androidx.compose.foundation.internal.isClipboardWriteSupported' : () => Boolean(window.navigator.clipboard && (window.navigator.clipboard.write || window.navigator.clipboard.writeText)),
-    'androidx.compose.foundation.internal.isClipboardReadSupported' : () => Boolean(window.navigator.clipboard && window.navigator.clipboard.read),
-    'androidx.compose.foundation.internal.getTextFromBlob' : (blob) => blob.text(),
-    'androidx.compose.foundation.internal.doesJsArrayContainValue' : (jsArray, value) => jsArray.includes(value),
-    'androidx.compose.foundation.internal.weakMap_js_code' : () => (new WeakMap()),
-    'androidx.compose.foundation.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
-    'androidx.compose.foundation.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
-    'androidx.compose.foundation.text.EventListener' : (handler) => (event) => { handler(event) },
-    'androidx.compose.foundation.text.__convertKotlinClosureToJsClosure_((Js)->Unit)' : (f) => getCachedJsObject(f, (p0) => wasmExports['__callFunction_((Js)->Unit)'](f, p0)),
-    'androidx.compose.foundation.gestures.legacyWheelDeltaX' : (event) => (event.wheelDeltaX == null) ? NaN : event.wheelDeltaX,
-    'androidx.compose.foundation.gestures.legacyWheelDeltaY' : (event) => (event.wheelDeltaY == null) ? NaN : event.wheelDeltaY,
-    'androidx.compose.ui.text.FinalizationRegistry_$external_fun' : (p0) => new FinalizationRegistry(p0),
-    'androidx.compose.ui.text.register_$external_fun' : (_this, p0, p1) => _this.register(p0, p1),
-    'androidx.compose.ui.text.FinalizationRegistry_$external_class_instanceof' : (x) => x instanceof FinalizationRegistry,
-    'androidx.compose.ui.text.FinalizationRegistry_$external_class_get' : () => FinalizationRegistry,
-    'androidx.compose.ui.text.intl.parseLanguageTagToIntlLocale' : (languageTag) => new Intl.Locale(languageTag),
-    'androidx.compose.ui.text.intl.IntlLocale_$external_fun' : () => new IntlLocale(),
-    'androidx.compose.ui.text.intl._language_$external_prop_getter' : (_this) => _this.language,
-    'androidx.compose.ui.text.intl._script_$external_prop_getter' : (_this) => _this.script,
-    'androidx.compose.ui.text.intl._region_$external_prop_getter' : (_this) => _this.region,
-    'androidx.compose.ui.text.intl._baseName_$external_prop_getter' : (_this) => _this.baseName,
-    'androidx.compose.ui.text.intl.IntlLocale_$external_class_instanceof' : (x) => x instanceof IntlLocale,
-    'androidx.compose.ui.text.intl.IntlLocale_$external_class_get' : () => IntlLocale,
-    'androidx.compose.ui.text.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
-    'androidx.compose.ui.text.deref_$external_fun' : (_this, ) => _this.deref(),
-    'androidx.compose.ui.text.WeakRef_$external_fun_1' : () => new WeakRef(),
-    'androidx.compose.ui.text.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
-    'androidx.compose.ui.text.WeakRef_$external_class_get' : () => WeakRef,
-    'androidx.compose.ui.text.platform.toLocaleUpperCase' : (text, locale) => text.toLocaleUpperCase(locale),
-    'androidx.compose.ui.text.platform.toLocaleLowerCase' : (text, locale) => text.toLocaleLowerCase(locale),
-    'androidx.compose.ui.text.intl.getUserPreferredLanguagesAsArray' : () => window.navigator.languages,
-    'androidx.compose.ui.node.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
-    'androidx.compose.ui.node.deref_$external_fun' : (_this, ) => _this.deref(),
-    'androidx.compose.ui.node.WeakRef_$external_fun_1' : () => new WeakRef(),
-    'androidx.compose.ui.node.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
-    'androidx.compose.ui.node.WeakRef_$external_class_get' : () => WeakRef,
-    'androidx.compose.ui.internal.weakMap_js_code' : () => (new WeakMap()),
-    'androidx.compose.ui.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
-    'androidx.compose.ui.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
-    'androidx.compose.ui.draganddrop.setMethodImplForUint8ClampedArray' : (obj, index, value) => { obj[index] = value; },
-    'androidx.compose.ui.window.isMatchMediaSupported' : () => window.matchMedia != undefined,
-    'androidx.compose.ui.platform.isFullWakeLockApiSupported' : () => Boolean(
-            window.navigator.wakeLock && 
-            typeof(WakeLockSentinel) !== 'undefined'
-            )
-        ,
-    'androidx.compose.ui.platform.requestScreenWakeLock' : () => {
-            return navigator.wakeLock.request('screen')
+    'kotlinx.coroutines.tryGetProcess' : () => (typeof(process) !== 'undefined' && typeof(process.nextTick) === 'function') ? process : null,
+    'kotlinx.coroutines.tryGetWindow' : () => (typeof(window) !== 'undefined' && window != null && typeof(window.addEventListener) === 'function') ? window : null,
+    'kotlinx.coroutines.nextTick_$external_fun' : (_this, p0) => _this.nextTick(p0),
+    'kotlinx.coroutines.error_$external_fun' : (_this, p0) => _this.error(p0),
+    'kotlinx.coroutines.console_$external_prop_getter' : () => console,
+    'kotlinx.coroutines.createScheduleMessagePoster' : (process) => () => Promise.resolve(0).then(process),
+    'kotlinx.coroutines.__callJsClosure_(()->Unit)' : (f, ) => f(),
+    'kotlinx.coroutines.createRescheduleMessagePoster' : (window) => () => window.postMessage('dispatchCoroutine', '*'),
+    'kotlinx.coroutines.subscribeToWindowMessages' : (window, process) => {
+        const handler = (event) => {
+            if (event.source == window && event.data == 'dispatchCoroutine') {
+                event.stopPropagation();
+                process();
+            }
         }
-        ,
-    'androidx.compose.ui.platform.released_$external_prop_getter' : (_this) => _this.released,
-    'androidx.compose.ui.platform.type_$external_prop_getter' : (_this) => _this.type,
-    'androidx.compose.ui.platform.release_$external_fun' : (_this, ) => _this.release(),
-    'androidx.compose.ui.platform.addEventListener_$external_fun' : (_this, p0, p1) => _this.addEventListener(p0, p1),
-    'androidx.compose.ui.platform.createClipboardItemWithPlainText' : (text) => [new ClipboardItem({'text/plain': new Blob([text], { type: 'text/plain' })})],
-    'androidx.compose.ui.platform.emptyClipboardItems' : () => [new ClipboardItem({'text/plain': new Blob([''], { type: 'text/plain' })})],
-    'androidx.compose.ui.platform.invalidClipboardItems' : () => [],
-    'androidx.compose.ui.platform.warn' : (text) => { console.warn(text) },
-    'androidx.compose.ui.platform.setBackingInputBox' : (container, left, top, width, height) => { 
-        container.style.setProperty("--compose-internal-web-backing-input-left", left);
-        container.style.setProperty("--compose-internal-web-backing-input-top", top);
-        container.style.setProperty("--compose-internal-web-backing-input-width", width);
-        container.style.setProperty("--compose-internal-web-backing-input-height", height)
-     },
-    'androidx.compose.ui.platform.isTypedEvent' : (evt) => !evt.metaKey && !evt.ctrlKey && evt.key.charAt(0) === evt.key,
-    'androidx.compose.ui.platform.value_$external_prop_getter' : (_this) => _this.value,
-    'androidx.compose.ui.platform.value_$external_prop_setter' : (_this, v) => _this.value = v,
-    'androidx.compose.ui.platform.selectionStart_$external_prop_getter' : (_this) => _this.selectionStart,
-    'androidx.compose.ui.platform.selectionEnd_$external_prop_getter' : (_this) => _this.selectionEnd,
-    'androidx.compose.ui.platform.selectionDirection_$external_prop_getter' : (_this) => _this.selectionDirection,
-    'androidx.compose.ui.platform.setSelectionRange_$external_fun' : (_this, p0, p1, p2, isDefault0) => _this.setSelectionRange(p0, p1, isDefault0 ? undefined : p2, ),
-    'androidx.compose.ui.platform.data_$external_prop_getter' : (_this) => _this.data,
-    'androidx.compose.ui.platform.inputType_$external_prop_getter' : (_this) => _this.inputType,
-    'androidx.compose.ui.platform.textRangeStart_$external_prop_getter' : (_this) => _this.textRangeStart,
-    'androidx.compose.ui.platform.textRangeStart_$external_prop_setter' : (_this, v) => _this.textRangeStart = v,
-    'androidx.compose.ui.platform.textRangeEnd_$external_prop_getter' : (_this) => _this.textRangeEnd,
-    'androidx.compose.ui.platform.textRangeEnd_$external_prop_setter' : (_this, v) => _this.textRangeEnd = v,
-    'androidx.compose.ui.platform.InputEventExt_$external_fun' : (p0, p1, isDefault0) => new InputEvent(p0, isDefault0 ? undefined : p1, ),
-    'androidx.compose.ui.platform.InputEventExt_$external_fun_1' : () => new InputEvent(),
-    'androidx.compose.ui.platform.InputEventExt_$external_class_instanceof' : (x) => x instanceof InputEvent,
-    'androidx.compose.ui.platform.InputEventExt_$external_class_get' : () => InputEvent,
-    'androidx.compose.ui.platform.activeElement_$external_prop_getter' : (_this) => _this.activeElement,
-    'androidx.compose.ui.platform.getRootNode_$external_fun' : (_this, ) => _this.getRootNode(),
-    'androidx.compose.ui.platform.accessibility.removeAllChildrenOf' : (element) => { element.replaceChildren() },
-    'androidx.compose.ui.platform.accessibility.setA11YAriaRole' : (element, ariaRoleId) => { 
-            var roleValue = "";
-            switch (ariaRoleId) {
-                case 0: // Role.Button
-                    roleValue = "button";
-                    break;
-                case 1: // Role.Checkbox
-                    roleValue = "checkbox";
-                    break;
-                case 2: // Role.Switch
-                    roleValue = "switch";
-                    break;
-                case 3: // Role.RadioButton
-                    roleValue = "radio";
-                    break;
-                case 4: // Role.Tab
-                    roleValue = "tab";
-                    break;
-                case 5: // Role.Image
-                    roleValue = "img";
-                    break;
-                case 6: // Role.DropdownList
-                    roleValue = "menu";
-                    break;
-                case 7: // heading https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/heading_role
-                    roleValue = "heading";
-                    break;
-                case 8: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/textbox_role
-                    roleValue = "textbox";
-                    break;
-                case 9: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/list_role
-                    roleValue = "list";
-                    break;
-                case 10: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/grid_role
-                    roleValue = "grid";
-                    break;
-                default:
-                    break;
-            }
-            if (roleValue.length > 0) { 
-                element.setAttribute("role", roleValue);
-            } else {
-                element.removeAttribute("role");
-            }
-         },
-    'androidx.compose.ui.platform.accessibility.setSizeAndPosition' : (element, left, top, width, height) => { 
-           element.style.left = "" + left + "px";
-           element.style.top = "" + top + "px";
-           element.style.width = "" + width + "px";
-           element.style.height = "" + height + "px";
-         },
-    'androidx.compose.ui.window.documentIsVisible' : () => document.visibilityState === 'visible',
-    'androidx.compose.ui.window.isTouchEvent' : (event) => event.pointerType === 'touch',
-    'androidx.compose.ui.window.releasePointerCapture' : (target, pointerId) => { try { target.releasePointerCapture(pointerId) } catch (e) {} },
-    'androidx.compose.ui.window.isMouseEvent' : (event) => event.pointerType === 'mouse',
-    'androidx.compose.ui.window.setPointerCapture' : (target, pointerId) => { try { target.setPointerCapture(pointerId) } catch (e) {} },
-    'androidx.compose.ui.window.getCoalescedEvents' : (pointerEvent) => pointerEvent.getCoalescedEvents ? pointerEvent.getCoalescedEvents() : [],
-    'androidx.compose.ui.window.getPointerEventCode' : (event) => {
-            switch (event.type) {
-              case 'pointerdown':
-                return 1; // PointerEventType.Press
-              case 'pointerup':
-                return 2; // PointerEventType.Release
-              case 'pointermove':
-                return 3; // PointerEventType.Move
-              case 'pointerenter':
-                return 4; //PointerEventType.Enter
-              case 'pointerleave':
-                return 5; //PointerEventType.Exit
-              default:
-                return 0; // PointerEventType.Unknown
-            } 
-        },
-    'androidx.compose.ui.window.activeElement_$external_prop_getter' : (_this) => _this.activeElement,
-    'androidx.compose.ui.events.withSignal' : (signal) => ({signal: signal}),
-    'androidx.compose.ui.events.withSignalAndPassive' : (signal, passive) => ({signal: signal, passive: passive}),
-    'androidx.compose.ui.events.AbortController_$external_fun' : () => new AbortController(),
-    'androidx.compose.ui.events.signal_$external_prop_getter' : (_this) => _this.signal,
-    'androidx.compose.ui.events.abort_$external_fun' : (_this, ) => _this.abort(),
-    'androidx.compose.ui.events.AbortController_$external_class_instanceof' : (x) => x instanceof AbortController,
-    'androidx.compose.ui.events.AbortController_$external_class_get' : () => AbortController,
-    'androidx.compose.ui.platform.isVibrationSupported' : () => 
-            typeof window !== 'undefined' &&
-            window.navigator != null &&
-            typeof window.navigator.vibrate === 'function'
-        ,
-    'androidx.compose.ui.platform.vibrate' : (pattern) => { window.navigator.vibrate(pattern) },
-    'androidx.compose.ui.platform.getW3CClipboard' : () => window.navigator.clipboard,
-    'androidx.compose.ui.platform.isSecureContext' : () => window.isSecureContext === true,
-    'androidx.compose.ui.platform.isFullClipboardApiSupported' : () => Boolean(
-            window.navigator.clipboard && 
-            window.navigator.clipboard.write && 
-            window.navigator.clipboard.read && 
-            typeof(ClipboardItem) !== 'undefined'
-            )
-        ,
-    'androidx.compose.ui.platform.isFallbackWriteTextApiAvailable' : () => Boolean(window.navigator.clipboard && window.navigator.clipboard.writeText),
-    'androidx.compose.ui.platform.types_$external_prop_getter' : (_this) => _this.types,
-    'androidx.compose.ui.platform.getType_$external_fun' : (_this, p0) => _this.getType(p0),
-    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_fun' : () => new Clipboard(),
-    'androidx.compose.ui.platform.read_$external_fun' : (_this, ) => _this.read(),
-    'androidx.compose.ui.platform.write_$external_fun' : (_this, p0) => _this.write(p0),
-    'androidx.compose.ui.platform.writeText_$external_fun' : (_this, p0) => _this.writeText(p0),
-    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_class_instanceof' : (x) => x instanceof Clipboard,
-    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_class_get' : () => Clipboard,
-    'androidx.compose.ui.internal.focusExt' : (element, _preventScroll) => element.focus({ preventScroll: _preventScroll }),
-    'androidx.lifecycle.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
-    'androidx.lifecycle.deref_$external_fun' : (_this, ) => _this.deref(),
-    'androidx.lifecycle.WeakRef_$external_fun_1' : () => new WeakRef(),
-    'androidx.lifecycle.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
-    'androidx.lifecycle.WeakRef_$external_class_get' : () => WeakRef,
+        window.addEventListener('message', handler, true);
+    },
+    'kotlinx.coroutines.setTimeout' : (window, handler, timeout) => window.setTimeout(handler, timeout),
+    'kotlinx.coroutines.clearTimeout' : (handle) => { if (typeof clearTimeout !== 'undefined') clearTimeout(handle); },
+    'kotlinx.coroutines.W3CWindow_$external_fun' : () => new W3CWindow(),
+    'kotlinx.coroutines.clearTimeout_$external_fun' : (_this, p0) => _this.clearTimeout(p0),
+    'kotlinx.coroutines.W3CWindow_$external_class_instanceof' : (x) => x instanceof W3CWindow,
+    'kotlinx.coroutines.W3CWindow_$external_class_get' : () => W3CWindow,
+    'kotlinx.coroutines.setTimeout_$external_fun' : (p0, p1) => setTimeout(p0, p1),
     'androidx.compose.runtime.internal.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
     'androidx.compose.runtime.internal.deref_$external_fun' : (_this, ) => _this.deref(),
     'androidx.compose.runtime.internal.WeakRef_$external_fun_1' : () => new WeakRef(),
@@ -497,6 +245,7 @@ const js_code = {
     ,
     'org.jetbrains.skiko.defaultFetchInit_js_code' : () => ({}),
     'org.jetbrains.skia.impl.FinalizationRegistry_$external_fun' : (p0) => new FinalizationRegistry(p0),
+    'org.jetbrains.skia.impl.__convertKotlinClosureToJsClosure_((Js)->Unit)' : (f) => getCachedJsObject(f, (p0) => wasmExports['__callFunction_((Js)->Unit)'](f, p0)),
     'org.jetbrains.skia.impl.register_$external_fun' : (_this, p0, p1, p2) => _this.register(p0, p1, p2),
     'org.jetbrains.skia.impl.unregister_$external_fun' : (_this, p0) => _this.unregister(p0),
     'org.jetbrains.skia.impl.FinalizationRegistry_$external_class_instanceof' : (x) => x instanceof FinalizationRegistry,
@@ -532,30 +281,26 @@ const js_code = {
     'org.jetbrains.skiko.wasm.explicitSwapControl_$external_prop_getter' : (_this) => _this.explicitSwapControl,
     'org.jetbrains.skiko.wasm.renderViaOffscreenBackBuffer_$external_prop_getter' : (_this) => _this.renderViaOffscreenBackBuffer,
     'org.jetbrains.skiko.wasm.majorVersion_$external_prop_getter' : (_this) => _this.majorVersion,
-    'kotlinx.coroutines.tryGetProcess' : () => (typeof(process) !== 'undefined' && typeof(process.nextTick) === 'function') ? process : null,
-    'kotlinx.coroutines.tryGetWindow' : () => (typeof(window) !== 'undefined' && window != null && typeof(window.addEventListener) === 'function') ? window : null,
-    'kotlinx.coroutines.nextTick_$external_fun' : (_this, p0) => _this.nextTick(p0),
-    'kotlinx.coroutines.error_$external_fun' : (_this, p0) => _this.error(p0),
-    'kotlinx.coroutines.console_$external_prop_getter' : () => console,
-    'kotlinx.coroutines.createScheduleMessagePoster' : (process) => () => Promise.resolve(0).then(process),
-    'kotlinx.coroutines.__callJsClosure_(()->Unit)' : (f, ) => f(),
-    'kotlinx.coroutines.createRescheduleMessagePoster' : (window) => () => window.postMessage('dispatchCoroutine', '*'),
-    'kotlinx.coroutines.subscribeToWindowMessages' : (window, process) => {
-        const handler = (event) => {
-            if (event.source == window && event.data == 'dispatchCoroutine') {
-                event.stopPropagation();
-                process();
-            }
-        }
-        window.addEventListener('message', handler, true);
-    },
-    'kotlinx.coroutines.setTimeout' : (window, handler, timeout) => window.setTimeout(handler, timeout),
-    'kotlinx.coroutines.clearTimeout' : (handle) => { if (typeof clearTimeout !== 'undefined') clearTimeout(handle); },
-    'kotlinx.coroutines.W3CWindow_$external_fun' : () => new W3CWindow(),
-    'kotlinx.coroutines.clearTimeout_$external_fun' : (_this, p0) => _this.clearTimeout(p0),
-    'kotlinx.coroutines.W3CWindow_$external_class_instanceof' : (x) => x instanceof W3CWindow,
-    'kotlinx.coroutines.W3CWindow_$external_class_get' : () => W3CWindow,
-    'kotlinx.coroutines.setTimeout_$external_fun' : (p0, p1) => setTimeout(p0, p1),
+    'androidx.compose.ui.text.FinalizationRegistry_$external_fun' : (p0) => new FinalizationRegistry(p0),
+    'androidx.compose.ui.text.register_$external_fun' : (_this, p0, p1) => _this.register(p0, p1),
+    'androidx.compose.ui.text.FinalizationRegistry_$external_class_instanceof' : (x) => x instanceof FinalizationRegistry,
+    'androidx.compose.ui.text.FinalizationRegistry_$external_class_get' : () => FinalizationRegistry,
+    'androidx.compose.ui.text.intl.parseLanguageTagToIntlLocale' : (languageTag) => new Intl.Locale(languageTag),
+    'androidx.compose.ui.text.intl.IntlLocale_$external_fun' : () => new IntlLocale(),
+    'androidx.compose.ui.text.intl._language_$external_prop_getter' : (_this) => _this.language,
+    'androidx.compose.ui.text.intl._script_$external_prop_getter' : (_this) => _this.script,
+    'androidx.compose.ui.text.intl._region_$external_prop_getter' : (_this) => _this.region,
+    'androidx.compose.ui.text.intl._baseName_$external_prop_getter' : (_this) => _this.baseName,
+    'androidx.compose.ui.text.intl.IntlLocale_$external_class_instanceof' : (x) => x instanceof IntlLocale,
+    'androidx.compose.ui.text.intl.IntlLocale_$external_class_get' : () => IntlLocale,
+    'androidx.compose.ui.text.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
+    'androidx.compose.ui.text.deref_$external_fun' : (_this, ) => _this.deref(),
+    'androidx.compose.ui.text.WeakRef_$external_fun_1' : () => new WeakRef(),
+    'androidx.compose.ui.text.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
+    'androidx.compose.ui.text.WeakRef_$external_class_get' : () => WeakRef,
+    'androidx.compose.ui.text.platform.toLocaleUpperCase' : (text, locale) => text.toLocaleUpperCase(locale),
+    'androidx.compose.ui.text.platform.toLocaleLowerCase' : (text, locale) => text.toLocaleLowerCase(locale),
+    'androidx.compose.ui.text.intl.getUserPreferredLanguagesAsArray' : () => window.navigator.languages,
     'org.w3c.dom.events.handleEvent_$external_fun' : (_this, p0) => _this.handleEvent(p0),
     'org.w3c.dom.events.Event_$external_fun' : (p0, p1, isDefault0) => new Event(p0, isDefault0 ? undefined : p1, ),
     'org.w3c.dom.events.type_$external_prop_getter' : (_this) => _this.type,
@@ -4888,6 +4633,261 @@ const js_code = {
     'org.w3c.files.type_$external_prop_setter' : (_this, v) => _this.type = v,
     'org.w3c.files.lastModified_$external_prop_getter_1' : (_this) => _this.lastModified,
     'org.w3c.files.lastModified_$external_prop_setter' : (_this, v) => _this.lastModified = v,
+    'androidx.compose.ui.node.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
+    'androidx.compose.ui.node.deref_$external_fun' : (_this, ) => _this.deref(),
+    'androidx.compose.ui.node.WeakRef_$external_fun_1' : () => new WeakRef(),
+    'androidx.compose.ui.node.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
+    'androidx.compose.ui.node.WeakRef_$external_class_get' : () => WeakRef,
+    'androidx.compose.ui.internal.weakMap_js_code' : () => (new WeakMap()),
+    'androidx.compose.ui.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
+    'androidx.compose.ui.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
+    'androidx.compose.ui.draganddrop.setMethodImplForUint8ClampedArray' : (obj, index, value) => { obj[index] = value; },
+    'androidx.compose.ui.window.isMatchMediaSupported' : () => window.matchMedia != undefined,
+    'androidx.compose.ui.platform.isFullWakeLockApiSupported' : () => Boolean(
+            window.navigator.wakeLock && 
+            typeof(WakeLockSentinel) !== 'undefined'
+            )
+        ,
+    'androidx.compose.ui.platform.requestScreenWakeLock' : () => {
+            return navigator.wakeLock.request('screen')
+        }
+        ,
+    'androidx.compose.ui.platform.released_$external_prop_getter' : (_this) => _this.released,
+    'androidx.compose.ui.platform.type_$external_prop_getter' : (_this) => _this.type,
+    'androidx.compose.ui.platform.release_$external_fun' : (_this, ) => _this.release(),
+    'androidx.compose.ui.platform.addEventListener_$external_fun' : (_this, p0, p1) => _this.addEventListener(p0, p1),
+    'androidx.compose.ui.platform.createClipboardItemWithPlainText' : (text) => [new ClipboardItem({'text/plain': new Blob([text], { type: 'text/plain' })})],
+    'androidx.compose.ui.platform.emptyClipboardItems' : () => [new ClipboardItem({'text/plain': new Blob([''], { type: 'text/plain' })})],
+    'androidx.compose.ui.platform.invalidClipboardItems' : () => [],
+    'androidx.compose.ui.platform.warn' : (text) => { console.warn(text) },
+    'androidx.compose.ui.platform.setBackingInputBox' : (container, left, top, width, height) => { 
+        container.style.setProperty("--compose-internal-web-backing-input-left", left);
+        container.style.setProperty("--compose-internal-web-backing-input-top", top);
+        container.style.setProperty("--compose-internal-web-backing-input-width", width);
+        container.style.setProperty("--compose-internal-web-backing-input-height", height)
+     },
+    'androidx.compose.ui.platform.isTypedEvent' : (evt) => !evt.metaKey && !evt.ctrlKey && evt.key.charAt(0) === evt.key,
+    'androidx.compose.ui.platform.value_$external_prop_getter' : (_this) => _this.value,
+    'androidx.compose.ui.platform.value_$external_prop_setter' : (_this, v) => _this.value = v,
+    'androidx.compose.ui.platform.selectionStart_$external_prop_getter' : (_this) => _this.selectionStart,
+    'androidx.compose.ui.platform.selectionEnd_$external_prop_getter' : (_this) => _this.selectionEnd,
+    'androidx.compose.ui.platform.selectionDirection_$external_prop_getter' : (_this) => _this.selectionDirection,
+    'androidx.compose.ui.platform.setSelectionRange_$external_fun' : (_this, p0, p1, p2, isDefault0) => _this.setSelectionRange(p0, p1, isDefault0 ? undefined : p2, ),
+    'androidx.compose.ui.platform.data_$external_prop_getter' : (_this) => _this.data,
+    'androidx.compose.ui.platform.inputType_$external_prop_getter' : (_this) => _this.inputType,
+    'androidx.compose.ui.platform.textRangeStart_$external_prop_getter' : (_this) => _this.textRangeStart,
+    'androidx.compose.ui.platform.textRangeStart_$external_prop_setter' : (_this, v) => _this.textRangeStart = v,
+    'androidx.compose.ui.platform.textRangeEnd_$external_prop_getter' : (_this) => _this.textRangeEnd,
+    'androidx.compose.ui.platform.textRangeEnd_$external_prop_setter' : (_this, v) => _this.textRangeEnd = v,
+    'androidx.compose.ui.platform.InputEventExt_$external_fun' : (p0, p1, isDefault0) => new InputEvent(p0, isDefault0 ? undefined : p1, ),
+    'androidx.compose.ui.platform.InputEventExt_$external_fun_1' : () => new InputEvent(),
+    'androidx.compose.ui.platform.InputEventExt_$external_class_instanceof' : (x) => x instanceof InputEvent,
+    'androidx.compose.ui.platform.InputEventExt_$external_class_get' : () => InputEvent,
+    'androidx.compose.ui.platform.activeElement_$external_prop_getter' : (_this) => _this.activeElement,
+    'androidx.compose.ui.platform.getRootNode_$external_fun' : (_this, ) => _this.getRootNode(),
+    'androidx.compose.ui.platform.accessibility.removeAllChildrenOf' : (element) => { element.replaceChildren() },
+    'androidx.compose.ui.platform.accessibility.setA11YAriaRole' : (element, ariaRoleId) => { 
+            var roleValue = "";
+            switch (ariaRoleId) {
+                case 0: // Role.Button
+                    roleValue = "button";
+                    break;
+                case 1: // Role.Checkbox
+                    roleValue = "checkbox";
+                    break;
+                case 2: // Role.Switch
+                    roleValue = "switch";
+                    break;
+                case 3: // Role.RadioButton
+                    roleValue = "radio";
+                    break;
+                case 4: // Role.Tab
+                    roleValue = "tab";
+                    break;
+                case 5: // Role.Image
+                    roleValue = "img";
+                    break;
+                case 6: // Role.DropdownList
+                    roleValue = "menu";
+                    break;
+                case 7: // heading https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/heading_role
+                    roleValue = "heading";
+                    break;
+                case 8: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/textbox_role
+                    roleValue = "textbox";
+                    break;
+                case 9: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/list_role
+                    roleValue = "list";
+                    break;
+                case 10: // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/grid_role
+                    roleValue = "grid";
+                    break;
+                default:
+                    break;
+            }
+            if (roleValue.length > 0) { 
+                element.setAttribute("role", roleValue);
+            } else {
+                element.removeAttribute("role");
+            }
+         },
+    'androidx.compose.ui.platform.accessibility.setSizeAndPosition' : (element, left, top, width, height) => { 
+           element.style.left = "" + left + "px";
+           element.style.top = "" + top + "px";
+           element.style.width = "" + width + "px";
+           element.style.height = "" + height + "px";
+         },
+    'androidx.compose.ui.window.documentIsVisible' : () => document.visibilityState === 'visible',
+    'androidx.compose.ui.window.isTouchEvent' : (event) => event.pointerType === 'touch',
+    'androidx.compose.ui.window.releasePointerCapture' : (target, pointerId) => { try { target.releasePointerCapture(pointerId) } catch (e) {} },
+    'androidx.compose.ui.window.isMouseEvent' : (event) => event.pointerType === 'mouse',
+    'androidx.compose.ui.window.setPointerCapture' : (target, pointerId) => { try { target.setPointerCapture(pointerId) } catch (e) {} },
+    'androidx.compose.ui.window.getCoalescedEvents' : (pointerEvent) => pointerEvent.getCoalescedEvents ? pointerEvent.getCoalescedEvents() : [],
+    'androidx.compose.ui.window.getPointerEventCode' : (event) => {
+            switch (event.type) {
+              case 'pointerdown':
+                return 1; // PointerEventType.Press
+              case 'pointerup':
+                return 2; // PointerEventType.Release
+              case 'pointermove':
+                return 3; // PointerEventType.Move
+              case 'pointerenter':
+                return 4; //PointerEventType.Enter
+              case 'pointerleave':
+                return 5; //PointerEventType.Exit
+              default:
+                return 0; // PointerEventType.Unknown
+            } 
+        },
+    'androidx.compose.ui.window.activeElement_$external_prop_getter' : (_this) => _this.activeElement,
+    'androidx.compose.ui.events.withSignal' : (signal) => ({signal: signal}),
+    'androidx.compose.ui.events.withSignalAndPassive' : (signal, passive) => ({signal: signal, passive: passive}),
+    'androidx.compose.ui.events.AbortController_$external_fun' : () => new AbortController(),
+    'androidx.compose.ui.events.signal_$external_prop_getter' : (_this) => _this.signal,
+    'androidx.compose.ui.events.abort_$external_fun' : (_this, ) => _this.abort(),
+    'androidx.compose.ui.events.AbortController_$external_class_instanceof' : (x) => x instanceof AbortController,
+    'androidx.compose.ui.events.AbortController_$external_class_get' : () => AbortController,
+    'androidx.compose.ui.platform.isVibrationSupported' : () => 
+            typeof window !== 'undefined' &&
+            window.navigator != null &&
+            typeof window.navigator.vibrate === 'function'
+        ,
+    'androidx.compose.ui.platform.vibrate' : (pattern) => { window.navigator.vibrate(pattern) },
+    'androidx.compose.ui.platform.getW3CClipboard' : () => window.navigator.clipboard,
+    'androidx.compose.ui.platform.isSecureContext' : () => window.isSecureContext === true,
+    'androidx.compose.ui.platform.isFullClipboardApiSupported' : () => Boolean(
+            window.navigator.clipboard && 
+            window.navigator.clipboard.write && 
+            window.navigator.clipboard.read && 
+            typeof(ClipboardItem) !== 'undefined'
+            )
+        ,
+    'androidx.compose.ui.platform.isFallbackWriteTextApiAvailable' : () => Boolean(window.navigator.clipboard && window.navigator.clipboard.writeText),
+    'androidx.compose.ui.platform.types_$external_prop_getter' : (_this) => _this.types,
+    'androidx.compose.ui.platform.getType_$external_fun' : (_this, p0) => _this.getType(p0),
+    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_fun' : () => new Clipboard(),
+    'androidx.compose.ui.platform.read_$external_fun' : (_this, ) => _this.read(),
+    'androidx.compose.ui.platform.write_$external_fun' : (_this, p0) => _this.write(p0),
+    'androidx.compose.ui.platform.writeText_$external_fun' : (_this, p0) => _this.writeText(p0),
+    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_class_instanceof' : (x) => x instanceof Clipboard,
+    'androidx.compose.ui.platform.W3CTemporaryClipboard_$external_class_get' : () => Clipboard,
+    'androidx.compose.ui.internal.focusExt' : (element, _preventScroll) => element.focus({ preventScroll: _preventScroll }),
+    'androidx.compose.foundation.internal.isClipboardWriteSupported' : () => Boolean(window.navigator.clipboard && (window.navigator.clipboard.write || window.navigator.clipboard.writeText)),
+    'androidx.compose.foundation.internal.isClipboardReadSupported' : () => Boolean(window.navigator.clipboard && window.navigator.clipboard.read),
+    'androidx.compose.foundation.internal.getTextFromBlob' : (blob) => blob.text(),
+    'androidx.compose.foundation.internal.doesJsArrayContainValue' : (jsArray, value) => jsArray.includes(value),
+    'androidx.compose.foundation.internal.weakMap_js_code' : () => (new WeakMap()),
+    'androidx.compose.foundation.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
+    'androidx.compose.foundation.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
+    'androidx.compose.foundation.text.EventListener' : (handler) => (event) => { handler(event) },
+    'androidx.compose.foundation.gestures.legacyWheelDeltaX' : (event) => (event.wheelDeltaX == null) ? NaN : event.wheelDeltaX,
+    'androidx.compose.foundation.gestures.legacyWheelDeltaY' : (event) => (event.wheelDeltaY == null) ? NaN : event.wheelDeltaY,
+    'androidx.compose.material3.internal.getFirstDayOfWeek' : (locale) => { try { 
+               return new Intl.Locale(locale).weekInfo.firstDay; 
+            } catch (error) { 
+               return -1; 
+          }},
+    'androidx.compose.material3.internal.getIs24HourFormat' : (localeTag) => {
+                var locale = new Intl.Locale(localeTag);
+                // Check for the hourCycles property first
+                if (locale.hourCycles) {
+                    return locale.hourCycles.includes('h23') || locale.hourCycles.includes('h24') ? 1 : 0;
+                }
+
+                // Fallback to hourCycle property
+                if (locale.hourCycle) {
+                    return locale.hourCycle === 'h23' || locale.hourCycle === 'h24' ? 1 : 0;
+                }
+                return -1;
+            },
+    'androidx.compose.material3.internal.emptyLocaleOptions' : () => new Object(),
+    'androidx.compose.material3.internal.Date_$external_fun' : () => new Date(),
+    'androidx.compose.material3.internal.Date_$external_fun_1' : (p0) => new Date(p0),
+    'androidx.compose.material3.internal.Date_$external_fun_2' : (p0, p1, p2) => new Date(p0, p1, p2),
+    'androidx.compose.material3.internal.getDay_$external_fun' : (_this, ) => _this.getDay(),
+    'androidx.compose.material3.internal.toLocaleDateString_$external_fun' : (_this, p0, p1, isDefault0) => _this.toLocaleDateString(p0, isDefault0 ? undefined : p1, ),
+    'androidx.compose.material3.internal.Companion_$external_fun' : () => new Date(),
+    'androidx.compose.material3.internal.now_$external_fun' : (_this, ) => _this.now(),
+    'androidx.compose.material3.internal.Companion_$external_object_getInstance' : () => Date,
+    'androidx.compose.material3.internal.Companion_$external_class_instanceof' : (x) => x instanceof Date,
+    'androidx.compose.material3.internal.Companion_$external_class_get' : () => Date,
+    'androidx.compose.material3.internal.localeMatcher_$external_prop_getter' : (_this) => _this.localeMatcher,
+    'androidx.compose.material3.internal.localeMatcher_$external_prop_setter' : (_this, v) => _this.localeMatcher = v,
+    'androidx.compose.material3.internal.timeZone_$external_prop_getter' : (_this) => _this.timeZone,
+    'androidx.compose.material3.internal.timeZone_$external_prop_setter' : (_this, v) => _this.timeZone = v,
+    'androidx.compose.material3.internal.hour12_$external_prop_getter' : (_this) => _this.hour12,
+    'androidx.compose.material3.internal.hour12_$external_prop_setter' : (_this, v) => _this.hour12 = v,
+    'androidx.compose.material3.internal.formatMatcher_$external_prop_getter' : (_this) => _this.formatMatcher,
+    'androidx.compose.material3.internal.formatMatcher_$external_prop_setter' : (_this, v) => _this.formatMatcher = v,
+    'androidx.compose.material3.internal.weekday_$external_prop_getter' : (_this) => _this.weekday,
+    'androidx.compose.material3.internal.weekday_$external_prop_setter' : (_this, v) => _this.weekday = v,
+    'androidx.compose.material3.internal.era_$external_prop_getter' : (_this) => _this.era,
+    'androidx.compose.material3.internal.era_$external_prop_setter' : (_this, v) => _this.era = v,
+    'androidx.compose.material3.internal.year_$external_prop_getter' : (_this) => _this.year,
+    'androidx.compose.material3.internal.year_$external_prop_setter' : (_this, v) => _this.year = v,
+    'androidx.compose.material3.internal.month_$external_prop_getter' : (_this) => _this.month,
+    'androidx.compose.material3.internal.month_$external_prop_setter' : (_this, v) => _this.month = v,
+    'androidx.compose.material3.internal.day_$external_prop_getter' : (_this) => _this.day,
+    'androidx.compose.material3.internal.day_$external_prop_setter' : (_this, v) => _this.day = v,
+    'androidx.compose.material3.internal.hour_$external_prop_getter' : (_this) => _this.hour,
+    'androidx.compose.material3.internal.hour_$external_prop_setter' : (_this, v) => _this.hour = v,
+    'androidx.compose.material3.internal.minute_$external_prop_getter' : (_this) => _this.minute,
+    'androidx.compose.material3.internal.minute_$external_prop_setter' : (_this, v) => _this.minute = v,
+    'androidx.compose.material3.internal.second_$external_prop_getter' : (_this) => _this.second,
+    'androidx.compose.material3.internal.second_$external_prop_setter' : (_this, v) => _this.second = v,
+    'androidx.compose.material3.internal.timeZoneName_$external_prop_getter' : (_this) => _this.timeZoneName,
+    'androidx.compose.material3.internal.timeZoneName_$external_prop_setter' : (_this, v) => _this.timeZoneName = v,
+    'androidx.compose.material3.internal.Date_$external_class_instanceof' : (x) => x instanceof Date,
+    'androidx.compose.material3.internal.Date_$external_class_get' : () => Date,
+    'androidx.compose.material3.internal.weakMap_js_code' : () => (new WeakMap()),
+    'androidx.compose.material3.internal.set_$external_fun' : (_this, p0, p1) => _this.set(p0, p1),
+    'androidx.compose.material3.internal.get_$external_fun' : (_this, p0) => _this.get(p0),
+    'org.jetbrains.compose.resources.jsExportBlobAsArrayBuffer' : (blob) => blob.arrayBuffer(),
+    'org.jetbrains.compose.resources.jsFetchWithSignal' : (url, signal) => window.fetch(url, { signal }),
+    'org.jetbrains.compose.resources.AbortController_$external_fun' : () => new AbortController(),
+    'org.jetbrains.compose.resources.signal_$external_prop_getter' : (_this) => _this.signal,
+    'org.jetbrains.compose.resources.abort_$external_fun' : (_this, ) => _this.abort(),
+    'org.jetbrains.compose.resources.AbortController_$external_class_instanceof' : (x) => x instanceof AbortController,
+    'org.jetbrains.compose.resources.AbortController_$external_class_get' : () => AbortController,
+    'org.jetbrains.compose.resources.supportsCacheApi' : () => Boolean(window.caches),
+    'org.jetbrains.compose.resources.copyArrayBufferToWasmMemory' : (ab, ptr) => {
+          const data = new Uint8Array(ab);
+          new Uint8Array(wasmExports.memory.buffer).set(data, ptr);
+    },
+    'org.jetbrains.compose.resources.Intl_$external_fun' : () => new Intl(),
+    'org.jetbrains.compose.resources.Locale_$external_fun' : (p0) => new Intl.Locale(p0),
+    'org.jetbrains.compose.resources.language_$external_prop_getter' : (_this) => _this.language,
+    'org.jetbrains.compose.resources.script_$external_prop_getter' : (_this) => _this.script,
+    'org.jetbrains.compose.resources.region_$external_prop_getter' : (_this) => _this.region,
+    'org.jetbrains.compose.resources.Locale_$external_class_instanceof' : (x) => x instanceof Intl.Locale,
+    'org.jetbrains.compose.resources.Locale_$external_class_get' : () => Intl.Locale,
+    'org.jetbrains.compose.resources.Intl_$external_class_instanceof' : (x) => x instanceof Intl,
+    'org.jetbrains.compose.resources.Intl_$external_class_get' : () => Intl,
+    'androidx.lifecycle.WeakRef_$external_fun' : (p0) => new WeakRef(p0),
+    'androidx.lifecycle.deref_$external_fun' : (_this, ) => _this.deref(),
+    'androidx.lifecycle.WeakRef_$external_fun_1' : () => new WeakRef(),
+    'androidx.lifecycle.WeakRef_$external_class_instanceof' : (x) => x instanceof WeakRef,
+    'androidx.lifecycle.WeakRef_$external_class_get' : () => WeakRef,
     'kotlinx.datetime.internal.Date_$external_fun' : () => new Date(),
     'kotlinx.datetime.internal.Date_$external_fun_1' : (p0) => new Date(p0),
     'kotlinx.datetime.internal.getTimezoneOffset_$external_fun' : (_this, ) => _this.getTimezoneOffset(),
