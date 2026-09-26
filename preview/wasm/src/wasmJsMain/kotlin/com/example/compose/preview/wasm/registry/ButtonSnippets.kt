@@ -53,15 +53,6 @@ object ButtonSnippets {
             codeSnippet = "",
             composable = { CenteredBox { MultiChoiceSegmentedButton() } }
         ),
-        ComponentSnippet(
-            id = "segmented-button",
-            title = "Segmented Button",
-            category = ComponentCategory.BUTTONS,
-            description = "Segmented buttons for single-choice and multi-choice selections.",
-            tags = listOf("segmented", "button", "action"),
-            codeSnippet = "",
-            composable = { CenteredBox { SegmentedButtonExamples() } }
-        ),
         // ==========================================
         // Actions: Buttons
         // ==========================================
@@ -109,15 +100,6 @@ object ButtonSnippets {
             tags = listOf("button", "text", "low-emphasis", "action"),
             codeSnippet = "",
             composable = { CenteredBox { TextButtonExample(onClick = {}) } }
-        ),
-        ComponentSnippet(
-            id = "button-examples",
-            title = "Button",
-            category = ComponentCategory.BUTTONS,
-            description = "All Material 3 button types: Filled, Filled Tonal, Elevated, Outlined, and Text.",
-            tags = listOf("button", "action"),
-            codeSnippet = "",
-            composable = { CenteredBox { ButtonExamples() } }
         ),
         ComponentSnippet(
             id = "android_compose_components_buttonwithanimatedshape",
@@ -211,15 +193,6 @@ object ButtonSnippets {
             tags = listOf("fab", "floating", "action"),
             codeSnippet = "",
             composable = { CenteredBox { Example(onClick = {}) } }
-        ),
-        ComponentSnippet(
-            id = "floating-action-button",
-            title = "Floating Action Button",
-            category = ComponentCategory.BUTTONS,
-            description = "Standard 56dp Floating Action Button performing the primary screen action.",
-            tags = listOf("fab", "floating", "action"),
-            codeSnippet = "",
-            composable = { CenteredBox { FloatingActionButtonExamples() } }
         ),
         ComponentSnippet(
             id = "android_compose_components_extendedfab",
@@ -361,14 +334,6 @@ object ButtonSnippets {
             description = "Material 3 Expressive medium floating action button.",
             tags = listOf("fab", "medium", "floating", "action"),
             composable = { CenteredBox { MediumFloatingActionButtonSample() } }
-        ),
-        ComponentSnippet(
-            id = "icon-button",
-            title = "Icon Button",
-            category = ComponentCategory.BUTTONS,
-            description = "Compact icon button for actionable icons.",
-            tags = listOf("icon-button", "button", "action"),
-            composable = { CenteredBox { ToggleIconButtonExample() } }
         ),
         ComponentSnippet(
             id = "android_compose_components_togglebuttonexample",

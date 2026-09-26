@@ -53,15 +53,6 @@ object SelectionSnippets {
             codeSnippet = "",
             composable = { CenteredBox { CheckboxParentExample() } }
         ),
-        ComponentSnippet(
-            id = "checkbox-examples",
-            title = "Checkbox",
-            category = ComponentCategory.SELECTION,
-            description = "Checkbox and tri-state parent checkbox examples.",
-            tags = listOf("checkbox", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { CheckboxExamples() } }
-        ),
         // ==========================================
         // Selection: Chips
         // ==========================================
@@ -100,15 +91,6 @@ object SelectionSnippets {
             tags = listOf("chip", "suggestion", "selection"),
             codeSnippet = "",
             composable = { CenteredBox { SuggestionChipExample() } }
-        ),
-        ComponentSnippet(
-            id = "chip-examples",
-            title = "Chips",
-            category = ComponentCategory.SELECTION,
-            description = "Assist, filter, input, and suggestion chips.",
-            tags = listOf("chip", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { ChipExamples() } }
         ),
         // ==========================================
         // Selection: Date Pickers
@@ -149,15 +131,6 @@ object SelectionSnippets {
             codeSnippet = "",
             composable = { CenteredBox { DateRangePickerModal(onDateRangeSelected = {}, onDismiss = {}) } }
         ),
-        ComponentSnippet(
-            id = "date-picker",
-            title = "Date Pickers",
-            category = ComponentCategory.SELECTION,
-            description = "Modal, docked, and range date pickers.",
-            tags = listOf("date-picker", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { DatePickerExamples() } }
-        ),
         // ==========================================
         // Selection: Menus
         // ==========================================
@@ -188,27 +161,9 @@ object SelectionSnippets {
             codeSnippet = "",
             composable = { CenteredBox { DropdownMenuWithDetails() } }
         ),
-        ComponentSnippet(
-            id = "menu-examples",
-            title = "Menus",
-            category = ComponentCategory.SELECTION,
-            description = "Dropdown menu examples.",
-            tags = listOf("menu", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { MenusExamples() } }
-        ),
         // ==========================================
         // Selection: Radio Button
         // ==========================================
-        ComponentSnippet(
-            id = "radio-button",
-            title = "Radio Button",
-            category = ComponentCategory.SELECTION,
-            description = "Radio buttons for mutually exclusive single selections.",
-            tags = listOf("radio-button", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { RadioButtonSingleSelection() } }
-        ),
         // ==========================================
         // Selection: Sliders
         // ==========================================
@@ -239,15 +194,6 @@ object SelectionSnippets {
             codeSnippet = "",
             composable = { CenteredBox { RangeSliderExample() } }
         ),
-        ComponentSnippet(
-            id = "slider-examples",
-            title = "Sliders",
-            category = ComponentCategory.SELECTION,
-            description = "Continuous, discrete, and range sliders.",
-            tags = listOf("slider", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { SliderExamples() } }
-        ),
         // ==========================================
         // Selection: Switch
         // ==========================================
@@ -269,15 +215,6 @@ object SelectionSnippets {
             codeSnippet = "",
             composable = { CenteredBox { SwitchWithIconExample() } }
         ),
-        ComponentSnippet(
-            id = "switch-examples",
-            title = "Switch",
-            category = ComponentCategory.SELECTION,
-            description = "Minimal and icon switch examples.",
-            tags = listOf("switch", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { SwitchExamples() } }
-        ),
         // ==========================================
         // Selection: Time Pickers
         // ==========================================
@@ -298,15 +235,6 @@ object SelectionSnippets {
             tags = listOf("time-picker", "input", "selection"),
             codeSnippet = "",
             composable = { CenteredBox { InputExample(onConfirm = {}, onDismiss = {}) } }
-        ),
-        ComponentSnippet(
-            id = "time-picker",
-            title = "Time Pickers",
-            category = ComponentCategory.SELECTION,
-            description = "Dial and input time picker dialogs.",
-            tags = listOf("time-picker", "selection"),
-            codeSnippet = "",
-            composable = { CenteredBox { TimePickerExamples() } }
         ),
         ComponentSnippet(
             id = "android_compose_components_radiobuttonsingleselection",

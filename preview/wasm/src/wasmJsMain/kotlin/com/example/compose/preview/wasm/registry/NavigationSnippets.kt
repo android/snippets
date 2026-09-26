@@ -71,15 +71,6 @@ object NavigationSnippets {
             codeSnippet = "",
             composable = { LargeTopAppBarExample() }
         ),
-        ComponentSnippet(
-            id = "app-bar-examples",
-            title = "App Bars",
-            category = ComponentCategory.NAVIGATION,
-            description = "Center-aligned, small, medium, and large top app bars.",
-            tags = listOf("app-bar", "navigation"),
-            codeSnippet = "",
-            composable = { AppBarExamples(navigateBack = {}) }
-        ),
         // ==========================================
         // Navigation: Navigation Bar & Rail
         // ==========================================
@@ -102,24 +93,6 @@ object NavigationSnippets {
             composable = { NavigationRailExample() }
         ),
         ComponentSnippet(
-            id = "navigation-examples",
-            title = "Navigation Bar & Rail",
-            category = ComponentCategory.NAVIGATION,
-            description = "Navigation bar and navigation rail examples.",
-            tags = listOf("navigation"),
-            codeSnippet = "",
-            composable = { NavigationBarExample() }
-        ),
-        ComponentSnippet(
-            id = "short-navigation-bar",
-            title = "Short Navigation Bar",
-            category = ComponentCategory.NAVIGATION,
-            description = "Material 3 Expressive compact ShortNavigationBar layout.",
-            tags = listOf("navigation-bar", "short", "expressive", "navigation"),
-            codeSnippet = "",
-            composable = { ShortNavigationBarSample() }
-        ),
-        ComponentSnippet(
             id = "android_compose_expressive_components_widenavigationrailexample",
             title = "Wide Navigation Rail",
             category = ComponentCategory.NAVIGATION,
@@ -131,15 +104,6 @@ object NavigationSnippets {
         // ==========================================
         // Navigation: Navigation Drawer
         // ==========================================
-        ComponentSnippet(
-            id = "navigation-drawer",
-            title = "Navigation Drawer",
-            category = ComponentCategory.NAVIGATION,
-            description = "Modal navigation drawer for navigation destinations on medium and large screens.",
-            tags = listOf("navigation-drawer", "drawer", "navigation"),
-            codeSnippet = "",
-            composable = { NavigationDrawerExamples() }
-        ),
         // ==========================================
         // Additional Catalog Components & Samples
         // ==========================================

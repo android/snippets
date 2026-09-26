@@ -46,15 +46,6 @@ object ContainmentSnippets {
             codeSnippet = "",
             composable = { CenteredBox { PartialBottomSheet() } }
         ),
-        ComponentSnippet(
-            id = "bottom-sheet",
-            title = "Bottom Sheet",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Modal bottom sheet examples.",
-            tags = listOf("bottom-sheet", "containment"),
-            codeSnippet = "",
-            composable = { CenteredBox { PartialBottomSheet() } }
-        ),
         // ==========================================
         // Containment: Cards
         // ==========================================
@@ -85,15 +76,6 @@ object ContainmentSnippets {
             codeSnippet = "",
             composable = { CenteredBox { OutlinedCardExample() } }
         ),
-        ComponentSnippet(
-            id = "card-examples",
-            title = "Cards",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Filled, elevated, and outlined cards.",
-            tags = listOf("card", "containment"),
-            codeSnippet = "",
-            composable = { CenteredBox { CardExamples() } }
-        ),
         // ==========================================
         // Containment: Carousel
         // ==========================================
@@ -114,15 +96,6 @@ object ContainmentSnippets {
             tags = listOf("carousel", "uncontained", "containment"),
             codeSnippet = "",
             composable = { CenteredBox { CarouselExample() } }
-        ),
-        ComponentSnippet(
-            id = "carousel-examples",
-            title = "Carousel",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Multi-browse and uncontained carousel examples.",
-            tags = listOf("carousel", "containment"),
-            codeSnippet = "",
-            composable = { CenteredBox { CarouselExamples() } }
         ),
         // ==========================================
         // Containment: Dialogs
@@ -154,15 +127,6 @@ object ContainmentSnippets {
             codeSnippet = "",
             composable = { CenteredBox { DialogExamples() } }
         ),
-        ComponentSnippet(
-            id = "dialog-examples",
-            title = "Dialogs",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Alert, minimal, and image dialogs.",
-            tags = listOf("dialog", "containment"),
-            codeSnippet = "",
-            composable = { CenteredBox { DialogExamples() } }
-        ),
         // ==========================================
         // Containment: Dividers
         // ==========================================
@@ -184,15 +148,6 @@ object ContainmentSnippets {
             codeSnippet = "",
             composable = { CenteredBox { VerticalDividerExample() } }
         ),
-        ComponentSnippet(
-            id = "divider-examples",
-            title = "Dividers",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Horizontal and vertical dividers.",
-            tags = listOf("divider", "containment"),
-            codeSnippet = "",
-            composable = { CenteredBox { DividerExamples() } }
-        ),
         // ==========================================
         // Containment: Scaffold
         // ==========================================
@@ -205,14 +160,5 @@ object ContainmentSnippets {
             codeSnippet = "",
             composable = { ScaffoldExample() }
         ),
-        ComponentSnippet(
-            id = "scaffold-example",
-            title = "Scaffold",
-            category = ComponentCategory.CONTAINMENT,
-            description = "Fundamental layout structure providing slots for top bar, bottom bar, FAB, and content.",
-            tags = listOf("scaffold", "layout", "structure", "containment"),
-            codeSnippet = "",
-            composable = { ScaffoldExample() }
-        )
     )
 }

@@ -36,15 +36,6 @@ object ListsMenusSnippets {
         // Search & Lists
         // ==========================================
         ComponentSnippet(
-            id = "search-bar",
-            title = "Search Bar",
-            category = ComponentCategory.LISTS_MENUS,
-            description = "Material 3 SearchBar with search input and expandable suggestions.",
-            tags = listOf("search-bar", "search", "query"),
-            codeSnippet = "",
-            composable = { CenteredBox { SearchBarExamples() } }
-        ),
-        ComponentSnippet(
             id = "android_compose_components_customizable_searchbar",
             title = "Docked Search Bar",
             category = ComponentCategory.LISTS_MENUS,
@@ -52,15 +43,6 @@ object ListsMenusSnippets {
             tags = listOf("search-bar", "docked", "search"),
             codeSnippet = "",
             composable = { CenteredBox { CustomizableSearchBarExample() } }
-        ),
-        ComponentSnippet(
-            id = "swipe-to-dismiss",
-            title = "Swipe to Dismiss",
-            category = ComponentCategory.LISTS_MENUS,
-            description = "SwipeToDismissBox allowing list items to be dismissed with swipe gestures.",
-            tags = listOf("swipe", "dismiss", "list"),
-            codeSnippet = "",
-            composable = { CenteredBox { SwipeToDismissBoxExamples() } }
         ),
         ComponentSnippet(
             id = "android_compose_expressive_components_groupedmenusample",

@@ -53,15 +53,6 @@ object FeedbackSnippets {
             codeSnippet = "",
             composable = { CenteredBox { BadgeInteractiveExample() } }
         ),
-        ComponentSnippet(
-            id = "badge-examples",
-            title = "Badges",
-            category = ComponentCategory.FEEDBACK,
-            description = "Badge and interactive BadgedBox examples.",
-            tags = listOf("badge", "communication"),
-            codeSnippet = "",
-            composable = { CenteredBox { BadgeExamples() } }
-        ),
         // ==========================================
         // Communication: Progress Indicators
         // ==========================================
@@ -84,15 +75,6 @@ object FeedbackSnippets {
             composable = { CenteredBox { LinearDeterminateIndicator() } }
         ),
         ComponentSnippet(
-            id = "progress-indicator",
-            title = "Progress Indicators",
-            category = ComponentCategory.FEEDBACK,
-            description = "Circular and linear progress indicators.",
-            tags = listOf("progress", "loading"),
-            codeSnippet = "",
-            composable = { CenteredBox { ProgressIndicatorExamples() } }
-        ),
-        ComponentSnippet(
             id = "android_compose_components_loadingindicator",
             title = "Loading Indicator",
             category = ComponentCategory.FEEDBACK,
@@ -109,24 +91,6 @@ object FeedbackSnippets {
             tags = listOf("loading", "progress", "expressive", "contained", "feedback"),
             codeSnippet = "",
             composable = { CenteredBox { ContainedLoadingIndicatorExample() } }
-        ),
-        ComponentSnippet(
-            id = "linear-wavy-progress-indicator",
-            title = "Linear Wavy Progress Indicator",
-            category = ComponentCategory.FEEDBACK,
-            description = "Material 3 Expressive linear wavy progress indicator.",
-            tags = listOf("progress", "wavy", "linear", "expressive", "feedback"),
-            codeSnippet = "",
-            composable = { CenteredBox { LinearWavyProgressIndicatorSample() } }
-        ),
-        ComponentSnippet(
-            id = "circular-wavy-progress-indicator",
-            title = "Circular Wavy Progress Indicator",
-            category = ComponentCategory.FEEDBACK,
-            description = "Material 3 Expressive circular wavy progress indicator.",
-            tags = listOf("progress", "wavy", "circular", "expressive", "feedback"),
-            codeSnippet = "",
-            composable = { CenteredBox { CircularWavyProgressIndicatorSample() } }
         ),
         // ==========================================
         // Communication: Tooltips
@@ -148,15 +112,6 @@ object FeedbackSnippets {
             tags = listOf("tooltip", "rich", "communication"),
             codeSnippet = "",
             composable = { CenteredBox { RichTooltipExample() } }
-        ),
-        ComponentSnippet(
-            id = "tooltip-examples",
-            title = "Tooltips",
-            category = ComponentCategory.FEEDBACK,
-            description = "Plain and rich tooltips.",
-            tags = listOf("tooltip", "communication"),
-            codeSnippet = "",
-            composable = { CenteredBox { TooltipExamples() } }
         ),
         ComponentSnippet(
             id = "android_compose_components_pull_to_refresh_basic",
