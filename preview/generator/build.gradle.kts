@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.compose.snippets.preview.generator"
+    namespace = "com.example.compose.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -45,6 +45,9 @@ android {
     }
 
     sourceSets {
+        getByName("main") {
+            res.srcDirs("../../compose/snippets/src/main/res")
+        }
         getByName("test") {
             kotlin.directories.add("../wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry")
         }
@@ -77,5 +80,20 @@ tasks.register("generateScreenshots") {
     dependsOn("testDebugUnitTest")
     doLast {
         println("Screenshots generated in build/outputs/roborazzi")
+    }
+}
+
+configurations.matching { it.name.contains("UnitTest") }.all {
+    resolutionStrategy.eachDependency {
+        if ((requested.group in listOf(
+                "androidx.compose.foundation",
+                "androidx.compose.ui",
+                "androidx.compose.runtime",
+                "androidx.compose.animation"
+            ) && !requested.name.contains("accessibility")) ||
+            (requested.group == "androidx.compose.material" && !requested.name.contains("icons"))
+        ) {
+            useVersion("1.11.0-beta02")
+        }
     }
 }

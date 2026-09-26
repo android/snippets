@@ -32,8 +32,8 @@ data class Theme(
     val showOnlyExpressiveComponents: Boolean = false,
     val markExpressiveComponents: Boolean = true,
     val customColor: Color? = null,
-    val preset: ThemePreset = ThemePreset.ANDROID_GREEN,
-    val densityScale: Float = 1.0f,
+    val preset: ThemePreset = ThemePreset.MONOCHROME,
+    val densityScale: Float = 1.3f,
 ) {
     constructor(
         map: Map<String, Float>

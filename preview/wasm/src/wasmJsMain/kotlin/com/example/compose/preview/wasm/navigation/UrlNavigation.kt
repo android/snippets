@@ -84,7 +84,7 @@ fun extractPreset(search: String, hash: String): ThemePreset {
             ThemePreset.fromKey(p)?.let { return it }
         }
     }
-    return ThemePreset.ANDROID_GREEN
+    return ThemePreset.MONOCHROME
 }
 
 /**
@@ -140,13 +140,5 @@ fun extractDensityScale(search: String, hash: String, standalone: Boolean): Floa
             return parsed
         }
     }
-    // When in standalone / fullscreen mode, render at 1.0x desktop density
-    if (standalone || combined.contains("standalone=true")) {
-        return 1.0f
-    }
-    // When displayed inside the phone iframe (or any iframe), fake density to 0.75f
-    if (isDisplayedInIframe() || combined.contains("phone=true")) {
-        return 0.75f
-    }
-    return 1.0f
+    return 1.3f
 }

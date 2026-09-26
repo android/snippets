@@ -81,7 +81,7 @@ private val PreviewColorScheme = lightColorScheme(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [36], qualifiers = "w480dp-h270dp-xxxhdpi")
+@Config(sdk = [36], qualifiers = "w360dp-h200dp-xhdpi")
 class PreviewScreenshotTest {
 
     @get:Rule
@@ -108,7 +108,7 @@ class PreviewScreenshotTest {
             MaterialTheme(colorScheme = PreviewColorScheme) {
                 Box(
                     modifier = Modifier
-                        .size(480.dp, 270.dp)
+                        .size(360.dp, 200.dp)
                         .background(Color(0xFFFFFFFF)),
                     contentAlignment = Alignment.Center
                 ) {
@@ -122,10 +122,11 @@ class PreviewScreenshotTest {
         }
 
         SnippetRegistry.snippets.forEach { (id, composable) ->
-            composeTestRule.runOnIdle {
-                currentEntry = id to composable
-            }
+            currentEntry = id to composable
+            androidx.compose.runtime.snapshots.Snapshot.sendApplyNotifications()
+            composeTestRule.mainClock.advanceTimeByFrame()
             composeTestRule.mainClock.advanceTimeBy(500)
+            composeTestRule.mainClock.advanceTimeByFrame()
             composeTestRule.onRoot().captureRoboImage(
                 filePath = File(outputDir, "$id.png").absolutePath
             )
