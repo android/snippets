@@ -211,7 +211,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSingleChoiceSegmentedButton() = captureComponent("single-choice-segmented-button") {
+    fun testSingleChoiceSegmentedButton() = captureComponent("android_compose_components_singlechoicesegmentedbutton") {
         SingleChoiceSegmentedButtonRow {
             SegmentedButton(selected = true, onClick = {}, shape = SegmentedButtonDefaults.itemShape(0, 3)) { Text("Day") }
             SegmentedButton(selected = false, onClick = {}, shape = SegmentedButtonDefaults.itemShape(1, 3)) { Text("Month") }
@@ -220,7 +220,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMultiChoiceSegmentedButton() = captureComponent("multi-choice-segmented-button") {
+    fun testMultiChoiceSegmentedButton() = captureComponent("android_compose_components_multichoicesegmentedbutton") {
         MultiChoiceSegmentedButtonRow {
             SegmentedButton(
                 checked = true,
@@ -261,42 +261,42 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testFilledButton() = captureComponent("filled-button") {
+    fun testFilledButton() = captureComponent("android_compose_components_filledbutton") {
         Button(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Filled Button") }
     }
 
     @Test
-    fun testFilledTonalButton() = captureComponent("filled-tonal-button") {
+    fun testFilledTonalButton() = captureComponent("android_compose_components_filledtonalbutton") {
         FilledTonalButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Filled Tonal Button") }
     }
 
     @Test
-    fun testElevatedButton() = captureComponent("elevated-button") {
+    fun testElevatedButton() = captureComponent("android_compose_components_elevatedbutton") {
         ElevatedButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Elevated Button") }
     }
 
     @Test
-    fun testOutlinedButton() = captureComponent("outlined-button") {
+    fun testOutlinedButton() = captureComponent("android_compose_components_outlinedbutton") {
         OutlinedButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Outlined Button") }
     }
 
     @Test
-    fun testTextButton() = captureComponent("text-button") {
+    fun testTextButton() = captureComponent("android_compose_components_textbutton") {
         TextButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Text Button") }
     }
 
     @Test
-    fun testButtonWithAnimatedShape() = captureComponent("button-with-animated-shape") {
+    fun testButtonWithAnimatedShape() = captureComponent("android_compose_components_buttonwithanimatedshape") {
         Button(onClick = {}, shapes = ButtonDefaults.shapes()) { Text("Animated Shape") }
     }
 
     @Test
-    fun testSquareButton() = captureComponent("square-button") {
+    fun testSquareButton() = captureComponent("android_compose_components_squarebutton") {
         Button(onClick = {}, shape = ButtonDefaults.squareShape) { Text("Square Button") }
     }
 
     @Test
-    fun testButtonWithIcon() = captureComponent("button-with-icon") {
+    fun testButtonWithIcon() = captureComponent("android_compose_components_buttonwithicon") {
         val size = ButtonDefaults.MediumContainerHeight
         Button(
             onClick = {},
@@ -310,7 +310,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSplitButton() = captureComponent("split-button") {
+    fun testSplitButton() = captureComponent("android_compose_components_splitbutton") {
         SplitButtonLayout(
             leadingButton = {
                 SplitButtonDefaults.LeadingButton(onClick = {}) {
@@ -328,7 +328,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testButtonGroup() = captureComponent("button-group") {
+    fun testButtonGroup() = captureComponent("android_compose_components_buttongroup") {
         ButtonGroup(
             overflowIndicator = { menuState -> ButtonGroupDefaults.OverflowIndicator(menuState) }
         ) {
@@ -339,14 +339,14 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testFab() = captureComponent("fab") {
+    fun testFab() = captureComponent("android_compose_components_fab") {
         FloatingActionButton(onClick = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button")
         }
     }
 
     @Test
-    fun testExtendedFab() = captureComponent("extended-fab") {
+    fun testExtendedFab() = captureComponent("android_compose_components_extendedfab") {
         ExtendedFloatingActionButton(
             onClick = {},
             icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), null) },
@@ -355,21 +355,21 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSmallFab() = captureComponent("small-fab") {
+    fun testSmallFab() = captureComponent("android_compose_components_smallfab") {
         SmallFloatingActionButton(onClick = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small FAB")
         }
     }
 
     @Test
-    fun testLargeFab() = captureComponent("large-fab") {
+    fun testLargeFab() = captureComponent("android_compose_components_largefab") {
         LargeFloatingActionButton(onClick = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large FAB")
         }
     }
 
     @Test
-    fun testFloatingToolbar() = captureComponent("floating-toolbar") {
+    fun testFloatingToolbar() = captureComponent("android_compose_components_floatingtoolbar") {
         HorizontalFloatingToolbar(
             expanded = true,
             floatingActionButton = {
@@ -417,22 +417,22 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testIndeterminateProgressIndicator() = captureComponent("indeterminate-progress-indicator") {
+    fun testIndeterminateProgressIndicator() = captureComponent("android_compose_components_indeterminateindicator") {
         CircularProgressIndicator()
     }
 
     @Test
-    fun testDeterminateProgressIndicator() = captureComponent("determinate-progress-indicator") {
+    fun testDeterminateProgressIndicator() = captureComponent("android_compose_components_determinateindicator") {
         LinearProgressIndicator(progress = { 0.7f }, modifier = Modifier.fillMaxWidth(0.8f))
     }
 
     @Test
-    fun testLoadingIndicator() = captureComponent("loading-indicator") {
+    fun testLoadingIndicator() = captureComponent("android_compose_components_loadingindicator") {
         LoadingIndicator(modifier = Modifier.size(48.dp))
     }
 
     @Test
-    fun testContainedLoadingIndicator() = captureComponent("contained-loading-indicator") {
+    fun testContainedLoadingIndicator() = captureComponent("android_compose_components_containedloadingindicator") {
         ContainedLoadingIndicator()
     }
 
@@ -844,21 +844,21 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testBadge() = captureComponent("badge") {
+    fun testBadge() = captureComponent("android_compose_components_badge") {
         BadgedBox(badge = { Badge { Text("8") } }) {
             Icon(painter = rememberVectorPainter(AppIcons.Mail), contentDescription = "Mail", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
         }
     }
 
     @Test
-    fun testBadgeInteractive() = captureComponent("badge-interactive") {
+    fun testBadgeInteractive() = captureComponent("android_compose_components_badgeinteractive") {
         BadgedBox(badge = { Badge { Text("99+") } }) {
             Icon(painter = rememberVectorPainter(AppIcons.Notifications), contentDescription = "Notifications", modifier = Modifier.size(36.dp), tint = AndroidGreenDark)
         }
     }
 
     @Test
-    fun testFilledCard() = captureComponent("filled-card") {
+    fun testFilledCard() = captureComponent("android_compose_components_filledcard") {
         Card(Modifier.size(240.dp, 140.dp)) {
             Column(Modifier.padding(16.dp)) {
                 Text("Filled Card", fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -869,7 +869,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testElevatedCard() = captureComponent("elevated-card") {
+    fun testElevatedCard() = captureComponent("android_compose_components_elevatedcard") {
         ElevatedCard(Modifier.size(240.dp, 140.dp)) {
             Column(Modifier.padding(16.dp)) {
                 Text("Elevated Card", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = AndroidGreenDark)
@@ -880,7 +880,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testOutlinedCard() = captureComponent("outlined-card") {
+    fun testOutlinedCard() = captureComponent("android_compose_components_outlinedcard") {
         OutlinedCard(Modifier.size(240.dp, 140.dp)) {
             Column(Modifier.padding(16.dp)) {
                 Text("Outlined Card", fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -891,7 +891,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMultiBrowseCarousel() = captureComponent("multi-browse-carousel") {
+    fun testMultiBrowseCarousel() = captureComponent("android_compose_carousel_multi_browse_basic") {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             repeat(3) { i ->
                 Card(
@@ -911,7 +911,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testUncontainedCarousel() = captureComponent("uncontained-carousel") {
+    fun testUncontainedCarousel() = captureComponent("android_compose_carousel_uncontained_basic") {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             repeat(3) { i ->
                 Card(
@@ -931,7 +931,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testAlertDialog() = captureComponent("alert-dialog") {
+    fun testAlertDialog() = captureComponent("android_compose_components_alertdialog") {
         AlertDialog(
             onDismissRequest = {},
             icon = { Icon(painter = rememberVectorPainter(AppIcons.Info), null, tint = AndroidGreenDark) },
@@ -943,7 +943,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMinimalDialog() = captureComponent("minimal-dialog") {
+    fun testMinimalDialog() = captureComponent("android_compose_components_minimaldialog") {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -957,7 +957,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDialogWithImage() = captureComponent("dialog-with-image") {
+    fun testDialogWithImage() = captureComponent("android_compose_components_dialogwithimage") {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -975,7 +975,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testHorizontalDivider() = captureComponent("horizontal-divider") {
+    fun testHorizontalDivider() = captureComponent("android_compose_components_horizontaldivider") {
         Column(Modifier.fillMaxWidth(0.85f), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Text("Above Divider", fontSize = 14.sp)
             HorizontalDivider(thickness = 2.dp, color = AndroidGreenDark)
@@ -984,7 +984,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testVerticalDivider() = captureComponent("vertical-divider") {
+    fun testVerticalDivider() = captureComponent("android_compose_components_verticaldivider") {
         Row(Modifier.height(80.dp), horizontalArrangement = Arrangement.spacedBy(20.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("Left Content")
             VerticalDivider(thickness = 2.dp, color = AndroidBlueDark)
@@ -993,7 +993,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testCenterAlignedTopAppBar() = captureComponent("center-aligned-top-app-bar") {
+    fun testCenterAlignedTopAppBar() = captureComponent("android_compose_components_centeralignedtopappbar") {
         CenterAlignedTopAppBar(
             title = { Text("Center Aligned") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1003,7 +1003,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSmallTopAppBar() = captureComponent("small-top-app-bar") {
+    fun testSmallTopAppBar() = captureComponent("android_compose_components_smalltopappbar") {
         TopAppBar(
             title = { Text("Small Top Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1013,7 +1013,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMediumTopAppBar() = captureComponent("medium-top-app-bar") {
+    fun testMediumTopAppBar() = captureComponent("android_compose_components_mediumtopappbar") {
         MediumTopAppBar(
             title = { Text("Medium Top Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1022,7 +1022,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testLargeTopAppBar() = captureComponent("large-top-app-bar") {
+    fun testLargeTopAppBar() = captureComponent("android_compose_components_largetopappbar") {
         LargeTopAppBar(
             title = { Text("Large Top Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1031,7 +1031,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testNavigationBar() = captureComponent("navigation-bar") {
+    fun testNavigationBar() = captureComponent("android_compose_components_navigationbarexample") {
         NavigationBar(Modifier.fillMaxWidth(0.9f)) {
             NavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
             NavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
@@ -1040,7 +1040,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testNavigationRail() = captureComponent("navigation-rail") {
+    fun testNavigationRail() = captureComponent("android_compose_components_navigationrailexample") {
         NavigationRail(Modifier.height(200.dp)) {
             NavigationRailItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
             NavigationRailItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
@@ -1048,7 +1048,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testModalNavigationDrawer() = captureComponent("modal-navigation-drawer") {
+    fun testModalNavigationDrawer() = captureComponent("android_compose_components_detaileddrawerexample") {
         ModalDrawerSheet(modifier = Modifier.width(260.dp)) {
             Text("Navigation Drawer", modifier = Modifier.padding(16.dp), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             HorizontalDivider()
@@ -1058,7 +1058,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testCheckbox() = captureComponent("checkbox") {
+    fun testCheckbox() = captureComponent("android_compose_components_checkbox_minimal") {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(checked = true, onCheckedChange = {})
             Spacer(Modifier.width(8.dp))
@@ -1067,7 +1067,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testParentCheckbox() = captureComponent("parent-checkbox") {
+    fun testParentCheckbox() = captureComponent("android_compose_components_checkbox_parent") {
         Row(verticalAlignment = Alignment.CenterVertically) {
             TriStateCheckbox(state = ToggleableState.Indeterminate, onClick = {})
             Spacer(Modifier.width(8.dp))
@@ -1076,27 +1076,27 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testAssistChip() = captureComponent("assist-chip") {
+    fun testAssistChip() = captureComponent("android_compose_components_assistchip") {
         AssistChip(onClick = {}, label = { Text("Assist Chip") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), null) })
     }
 
     @Test
-    fun testFilterChip() = captureComponent("filter-chip") {
+    fun testFilterChip() = captureComponent("android_compose_components_filterchip") {
         FilterChip(selected = true, onClick = {}, label = { Text("Filter Chip") }, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Check), null) })
     }
 
     @Test
-    fun testInputChip() = captureComponent("input-chip") {
+    fun testInputChip() = captureComponent("android_compose_components_inputchip") {
         InputChip(selected = true, onClick = {}, label = { Text("Input Chip") }, trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Close), null) })
     }
 
     @Test
-    fun testSuggestionChip() = captureComponent("suggestion-chip") {
+    fun testSuggestionChip() = captureComponent("android_compose_components_suggestionchip") {
         SuggestionChip(onClick = {}, label = { Text("Suggestion Chip") })
     }
 
     @Test
-    fun testDatePickerModal() = captureComponent("date-picker-modal") {
+    fun testDatePickerModal() = captureComponent("android_compose_components_datepicker_modal") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(320.dp, 200.dp)) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Select Date (Modal)", fontWeight = FontWeight.Bold)
@@ -1111,7 +1111,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDatePickerInputModal() = captureComponent("date-picker-input-modal") {
+    fun testDatePickerInputModal() = captureComponent("android_compose_components_datepicker_inputmodal") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(320.dp, 160.dp)) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Date Input Modal", fontWeight = FontWeight.Bold)
@@ -1128,7 +1128,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDatePickerDocked() = captureComponent("date-picker-docked") {
+    fun testDatePickerDocked() = captureComponent("android_compose_components_datepicker_docked") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(320.dp, 160.dp)) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Docked Date Picker", fontWeight = FontWeight.Bold)
@@ -1139,7 +1139,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDateRangePicker() = captureComponent("date-range-picker") {
+    fun testDateRangePicker() = captureComponent("android_compose_components_datepicker_range") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(340.dp, 180.dp)) {
             Column(Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("Date Range Picker", fontWeight = FontWeight.Bold)
@@ -1158,7 +1158,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMinimalDropdownMenu() = captureComponent("minimal-dropdown-menu") {
+    fun testMinimalDropdownMenu() = captureComponent("android_compose_components_minimaldropdownmenu") {
         Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(180.dp)) {
             Column {
                 DropdownMenuItem(text = { Text("Profile") }, onClick = {})
@@ -1168,7 +1168,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testScrollableDropdownMenu() = captureComponent("scrollable-dropdown-menu") {
+    fun testScrollableDropdownMenu() = captureComponent("android_compose_components_longbasicdropdownmenu") {
         Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(180.dp)) {
             Column {
                 DropdownMenuItem(text = { Text("Option 1") }, onClick = {})
@@ -1179,7 +1179,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDropdownMenuWithDetails() = captureComponent("dropdown-menu-with-details") {
+    fun testDropdownMenuWithDetails() = captureComponent("android_compose_components_dropdownmenuwithdetails") {
         Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(220.dp)) {
             Column {
                 DropdownMenuItem(text = { Text("Refresh") }, onClick = {}, leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Refresh), null) })
@@ -1189,7 +1189,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testRadioButtonSingle() = captureComponent("radio-button-single") {
+    fun testRadioButtonSingle() = captureComponent("android_compose_components_radiobuttonsingleselection") {
         Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(selected = true, onClick = {})
             Spacer(Modifier.width(8.dp))
@@ -1198,7 +1198,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSearchBarSimple() = captureComponent("search-bar-simple") {
+    fun testSearchBarSimple() = captureComponent("android_compose_components_simple_searchbar") {
         SearchBar(
             inputField = {
                 SearchBarDefaults.InputField(
@@ -1218,7 +1218,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDockedSearchBar() = captureComponent("docked-search-bar") {
+    fun testDockedSearchBar() = captureComponent("android_compose_components_customizable_searchbar") {
         DockedSearchBar(
             inputField = {
                 SearchBarDefaults.InputField(
@@ -1238,27 +1238,27 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testContinuousSlider() = captureComponent("continuous-slider") {
+    fun testContinuousSlider() = captureComponent("android_compose_components_sliderminimal") {
         Slider(value = 0.6f, onValueChange = {}, modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testDiscreteSlider() = captureComponent("discrete-slider") {
+    fun testDiscreteSlider() = captureComponent("android_compose_components_slideradvanced") {
         Slider(value = 0.4f, onValueChange = {}, steps = 4, modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testRangeSlider() = captureComponent("range-slider") {
+    fun testRangeSlider() = captureComponent("android_compose_components_rangeslider") {
         RangeSlider(value = 0.2f..0.8f, onValueChange = {}, modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testMinimalSwitch() = captureComponent("minimal-switch") {
+    fun testMinimalSwitch() = captureComponent("android_compose_components_switchminimal") {
         Switch(checked = true, onCheckedChange = {})
     }
 
     @Test
-    fun testSwitchWithIcon() = captureComponent("switch-with-icon") {
+    fun testSwitchWithIcon() = captureComponent("android_compose_components_switchwithicon") {
         Switch(
             checked = true,
             onCheckedChange = {},
@@ -1267,7 +1267,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSwipeToDismissItem() = captureComponent("swipe-to-dismiss-item") {
+    fun testSwipeToDismissItem() = captureComponent("android_compose_components_swipeitemexample") {
         Surface(
             shape = RoundedCornerShape(12.dp),
             color = MaterialTheme.colorScheme.errorContainer,
@@ -1292,7 +1292,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDialTimePicker() = captureComponent("dial-time-picker") {
+    fun testDialTimePicker() = captureComponent("android_compose_components_dial") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(300.dp, 220.dp)) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("Dial Time Picker", fontWeight = FontWeight.Bold)
@@ -1301,7 +1301,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testInputTimePicker() = captureComponent("input-time-picker") {
+    fun testInputTimePicker() = captureComponent("android_compose_components_input") {
         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.size(300.dp, 160.dp)) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("Input Time Picker", fontWeight = FontWeight.Bold)
@@ -1310,14 +1310,14 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testPlainTooltip() = captureComponent("plain-tooltip") {
+    fun testPlainTooltip() = captureComponent("android_compose_components_plaintooltipexample") {
         Surface(shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.surfaceVariant, shadowElevation = 4.dp, modifier = Modifier.padding(16.dp)) {
             Text("Plain Tooltip Label", modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp), fontSize = 13.sp)
         }
     }
 
     @Test
-    fun testRichTooltip() = captureComponent("rich-tooltip") {
+    fun testRichTooltip() = captureComponent("android_compose_components_richtooltipexample") {
         Surface(shape = RoundedCornerShape(12.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 6.dp, modifier = Modifier.padding(16.dp)) {
             Column(Modifier.padding(16.dp)) {
                 Text("Rich Tooltip Title", fontWeight = FontWeight.Bold, color = AndroidGreenDark)
@@ -1328,7 +1328,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testPartialBottomSheet() = captureComponent("partial-bottom-sheet") {
+    fun testPartialBottomSheet() = captureComponent("android_compose_components_partialbottomsheet") {
         Surface(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 8.dp, modifier = Modifier.fillMaxWidth(0.9f)) {
             Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(Modifier.size(40.dp, 4.dp).background(Color.LightGray, RoundedCornerShape(2.dp)))
@@ -1339,7 +1339,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testScaffold() = captureComponent("scaffold") {
+    fun testScaffold() = captureComponent("android_compose_components_scaffold") {
         Scaffold(
             modifier = Modifier.size(400.dp, 220.dp),
             topBar = {
@@ -1357,35 +1357,35 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testToggleButton() = captureComponent("toggle-button") {
+    fun testToggleButton() = captureComponent("android_compose_expressive_components_filledtogglebutton") {
         ToggleButton(checked = true, onCheckedChange = {}) {
             Text("Toggle Button")
         }
     }
 
     @Test
-    fun testElevatedToggleButton() = captureComponent("elevated-toggle-button") {
+    fun testElevatedToggleButton() = captureComponent("android_compose_expressive_components_elevatedtogglebutton") {
         ElevatedToggleButton(checked = true, onCheckedChange = {}) {
             Text("Elevated Toggle")
         }
     }
 
     @Test
-    fun testTonalToggleButton() = captureComponent("tonal-toggle-button") {
+    fun testTonalToggleButton() = captureComponent("android_compose_expressive_components_tonaltogglebutton") {
         TonalToggleButton(checked = true, onCheckedChange = {}) {
             Text("Tonal Toggle")
         }
     }
 
     @Test
-    fun testOutlinedToggleButton() = captureComponent("outlined-toggle-button") {
+    fun testOutlinedToggleButton() = captureComponent("android_compose_expressive_components_outlinedtogglebutton") {
         OutlinedToggleButton(checked = true, onCheckedChange = {}) {
             Text("Outlined Toggle")
         }
     }
 
     @Test
-    fun testButtonWithIconSample() = captureComponent("button-with-icon-sample") {
+    fun testButtonWithIconSample() = captureComponent("android_compose_expressive_components_buttonwithicon") {
         val size = ButtonDefaults.MinHeight
         Button(
             onClick = {},
@@ -1398,7 +1398,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testToggleButtonWithIcon() = captureComponent("toggle-button-with-icon") {
+    fun testToggleButtonWithIcon() = captureComponent("android_compose_expressive_components_togglebuttonwithicon") {
         ToggleButton(checked = true, onCheckedChange = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -1407,7 +1407,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testXsmallButtonWithIcon() = captureComponent("xsmall-button-with-icon") {
+    fun testXsmallButtonWithIcon() = captureComponent("android_compose_expressive_components_xmsallbuttonwithicon") {
         val size = ButtonDefaults.ExtraSmallContainerHeight
         Button(
             onClick = {},
@@ -1421,7 +1421,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testXsmallToggleButtonWithIcon() = captureComponent("xsmall-toggle-button-with-icon") {
+    fun testXsmallToggleButtonWithIcon() = captureComponent("android_compose_expressive_components_xmsalltogglebuttonwithicon") {
         val size = ButtonDefaults.ExtraSmallContainerHeight
         ToggleButton(
             checked = true,
@@ -1437,7 +1437,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMediumButtonWithIcon() = captureComponent("medium-button-with-icon") {
+    fun testMediumButtonWithIcon() = captureComponent("android_compose_expressive_components_mediumbuttonwithicon") {
         val size = ButtonDefaults.MediumContainerHeight
         Button(
             onClick = {},
@@ -1451,7 +1451,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMediumToggleButtonWithIcon() = captureComponent("medium-toggle-button-with-icon") {
+    fun testMediumToggleButtonWithIcon() = captureComponent("android_compose_expressive_components_mediumtogglebuttonwithicon") {
         val size = ButtonDefaults.MediumContainerHeight
         ToggleButton(
             checked = true,
@@ -1467,7 +1467,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testLargeButtonWithIcon() = captureComponent("large-button-with-icon") {
+    fun testLargeButtonWithIcon() = captureComponent("android_compose_expressive_components_largebuttonwithicon") {
         val size = ButtonDefaults.LargeContainerHeight
         Button(
             onClick = {},
@@ -1481,7 +1481,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testLargeToggleButtonWithIcon() = captureComponent("large-toggle-button-with-icon") {
+    fun testLargeToggleButtonWithIcon() = captureComponent("android_compose_expressive_components_largetogglebuttonwithicon") {
         val size = ButtonDefaults.LargeContainerHeight
         ToggleButton(
             checked = true,
@@ -1497,7 +1497,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testXlargeButtonWithIcon() = captureComponent("xlarge-button-with-icon") {
+    fun testXlargeButtonWithIcon() = captureComponent("android_compose_expressive_components_xlargebuttonwithicon") {
         val size = ButtonDefaults.ExtraLargeContainerHeight
         Button(
             onClick = {},
@@ -1511,7 +1511,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testXlargeToggleButtonWithIcon() = captureComponent("xlarge-toggle-button-with-icon") {
+    fun testXlargeToggleButtonWithIcon() = captureComponent("android_compose_expressive_components_xlargetogglebuttonwithicon") {
         val size = ButtonDefaults.ExtraLargeContainerHeight
         ToggleButton(
             checked = true,
@@ -1527,7 +1527,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testSquareToggleButton() = captureComponent("square-toggle-button") {
+    fun testSquareToggleButton() = captureComponent("android_compose_expressive_components_squaretogglebutton") {
         ToggleButton(
             checked = true,
             onCheckedChange = {},
@@ -1542,7 +1542,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMediumFab() = captureComponent("medium-fab") {
+    fun testMediumFab() = captureComponent("android_compose_expressive_components_mediumfab") {
         MediumFloatingActionButton(onClick = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Medium FAB")
         }
@@ -1558,14 +1558,14 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testToggleIconButton() = captureComponent("toggle-icon-button") {
+    fun testToggleIconButton() = captureComponent("android_compose_components_togglebuttonexample") {
         IconButton(onClick = {}) {
             Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite", tint = AndroidGreenDark)
         }
     }
 
     @Test
-    fun testMomentaryIconButton() = captureComponent("momentary-icon-button") {
+    fun testMomentaryIconButton() = captureComponent("android_compose_components_momentaryiconbuttons") {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.PlayArrow), contentDescription = "Rewind", modifier = Modifier.size(32.dp)) }
             Text("advanced by 0 frames", fontSize = 14.sp, fontWeight = FontWeight.Medium)
@@ -1574,61 +1574,61 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testAnimatedIconButton() = captureComponent("animated-icon-button") {
+    fun testAnimatedIconButton() = captureComponent("android_compose_expressive_components_animatediconbuttons") {
         IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) {
             Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock", tint = AndroidGreenDark)
         }
     }
 
     @Test
-    fun testAnimatedToggleIconButton() = captureComponent("animated-toggle-icon-button") {
+    fun testAnimatedToggleIconButton() = captureComponent("android_compose_expressive_components_animatedtoggleiconbuttons") {
         IconToggleButton(checked = true, onCheckedChange = {}, shapes = IconButtonDefaults.toggleableShapes()) {
             Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Lock", tint = AndroidGreenDark)
         }
     }
 
     @Test
-    fun testDeterminateLinearWavyIndicator() = captureComponent("determinate-linear-wavy-indicator") {
+    fun testDeterminateLinearWavyIndicator() = captureComponent("android_compose_expressive_components_determinatelinearwavyindicator") {
         LinearWavyProgressIndicator(progress = { 0.7f }, modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testIndeterminateLinearWavyIndicator() = captureComponent("indeterminate-linear-wavy-indicator") {
+    fun testIndeterminateLinearWavyIndicator() = captureComponent("android_compose_expressive_components_indeterminatelinearwavyindicator") {
         LinearWavyProgressIndicator(modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testDeterminateCircularWavyIndicator() = captureComponent("determinate-circular-wavy-indicator") {
+    fun testDeterminateCircularWavyIndicator() = captureComponent("android_compose_expressive_components_determinatecircularwavyindicator") {
         CircularWavyProgressIndicator(progress = { 0.7f }, modifier = Modifier.size(48.dp))
     }
 
     @Test
-    fun testIndeterminateCircularWavyIndicator() = captureComponent("indeterminate-circular-wavy-indicator") {
+    fun testIndeterminateCircularWavyIndicator() = captureComponent("android_compose_expressive_components_indeterminatecircularwavyindicator") {
         CircularWavyProgressIndicator(modifier = Modifier.size(48.dp))
     }
 
     @Test
-    fun testDeterminateLinearExpressiveIndicator() = captureComponent("determinate-linear-expressive-indicator") {
+    fun testDeterminateLinearExpressiveIndicator() = captureComponent("android_compose_expressive_components_determinatelinearindicator") {
         LinearProgressIndicator(progress = { 0.7f }, modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testIndeterminateLinearExpressiveIndicator() = captureComponent("indeterminate-linear-expressive-indicator") {
+    fun testIndeterminateLinearExpressiveIndicator() = captureComponent("android_compose_expressive_components_indeterminatelinearindicator") {
         LinearProgressIndicator(modifier = Modifier.fillMaxWidth(0.85f))
     }
 
     @Test
-    fun testDeterminateCircularExpressiveIndicator() = captureComponent("determinate-circular-expressive-indicator") {
+    fun testDeterminateCircularExpressiveIndicator() = captureComponent("android_compose_expressive_components_determinatecircularindicator") {
         CircularProgressIndicator(progress = { 0.7f }, modifier = Modifier.size(48.dp))
     }
 
     @Test
-    fun testIndeterminateCircularExpressiveIndicator() = captureComponent("indeterminate-circular-expressive-indicator") {
+    fun testIndeterminateCircularExpressiveIndicator() = captureComponent("android_compose_expressive_components_indeterminatecircularindicator") {
         CircularProgressIndicator(modifier = Modifier.size(48.dp))
     }
 
     @Test
-    fun testCenterAlignedTopAppBarWithSubtitle() = captureComponent("center-aligned-top-app-bar-with-subtitle") {
+    fun testCenterAlignedTopAppBarWithSubtitle() = captureComponent("android_compose_expressive_components_centeralignedtopappbarwithsubtitle") {
         CenterAlignedTopAppBar(
             title = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1643,7 +1643,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testAlwaysEnterTopAppBar() = captureComponent("always-enter-top-app-bar") {
+    fun testAlwaysEnterTopAppBar() = captureComponent("android_compose_expressive_components_alwaysentertopappbar") {
         TopAppBar(
             title = { Text("Always Enter Top App Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1653,7 +1653,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testMediumFlexibleTopAppBar() = captureComponent("medium-flexible-top-app-bar") {
+    fun testMediumFlexibleTopAppBar() = captureComponent("android_compose_expressive_components_exituntillcollapsedtopappbar") {
         MediumFlexibleTopAppBar(
             title = { Text("Medium Flexible App Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1662,7 +1662,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testLargeFlexibleTopAppBar() = captureComponent("large-flexible-top-app-bar") {
+    fun testLargeFlexibleTopAppBar() = captureComponent("android_compose_expressive_components_exituntillcollapsedlargetopappbar") {
         LargeFlexibleTopAppBar(
             title = { Text("Large Flexible App Bar") },
             navigationIcon = { IconButton(onClick = {}) { Icon(painter = rememberVectorPainter(AppIcons.Menu), null) } },
@@ -1671,7 +1671,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testVerticalItemsNavigationBar() = captureComponent("vertical-items-navigation-bar") {
+    fun testVerticalItemsNavigationBar() = captureComponent("android_compose_expressive_components_verticalitemsnavigationbarexample") {
         ShortNavigationBar(modifier = Modifier.fillMaxWidth(0.9f)) {
             ShortNavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
             ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
@@ -1680,7 +1680,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testHorizontalItemsNavigationBar() = captureComponent("horizontal-items-navigation-bar") {
+    fun testHorizontalItemsNavigationBar() = captureComponent("android_compose_expressive_components_horizontalitemsnavigationbarexample") {
         ShortNavigationBar(modifier = Modifier.fillMaxWidth(0.9f)) {
             ShortNavigationBarItem(selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
             ShortNavigationBarItem(selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Favorite), null) }, label = { Text("Favorites") })
@@ -1689,7 +1689,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testWideNavigationRail() = captureComponent("wide-navigation-rail") {
+    fun testWideNavigationRail() = captureComponent("android_compose_expressive_components_widenavigationrailexample") {
         WideNavigationRail(modifier = Modifier.height(220.dp)) {
             WideNavigationRailItem(railExpanded = false, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
             WideNavigationRailItem(railExpanded = false, selected = false, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Search), null) }, label = { Text("Search") })
@@ -1698,7 +1698,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testModalWideNavigationRail() = captureComponent("modal-wide-navigation-rail") {
+    fun testModalWideNavigationRail() = captureComponent("android_compose_expressive_components_modalwidenavigationrailexample") {
         val state = rememberWideNavigationRailState()
         ModalWideNavigationRail(state = state, modifier = Modifier.height(220.dp)) {
             WideNavigationRailItem(railExpanded = true, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
@@ -1707,7 +1707,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testDismissibleModalWideNavigationRail() = captureComponent("dismissible-modal-wide-navigation-rail") {
+    fun testDismissibleModalWideNavigationRail() = captureComponent("android_compose_expressive_components_dismissiblemodalwidenavigationrailexample") {
         val state = rememberWideNavigationRailState()
         ModalWideNavigationRail(state = state, modifier = Modifier.height(220.dp)) {
             WideNavigationRailItem(railExpanded = true, selected = true, onClick = {}, icon = { Icon(painter = rememberVectorPainter(AppIcons.Home), null) }, label = { Text("Home") })
@@ -1716,7 +1716,7 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun testGroupedMenu() = captureComponent("grouped-menu") {
+    fun testGroupedMenu() = captureComponent("android_compose_expressive_components_groupedmenusample") {
         Surface(shape = RoundedCornerShape(8.dp), shadowElevation = 6.dp, color = MaterialTheme.colorScheme.surface, modifier = Modifier.width(200.dp)) {
             DropdownMenuGroup(
                 shapes = MenuDefaults.groupShape(0, 1),
@@ -1730,7 +1730,7 @@ class PreviewScreenshotTest {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Test
-    fun testThemeBuilder() = captureComponent("theme-builder") {
+    fun testThemeBuilder() = captureComponent("android_compose_components_themebuilder") {
         Column(
             modifier = Modifier.width(360.dp).padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)

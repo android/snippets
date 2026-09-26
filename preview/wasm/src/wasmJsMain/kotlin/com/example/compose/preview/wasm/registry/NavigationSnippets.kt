@@ -36,7 +36,7 @@ object NavigationSnippets {
         // Navigation: App Bars
         // ==========================================
         ComponentSnippet(
-            id = "center-aligned-top-app-bar",
+            id = "android_compose_components_centeralignedtopappbar",
             title = "Center-Aligned Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Top app bar with centered headline title and action icons.",
@@ -45,7 +45,7 @@ object NavigationSnippets {
             composable = { CenterAlignedTopAppBarExample() }
         ),
         ComponentSnippet(
-            id = "small-top-app-bar",
+            id = "android_compose_components_smalltopappbar",
             title = "Small Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Standard compact top app bar with start-aligned title.",
@@ -54,7 +54,7 @@ object NavigationSnippets {
             composable = { SmallTopAppBarExample() }
         ),
         ComponentSnippet(
-            id = "medium-top-app-bar",
+            id = "android_compose_components_mediumtopappbar",
             title = "Medium Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Medium top app bar featuring a larger title area that collapses on scroll.",
@@ -63,7 +63,7 @@ object NavigationSnippets {
             composable = { MediumTopAppBarExample() }
         ),
         ComponentSnippet(
-            id = "large-top-app-bar",
+            id = "android_compose_components_largetopappbar",
             title = "Large Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Large top app bar with prominent headline typography that collapses on scroll.",
@@ -84,7 +84,7 @@ object NavigationSnippets {
         // Navigation: Navigation Bar & Rail
         // ==========================================
         ComponentSnippet(
-            id = "navigation-bar",
+            id = "android_compose_components_navigationbarexample",
             title = "Navigation Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Bottom navigation bar providing access to 3 to 5 top-level destinations.",
@@ -93,7 +93,7 @@ object NavigationSnippets {
             composable = { NavigationBarExample() }
         ),
         ComponentSnippet(
-            id = "navigation-rail",
+            id = "android_compose_components_navigationrailexample",
             title = "Navigation Rail",
             category = ComponentCategory.NAVIGATION,
             description = "Side navigation rail suited for tablets and wide screens.",
@@ -120,7 +120,7 @@ object NavigationSnippets {
             composable = { ShortNavigationBarSample() }
         ),
         ComponentSnippet(
-            id = "wide-navigation-rail",
+            id = "android_compose_expressive_components_widenavigationrailexample",
             title = "Wide Navigation Rail",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive WideNavigationRail responsive layout.",
@@ -144,7 +144,7 @@ object NavigationSnippets {
         // Additional Catalog Components & Samples
         // ==========================================
         ComponentSnippet(
-            id = "always-enter-top-app-bar",
+            id = "android_compose_expressive_components_alwaysentertopappbar",
             title = "Always-Enter Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive top app bar with enterAlways scroll behavior.",
@@ -152,7 +152,7 @@ object NavigationSnippets {
             composable = { CenteredBox { EnterAlwaysTopAppBar() } }
         ),
         ComponentSnippet(
-            id = "center-aligned-top-app-bar-with-subtitle",
+            id = "android_compose_expressive_components_centeralignedtopappbarwithsubtitle",
             title = "Center-Aligned Top App Bar with Subtitle",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive center-aligned top app bar with title and subtitle headers.",
@@ -160,7 +160,7 @@ object NavigationSnippets {
             composable = { CenteredBox { SimpleCenterAlignedTopAppBarWithSubtitle() } }
         ),
         ComponentSnippet(
-            id = "medium-flexible-top-app-bar",
+            id = "android_compose_expressive_components_exituntillcollapsedtopappbar",
             title = "Medium Flexible Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive medium flexible top app bar with exitUntilCollapsed behavior.",
@@ -168,7 +168,7 @@ object NavigationSnippets {
             composable = { CenteredBox { ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() } }
         ),
         ComponentSnippet(
-            id = "large-flexible-top-app-bar",
+            id = "android_compose_expressive_components_exituntillcollapsedlargetopappbar",
             title = "Large Flexible Top App Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive large flexible top app bar with prominent collapsing headline.",
@@ -176,7 +176,7 @@ object NavigationSnippets {
             composable = { CenteredBox { ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() } }
         ),
         ComponentSnippet(
-            id = "horizontal-items-navigation-bar",
+            id = "android_compose_expressive_components_horizontalitemsnavigationbarexample",
             title = "Horizontal Items Navigation Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Short navigation bar displaying items with horizontally arranged icon and label.",
@@ -184,7 +184,7 @@ object NavigationSnippets {
             composable = { CenteredBox { ShortNavigationBarWithHorizontalItemsSample() } }
         ),
         ComponentSnippet(
-            id = "vertical-items-navigation-bar",
+            id = "android_compose_expressive_components_verticalitemsnavigationbarexample",
             title = "Vertical Items Navigation Bar",
             category = ComponentCategory.NAVIGATION,
             description = "Short navigation bar displaying items with vertically arranged icon and label.",
@@ -192,7 +192,7 @@ object NavigationSnippets {
             composable = { CenteredBox { ShortNavigationBarSample() } }
         ),
         ComponentSnippet(
-            id = "modal-wide-navigation-rail",
+            id = "android_compose_expressive_components_modalwidenavigationrailexample",
             title = "Modal Wide Navigation Rail",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive wide navigation rail in modal drawer configuration.",
@@ -200,7 +200,7 @@ object NavigationSnippets {
             composable = { CenteredBox { ModalWideNavigationRailSample() } }
         ),
         ComponentSnippet(
-            id = "dismissible-modal-wide-navigation-rail",
+            id = "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample",
             title = "Dismissible Modal Wide Navigation Rail",
             category = ComponentCategory.NAVIGATION,
             description = "Material 3 Expressive dismissible modal wide navigation rail.",
@@ -208,7 +208,7 @@ object NavigationSnippets {
             composable = { CenteredBox { DismissibleModalWideNavigationRailSample() } }
         ),
         ComponentSnippet(
-            id = "modal-navigation-drawer",
+            id = "android_compose_components_detaileddrawerexample",
             title = "Modal Navigation Drawer",
             category = ComponentCategory.NAVIGATION,
             description = "Modal navigation drawer with standard navigation items and headline.",

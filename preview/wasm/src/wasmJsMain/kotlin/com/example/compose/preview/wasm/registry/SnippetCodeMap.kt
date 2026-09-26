@@ -6,7 +6,7 @@
  *   preview/generator/snippet_extractor.py
  *
  * Generated on:
- *   2026-09-21 09:23:07 UTC
+ *   2026-09-26 17:14:10 UTC
  *
  * WARNING:
  * Do NOT modify this file manually. Any changes will be overwritten when
@@ -15,7 +15,7 @@
  * To make changes:
  * - Update the Compose code snippet in compose/snippets/src/main/java/com/example/compose/snippets/components/
  * - Update the extractor logic in preview/generator/snippet_extractor.py
- * - Run: python3 preview/generator/generate_component_pages.py
+ * - Run: python3 preview/generator/snippet_extractor.py
  * =============================================================================
  */
 /*
@@ -38,7 +38,549 @@ package com.example.compose.preview.wasm.registry
 
 object SnippetCodeMap {
     private val codeMap: Map<String, String> = mapOf(
-        "filled-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_bottomappbar" to """@Composable
+fun BottomAppBarExample() {
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(
+                actions = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = "Localized description")
+                    }
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Edit),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Mic),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Image),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { /* do something */ },
+                        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                    ) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Localized description")
+                    }
+                }
+            )
+        },
+    ) { innerPadding ->
+        Text(
+            modifier = Modifier.padding(innerPadding),
+            text = "Example of a scaffold with a bottom app bar."
+        )
+    }
+}""",
+        "android_compose_components_smalltopappbar" to """@Composable
+fun SmallTopAppBarExample() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("Small Top App Bar")
+                }
+            )
+        },
+    ) { innerPadding ->
+        ScrollContent(innerPadding)
+    }
+}""",
+        "android_compose_components_centeralignedtopappbar" to """@Composable
+fun CenterAlignedTopAppBarExample() {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        "Centered Top App Bar",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Menu),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+    ) { innerPadding ->
+        ScrollContent(innerPadding)
+    }
+}""",
+        "android_compose_components_mediumtopappbar" to """@Composable
+fun MediumTopAppBarExample() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            MediumTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        "Medium Top App Bar",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Menu),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+    ) { innerPadding ->
+        ScrollContent(innerPadding)
+    }
+}""",
+        "android_compose_components_largetopappbar" to """@Composable
+fun LargeTopAppBarExample() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        "Large Top App Bar",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.Menu),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+    ) { innerPadding ->
+        ScrollContent(innerPadding)
+    }
+}""",
+        "android_compose_components_navigation" to """@Composable
+fun TopBarNavigationExample(
+    navigateBack: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Navigation example",
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = navigateBack) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+            )
+        },
+    ) { innerPadding ->
+        Text(
+            "Click the back button to pop from the back stack.",
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
+}""",
+        "android_compose_components_appbarselectionactions" to """@Composable
+fun AppBarSelectionActions(
+    selectedItems: Set<Int>,
+    modifier: Modifier = Modifier,
+) {
+    val hasSelection = selectedItems.isNotEmpty()
+    val topBarText = if (hasSelection) {
+        "Selected ${"$" + ""}{selectedItems.size} items"
+    } else {
+        "List of items"
+    }
+
+    TopAppBar(
+        title = {
+            Text(topBarText)
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        actions = {
+            if (hasSelection) {
+                IconButton(onClick = {
+                    /* click action */
+                }) {
+                    Icon(
+                        painter = rememberVectorPainter(AppIcons.Share),
+                        contentDescription = "Share items"
+                    )
+                }
+            }
+        },
+        modifier = modifier
+    )
+}""",
+        "android_compose_components_appbarmultiselectionexample" to """@Composable
+private fun AppBarMultiSelectionExample(
+    modifier: Modifier = Modifier,
+) {
+    val listItems by remember { mutableStateOf(listOf(1, 2, 3, 4, 5, 6)) }
+    var selectedItems by rememberSaveable { mutableStateOf(setOf<Int>()) }
+
+    Scaffold(
+        modifier = modifier,
+        topBar = { AppBarSelectionActions(selectedItems) }
+    ) { innerPadding ->
+        LazyColumn(contentPadding = innerPadding) {
+            itemsIndexed(listItems) { _, index ->
+                val isItemSelected = selectedItems.contains(index)
+                ListItemSelectable(
+                    selected = isItemSelected,
+                    Modifier
+                        .combinedClickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                /* click action */
+                            },
+                            onLongClick = {
+                                if (isItemSelected) selectedItems -= index else selectedItems += index
+                            }
+                        )
+                )
+            }
+        }
+    }
+}""",
+        "android_compose_components_listitemselectable" to """@Composable
+fun ListItemSelectable(
+    selected: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        ListItem(
+            headlineContent = { Text("Long press to select or deselect item") },
+            leadingContent = {
+                if (selected) {
+                    Icon(
+                        painter = rememberVectorPainter(AppIcons.Check),
+                        contentDescription = "Localized description",
+                    )
+                }
+            }
+        )
+    }
+}""",
+        "android_compose_expressive_components_centeralignedtopappbarwithsubtitle" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SimpleCenterAlignedTopAppBarWithSubtitle() {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "android_compose_expressive_components_alwaysentertopappbar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun EnterAlwaysTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "android_compose_expressive_components_exituntillcollapsedtopappbar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            MediumFlexibleTopAppBar(
+                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "android_compose_expressive_components_exituntillcollapsedlargetopappbar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeFlexibleTopAppBar(
+                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                titleHorizontalAlignment = Alignment.CenterHorizontally,
+                navigationIcon = {
+                    IconButton(onClick = { /* onBackClick() */ }) {
+                        Icon(
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+            )
+        },
+        content = { innerPadding ->
+            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val list = (0..75).map { it.toString() }
+                items(count = list.size) {
+                    Text(
+                        text = list[it],
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    )
+                }
+            }
+        },
+    )
+}""",
+        "android_compose_components_badge" to """@Composable
+fun BadgeExample() {
+    BadgedBox(
+        badge = {
+            Badge()
+        }
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Mail),
+            contentDescription = "Email"
+        )
+    }
+}""",
+        "android_compose_components_badgeinteractive" to """@Composable
+fun BadgeInteractiveExample() {
+    var itemCount by remember { mutableIntStateOf(0) }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        BadgedBox(
+            badge = {
+                if (itemCount > 0) {
+                    Badge(
+                        containerColor = Color.Red,
+                        contentColor = Color.White
+                    ) {
+                        Text("${"$" + ""}itemCount")
+                    }
+                }
+            }
+        ) {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.ShoppingCart),
+                contentDescription = "Shopping cart",
+            )
+        }
+        Button(onClick = { itemCount++ }) {
+            Text("Add item")
+        }
+    }
+}""",
+        "android_compose_components_partialbottomsheet" to """@Composable
+fun PartialBottomSheet() {
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false,
+    )
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Button(
+            onClick = { showBottomSheet = true }
+        ) {
+            Text("Display partial bottom sheet")
+        }
+
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                modifier = Modifier.fillMaxHeight(),
+                sheetState = sheetState,
+                onDismissRequest = { showBottomSheet = false }
+            ) {
+                Text(
+                    "Swipe up to open sheet. Swipe down to dismiss.",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}""",
+        "android_compose_components_filledbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilledButtonExample(onClick: () -> Unit) {
     Button(
@@ -48,7 +590,7 @@ fun FilledButtonExample(onClick: () -> Unit) {
         Text("Filled")
     }
 }""",
-        "filled-tonal-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_filledtonalbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilledTonalButtonExample(onClick: () -> Unit) {
     FilledTonalButton(
@@ -58,7 +600,7 @@ fun FilledTonalButtonExample(onClick: () -> Unit) {
         Text("Tonal")
     }
 }""",
-        "elevated-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_elevatedbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ElevatedButtonExample(onClick: () -> Unit) {
     ElevatedButton(
@@ -68,7 +610,7 @@ fun ElevatedButtonExample(onClick: () -> Unit) {
         Text("Elevated")
     }
 }""",
-        "outlined-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_outlinedbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OutlinedButtonExample(onClick: () -> Unit) {
     OutlinedButton(
@@ -78,7 +620,7 @@ fun OutlinedButtonExample(onClick: () -> Unit) {
         Text("Outlined")
     }
 }""",
-        "text-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_textbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TextButtonExample(onClick: () -> Unit) {
     TextButton(
@@ -88,7 +630,7 @@ fun TextButtonExample(onClick: () -> Unit) {
         Text("Text Button")
     }
 }""",
-        "button-with-animated-shape" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_buttonwithanimatedshape" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ButtonWithAnimatedShapeExample(onClick: () -> Unit) {
     Button(
@@ -98,7 +640,7 @@ fun ButtonWithAnimatedShapeExample(onClick: () -> Unit) {
         Text("Animated Shape")
     }
 }""",
-        "square-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_squarebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SquareButtonExample(onClick: () -> Unit) {
     Button(
@@ -108,8 +650,65 @@ fun SquareButtonExample(onClick: () -> Unit) {
         Text("Square")
     }
 }""",
-        "button-with-icon" to """""",
-        "split-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_expressive_components_filledtogglebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
+}""",
+        "android_compose_expressive_components_elevatedtogglebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ElevatedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Elevated Button")
+    }
+}""",
+        "android_compose_expressive_components_tonaltogglebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun TonalToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+}""",
+        "android_compose_expressive_components_outlinedtogglebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun OutlinedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Outlined Button")
+    }
+}""",
+        "android_compose_expressive_components_buttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ButtonWithIconSample() {
+    Button(
+        onClick = { /* Do something! */ },
+        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Favorite),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
+        Text("Like")
+    }
+}""",
+        "android_compose_expressive_components_togglebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("Like")
+    }
+}""",
+        "android_compose_components_splitbutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SplitButtonExample(onClick: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
@@ -139,877 +738,7 @@ fun SplitButtonExample(onClick: () -> Unit) {
         }
     )
 }""",
-        "toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
-}""",
-        "elevated-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ElevatedToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Text("Elevated Button")
-    }
-}""",
-        "tonal-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun TonalToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
-}""",
-        "outlined-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun OutlinedToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Text("Outlined Button")
-    }
-}""",
-        "button-with-icon-sample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ButtonWithIconSample() {
-    Button(
-        onClick = { /* Do something! */ },
-        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Favorite),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
-        Text("Like")
-    }
-}""",
-        "toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Icon(
-            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.IconSize),
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text("Like")
-    }
-}""",
-        "xsmall-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XSmallButtonWithIconSample() {
-    val size = ButtonDefaults.ExtraSmallContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label")
-    }
-}""",
-        "xsmall-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XSmallToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.ExtraSmallContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label")
-    }
-}""",
-        "medium-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumButtonWithIconSample() {
-    val size = ButtonDefaults.MediumContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "medium-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.MediumContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "large-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LargeButtonWithIconSample() {
-    val size = ButtonDefaults.LargeContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "large-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LargeToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.LargeContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "xlarge-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XLargeButtonWithIconSample() {
-    val size = ButtonDefaults.ExtraLargeContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "xlarge-toggle-button-with-icon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XLargeToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.ExtraLargeContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}""",
-        "square-toggle-button" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SquareToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    val shapes =
-        ToggleButtonShapes(
-            shape = ToggleButtonDefaults.squareShape,
-            pressedShape = ToggleButtonDefaults.pressedShape,
-            checkedShape = ToggleButtonDefaults.roundShape,
-        )
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
-        Text("Button")
-    }
-}""",
-        "button-examples" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun FilledButtonExample(onClick: () -> Unit) {
-    Button(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Filled")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun FilledTonalButtonExample(onClick: () -> Unit) {
-    FilledTonalButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Tonal")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ElevatedButtonExample(onClick: () -> Unit) {
-    ElevatedButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Elevated")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun OutlinedButtonExample(onClick: () -> Unit) {
-    OutlinedButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Outlined")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun TextButtonExample(onClick: () -> Unit) {
-    TextButton(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Text Button")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ButtonWithAnimatedShapeExample(onClick: () -> Unit) {
-    Button(
-        onClick = { onClick() },
-        shapes = ButtonDefaults.shapes()
-    ) {
-        Text("Animated Shape")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SquareButtonExample(onClick: () -> Unit) {
-    Button(
-        onClick = { onClick() },
-        shape = ButtonDefaults.squareShape
-    ) {
-        Text("Square")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SplitButtonExample(onClick: () -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    SplitButtonLayout(
-        leadingButton = {
-            SplitButtonDefaults.LeadingButton(onClick = { onClick() }) {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.Edit),
-                    modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize),
-                    contentDescription = "Edit",
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Edit")
-            }
-        },
-        trailingButton = {
-            SplitButtonDefaults.TrailingButton(
-                checked = expanded,
-                onCheckedChange = { expanded = it },
-            ) {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.KeyboardArrowDown),
-                    modifier = Modifier.size(SplitButtonDefaults.TrailingIconSize),
-                    contentDescription = "Options",
-                )
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ElevatedToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Text("Elevated Button")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun TonalToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun OutlinedToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Text("Outlined Button")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ButtonWithIconSample() {
-    Button(
-        onClick = { /* Do something! */ },
-        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Favorite),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
-        Text("Like")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
-        Icon(
-            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.IconSize),
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text("Like")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XSmallButtonWithIconSample() {
-    val size = ButtonDefaults.ExtraSmallContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XSmallToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.ExtraSmallContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumButtonWithIconSample() {
-    val size = ButtonDefaults.MediumContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.MediumContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LargeButtonWithIconSample() {
-    val size = ButtonDefaults.LargeContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LargeToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.LargeContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XLargeButtonWithIconSample() {
-    val size = ButtonDefaults.ExtraLargeContainerHeight
-    Button(
-        onClick = { /* Do something! */ },
-        modifier = Modifier.heightIn(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun XLargeToggleButtonWithIconSample() {
-    var checked by remember { mutableStateOf(false) }
-    val size = ButtonDefaults.ExtraLargeContainerHeight
-    ToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = Modifier.heightIn(size),
-        shapes = ToggleButtonDefaults.shapesFor(size),
-        contentPadding = ButtonDefaults.contentPaddingFor(size),
-    ) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Edit),
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
-        )
-        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-        Text("Label", style = ButtonDefaults.textStyleFor(size))
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SquareToggleButtonSample() {
-    var checked by remember { mutableStateOf(false) }
-    val shapes =
-        ToggleButtonShapes(
-            shape = ToggleButtonDefaults.squareShape,
-            pressedShape = ToggleButtonDefaults.pressedShape,
-            checkedShape = ToggleButtonDefaults.roundShape,
-        )
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
-        Text("Button")
-    }
-}""",
-        "fab" to """@Composable
-fun Example(onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = { onClick() },
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button.")
-    }
-}""",
-        "extended-fab" to """@Composable
-fun ExtendedExample(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        onClick = { onClick() },
-        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Extended floating action button.") },
-        text = { Text(text = "Extended FAB") },
-    )
-}""",
-        "small-fab" to """@Composable
-fun SmallExample(onClick: () -> Unit) {
-    SmallFloatingActionButton(
-        onClick = { onClick() },
-        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.secondary
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small floating action button.")
-    }
-}""",
-        "large-fab" to """@Composable
-fun LargeExample(onClick: () -> Unit) {
-    LargeFloatingActionButton(
-        onClick = { onClick() },
-        shape = CircleShape,
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large floating action button")
-    }
-}""",
-        "floating-toolbar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun FloatingToolbarExample() {
-    HorizontalFloatingToolbar(
-        expanded = true,
-        floatingActionButton = {
-            FloatingToolbarDefaults.VibrantFloatingActionButton(
-                onClick = { /* action */ },
-            ) {
-                Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
-            }
-        },
-        content = {
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit")
-            }
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite")
-            }
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More")
-            }
-        }
-    )
-}""",
-        "medium-fab" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumFloatingActionButtonSample() {
-    MediumFloatingActionButton(onClick = {}) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Add),
-            contentDescription = "Add",
-            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
-        )
-    }
-}""",
-        "floating-action-button" to """@Composable
-fun Example(onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = { onClick() },
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button.")
-    }
-}
-
-@Composable
-fun ExtendedExample(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        onClick = { onClick() },
-        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Extended floating action button.") },
-        text = { Text(text = "Extended FAB") },
-    )
-}
-
-@Composable
-fun SmallExample(onClick: () -> Unit) {
-    SmallFloatingActionButton(
-        onClick = { onClick() },
-        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.secondary
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small floating action button.")
-    }
-}
-
-@Composable
-fun LargeExample(onClick: () -> Unit) {
-    LargeFloatingActionButton(
-        onClick = { onClick() },
-        shape = CircleShape,
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large floating action button")
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun FloatingToolbarExample() {
-    HorizontalFloatingToolbar(
-        expanded = true,
-        floatingActionButton = {
-            FloatingToolbarDefaults.VibrantFloatingActionButton(
-                onClick = { /* action */ },
-            ) {
-                Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
-            }
-        },
-        content = {
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit")
-            }
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite")
-            }
-            IconButton(onClick = { /* action */ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More")
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun MediumFloatingActionButtonSample() {
-    MediumFloatingActionButton(onClick = {}) {
-        Icon(
-            painter = rememberVectorPainter(AppIcons.Add),
-            contentDescription = "Add",
-            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
-        )
-    }
-}""",
-        "toggle-icon-button" to """@Preview
-@Composable
-fun ToggleIconButtonExample() {
-    // isToggled initial value should be read from a view model or persistent storage.
-    var isToggled by rememberSaveable { mutableStateOf(false) }
-
-    IconButton(
-        onClick = { isToggled = !isToggled }
-    ) {
-        Icon(
-            painter = rememberVectorPainter(if (isToggled) AppIcons.FavoriteFilled else AppIcons.Favorite),
-            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
-        )
-    }
-}""",
-        "momentary-icon-button" to """@Preview()
-@Composable
-fun MomentaryIconButtonExample() {
-    var pressedCount by remember { mutableIntStateOf(0) }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        MomentaryIconButton(
-            unselectedImage = AppIcons.FastRewind,
-            selectedImage = AppIcons.FastRewindFilled,
-            stepDelay = 100L,
-            onClick = { pressedCount -= 1 },
-            contentDescription = "Decrease count button"
-        )
-        Spacer(modifier = Modifier)
-        Text("advanced by ${"$" + ""}pressedCount frames")
-        Spacer(modifier = Modifier)
-        MomentaryIconButton(
-            unselectedImage = AppIcons.FastForward,
-            selectedImage = AppIcons.FastForwardFilled,
-            contentDescription = "Increase count button",
-            stepDelay = 100L,
-            onClick = { pressedCount += 1 }
-        )
-    }
-}""",
-        "animated-icon-button" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconButtonWithAnimatedShapeSample() {
-    IconButton(
-        onClick = { /* doSomething() */ },
-        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-    }
-}""",
-        "animated-toggle-icon-button" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconToggleButtonWithAnimatedShapeSample() {
-    var checked by remember { mutableStateOf(false) }
-    IconToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
-    ) {
-        if (checked) {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        } else {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        }
-    }
-}""",
-        "icon-button" to """@Preview
-@Composable
-fun ToggleIconButtonExample() {
-    // isToggled initial value should be read from a view model or persistent storage.
-    var isToggled by rememberSaveable { mutableStateOf(false) }
-
-    IconButton(
-        onClick = { isToggled = !isToggled }
-    ) {
-        Icon(
-            painter = rememberVectorPainter(if (isToggled) AppIcons.FavoriteFilled else AppIcons.Favorite),
-            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
-        )
-    }
-}
-
-@Preview()
-@Composable
-fun MomentaryIconButtonExample() {
-    var pressedCount by remember { mutableIntStateOf(0) }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        MomentaryIconButton(
-            unselectedImage = AppIcons.FastRewind,
-            selectedImage = AppIcons.FastRewindFilled,
-            stepDelay = 100L,
-            onClick = { pressedCount -= 1 },
-            contentDescription = "Decrease count button"
-        )
-        Spacer(modifier = Modifier)
-        Text("advanced by ${"$" + ""}pressedCount frames")
-        Spacer(modifier = Modifier)
-        MomentaryIconButton(
-            unselectedImage = AppIcons.FastForward,
-            selectedImage = AppIcons.FastForwardFilled,
-            contentDescription = "Increase count button",
-            stepDelay = 100L,
-            onClick = { pressedCount += 1 }
-        )
-    }
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconButtonWithAnimatedShapeSample() {
-    IconButton(
-        onClick = { /* doSomething() */ },
-        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-    }
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconToggleButtonWithAnimatedShapeSample() {
-    var checked by remember { mutableStateOf(false) }
-    IconToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
-    ) {
-        if (checked) {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        } else {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        }
-    }
-}""",
-        "button-group" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_buttongroup" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ButtonGroupExample() {
     var selectedIndex by remember { mutableIntStateOf(0) }
@@ -1025,631 +754,200 @@ fun ButtonGroupExample() {
         }
     }
 }""",
-        "badge" to """@Composable
-fun BadgeExample() {
-    BadgedBox(
-        badge = {
-            Badge()
-        }
+        "android_compose_expressive_components_xmsallbuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            painter = rememberVectorPainter(AppIcons.Mail),
-            contentDescription = "Email"
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
     }
 }""",
-        "badge-interactive" to """@Composable
-fun BadgeInteractiveExample() {
-    var itemCount by remember { mutableIntStateOf(0) }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        BadgedBox(
-            badge = {
-                if (itemCount > 0) {
-                    Badge(
-                        containerColor = Color.Red,
-                        contentColor = Color.White
-                    ) {
-                        Text("${"$" + ""}itemCount")
-                    }
-                }
-            }
-        ) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.ShoppingCart),
-                contentDescription = "Shopping cart",
-            )
-        }
-        Button(onClick = { itemCount++ }) {
-            Text("Add item")
-        }
-    }
-}""",
-        "badge-examples" to """@Composable
-fun BadgeExample() {
-    BadgedBox(
-        badge = {
-            Badge()
-        }
+        "android_compose_expressive_components_xmsalltogglebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun XSmallToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            painter = rememberVectorPainter(AppIcons.Mail),
-            contentDescription = "Email"
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
     }
-}
-
+}""",
+        "android_compose_expressive_components_mediumbuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun BadgeInteractiveExample() {
-    var itemCount by remember { mutableIntStateOf(0) }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+fun MediumButtonWithIconSample() {
+    val size = ButtonDefaults.MediumContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
-        BadgedBox(
-            badge = {
-                if (itemCount > 0) {
-                    Badge(
-                        containerColor = Color.Red,
-                        contentColor = Color.White
-                    ) {
-                        Text("${"$" + ""}itemCount")
-                    }
-                }
-            }
-        ) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.ShoppingCart),
-                contentDescription = "Shopping cart",
-            )
-        }
-        Button(onClick = { itemCount++ }) {
-            Text("Add item")
-        }
-    }
-}""",
-        "indeterminate-progress-indicator" to """@Composable
-fun IndeterminateCircularIndicator() {
-    var loading by remember { mutableStateOf(false) }
-
-    Button(onClick = { loading = true }, enabled = !loading) {
-        Text("Start loading")
-    }
-
-    if (!loading) return
-
-    CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
-}""",
-        "determinate-progress-indicator" to """@Composable
-fun LinearDeterminateIndicator() {
-    var currentProgress by remember { mutableFloatStateOf(0f) }
-    var loading by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope() // Create a coroutine scope
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Button(onClick = {
-            loading = true
-            scope.launch {
-                loadProgress { progress ->
-                    currentProgress = progress
-                }
-                loading = false // Reset loading when the coroutine finishes
-            }
-        }, enabled = !loading) {
-            Text("Start loading")
-        }
-
-        if (loading) {
-            LinearProgressIndicator(
-                progress = { currentProgress },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-    }
-}
-
-/** Iterate the progress value */
-suspend fun loadProgress(updateProgress: (Float) -> Unit) {
-    for (i in 1..100) {
-        updateProgress(i.toFloat() / 100)
-        delay(100)
-    }
-}""",
-        "loading-indicator" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LoadingIndicatorExample() {
-    LoadingIndicator()
-}""",
-        "contained-loading-indicator" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ContainedLoadingIndicatorExample() {
-    ContainedLoadingIndicator()
-}""",
-        "determinate-linear-wavy-indicator" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LinearWavyProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        LinearWavyProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
 }""",
-        "indeterminate-linear-wavy-indicator" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_expressive_components_mediumtogglebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndeterminateLinearWavyProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
-}""",
-        "determinate-circular-wavy-indicator" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun CircularWavyProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        CircularWavyProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
-        )
-    }
-}""",
-        "indeterminate-circular-wavy-indicator" to """@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IndeterminateCircularWavyProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
-}""",
-        "determinate-linear-expressive-indicator" to """@Preview
-@Composable
-fun LinearProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        LinearProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
-        )
-    }
-}""",
-        "indeterminate-linear-expressive-indicator" to """@Preview
-@Composable
-fun IndeterminateLinearProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
-}""",
-        "determinate-circular-expressive-indicator" to """@Preview
-@Composable
-fun CircularProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        CircularProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
-        )
-    }
-}""",
-        "indeterminate-circular-expressive-indicator" to """@Preview
-@Composable
-fun IndeterminateCircularProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
-}""",
-        "progress-indicator" to """@Composable
-fun IndeterminateCircularIndicator() {
-    var loading by remember { mutableStateOf(false) }
-
-    Button(onClick = { loading = true }, enabled = !loading) {
-        Text("Start loading")
-    }
-
-    if (!loading) return
-
-    CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
-}
-
-@Composable
-fun LinearDeterminateIndicator() {
-    var currentProgress by remember { mutableFloatStateOf(0f) }
-    var loading by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope() // Create a coroutine scope
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+fun MediumToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.MediumContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
-        Button(onClick = {
-            loading = true
-            scope.launch {
-                loadProgress { progress ->
-                    currentProgress = progress
-                }
-                loading = false // Reset loading when the coroutine finishes
-            }
-        }, enabled = !loading) {
-            Text("Start loading")
-        }
-
-        if (loading) {
-            LinearProgressIndicator(
-                progress = { currentProgress },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-    }
-}
-
-/** Iterate the progress value */
-suspend fun loadProgress(updateProgress: (Float) -> Unit) {
-    for (i in 1..100) {
-        updateProgress(i.toFloat() / 100)
-        delay(100)
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LoadingIndicatorExample() {
-    LoadingIndicator()
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ContainedLoadingIndicatorExample() {
-    ContainedLoadingIndicator()
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LinearWavyProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        LinearWavyProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+}""",
+        "android_compose_expressive_components_largebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndeterminateLinearWavyProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun CircularWavyProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        CircularWavyProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
+fun LargeButtonWithIconSample() {
+    val size = ButtonDefaults.LargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
-}
-
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+}""",
+        "android_compose_expressive_components_largetogglebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndeterminateCircularWavyProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
-}
-
-@Preview
-@Composable
-fun LinearProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        LinearProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
+fun LargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.LargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
-}
-
-@Preview
+}""",
+        "android_compose_expressive_components_xlargebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndeterminateLinearProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
-}
-
-@Preview
-@Composable
-fun CircularProgressIndicatorSample() {
-    var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
-        targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        CircularProgressIndicator(progress = { animatedProgress })
-        Spacer(Modifier.requiredHeight(30.dp))
-        Text("Set progress:")
-        Slider(
-            modifier = Modifier.width(300.dp),
-            value = progress,
-            valueRange = 0f..1f,
-            onValueChange = { progress = it },
+fun XLargeButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
-}
-
-@Preview
+}""",
+        "android_compose_expressive_components_xlargetogglebuttonwithicon" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndeterminateCircularProgressIndicatorSample() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
-}""",
-        "plain-tooltip" to """@Composable
-fun PlainTooltipExample(
-    modifier: Modifier = Modifier,
-    plainTooltipText: String = "Add to favorites"
-) {
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = {
-            PlainTooltip { Text(plainTooltipText) }
-        },
-        state = rememberTooltipState()
+fun XLargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
-        IconButton(onClick = { /* Do something... */ }) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Favorite),
-                contentDescription = "Add to favorites"
-            )
-        }
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Edit),
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
     }
 }""",
-        "rich-tooltip" to """@Composable
-fun RichTooltipExample(
-    modifier: Modifier = Modifier,
-    richTooltipSubheadText: String = "Rich Tooltip",
-    richTooltipText: String = "Rich tooltips support multiple lines of informational text."
-) {
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-        tooltip = {
-            RichTooltip(
-                title = { Text(richTooltipSubheadText) }
-            ) {
-                Text(richTooltipText)
-            }
-        },
-        state = rememberTooltipState()
-    ) {
-        IconButton(onClick = { /* Icon button's click event */ }) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Info),
-                contentDescription = "Show more information"
-            )
-        }
-    }
-}""",
-        "tooltip-examples" to """@Composable
-fun PlainTooltipExample(
-    modifier: Modifier = Modifier,
-    plainTooltipText: String = "Add to favorites"
-) {
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        tooltip = {
-            PlainTooltip { Text(plainTooltipText) }
-        },
-        state = rememberTooltipState()
-    ) {
-        IconButton(onClick = { /* Do something... */ }) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Favorite),
-                contentDescription = "Add to favorites"
-            )
-        }
-    }
-}
-
+        "android_compose_expressive_components_squaretogglebutton" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun RichTooltipExample(
-    modifier: Modifier = Modifier,
-    richTooltipSubheadText: String = "Rich Tooltip",
-    richTooltipText: String = "Rich tooltips support multiple lines of informational text."
-) {
-    TooltipBox(
-        modifier = modifier,
-        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-        tooltip = {
-            RichTooltip(
-                title = { Text(richTooltipSubheadText) }
-            ) {
-                Text(richTooltipText)
-            }
-        },
-        state = rememberTooltipState()
-    ) {
-        IconButton(onClick = { /* Icon button's click event */ }) {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Info),
-                contentDescription = "Show more information"
-            )
-        }
+fun SquareToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    val shapes =
+        ToggleButtonShapes(
+            shape = ToggleButtonDefaults.squareShape,
+            pressedShape = ToggleButtonDefaults.pressedShape,
+            checkedShape = ToggleButtonDefaults.roundShape,
+        )
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
+        Text("Button")
     }
 }""",
-        "partial-bottom-sheet" to """@Composable
-fun PartialBottomSheet() {
-    var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false,
-    )
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Button(
-            onClick = { showBottomSheet = true }
-        ) {
-            Text("Display partial bottom sheet")
-        }
-
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                modifier = Modifier.fillMaxHeight(),
-                sheetState = sheetState,
-                onDismissRequest = { showBottomSheet = false }
-            ) {
-                Text(
-                    "Swipe up to open sheet. Swipe down to dismiss.",
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-        }
-    }
-}""",
-        "bottom-sheet" to """@Composable
-fun PartialBottomSheet() {
-    var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false,
-    )
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Button(
-            onClick = { showBottomSheet = true }
-        ) {
-            Text("Display partial bottom sheet")
-        }
-
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                modifier = Modifier.fillMaxHeight(),
-                sheetState = sheetState,
-                onDismissRequest = { showBottomSheet = false }
-            ) {
-                Text(
-                    "Swipe up to open sheet. Swipe down to dismiss.",
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-        }
-    }
-}""",
-        "filled-card" to """@Composable
-fun FilledCardExample() {
+        "android_compose_components_customcard" to """@Composable
+fun CustomCardExample(event: () -> Unit) {
     Card(
+        border = BorderStroke(1.dp, Color.Black),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
+        enabled = true,
+        modifier = Modifier.padding(16.dp),
+        onClick = event,
+        shape = RoundedCornerShape(8.dp),
     ) {
         Text(
-            text = "Filled",
+            text = "Custom card that uses the Card composable. Tap me to say hello world.",
             modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
+                .padding(16.dp)
+                .fillMaxSize()
         )
     }
 }""",
-        "elevated-card" to """@Composable
+        "android_compose_components_elevatedcard" to """@Composable
 fun ElevatedCardExample() {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -1666,7 +964,24 @@ fun ElevatedCardExample() {
         )
     }
 }""",
-        "outlined-card" to """@Composable
+        "android_compose_components_filledcard" to """@Composable
+fun FilledCardExample() {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        modifier = Modifier
+            .size(width = 240.dp, height = 100.dp)
+    ) {
+        Text(
+            text = "Filled",
+            modifier = Modifier
+                .padding(16.dp),
+            textAlign = TextAlign.Center,
+        )
+    }
+}""",
+        "android_compose_components_outlinedcard" to """@Composable
 fun OutlinedCardExample() {
     OutlinedCard(
         colors = CardDefaults.cardColors(
@@ -1684,61 +999,7 @@ fun OutlinedCardExample() {
         )
     }
 }""",
-        "card-examples" to """@Composable
-fun FilledCardExample() {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Filled",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-fun ElevatedCardExample() {
-    ElevatedCard(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Elevated",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-fun OutlinedCardExample() {
-    OutlinedCard(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        border = BorderStroke(1.dp, Color.Black),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Outlined",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}""",
-        "multi-browse-carousel" to """@Composable
+        "android_compose_carousel_multi_browse_basic" to """@Composable
 fun CarouselExample_MultiBrowse() {
     data class CarouselItem(
         val id: Int,
@@ -1777,7 +1038,7 @@ fun CarouselExample_MultiBrowse() {
         )
     }
 }""",
-        "uncontained-carousel" to """@Composable
+        "android_compose_carousel_uncontained_basic" to """@Composable
 fun CarouselExample() {
     data class CarouselItem(
         val id: Int,
@@ -1816,127 +1077,189 @@ fun CarouselExample() {
         )
     }
 }""",
-        "carousel-examples" to """@Composable
-fun CarouselExample_MultiBrowse() {
-    data class CarouselItem(
-        val id: Int,
-        @DrawableRes val imageResId: Int,
-        val contentDescription: String
+        "android_compose_components_checkbox_minimal" to """@Composable
+fun CheckboxMinimalExample() {
+    var checked by remember { mutableStateOf(true) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            "Minimal checkbox"
+        )
+        Checkbox(
+            checked = checked,
+            onCheckedChange = { checked = it }
+        )
+    }
+
+    Text(
+        if (checked) "Checkbox is checked" else "Checkbox is unchecked"
     )
+}""",
+        "android_compose_components_checkbox_parent" to """@Composable
+fun CheckboxParentExample() {
+    // Initialize states for the child checkboxes
+    val childCheckedStates = remember { mutableStateListOf(false, false, false) }
 
-    val items = remember {
-        listOf(
-            CarouselItem(0, R.drawable.cupcake, "cupcake"),
-            CarouselItem(1, R.drawable.donut, "donut"),
-            CarouselItem(2, R.drawable.eclair, "eclair"),
-            CarouselItem(3, R.drawable.froyo, "froyo"),
-            CarouselItem(4, R.drawable.gingerbread, "gingerbread"),
-        )
+    // Compute the parent state based on children's states
+    val parentState = when {
+        childCheckedStates.all { it } -> ToggleableState.On
+        childCheckedStates.none { it } -> ToggleableState.Off
+        else -> ToggleableState.Indeterminate
     }
 
-    HorizontalMultiBrowseCarousel(
-        state = rememberCarouselState { items.count() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 16.dp, bottom = 16.dp),
-        preferredItemWidth = 186.dp,
-        itemSpacing = 8.dp,
-        contentPadding = PaddingValues(horizontal = 16.dp)
-    ) { i ->
-        val item = items[i]
-        Image(
-            modifier = Modifier
-                .height(205.dp)
-                .maskClip(MaterialTheme.shapes.extraLarge),
-            painter = painterResource(id = item.imageResId),
-            contentDescription = item.contentDescription,
-            contentScale = ContentScale.Crop
-        )
-    }
-}
+    Column {
+        // Parent TriStateCheckbox
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text("Select all")
+            TriStateCheckbox(
+                state = parentState,
+                onClick = {
+                    // Determine new state based on current state
+                    val newState = parentState != ToggleableState.On
+                    childCheckedStates.forEachIndexed { index, _ ->
+                        childCheckedStates[index] = newState
+                    }
+                }
+            )
+        }
 
-@Composable
-fun CarouselExample() {
-    data class CarouselItem(
-        val id: Int,
-        @DrawableRes val imageResId: Int,
-        val contentDescription: String
-    )
-
-    val carouselItems = remember {
-        listOf(
-            CarouselItem(0, R.drawable.cupcake, "cupcake"),
-            CarouselItem(1, R.drawable.donut, "donut"),
-            CarouselItem(2, R.drawable.eclair, "eclair"),
-            CarouselItem(3, R.drawable.froyo, "froyo"),
-            CarouselItem(4, R.drawable.gingerbread, "gingerbread"),
-        )
+        // Child Checkboxes
+        childCheckedStates.forEachIndexed { index, checked ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text("Option ${"$" + ""}{index + 1}")
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = { isChecked ->
+                        // Update the individual child state
+                        childCheckedStates[index] = isChecked
+                    }
+                )
+            }
+        }
     }
 
-    HorizontalUncontainedCarousel(
-        state = rememberCarouselState { carouselItems.count() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(top = 16.dp, bottom = 16.dp),
-        itemWidth = 186.dp,
-        itemSpacing = 8.dp,
-        contentPadding = PaddingValues(horizontal = 16.dp)
-    ) { i ->
-        val item = carouselItems[i]
-        Image(
-            modifier = Modifier
-                .height(205.dp)
-                .maskClip(MaterialTheme.shapes.extraLarge),
-            painter = painterResource(id = item.imageResId),
-            contentDescription = item.contentDescription,
-            contentScale = ContentScale.Crop
-        )
+    if (childCheckedStates.all { it }) {
+        Text("All options selected")
     }
 }""",
-        "alert-dialog" to """@Composable
-fun AlertDialogExample(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector,
-) {
-    AlertDialog(
-        icon = {
-            Icon(painter = rememberVectorPainter(icon), contentDescription = "Example Icon")
-        },
-        title = {
-            Text(text = dialogTitle)
-        },
-        text = {
-            Text(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirmation()
-                }
-            ) {
-                Text("Confirm")
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Dismiss")
-            }
+        "android_compose_components_assistchip" to """@Composable
+fun AssistChipExample() {
+    AssistChip(
+        onClick = { Log.d("Assist chip", "hello world") },
+        label = { Text("Assist chip") },
+        leadingIcon = {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Settings),
+                contentDescription = "Localized description",
+                Modifier.size(AssistChipDefaults.IconSize)
+            )
         }
     )
 }""",
-        "minimal-dialog" to """@Composable
+        "android_compose_components_filterchip" to """@Composable
+fun FilterChipExample() {
+    var selected by remember { mutableStateOf(false) }
+
+    FilterChip(
+        onClick = { selected = !selected },
+        label = {
+            Text("Filter chip")
+        },
+        selected = selected,
+        leadingIcon = if (selected) {
+            {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Done),
+                    contentDescription = "Done icon",
+                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+                )
+            }
+        } else {
+            null
+        },
+    )
+}""",
+        "android_compose_components_inputchip" to """@Composable
+fun InputChipExample(
+    text: String,
+    onDismiss: () -> Unit,
+) {
+    var enabled by remember { mutableStateOf(true) }
+    if (!enabled) return
+
+    InputChip(
+        onClick = {
+            onDismiss()
+            enabled = !enabled
+        },
+        label = { Text(text) },
+        selected = enabled,
+        avatar = {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Person),
+                contentDescription = "Localized description",
+                Modifier.size(InputChipDefaults.AvatarSize)
+            )
+        },
+        trailingIcon = {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Close),
+                contentDescription = "Localized description",
+                Modifier.size(InputChipDefaults.AvatarSize)
+            )
+        },
+    )
+}""",
+        "android_compose_components_suggestionchip" to """@Composable
+fun SuggestionChipExample() {
+    SuggestionChip(
+        onClick = { Log.d("Suggestion chip", "hello world") },
+        label = { Text("Suggestion chip") }
+    )
+}""",
+        "android_compose_components_datepicker_examples" to """var selectedDate by remember { mutableStateOf<Long?>(null) }
+        if (selectedDate != null) {
+            val date = Date(selectedDate!!)
+            val formattedDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(date)
+            Text("Selected date: ${"$" + ""}formattedDate")
+        } else {
+            Text("No date selected")
+        }
+        DatePickerModal(
+            onDateSelected = {
+                selectedDate = it
+                showModal = false
+            },
+            onDismiss = { showModal = false }
+        )
+    }""",
+        "android_compose_components_dialogparent" to """@Composable
+fun DialogExamples() {
+    val openAlertDialog = remember { mutableStateOf(false) }
+
+        when {
+            openAlertDialog.value -> {
+                AlertDialogExample(
+                    onDismissRequest = { openAlertDialog.value = false },
+                    onConfirmation = {
+                        openAlertDialog.value = false
+                        println("Confirmation registered") // Add logic here to handle confirmation.
+                    },
+                    dialogTitle = "Alert dialog example",
+                    dialogText = "This is an example of an alert dialog with buttons.",
+                    icon = AppIcons.Info
+                )
+            }
+        }
+    }
+}""",
+        "android_compose_components_minimaldialog" to """@Composable
 fun MinimalDialog(onDismissRequest: () -> Unit) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -1956,7 +1279,7 @@ fun MinimalDialog(onDismissRequest: () -> Unit) {
         }
     }
 }""",
-        "dialog-with-image" to """@Composable
+        "android_compose_components_dialogwithimage" to """@Composable
 fun DialogWithImage(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
@@ -2011,7 +1334,7 @@ fun DialogWithImage(
         }
     }
 }""",
-        "dialog-examples" to """@Composable
+        "android_compose_components_alertdialog" to """@Composable
 fun AlertDialogExample(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
@@ -2051,44 +1374,20 @@ fun AlertDialogExample(
             }
         }
     )
-}
-
-@Composable
-fun MinimalDialog(onDismissRequest: () -> Unit) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Card(
+}""",
+        "android_compose_components_fullscreendialog" to """@Composable
+fun FullScreenDialog(onDismissRequest: () -> Unit) {
+    Dialog(
+        onDismissRequest = { onDismissRequest() },
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnBackPress = true,
+        ),
+    ) {
+        Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-        ) {
-            Text(
-                text = "This is a minimal dialog",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-                textAlign = TextAlign.Center,
-            )
-        }
-    }
-}
-
-@Composable
-fun DialogWithImage(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    painter: Painter,
-    imageDescription: String,
-) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        // Draw a rectangle shape with rounded corners inside the dialog
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(375.dp)
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceVariant),
         ) {
             Column(
                 modifier = Modifier
@@ -2096,40 +1395,18 @@ fun DialogWithImage(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    painter = painter,
-                    contentDescription = imageDescription,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .height(160.dp)
-                )
                 Text(
-                    text = "This is a dialog with buttons and an image.",
-                    modifier = Modifier.padding(16.dp),
+                    text = "This is a full screen dialog",
+                    textAlign = TextAlign.Center,
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    TextButton(
-                        onClick = { onDismissRequest() },
-                        modifier = Modifier.padding(8.dp),
-                    ) {
-                        Text("Dismiss")
-                    }
-                    TextButton(
-                        onClick = { onConfirmation() },
-                        modifier = Modifier.padding(8.dp),
-                    ) {
-                        Text("Confirm")
-                    }
+                TextButton(onClick = { onDismissRequest() }) {
+                    Text("Dismiss")
                 }
             }
         }
     }
 }""",
-        "horizontal-divider" to """@Composable
+        "android_compose_components_horizontaldivider" to """@Composable
 fun HorizontalDividerExample() {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -2139,7 +1416,7 @@ fun HorizontalDividerExample() {
         Text("Second item in list")
     }
 }""",
-        "vertical-divider" to """@Composable
+        "android_compose_components_verticaldivider" to """@Composable
 fun VerticalDividerExample() {
     Row(
         modifier = Modifier
@@ -2152,2243 +1429,180 @@ fun VerticalDividerExample() {
         Text("Second item in row")
     }
 }""",
-        "divider-examples" to """@Composable
-fun HorizontalDividerExample() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        "android_compose_components_fab" to """@Composable
+fun Example(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = { onClick() },
     ) {
-        Text("First item in list")
-        HorizontalDivider(thickness = 2.dp)
-        Text("Second item in list")
-    }
-}
-
-@Composable
-fun VerticalDividerExample() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Text("First item in row")
-        VerticalDivider(color = MaterialTheme.colorScheme.secondary)
-        Text("Second item in row")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Floating action button.")
     }
 }""",
-        "scaffold" to """@Composable
-fun ScaffoldExample() {
-    var presses by remember { mutableIntStateOf(0) }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Top app bar")
-                }
-            )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom app bar",
-                )
-            }
-        },
+        "android_compose_components_extendedfab" to """@Composable
+fun ExtendedExample(onClick: () -> Unit) {
+    ExtendedFloatingActionButton(
+        onClick = { onClick() },
+        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Extended floating action button.") },
+        text = { Text(text = "Extended FAB") },
+    )
+}""",
+        "android_compose_components_smallfab" to """@Composable
+fun SmallExample(onClick: () -> Unit) {
+    SmallFloatingActionButton(
+        onClick = { onClick() },
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.secondary
+    ) {
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Small floating action button.")
+    }
+}""",
+        "android_compose_components_largefab" to """@Composable
+fun LargeExample(onClick: () -> Unit) {
+    LargeFloatingActionButton(
+        onClick = { onClick() },
+        shape = CircleShape,
+    ) {
+        Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Large floating action button")
+    }
+}""",
+        "android_compose_components_floatingtoolbar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun FloatingToolbarExample() {
+    HorizontalFloatingToolbar(
+        expanded = true,
         floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
+            FloatingToolbarDefaults.VibrantFloatingActionButton(
+                onClick = { /* action */ },
+            ) {
                 Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
             }
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text =
-                ${"\"\"\""}
-                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
-                    
-                    It also contains some basic inner content, such as this text.
-                    
-                    You have pressed the floating action button ${"$" + ""}presses times.
-                ${"\"\"\""}.trimIndent(),
-            )
-        }
-    }
-}""",
-        "scaffold-example" to """@Composable
-fun ScaffoldExample() {
-    var presses by remember { mutableIntStateOf(0) }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Top app bar")
-                }
-            )
         },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Bottom app bar",
-                )
+        content = {
+            IconButton(onClick = { /* action */ }) {
+                Icon(painter = rememberVectorPainter(AppIcons.Edit), contentDescription = "Edit")
             }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
-                Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
+            IconButton(onClick = { /* action */ }) {
+                Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Favorite")
+            }
+            IconButton(onClick = { /* action */ }) {
+                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More")
             }
         }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text =
-                ${"\"\"\""}
-                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
-                    
-                    It also contains some basic inner content, such as this text.
-                    
-                    You have pressed the floating action button ${"$" + ""}presses times.
-                ${"\"\"\""}.trimIndent(),
-            )
-        }
-    }
-}""",
-        "center-aligned-top-app-bar" to """@Composable
-fun CenterAlignedTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Centered Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}""",
-        "small-top-app-bar" to """@Composable
-fun SmallTopAppBarExample() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Small Top App Bar")
-                }
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}""",
-        "medium-top-app-bar" to """@Composable
-fun MediumTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Medium Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}""",
-        "large-top-app-bar" to """@Composable
-fun LargeTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Large Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}""",
-        "center-aligned-top-app-bar-with-subtitle" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SimpleCenterAlignedTopAppBarWithSubtitle() {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
     )
 }""",
-        "always-enter-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_expressive_components_mediumfab" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun EnterAlwaysTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}""",
-        "medium-flexible-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumFlexibleTopAppBar(
-                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}""",
-        "large-flexible-top-app-bar" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeFlexibleTopAppBar(
-                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}""",
-        "app-bar-examples" to """@Composable
-fun CenterAlignedTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Centered Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}
-
-@Composable
-fun SmallTopAppBarExample() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text("Small Top App Bar")
-                }
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}
-
-@Composable
-fun MediumTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Medium Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}
-
-@Composable
-fun LargeTopAppBarExample() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        "Large Top App Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.Menu),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        ScrollContent(innerPadding)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun SimpleCenterAlignedTopAppBarWithSubtitle() {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("Simple TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun EnterAlwaysTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { Text("TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumFlexibleTopAppBar(
-                title = { Text("Medium TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            LargeFlexibleTopAppBar(
-                title = { Text("Large TopAppBar", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                subtitle = { Text("Subtitle", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                titleHorizontalAlignment = Alignment.CenterHorizontally,
-                navigationIcon = {
-                    IconButton(onClick = { /* onBackClick() */ }) {
-                        Icon(
-                            painter = rememberVectorPainter(AppIcons.ArrowBack),
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        content = { innerPadding ->
-            LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val list = (0..75).map { it.toString() }
-                items(count = list.size) {
-                    Text(
-                        text = list[it],
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
-            }
-        },
-    )
-}""",
-        "navigation-bar" to """@Composable
-fun NavigationBarExample(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    val startDestination = Destination.SONGS
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
-    Scaffold(
-        modifier = modifier,
-        bottomBar = {
-            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                Destination.entries.forEachIndexed { index, destination ->
-                    NavigationBarItem(
-                        selected = selectedDestination == index,
-                        onClick = {
-                            navController.navigate(route = destination.route)
-                            selectedDestination = index
-                        },
-                        icon = {
-                            Icon(
-                                destination.icon,
-                                contentDescription = destination.contentDescription
-                            )
-                        },
-                        label = { Text(destination.label) }
-                    )
-                }
-            }
-        }
-    ) { contentPadding ->
-        AppNavHost(navController, startDestination, modifier = Modifier.padding(contentPadding))
-    }
-}""",
-        "navigation-rail" to """@Composable
-fun NavigationRailExample(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    val startDestination = Destination.SONGS
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
-    Scaffold(modifier = modifier) { contentPadding ->
-        NavigationRail(modifier = Modifier.padding(contentPadding)) {
-            Destination.entries.forEachIndexed { index, destination ->
-                NavigationRailItem(
-                    selected = selectedDestination == index,
-                    onClick = {
-                        navController.navigate(route = destination.route)
-                        selectedDestination = index
-                    },
-                    icon = {
-                        Icon(
-                            destination.icon,
-                            contentDescription = destination.contentDescription
-                        )
-                    },
-                    label = { Text(destination.label) }
-                )
-            }
-        }
-        AppNavHost(navController, startDestination)
-    }
-}""",
-        "vertical-items-navigation-bar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ShortNavigationBarSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Songs", "Artists", "Playlists")
-
-    ShortNavigationBar {
-        items.forEachIndexed { index, item ->
-            ShortNavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
-                        contentDescription = null,
-                    )
-                },
-                label = { Text(item) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index },
-            )
-        }
-    }
-}""",
-        "horizontal-items-navigation-bar" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ShortNavigationBarWithHorizontalItemsSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Songs", "Artists", "Playlists")
-
-    Column {
-        Text(
-            "Note: this is configuration is better displayed in medium screen sizes.",
-            Modifier.padding(16.dp),
+fun MediumFloatingActionButtonSample() {
+    MediumFloatingActionButton(onClick = {}) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Add),
+            contentDescription = "Add",
+            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
         )
-
-        Spacer(Modifier.height(32.dp))
-
-        ShortNavigationBar(arrangement = ShortNavigationBarArrangement.Centered) {
-            items.forEachIndexed { index, item ->
-                ShortNavigationBarItem(
-                    iconPosition = NavigationItemIconPosition.Start,
-                    icon = {
-                        Icon(
-                            painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
-                            contentDescription = null,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
     }
 }""",
-        "wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
+        "android_compose_components_togglebuttonexample" to """@Preview
 @Composable
-fun WideNavigationRailResponsiveSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
+fun ToggleIconButtonExample() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
 
-    Row(Modifier.fillMaxWidth()) {
-        WideNavigationRail(
-            state = state,
-            header = {
-                IconButton(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .semantics {
-                                // The button must announce the expanded or collapsed state of the rail
-                                // for accessibility.
-                                stateDescription =
-                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
-                                    else "Collapsed"
-                            },
-                    onClick = {
-                        scope.launch {
-                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
-                            else state.expand()
-                        }
-                    },
-                ) {
-                    if (state.targetValue == WideNavigationRailValue.Expanded) {
-                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
-                    } else {
-                        Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
-                    }
-                }
-            },
-        ) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
-                    icon = {
-                        val imageVector =
-                            if (selectedItem == index) {
-                                selectedIcons[index]
-                            } else {
-                                unselectedIcons[index]
-                            }
-                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
-
-        val textString =
-            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
-        Column {
-            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
-            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
-        }
-    }
-
-    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
-    // smaller screens.
-    val context = LocalContext.current
-    DisposableEffect(context) {
-        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        onDispose {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
-    }
-}""",
-        "modal-wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
-@Composable
-fun ModalWideNavigationRailSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
-
-    Row(Modifier.fillMaxWidth()) {
-        ModalWideNavigationRail(
-            state = state,
-            // Note: the value of expandedHeaderTopPadding depends on the layout of your screen in
-            // order to achieve the best alignment.
-            expandedHeaderTopPadding = 64.dp,
-            header = {
-                IconButton(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .semantics {
-                                // The button must announce the expanded or collapsed state of the rail
-                                // for accessibility.
-                                stateDescription =
-                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
-                                    else "Collapsed"
-                            },
-                    onClick = {
-                        scope.launch {
-                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
-                            else state.expand()
-                        }
-                    },
-                ) {
-                    if (state.targetValue == WideNavigationRailValue.Expanded)
-                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
-                    else Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
-                }
-            },
-        ) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
-                    icon = {
-                        Icon(
-                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
-                            contentDescription = item,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
-
-        val textString =
-            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
-        Column {
-            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
-        }
-
-        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
-        // in smaller screens.
-        val context = LocalContext.current
-        DisposableEffect(context) {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            onDispose {
-                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-            }
-        }
-    }
-}""",
-        "dismissible-modal-wide-navigation-rail" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun DismissibleModalWideNavigationRailSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
-    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
-
-    Row(Modifier.fillMaxSize()) {
-        ModalWideNavigationRail(state = state, hideOnCollapse = true) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = true,
-                    icon = {
-                        Icon(
-                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
-                            contentDescription = null,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = {
-                        selectedItem = index
-                        scope.launch { state.collapse() }
-                    },
-                )
-            }
-        }
-
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            val currentPage = items.get(selectedItem)
-            Button(onClick = { scope.launch { state.expand() } }, Modifier.padding(32.dp)) {
-                Text(text = "${"$" + ""}currentPage Page\nOpen modal rail", textAlign = TextAlign.Center)
-            }
-        }
-    }
-}""",
-        "navigation-examples" to """@Composable
-fun NavigationBarExample(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    val startDestination = Destination.SONGS
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
-    Scaffold(
-        modifier = modifier,
-        bottomBar = {
-            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                Destination.entries.forEachIndexed { index, destination ->
-                    NavigationBarItem(
-                        selected = selectedDestination == index,
-                        onClick = {
-                            navController.navigate(route = destination.route)
-                            selectedDestination = index
-                        },
-                        icon = {
-                            Icon(
-                                destination.icon,
-                                contentDescription = destination.contentDescription
-                            )
-                        },
-                        label = { Text(destination.label) }
-                    )
-                }
-            }
-        }
-    ) { contentPadding ->
-        AppNavHost(navController, startDestination, modifier = Modifier.padding(contentPadding))
-    }
-}
-
-@Composable
-fun NavigationRailExample(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    val startDestination = Destination.SONGS
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
-    Scaffold(modifier = modifier) { contentPadding ->
-        NavigationRail(modifier = Modifier.padding(contentPadding)) {
-            Destination.entries.forEachIndexed { index, destination ->
-                NavigationRailItem(
-                    selected = selectedDestination == index,
-                    onClick = {
-                        navController.navigate(route = destination.route)
-                        selectedDestination = index
-                    },
-                    icon = {
-                        Icon(
-                            destination.icon,
-                            contentDescription = destination.contentDescription
-                        )
-                    },
-                    label = { Text(destination.label) }
-                )
-            }
-        }
-        AppNavHost(navController, startDestination)
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ShortNavigationBarSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Songs", "Artists", "Playlists")
-
-    ShortNavigationBar {
-        items.forEachIndexed { index, item ->
-            ShortNavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
-                        contentDescription = null,
-                    )
-                },
-                label = { Text(item) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index },
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun ShortNavigationBarWithHorizontalItemsSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Songs", "Artists", "Playlists")
-
-    Column {
-        Text(
-            "Note: this is configuration is better displayed in medium screen sizes.",
-            Modifier.padding(16.dp),
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = rememberVectorPainter(if (isToggled) AppIcons.FavoriteFilled else AppIcons.Favorite),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
         )
-
-        Spacer(Modifier.height(32.dp))
-
-        ShortNavigationBar(arrangement = ShortNavigationBarArrangement.Centered) {
-            items.forEachIndexed { index, item ->
-                ShortNavigationBarItem(
-                    iconPosition = NavigationItemIconPosition.Start,
-                    icon = {
-                        Icon(
-                            painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
-                            contentDescription = null,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
-@Composable
-fun WideNavigationRailResponsiveSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
-
-    Row(Modifier.fillMaxWidth()) {
-        WideNavigationRail(
-            state = state,
-            header = {
-                IconButton(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .semantics {
-                                // The button must announce the expanded or collapsed state of the rail
-                                // for accessibility.
-                                stateDescription =
-                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
-                                    else "Collapsed"
-                            },
-                    onClick = {
-                        scope.launch {
-                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
-                            else state.expand()
-                        }
-                    },
-                ) {
-                    if (state.targetValue == WideNavigationRailValue.Expanded) {
-                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
-                    } else {
-                        Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
-                    }
-                }
-            },
-        ) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
-                    icon = {
-                        val imageVector =
-                            if (selectedItem == index) {
-                                selectedIcons[index]
-                            } else {
-                                unselectedIcons[index]
-                            }
-                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
-
-        val textString =
-            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
-        Column {
-            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
-            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
-        }
-    }
-
-    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
-    // smaller screens.
-    val context = LocalContext.current
-    DisposableEffect(context) {
-        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        onDispose {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
-@Composable
-fun ModalWideNavigationRailSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
-
-    Row(Modifier.fillMaxWidth()) {
-        ModalWideNavigationRail(
-            state = state,
-            // Note: the value of expandedHeaderTopPadding depends on the layout of your screen in
-            // order to achieve the best alignment.
-            expandedHeaderTopPadding = 64.dp,
-            header = {
-                IconButton(
-                    modifier =
-                        Modifier
-                            .padding(start = 24.dp)
-                            .semantics {
-                                // The button must announce the expanded or collapsed state of the rail
-                                // for accessibility.
-                                stateDescription =
-                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
-                                    else "Collapsed"
-                            },
-                    onClick = {
-                        scope.launch {
-                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
-                            else state.expand()
-                        }
-                    },
-                ) {
-                    if (state.targetValue == WideNavigationRailValue.Expanded)
-                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
-                    else Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
-                }
-            },
-        ) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
-                    icon = {
-                        Icon(
-                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
-                            contentDescription = item,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = { selectedItem = index },
-                )
-            }
-        }
-
-        val textString =
-            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
-        Column {
-            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
-        }
-
-        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
-        // in smaller screens.
-        val context = LocalContext.current
-        DisposableEffect(context) {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            onDispose {
-                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun DismissibleModalWideNavigationRailSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
-    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
-    val state = rememberWideNavigationRailState()
-    val scope = rememberCoroutineScope()
-
-    Row(Modifier.fillMaxSize()) {
-        ModalWideNavigationRail(state = state, hideOnCollapse = true) {
-            items.forEachIndexed { index, item ->
-                WideNavigationRailItem(
-                    railExpanded = true,
-                    icon = {
-                        Icon(
-                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
-                            contentDescription = null,
-                        )
-                    },
-                    label = { Text(item) },
-                    selected = selectedItem == index,
-                    onClick = {
-                        selectedItem = index
-                        scope.launch { state.collapse() }
-                    },
-                )
-            }
-        }
-
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            val currentPage = items.get(selectedItem)
-            Button(onClick = { scope.launch { state.expand() } }, Modifier.padding(32.dp)) {
-                Text(text = "${"$" + ""}currentPage Page\nOpen modal rail", textAlign = TextAlign.Center)
-            }
-        }
     }
 }""",
-        "modal-navigation-drawer" to """@Composable
-fun DetailedDrawerExample(
-    content: @Composable (PaddingValues) -> Unit
+        "android_compose_components_iconbutton" to """@Composable
+fun MomentaryIconButton(
+    unselectedImage: ImageVector,
+    selectedImage: ImageVector,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    stepDelay: Long = 100L, // Minimum value is 1L milliseconds.
+    onClick: () -> Unit
 ) {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val pressedListener by rememberUpdatedState(onClick)
 
-    ModalNavigationDrawer(
-        drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Spacer(Modifier.height(12.dp))
-                    Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
-                    HorizontalDivider()
-
-                    Text("Section 1", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
-                    NavigationDrawerItem(
-                        label = { Text("Item 1") },
-                        selected = false,
-                        onClick = { /* Handle click */ }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text("Item 2") },
-                        selected = false,
-                        onClick = { /* Handle click */ }
-                    )
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-                    Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
-                    NavigationDrawerItem(
-                        label = { Text("Settings") },
-                        selected = false,
-                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
-                        badge = { Text("20") }, // Placeholder
-                        onClick = { /* Handle click */ }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text("Help and feedback") },
-                        selected = false,
-                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
-                        onClick = { /* Handle click */ },
-                    )
-                    Spacer(Modifier.height(12.dp))
-                }
-            }
-        },
-        drawerState = drawerState
-    ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("Navigation Drawer Example") },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed) {
-                                    drawerState.open()
-                                } else {
-                                    drawerState.close()
-                                }
-                            }
-                        }) {
-                            Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Menu")
-                        }
-                    }
-                )
-            }
-        ) { innerPadding ->
-            content(innerPadding)
+    LaunchedEffect(isPressed) {
+        while (isPressed) {
+            delay(stepDelay.coerceIn(1L, Long.MAX_VALUE))
+            pressedListener()
         }
     }
-}""",
-        "navigation-drawer" to """@Composable
-fun DetailedDrawerExample(
-    content: @Composable (PaddingValues) -> Unit
-) {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
-    ModalNavigationDrawer(
-        drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Spacer(Modifier.height(12.dp))
-                    Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
-                    HorizontalDivider()
-
-                    Text("Section 1", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
-                    NavigationDrawerItem(
-                        label = { Text("Item 1") },
-                        selected = false,
-                        onClick = { /* Handle click */ }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text("Item 2") },
-                        selected = false,
-                        onClick = { /* Handle click */ }
-                    )
-
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-                    Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
-                    NavigationDrawerItem(
-                        label = { Text("Settings") },
-                        selected = false,
-                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
-                        badge = { Text("20") }, // Placeholder
-                        onClick = { /* Handle click */ }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text("Help and feedback") },
-                        selected = false,
-                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
-                        onClick = { /* Handle click */ },
-                    )
-                    Spacer(Modifier.height(12.dp))
-                }
-            }
-        },
-        drawerState = drawerState
+    IconButton(
+        modifier = modifier,
+        onClick = onClick,
+        interactionSource = interactionSource
     ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("Navigation Drawer Example") },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed) {
-                                    drawerState.open()
-                                } else {
-                                    drawerState.close()
-                                }
-                            }
-                        }) {
-                            Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Menu")
-                        }
-                    }
-                )
-            }
-        ) { innerPadding ->
-            content(innerPadding)
-        }
+        Icon(
+            painter = rememberVectorPainter(if (isPressed) selectedImage else unselectedImage),
+            contentDescription = contentDescription,
+        )
     }
 }""",
-        "checkbox" to """@Composable
-fun CheckboxMinimalExample() {
-    var checked by remember { mutableStateOf(true) }
+        "android_compose_components_momentaryiconbuttons" to """@Preview()
+@Composable
+fun MomentaryIconButtonExample() {
+    var pressedCount by remember { mutableIntStateOf(0) }
 
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            "Minimal checkbox"
+        MomentaryIconButton(
+            unselectedImage = AppIcons.FastRewind,
+            selectedImage = AppIcons.FastRewindFilled,
+            stepDelay = 100L,
+            onClick = { pressedCount -= 1 },
+            contentDescription = "Decrease count button"
         )
-        Checkbox(
-            checked = checked,
-            onCheckedChange = { checked = it }
+        Spacer(modifier = Modifier)
+        Text("advanced by ${"$" + ""}pressedCount frames")
+        Spacer(modifier = Modifier)
+        MomentaryIconButton(
+            unselectedImage = AppIcons.FastForward,
+            selectedImage = AppIcons.FastForwardFilled,
+            contentDescription = "Increase count button",
+            stepDelay = 100L,
+            onClick = { pressedCount += 1 }
         )
-    }
-
-    Text(
-        if (checked) "Checkbox is checked" else "Checkbox is unchecked"
-    )
-}""",
-        "parent-checkbox" to """@Composable
-fun CheckboxParentExample() {
-    // Initialize states for the child checkboxes
-    val childCheckedStates = remember { mutableStateListOf(false, false, false) }
-
-    // Compute the parent state based on children's states
-    val parentState = when {
-        childCheckedStates.all { it } -> ToggleableState.On
-        childCheckedStates.none { it } -> ToggleableState.Off
-        else -> ToggleableState.Indeterminate
-    }
-
-    Column {
-        // Parent TriStateCheckbox
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text("Select all")
-            TriStateCheckbox(
-                state = parentState,
-                onClick = {
-                    // Determine new state based on current state
-                    val newState = parentState != ToggleableState.On
-                    childCheckedStates.forEachIndexed { index, _ ->
-                        childCheckedStates[index] = newState
-                    }
-                }
-            )
-        }
-
-        // Child Checkboxes
-        childCheckedStates.forEachIndexed { index, checked ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("Option ${"$" + ""}{index + 1}")
-                Checkbox(
-                    checked = checked,
-                    onCheckedChange = { isChecked ->
-                        // Update the individual child state
-                        childCheckedStates[index] = isChecked
-                    }
-                )
-            }
-        }
-    }
-
-    if (childCheckedStates.all { it }) {
-        Text("All options selected")
     }
 }""",
-        "checkbox-examples" to """@Composable
-fun CheckboxMinimalExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            "Minimal checkbox"
-        )
-        Checkbox(
-            checked = checked,
-            onCheckedChange = { checked = it }
-        )
-    }
-
-    Text(
-        if (checked) "Checkbox is checked" else "Checkbox is unchecked"
-    )
-}
-
+        "android_compose_expressive_components_animatediconbuttons" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun CheckboxParentExample() {
-    // Initialize states for the child checkboxes
-    val childCheckedStates = remember { mutableStateListOf(false, false, false) }
-
-    // Compute the parent state based on children's states
-    val parentState = when {
-        childCheckedStates.all { it } -> ToggleableState.On
-        childCheckedStates.none { it } -> ToggleableState.Off
-        else -> ToggleableState.Indeterminate
-    }
-
-    Column {
-        // Parent TriStateCheckbox
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text("Select all")
-            TriStateCheckbox(
-                state = parentState,
-                onClick = {
-                    // Determine new state based on current state
-                    val newState = parentState != ToggleableState.On
-                    childCheckedStates.forEachIndexed { index, _ ->
-                        childCheckedStates[index] = newState
-                    }
-                }
-            )
-        }
-
-        // Child Checkboxes
-        childCheckedStates.forEachIndexed { index, checked ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("Option ${"$" + ""}{index + 1}")
-                Checkbox(
-                    checked = checked,
-                    onCheckedChange = { isChecked ->
-                        // Update the individual child state
-                        childCheckedStates[index] = isChecked
-                    }
-                )
-            }
-        }
-    }
-
-    if (childCheckedStates.all { it }) {
-        Text("All options selected")
+fun IconButtonWithAnimatedShapeSample() {
+    IconButton(
+        onClick = { /* doSomething() */ },
+        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
+    ) {
+        Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
     }
 }""",
-        "assist-chip" to """@Composable
-fun AssistChipExample() {
-    AssistChip(
-        onClick = { Log.d("Assist chip", "hello world") },
-        label = { Text("Assist chip") },
-        leadingIcon = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Settings),
-                contentDescription = "Localized description",
-                Modifier.size(AssistChipDefaults.IconSize)
-            )
-        }
-    )
-}""",
-        "filter-chip" to """@Composable
-fun FilterChipExample() {
-    var selected by remember { mutableStateOf(false) }
-
-    FilterChip(
-        onClick = { selected = !selected },
-        label = {
-            Text("Filter chip")
-        },
-        selected = selected,
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.Done),
-                    contentDescription = "Done icon",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
+        "android_compose_expressive_components_animatedtoggleiconbuttons" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IconToggleButtonWithAnimatedShapeSample() {
+    var checked by remember { mutableStateOf(false) }
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
+    ) {
+        if (checked) {
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
         } else {
-            null
-        },
-    )
-}""",
-        "input-chip" to """@Composable
-fun InputChipExample(
-    text: String,
-    onDismiss: () -> Unit,
-) {
-    var enabled by remember { mutableStateOf(true) }
-    if (!enabled) return
-
-    InputChip(
-        onClick = {
-            onDismiss()
-            enabled = !enabled
-        },
-        label = { Text(text) },
-        selected = enabled,
-        avatar = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Person),
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-        trailingIcon = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Close),
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-    )
-}""",
-        "suggestion-chip" to """@Composable
-fun SuggestionChipExample() {
-    SuggestionChip(
-        onClick = { Log.d("Suggestion chip", "hello world") },
-        label = { Text("Suggestion chip") }
-    )
-}""",
-        "chip-examples" to """@Composable
-fun AssistChipExample() {
-    AssistChip(
-        onClick = { Log.d("Assist chip", "hello world") },
-        label = { Text("Assist chip") },
-        leadingIcon = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Settings),
-                contentDescription = "Localized description",
-                Modifier.size(AssistChipDefaults.IconSize)
-            )
-        }
-    )
-}
-
-@Composable
-fun FilterChipExample() {
-    var selected by remember { mutableStateOf(false) }
-
-    FilterChip(
-        onClick = { selected = !selected },
-        label = {
-            Text("Filter chip")
-        },
-        selected = selected,
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.Done),
-                    contentDescription = "Done icon",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
-        } else {
-            null
-        },
-    )
-}
-
-@Composable
-fun InputChipExample(
-    text: String,
-    onDismiss: () -> Unit,
-) {
-    var enabled by remember { mutableStateOf(true) }
-    if (!enabled) return
-
-    InputChip(
-        onClick = {
-            onDismiss()
-            enabled = !enabled
-        },
-        label = { Text(text) },
-        selected = enabled,
-        avatar = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Person),
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-        trailingIcon = {
-            Icon(
-                painter = rememberVectorPainter(AppIcons.Close),
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-    )
-}
-
-@Composable
-fun SuggestionChipExample() {
-    SuggestionChip(
-        onClick = { Log.d("Suggestion chip", "hello world") },
-        label = { Text("Suggestion chip") }
-    )
-}""",
-        "date-picker-modal" to """@Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}""",
-        "date-picker-input-modal" to """@Composable
-fun DatePickerModalInput(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}""",
-        "date-picker-docked" to """@Composable
-fun DatePickerDocked() {
-    var showDatePicker by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
-
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        OutlinedTextField(
-            value = selectedDate,
-            onValueChange = { },
-            label = { Text("DOB") },
-            readOnly = true,
-            trailingIcon = {
-                IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                    Icon(
-                        painter = rememberVectorPainter(AppIcons.DateRange),
-                        contentDescription = "Select date"
-                    )
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-        )
-
-        if (showDatePicker) {
-            Popup(
-                onDismissRequest = { showDatePicker = false },
-                alignment = Alignment.TopStart
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 64.dp)
-                        .shadow(elevation = 4.dp)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(16.dp)
-                ) {
-                    DatePicker(
-                        state = datePickerState,
-                        showModeToggle = false
-                    )
-                }
-            }
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
         }
     }
-}
-
-@Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
-    var selectedDate by remember { mutableStateOf<Long?>(null) }
-    var showModal by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = selectedDate?.let { convertMillisToDate(it) } ?: "",
-        onValueChange = { },
-        label = { Text("DOB") },
-        placeholder = { Text("MM/DD/YYYY") },
-        trailingIcon = {
-            Icon(painter = rememberVectorPainter(AppIcons.DateRange), contentDescription = "Select date")
-        },
-        modifier = modifier
-            .fillMaxWidth()
-            .pointerInput(selectedDate) {
-                awaitEachGesture {
-                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                    // in the Initial pass to observe events before the text field consumes them
-                    // in the Main pass.
-                    awaitFirstDown(pass = PointerEventPass.Initial)
-                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                    if (upEvent != null) {
-                        showModal = true
-                    }
-                }
-            }
-    )
-
-    if (showModal) {
-        DatePickerModal(
-            onDateSelected = { selectedDate = it },
-            onDismiss = { showModal = false }
-        )
-    }
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
 }""",
-        "date-range-picker" to """@Composable
-fun DateRangePickerModal(
-    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val dateRangePickerState = rememberDateRangePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDateRangeSelected(
-                        Pair(
-                            dateRangePickerState.selectedStartDateMillis,
-                            dateRangePickerState.selectedEndDateMillis
-                        )
-                    )
-                    onDismiss()
-                }
-            ) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DateRangePicker(
-            state = dateRangePickerState,
-            title = {
-                Text(
-                    text = "Select date range"
-                )
-            },
-            showModeToggle = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .padding(16.dp)
-        )
-    }
-}""",
-        "date-picker" to """@Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}
-
-@Composable
-fun DatePickerModalInput(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}
-
-@Composable
-fun DatePickerDocked() {
-    var showDatePicker by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
-
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        OutlinedTextField(
-            value = selectedDate,
-            onValueChange = { },
-            label = { Text("DOB") },
-            readOnly = true,
-            trailingIcon = {
-                IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                    Icon(
-                        painter = rememberVectorPainter(AppIcons.DateRange),
-                        contentDescription = "Select date"
-                    )
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-        )
-
-        if (showDatePicker) {
-            Popup(
-                onDismissRequest = { showDatePicker = false },
-                alignment = Alignment.TopStart
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 64.dp)
-                        .shadow(elevation = 4.dp)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(16.dp)
-                ) {
-                    DatePicker(
-                        state = datePickerState,
-                        showModeToggle = false
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
-    var selectedDate by remember { mutableStateOf<Long?>(null) }
-    var showModal by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = selectedDate?.let { convertMillisToDate(it) } ?: "",
-        onValueChange = { },
-        label = { Text("DOB") },
-        placeholder = { Text("MM/DD/YYYY") },
-        trailingIcon = {
-            Icon(painter = rememberVectorPainter(AppIcons.DateRange), contentDescription = "Select date")
-        },
-        modifier = modifier
-            .fillMaxWidth()
-            .pointerInput(selectedDate) {
-                awaitEachGesture {
-                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                    // in the Initial pass to observe events before the text field consumes them
-                    // in the Main pass.
-                    awaitFirstDown(pass = PointerEventPass.Initial)
-                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                    if (upEvent != null) {
-                        showModal = true
-                    }
-                }
-            }
-    )
-
-    if (showModal) {
-        DatePickerModal(
-            onDateSelected = { selectedDate = it },
-            onDismiss = { showModal = false }
-        )
-    }
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
-}
-
-@Composable
-fun DateRangePickerModal(
-    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val dateRangePickerState = rememberDateRangePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDateRangeSelected(
-                        Pair(
-                            dateRangePickerState.selectedStartDateMillis,
-                            dateRangePickerState.selectedEndDateMillis
-                        )
-                    )
-                    onDismiss()
-                }
-            ) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DateRangePicker(
-            state = dateRangePickerState,
-            title = {
-                Text(
-                    text = "Select date range"
-                )
-            },
-            showModeToggle = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .padding(16.dp)
-        )
-    }
-}""",
-        "minimal-dropdown-menu" to """@Composable
+        "android_compose_components_minimaldropdownmenu" to """@Composable
 fun MinimalDropdownMenu() {
     var expanded by remember { mutableStateOf(false) }
     Box(
@@ -4413,7 +1627,7 @@ fun MinimalDropdownMenu() {
         }
     }
 }""",
-        "scrollable-dropdown-menu" to """@Composable
+        "android_compose_components_longbasicdropdownmenu" to """@Composable
 fun LongBasicDropdownMenu() {
     var expanded by remember { mutableStateOf(false) }
     // Placeholder list of 100 strings for demonstration
@@ -4439,7 +1653,7 @@ fun LongBasicDropdownMenu() {
         }
     }
 }""",
-        "dropdown-menu-with-details" to """@Composable
+        "android_compose_components_dropdownmenuwithdetails" to """@Composable
 fun DropdownMenuWithDetails() {
     var expanded by remember { mutableStateOf(false) }
 
@@ -4494,7 +1708,58 @@ fun DropdownMenuWithDetails() {
         }
     }
 }""",
-        "grouped-menu" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+        "android_compose_components_dropdownfilterchip" to """@Composable
+fun DropdownFilterChip(modifier: Modifier = Modifier) {
+    var isDropdownExpanded by remember { mutableStateOf(false) }
+    var selectedChipText by remember { mutableStateOf<String?>(null) }
+    Box(modifier) {
+        FilterChip(
+            selected = selectedChipText != null,
+            onClick = { isDropdownExpanded = !isDropdownExpanded },
+            label = { Text(if (selectedChipText == null) "Type" else "${"$" + ""}selectedChipText") },
+            leadingIcon = { if (selectedChipText != null) Icon(painter = rememberVectorPainter(AppIcons.Check), contentDescription = null) },
+            trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.ArrowDropDown), contentDescription = null) },
+        )
+        DropdownMenu(
+            expanded = isDropdownExpanded,
+            onDismissRequest = { isDropdownExpanded = !isDropdownExpanded }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Running") },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsRun), contentDescription = null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Running") null else "Running"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Walking") },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsWalk), contentDescription = null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Walking") null else "Walking"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Hiking") },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Hiking), contentDescription = null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Hiking") null else "Hiking"
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Cycling") },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsBike), contentDescription = null) },
+                onClick = {
+                    selectedChipText =
+                        if (selectedChipText == "Cycling") null else "Cycling"
+                }
+            )
+        }
+    }
+}""",
+        "android_compose_expressive_components_groupedmenusample" to """@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun GroupedMenuSample() {
     val groupInteractionSource = remember { MutableInteractionSource() }
@@ -4603,289 +1868,998 @@ fun GroupedMenuSample() {
         }
     }
 }""",
-        "menu-examples" to """@Composable
-fun MinimalDropdownMenu() {
-    var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
+        "android_compose_components_navigationbarexample" to """@Composable
+fun NavigationBarExample(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
+    val startDestination = Destination.SONGS
+    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
+
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+                Destination.entries.forEachIndexed { index, destination ->
+                    NavigationBarItem(
+                        selected = selectedDestination == index,
+                        onClick = {
+                            navController.navigate(route = destination.route)
+                            selectedDestination = index
+                        },
+                        icon = {
+                            Icon(
+                                destination.icon,
+                                contentDescription = destination.contentDescription
+                            )
+                        },
+                        label = { Text(destination.label) }
+                    )
+                }
+            }
         }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Option 1") },
-                onClick = { /* Do something... */ }
-            )
-            DropdownMenuItem(
-                text = { Text("Option 2") },
-                onClick = { /* Do something... */ }
+    ) { contentPadding ->
+        AppNavHost(navController, startDestination, modifier = Modifier.padding(contentPadding))
+    }
+}""",
+        "android_compose_components_navigationrailexample" to """@Composable
+fun NavigationRailExample(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
+    val startDestination = Destination.SONGS
+    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
+
+    Scaffold(modifier = modifier) { contentPadding ->
+        NavigationRail(modifier = Modifier.padding(contentPadding)) {
+            Destination.entries.forEachIndexed { index, destination ->
+                NavigationRailItem(
+                    selected = selectedDestination == index,
+                    onClick = {
+                        navController.navigate(route = destination.route)
+                        selectedDestination = index
+                    },
+                    icon = {
+                        Icon(
+                            destination.icon,
+                            contentDescription = destination.contentDescription
+                        )
+                    },
+                    label = { Text(destination.label) }
+                )
+            }
+        }
+        AppNavHost(navController, startDestination)
+    }
+}""",
+        "android_compose_components_navigationtabexample" to """@Composable
+fun NavigationTabExample(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
+    val startDestination = Destination.SONGS
+    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
+
+    Scaffold(modifier = modifier) { contentPadding ->
+        PrimaryTabRow(selectedTabIndex = selectedDestination, modifier = Modifier.padding(contentPadding)) {
+            Destination.entries.forEachIndexed { index, destination ->
+                Tab(
+                    selected = selectedDestination == index,
+                    onClick = {
+                        navController.navigate(route = destination.route)
+                        selectedDestination = index
+                    },
+                    text = {
+                        Text(
+                            text = destination.label,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                )
+            }
+        }
+        AppNavHost(navController, startDestination)
+    }
+}""",
+        "android_compose_expressive_components_verticalitemsnavigationbarexample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ShortNavigationBarSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
+
+    ShortNavigationBar {
+        items.forEachIndexed { index, item ->
+            ShortNavigationBarItem(
+                icon = {
+                    Icon(
+                        painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
+                        contentDescription = null,
+                    )
+                },
+                label = { Text(item) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index },
             )
         }
     }
-}
-
+}""",
+        "android_compose_expressive_components_horizontalitemsnavigationbarexample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun LongBasicDropdownMenu() {
-    var expanded by remember { mutableStateOf(false) }
-    // Placeholder list of 100 strings for demonstration
-    val menuItemData = List(100) { "Option ${"$" + ""}{it + 1}" }
+fun ShortNavigationBarWithHorizontalItemsSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Songs", "Artists", "Playlists")
 
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            menuItemData.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = { /* Do something... */ }
+    Column {
+        Text(
+            "Note: this is configuration is better displayed in medium screen sizes.",
+            Modifier.padding(16.dp),
+        )
+
+        Spacer(Modifier.height(32.dp))
+
+        ShortNavigationBar(arrangement = ShortNavigationBarArrangement.Centered) {
+            items.forEachIndexed { index, item ->
+                ShortNavigationBarItem(
+                    iconPosition = NavigationItemIconPosition.Start,
+                    icon = {
+                        Icon(
+                            painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
                 )
             }
         }
     }
-}
-
+}""",
+        "android_compose_expressive_components_widenavigationrailexample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
 @Composable
-fun DropdownMenuWithDetails() {
-    var expanded by remember { mutableStateOf(false) }
+fun WideNavigationRailResponsiveSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
+    val unselectedIcons =
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
+    Row(Modifier.fillMaxWidth()) {
+        WideNavigationRail(
+            state = state,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
+                            },
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded) {
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
+                    } else {
+                        Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
+                    }
+                }
+            },
         ) {
-            // First section
-            DropdownMenuItem(
-                text = { Text("Profile") },
-                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Person), contentDescription = null) },
-                onClick = { /* Do something... */ }
-            )
-            DropdownMenuItem(
-                text = { Text("Settings") },
-                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
-                onClick = { /* Do something... */ }
-            )
-
-            HorizontalDivider()
-
-            // Second section
-            DropdownMenuItem(
-                text = { Text("Send Feedback") },
-                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Feedback), contentDescription = null) },
-                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Send), contentDescription = null) },
-                onClick = { /* Do something... */ }
-            )
-
-            HorizontalDivider()
-
-            // Third section
-            DropdownMenuItem(
-                text = { Text("About") },
-                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Info), contentDescription = null) },
-                onClick = { /* Do something... */ }
-            )
-            DropdownMenuItem(
-                text = { Text("Help") },
-                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
-                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.OpenInNew), contentDescription = null) },
-                onClick = { /* Do something... */ }
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun GroupedMenuSample() {
-    val groupInteractionSource = remember { MutableInteractionSource() }
-    var expanded by remember { mutableStateOf(false) }
-    val groupLabels = listOf("Modification", "Navigation")
-    val groupItemLabels = listOf(listOf("Edit", "Settings"), listOf("Home", "More Options"))
-    val groupItemLeadingIcons =
-        listOf(listOf(AppIcons.Edit, AppIcons.Settings), listOf(null, AppIcons.Info))
-    val groupItemCheckedLeadingIcons =
-        listOf(
-            listOf(AppIcons.Edit, AppIcons.Settings),
-            listOf(AppIcons.Check, AppIcons.Info),
-        )
-    val groupItemTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(AppIcons.Home, AppIcons.MoreVert))
-    val groupItemCheckedTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(AppIcons.Home, AppIcons.MoreVert))
-    val groupItemSupportingText: List<List<String?>> =
-        listOf(listOf("Edit mode", null), listOf(null, "Opens menu"))
-    val checked = remember {
-        listOf(mutableStateListOf(false, false), mutableStateListOf(false, false))
-    }
-
-    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)) {
-        // Icon button should have a tooltip associated with it for a11y.
-        TooltipBox(
-            positionProvider =
-                TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
-            tooltip = { PlainTooltip { Text("Localized description") } },
-            state = rememberTooltipState(),
-        ) {
-            IconButton(onClick = { expanded = true }) {
-                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "Localized description")
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        val imageVector =
+                            if (selectedItem == index) {
+                                selectedIcons[index]
+                            } else {
+                                unselectedIcons[index]
+                            }
+                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
             }
         }
-        DropdownMenuPopup(expanded = expanded, onDismissRequest = { expanded = false }) {
-            val groupCount = groupLabels.size
-            groupLabels.fastForEachIndexed { groupIndex, label ->
-                DropdownMenuGroup(
-                    shapes = MenuDefaults.groupShape(groupIndex, groupCount),
-                    interactionSource = groupInteractionSource,
-                ) {
-                    MenuDefaults.Label { Text(label) }
-                    HorizontalDivider(modifier = Modifier.padding(MenuDefaults.HorizontalDividerPadding))
-                    val groupItemCount = groupItemLabels[groupIndex].size
-                    groupItemLabels[groupIndex].fastForEachIndexed { itemIndex, itemLabel ->
-                        DropdownMenuItem(
-                            text = { Text(itemLabel) },
-                            supportingText =
-                                groupItemSupportingText[groupIndex][itemIndex]?.let { supportingText ->
-                                    { Text(supportingText) }
-                                },
-                            shapes = MenuDefaults.itemShape(itemIndex, groupItemCount),
-                            leadingIcon =
-                                groupItemLeadingIcons[groupIndex][itemIndex]?.let { iconData ->
-                                    {
-                                        Icon(
-                                            iconData,
-                                            modifier = Modifier.size(MenuDefaults.LeadingIconSize),
-                                            contentDescription = null,
-                                        )
-                                    }
-                                },
-                            checkedLeadingIcon = {
-                                Icon(
-                                    groupItemCheckedLeadingIcons[groupIndex][itemIndex],
-                                    modifier = Modifier.size(MenuDefaults.LeadingIconSize),
-                                    contentDescription = null,
-                                )
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+    }
+
+    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
+    // smaller screens.
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        onDispose {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+}""",
+        "android_compose_expressive_components_modalwidenavigationrailexample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("SourceLockedOrientationActivity")
+@Composable
+fun ModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.FavoriteFilled, AppIcons.StarFilled)
+    val unselectedIcons =
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxWidth()) {
+        ModalWideNavigationRail(
+            state = state,
+            // Note: the value of expandedHeaderTopPadding depends on the layout of your screen in
+            // order to achieve the best alignment.
+            expandedHeaderTopPadding = 64.dp,
+            header = {
+                IconButton(
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .semantics {
+                                // The button must announce the expanded or collapsed state of the rail
+                                // for accessibility.
+                                stateDescription =
+                                    if (state.currentValue == WideNavigationRailValue.Expanded) "Expanded"
+                                    else "Collapsed"
                             },
-                            trailingIcon =
-                                if (checked[groupIndex][itemIndex]) {
-                                    groupItemCheckedTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
-                                        {
-                                            Icon(
-                                                iconData,
-                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
-                                                contentDescription = null,
-                                            )
-                                        }
-                                    }
+                    onClick = {
+                        scope.launch {
+                            if (state.targetValue == WideNavigationRailValue.Expanded) state.collapse()
+                            else state.expand()
+                        }
+                    },
+                ) {
+                    if (state.targetValue == WideNavigationRailValue.Expanded)
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), contentDescription = "Collapse rail")
+                    else Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Expand rail")
+                }
+            },
+        ) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
+                    icon = {
+                        Icon(
+                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            contentDescription = item,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = { selectedItem = index },
+                )
+            }
+        }
+
+        val textString =
+            if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
+        Column {
+            Text(modifier = Modifier.padding(16.dp), text = "The rail is ${"$" + ""}textString.")
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text =
+                    "Note: The orientation of this demo has been locked to portrait mode, because" +
+                            " landscape mode may result in a compact height in certain devices. For" +
+                            " any compact screen dimensions, use a Navigation Bar instead.",
+            )
+        }
+
+        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
+        // in smaller screens.
+        val context = LocalContext.current
+        DisposableEffect(context) {
+            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            onDispose {
+                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            }
+        }
+    }
+}""",
+        "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun DismissibleModalWideNavigationRailSample() {
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Search", "Settings")
+    val selectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
+    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
+    val state = rememberWideNavigationRailState()
+    val scope = rememberCoroutineScope()
+
+    Row(Modifier.fillMaxSize()) {
+        ModalWideNavigationRail(state = state, hideOnCollapse = true) {
+            items.forEachIndexed { index, item ->
+                WideNavigationRailItem(
+                    railExpanded = true,
+                    icon = {
+                        Icon(
+                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(item) },
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        scope.launch { state.collapse() }
+                    },
+                )
+            }
+        }
+
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            val currentPage = items.get(selectedItem)
+            Button(onClick = { scope.launch { state.expand() } }, Modifier.padding(32.dp)) {
+                Text(text = "${"$" + ""}currentPage Page\nOpen modal rail", textAlign = TextAlign.Center)
+            }
+        }
+    }
+}""",
+        "android_compose_components_detaileddrawerexample" to """@Composable
+fun DetailedDrawerExample(
+    content: @Composable (PaddingValues) -> Unit
+) {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerContent = {
+            ModalDrawerSheet {
+                Column(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+                    HorizontalDivider()
+
+                    Text("Section 1", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
+                    NavigationDrawerItem(
+                        label = { Text("Item 1") },
+                        selected = false,
+                        onClick = { /* Handle click */ }
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("Item 2") },
+                        selected = false,
+                        onClick = { /* Handle click */ }
+                    )
+
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+                    Text("Section 2", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
+                    NavigationDrawerItem(
+                        label = { Text("Settings") },
+                        selected = false,
+                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
+                        badge = { Text("20") }, // Placeholder
+                        onClick = { /* Handle click */ }
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("Help and feedback") },
+                        selected = false,
+                        icon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
+                        onClick = { /* Handle click */ },
+                    )
+                    Spacer(Modifier.height(12.dp))
+                }
+            }
+        },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Navigation Drawer Example") },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (drawerState.isClosed) {
+                                    drawerState.open()
                                 } else {
-                                    groupItemTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
-                                        {
-                                            Icon(
-                                                iconData,
-                                                modifier = Modifier.size(MenuDefaults.TrailingIconSize),
-                                                contentDescription = null,
-                                            )
-                                        }
-                                    }
-                                },
-                            checked = checked[groupIndex][itemIndex],
-                            onCheckedChange = { checked[groupIndex][itemIndex] = it },
+                                    drawerState.close()
+                                }
+                            }
+                        }) {
+                            Icon(painter = rememberVectorPainter(AppIcons.Menu), contentDescription = "Menu")
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
+            content(innerPadding)
+        }
+    }
+}""",
+        "android_compose_components_determinateindicator" to """@Composable
+fun LinearDeterminateIndicator() {
+    var currentProgress by remember { mutableFloatStateOf(0f) }
+    var loading by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope() // Create a coroutine scope
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Button(onClick = {
+            loading = true
+            scope.launch {
+                loadProgress { progress ->
+                    currentProgress = progress
+                }
+                loading = false // Reset loading when the coroutine finishes
+            }
+        }, enabled = !loading) {
+            Text("Start loading")
+        }
+
+        if (loading) {
+            LinearProgressIndicator(
+                progress = { currentProgress },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+/** Iterate the progress value */
+suspend fun loadProgress(updateProgress: (Float) -> Unit) {
+    for (i in 1..100) {
+        updateProgress(i.toFloat() / 100)
+        delay(100)
+    }
+}""",
+        "android_compose_components_indeterminateindicator" to """@Composable
+fun IndeterminateCircularIndicator() {
+    var loading by remember { mutableStateOf(false) }
+
+    Button(onClick = { loading = true }, enabled = !loading) {
+        Text("Start loading")
+    }
+
+    if (!loading) return
+
+    CircularProgressIndicator(
+        modifier = Modifier.width(64.dp),
+        color = MaterialTheme.colorScheme.secondary,
+        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+    )
+}""",
+        "android_compose_components_loadingindicator" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LoadingIndicatorExample() {
+    LoadingIndicator()
+}""",
+        "android_compose_components_containedloadingindicator" to """@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ContainedLoadingIndicatorExample() {
+    ContainedLoadingIndicator()
+}""",
+        "android_compose_expressive_components_determinatelinearwavyindicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun LinearWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "android_compose_expressive_components_indeterminatelinearwavyindicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateLinearWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
+}""",
+        "android_compose_expressive_components_determinatecircularwavyindicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun CircularWavyProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularWavyProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "android_compose_expressive_components_indeterminatecircularwavyindicator" to """@Preview
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun IndeterminateCircularWavyProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }
+}""",
+        "android_compose_expressive_components_determinatelinearindicator" to """@Preview
+@Composable
+fun LinearProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LinearProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "android_compose_expressive_components_indeterminatelinearindicator" to """@Preview
+@Composable
+fun IndeterminateLinearProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
+}""",
+        "android_compose_expressive_components_determinatecircularindicator" to """@Preview
+@Composable
+fun CircularProgressIndicatorSample() {
+    var progress by remember { mutableFloatStateOf(0.1f) }
+    val animatedProgress by
+    animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularProgressIndicator(progress = { animatedProgress })
+        Spacer(Modifier.requiredHeight(30.dp))
+        Text("Set progress:")
+        Slider(
+            modifier = Modifier.width(300.dp),
+            value = progress,
+            valueRange = 0f..1f,
+            onValueChange = { progress = it },
+        )
+    }
+}""",
+        "android_compose_expressive_components_indeterminatecircularindicator" to """@Preview
+@Composable
+fun IndeterminateCircularProgressIndicatorSample() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }
+}""",
+        "android_compose_components_pull_to_refresh_basic" to """@Composable
+fun PullToRefreshBasicSample(
+    items: List<String>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = modifier
+    ) {
+        LazyColumn(Modifier.fillMaxSize()) {
+            items(items) {
+                ListItem({ Text(text = it) })
+            }
+        }
+    }
+}""",
+        "android_compose_components_pull_to_refresh_custom_style" to """@Composable
+fun PullToRefreshCustomStyleSample(
+    items: List<String>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val state = rememberPullToRefreshState()
+
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = modifier,
+        state = state,
+        indicator = {
+            Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isRefreshing = isRefreshing,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                state = state
+            )
+        },
+    ) {
+        LazyColumn(Modifier.fillMaxSize()) {
+            items(items) {
+                ListItem({ Text(text = it) })
+            }
+        }
+    }
+}""",
+        "android_compose_components_pull_to_refresh_custom_indicator" to """@Composable
+fun PullToRefreshCustomIndicatorSample(
+    items: List<String>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val state = rememberPullToRefreshState()
+
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = modifier,
+        state = state,
+        indicator = {
+            MyCustomIndicator(
+                state = state,
+                isRefreshing = isRefreshing,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    ) {
+        LazyColumn(Modifier.fillMaxSize()) {
+            items(items) {
+                ListItem({ Text(text = it) })
+            }
+        }
+    }
+}
+
+@Composable
+fun MyCustomIndicator(
+    state: PullToRefreshState,
+    isRefreshing: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.pullToRefresh(
+            state = state,
+            isRefreshing = isRefreshing,
+            threshold = PositionalThreshold,
+            onRefresh = {
+
+            }
+        ),
+        contentAlignment = Alignment.Center
+    ) {
+        Crossfade(
+            targetState = isRefreshing,
+            animationSpec = tween(durationMillis = CROSSFADE_DURATION_MILLIS),
+            modifier = Modifier.align(Alignment.Center)
+        ) { refreshing ->
+            if (refreshing) {
+                CircularProgressIndicator(Modifier.size(SPINNER_SIZE))
+            } else {
+                val distanceFraction = { state.distanceFraction.coerceIn(0f, 1f) }
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.CloudDownload),
+                    contentDescription = "Refresh",
+                    modifier = Modifier
+                        .size(18.dp)
+                        .graphicsLayer {
+                            val progress = distanceFraction()
+                            this.alpha = progress
+                            this.scaleX = progress
+                            this.scaleY = progress
+                        }
+                )
+            }
+        }
+    }
+}""",
+        "android_compose_components_radiobuttonsingleselection" to """@Composable
+fun RadioButtonSingleSelection(modifier: Modifier = Modifier) {
+    val radioOptions = listOf("Calls", "Missed", "Friends")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+    // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
+    Column(modifier.selectableGroup()) {
+        radioOptions.forEach { text ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .selectable(
+                        selected = (text == selectedOption),
+                        onClick = { onOptionSelected(text) },
+                        role = Role.RadioButton
+                    )
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = (text == selectedOption),
+                    onClick = null // null recommended for accessibility with screen readers
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        }
+    }
+}""",
+        "android_compose_components_scaffold" to """@Composable
+fun ScaffoldExample() {
+    var presses by remember { mutableIntStateOf(0) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("Top app bar")
+                }
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = "Bottom app bar",
+                )
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { presses++ }) {
+                Icon(painter = rememberVectorPainter(AppIcons.Add), contentDescription = "Add")
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text =
+                ${"\"\"\""}
+                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
+                    
+                    It also contains some basic inner content, such as this text.
+                    
+                    You have pressed the floating action button ${"$" + ""}presses times.
+                ${"\"\"\""}.trimIndent(),
+            )
+        }
+    }
+}""",
+        "android_compose_components_simple_searchbar" to """@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleSearchBar(
+    textFieldState: TextFieldState,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    modifier: Modifier = Modifier
+) {
+    // Controls expansion state of the search bar
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .semantics { isTraversalGroup = true }
+    ) {
+        SearchBar(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = 0f },
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = textFieldState.text.toString(),
+                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
+                    onSearch = {
+                        onSearch(textFieldState.text.toString())
+                        expanded = false
+                    },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it },
+                    placeholder = { Text("Search") }
+                )
+            },
+            expanded = expanded,
+            onExpandedChange = { expanded = it },
+        ) {
+            // Display search results in a scrollable column
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                searchResults.forEach { result ->
+                    ListItem(
+                        headlineContent = { Text(result) },
+                        modifier = Modifier
+                            .clickable {
+                                textFieldState.edit { replace(0, length, result) }
+                                expanded = false
+                            }
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+}""",
+        "android_compose_components_customizable_searchbar" to """@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomizableSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    onResultClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    // Customization options
+    placeholder: @Composable () -> Unit = { Text("Search") },
+    leadingIcon: @Composable (() -> Unit)? = { Icon(painter = rememberVectorPainter(AppIcons.Search), contentDescription = "Search") },
+    trailingIcon: @Composable (() -> Unit)? = null,
+    supportingContent: (@Composable (String) -> Unit)? = null,
+    leadingContent: (@Composable () -> Unit)? = null,
+) {
+    // Track expanded state of search bar
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .semantics { isTraversalGroup = true }
+    ) {
+        SearchBar(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .semantics { traversalIndex = 0f },
+            inputField = {
+                // Customizable input field implementation
+                SearchBarDefaults.InputField(
+                    query = query,
+                    onQueryChange = onQueryChange,
+                    onSearch = {
+                        onSearch(query)
+                        expanded = false
+                    },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it },
+                    placeholder = placeholder,
+                    leadingIcon = leadingIcon,
+                    trailingIcon = trailingIcon
+                )
+            },
+            expanded = expanded,
+            onExpandedChange = { expanded = it },
+        ) {
+            // Show search results in a lazy column for better performance
+            LazyColumn {
+                items(count = searchResults.size) { index ->
+                    val resultText = searchResults[index]
+                    ListItem(
+                        headlineContent = { Text(resultText) },
+                        supportingContent = supportingContent?.let { { it(resultText) } },
+                        leadingContent = leadingContent,
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                        modifier = Modifier
+                            .clickable {
+                                onResultClick(resultText)
+                                expanded = false
+                            }
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                    )
+                }
+            }
+        }
+    }
+}""",
+        "android_compose_components_singlechoicesegmentedbutton" to """@Composable
+fun SingleChoiceSegmentedButton(modifier: Modifier = Modifier) {
+    var selectedIndex by remember { mutableIntStateOf(0) }
+    val options = listOf("Day", "Month", "Week")
+
+    SingleChoiceSegmentedButtonRow {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size
+                ),
+                onClick = { selectedIndex = index },
+                selected = index == selectedIndex,
+                label = { Text(label) }
+            )
+        }
+    }
+}""",
+        "android_compose_components_multichoicesegmentedbutton" to """@Composable
+fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
+    val selectedOptions = remember {
+        mutableStateListOf(false, false, false)
+    }
+    val options = listOf("Walk", "Ride", "Drive")
+
+    MultiChoiceSegmentedButtonRow {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = options.size
+                ),
+                checked = selectedOptions[index],
+                onCheckedChange = {
+                    selectedOptions[index] = !selectedOptions[index]
+                },
+                icon = { SegmentedButtonDefaults.Icon(selectedOptions[index]) },
+                label = {
+                    when (label) {
+                        "Walk" -> Icon(
+                            painter = rememberVectorPainter(AppIcons.DirectionsWalk),
+                            contentDescription = "Directions Walk"
+                        )
+                        "Ride" -> Icon(
+                            painter = rememberVectorPainter(AppIcons.DirectionsBus),
+                            contentDescription = "Directions Bus"
+                        )
+                        "Drive" -> Icon(
+                            painter = rememberVectorPainter(AppIcons.DirectionsCar),
+                            contentDescription = "Directions Car"
                         )
                     }
                 }
-
-                if (groupIndex != groupCount - 1) {
-                    Spacer(Modifier.height(MenuDefaults.GroupSpacing))
-                }
-            }
-            if (checked.last().last()) {
-                DropdownMenuButtonGroup()
-            }
+            )
         }
     }
 }""",
-        "radio-button-single" to """@Composable
-fun RadioButtonSingleSelection(modifier: Modifier = Modifier) {
-    val radioOptions = listOf("Calls", "Missed", "Friends")
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-    // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
-    Column(modifier.selectableGroup()) {
-        radioOptions.forEach { text ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .selectable(
-                        selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) },
-                        role = Role.RadioButton
-                    )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = null // null recommended for accessibility with screen readers
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    }
-}""",
-        "radio-button" to """@Composable
-fun RadioButtonSingleSelection(modifier: Modifier = Modifier) {
-    val radioOptions = listOf("Calls", "Missed", "Friends")
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-    // Note that Modifier.selectableGroup() is essential to ensure correct accessibility behavior
-    Column(modifier.selectableGroup()) {
-        radioOptions.forEach { text ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .selectable(
-                        selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) },
-                        role = Role.RadioButton
-                    )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = null // null recommended for accessibility with screen readers
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    }
-}""",
-        "continuous-slider" to """@Preview
+        "android_compose_components_sliderminimal" to """@Preview
 @Composable
 fun SliderMinimalExample() {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
@@ -4897,7 +2871,7 @@ fun SliderMinimalExample() {
         Text(text = sliderPosition.toString())
     }
 }""",
-        "discrete-slider" to """@Preview
+        "android_compose_components_slideradvanced" to """@Preview
 @Composable
 fun SliderAdvancedExample() {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
@@ -4916,7 +2890,7 @@ fun SliderAdvancedExample() {
         Text(text = sliderPosition.toString())
     }
 }""",
-        "range-slider" to """@Preview
+        "android_compose_components_rangeslider" to """@Preview
 @Composable
 fun RangeSliderExample() {
     var sliderPosition by remember { mutableStateOf(0f..100f) }
@@ -4934,471 +2908,66 @@ fun RangeSliderExample() {
         Text(text = sliderPosition.toString())
     }
 }""",
-        "slider-examples" to """@Preview
-@Composable
-fun SliderMinimalExample() {
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
-    Column {
-        Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it }
-        )
-        Text(text = sliderPosition.toString())
-    }
-}
-
-@Preview
-@Composable
-fun SliderAdvancedExample() {
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
-    Column {
-        Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
-            colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colorScheme.secondary,
-                activeTrackColor = MaterialTheme.colorScheme.secondary,
-                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            steps = 3,
-            valueRange = 0f..50f
-        )
-        Text(text = sliderPosition.toString())
-    }
-}
-
-@Preview
-@Composable
-fun RangeSliderExample() {
-    var sliderPosition by remember { mutableStateOf(0f..100f) }
-    Column {
-        RangeSlider(
-            value = sliderPosition,
-            steps = 5,
-            onValueChange = { range -> sliderPosition = range },
-            valueRange = 0f..100f,
-            onValueChangeFinished = {
-                // launch some business logic update with the state you hold
-                // viewModel.updateSelectedSliderValue(sliderPosition)
-            },
-        )
-        Text(text = sliderPosition.toString())
-    }
-}""",
-        "minimal-switch" to """@Composable
-fun SwitchMinimalExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        }
-    )
-}""",
-        "switch-with-icon" to """@Composable
-fun SwitchWithIconExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        },
-        thumbContent = if (checked) {
-            {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.Check),
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            null
-        }
-    )
-}""",
-        "switch-examples" to """@Composable
-fun SwitchMinimalExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        }
-    )
-}
-
-@Composable
-fun SwitchWithIconExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        },
-        thumbContent = if (checked) {
-            {
-                Icon(
-                    painter = rememberVectorPainter(AppIcons.Check),
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
-            }
-        } else {
-            null
-        }
-    )
-}""",
-        "dial-time-picker" to """@Composable
-fun DialExample(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val currentTime = Calendar.getInstance()
-
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
-
-    Column {
-        TimePicker(
-            state = timePickerState,
-        )
-        Button(onClick = onDismiss) {
-            Text("Dismiss picker")
-        }
-        Button(onClick = onConfirm) {
-            Text("Confirm selection")
-        }
-    }
-}""",
-        "input-time-picker" to """@Composable
-fun InputExample(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val currentTime = Calendar.getInstance()
-
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
-
-    Column {
-        TimeInput(
-            state = timePickerState,
-        )
-        Button(onClick = onDismiss) {
-            Text("Dismiss picker")
-        }
-        Button(onClick = onConfirm) {
-            Text("Confirm selection")
-        }
-    }
-}""",
-        "time-picker" to """@Composable
-fun DialExample(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val currentTime = Calendar.getInstance()
-
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
-
-    Column {
-        TimePicker(
-            state = timePickerState,
-        )
-        Button(onClick = onDismiss) {
-            Text("Dismiss picker")
-        }
-        Button(onClick = onConfirm) {
-            Text("Confirm selection")
-        }
-    }
-}
-
-@Composable
-fun InputExample(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val currentTime = Calendar.getInstance()
-
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
-
-    Column {
-        TimeInput(
-            state = timePickerState,
-        )
-        Button(onClick = onDismiss) {
-            Text("Dismiss picker")
-        }
-        Button(onClick = onConfirm) {
-            Text("Confirm selection")
-        }
-    }
-}""",
-        "search-bar-simple" to """@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SimpleSearchBar(
-    textFieldState: TextFieldState,
-    onSearch: (String) -> Unit,
-    searchResults: List<String>,
-    modifier: Modifier = Modifier
-) {
-    // Controls expansion state of the search bar
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
-    Box(
-        modifier
-            .fillMaxSize()
-            .semantics { isTraversalGroup = true }
-    ) {
-        SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = 0f },
-            inputField = {
-                SearchBarDefaults.InputField(
-                    query = textFieldState.text.toString(),
-                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
-                    onSearch = {
-                        onSearch(textFieldState.text.toString())
-                        expanded = false
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    placeholder = { Text("Search") }
-                )
-            },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
-        ) {
-            // Display search results in a scrollable column
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                searchResults.forEach { result ->
-                    ListItem(
-                        headlineContent = { Text(result) },
-                        modifier = Modifier
-                            .clickable {
-                                textFieldState.edit { replace(0, length, result) }
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                    )
-                }
-            }
-        }
-    }
-}""",
-        "docked-search-bar" to """@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CustomizableSearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    searchResults: List<String>,
-    onResultClick: (String) -> Unit,
+        "android_compose_components_todoitem" to """data class TodoItem(
+    val itemDescription: String,
+    var isItemDone: Boolean = false
+)""",
+        "android_compose_components_swipeitem" to """@Composable
+fun TodoListItem(
+    todoItem: TodoItem,
+    onToggleDone: (TodoItem) -> Unit,
+    onRemove: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
-    // Customization options
-    placeholder: @Composable () -> Unit = { Text("Search") },
-    leadingIcon: @Composable (() -> Unit)? = { Icon(painter = rememberVectorPainter(AppIcons.Search), contentDescription = "Search") },
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingContent: (@Composable (String) -> Unit)? = null,
-    leadingContent: (@Composable () -> Unit)? = null,
 ) {
-    // Track expanded state of search bar
-    var expanded by rememberSaveable { mutableStateOf(false) }
+    val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it == StartToEnd) onToggleDone(todoItem)
+            else if (it == EndToStart) onRemove(todoItem)
+            // Reset item when toggling done status
+            it != StartToEnd
+        }
+    )
 
-    Box(
-        modifier
-            .fillMaxSize()
-            .semantics { isTraversalGroup = true }
-    ) {
-        SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = 0f },
-            inputField = {
-                // Customizable input field implementation
-                SearchBarDefaults.InputField(
-                    query = query,
-                    onQueryChange = onQueryChange,
-                    onSearch = {
-                        onSearch(query)
-                        expanded = false
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    placeholder = placeholder,
-                    leadingIcon = leadingIcon,
-                    trailingIcon = trailingIcon
-                )
-            },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
-        ) {
-            // Show search results in a lazy column for better performance
-            LazyColumn {
-                items(count = searchResults.size) { index ->
-                    val resultText = searchResults[index]
-                    ListItem(
-                        headlineContent = { Text(resultText) },
-                        supportingContent = supportingContent?.let { { it(resultText) } },
-                        leadingContent = leadingContent,
-                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+    SwipeToDismissBox(
+        state = swipeToDismissBoxState,
+        modifier = modifier.fillMaxSize(),
+        backgroundContent = {
+            when (swipeToDismissBoxState.dismissDirection) {
+                StartToEnd -> {
+                    Icon(
+                        painter = rememberVectorPainter(if (todoItem.isItemDone) AppIcons.CheckBox else AppIcons.CheckBoxOutlineBlank),
+                        contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
-                            .clickable {
-                                onResultClick(resultText)
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
+                            .fillMaxSize()
+                            .background(Color.Blue)
+                            .wrapContentSize(Alignment.CenterStart)
+                            .padding(12.dp),
+                        tint = Color.White
                     )
                 }
+                EndToStart -> {
+                    Icon(
+                        painter = rememberVectorPainter(AppIcons.Delete),
+                        contentDescription = "Remove item",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Red)
+                            .wrapContentSize(Alignment.CenterEnd)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
+                }
+                Settled -> {}
             }
         }
+    ) {
+        ListItem(
+            headlineContent = { Text(todoItem.itemDescription) },
+            supportingContent = { Text("swipe me to update or remove.") }
+        )
     }
 }""",
-        "search-bar" to """@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SimpleSearchBar(
-    textFieldState: TextFieldState,
-    onSearch: (String) -> Unit,
-    searchResults: List<String>,
-    modifier: Modifier = Modifier
-) {
-    // Controls expansion state of the search bar
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
-    Box(
-        modifier
-            .fillMaxSize()
-            .semantics { isTraversalGroup = true }
-    ) {
-        SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = 0f },
-            inputField = {
-                SearchBarDefaults.InputField(
-                    query = textFieldState.text.toString(),
-                    onQueryChange = { textFieldState.edit { replace(0, length, it) } },
-                    onSearch = {
-                        onSearch(textFieldState.text.toString())
-                        expanded = false
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    placeholder = { Text("Search") }
-                )
-            },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
-        ) {
-            // Display search results in a scrollable column
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                searchResults.forEach { result ->
-                    ListItem(
-                        headlineContent = { Text(result) },
-                        modifier = Modifier
-                            .clickable {
-                                textFieldState.edit { replace(0, length, result) }
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                    )
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CustomizableSearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    searchResults: List<String>,
-    onResultClick: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    // Customization options
-    placeholder: @Composable () -> Unit = { Text("Search") },
-    leadingIcon: @Composable (() -> Unit)? = { Icon(painter = rememberVectorPainter(AppIcons.Search), contentDescription = "Search") },
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingContent: (@Composable (String) -> Unit)? = null,
-    leadingContent: (@Composable () -> Unit)? = null,
-) {
-    // Track expanded state of search bar
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
-    Box(
-        modifier
-            .fillMaxSize()
-            .semantics { isTraversalGroup = true }
-    ) {
-        SearchBar(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .semantics { traversalIndex = 0f },
-            inputField = {
-                // Customizable input field implementation
-                SearchBarDefaults.InputField(
-                    query = query,
-                    onQueryChange = onQueryChange,
-                    onSearch = {
-                        onSearch(query)
-                        expanded = false
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
-                    placeholder = placeholder,
-                    leadingIcon = leadingIcon,
-                    trailingIcon = trailingIcon
-                )
-            },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
-        ) {
-            // Show search results in a lazy column for better performance
-            LazyColumn {
-                items(count = searchResults.size) { index ->
-                    val resultText = searchResults[index]
-                    ListItem(
-                        headlineContent = { Text(resultText) },
-                        supportingContent = supportingContent?.let { { it(resultText) } },
-                        leadingContent = leadingContent,
-                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                        modifier = Modifier
-                            .clickable {
-                                onResultClick(resultText)
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                    )
-                }
-            }
-        }
-    }
-}""",
-        "swipe-to-dismiss-item" to """@Composable
+        "android_compose_components_swipeitemexample" to """@Composable
 private fun SwipeItemExample() {
     val todoItems = remember {
         mutableStateListOf(
@@ -5425,8 +2994,67 @@ private fun SwipeItemExample() {
         }
     }
 }""",
-        "swipe-to-dismiss" to """@Composable
-private fun SwipeItemExample() {
+        "android_compose_components_swipecarditem" to """@Composable
+fun TodoListItemWithAnimation(
+    todoItem: TodoItem,
+    onToggleDone: (TodoItem) -> Unit,
+    onRemove: (TodoItem) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it == StartToEnd) onToggleDone(todoItem)
+            else if (it == EndToStart) onRemove(todoItem)
+            // Reset item when toggling done status
+            it != StartToEnd
+        }
+    )
+
+    SwipeToDismissBox(
+        state = swipeToDismissBoxState,
+        modifier = modifier.fillMaxSize(),
+        backgroundContent = {
+            when (swipeToDismissBoxState.dismissDirection) {
+                StartToEnd -> {
+                    Icon(
+                        painter = rememberVectorPainter(if (todoItem.isItemDone) AppIcons.CheckBox else AppIcons.CheckBoxOutlineBlank),
+                        contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .drawBehind {
+                                drawRect(lerp(Color.LightGray, Color.Blue, swipeToDismissBoxState.progress))
+                            }
+                            .wrapContentSize(Alignment.CenterStart)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
+                }
+                EndToStart -> {
+                    Icon(
+                        painter = rememberVectorPainter(AppIcons.Delete),
+                        contentDescription = "Remove item",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(lerp(Color.LightGray, Color.Red, swipeToDismissBoxState.progress))
+                            .wrapContentSize(Alignment.CenterEnd)
+                            .padding(12.dp),
+                        tint = Color.White
+                    )
+                }
+                Settled -> {}
+            }
+        }
+    ) {
+        OutlinedCard(shape = RectangleShape) {
+            ListItem(
+                headlineContent = { Text(todoItem.itemDescription) },
+                supportingContent = { Text("swipe me to update or remove.") }
+            )
+        }
+    }
+}""",
+        "android_compose_components_swipecarditemexample" to """@Composable
+private fun SwipeItemWithAnimationExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
@@ -5439,7 +3067,7 @@ private fun SwipeItemExample() {
             items = todoItems,
             key = { it.itemDescription }
         ) { todoItem ->
-            TodoListItem(
+            TodoListItemWithAnimation(
                 todoItem = todoItem,
                 onToggleDone = { todoItem ->
                     todoItem.isItemDone = !todoItem.isItemDone
@@ -5452,7 +3080,76 @@ private fun SwipeItemExample() {
         }
     }
 }""",
-        "theme-builder" to """/**
+        "android_compose_components_switchminimal" to """@Composable
+fun SwitchMinimalExample() {
+    var checked by remember { mutableStateOf(true) }
+
+    Switch(
+        checked = checked,
+        onCheckedChange = {
+            checked = it
+        }
+    )
+}""",
+        "android_compose_components_switchwithicon" to """@Composable
+fun SwitchWithIconExample() {
+    var checked by remember { mutableStateOf(true) }
+
+    Switch(
+        checked = checked,
+        onCheckedChange = {
+            checked = it
+        },
+        thumbContent = if (checked) {
+            {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Check),
+                    contentDescription = null,
+                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                )
+            }
+        } else {
+            null
+        }
+    )
+}""",
+        "android_compose_components_switchwithlabel" to """@Composable
+fun SwitchWithLabelMinimalExample() {
+    var checked by remember { mutableStateOf(true) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = if (checked) "Checked" else "Unchecked",
+        )
+        Switch(
+            checked = checked,
+            onCheckedChange = {
+                checked = it
+            }
+        )
+    }
+}""",
+        "android_compose_components_switchwithcustomcolors" to """@Composable
+fun SwitchWithCustomColors() {
+    var checked by remember { mutableStateOf(true) }
+
+    Switch(
+        checked = checked,
+        onCheckedChange = {
+            checked = it
+        },
+        colors = SwitchDefaults.colors(
+            checkedThumbColor = MaterialTheme.colorScheme.primary,
+            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+            uncheckedThumbColor = MaterialTheme.colorScheme.secondary,
+            uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+        )
+    )
+}""",
+        "android_compose_components_themebuilder" to """/**
  * Component data model representing a Material 3 catalog item,
  * defined after AndroidX Material 3 Catalog:
  * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/material3/material3/integration-tests/material3-catalog/src/main/java/androidx/compose/material3/catalog/library/model/Components.kt
@@ -6068,6 +3765,340 @@ fun ThemeBuilderPreview() {
                     }
                 }
             }
+        }
+    }
+}""",
+        "android_compose_components_dial" to """@Composable
+fun DialExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}""",
+        "android_compose_components_input" to """@Composable
+fun InputExample(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = onConfirm) {
+            Text("Confirm selection")
+        }
+    }
+}""",
+        "android_compose_components_dial_usestate" to """@Composable
+fun DialUseStateExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimePicker(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = { onConfirm(timePickerState) }) {
+            Text("Confirm selection")
+        }
+    }
+}""",
+        "android_compose_components_input_usestate" to """@Composable
+fun InputUseStateExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    Column {
+        TimeInput(
+            state = timePickerState,
+        )
+        Button(onClick = onDismiss) {
+            Text("Dismiss picker")
+        }
+        Button(onClick = { onConfirm(timePickerState) }) {
+            Text("Confirm selection")
+        }
+    }
+}""",
+        "android_compose_components_timepickerdialog" to """@Composable
+fun DialWithDialogExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    TimePickerDialog(
+        onDismiss = { onDismiss() },
+        onConfirm = { onConfirm(timePickerState) }
+    ) {
+        TimePicker(
+            state = timePickerState,
+        )
+    }
+}
+
+@Composable
+fun TimePickerDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        dismissButton = {
+            TextButton(onClick = { onDismiss() }) {
+                Text("Dismiss")
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm() }) {
+                Text("OK")
+            }
+        },
+        text = { content() }
+    )
+}""",
+        "android_compose_components_advanced" to """@Composable
+fun AdvancedTimePickerExample(
+    onConfirm: (TimePickerState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+
+    val currentTime = Calendar.getInstance()
+
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = true,
+    )
+
+    /** Determines whether the time picker is dial or input */
+    var showDial by remember { mutableStateOf(true) }
+
+    /** The icon used for the icon button that switches from dial to input */
+    val toggleIcon = if (showDial) {
+        AppIcons.EditCalendar
+    } else {
+        AppIcons.AccessTime
+    }
+
+    AdvancedTimePickerDialog(
+        onDismiss = { onDismiss() },
+        onConfirm = { onConfirm(timePickerState) },
+        toggle = {
+            IconButton(onClick = { showDial = !showDial }) {
+                Icon(
+                    painter = rememberVectorPainter(toggleIcon),
+                    contentDescription = "Time picker type toggle",
+                )
+            }
+        },
+    ) {
+        if (showDial) {
+            TimePicker(
+                state = timePickerState,
+            )
+        } else {
+            TimeInput(
+                state = timePickerState,
+            )
+        }
+    }
+}
+
+@Composable
+fun AdvancedTimePickerDialog(
+    title: String = "Select Time",
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    toggle: @Composable () -> Unit = {},
+    content: @Composable () -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Surface(
+            shape = MaterialTheme.shapes.extraLarge,
+            tonalElevation = 6.dp,
+            modifier =
+            Modifier
+                .width(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min)
+                .background(
+                    shape = MaterialTheme.shapes.extraLarge,
+                    color = MaterialTheme.colorScheme.surface
+                ),
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    text = title,
+                    style = MaterialTheme.typography.labelMedium
+                )
+                content()
+                Row(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .fillMaxWidth()
+                ) {
+                    toggle()
+                    Spacer(modifier = Modifier.weight(1f))
+                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    TextButton(onClick = onConfirm) { Text("OK") }
+                }
+            }
+        }
+    }
+}""",
+        "android_compose_components_plaintooltipexample" to """@Composable
+fun PlainTooltipExample(
+    modifier: Modifier = Modifier,
+    plainTooltipText: String = "Add to favorites"
+) {
+    TooltipBox(
+        modifier = modifier,
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = {
+            PlainTooltip { Text(plainTooltipText) }
+        },
+        state = rememberTooltipState()
+    ) {
+        IconButton(onClick = { /* Do something... */ }) {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Favorite),
+                contentDescription = "Add to favorites"
+            )
+        }
+    }
+}""",
+        "android_compose_components_richtooltipexample" to """@Composable
+fun RichTooltipExample(
+    modifier: Modifier = Modifier,
+    richTooltipSubheadText: String = "Rich Tooltip",
+    richTooltipText: String = "Rich tooltips support multiple lines of informational text."
+) {
+    TooltipBox(
+        modifier = modifier,
+        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        tooltip = {
+            RichTooltip(
+                title = { Text(richTooltipSubheadText) }
+            ) {
+                Text(richTooltipText)
+            }
+        },
+        state = rememberTooltipState()
+    ) {
+        IconButton(onClick = { /* Icon button's click event */ }) {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Info),
+                contentDescription = "Show more information"
+            )
+        }
+    }
+}""",
+        "android_compose_components_advancedrichtooltipexample" to """@Composable
+fun AdvancedRichTooltipExample(
+    modifier: Modifier = Modifier,
+    richTooltipSubheadText: String = "Custom Rich Tooltip",
+    richTooltipText: String = "Rich tooltips support multiple lines of informational text.",
+    richTooltipActionText: String = "Dismiss"
+) {
+    val tooltipState = rememberTooltipState()
+    val coroutineScope = rememberCoroutineScope()
+
+    TooltipBox(
+        modifier = modifier,
+        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        tooltip = {
+            RichTooltip(
+                title = { Text(richTooltipSubheadText) },
+                action = {
+                    Row {
+                        TextButton(onClick = {
+                            coroutineScope.launch {
+                                tooltipState.dismiss()
+                            }
+                        }) {
+                            Text(richTooltipActionText)
+                        }
+                    }
+                },
+            ) {
+                Text(richTooltipText)
+            }
+        },
+        state = tooltipState
+    ) {
+        IconButton(onClick = {
+            coroutineScope.launch {
+                tooltipState.show()
+            }
+        }) {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Camera),
+                contentDescription = "Open camera"
+            )
         }
     }
 }"""

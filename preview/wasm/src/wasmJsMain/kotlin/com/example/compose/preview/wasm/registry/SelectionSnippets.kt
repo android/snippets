@@ -36,7 +36,7 @@ object SelectionSnippets {
         // Selection: Checkbox
         // ==========================================
         ComponentSnippet(
-            id = "checkbox",
+            id = "android_compose_components_checkbox_minimal",
             title = "Checkbox",
             category = ComponentCategory.SELECTION,
             description = "Standard binary checkbox for selecting or deselecting a single item.",
@@ -45,7 +45,7 @@ object SelectionSnippets {
             composable = { CenteredBox { CheckboxMinimalExample() } }
         ),
         ComponentSnippet(
-            id = "parent-checkbox",
+            id = "android_compose_components_checkbox_parent",
             title = "Parent Checkbox (Tri-State)",
             category = ComponentCategory.SELECTION,
             description = "TriStateCheckbox controlling multiple child checkboxes.",
@@ -66,7 +66,7 @@ object SelectionSnippets {
         // Selection: Chips
         // ==========================================
         ComponentSnippet(
-            id = "assist-chip",
+            id = "android_compose_components_assistchip",
             title = "Assist Chip",
             category = ComponentCategory.SELECTION,
             description = "Assist chip triggering an action related to primary content.",
@@ -75,7 +75,7 @@ object SelectionSnippets {
             composable = { CenteredBox { AssistChipExample() } }
         ),
         ComponentSnippet(
-            id = "filter-chip",
+            id = "android_compose_components_filterchip",
             title = "Filter Chip",
             category = ComponentCategory.SELECTION,
             description = "Filter chip allowing users to filter content by selecting tags.",
@@ -84,7 +84,7 @@ object SelectionSnippets {
             composable = { CenteredBox { FilterChipExample() } }
         ),
         ComponentSnippet(
-            id = "input-chip",
+            id = "android_compose_components_inputchip",
             title = "Input Chip",
             category = ComponentCategory.SELECTION,
             description = "Input chip representing a complex piece of information like a recipient or tag.",
@@ -93,7 +93,7 @@ object SelectionSnippets {
             composable = { CenteredBox { InputChipExample(text = "Input Chip", onDismiss = {}) } }
         ),
         ComponentSnippet(
-            id = "suggestion-chip",
+            id = "android_compose_components_suggestionchip",
             title = "Suggestion Chip",
             category = ComponentCategory.SELECTION,
             description = "Suggestion chip presenting dynamically generated recommendations.",
@@ -114,7 +114,7 @@ object SelectionSnippets {
         // Selection: Date Pickers
         // ==========================================
         ComponentSnippet(
-            id = "date-picker-modal",
+            id = "android_compose_components_datepicker_modal",
             title = "Modal Date Picker",
             category = ComponentCategory.SELECTION,
             description = "Modal dialog for selecting a single calendar date.",
@@ -123,7 +123,7 @@ object SelectionSnippets {
             composable = { CenteredBox { DatePickerModal(onDateSelected = {}, onDismiss = {}) } }
         ),
         ComponentSnippet(
-            id = "date-picker-input-modal",
+            id = "android_compose_components_datepicker_inputmodal",
             title = "Modal Date Input",
             category = ComponentCategory.SELECTION,
             description = "Modal dialog allowing users to enter a date via text input.",
@@ -132,7 +132,7 @@ object SelectionSnippets {
             composable = { CenteredBox { DatePickerModalInput(onDateSelected = {}, onDismiss = {}) } }
         ),
         ComponentSnippet(
-            id = "date-picker-docked",
+            id = "android_compose_components_datepicker_docked",
             title = "Docked Date Picker",
             category = ComponentCategory.SELECTION,
             description = "Inline docked date picker anchored to a text input field.",
@@ -141,7 +141,7 @@ object SelectionSnippets {
             composable = { CenteredBox { DatePickerDocked() } }
         ),
         ComponentSnippet(
-            id = "date-range-picker",
+            id = "android_compose_components_datepicker_range",
             title = "Date Range Picker",
             category = ComponentCategory.SELECTION,
             description = "Modal dialog for selecting a start and end date range.",
@@ -162,7 +162,7 @@ object SelectionSnippets {
         // Selection: Menus
         // ==========================================
         ComponentSnippet(
-            id = "minimal-dropdown-menu",
+            id = "android_compose_components_minimaldropdownmenu",
             title = "Dropdown Menu",
             category = ComponentCategory.SELECTION,
             description = "Basic dropdown menu anchored to an icon button.",
@@ -171,7 +171,7 @@ object SelectionSnippets {
             composable = { CenteredBox { MinimalDropdownMenu() } }
         ),
         ComponentSnippet(
-            id = "scrollable-dropdown-menu",
+            id = "android_compose_components_longbasicdropdownmenu",
             title = "Scrollable Dropdown Menu",
             category = ComponentCategory.SELECTION,
             description = "Dropdown menu with a long scrollable list of items.",
@@ -180,7 +180,7 @@ object SelectionSnippets {
             composable = { CenteredBox { LongBasicDropdownMenu() } }
         ),
         ComponentSnippet(
-            id = "dropdown-menu-with-details",
+            id = "android_compose_components_dropdownmenuwithdetails",
             title = "Dropdown Menu with Details",
             category = ComponentCategory.SELECTION,
             description = "Dropdown menu items with leading icons, trailing icons, and shortcuts.",
@@ -213,7 +213,7 @@ object SelectionSnippets {
         // Selection: Sliders
         // ==========================================
         ComponentSnippet(
-            id = "continuous-slider",
+            id = "android_compose_components_sliderminimal",
             title = "Continuous Slider",
             category = ComponentCategory.SELECTION,
             description = "Continuous slider for selecting a numeric value along a bar.",
@@ -222,7 +222,7 @@ object SelectionSnippets {
             composable = { CenteredBox { SliderMinimalExample() } }
         ),
         ComponentSnippet(
-            id = "discrete-slider",
+            id = "android_compose_components_slideradvanced",
             title = "Discrete Slider (Steps)",
             category = ComponentCategory.SELECTION,
             description = "Slider with discrete steps and custom thumb.",
@@ -231,7 +231,7 @@ object SelectionSnippets {
             composable = { CenteredBox { SliderAdvancedExample() } }
         ),
         ComponentSnippet(
-            id = "range-slider",
+            id = "android_compose_components_rangeslider",
             title = "Range Slider",
             category = ComponentCategory.SELECTION,
             description = "Range slider with two thumbs for selecting a min and max value.",
@@ -252,7 +252,7 @@ object SelectionSnippets {
         // Selection: Switch
         // ==========================================
         ComponentSnippet(
-            id = "minimal-switch",
+            id = "android_compose_components_switchminimal",
             title = "Minimal Switch",
             category = ComponentCategory.SELECTION,
             description = "Standard binary toggle switch for turning settings on or off.",
@@ -261,7 +261,7 @@ object SelectionSnippets {
             composable = { CenteredBox { SwitchMinimalExample() } }
         ),
         ComponentSnippet(
-            id = "switch-with-icon",
+            id = "android_compose_components_switchwithicon",
             title = "Switch with Icon",
             category = ComponentCategory.SELECTION,
             description = "Switch featuring a custom thumb icon reflecting current state.",
@@ -282,7 +282,7 @@ object SelectionSnippets {
         // Selection: Time Pickers
         // ==========================================
         ComponentSnippet(
-            id = "dial-time-picker",
+            id = "android_compose_components_dial",
             title = "Dial Time Picker",
             category = ComponentCategory.SELECTION,
             description = "Time picker featuring an interactive circular clock dial.",
@@ -291,7 +291,7 @@ object SelectionSnippets {
             composable = { CenteredBox { DialExample(onConfirm = {}, onDismiss = {}) } }
         ),
         ComponentSnippet(
-            id = "input-time-picker",
+            id = "android_compose_components_input",
             title = "Input Time Picker",
             category = ComponentCategory.SELECTION,
             description = "Time picker with text input boxes for hour and minute entry.",
@@ -309,7 +309,7 @@ object SelectionSnippets {
             composable = { CenteredBox { TimePickerExamples() } }
         ),
         ComponentSnippet(
-            id = "radio-button-single",
+            id = "android_compose_components_radiobuttonsingleselection",
             title = "Radio Button Single Selection",
             category = ComponentCategory.SELECTION,
             description = "Single-selection radio button group with selectable rows.",

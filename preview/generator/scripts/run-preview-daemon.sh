@@ -41,5 +41,5 @@ fi
 
 echo "Screenshots generated in: ${OUTPUT_DIR}"
 
-echo "Generating dedicated component documentation pages using snippets from compose/snippets..."
-python3 "${SCRIPT_DIR}/../generate_component_pages.py"
+echo "Extracting region_tag code map from compose/snippets..."
+python3 "${SCRIPT_DIR}/../snippet_extractor.py"

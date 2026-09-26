@@ -87,14 +87,17 @@ tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
 
 val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
-    description = "Packages the static website with fast-compiling development WASM binary (for local development)"
+    description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
     dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources")
 
     into(layout.buildDirectory.dir("dist/site"))
 
-    // Copy static website HTML & assets
+    // Copy WASM runner HTML, fonts, and generated Roborazzi screenshots
     from("src/wasmJsMain/resources") {
         include("**/*")
+    }
+    from("src/wasmJsMain/resources/wasm.html") {
+        rename("wasm.html", "index.html")
     }
 
     // Copy compiled development WASM and JS from compileSync
@@ -114,14 +117,17 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
 
 val packageStaticSite by tasks.registering(Copy::class) {
     group = "distribution"
-    description = "Packages the complete static website with optimized production WASM binary for deployment"
+    description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
     dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources")
 
     into(layout.buildDirectory.dir("dist/site"))
 
-    // Copy static website HTML & assets
+    // Copy WASM runner HTML, fonts, and generated Roborazzi screenshots
     from("src/wasmJsMain/resources") {
         include("**/*")
+    }
+    from("src/wasmJsMain/resources/wasm.html") {
+        rename("wasm.html", "index.html")
     }
 
     // Copy compiled production WASM and JS from compileSync
@@ -138,3 +144,4 @@ val packageStaticSite by tasks.registering(Copy::class) {
         include("skiko.mjs")
     }
 }
+

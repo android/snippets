@@ -45,7 +45,7 @@ object ListsMenusSnippets {
             composable = { CenteredBox { SearchBarExamples() } }
         ),
         ComponentSnippet(
-            id = "docked-search-bar",
+            id = "android_compose_components_customizable_searchbar",
             title = "Docked Search Bar",
             category = ComponentCategory.LISTS_MENUS,
             description = "Docked search bar anchored to top of screen.",
@@ -63,7 +63,7 @@ object ListsMenusSnippets {
             composable = { CenteredBox { SwipeToDismissBoxExamples() } }
         ),
         ComponentSnippet(
-            id = "grouped-menu",
+            id = "android_compose_expressive_components_groupedmenusample",
             title = "Grouped Menu",
             category = ComponentCategory.LISTS_MENUS,
             description = "Material 3 Expressive grouped dropdown menu with categorized items and dividers.",
@@ -71,7 +71,7 @@ object ListsMenusSnippets {
             composable = { CenteredBox { GroupedMenuSample() } }
         ),
         ComponentSnippet(
-            id = "search-bar-simple",
+            id = "android_compose_components_simple_searchbar",
             title = "Simple Search Bar",
             category = ComponentCategory.LISTS_MENUS,
             description = "Simple standalone search bar with search and more action icons.",
@@ -79,7 +79,7 @@ object ListsMenusSnippets {
             composable = { CenteredBox { SearchBarExamples() } }
         ),
         ComponentSnippet(
-            id = "swipe-to-dismiss-item",
+            id = "android_compose_components_swipeitemexample",
             title = "Swipe to Dismiss Item",
             category = ComponentCategory.LISTS_MENUS,
             description = "Swipe to dismiss item row with background color transition on swipe gestures.",

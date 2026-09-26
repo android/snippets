@@ -31,9 +31,10 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         PORT = int(sys.argv[1])
-    server = http.server.ThreadingHTTPServer(("0.0.0.0", PORT), CustomHandler)
-    print(f"Serving Compose Preview site at http://localhost:{PORT} from {DIRECTORY}", flush=True)
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", PORT), CustomHandler)
+    print(f"Serving Compose Preview site at http://127.0.0.1:{PORT}/wasm.html from {DIRECTORY}", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         pass
+

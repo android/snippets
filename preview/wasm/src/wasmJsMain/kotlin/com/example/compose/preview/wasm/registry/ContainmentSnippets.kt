@@ -38,7 +38,7 @@ object ContainmentSnippets {
         // Containment: Bottom Sheet
         // ==========================================
         ComponentSnippet(
-            id = "partial-bottom-sheet",
+            id = "android_compose_components_partialbottomsheet",
             title = "Partial Bottom Sheet",
             category = ComponentCategory.CONTAINMENT,
             description = "Modal bottom sheet that anchors to a partial height before expanding.",
@@ -59,7 +59,7 @@ object ContainmentSnippets {
         // Containment: Cards
         // ==========================================
         ComponentSnippet(
-            id = "filled-card",
+            id = "android_compose_components_filledcard",
             title = "Filled Card",
             category = ComponentCategory.CONTAINMENT,
             description = "Filled card with container color distinguishing it from the background.",
@@ -68,7 +68,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { FilledCardExample() } }
         ),
         ComponentSnippet(
-            id = "elevated-card",
+            id = "android_compose_components_elevatedcard",
             title = "Elevated Card",
             category = ComponentCategory.CONTAINMENT,
             description = "Card with elevation shadow providing visual separation.",
@@ -77,7 +77,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { ElevatedCardExample() } }
         ),
         ComponentSnippet(
-            id = "outlined-card",
+            id = "android_compose_components_outlinedcard",
             title = "Outlined Card",
             category = ComponentCategory.CONTAINMENT,
             description = "Card with a subtle outline border for clean surface grouping.",
@@ -98,7 +98,7 @@ object ContainmentSnippets {
         // Containment: Carousel
         // ==========================================
         ComponentSnippet(
-            id = "multi-browse-carousel",
+            id = "android_compose_carousel_multi_browse_basic",
             title = "Multi-Browse Carousel",
             category = ComponentCategory.CONTAINMENT,
             description = "Multi-browse carousel displaying multiple items with peek previews.",
@@ -107,7 +107,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { CarouselExample_MultiBrowse() } }
         ),
         ComponentSnippet(
-            id = "uncontained-carousel",
+            id = "android_compose_carousel_uncontained_basic",
             title = "Uncontained Carousel",
             category = ComponentCategory.CONTAINMENT,
             description = "Uncontained carousel allowing items to scroll freely past edge boundaries.",
@@ -128,7 +128,7 @@ object ContainmentSnippets {
         // Containment: Dialogs
         // ==========================================
         ComponentSnippet(
-            id = "alert-dialog",
+            id = "android_compose_components_alertdialog",
             title = "Alert Dialog",
             category = ComponentCategory.CONTAINMENT,
             description = "Alert dialog with title, text, icon, and confirm/dismiss buttons.",
@@ -137,7 +137,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { AlertDialogExample(onDismissRequest = {}, onConfirmation = {}, dialogTitle = "Alert", dialogText = "Example dialog message", icon = AppIcons.Info) } }
         ),
         ComponentSnippet(
-            id = "minimal-dialog",
+            id = "android_compose_components_minimaldialog",
             title = "Minimal Dialog",
             category = ComponentCategory.CONTAINMENT,
             description = "Minimal custom dialog without pre-styled buttons.",
@@ -146,7 +146,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { MinimalDialog(onDismissRequest = {}) } }
         ),
         ComponentSnippet(
-            id = "dialog-with-image",
+            id = "android_compose_components_dialogwithimage",
             title = "Dialog with Image",
             category = ComponentCategory.CONTAINMENT,
             description = "Dialog featuring an illustration or header image above content.",
@@ -167,7 +167,7 @@ object ContainmentSnippets {
         // Containment: Dividers
         // ==========================================
         ComponentSnippet(
-            id = "horizontal-divider",
+            id = "android_compose_components_horizontaldivider",
             title = "Horizontal Divider",
             category = ComponentCategory.CONTAINMENT,
             description = "Horizontal thin line separating content sections.",
@@ -176,7 +176,7 @@ object ContainmentSnippets {
             composable = { CenteredBox { HorizontalDividerExample() } }
         ),
         ComponentSnippet(
-            id = "vertical-divider",
+            id = "android_compose_components_verticaldivider",
             title = "Vertical Divider",
             category = ComponentCategory.CONTAINMENT,
             description = "Vertical thin line separating adjacent elements in a row.",
@@ -197,7 +197,7 @@ object ContainmentSnippets {
         // Containment: Scaffold
         // ==========================================
         ComponentSnippet(
-            id = "scaffold",
+            id = "android_compose_components_scaffold",
             title = "Scaffold",
             category = ComponentCategory.CONTAINMENT,
             description = "Fundamental layout structure providing slots for top bar, bottom bar, FAB, and content.",

@@ -36,7 +36,7 @@ object ButtonSnippets {
         // Actions: Segmented Buttons
         // ==========================================
         ComponentSnippet(
-            id = "single-choice-segmented-button",
+            id = "android_compose_components_singlechoicesegmentedbutton",
             title = "Single-Choice Segmented Button",
             category = ComponentCategory.BUTTONS,
             description = "SingleChoiceSegmentedButtonRow allowing users to select a single option from a set of mutually exclusive choices.",
@@ -45,7 +45,7 @@ object ButtonSnippets {
             composable = { CenteredBox { SingleChoiceSegmentedButton() } }
         ),
         ComponentSnippet(
-            id = "multi-choice-segmented-button",
+            id = "android_compose_components_multichoicesegmentedbutton",
             title = "Multi-Choice Segmented Button",
             category = ComponentCategory.BUTTONS,
             description = "MultiChoiceSegmentedButtonRow allowing users to select multiple options simultaneously with icon feedback.",
@@ -66,7 +66,7 @@ object ButtonSnippets {
         // Actions: Buttons
         // ==========================================
         ComponentSnippet(
-            id = "filled-button",
+            id = "android_compose_components_filledbutton",
             title = "Filled Button",
             category = ComponentCategory.BUTTONS,
             description = "High-emphasis button used for the primary action on a screen.",
@@ -75,7 +75,7 @@ object ButtonSnippets {
             composable = { CenteredBox { FilledButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "filled-tonal-button",
+            id = "android_compose_components_filledtonalbutton",
             title = "Filled Tonal Button",
             category = ComponentCategory.BUTTONS,
             description = "Medium-high emphasis button used for secondary actions requiring visual prominence.",
@@ -84,7 +84,7 @@ object ButtonSnippets {
             composable = { CenteredBox { FilledTonalButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "elevated-button",
+            id = "android_compose_components_elevatedbutton",
             title = "Elevated Button",
             category = ComponentCategory.BUTTONS,
             description = "Elevated button with a shadow used on patterned or complex backgrounds.",
@@ -93,7 +93,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ElevatedButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "outlined-button",
+            id = "android_compose_components_outlinedbutton",
             title = "Outlined Button",
             category = ComponentCategory.BUTTONS,
             description = "Medium-emphasis button with a stroke outline for secondary, non-destructive actions.",
@@ -102,7 +102,7 @@ object ButtonSnippets {
             composable = { CenteredBox { OutlinedButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "text-button",
+            id = "android_compose_components_textbutton",
             title = "Text Button",
             category = ComponentCategory.BUTTONS,
             description = "Low-emphasis button without container borders, ideal for cards and dialogs.",
@@ -120,7 +120,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ButtonExamples() } }
         ),
         ComponentSnippet(
-            id = "button-with-animated-shape",
+            id = "android_compose_components_buttonwithanimatedshape",
             title = "Button with Animated Shape",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive button with animated shape change on interaction.",
@@ -129,7 +129,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ButtonWithAnimatedShapeExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "square-button",
+            id = "android_compose_components_squarebutton",
             title = "Square Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive square button with rounded corners.",
@@ -138,7 +138,7 @@ object ButtonSnippets {
             composable = { CenteredBox { SquareButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "button-with-icon",
+            id = "android_compose_components_buttonwithicon",
             title = "Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive button with icon and medium container height.",
@@ -147,7 +147,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "split-button",
+            id = "android_compose_components_splitbutton",
             title = "Split Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive split button layout with leading primary action and trailing toggle.",
@@ -156,7 +156,7 @@ object ButtonSnippets {
             composable = { CenteredBox { SplitButtonExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "button-group",
+            id = "android_compose_components_buttongroup",
             title = "Connected Button Group",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive connected button group with toggle buttons.",
@@ -165,7 +165,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ButtonGroupExample() } }
         ),
         ComponentSnippet(
-            id = "toggle-button",
+            id = "android_compose_expressive_components_filledtogglebutton",
             title = "Toggle Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive ToggleButton with selected and unselected states.",
@@ -174,7 +174,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ToggleButtonSample() } }
         ),
         ComponentSnippet(
-            id = "elevated-toggle-button",
+            id = "android_compose_expressive_components_elevatedtogglebutton",
             title = "Elevated Toggle Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive ElevatedToggleButton with container elevation.",
@@ -183,7 +183,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ElevatedToggleButtonSample() } }
         ),
         ComponentSnippet(
-            id = "tonal-toggle-button",
+            id = "android_compose_expressive_components_tonaltogglebutton",
             title = "Tonal Toggle Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive TonalToggleButton with secondary tonal container.",
@@ -192,7 +192,7 @@ object ButtonSnippets {
             composable = { CenteredBox { TonalToggleButtonSample() } }
         ),
         ComponentSnippet(
-            id = "outlined-toggle-button",
+            id = "android_compose_expressive_components_outlinedtogglebutton",
             title = "Outlined Toggle Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive OutlinedToggleButton with border styling.",
@@ -204,7 +204,7 @@ object ButtonSnippets {
         // Actions: Floating Action Button
         // ==========================================
         ComponentSnippet(
-            id = "fab",
+            id = "android_compose_components_fab",
             title = "Floating Action Button",
             category = ComponentCategory.BUTTONS,
             description = "Standard 56dp Floating Action Button performing the primary screen action.",
@@ -222,7 +222,7 @@ object ButtonSnippets {
             composable = { CenteredBox { FloatingActionButtonExamples() } }
         ),
         ComponentSnippet(
-            id = "extended-fab",
+            id = "android_compose_components_extendedfab",
             title = "Extended Floating Action Button",
             category = ComponentCategory.BUTTONS,
             description = "Extended FAB combining an icon and descriptive text label.",
@@ -231,7 +231,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ExtendedExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "floating-toolbar",
+            id = "android_compose_components_floatingtoolbar",
             title = "Floating Toolbar",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive horizontal floating toolbar with action buttons and FAB.",
@@ -240,7 +240,7 @@ object ButtonSnippets {
             composable = { CenteredBox { FloatingToolbarExample() } }
         ),
         ComponentSnippet(
-            id = "small-fab",
+            id = "android_compose_components_smallfab",
             title = "Small Floating Action Button",
             category = ComponentCategory.BUTTONS,
             description = "Compact FAB for secondary actions or compact viewports.",
@@ -249,7 +249,7 @@ object ButtonSnippets {
             composable = { CenteredBox { SmallExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "large-fab",
+            id = "android_compose_components_largefab",
             title = "Large Floating Action Button",
             category = ComponentCategory.BUTTONS,
             description = "96dp Large FAB for high prominence on large screens and foldables.",
@@ -258,7 +258,7 @@ object ButtonSnippets {
             composable = { CenteredBox { LargeExample(onClick = {}) } }
         ),
         ComponentSnippet(
-            id = "theme-builder",
+            id = "android_compose_components_themebuilder",
             title = "Theme Builder / Material 3 Catalog",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Component Catalog showcase modeled after AndroidX Components.kt, previewing dynamic M3 color roles, tokens, and components.",
@@ -267,7 +267,7 @@ object ButtonSnippets {
             composable = { ThemeBuilderPreview() }
         ),
         ComponentSnippet(
-            id = "button-with-icon-sample",
+            id = "android_compose_expressive_components_buttonwithicon",
             title = "Button with Icon Sample",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive button with icon and medium container height.",
@@ -275,7 +275,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "toggle-button-with-icon",
+            id = "android_compose_expressive_components_togglebuttonwithicon",
             title = "Toggle Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive toggle button featuring leading icon and checked state.",
@@ -283,7 +283,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ToggleButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "xsmall-button-with-icon",
+            id = "android_compose_expressive_components_xmsallbuttonwithicon",
             title = "Extra Small Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive extra-small button with icon.",
@@ -291,7 +291,7 @@ object ButtonSnippets {
             composable = { CenteredBox { XSmallButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "xsmall-toggle-button-with-icon",
+            id = "android_compose_expressive_components_xmsalltogglebuttonwithicon",
             title = "Extra Small Toggle Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive extra-small toggle button with icon.",
@@ -299,7 +299,7 @@ object ButtonSnippets {
             composable = { CenteredBox { XSmallToggleButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "medium-button-with-icon",
+            id = "android_compose_expressive_components_mediumbuttonwithicon",
             title = "Medium Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive medium button with leading icon.",
@@ -307,7 +307,7 @@ object ButtonSnippets {
             composable = { CenteredBox { MediumButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "medium-toggle-button-with-icon",
+            id = "android_compose_expressive_components_mediumtogglebuttonwithicon",
             title = "Medium Toggle Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive medium toggle button with leading icon.",
@@ -315,7 +315,7 @@ object ButtonSnippets {
             composable = { CenteredBox { MediumToggleButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "large-button-with-icon",
+            id = "android_compose_expressive_components_largebuttonwithicon",
             title = "Large Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive large button with leading icon.",
@@ -323,7 +323,7 @@ object ButtonSnippets {
             composable = { CenteredBox { LargeButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "large-toggle-button-with-icon",
+            id = "android_compose_expressive_components_largetogglebuttonwithicon",
             title = "Large Toggle Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive large toggle button with leading icon.",
@@ -331,7 +331,7 @@ object ButtonSnippets {
             composable = { CenteredBox { LargeToggleButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "xlarge-button-with-icon",
+            id = "android_compose_expressive_components_xlargebuttonwithicon",
             title = "Extra Large Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive extra-large button with prominent leading icon.",
@@ -339,7 +339,7 @@ object ButtonSnippets {
             composable = { CenteredBox { XLargeButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "xlarge-toggle-button-with-icon",
+            id = "android_compose_expressive_components_xlargetogglebuttonwithicon",
             title = "Extra Large Toggle Button with Icon",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive extra-large toggle button with icon.",
@@ -347,7 +347,7 @@ object ButtonSnippets {
             composable = { CenteredBox { XLargeToggleButtonWithIconSample() } }
         ),
         ComponentSnippet(
-            id = "square-toggle-button",
+            id = "android_compose_expressive_components_squaretogglebutton",
             title = "Square Toggle Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive square toggle button shape variant.",
@@ -355,7 +355,7 @@ object ButtonSnippets {
             composable = { CenteredBox { SquareToggleButtonSample() } }
         ),
         ComponentSnippet(
-            id = "medium-fab",
+            id = "android_compose_expressive_components_mediumfab",
             title = "Medium Floating Action Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive medium floating action button.",
@@ -371,7 +371,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ToggleIconButtonExample() } }
         ),
         ComponentSnippet(
-            id = "toggle-icon-button",
+            id = "android_compose_components_togglebuttonexample",
             title = "Toggle Icon Button",
             category = ComponentCategory.BUTTONS,
             description = "Interactive toggle icon button with selected/unselected state.",
@@ -379,7 +379,7 @@ object ButtonSnippets {
             composable = { CenteredBox { ToggleIconButtonExample() } }
         ),
         ComponentSnippet(
-            id = "momentary-icon-button",
+            id = "android_compose_components_momentaryiconbuttons",
             title = "Momentary Icon Button",
             category = ComponentCategory.BUTTONS,
             description = "Momentary icon button supporting continuous stepped action while pressed.",
@@ -387,7 +387,7 @@ object ButtonSnippets {
             composable = { CenteredBox { MomentaryIconButtonExample() } }
         ),
         ComponentSnippet(
-            id = "animated-icon-button",
+            id = "android_compose_expressive_components_animatediconbuttons",
             title = "Animated Icon Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive icon button with animated shape transitions.",
@@ -395,7 +395,7 @@ object ButtonSnippets {
             composable = { CenteredBox { IconButtonWithAnimatedShapeSample() } }
         ),
         ComponentSnippet(
-            id = "animated-toggle-icon-button",
+            id = "android_compose_expressive_components_animatedtoggleiconbuttons",
             title = "Animated Toggle Icon Button",
             category = ComponentCategory.BUTTONS,
             description = "Material 3 Expressive toggle icon button with animated morphing shape.",

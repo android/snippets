@@ -36,7 +36,7 @@ object FeedbackSnippets {
         // Communication: Badges
         // ==========================================
         ComponentSnippet(
-            id = "badge",
+            id = "android_compose_components_badge",
             title = "Badge",
             category = ComponentCategory.FEEDBACK,
             description = "Small status and count indicator displayed on top of icons or labels.",
@@ -45,7 +45,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { BadgeExample() } }
         ),
         ComponentSnippet(
-            id = "badge-interactive",
+            id = "android_compose_components_badgeinteractive",
             title = "Interactive Badge",
             category = ComponentCategory.FEEDBACK,
             description = "BadgedBox with dynamic numeric count incremented on user interaction.",
@@ -66,7 +66,7 @@ object FeedbackSnippets {
         // Communication: Progress Indicators
         // ==========================================
         ComponentSnippet(
-            id = "indeterminate-progress-indicator",
+            id = "android_compose_components_indeterminateindicator",
             title = "Indeterminate Progress Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Continuous circular progress indicator showing indeterminate loading.",
@@ -75,7 +75,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { IndeterminateCircularIndicator() } }
         ),
         ComponentSnippet(
-            id = "determinate-progress-indicator",
+            id = "android_compose_components_determinateindicator",
             title = "Determinate Progress Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Linear progress indicator showing specific progress toward task completion.",
@@ -93,7 +93,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { ProgressIndicatorExamples() } }
         ),
         ComponentSnippet(
-            id = "loading-indicator",
+            id = "android_compose_components_loadingindicator",
             title = "Loading Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive loading indicator with indeterminate animation.",
@@ -102,7 +102,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { LoadingIndicatorExample() } }
         ),
         ComponentSnippet(
-            id = "contained-loading-indicator",
+            id = "android_compose_components_containedloadingindicator",
             title = "Contained Loading Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive contained loading indicator on elevated container.",
@@ -132,7 +132,7 @@ object FeedbackSnippets {
         // Communication: Tooltips
         // ==========================================
         ComponentSnippet(
-            id = "plain-tooltip",
+            id = "android_compose_components_plaintooltipexample",
             title = "Plain Tooltip",
             category = ComponentCategory.FEEDBACK,
             description = "Plain tooltip displaying a short text label on long-press or hover.",
@@ -141,7 +141,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { PlainTooltipExample() } }
         ),
         ComponentSnippet(
-            id = "rich-tooltip",
+            id = "android_compose_components_richtooltipexample",
             title = "Rich Tooltip",
             category = ComponentCategory.FEEDBACK,
             description = "Rich tooltip with title, body text, and optional action buttons.",
@@ -159,7 +159,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { TooltipExamples() } }
         ),
         ComponentSnippet(
-            id = "pull-to-refresh",
+            id = "android_compose_components_pull_to_refresh_basic",
             title = "Pull to Refresh",
             category = ComponentCategory.FEEDBACK,
             description = "PullToRefreshBox providing swipe-to-refresh behavior with indicator.",
@@ -168,7 +168,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { PullToRefreshBasicPreview() } }
         ),
         ComponentSnippet(
-            id = "determinate-linear-wavy-indicator",
+            id = "android_compose_expressive_components_determinatelinearwavyindicator",
             title = "Determinate Linear Wavy Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive linear wavy progress indicator showing determinate progress.",
@@ -176,7 +176,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { LinearWavyProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "indeterminate-linear-wavy-indicator",
+            id = "android_compose_expressive_components_indeterminatelinearwavyindicator",
             title = "Indeterminate Linear Wavy Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive linear wavy progress indicator with continuous animation.",
@@ -184,7 +184,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { IndeterminateLinearWavyProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "determinate-circular-wavy-indicator",
+            id = "android_compose_expressive_components_determinatecircularwavyindicator",
             title = "Determinate Circular Wavy Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive circular wavy progress indicator displaying determinate progress.",
@@ -192,7 +192,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { CircularWavyProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "indeterminate-circular-wavy-indicator",
+            id = "android_compose_expressive_components_indeterminatecircularwavyindicator",
             title = "Indeterminate Circular Wavy Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive circular wavy progress indicator with continuous spinning wave animation.",
@@ -200,7 +200,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { IndeterminateCircularWavyProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "determinate-linear-expressive-indicator",
+            id = "android_compose_expressive_components_determinatelinearindicator",
             title = "Determinate Linear Expressive Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive linear progress indicator with modern styling.",
@@ -208,7 +208,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { LinearProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "indeterminate-linear-expressive-indicator",
+            id = "android_compose_expressive_components_indeterminatelinearindicator",
             title = "Indeterminate Linear Expressive Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive indeterminate linear progress bar.",
@@ -216,7 +216,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { IndeterminateLinearProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "determinate-circular-expressive-indicator",
+            id = "android_compose_expressive_components_determinatecircularindicator",
             title = "Determinate Circular Expressive Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive circular progress indicator with determinate value.",
@@ -224,7 +224,7 @@ object FeedbackSnippets {
             composable = { CenteredBox { CircularProgressIndicatorSample() } }
         ),
         ComponentSnippet(
-            id = "indeterminate-circular-expressive-indicator",
+            id = "android_compose_expressive_components_indeterminatecircularindicator",
             title = "Indeterminate Circular Expressive Indicator",
             category = ComponentCategory.FEEDBACK,
             description = "Material 3 Expressive circular progress indicator with continuous rotation.",
