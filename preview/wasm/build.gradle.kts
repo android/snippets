@@ -145,3 +145,10 @@ val packageStaticSite by tasks.registering(Copy::class) {
     }
 }
 
+tasks.register("buildPreviewSite") {
+    group = "distribution"
+    description = "Alias for packageStaticSite used by CI"
+    dependsOn(packageStaticSite)
+}
+
+

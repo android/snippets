@@ -40,6 +40,3 @@ else
 fi
 
 echo "Screenshots generated in: ${OUTPUT_DIR}"
-
-echo "Extracting region_tag code map from compose/snippets..."
-python3 "${SCRIPT_DIR}/../snippet_extractor.py"

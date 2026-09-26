@@ -16,9 +16,11 @@
 
 package com.example.compose.preview.wasm
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.catalog.library.model.Theme
 import androidx.compose.material3.catalog.library.model.ThemeColorMode
 import androidx.compose.material3.catalog.library.ui.theme.CatalogTheme
@@ -28,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.compose.preview.wasm.navigation.extractCustomSeed
 import com.example.compose.preview.wasm.navigation.extractDensityScale
@@ -36,14 +39,12 @@ import com.example.compose.preview.wasm.navigation.extractSnippetId
 import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.theme.ThemePreset
 import com.example.compose.preview.wasm.theme.parseHexColor
-import com.example.compose.preview.wasm.ui.SnippetCatalogView
-import com.example.compose.preview.wasm.ui.SnippetDetailView
 import kotlinx.browser.window
 import kotlinx.coroutines.delay
 
 /**
  * Root Composable entry point for the WebAssembly (WASM) Compose interactive runner.
- * Manages URL hash synchronization, dynamic theme updates, density scaling, and view routing.
+ * Manages URL hash synchronization, dynamic theme updates, density scaling, and snippet rendering.
  */
 @Composable
 fun WasmPreviewApp() {
@@ -71,9 +72,6 @@ fun WasmPreviewApp() {
     }
     var standaloneMode by remember {
         mutableStateOf(initialStandalone)
-    }
-    var showSidePicker by remember {
-        mutableStateOf(initialSearch.contains("showPicker=true") || initialHash.contains("showPicker=true") || standaloneMode)
     }
     var selectedSnippetId by remember {
         mutableStateOf(extractSnippetId(initialSearch, initialHash))
@@ -133,12 +131,6 @@ fun WasmPreviewApp() {
             standaloneMode = false
         }
 
-        if (combined.contains("showPicker=true")) {
-            showSidePicker = true
-        } else if (combined.contains("showPicker=false")) {
-            showSidePicker = false
-        }
-
         val newDensity = extractDensityScale(search, hash, standaloneMode)
         if (theme.densityScale != newDensity) {
             theme = theme.copy(densityScale = newDensity)
@@ -168,49 +160,19 @@ fun WasmPreviewApp() {
         ) {
             val currentSnippet = selectedSnippetId?.let { SnippetRegistry.getById(it) }
 
-            if (currentSnippet != null) {
-                SnippetDetailView(
-                    snippet = currentSnippet,
-                    theme = theme,
-                    standalone = standaloneMode,
-                    showSidePicker = showSidePicker,
-                    onToggleSidePicker = { showSidePicker = !showSidePicker },
-                    onThemeChange = { theme = it },
-                    onToggleTheme = {
-                        theme = theme.copy(
-                            themeColorMode = if (theme.themeColorMode == ThemeColorMode.Dark) {
-                                ThemeColorMode.Light
-                            } else {
-                                ThemeColorMode.Dark
-                            }
-                        )
-                    },
-                    onBack = {
-                        selectedSnippetId = null
-                        window.location.hash = "/catalog"
-                    }
-                )
-            } else {
-                SnippetCatalogView(
-                    theme = theme,
-                    standalone = standaloneMode,
-                    showSidePicker = showSidePicker,
-                    onToggleSidePicker = { showSidePicker = !showSidePicker },
-                    onThemeChange = { theme = it },
-                    onToggleTheme = {
-                        theme = theme.copy(
-                            themeColorMode = if (theme.themeColorMode == ThemeColorMode.Dark) {
-                                ThemeColorMode.Light
-                            } else {
-                                ThemeColorMode.Dark
-                            }
-                        )
-                    },
-                    onSelectSnippet = { snippet ->
-                        selectedSnippetId = snippet.id
-                        window.location.hash = "/snippet/${snippet.id}"
-                    }
-                )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (currentSnippet != null) {
+                    currentSnippet()
+                } else {
+                    Text(
+                        text = "Snippet not found: ${selectedSnippetId ?: "(no ?id= specified)"}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }

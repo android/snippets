@@ -44,21 +44,29 @@ fun extractSnippetId(search: String, hash: String): String? {
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 
-    // 3. If hash has snippet query parameter: #...snippet=<id>...
+    // 3. If hash has snippet or id query parameter: #...snippet=<id>... or #...id=<id>...
     if (cleanHash.contains("snippet=")) {
         val snippetPart = cleanHash.substringAfter("snippet=").substringBefore("&").substringBefore("?").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
     }
+    if (cleanHash.contains("id=")) {
+        val snippetPart = cleanHash.substringAfter("id=").substringBefore("&").substringBefore("?").trim()
+        if (snippetPart.isNotEmpty()) return snippetPart
+    }
 
-    // 4. If hash has direct path #/<id> (e.g. #/filled-button)
+    // 4. If hash has direct path #/<id>
     if (cleanHash.startsWith("/") && !cleanHash.startsWith("/?") && !cleanHash.contains("=")) {
         val snippetPart = cleanHash.removePrefix("/").substringBefore("?").substringBefore("&").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 
-    // 5. If hash did not specify a snippet or catalog overview, fall back to URL query search: ?snippet=<id>
+    // 5. Fall back to URL query search: ?snippet=<id> or ?id=<id>
     if (search.contains("snippet=")) {
         val snippetPart = search.substringAfter("snippet=").substringBefore("&").substringBefore("?").trim()
+        if (snippetPart.isNotEmpty()) return snippetPart
+    }
+    if (search.contains("id=")) {
+        val snippetPart = search.substringAfter("id=").substringBefore("&").substringBefore("?").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 

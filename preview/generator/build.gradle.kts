@@ -43,6 +43,12 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    sourceSets {
+        getByName("test") {
+            java.srcDir("../wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry")
+        }
+    }
 }
 
 dependencies {
