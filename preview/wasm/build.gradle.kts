@@ -55,26 +55,8 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("*.kt")
         exclude("ComponentsScreen.kt")
         into("com/example/compose/snippets/components")
-        filter { line ->
-            line.replace("import android.app.Activity", "// import android.app.Activity")
-                .replace("import android.content.pm.ActivityInfo", "// import android.content.pm.ActivityInfo")
-                .replace("import androidx.compose.ui.platform.LocalContext", "// import androidx.compose.ui.platform.LocalContext")
-                .replace("val context = LocalContext.current", "val context: Any? = null")
-                .replace("ActivityInfo.SCREEN_ORIENTATION_PORTRAIT", "0")
-                .replace("ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED", "-1")
-                .replace("(context as? Activity)?.requestedOrientation", "// (context as? Activity)?.requestedOrientation")
-        }
     }
     into(layout.buildDirectory.dir("generated/sources/composeSnippets/wasmJsMain/kotlin"))
-    doLast {
-        val navDrawer = file("${layout.buildDirectory.get()}/generated/sources/composeSnippets/wasmJsMain/kotlin/com/example/compose/snippets/components/NavigationDrawer.kt")
-        if (navDrawer.exists()) {
-            val text = navDrawer.readText()
-            if (!text.contains("package com.example.compose.snippets.components")) {
-                navDrawer.writeText("package com.example.compose.snippets.components\n\n" + text)
-            }
-        }
-    }
 }
 
 tasks.named("compileKotlinWasmJs") {

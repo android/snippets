@@ -17,34 +17,26 @@
 package com.example.compose.preview.wasm.navigation
 
 import androidx.compose.ui.graphics.Color
+import com.example.compose.preview.wasm.theme.ThemeColorMode
 import com.example.compose.preview.wasm.theme.ThemePreset
 import com.example.compose.preview.wasm.theme.parseHexColor
-import kotlinx.browser.window
 
 /**
  * Extracts the snippet identifier from URL search or hash parameters.
  * Supports:
  * - #/snippet/<id>
- * - #...snippet=<id>...
+ * - #...snippet=<id>... or #...id=<id>...
  * - #/<id>
- * - ?snippet=<id>
- * Returns null if catalog overview is requested (#catalog or #/catalog).
+ * - ?snippet=<id> or ?id=<id>
  */
 fun extractSnippetId(search: String, hash: String): String? {
     val cleanHash = hash.removePrefix("#").trim()
 
-    // 1. If hash explicitly requests the catalog overview, return null
-    if (cleanHash == "catalog" || cleanHash == "/catalog" || cleanHash.startsWith("/catalog?") || cleanHash.startsWith("catalog?")) {
-        return null
-    }
-
-    // 2. If hash specifies a snippet via route path: #/snippet/<id>
     if (cleanHash.startsWith("/snippet/")) {
         val snippetPart = cleanHash.removePrefix("/snippet/").substringBefore("?").substringBefore("&").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 
-    // 3. If hash has snippet or id query parameter: #...snippet=<id>... or #...id=<id>...
     if (cleanHash.contains("snippet=")) {
         val snippetPart = cleanHash.substringAfter("snippet=").substringBefore("&").substringBefore("?").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
@@ -54,13 +46,11 @@ fun extractSnippetId(search: String, hash: String): String? {
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 
-    // 4. If hash has direct path #/<id>
     if (cleanHash.startsWith("/") && !cleanHash.startsWith("/?") && !cleanHash.contains("=")) {
         val snippetPart = cleanHash.removePrefix("/").substringBefore("?").substringBefore("&").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
     }
 
-    // 5. Fall back to URL query search: ?snippet=<id> or ?id=<id>
     if (search.contains("snippet=")) {
         val snippetPart = search.substringAfter("snippet=").substringBefore("&").substringBefore("?").trim()
         if (snippetPart.isNotEmpty()) return snippetPart
@@ -74,7 +64,19 @@ fun extractSnippetId(search: String, hash: String): String? {
 }
 
 /**
- * Extracts the active ThemePreset from URL parameters, defaulting to ANDROID_GREEN.
+ * Extracts the active ThemeColorMode from URL parameters.
+ */
+fun extractThemeColorMode(search: String, hash: String): ThemeColorMode {
+    val combined = "$search&$hash"
+    return when {
+        combined.contains("theme=dark") -> ThemeColorMode.Dark
+        combined.contains("theme=light") -> ThemeColorMode.Light
+        else -> ThemeColorMode.System
+    }
+}
+
+/**
+ * Extracts the active ThemePreset from URL parameters, defaulting to MONOCHROME.
  */
 fun extractPreset(search: String, hash: String): ThemePreset {
     val combined = "$search&$hash"
@@ -113,20 +115,9 @@ fun extractCustomSeed(search: String, hash: String): Color? {
 }
 
 /**
- * Detects whether the WASM app is running embedded inside an iframe.
+ * Resolves the visual density scale factor based on URL overrides.
  */
-fun isDisplayedInIframe(): Boolean {
-    return try {
-        window.parent != window
-    } catch (e: Throwable) {
-        true
-    }
-}
-
-/**
- * Resolves the visual density scale factor based on URL overrides, fullscreen state, or iframe container.
- */
-fun extractDensityScale(search: String, hash: String, standalone: Boolean): Float {
+fun extractDensityScale(search: String, hash: String): Float {
     val combined = "$search&$hash"
     val scaleStr = when {
         combined.contains("density=") -> combined.substringAfter("density=").substringBefore("&")

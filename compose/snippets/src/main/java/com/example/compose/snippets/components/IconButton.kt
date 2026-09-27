@@ -16,18 +16,13 @@
 
 package com.example.compose.snippets.components
 
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.graphics.vector.ImageVector
-
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,7 +51,7 @@ fun ToggleIconButtonExample() {
         onClick = { isToggled = !isToggled }
     ) {
         Icon(
-            painter = rememberVectorPainter(if (isToggled) AppIcons.FavoriteFilled else AppIcons.Favorite),
+            painter = if (isToggled) painterResource(R.drawable.favorite_filled) else painterResource(R.drawable.favorite),
             contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
         )
     }
@@ -66,8 +61,8 @@ fun ToggleIconButtonExample() {
 // [START android_compose_components_iconbutton]
 @Composable
 fun MomentaryIconButton(
-    unselectedImage: ImageVector,
-    selectedImage: ImageVector,
+    unselectedImage: Int,
+    selectedImage: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     stepDelay: Long = 100L, // Minimum value is 1L milliseconds.
@@ -90,7 +85,7 @@ fun MomentaryIconButton(
         interactionSource = interactionSource
     ) {
         Icon(
-            painter = rememberVectorPainter(if (isPressed) selectedImage else unselectedImage),
+            painter = if (isPressed) painterResource(id = selectedImage) else painterResource(id = unselectedImage),
             contentDescription = contentDescription,
         )
     }
@@ -108,8 +103,8 @@ fun MomentaryIconButtonExample() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         MomentaryIconButton(
-            unselectedImage = AppIcons.FastRewind,
-            selectedImage = AppIcons.FastRewindFilled,
+            unselectedImage = R.drawable.fast_rewind,
+            selectedImage = R.drawable.fast_rewind_filled,
             stepDelay = 100L,
             onClick = { pressedCount -= 1 },
             contentDescription = "Decrease count button"
@@ -118,8 +113,8 @@ fun MomentaryIconButtonExample() {
         Text("advanced by $pressedCount frames")
         Spacer(modifier = Modifier)
         MomentaryIconButton(
-            unselectedImage = AppIcons.FastForward,
-            selectedImage = AppIcons.FastForwardFilled,
+            unselectedImage = R.drawable.fast_forward,
+            selectedImage = R.drawable.fast_forward_filled,
             contentDescription = "Increase count button",
             stepDelay = 100L,
             onClick = { pressedCount += 1 }
@@ -127,37 +122,3 @@ fun MomentaryIconButtonExample() {
     }
 }
 // [END android_compose_components_momentaryiconbuttons]
-
-// [START android_compose_expressive_components_animatediconbuttons]
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconButtonWithAnimatedShapeSample() {
-    IconButton(
-        onClick = { /* doSomething() */ },
-        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
-    ) {
-        Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-    }
-}
-// [END android_compose_expressive_components_animatediconbuttons]
-
-// [START android_compose_expressive_components_animatedtoggleiconbuttons]
-@Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun IconToggleButtonWithAnimatedShapeSample() {
-    var checked by remember { mutableStateOf(false) }
-    IconToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
-    ) {
-        if (checked) {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        } else {
-            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
-        }
-    }
-}
-// [END android_compose_expressive_components_animatedtoggleiconbuttons]

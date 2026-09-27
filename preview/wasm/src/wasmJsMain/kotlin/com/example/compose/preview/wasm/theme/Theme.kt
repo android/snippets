@@ -24,6 +24,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.graphics.Color
 import kotlin.math.min
 
@@ -617,25 +620,43 @@ fun parseHexColor(hex: String?): Color? {
     }
 }
 
+enum class ThemeColorMode {
+    System,
+    Light,
+    Dark,
+}
+
+data class Theme(
+    val themeColorMode: ThemeColorMode = ThemeColorMode.System,
+    val customColor: Color? = null,
+    val preset: ThemePreset = ThemePreset.MONOCHROME,
+    val densityScale: Float = 1.25f,
+)
+
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun AndroidSnippetsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    preset: ThemePreset = ThemePreset.MONOCHROME,
-    customSeed: Color? = null,
-    content: @Composable () -> Unit
-) {
-    val colorScheme = when {
-        customSeed != null -> generateDynamicColorScheme(customSeed, darkTheme)
-        darkTheme -> preset.darkColorScheme
-        else -> preset.lightColorScheme
+fun CatalogTheme(theme: Theme, content: @Composable () -> Unit) {
+    val lightColorScheme = when {
+        theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = false)
+        else -> theme.preset.lightColorScheme
+    }
+    val darkColorScheme = when {
+        theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = true)
+        else -> theme.preset.darkColorScheme
+    }
+    val colorScheme = when (theme.themeColorMode) {
+        ThemeColorMode.Light -> lightColorScheme
+        ThemeColorMode.Dark -> darkColorScheme
+        ThemeColorMode.System -> if (isSystemInDarkTheme()) darkColorScheme else lightColorScheme
     }
 
-    val typography = rememberGoogleSansTypography()
-
-    MaterialExpressiveTheme(
-        colorScheme = colorScheme,
-        typography = typography,
-        content = content
-    )
+    val parentDensity = LocalDensity.current
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = parentDensity.density * theme.densityScale,
+            fontScale = parentDensity.fontScale,
+        ),
+    ) {
+        MaterialExpressiveTheme(colorScheme = colorScheme, content = content)
+    }
 }
