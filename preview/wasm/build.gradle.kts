@@ -22,6 +22,11 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
