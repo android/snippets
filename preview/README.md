@@ -6,7 +6,7 @@ This directory contains the tooling that powers interactive Jetpack Compose Mate
 
 ```
 preview/
-├── serve.py                 # Local dev server with COOP/COEP headers for WASM
+├── serve.py                 # Local dev server for WASM
 ├── generator/               # Roborazzi + Robolectric 16:9 screenshot generator
 │   ├── build.gradle.kts
 │   ├── generate_preview_images.py

@@ -45,6 +45,7 @@ kotlin {
                 implementation("org.jetbrains.compose.ui:ui:1.13.0-alpha01")
                 implementation("org.jetbrains.compose.components:components-resources:1.13.0-alpha01")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
             }
         }
     }

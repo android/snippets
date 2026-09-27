@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Helper server script to serve the Compose Preview static site with proper MIME types & CORS headers
+# Helper server script to serve the Compose Preview static site with proper MIME types
 #
 import http.server
 import mimetypes
@@ -18,14 +18,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
-    def end_headers(self):
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-        self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
-        super().end_headers()
-
     def log_message(self, format, *args):
-        # Keep logs concise
         sys.stderr.write("%s - - [%s] %s\n" % (self.address_string(), self.log_date_time_string(), format % args))
 
 if __name__ == "__main__":
@@ -37,4 +30,3 @@ if __name__ == "__main__":
         server.serve_forever()
     except KeyboardInterrupt:
         pass
-
