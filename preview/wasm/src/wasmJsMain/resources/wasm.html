@@ -7,7 +7,7 @@
     <script type="importmap">
     {
         "imports": {
-            "@js-joda/core": "https://cdn.jsdelivr.net/npm/@js-joda/core@5.6.3/+esm"
+            "@js-joda/core": "./js-joda-core.mjs"
         }
     }
     </script>
@@ -118,15 +118,26 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            const observer = new MutationObserver(() => {
-                const canvas = document.querySelector('canvas');
+            const hideIfReady = () => {
+                const app = document.getElementById('composeApp');
+                const canvas = document.querySelector('canvas') || (app && app.shadowRoot && app.shadowRoot.querySelector('canvas'));
                 if (canvas) {
                     const loader = document.getElementById('loading');
                     if (loader) loader.style.display = 'none';
-                    observer.disconnect();
+                    return true;
                 }
+                return false;
+            };
+            const observer = new MutationObserver(() => {
+                if (hideIfReady()) observer.disconnect();
             });
             observer.observe(document.body, { childList: true, subtree: true });
+            const poll = setInterval(() => {
+                if (hideIfReady()) {
+                    clearInterval(poll);
+                    observer.disconnect();
+                }
+            }, 100);
         });
     </script>
     <script type="module" src="snippets-preview-wasm.mjs"></script>

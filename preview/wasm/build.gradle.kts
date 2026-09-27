@@ -39,11 +39,11 @@ kotlin {
         val wasmJsMain by getting {
             kotlin.srcDir(generatedSnippetsDir)
             dependencies {
-                implementation("org.jetbrains.compose.runtime:runtime:1.12.0")
-                implementation("org.jetbrains.compose.foundation:foundation:1.12.0")
+                implementation("org.jetbrains.compose.runtime:runtime:1.13.0-alpha01")
+                implementation("org.jetbrains.compose.foundation:foundation:1.13.0-alpha01")
                 implementation("org.jetbrains.compose.material3:material3:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.ui:ui:1.12.0")
-                implementation("org.jetbrains.compose.components:components-resources:1.12.0")
+                implementation("org.jetbrains.compose.ui:ui:1.13.0-alpha01")
+                implementation("org.jetbrains.compose.components:components-resources:1.13.0-alpha01")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
             }
         }
@@ -88,7 +88,7 @@ tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
 val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
-    dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources")
+    dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -109,16 +109,22 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
     }
 
     // Copy skiko runtime (skiko.wasm, skiko.mjs)
-    from(layout.buildDirectory.dir("compose/skiko-runtime-processed-wasmjs")) {
+    from(layout.buildDirectory.dir("compose/skiko-wasmJs-runtime")) {
         include("skiko.wasm")
         include("skiko.mjs")
+    }
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
     }
 }
 
 val packageStaticSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
-    dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources")
+    dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -139,9 +145,15 @@ val packageStaticSite by tasks.registering(Copy::class) {
     }
 
     // Copy skiko runtime (skiko.wasm, skiko.mjs)
-    from(layout.buildDirectory.dir("compose/skiko-runtime-processed-wasmjs")) {
+    from(layout.buildDirectory.dir("compose/skiko-wasmJs-runtime")) {
         include("skiko.wasm")
         include("skiko.mjs")
+    }
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
     }
 }
 
