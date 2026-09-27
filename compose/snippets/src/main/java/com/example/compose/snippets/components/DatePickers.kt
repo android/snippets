@@ -58,10 +58,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import androidx.compose.ui.platform.LocalLocale
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.MonthNames
+import kotlinx.datetime.format.char
+import kotlinx.datetime.toLocalDateTime
 
 @Preview
 @Composable
@@ -73,6 +77,7 @@ private fun DatePickerPreview() {
 
 // [START android_compose_components_datepicker_examples]
 // [START_EXCLUDE]
+@OptIn(ExperimentalTime::class)
 @Composable
 fun DatePickerExamples() {
     var showModal by remember { mutableStateOf(false) }
@@ -105,8 +110,16 @@ fun DatePickerExamples() {
         }
 // [END_EXCLUDE]
         if (selectedDate != null) {
-            val date = Date(selectedDate!!)
-            val formattedDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(date)
+            val date = Instant.fromEpochMilliseconds(selectedDate!!).toLocalDateTime(TimeZone.UTC).date
+            val formattedDate = date.format(
+                LocalDate.Format {
+                    monthName(MonthNames.ENGLISH_ABBREVIATED)
+                    char(' ')
+                    day()
+                    chars(", ")
+                    year()
+                }
+            )
             Text("Selected date: $formattedDate")
         } else {
             Text("No date selected")
@@ -120,10 +133,17 @@ fun DatePickerExamples() {
         }
 
         if (selectedDateRange.first != null && selectedDateRange.second != null) {
-            val startDate = Date(selectedDateRange.first!!)
-            val endDate = Date(selectedDateRange.second!!)
-            val formattedStartDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(startDate)
-            val formattedEndDate = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale).format(endDate)
+            val dateFormat = LocalDate.Format {
+                monthName(MonthNames.ENGLISH_ABBREVIATED)
+                char(' ')
+                day()
+                chars(", ")
+                year()
+            }
+            val startDate = Instant.fromEpochMilliseconds(selectedDateRange.first!!).toLocalDateTime(TimeZone.UTC).date
+            val endDate = Instant.fromEpochMilliseconds(selectedDateRange.second!!).toLocalDateTime(TimeZone.UTC).date
+            val formattedStartDate = startDate.format(dateFormat)
+            val formattedEndDate = endDate.format(dateFormat)
             Text("Selected date range: $formattedStartDate - $formattedEndDate")
         } else {
             Text("No date range selected")
@@ -315,9 +335,17 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalTime::class)
 fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
+    val formatter = LocalDate.Format {
+        monthNumber()
+        char('/')
+        day()
+        char('/')
+        year()
+    }
+    val date = Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.UTC).date
+    return formatter.format(date)
 }
 // [END android_compose_components_datepicker_docked]
 

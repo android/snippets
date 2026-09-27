@@ -145,6 +145,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.compose.material3.adaptive.navigation3)
     implementation(libs.androidx.navigation3.runtime)

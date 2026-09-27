@@ -24,7 +24,7 @@ import com.example.compose.preview.wasm.theme.ThemePreset
 data class Theme(
     val themeColorMode: ThemeColorMode = ThemeColorMode.System,
     val colorMode: ColorMode = ColorMode.Baseline,
-    val expressiveThemeMode: ExpressiveThemeMode = ExpressiveThemeMode.NonExpressive,
+    val expressiveThemeMode: ExpressiveThemeMode = ExpressiveThemeMode.Expressive,
     val focusIndicationStyle: FocusIndicationStyle = FocusIndicationStyle.Opacity,
     val fontScale: Float = 1.0f,
     val fontScaleMode: FontScaleMode = FontScaleMode.System,

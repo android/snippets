@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
@@ -30,7 +31,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonGroup
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedToggleButton
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -45,7 +46,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.ToggleButtonShapes
-import androidx.compose.material3.TonalToggleButton
+import androidx.compose.material3.FilledTonalToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -214,7 +215,7 @@ fun ElevatedToggleButtonSample() {
 @Composable
 fun TonalToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
-    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+    FilledTonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
 }
 // [END android_compose_expressive_components_tonaltogglebutton]
 
@@ -304,11 +305,19 @@ fun SplitButtonExample(onClick: () -> Unit) {
 fun ButtonGroupExample() {
     var selectedIndex by remember { mutableIntStateOf(0) }
     val options = listOf("Day", "Week", "Month")
-    ButtonGroup {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+    ) {
         options.forEachIndexed { index, label ->
             ToggleButton(
                 checked = selectedIndex == index,
                 onCheckedChange = { selectedIndex = index },
+                shapes =
+                    when (index) {
+                        0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+                        options.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+                        else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+                    },
             ) {
                 Text(label)
             }
@@ -504,9 +513,9 @@ fun SquareToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
     val shapes =
         ToggleButtonShapes(
-            shape = ToggleButtonDefaults.squareShape,
+            shape = ToggleButtonDefaults.checkedShape,
             pressedShape = ToggleButtonDefaults.pressedShape,
-            checkedShape = ToggleButtonDefaults.roundShape,
+            checkedShape = ToggleButtonDefaults.shape,
         )
     ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
         Text("Button")

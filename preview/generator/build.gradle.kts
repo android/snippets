@@ -82,18 +82,3 @@ tasks.register("generateScreenshots") {
         println("Screenshots generated in build/outputs/roborazzi")
     }
 }
-
-configurations.matching { it.name.contains("UnitTest") }.all {
-    resolutionStrategy.eachDependency {
-        if ((requested.group in listOf(
-                "androidx.compose.foundation",
-                "androidx.compose.ui",
-                "androidx.compose.runtime",
-                "androidx.compose.animation"
-            ) && !requested.name.contains("accessibility")) ||
-            (requested.group == "androidx.compose.material" && !requested.name.contains("icons"))
-        ) {
-            useVersion("1.11.0-beta02")
-        }
-    }
-}

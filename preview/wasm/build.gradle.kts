@@ -41,9 +41,10 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.compose.runtime:runtime:1.12.0")
                 implementation("org.jetbrains.compose.foundation:foundation:1.12.0")
-                implementation("org.jetbrains.compose.material3:material3:1.12.0-alpha03")
+                implementation("org.jetbrains.compose.material3:material3:1.13.0-alpha01")
                 implementation("org.jetbrains.compose.ui:ui:1.12.0")
                 implementation("org.jetbrains.compose.components:components-resources:1.12.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
             }
         }
     }
@@ -55,8 +56,7 @@ val pullSnippets by tasks.registering(Sync::class) {
         exclude("ComponentsScreen.kt")
         into("com/example/compose/snippets/components")
         filter { line ->
-            line.replace("LocalLocale.current.platformLocale", "Locale.getDefault()")
-                .replace("import android.app.Activity", "// import android.app.Activity")
+            line.replace("import android.app.Activity", "// import android.app.Activity")
                 .replace("import android.content.pm.ActivityInfo", "// import android.content.pm.ActivityInfo")
                 .replace("import androidx.compose.ui.platform.LocalContext", "// import androidx.compose.ui.platform.LocalContext")
                 .replace("val context = LocalContext.current", "val context: Any? = null")
