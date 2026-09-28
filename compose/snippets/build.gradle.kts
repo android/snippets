@@ -77,6 +77,13 @@ android {
 }
 
 dependencies {
+    constraints {
+        // material3 1.5.0-alpha28 aligns Compose UI to 1.13.0-alpha01, whose
+        // ui-test-junit4-accessibility pulls error_prone_annotations 2.28.0 onto the
+        // runtime classpath, while espresso-core 3.7.0 needs 2.30.0 on the androidTest
+        // classpath. Align both so AGP's consistent resolution succeeds.
+        implementation("com.google.errorprone:error_prone_annotations:2.30.0")
+    }
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
