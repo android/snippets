@@ -150,7 +150,7 @@ fun AnnotatedTitle() {
                     addStyle(
                         SpanStyle(
                             fontFamily = FontFamily(
-                                Font(R.font.permanent_marker)
+                                Font(R.font.raleway_regular)
                             )
                         ),
                         source.getSpanStart(annotation),
