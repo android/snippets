@@ -54,10 +54,9 @@ private object ModularizationSnippet2 {
                 CheckoutUiState()
                 // [END_EXCLUDE]
             }
-                // [START_EXCLUDE silent]
+                // [START_EXCLUDE]
                 .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CheckoutUiState())
         // [END_EXCLUDE]
-        /* ... */
     }
     // [END android_modularization_patterns_checkout_viewmodel]
 }
