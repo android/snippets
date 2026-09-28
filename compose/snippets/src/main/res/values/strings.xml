@@ -75,7 +75,10 @@
         <item quantity="one">%d song found.</item>
         <item quantity="other">%d songs found.</item>
     </plurals>
+
+    <!-- [START android_resources_string_resource_welcome_messages_xml] -->
     <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+    <!-- [END android_resources_string_resource_welcome_messages_xml] -->
     <string name="hello_new_document_counter">Hello new document</string>
     <string name="reusing_document_counter">Reusing document</string>
 
