@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.fromTarget("17")
-    }
+    jvmToolchain(17)
 }
 
 android {
-    namespace = "com.example.camerax.snippets"
+    namespace = "com.example.camera.snippets"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.camerax.snippets"
+        applicationId = "com.example.camera.snippets"
         minSdk = 23
         targetSdk = 37
         versionCode = 1

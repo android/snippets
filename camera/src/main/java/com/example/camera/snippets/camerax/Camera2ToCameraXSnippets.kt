@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

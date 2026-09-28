@@ -15,7 +15,7 @@
  */
 
 @file:android.annotation.SuppressLint("MissingPermission", "NewApi")
-package com.example.camerax.snippets
+package com.example.camera.snippets.camerax
 
 import android.app.Activity
 import android.content.Context
