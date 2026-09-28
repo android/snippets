@@ -235,7 +235,7 @@ private object StateProductionSnippet5 {
         fun rollDice() {
             viewModelScope.launch {
                 // Other Coroutines that may be called from the current context
-                /* ... */
+                // ...
                 withContext(defaultDispatcher) {
                     Snapshot.withMutableSnapshot {
                         _uiState.firstDieValue = SlowRandom.nextInt(from = 1, until = 7)
@@ -272,7 +272,7 @@ private object StateProductionSnippet6 {
         fun rollDice() {
             viewModelScope.launch {
                 // Other Coroutines that may be called from the current context
-                /* ... */
+                // ...
                 withContext(defaultDispatcher) {
                     _uiState.update { currentState ->
                         currentState.copy(
