@@ -60,8 +60,7 @@ dependencies {
     testImplementation(composeBom)
 
     implementation(libs.androidx.compose.ui)
-    implementation("androidx.compose.material3:material3:1.5.0-alpha28")
-    testImplementation("androidx.compose.material3:material3:1.5.0-alpha28")
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.foundation)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
