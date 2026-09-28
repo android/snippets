@@ -59,7 +59,7 @@ kotlin {
 val pullSnippets by tasks.registering(Sync::class) {
     from("${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets/components") {
         include("*.kt")
-        exclude("ComponentsScreen.kt")
+        exclude("ComponentsScreen.kt", "Snackbar.kt")
         into("com/example/compose/snippets/components")
     }
     into(layout.buildDirectory.dir("generated/sources/composeSnippets/wasmJsMain/kotlin"))
