@@ -30,17 +30,20 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.wear.R
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 class TileActivity : ComponentActivity() {
     // [START android_wear_m3_interactions_launchaction_activity]
@@ -106,23 +109,33 @@ fun MainContent() {
 @Composable
 fun MessageDetails(details: String) {
     val scrollState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
 
-    val padding = rememberResponsiveColumnPadding(first = ColumnItemType.BodyText)
-
-    ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
-        scaffoldPaddingValues ->
+    ScreenScaffold(scrollState = scrollState) { contentPadding ->
         TransformingLazyColumn(
             state = scrollState,
-            contentPadding = scaffoldPaddingValues,
+            contentPadding = contentPadding,
         ) {
             item {
-                ListHeader() { Text(text = stringResource(R.string.message_detail)) }
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
+                ) {
+                    Text(text = stringResource(R.string.message_detail))
+                }
             }
             item {
                 Text(
                     text = details,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .transformedHeight(this, transformationSpec),
                 )
             }
         }
@@ -132,26 +145,36 @@ fun MessageDetails(details: String) {
 @Composable
 fun MessageList(onMessageClick: (String) -> Unit) {
     val scrollState = rememberTransformingLazyColumnState()
+    val transformationSpec = rememberTransformationSpec()
 
-    val padding =
-        rememberResponsiveColumnPadding(
-            first = ColumnItemType.ListHeader,
-            last = ColumnItemType.Button,
-        )
-
-    ScreenScaffold(scrollState = scrollState, contentPadding = padding) {
-        contentPadding ->
+    ScreenScaffold(scrollState = scrollState) { contentPadding ->
         TransformingLazyColumn(
             state = scrollState,
             contentPadding = contentPadding,
         ) {
             item {
-                ListHeader() { Text(text = stringResource(R.string.message_list)) }
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
+                ) {
+                    Text(text = stringResource(R.string.message_list))
+                }
             }
             item {
                 Button(
                     onClick = { onMessageClick("message1") },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
                 ) {
                     Text(text = "Message 1")
                 }
@@ -159,7 +182,13 @@ fun MessageList(onMessageClick: (String) -> Unit) {
             item {
                 Button(
                     onClick = { onMessageClick("message2") },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ButtonDefaults.minimumVerticalListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
                 ) {
                     Text(text = "Message 2")
                 }
