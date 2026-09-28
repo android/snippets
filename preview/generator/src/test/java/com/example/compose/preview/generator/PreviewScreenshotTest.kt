@@ -20,7 +20,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -77,7 +78,7 @@ private val PreviewColorScheme = lightColorScheme(
     outlineVariant = Color(0xFFDADCE0)
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [36], qualifiers = "w384dp-h216dp-xhdpi")
@@ -104,7 +105,7 @@ class PreviewScreenshotTest {
 
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
-            MaterialTheme(colorScheme = PreviewColorScheme) {
+            MaterialExpressiveTheme(colorScheme = PreviewColorScheme) {
                 Box(
                     modifier = Modifier
                         .size(384.dp, 216.dp)
