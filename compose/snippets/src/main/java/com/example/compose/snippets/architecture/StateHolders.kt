@@ -37,7 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -178,7 +178,9 @@ object StateHoldersSnippet5 {
             // [END_EXCLUDE]
 
         // Business logic
-        fun followAuthor(followed: Boolean) {/* ... */}
+        fun followAuthor(followed: Boolean) {
+            // ...
+        }
     }
     // [END android_architecture_stateholders_hilt_author_viewmodel]
 }
