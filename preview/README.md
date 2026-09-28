@@ -28,7 +28,7 @@ preview/
 
 ### Single Source of Truth (`SnippetRegistry.kt`)
 
-[`SnippetRegistry.kt`](wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry/SnippetRegistry.kt) maps each DAC snippet region tag (`// [START android_compose_components_...]`) to its `@Composable` preview lambda. Both the WASM interactive runner (`WasmPreviewApp.kt`) and the Roborazzi screenshot test (`PreviewScreenshotTest.kt`) read directly from `SnippetRegistry.snippets` and wrap previews in `MaterialExpressiveTheme`.
+[`SnippetRegistry.kt`](wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry/SnippetRegistry.kt) maps each DAC snippet region tag (for example, `android_compose_components_filledbutton`) to its `@Composable` preview lambda. Both the WASM interactive runner (`WasmPreviewApp.kt`) and the Roborazzi screenshot test (`PreviewScreenshotTest.kt`) read directly from `SnippetRegistry.snippets` and wrap previews in `MaterialExpressiveTheme`.
 
 ## Common Workflows
 
@@ -48,7 +48,7 @@ Once running, open `http://localhost:8090/wasm.html?id=android_compose_component
 ### 2. Generate 16:9 Static Preview Screenshots
 
 ```bash
-./gradlew :preview:generator:testDebugUnitTest
+./gradlew :preview:generator:recordRoborazziDebug
 # or
 python3 preview/generator/generate_preview_images.py
 ```

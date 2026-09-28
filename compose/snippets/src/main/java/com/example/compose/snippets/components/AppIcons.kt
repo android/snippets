@@ -275,7 +275,6 @@ object AppIcons {
     val PlayArrow: ImageVector by lazy {
         createIcon("PlayArrow", "M320,760L320,200L760,480L320,760ZM400,480L400,480L400,480L400,480ZM400,614L610,480L400,346L400,614Z")
     }
-
 }
 
 /**
