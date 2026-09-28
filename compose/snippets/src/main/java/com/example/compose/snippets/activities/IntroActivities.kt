@@ -42,51 +42,51 @@ private class IntroEmailActivity : ComponentActivity() {
 
 // [START android_activities_intro_example_activity]
 class ExampleActivity : ComponentActivity() {
-  private val viewModel: MyViewModel by viewModels()
+    private val viewModel: MyViewModel by viewModels()
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    handleIntent(intent)
-    setContent {
-      ComposeApp(viewModel)
-    }
-  }
-
-  override fun onNewIntent(intent: Intent) {
-    super.onNewIntent(intent)
-    setIntent(intent)
-    handleIntent(intent)
-  }
-
-  private fun handleIntent(intent: Intent?) {
-    when (intent?.action) {
-      Intent.ACTION_SEND -> {
-        if ("text/plain" == intent.type) {
-          intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            viewModel.handleText(it) // Update UI to reflect text being shared
-          }
-        } else if (intent.type?.startsWith("image/") == true) {
-          (intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java))?.let {
-            viewModel.handleImage(it) // Update UI to reflect image being shared
-          }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        handleIntent(intent)
+        setContent {
+            ComposeApp(viewModel)
         }
-      }
-
-      Intent.ACTION_SEND_MULTIPLE -> {
-          if (intent.type?.startsWith("image/") == true) {
-              intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)?.let {
-                  viewModel.handleMultipleImages(it) // Update UI to reflect multiple images being shared
-              }
-          } else {
-              // Handle other types
-          }
-      }
-
-      else -> {
-          // Handle other intents
-      }
     }
-  }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+                        viewModel.handleText(it) // Update UI to reflect text being shared
+                    }
+                } else if (intent.type?.startsWith("image/") == true) {
+                    (intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java))?.let {
+                        viewModel.handleImage(it) // Update UI to reflect image being shared
+                    }
+                }
+            }
+
+            Intent.ACTION_SEND_MULTIPLE -> {
+                if (intent.type?.startsWith("image/") == true) {
+                    intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)?.let {
+                        viewModel.handleMultipleImages(it) // Update UI to reflect multiple images being shared
+                    }
+                } else {
+                    // Handle other types
+                }
+            }
+
+            else -> {
+                // Handle other intents
+            }
+        }
+    }
 }
 // [END android_activities_intro_example_activity]
 
