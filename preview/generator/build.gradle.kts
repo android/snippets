@@ -38,6 +38,13 @@ android {
         compose = true
     }
 
+    lint {
+        // Borrowed compose/snippets layouts reference views from compose/snippets code and its
+        // dependencies (CoordinatorLayout, Material AppBarLayout, EmojiTextView, ...). Those
+        // layouts are already linted in :compose:snippets.
+        disable += "MissingClass"
+    }
+
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -51,6 +58,17 @@ android {
         getByName("test") {
             kotlin.directories.add("../wasm/src/wasmJsMain/kotlin/com/example/compose/preview/wasm/registry")
         }
+    }
+}
+
+androidComponents {
+    // This module only exists to run the Roborazzi screenshot test in the debug variant.
+    // Its main source set borrows compose/snippets resources (see res.srcDirs above), which
+    // reference themes/attrs from libraries this module doesn't depend on (AppCompat, Material
+    // Components, Glance, ...). Release resource verification would fail on those, so the
+    // unused release variant is disabled.
+    beforeVariants(selector().withBuildType("release")) { variantBuilder ->
+        variantBuilder.enable = false
     }
 }
 
