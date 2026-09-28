@@ -16,14 +16,14 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -89,7 +89,7 @@ fun SwitchWithIconExample() {
         thumbContent = if (checked) {
             {
                 Icon(
-                    imageVector = Icons.Filled.Check,
+                    painter = rememberVectorPainter(AppIcons.Check),
                     contentDescription = null,
                     modifier = Modifier.size(SwitchDefaults.IconSize),
                 )

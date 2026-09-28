@@ -16,17 +16,14 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
@@ -76,7 +73,7 @@ fun AssistChipExample() {
         label = { Text("Assist chip") },
         leadingIcon = {
             Icon(
-                Icons.Filled.Settings,
+                painter = rememberVectorPainter(AppIcons.Settings),
                 contentDescription = "Localized description",
                 Modifier.size(AssistChipDefaults.IconSize)
             )
@@ -100,7 +97,7 @@ fun FilterChipExample() {
         leadingIcon = if (selected) {
             {
                 Icon(
-                    imageVector = Icons.Filled.Done,
+                    painter = rememberVectorPainter(AppIcons.Done),
                     contentDescription = "Done icon",
                     modifier = Modifier.size(FilterChipDefaults.IconSize)
                 )
@@ -132,14 +129,14 @@ fun InputChipExample(
         selected = enabled,
         avatar = {
             Icon(
-                Icons.Filled.Person,
+                painter = rememberVectorPainter(AppIcons.Person),
                 contentDescription = "Localized description",
                 Modifier.size(InputChipDefaults.AvatarSize)
             )
         },
         trailingIcon = {
             Icon(
-                Icons.Default.Close,
+                painter = rememberVectorPainter(AppIcons.Close),
                 contentDescription = "Localized description",
                 Modifier.size(InputChipDefaults.AvatarSize)
             )

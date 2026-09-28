@@ -19,10 +19,6 @@ package com.example.compose.snippets.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Album
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.PlaylistAddCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -85,9 +81,9 @@ enum class Destination(
     val icon: ImageVector,
     val contentDescription: String
 ) {
-    SONGS("songs", "Songs", Icons.Default.MusicNote, "Songs"),
-    ALBUM("album", "Album", Icons.Default.Album, "Album"),
-    PLAYLISTS("playlist", "Playlist", Icons.Default.PlaylistAddCircle, "Playlist")
+    SONGS("songs", "Songs", AppIcons.MusicNote, "Songs"),
+    ALBUM("album", "Album", AppIcons.Album, "Album"),
+    PLAYLISTS("playlist", "Playlist", AppIcons.PlaylistAddCircle, "Playlist")
 }
 
 @Composable
