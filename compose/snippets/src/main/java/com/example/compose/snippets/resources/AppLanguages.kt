@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 private fun overrideLocaleConfigSnippet(applicationContext: Context) {
     // [START android_resources_app_languages_override_locale_config]
     //For setOverrideLocaleConfig
@@ -48,7 +47,6 @@ private fun overrideLocaleConfigSnippet(applicationContext: Context) {
     // [END android_resources_app_languages_override_locale_config]
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun currentAppLocalesSnippet(applicationContext: Context, appPackageName: String) {
     // [START android_resources_app_languages_current_app_locales]
     val currentAppLocales: LocaleList = applicationContext.getSystemService(LocaleManager::class.java).getApplicationLocales(appPackageName)
@@ -118,7 +116,6 @@ fun getAppLanguage(context: Context): String {
 }
 // [END android_resources_app_languages_framework_set_get]
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun ResetLocaleSnippet() {
     // [START android_resources_app_languages_reset_locale]

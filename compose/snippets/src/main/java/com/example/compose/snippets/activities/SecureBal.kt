@@ -21,18 +21,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.annotation.RequiresApi
 import java.util.concurrent.Executor
 
 private const val TAG = "SecureBal"
 private const val REQUEST_CODE = 100
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 private fun senderOptInSnippet(myPendingIntent: PendingIntent) {
     // [START android_activities_secure_bal_sender_opt_in]
     // Sender Side
@@ -48,7 +45,6 @@ private fun senderOptInSnippet(myPendingIntent: PendingIntent) {
     // [END android_activities_secure_bal_sender_opt_in]
 }
 
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 private fun creatorOptInSnippet(context: Context) {
     // [START android_activities_secure_bal_creator_opt_in]
     // Creator Side
@@ -64,7 +60,6 @@ private fun creatorOptInSnippet(context: Context) {
     // [END android_activities_secure_bal_creator_opt_in]
 }
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 private fun startIntentSenderSnippet(
     context: Context,
     myIntentSender: IntentSender,
@@ -85,7 +80,6 @@ private fun startIntentSenderSnippet(
     // [END android_activities_secure_bal_start_intent_sender]
 }
 
-@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 private fun sendIntentSnippet(
     context: Context,
     myIntentSender: IntentSender,
