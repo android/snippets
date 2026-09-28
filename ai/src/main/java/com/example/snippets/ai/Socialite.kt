@@ -21,10 +21,8 @@ import com.google.firebase.ai.Chat
 import com.google.firebase.ai.GenerativeModel
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.Content
-import com.google.firebase.ai.type.PublicPreviewAPI
 import com.google.firebase.ai.type.content
 
-@OptIn(PublicPreviewAPI::class)
 private fun createGenerativeModel(): GenerativeModel {
     // [START android_ai_socialite_generative_model]
     val generativeModel = Firebase.ai.generativeModel(
@@ -39,7 +37,6 @@ private fun createGenerativeModel(): GenerativeModel {
     return generativeModel
 }
 
-@OptIn(PublicPreviewAPI::class)
 private fun startChatExample(generativeModel: GenerativeModel, chatId: String): Chat {
     // [START android_ai_socialite_start_chat]
     val pastMessages = getMessageHistory(chatId)

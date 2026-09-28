@@ -32,6 +32,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // [START android_ai_adk_define_agent]
+// package com.example.agent
+// import com.google.adk.kt.agents.Instruction
+// import com.google.adk.kt.agents.LlmAgent
+// import com.google.adk.kt.annotations.Param
+// import com.google.adk.kt.annotations.Tool
+// import com.google.adk.kt.models.Gemini
 class TimeService {
     /** Mock tool implementation */
     @Tool
@@ -63,6 +69,13 @@ object HelloTimeAgent {
 
 private fun runAgentExample(scope: CoroutineScope) {
     // [START android_ai_adk_run_agent]
+    // import com.google.adk.kt.runners.InMemoryRunner
+    // import com.google.adk.kt.sessions.InMemorySessionService
+    // import com.google.adk.kt.types.Content
+    // import com.google.adk.kt.types.Part
+    // import com.google.adk.kt.types.Role
+    // import kotlinx.coroutines.CoroutineScope
+    // import kotlinx.coroutines.launch
     // Create a runner and session service
     val sessionService = InMemorySessionService()
     val runner = InMemoryRunner(
@@ -90,6 +103,8 @@ private fun runAgentExample(scope: CoroutineScope) {
 
 private fun onDeviceModelExample(mockGenerativeModel: GenerativeModel) {
     // [START android_ai_adk_on_device_models]
+    // import com.google.adk.kt.models.mlkit.GenaiPrompt
+    // import com.google.mlkit.genai.prompt.GenerativeModel
     // Create an ML Kit GenerativeModel for on-device inference
     // [START_EXCLUDE silent]
     /*
