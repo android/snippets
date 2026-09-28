@@ -36,7 +36,7 @@ private fun overrideLocaleConfigSnippet(applicationContext: Context) {
     val localeManager = applicationContext
         .getSystemService(LocaleManager::class.java)
     localeManager.overrideLocaleConfig = LocaleConfig(
-    LocaleList.forLanguageTags("en-US,ja-JP,zh-Hans-SG")
+        LocaleList.forLanguageTags("en-US,ja-JP,zh-Hans-SG")
     )
 
     //For getOverrideLocaleConfig
@@ -121,12 +121,12 @@ private fun ResetLocaleSnippet() {
     // [START android_resources_app_languages_reset_locale]
     // Use the AndroidX APIs to reset to the system locale for backward and forward compatibility
     AppCompatDelegate.setApplicationLocales(
-      LocaleListCompat.getEmptyLocaleList()
+        LocaleListCompat.getEmptyLocaleList()
     )
 
     // Or use the Framework APIs for Android 13 and above to reset to the system locale
     val context = LocalContext.current
     context.getSystemService(LocaleManager::class.java)
-      .applicationLocales = LocaleList.getEmptyLocaleList()
+        .applicationLocales = LocaleList.getEmptyLocaleList()
     // [END android_resources_app_languages_reset_locale]
 }
