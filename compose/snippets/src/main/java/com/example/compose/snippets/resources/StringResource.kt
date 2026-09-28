@@ -88,7 +88,7 @@ fun WelcomeHtmlMessage(username: String, mailCount: Int) {
     val escapedUsername = TextUtils.htmlEncode(username)
 
     val text = stringResource(
-        R.string.welcome_messages,
+        R.string.welcome_messages_styled,
         escapedUsername,
         mailCount,
     )
