@@ -16,9 +16,7 @@
 
 package com.example.compose.snippets.activities
 
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -92,7 +90,7 @@ class ExampleActivity : ComponentActivity() {
 }
 // [END android_activities_intro_example_activity]
 
-class MyViewModel : ViewModel() {
+private class MyViewModel : ViewModel() {
     fun handleText(text: String) {}
     fun handleImage(uri: Uri) {}
     fun handleMultipleImages(uris: ArrayList<Uri>) {}
