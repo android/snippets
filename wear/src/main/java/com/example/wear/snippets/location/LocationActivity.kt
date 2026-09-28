@@ -25,13 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
-import com.google.android.horologist.compose.layout.AppScaffold
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
-
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 
 // [START android_wear_location]
 class LocationActivity : ComponentActivity() {
@@ -51,31 +52,31 @@ class LocationActivity : ComponentActivity() {
 
 @Composable
 fun WearApp(hasGps: () -> Boolean) {
-
     val columnState = rememberTransformingLazyColumnState()
-    val contentPadding = rememberResponsiveColumnPadding(
-        first = ColumnItemType.ListHeader,
-        last = ColumnItemType.Button,
-    )
+    val transformationSpec = rememberTransformationSpec()
     AppScaffold {
         ScreenScaffold(
             scrollState = columnState,
-            contentPadding = contentPadding
         ) { contentPadding ->
             TransformingLazyColumn(
                 state = columnState,
-                contentPadding = contentPadding
+                contentPadding = contentPadding,
             ) {
                 item {
                     ListHeader(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .transformedHeight(this, transformationSpec)
+                            .minimumVerticalContentPadding(
+                                ListHeaderDefaults.minimumTopListContentPadding
+                            ),
+                        transformation = SurfaceTransformation(transformationSpec),
                     ) {
                         if (!hasGps()) {
                             Text(text = "This hardware doesn't have GPS")
                             // Fall back to functionality that doesn't use location or
                             // warn the user that location function isn't available.
-                        }
-                        else {
+                        } else {
                             Text(text = "This hardware has GPS")
                         }
                     }

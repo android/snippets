@@ -33,6 +33,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,6 +54,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.AndroidFragment
+import androidx.lifecycle.Lifecycle
 import com.example.compose.snippets.MyActivity
 import com.example.compose.snippets.R
 import com.example.compose.snippets.databinding.ExampleLayoutBinding
@@ -277,8 +280,30 @@ fun FragmentInComposeExample() {
 
 // [START_EXCLUDE silent]
 class MyFragment : Fragment()
+class HomeFragment : Fragment()
+class LibraryFragment : Fragment()
 // [END_EXCLUDE]
 // [END android_compose_interop_apis_fragments_in_compose]
+
+@Composable
+fun FragmentInPagerExample(pagerState: PagerState) {
+    // [START android_compose_interop_apis_fragments_in_compose_max_lifecycle]
+    HorizontalPager(state = pagerState) { page ->
+        // Dynamically cap the lifecycle state based on whether the page is selected
+        val maxLifecycle = if (pagerState.settledPage == page) {
+            Lifecycle.State.RESUMED
+        } else {
+            Lifecycle.State.STARTED
+        }
+
+        when (page) {
+            0 -> AndroidFragment<HomeFragment>(maxLifecycle = maxLifecycle)
+            1 -> AndroidFragment<LibraryFragment>(maxLifecycle = maxLifecycle)
+            /* Other pages and corresponding fragments */
+        }
+    }
+    // [END android_compose_interop_apis_fragments_in_compose_max_lifecycle]
+}
 
 // [START android_compose_interop_apis_composition_locals]
 @Composable
