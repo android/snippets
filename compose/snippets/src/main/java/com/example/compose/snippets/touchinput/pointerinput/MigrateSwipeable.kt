@@ -217,4 +217,4 @@ private fun VelocityThreshold() {
     // [END android_compose_touchinput_pointerinput_migrate_swipeable_velocity_threshold]
 }
 
-enum class DragValue { Start, Center, End }
+private enum class DragValue { Start, Center, End }
