@@ -65,8 +65,8 @@ private fun setHdrMode(videoSequence: EditedMediaItemSequence) {
 private fun trimVideo(videoUri: Uri) {
     // [START android_media_editing_trim_video]
     val clippingConfiguration = MediaItem.ClippingConfiguration.Builder()
-        .setStartPositionMs(10_000) // start at 10 seconds
-        .setEndPositionMs(20_000) // end at 20 seconds
+        .setStartPositionMs(10_000) // start at 10 seconds.
+        .setEndPositionMs(20_000) // end at 20 seconds.
         .build()
     val mediaItem = MediaItem.Builder()
         .setUri(videoUri)
@@ -94,7 +94,7 @@ private fun customEffects(inputMediaItem: MediaItem) {
     // [START android_media_editing_custom_effects]
     val zoomEffect = MatrixTransformation { presentationTimeUs ->
         val transformationMatrix = Matrix()
-        // Set the scaling factor based on the playback position
+        // Set the scaling factor based on the playback position.
         val scale = min(1f, presentationTimeUs / 1_000f)
         transformationMatrix.postScale(/* x */ scale, /* y */ scale)
         transformationMatrix
