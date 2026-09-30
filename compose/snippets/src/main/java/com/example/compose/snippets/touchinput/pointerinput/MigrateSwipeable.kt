@@ -45,8 +45,7 @@ private object AnchoredDraggableStateExample {
     // [START android_compose_touchinput_pointerinput_migrate_swipeable_state_anchored]
     class MySwitchState {
         private val anchoredDraggableState = AnchoredDraggableState(
-            // ...
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             initialValue = DragValue.Start,
             positionalThreshold = { distance: Float -> distance * 0.5f },
             velocityThreshold = { 125f },
@@ -64,8 +63,7 @@ private object AnchoredDraggableStateExample {
 fun AnchoredDraggableBox() {
     val state = remember {
         AnchoredDraggableState(
-            // ...
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             initialValue = DragValue.Start,
             positionalThreshold = { distance: Float -> distance * 0.5f },
             velocityThreshold = { 125f },
@@ -77,8 +75,7 @@ fun AnchoredDraggableBox() {
     val density = LocalDensity.current
     val anchors = remember {
         DraggableAnchors {
-            // ...
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             DragValue.Start at -100f
             DragValue.Center at 0f
             DragValue.End at 100f
@@ -137,8 +134,7 @@ private object AnchoredDraggableUpdateAnchorsExample {
     fun AnchoredDraggableBox() {
         val state = remember {
             AnchoredDraggableState(
-                // ...
-                // [START_EXCLUDE silent]
+                // [START_EXCLUDE]
                 initialValue = DragValue.Start,
                 positionalThreshold = { distance: Float -> distance * 0.5f },
                 velocityThreshold = { 125f },
@@ -170,8 +166,7 @@ private fun PositionalThresholdFraction() {
     // [START android_compose_touchinput_pointerinput_migrate_swipeable_positional_threshold_fraction]
     val anchoredDraggableState = AnchoredDraggableState(
         positionalThreshold = { distance -> distance * 0.5f },
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         initialValue = DragValue.Start,
         velocityThreshold = { 125f },
         snapAnimationSpec = spring(),
@@ -188,8 +183,7 @@ private fun PositionalThresholdDp() {
     val density = LocalDensity.current
     val anchoredDraggableState = AnchoredDraggableState(
         positionalThreshold = { with(density) { 56.dp.toPx() } },
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         initialValue = DragValue.Start,
         velocityThreshold = { 125f },
         snapAnimationSpec = spring(),
@@ -206,8 +200,7 @@ private fun VelocityThreshold() {
     val density = LocalDensity.current
     val anchoredDraggableState = AnchoredDraggableState(
         velocityThreshold = { with(density) { 125.dp.toPx() } },
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         initialValue = DragValue.Start,
         positionalThreshold = { distance: Float -> distance * 0.5f },
         snapAnimationSpec = spring(),
