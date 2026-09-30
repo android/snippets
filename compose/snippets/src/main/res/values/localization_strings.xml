@@ -33,5 +33,6 @@
     <string name="promo_message">
         Please use the "<xliff:g id="promotion_code">ABCDEFG</xliff:g>" to get a discount.
     </string>
+    <!-- ... -->
 </resources>
 <!-- [END android_resources_localization_xliff_examples] -->
