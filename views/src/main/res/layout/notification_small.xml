@@ -14,9 +14,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-    <string name="empty_view_text">Empty</string>
-    <string name="email_sent">Email sent</string>
-    <string name="email_archived">Email archived</string>
-    <string name="undo_string">Undo</string>
-</resources>
+<!-- [START android_views_notifications_custom_layout_small] -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/notification_title"
+        style="@style/TextAppearance.Compat.Notification.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Small notification, showing only a title" />
+</LinearLayout>
+<!-- [END android_views_notifications_custom_layout_small] -->
