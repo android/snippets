@@ -342,14 +342,14 @@ fun GridWithLazyColumnPreview() {
 }
 
 // [START android_compose_grid_with_lazy_column_setup]
-enum class ScreenArea {
+private enum class ScreenArea {
     Header,
     Content,
     Footer
 }
 
 
-val lazyConfig: GridConfigurationScope.() -> Unit = {
+private val lazyConfig: GridConfigurationScope.() -> Unit = {
     column(minmax(0.dp, 1.fr))
     row(GridTrackSize.MaxContent)
     row(minmax(0.dp, 1.fr))
@@ -365,7 +365,7 @@ val lazyConfig: GridConfigurationScope.() -> Unit = {
 
 // [START android_compose_grid_with_lazy_column]
 @Composable
-fun GridWithLazyColumn(
+private fun GridWithLazyColumn(
     modifier: Modifier = Modifier,
     items: List<String> = emptyList(),
 ) {
