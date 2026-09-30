@@ -132,8 +132,7 @@ private class NestedScrollInteropAdapter :
             // ...
         }
     }
-    // ...
-    // [START_EXCLUDE silent]
+    // [START_EXCLUDE]
     override fun getItemCount(): Int = items.size
     // [END_EXCLUDE]
 }
