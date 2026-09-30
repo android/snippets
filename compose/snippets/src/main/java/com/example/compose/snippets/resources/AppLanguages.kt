@@ -54,6 +54,12 @@ private fun currentAppLocalesSnippet(applicationContext: Context, appPackageName
 }
 
 // [START android_resources_app_languages_language_selector]
+// import androidx.appcompat.app.AppCompatDelegate
+// import androidx.compose.material3.Button
+// import androidx.compose.material3.Text
+// import androidx.compose.runtime.Composable
+// import androidx.core.os.LocaleListCompat
+
 @Composable
 fun LanguageSelector() {
     // Retrieve the currently configured app locale.
@@ -89,6 +95,13 @@ private fun setAppLocaleSnippet() {
 }
 
 // [START android_resources_app_languages_framework_set_get]
+// import android.app.LocaleManager
+// import android.content.Context
+// import android.os.Build
+// import android.os.LocaleList
+// import androidx.annotation.RequiresApi
+// import java.util.Locale
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun setAppLanguage(context: Context, languageTag: String) {
     // 1. Retrieve the system service
