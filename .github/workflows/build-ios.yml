@@ -49,7 +49,6 @@ jobs:
       - name: Build iOS app
         uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5 # v3
         with:
-          xcode: ^16
           scheme: iosApp
           platform: iOS
           action: build
