@@ -87,7 +87,7 @@ class SynchronizationSnippets {
     @Test
     fun manualSyncExample() {
         // [START android_compose_testing_synchronization_waitforidle]
-        composeTestRule.mainClock.autoAdvance = true // Default
+        composeTestRule.mainClock.autoAdvance = true // Default.
         composeTestRule.waitForIdle() // Advances the clock until Compose is idle.
 
         composeTestRule.mainClock.autoAdvance = false

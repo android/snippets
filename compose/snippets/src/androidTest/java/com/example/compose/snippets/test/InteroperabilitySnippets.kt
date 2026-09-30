@@ -79,11 +79,11 @@ class InteroperabilitySnippets {
     // [START android_compose_testing_interop_scoped_list_item]
     @Test
     fun testComposeButtonInsideRecyclerViewItem() = runComposeUiTest {
-        // Scroll to the desired position using Espresso
+        // Scroll to the desired position using Espresso.
         Espresso.onView(withId(recyclerViewId))
             .perform(RecyclerViewActions.scrollToPosition<MyViewHolder>(3))
 
-        // Define an Espresso ViewInteraction that uniquely identifies the row
+        // Define an Espresso ViewInteraction that uniquely identifies the row.
         val rowView = Espresso.onView(
             allOf(
                 withId(rootViewId),
@@ -91,7 +91,7 @@ class InteroperabilitySnippets {
             )
         )
 
-        // Scope the Compose search strictly to that specific row View
+        // Scope the Compose search strictly to that specific row View.
         onRootWithViewInteraction(rowView)
             .onNode(hasText("Like"))
             .performClick()
@@ -102,13 +102,13 @@ class InteroperabilitySnippets {
     // [START android_compose_testing_interop_scoped_viewpager]
     @Test
     fun testComposeButtonInsideViewPagerItem() = runComposeUiTest {
-        // Swipe to the desired page using Espresso
+        // Swipe to the desired page using Espresso.
         Espresso.onView(withId(viewPagerViewId)).perform(swipeLeft())
 
-        // Identify the specific container view using Espresso
+        // Identify the specific container view using Espresso.
         val fragmentB = Espresso.onView(withId(fragmentRootViewId))
 
-        // The generic text "Save" is now unique within this view scope
+        // The generic text "Save" is now unique within this view scope.
         onRootWithViewInteraction(fragmentB)
             .onNode(hasText("Save"))
             .assertIsDisplayed()

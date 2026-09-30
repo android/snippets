@@ -38,7 +38,7 @@ class MigrateV2Snippets {
         // [START android_compose_testing_migrate_v2_waitforidle]
         viewModel.loadData()
 
-        // Explicitly run all queued tasks
+        // Explicitly run all queued tasks.
         composeTestRule.waitForIdle()
 
         assertEquals(Success, viewModel.state.value)
@@ -50,7 +50,7 @@ class MigrateV2Snippets {
         // [START android_compose_testing_migrate_v2_runonidle]
         viewModel.loadData()
 
-        // Run the assertion after the UI is idle
+        // Run the assertion after the UI is idle.
         composeTestRule.runOnIdle {
             assertEquals(Success, viewModel.state.value)
         }

@@ -52,13 +52,15 @@ class TestingApisSnippets {
     @Test
     fun findersExamples() {
         // [START android_compose_testing_apis_onnode]
+        // Example.
         composeTestRule
-            .onNode(hasText("Button")) // Equivalent to onNodeWithText("Button")
+            .onNode(hasText("Button")) // Equivalent to onNodeWithText("Button").
         // [END android_compose_testing_apis_onnode]
 
         // [START android_compose_testing_apis_onallnodes]
+        // Example.
         composeTestRule
-            .onAllNodes(hasText("Button")) // Equivalent to onAllNodesWithText("Button")
+            .onAllNodes(hasText("Button")) // Equivalent to onAllNodesWithText("Button").
         // [END android_compose_testing_apis_onallnodes]
 
         // [START android_compose_testing_apis_printtolog]
@@ -81,21 +83,21 @@ class TestingApisSnippets {
         // Single matcher:
         composeTestRule
             .onNode(matcher)
-            .assert(hasText("Button")) // hasText is a SemanticsMatcher
+            .assert(hasText("Button")) // hasText is a SemanticsMatcher.
 
-        // Multiple matchers can use and / or
+        // Multiple matchers can use and / or.
         composeTestRule
             .onNode(matcher).assert(hasText("Button") or hasText("Button2"))
         // [END android_compose_testing_apis_assertions]
 
         // [START android_compose_testing_apis_collection_assertions]
-        // Check number of matched nodes
+        // Check number of matched nodes.
         composeTestRule
             .onAllNodesWithContentDescription("Beatle").assertCountEquals(4)
-        // At least one matches
+        // At least one matches.
         composeTestRule
             .onAllNodesWithContentDescription("Beatle").assertAny(hasTestTag("Drummer"))
-        // All of them match
+        // All of them match.
         composeTestRule
             .onAllNodesWithContentDescription("Beatle").assertAll(hasClickAction())
         // [END android_compose_testing_apis_collection_assertions]

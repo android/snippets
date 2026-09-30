@@ -50,7 +50,7 @@ class MyComposeTest {
 
     @Test
     fun myTest() {
-        // Start the app
+        // Start the app.
         composeTestRule.setContent {
             MyAppTheme {
                 MainScreen(uiState = exampleUiState, /*...*/)
@@ -76,7 +76,7 @@ class MyStateRestorationTests {
 
         // TODO: Run actions that modify the state
 
-        // Trigger a recreation
+        // Trigger a recreation.
         restorationTester.emulateSavedInstanceStateRestore()
 
         // TODO: Verify that state has been correctly restored.
