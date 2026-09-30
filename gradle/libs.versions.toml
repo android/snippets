@@ -284,6 +284,8 @@ androidx-window-core = { module = "androidx.window:window-core", version.ref = "
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work-runtime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work-runtime" }
+androidx-work-rxjava2 = { module = "androidx.work:work-rxjava2", version.ref = "androidx-work-runtime" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work-runtime" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-camera2" }
