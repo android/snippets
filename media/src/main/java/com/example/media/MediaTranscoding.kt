@@ -45,7 +45,7 @@ class MediaTranscoding(
             putParcelable(MediaStore.EXTRA_MEDIA_CAPABILITIES, mediaCapabilities)
         }
         contentResolver.openTypedAssetFileDescriptor(mediaUri, mediaMimeType, providerOptions)
-            ?.use { fileDescriptor ->
+            .use { fileDescriptor ->
                 // Content will be transcoded based on values defined in the
                 // ApplicationMediaCapabilities provided.
             }
@@ -58,7 +58,7 @@ class MediaTranscoding(
             putInt(MediaStore.EXTRA_MEDIA_CAPABILITIES_UID, Binder.getCallingUid())
         }
         contentResolver.openTypedAssetFileDescriptor(mediaUri, mediaMimeType, providerOptions)
-            ?.use { fileDescriptor ->
+            .use { fileDescriptor ->
                 // Content will be transcoded based on the media capabilities of the
                 // calling app.
             }

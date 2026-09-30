@@ -54,8 +54,16 @@ class MediaPlayerResolver : Activity() {
         // [END android_media_platform_mediaplayer_resolver_query]
     }
 
-    fun playContentUri(id: Long) {
+    fun playContentUri(resolvedId: Long) {
         // [START android_media_platform_mediaplayer_resolver_play_uri]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        val id: Long = /* retrieve it from somewhere */
+        // [START_EXCLUDE silent]
+         */
+        val id: Long = resolvedId
+        // [END_EXCLUDE]
         val contentUri: Uri =
             ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
 
@@ -70,10 +78,6 @@ class MediaPlayerResolver : Activity() {
         }
 
         // ...prepare and start...
-        // [START_EXCLUDE silent]
-        mediaPlayer?.prepare()
-        mediaPlayer?.start()
-        // [END_EXCLUDE]
         // [END android_media_platform_mediaplayer_resolver_play_uri]
     }
 }

@@ -65,7 +65,7 @@ class ImproveAudioPlayback(
         )
 
         // Start playback, note the playback and the audio format must
-        // match what is set when calling `setPreferredMixerAttributes`
+        // match what is set when calling `setPreferredMixerAttriutes`
         // API.
         val audioTrack = AudioTrack.Builder()
             .setAudioAttributes(attr)

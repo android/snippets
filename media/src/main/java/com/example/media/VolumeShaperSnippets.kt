@@ -37,11 +37,12 @@ class VolumeShaperSnippets(
     }
 
     fun createShaper(config: VolumeShaper.Configuration) {
-        var shaper: VolumeShaper
+        var volumeShaper: VolumeShaper
         // [START android_media_platform_volumeshaper_create_shaper]
-        shaper = myMediaPlayer.createVolumeShaper(config)
-        shaper = myAudioTrack.createVolumeShaper(config)
+        volumeShaper = myMediaPlayer.createVolumeShaper(config)
+        volumeShaper = myAudioTrack.createVolumeShaper(config)
         // [END android_media_platform_volumeshaper_create_shaper]
+        val shaper = volumeShaper
 
         // [START android_media_platform_volumeshaper_apply_play]
         shaper.apply(VolumeShaper.Operation.PLAY)

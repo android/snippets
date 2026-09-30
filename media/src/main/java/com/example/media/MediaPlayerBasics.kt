@@ -30,8 +30,16 @@ class MediaPlayerBasics(private val context: Context) {
         // [END android_media_platform_mediaplayer_basics_create_raw]
     }
 
-    fun playLocalUri(applicationContext: Context, myUri: Uri) {
+    fun playLocalUri(applicationContext: Context, resolvedUri: Uri) {
         // [START android_media_platform_mediaplayer_basics_local_uri]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        val myUri: Uri = .... // initialize Uri here
+        // [START_EXCLUDE silent]
+         */
+        val myUri: Uri = resolvedUri
+        // [END_EXCLUDE]
         val mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
@@ -46,8 +54,9 @@ class MediaPlayerBasics(private val context: Context) {
         // [END android_media_platform_mediaplayer_basics_local_uri]
     }
 
-    fun playRemoteUrl(url: String) {
+    fun playRemoteUrl() {
         // [START android_media_platform_mediaplayer_basics_remote_url]
+        val url = "http://........" // your URL here
         val mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()

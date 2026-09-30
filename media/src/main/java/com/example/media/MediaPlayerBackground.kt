@@ -17,40 +17,128 @@
 package com.example.media
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.wifi.WifiManager
 import android.os.IBinder
+import android.os.PowerManager
 
-// [START android_media_platform_mediaplayer_background_prepare_async]
-private const val ACTION_PLAY: String = "com.example.action.PLAY"
+private object PrepareAsync {
+    // [START android_media_platform_mediaplayer_background_prepare_async]
+    private const val ACTION_PLAY: String = "com.example.action.PLAY"
 
-class MyService : Service(), MediaPlayer.OnPreparedListener {
+    class MyService : Service(), MediaPlayer.OnPreparedListener {
 
-    private var mMediaPlayer: MediaPlayer? = null
+        private var mMediaPlayer: MediaPlayer? = null
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // ...
-        val action: String? = intent?.action
-        when (action) {
-            ACTION_PLAY -> {
-                mMediaPlayer = MediaPlayer().apply {
-                    setOnPreparedListener(this@MyService)
-                    prepareAsync() // prepare async to not block main thread
+        override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+            // ...
+            val action: String? = intent.action
+            when (action) {
+                ACTION_PLAY -> {
+                    // [START_EXCLUDE silent]
+                    /*
+                    // [END_EXCLUDE]
+                    mMediaPlayer = ... // initialize it here
+                    // [START_EXCLUDE silent]
+                     */
+                    mMediaPlayer = MediaPlayer()
+                    // [END_EXCLUDE]
+                    mMediaPlayer?.apply {
+                        setOnPreparedListener(this@MyService)
+                        prepareAsync() // prepare async to not block main thread
+                    }
                 }
             }
+            // [START_EXCLUDE]
+            return START_NOT_STICKY
+            // [END_EXCLUDE]
         }
-        // [START_EXCLUDE]
-        return START_NOT_STICKY
+
+        /** Called when MediaPlayer is ready */
+        override fun onPrepared(mediaPlayer: MediaPlayer) {
+            mediaPlayer.start()
+        }
+
+        // [START_EXCLUDE silent]
+        override fun onBind(intent: Intent?): IBinder? = null
         // [END_EXCLUDE]
     }
-
-    /** Called when MediaPlayer is ready */
-    override fun onPrepared(mediaPlayer: MediaPlayer) {
-        mediaPlayer.start()
-    }
-
-    // [START_EXCLUDE silent]
-    override fun onBind(intent: Intent?): IBinder? = null
-    // [END_EXCLUDE]
+    // [END android_media_platform_mediaplayer_background_prepare_async]
 }
-// [END android_media_platform_mediaplayer_background_prepare_async]
+
+private object AsyncErrors {
+    // [START android_media_platform_mediaplayer_background_error_listener]
+    class MyService : Service(), MediaPlayer.OnErrorListener {
+
+        private var mediaPlayer: MediaPlayer? = null
+
+        fun initMediaPlayer() {
+            // ...initialize the MediaPlayer here...
+            mediaPlayer?.setOnErrorListener(this)
+        }
+
+        override fun onError(mp: MediaPlayer, what: Int, extra: Int): Boolean {
+            // ... react appropriately ...
+            // The MediaPlayer has moved to the Error state, must be reset!
+            // [START_EXCLUDE silent]
+            return true
+            // [END_EXCLUDE]
+        }
+        // [START_EXCLUDE silent]
+        override fun onBind(intent: Intent?): IBinder? = null
+        // [END_EXCLUDE]
+    }
+    // [END android_media_platform_mediaplayer_background_error_listener]
+}
+
+private object WakeLocks {
+    class MyService : Service() {
+
+        private var mediaPlayer: MediaPlayer? = null
+
+        fun setupWakeLock() {
+            // [START android_media_platform_mediaplayer_background_wake_mode]
+            mediaPlayer = MediaPlayer().apply {
+                // ... other initialization here ...
+                setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+            }
+            // [END android_media_platform_mediaplayer_background_wake_mode]
+        }
+
+        fun wifiLockUsage() {
+            // [START android_media_platform_mediaplayer_background_wifi_lock_acquire]
+            val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val wifiLock: WifiManager.WifiLock =
+                wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, "mylock")
+
+            wifiLock.acquire()
+            // [END android_media_platform_mediaplayer_background_wifi_lock_acquire]
+
+            // [START android_media_platform_mediaplayer_background_wifi_lock_release]
+            wifiLock.release()
+            // [END android_media_platform_mediaplayer_background_wifi_lock_release]
+        }
+
+        override fun onBind(intent: Intent?): IBinder? = null
+    }
+}
+
+private object Cleanup {
+    // [START android_media_platform_mediaplayer_background_release]
+    class MyService : Service() {
+
+        private var mediaPlayer: MediaPlayer? = null
+        // ...
+
+        override fun onDestroy() {
+            super.onDestroy()
+            mediaPlayer?.release()
+        }
+        // [START_EXCLUDE silent]
+        override fun onBind(intent: Intent?): IBinder? = null
+        // [END_EXCLUDE]
+    }
+    // [END android_media_platform_mediaplayer_background_release]
+}
