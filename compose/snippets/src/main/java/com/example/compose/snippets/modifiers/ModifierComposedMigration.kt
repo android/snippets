@@ -267,7 +267,7 @@ private object ThemedContainerBorderComposedSnippet {
     // [START android_compose_modifier_composed_migration_composition_local_composed]
     // ❌ BAD: Using Modifier.composed to read a single CompositionLocal
     fun Modifier.themedContainerBorder(): Modifier =
-        Modifier.composed {
+        composed {
             Modifier.border(
                 BorderStroke(
                     width = 2.dp,
@@ -297,7 +297,7 @@ private object ThemedContainerBorderComposableSnippet {
 private object AdaptivePaddingComposedSnippet {
     // [START android_compose_modifier_composed_migration_composition_local_subsequent_composed]
     // ❌ BAD: Using Modifier.composed to read a CompositionLocal then using it in another modifier.
-    fun Modifier.adaptiveAccessibilityPadding(basePadding: Dp): Modifier = Modifier.composed {
+    fun Modifier.adaptiveAccessibilityPadding(basePadding: Dp): Modifier = composed {
         // Reading LocalThemePadding.current.small (CompositionLocal)
         val extraPadding = LocalThemePadding.current.small
         Modifier.padding(basePadding + extraPadding)
@@ -370,7 +370,7 @@ private object NiceBackgroundComposableSnippet {
     @Composable // Modifier can be Composable itself.
     private fun Modifier.niceBackground(): Modifier {
         val gradientColor1 = colorResource(R.color.my_special_color)
-        return this then background(color = gradientColor1, shape = CircleShape)
+        return this.background(color = gradientColor1, shape = CircleShape)
     }
     // [END android_compose_modifier_composed_migration_composable_function_composable]
 }
@@ -378,7 +378,7 @@ private object NiceBackgroundComposableSnippet {
 // [START android_compose_modifier_composed_migration_coroutine_scope_composed]
 // ❌ BAD: Using Modifier.composed to get access to a coroutine scope.
 fun Modifier.onClickAsyncComposed(onClick: suspend () -> Unit): Modifier =
-    Modifier.composed {
+    composed {
         val scope = rememberCoroutineScope()
         Modifier.pointerInput(onClick) {
             detectTapGestures {
@@ -446,7 +446,7 @@ private class OnClickAsyncNode(private var onClick: suspend () -> Unit) :
 
 // [START android_compose_modifier_composed_migration_remember_state_composed]
 // ❌ BAD: Using Modifier.composed to make the modifier stateful.
-fun Modifier.tapCountHighlightComposed(colors: List<Color>): Modifier = Modifier.composed {
+fun Modifier.tapCountHighlightComposed(colors: List<Color>): Modifier = composed {
     // 1. Must use `remember` so `tapCount` isn't reset to 0 on every recomposition
     var tapCount by remember { mutableIntStateOf(0) }
 
@@ -508,7 +508,7 @@ fun Modifier.logImpressionComposed(
     targetId: String,
     onLog: suspend (targetId: String) -> Unit,
 ): Modifier =
-    Modifier.composed {
+    composed {
         // LaunchedEffect is tied to Composition lifecycle
         LaunchedEffect(targetId) { onLog(targetId) }
         this
@@ -566,7 +566,7 @@ private class LogImpressionNode(
 // [START android_compose_modifier_composed_migration_animation_composed]
 // ❌ BAD: Using Modifier.composed to save an animation state.
 fun Modifier.fadeInOnHoverComposed(isHovered: Boolean): Modifier =
-    Modifier.composed {
+    composed {
         val alpha by
             animateFloatAsState(
                 targetValue = if (isHovered) 1f else 0.4f,
