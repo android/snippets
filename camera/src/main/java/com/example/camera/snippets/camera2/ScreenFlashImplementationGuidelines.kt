@@ -30,12 +30,13 @@ import android.os.HandlerThread
 import android.view.Surface
 import android.view.View
 import android.widget.Button
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private class ScreenFlashBrightnessHelper(private val activity: Activity?) {
 
@@ -327,7 +328,7 @@ private class ScreenFlashSetupHelper(
         ConvergenceAwaitable
 }
 
-private class ScreenFlashActivity : AppCompatActivity() {
+private class ScreenFlashActivity : ComponentActivity() {
 
     private lateinit var captureButton: Button
     private lateinit var whiteColorOverlayView: View
@@ -342,28 +343,31 @@ private class ScreenFlashActivity : AppCompatActivity() {
     fun setupClickListeners() {
         // [START android_camera2_screen_flash_stitch_together]
         // User clicks captureButton to take picture
-        captureButton.setOnClickListener { v ->
+        captureButton.setOnClickListener {
             // Apply the screen flash related UI changes
             whiteColorOverlayView.visibility = View.VISIBLE
             maximizeScreenBrightness()
 
-            // Perform I/O heavy operations in a different scope
-            lifecycleScope.launch(Dispatchers.IO) {
-                // Enable external flash AE mode and wait for it to be processed
-                enableExternalFlashAeMode()
+            // Launch on the main thread, then switch to IO for background operations.
+            lifecycleScope.launch {
+                // Perform I/O heavy operations in a different scope
+                withContext(Dispatchers.IO) {
+                    // Enable external flash AE mode and wait for it to be processed
+                    enableExternalFlashAeMode()
 
-                // Run precapture sequence and wait for it to complete
-                runPrecaptureSequence()
+                    // Run precapture sequence and wait for it to complete
+                    runPrecaptureSequence()
 
-                // Start taking picture and wait for it to complete
-                takePhoto()
+                    // Start taking picture and wait for it to complete
+                    takePhoto()
 
-                disableExternalFlashAeMode()
-                v.post {
-                    // Clear the screen flash related UI changes
-                    restoreScreenBrightness()
-                    whiteColorOverlayView.visibility = View.INVISIBLE
+                    disableExternalFlashAeMode()
                 }
+
+                // Back on the main thread automatically.
+                // Clear the screen flash related UI changes
+                restoreScreenBrightness()
+                whiteColorOverlayView.visibility = View.INVISIBLE
             }
         }
         // [END android_camera2_screen_flash_stitch_together]

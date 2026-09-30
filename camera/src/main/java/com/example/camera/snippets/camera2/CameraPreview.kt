@@ -83,7 +83,7 @@ private object CameraPreviewSnippets {
         surfaceRotationDegrees: Int
     ): Int {
         val sensorOrientationDegrees =
-            characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
+            characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) ?: 0
 
         // Reverse device orientation for back-facing cameras.
         val sign = if (characteristics.get(CameraCharacteristics.LENS_FACING) ==

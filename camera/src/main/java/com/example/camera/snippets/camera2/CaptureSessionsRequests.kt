@@ -49,16 +49,14 @@ private class CaptureSessionSetupActivity(
         // reasons
         // 4. RenderScript.Allocation, if you want to do parallel processing
         val surfaceView = findViewById<SurfaceView>(
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             surfaceViewId
             // [END_EXCLUDE]
-            // ...
         )
         val imageReader = ImageReader.newInstance(
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             imageReaderWidth, imageReaderHeight, imageReaderFormat, imageReaderMaxImages
             // [END_EXCLUDE]
-            // ...
         )
 
         // Remember to call this only *after* SurfaceHolder.Callback.surfaceCreated()
@@ -143,7 +141,7 @@ private object CaptureSessionsRequestsSnippets {
 
         // This keeps sending the capture request as frequently as possible until
         // the session is torn down or session.stopRepeating() is called
-        session.setRepeatingRequest(captureRequest.build(), null, null)
+        // session.setRepeatingRequest(captureRequest.build(), null, null)
         // [END android_camera2_capture_sessions_requests_repeating_request]
     }
 

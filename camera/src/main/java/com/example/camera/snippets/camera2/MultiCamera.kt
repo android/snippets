@@ -25,7 +25,6 @@ import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.CaptureRequest
 import android.hardware.camera2.params.OutputConfiguration
 import android.hardware.camera2.params.SessionConfiguration
-import android.os.AsyncTask
 import android.os.Build
 import android.view.Surface
 import androidx.annotation.RequiresApi
@@ -54,9 +53,9 @@ private object MultiCameraSnippets {
         }.filter {
             // Filter by logical cameras
             // CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA requires API >= 28
-            it.first.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)!!.contains(
+            it.first.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)?.contains(
                 CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA
-            )
+            ) ?: false
         }.forEach {
             // All possible pairs from the list of physical cameras are valid results
             // NOTE: There could be N physical cameras as part of a logical camera grouping
@@ -82,8 +81,7 @@ private object MultiCameraSnippets {
     fun openDualCamera(
         cameraManager: CameraManager,
         dualCamera: DualCamera,
-        // AsyncTask is deprecated beginning API 30
-        executor: Executor = AsyncTask.SERIAL_EXECUTOR,
+        executor: Executor,
         callback: (CameraDevice) -> Unit
     ) {
 
@@ -118,8 +116,7 @@ private object MultiCameraSnippets {
         cameraManager: CameraManager,
         dualCamera: DualCamera,
         targets: DualCameraOutputs,
-        // AsyncTask is deprecated beginning API 30
-        executor: Executor = AsyncTask.SERIAL_EXECUTOR,
+        executor: Executor,
         callback: (CameraCaptureSession) -> Unit
     ) {
 
@@ -175,8 +172,8 @@ private object MultiCameraSnippets {
             ) ?: floatArrayOf(0F)
 
             // Compute the largest difference between min and max focal lengths between cameras
-            val focalLengthsDiff1 = focalLengths2.maxOrNull()!! - focalLengths1.minOrNull()!!
-            val focalLengthsDiff2 = focalLengths1.maxOrNull()!! - focalLengths2.minOrNull()!!
+            val focalLengthsDiff1 = (focalLengths2.maxOrNull() ?: 0f) - (focalLengths1.minOrNull() ?: 0f)
+            val focalLengthsDiff2 = (focalLengths1.maxOrNull() ?: 0f) - (focalLengths2.minOrNull() ?: 0f)
 
             // Return the pair of camera IDs and the difference between min and max focal lengths
             if (focalLengthsDiff1 < focalLengthsDiff2) {
@@ -194,13 +191,15 @@ private object MultiCameraSnippets {
     fun zoomExample(
         manager: CameraManager,
         surface1: Surface,
-        surface2: Surface
+        surface2: Surface,
+        cameraExecutor: Executor
     ) {
         // [START android_camera2_multi_camera_zoom_example]
         // [START_EXCLUDE silent]
         /*
         // [END_EXCLUDE]
         val cameraManager: CameraManager = ...
+        val cameraExecutor: Executor = ...  // owned by your activity / fragment
 
         // Get the two output targets from the activity / fragment
         val surface1 = ...  // from SurfaceView
@@ -209,13 +208,15 @@ private object MultiCameraSnippets {
          */
         // [END_EXCLUDE]
 
-        val dualCamera = findShortLongCameraPair(manager)!!
+        val dualCamera = findShortLongCameraPair(manager) ?: return
         val outputTargets = DualCameraOutputs(
             null, mutableListOf(surface1), mutableListOf(surface2)
         )
 
         // Here you open the logical camera, configure the outputs and create a session
-        createDualCameraSession(manager, dualCamera, targets = outputTargets) { session ->
+        createDualCameraSession(
+            manager, dualCamera, targets = outputTargets, executor = cameraExecutor
+        ) { session ->
 
             // Create a single request which has one target for each physical camera
             // NOTE: Each target receive frames from only its associated physical camera

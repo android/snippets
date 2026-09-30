@@ -40,7 +40,8 @@ private class HdrVideoCaptureSnippets(
     private fun isTenBitProfileSupported(cameraId: String): Boolean {
         val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
         val availableCapabilities = cameraCharacteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)
-        for (capability in availableCapabilities!!) {
+            ?: return false
+        for (capability in availableCapabilities) {
             if (capability == CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_DYNAMIC_RANGE_TEN_BIT) {
                 return true
             }
@@ -55,11 +56,11 @@ private class HdrVideoCaptureSnippets(
         if (isTenBitProfileSupported(cameraId)) {
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
             val availableProfiles = cameraCharacteristics
-                .get(CameraCharacteristics.REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES)!!
-                .getSupportedProfiles()
+                .get(CameraCharacteristics.REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES)
+                ?.getSupportedProfiles()
 
             // Checks for the desired profile, in this case HLG10
-            return availableProfiles.contains(DynamicRangeProfiles.HLG10)
+            return availableProfiles?.contains(DynamicRangeProfiles.HLG10) ?: false
         }
         return false
     }

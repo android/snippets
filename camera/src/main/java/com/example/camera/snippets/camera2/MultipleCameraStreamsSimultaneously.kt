@@ -78,7 +78,7 @@ private object MultipleCameraStreamsSnippets {
         // [END_EXCLUDE]
         val supportedFormats = characteristics.get(
             CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )!!.outputFormats
+        )?.outputFormats
         // [END android_camera2_multiple_camera_streams_supported_formats]
     }
 
@@ -94,7 +94,7 @@ private object MultipleCameraStreamsSnippets {
         // [END_EXCLUDE]
         val sizes = characteristics.get(
             CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )!!.getOutputSizes(outputFormat)
+        )?.getOutputSizes(outputFormat)
         // [END android_camera2_multiple_camera_streams_output_sizes_format]
     }
 
@@ -110,7 +110,7 @@ private object MultipleCameraStreamsSnippets {
         // [END_EXCLUDE]
         val sizes = characteristics.get(
             CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )!!.getOutputSizes(targetClass)
+        )?.getOutputSizes(targetClass)
         // [END android_camera2_multiple_camera_streams_output_sizes_class]
     }
 
@@ -120,9 +120,9 @@ private object MultipleCameraStreamsSnippets {
         targetClass: Class<T>,
         format: Int? = null
     ): Size {
-        val config = characteristics.get(
-            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )!!
+        val config = checkNotNull(
+            characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        )
 
         // If image format is provided, use it to determine supported sizes; or else use target class
         val allSizes = if (format == null)
@@ -167,9 +167,9 @@ private object MultipleCameraStreamsSnippets {
         val maxSize = if (hdScreen) SIZE_1080P else screenSize
 
         // If image format is provided, use it to determine supported sizes; else use target class
-        val config = characteristics.get(
-            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-        )!!
+        val config = checkNotNull(
+            characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        )
         if (format == null)
             assert(StreamConfigurationMap.isOutputSupportedFor(targetClass))
         else
@@ -274,11 +274,10 @@ private class MultipleStreamsActivity : Activity() {
                 // You do not need to specify image format, and it will be considered of type PRIV
                 // Surface is now ready and you could use it as an output target for CameraSession
             }
-            // [START_EXCLUDE silent]
+            // [START_EXCLUDE]
             override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
             override fun surfaceDestroyed(holder: SurfaceHolder) {}
             // [END_EXCLUDE]
-            // ...
         })
         // [END android_camera2_multiple_camera_streams_surfaceview_callback]
     }
