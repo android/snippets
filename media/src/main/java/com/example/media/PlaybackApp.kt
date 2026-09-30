@@ -44,14 +44,14 @@ private fun createMediaSession(context: Context) {
 class PlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
 
-    // Create your Player and MediaSession in the onCreate lifecycle event
+    // Create your Player and MediaSession in the onCreate lifecycle event.
     override fun onCreate() {
         super.onCreate()
         val player = ExoPlayer.Builder(this).build()
         mediaSession = MediaSession.Builder(this, player).build()
     }
 
-    // Remember to release the player and media session in onDestroy
+    // Remember to release the player and media session in onDestroy.
     override fun onDestroy() {
         mediaSession?.run {
             player.release()
@@ -60,15 +60,15 @@ class PlaybackService : MediaSessionService() {
         }
         super.onDestroy()
     }
+    // [START_EXCLUDE silent]
 
-    // [END android_media_playback_app_playback_service]
     // [START android_media_playback_app_on_get_session]
-    // This example always accepts the connection request
+    // This example always accepts the connection request.
     override fun onGetSession(
         controllerInfo: MediaSession.ControllerInfo
     ): MediaSession? = mediaSession
     // [END android_media_playback_app_on_get_session]
-    // [START android_media_playback_app_playback_service]
+    // [END_EXCLUDE]
 }
 // [END android_media_playback_app_playback_service]
 

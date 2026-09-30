@@ -21,9 +21,9 @@ import android.content.ContextWrapper
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.session.MediaController
 import android.os.Handler
 import android.os.Looper
-import android.support.v4.media.session.MediaControllerCompat
 import java.util.concurrent.TimeUnit
 
 private class AudioFocusManager(
@@ -41,7 +41,7 @@ private class AudioFocusManager(
 
     private fun requestFocusPostOreo() {
         // [START android_media_audio_focus_request]
-        // initializing variables for audio focus and playback management
+        // initializing variables for audio focus and playback management.
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).run {
             setAudioAttributes(
@@ -60,7 +60,7 @@ private class AudioFocusManager(
         var playbackDelayed = false
         var playbackNowAuthorized = false
 
-        // requesting audio focus and processing the response
+        // requesting audio focus and processing the response.
         val res = audioManager.requestAudioFocus(focusRequest)
         synchronized(focusLock) {
             playbackNowAuthorized = when (res) {
@@ -77,12 +77,12 @@ private class AudioFocusManager(
             }
         }
 
-        // implementing OnAudioFocusChangeListener to react to focus changes
-        // [END android_media_audio_focus_request]
+        // implementing OnAudioFocusChangeListener to react to focus changes.
+        // [START_EXCLUDE silent]
     }
 
     private inner class AudioFocusHandler : AudioManager.OnAudioFocusChangeListener {
-        // [START android_media_audio_focus_request]
+        // [END_EXCLUDE]
         override fun onAudioFocusChange(focusChange: Int) {
             when (focusChange) {
                 AudioManager.AUDIOFOCUS_GAIN ->
@@ -102,14 +102,14 @@ private class AudioFocusManager(
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                     synchronized(focusLock) {
-                        // only resume if playback is being interrupted
+                        // only resume if playback is being interrupted.
                         resumeOnFocusGain = isPlaying()
                         playbackDelayed = false
                     }
                     pausePlayback()
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                    // ... pausing or ducking depends on your app
+                    // ... pausing or ducking depends on your app.
                 }
             }
         }
@@ -122,7 +122,7 @@ private class AudioFocusManager(
         lateinit var afChangeListener: AudioManager.OnAudioFocusChangeListener
 
         // ...
-        // Request audio focus for playback
+        // Request audio focus for playback.
         val result: Int = audioManager.requestAudioFocus(
             afChangeListener,
             // Use the music stream.
@@ -132,7 +132,7 @@ private class AudioFocusManager(
         )
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Start playback
+            // Start playback.
         }
         // [END android_media_audio_focus_request_pre_o]
     }
@@ -149,28 +149,28 @@ private class AudioFocusManager(
 }
 
 private class AudioFocusLegacyChangeHandler(
-    private val mediaController: MediaControllerCompat
+    private val mediaController: MediaController
 ) {
     // [START android_media_audio_focus_change_listener]
     private val handler = Handler()
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         when (focusChange) {
             AudioManager.AUDIOFOCUS_LOSS -> {
-                // Permanent loss of audio focus
-                // Pause playback immediately
+                // Permanent loss of audio focus.
+                // Pause playback immediately.
                 mediaController.transportControls.pause()
-                // Wait 30 seconds before stopping playback
+                // Wait 30 seconds before stopping playback.
                 handler.postDelayed(delayedStopRunnable, TimeUnit.SECONDS.toMillis(30))
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                // Pause playback
+                // Pause playback.
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                // Lower the volume, keep playing
+                // Lower the volume, keep playing.
             }
             AudioManager.AUDIOFOCUS_GAIN -> {
-                // Your app has been granted audio focus again
-                // Raise volume to normal, restart playback if necessary
+                // Your app has been granted audio focus again.
+                // Raise volume to normal, restart playback if necessary.
             }
         }
     }
