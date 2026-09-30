@@ -17,12 +17,17 @@
 package com.example.media
 
 import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
-import android.view.Surface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Task
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.media.effect.enhancement.Enhancement
+import com.google.android.gms.media.effect.enhancement.EnhancementCallback
+import com.google.android.gms.media.effect.enhancement.EnhancementClient
+import com.google.android.gms.media.effect.enhancement.EnhancementMode
+import com.google.android.gms.media.effect.enhancement.EnhancementOptions
+import com.google.android.gms.media.effect.enhancement.EnhancementSession
+import com.google.android.gms.media.effect.enhancement.EnhancementSessionCallback
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
@@ -43,17 +48,17 @@ class MediaSetupViewModel(application: Application) : AndroidViewModel(applicati
     fun initializeEnhancementEngine() {
         viewModelScope.launch {
             try {
-                // 1. Verify hardware capability
+                // 1. Verify hardware capability.
                 val isSupported = enhancementClient.isDeviceSupportedAsync()
                 if (!isSupported) {
                     notifyUiDeviceIncompatible()
                     return@launch
                 }
-                // 2. Verify and download the Google Play services ML modules
+                // 2. Verify and download the Google Play services ML modules.
                 val isInstalled = enhancementClient.isModuleInstalledAsync()
                 if (!isInstalled) {
                     notifyUiDownloadingModels()
-                    enhancementClient.installModule().await() 
+                    enhancementClient.installModule(installStatusCallback).await()
                 }
                 notifyUiEngineReady()
             } catch (e: Exception) {
@@ -64,6 +69,16 @@ class MediaSetupViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
     // [START_EXCLUDE silent]
+    private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
+        override fun onError(description: String) {}
+        override fun onCancelled() {}
+        override fun onDownloadProgressUpdate(progress: Int) {}
+        override fun onDownloadPending() {}
+        override fun onDownloadStart() {}
+        override fun onDownloadPaused() {}
+        override fun onDownloadComplete() {}
+        override fun onInstalled() {}
+    }
     private fun notifyUiDeviceIncompatible() {}
     private fun notifyUiDownloadingModels() {}
     private fun notifyUiEngineReady() {}
@@ -156,26 +171,27 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { it.copy(isLoading = true, enhancementError = null) }
             try {
-                // 1. Establish the session lazily on demand
+                // 1. Establish the session lazily on demand.
 
                 // Define enhancement options (for example, enable upscale, tonemapping) based
                 // on bitmap dimensions.
+                val options = EnhancementOptions(
+                    bitmap.width,
+                    bitmap.height,
+                    EnhancementMode.BITMAP,
+                    isTonemappingEnabled = true,
+                    isDeblurAndDenoisePhotoEnabled = true,
+                    isDeblurAndDenoiseVideoEnabled = false,
+                    isUpscalePhotoEnabled = false,
+                    isUpscaleVideoEnabled = false,
+                )
                 if (enhancementSession == null) {
-                    val options = EnhancementOptions(
-                        bitmap.width,
-                        bitmap.height,
-                        EnhancementMode.BITMAP,
-                        enableTonemap = true,
-                        enableDeblurDenoise = true,
-                        enableDenoiseOnly = false,
-                        enableUpscale = false,
-                    )
                     enhancementSession = enhancementClient.createSessionAsync(options, enhancementExecutor)
                 }
                 val session = enhancementSession ?: throw IllegalStateException("Session unavailable.")
-                // 2. Dispatch image through the neural pipeline
-                val enhancedBitmap = session.processBitmapAsync(bitmap, session.defaultOptions)
-                // 3. Render output to UI
+                // 2. Dispatch image through the neural pipeline.
+                val enhancedBitmap = session.processBitmapAsync(bitmap, options)
+                // 3. Render output to UI.
                 _uiState.update {
                     it.copy(enhancedImage = ImageInfo(bitmap = enhancedBitmap))
                 }
@@ -189,7 +205,7 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
     override fun onCleared() {
-        // 4. Critical: Release native GPU hardware resources
+        // 4. Critical: Release native GPU hardware resources.
         enhancementSession?.release()
         enhancementSession = null
         enhancementExecutor.shutdown()
@@ -197,60 +213,3 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
     }
 }
 // [END android_media_ai_enhancement_bitmap_viewmodel]
-
-// Shims for Media Enhancement API types if not provided by standalone SDK
-object Enhancement {
-    fun getClient(context: Context): EnhancementClient = object : EnhancementClient {
-        override fun isDeviceSupported(): Task<Boolean> = TODO()
-        override fun isModuleInstalled(): Task<Boolean> = TODO()
-        override fun installModule(): Task<Void> = TODO()
-        override fun createSession(options: EnhancementOptions, callback: EnhancementSessionCallback): Task<Void> = TODO()
-    }
-}
-
-interface EnhancementClient {
-    fun isDeviceSupported(): Task<Boolean>
-    fun isModuleInstalled(): Task<Boolean>
-    fun installModule(): Task<Void>
-    fun createSession(options: EnhancementOptions, callback: EnhancementSessionCallback): Task<Void>
-}
-
-interface EnhancementSession {
-    val defaultOptions: EnhancementOptions
-    fun process(bitmap: Bitmap, options: EnhancementOptions, callback: EnhancementCallback)
-    fun release()
-}
-
-interface EnhancementSessionCallback {
-    fun onSessionCreated(session: EnhancementSession)
-    fun onSessionCreationFailed(status: Status)
-    fun onSessionDestroyed()
-    fun onSessionDisconnected(status: Status)
-}
-
-interface EnhancementCallback {
-    fun onBitmapProcessed(enhancedBitmap: Bitmap)
-    fun onError(statusCode: Int)
-    fun onSurfaceProcessed(timestamp: Long)
-}
-
-enum class EnhancementMode {
-    BITMAP,
-    SURFACE
-}
-
-data class EnhancementOptions(
-    val width: Int,
-    val height: Int,
-    val enhancementMode: EnhancementMode,
-    val enableTonemap: Boolean = false,
-    val enableDeblurDenoise: Boolean = false,
-    val enableDenoiseOnly: Boolean = false,
-    val enableUpscale: Boolean = false,
-    val enableFaceDetection: Boolean = false
-) {
-    fun setInputSurface(surface: Surface) {}
-    fun setOutputSurface(surface: Surface) {}
-}
-
-data class Status(val statusCode: Int, val statusMessage: String)
