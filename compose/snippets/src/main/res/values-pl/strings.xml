@@ -17,7 +17,7 @@
 <!-- [START android_resources_string_resource_plurals_pl_xml] -->
 <resources>
     <plurals name="numberOfSongsAvailable">
-        <item quantity="one">Znaleziono %d piosenk&#x0119;.</item>
+        <item quantity="one">Znaleziono %d piosenkę.</item>
         <item quantity="few">Znaleziono %d piosenki.</item>
         <item quantity="other">Znaleziono %d piosenek.</item>
     </plurals>
