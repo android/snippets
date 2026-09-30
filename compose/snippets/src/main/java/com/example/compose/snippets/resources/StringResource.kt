@@ -82,6 +82,13 @@ fun WelcomeMessage(username: String, mailCount: Int) {
 // [END android_resources_string_resource_welcome_message]
 
 // [START android_resources_string_resource_welcome_html_message]
+// import android.text.TextUtils
+// import androidx.compose.material3.Text
+// import androidx.compose.runtime.Composable
+// import androidx.compose.ui.res.stringResource
+// import androidx.compose.ui.text.AnnotatedString
+// import androidx.compose.ui.text.fromHtml
+
 @Composable
 fun WelcomeHtmlMessage(username: String, mailCount: Int) {
     // Escape the username in case it contains characters like "<" or "&"
