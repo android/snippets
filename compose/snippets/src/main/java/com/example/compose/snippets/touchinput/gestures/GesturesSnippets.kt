@@ -55,7 +55,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.annotation.FrequentlyChangingValue
@@ -404,6 +406,7 @@ private fun AutomaticNestedScroll() {
 }
 // [END android_compose_touchinput_gestures_nested_scroll]
 
+@OptIn(ExperimentalMaterial3Api::class)
 private object NestedScrollInterop {
     // [START android_compose_touchinput_gestures_nested_scroll_interop_activity]
     open class MainActivity : ComponentActivity() {
@@ -437,9 +440,6 @@ private object NestedScrollInterop {
 
     private val ToolbarHeight = 56.dp
 
-    @Composable
-    private fun TopAppBar(modifier: Modifier = Modifier) {}
-
     // [START android_compose_touchinput_gestures_nested_scroll_interop_compose_parent_android_child]
     @Composable
     private fun NestedScrollInteropComposeParentWithAndroidChildExample() {
@@ -447,12 +447,12 @@ private object NestedScrollInterop {
         val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
 
         // Sets up the nested scroll connection between the Box composable parent
-        // and the child AndroidView containing the RecyclerView
+        // and the child AndroidView containing the RecyclerView.
         val nestedScrollConnection = remember {
             object : NestedScrollConnection {
                 override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                     // Updates the toolbar offset based on the scroll to enable
-                    // collapsible behaviour
+                    // collapsible behaviour.
                     val delta = available.y
                     val newOffset = toolbarOffsetHeightPx.value + delta
                     toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
@@ -467,6 +467,7 @@ private object NestedScrollInterop {
                 .nestedScroll(nestedScrollConnection)
         ) {
             TopAppBar(
+                title = {},
                 modifier = Modifier
                     .height(ToolbarHeight)
                     .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
@@ -482,14 +483,11 @@ private object NestedScrollInterop {
                             }
                         }.also {
                             // Nested scrolling interop is enabled when
-                            // nested scroll is enabled for the root View
+                            // nested scroll is enabled for the root View.
                             ViewCompat.setNestedScrollingEnabled(it, true)
                         }
                 },
                 // ...
-                // [START_EXCLUDE silent]
-                modifier = Modifier.fillMaxSize()
-                // [END_EXCLUDE]
             )
         }
     }
@@ -517,8 +515,7 @@ private object NestedScrollInterop {
                 // ...
             }
         }
-        // ...
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         override fun getItemCount(): Int = items.size
         // [END_EXCLUDE]
     }
@@ -532,7 +529,7 @@ private object NestedScrollInterop {
                 .fillMaxSize()
                 .scrollable(rememberScrollableState {
                     // View component deltas should be reflected in Compose
-                    // components that participate in nested scrolling
+                    // components that participate in nested scrolling.
                     it
                 }, Orientation.Vertical)
         ) {
@@ -542,7 +539,7 @@ private object NestedScrollInterop {
                         .inflate(R.layout.list_item, null)
                         .apply {
                             // Nested scrolling interop is enabled when
-                            // nested scroll is enabled for the root View
+                            // nested scroll is enabled for the root View.
                             ViewCompat.setNestedScrollingEnabled(this, true)
                         }
                 }

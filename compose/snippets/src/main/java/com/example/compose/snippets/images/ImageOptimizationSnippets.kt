@@ -19,20 +19,15 @@ package com.example.compose.snippets.images
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 
-// [START android_compose_graphics_images_optimization_url]
+// [START android_compose_graphics_images_optimization]
 // Prefer this:
 @Composable
 fun MyImage(url: String) {
 
 }
-// [END android_compose_graphics_images_optimization_url]
+// Over this:
+@Composable
+fun MyImage(painter: Painter) {
 
-private object PainterParameterSnippet {
-    // [START android_compose_graphics_images_optimization_painter]
-    // Over this:
-    @Composable
-    fun MyImage(painter: Painter) {
-
-    }
-    // [END android_compose_graphics_images_optimization_painter]
 }
+// [END android_compose_graphics_images_optimization]
