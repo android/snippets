@@ -29,7 +29,7 @@ import java.util.Queue
 
 private fun checkHdrSupport(display: Display?) {
     // [START android_media_hdr_playback_check_support]
-    // Check if display supports the HDR type
+    // Check if display supports the HDR type.
     val capabilities = display?.hdrCapabilities?.supportedHdrTypes ?: intArrayOf()
     if (!capabilities.contains(HDR_TYPE_HLG)) {
         throw RuntimeException("Display does not support desired HDR type")
@@ -48,13 +48,13 @@ private fun mediaCodecHdrFlow(
     isStreaming: Boolean
 ) {
     // [START android_media_hdr_playback_mediacodec]
-    // Check if there's a codec that supports the specific HDR profile
+    // Check if there's a codec that supports the specific HDR profile.
     val list = MediaCodecList(MediaCodecList.REGULAR_CODECS)
     var format = MediaFormat() /* media format from the container */
     format.setInteger(MediaFormat.KEY_PROFILE, MediaCodecInfo.CodecProfileLevel.AV1ProfileMain10)
     val codecName = list.findDecoderForFormat(format) ?: throw RuntimeException("No codec supports the format")
 
-    // Here is a standard MediaCodec playback flow
+    // Here is a standard MediaCodec playback flow.
     val codec: MediaCodec = MediaCodec.createByCodecName(codecName)
     val surface: Surface = surfaceView.holder.surface
     val callback: MediaCodec.Callback = (
@@ -72,14 +72,14 @@ private fun mediaCodecHdrFlow(
             }
 
             override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-                // handle error
+                // handle error.
             }
 
             override fun onOutputFormatChanged(
                 codec: MediaCodec,
                 format: MediaFormat
             ) {
-                // handle format change
+                // handle format change.
             }
         }
         )

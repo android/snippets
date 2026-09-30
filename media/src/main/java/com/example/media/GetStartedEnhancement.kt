@@ -16,18 +16,19 @@
 
 package com.example.media
 
+import com.google.android.gms.media.effect.enhancement.EnhancementClient
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 // [START android_media_ai_enhancement_get_started_checks]
-// Verifies if host hardware supports NPU/GPU acceleration
+// Verifies if host hardware supports NPU/GPU acceleration.
 suspend fun EnhancementClient.isDeviceSupportedAsync(): Boolean = suspendCancellableCoroutine { continuation ->
     this.isDeviceSupported()
         .addOnSuccessListener { result -> continuation.resume(result) }
         .addOnFailureListener { exception -> continuation.resumeWithException(exception) }
 }
-// Verifies the presence of required neural network models
+// Verifies the presence of required neural network models.
 suspend fun EnhancementClient.isModuleInstalledAsync(): Boolean = suspendCancellableCoroutine { continuation ->
     this.isModuleInstalled()
         .addOnSuccessListener { result -> continuation.resume(result) }

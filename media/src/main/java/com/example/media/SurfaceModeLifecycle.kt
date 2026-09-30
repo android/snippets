@@ -17,12 +17,10 @@
 package com.example.media
 
 import android.app.Application
-import android.media.ImageReader
-import android.view.Surface
-import android.view.SurfaceView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import java.util.concurrent.Executor
+import com.google.android.gms.media.effect.enhancement.Enhancement
+import com.google.android.gms.media.effect.enhancement.EnhancementClient
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -33,17 +31,17 @@ private object SurfaceModeLifecycleSnippet {
         fun initializeEnhancementEngine() {
             viewModelScope.launch {
                 try {
-                    // 1. Verify hardware capability
+                    // 1. Verify hardware capability.
                     val isSupported = enhancementClient.isDeviceSupportedAsync()
                     if (!isSupported) {
                         notifyUiDeviceIncompatible()
                         return@launch
                     }
-                    // 2. Verify and download the Google Play services ML modules
+                    // 2. Verify and download the Google Play services ML modules.
                     val isInstalled = enhancementClient.isModuleInstalledAsync()
                     if (!isInstalled) {
                         notifyUiDownloadingModels()
-                        enhancementClient.installModule().await() 
+                        enhancementClient.installModule(installStatusCallback).await()
                     }
                     notifyUiEngineReady()
                 } catch (e: Exception) {
@@ -54,6 +52,16 @@ private object SurfaceModeLifecycleSnippet {
             }
         }
         // [START_EXCLUDE silent]
+        private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
+            override fun onError(description: String) {}
+            override fun onCancelled() {}
+            override fun onDownloadProgressUpdate(progress: Int) {}
+            override fun onDownloadPending() {}
+            override fun onDownloadStart() {}
+            override fun onDownloadPaused() {}
+            override fun onDownloadComplete() {}
+            override fun onInstalled() {}
+        }
         private fun notifyUiDeviceIncompatible() {}
         private fun notifyUiDownloadingModels() {}
         private fun notifyUiEngineReady() {}
@@ -61,36 +69,4 @@ private object SurfaceModeLifecycleSnippet {
         // [END_EXCLUDE]
     }
     // [END android_media_ai_enhancement_surface_initialize_engine]
-}
-
-private suspend fun singleFrameSnapshot(
-    imageReader: ImageReader,
-    surfaceView: SurfaceView,
-    enhancementClient: EnhancementClient,
-    executor: Executor
-) {
-    // [START android_media_ai_enhancement_surface_snapshot]
-    // Provisions input Surface (for example, ImageReader) and output Surface (for
-    // example, SurfaceView)
-    val inputSurface: Surface = imageReader.surface
-    val outputSurface: Surface = surfaceView.holder.surface
-    // 1. Configure parameters for SURFACE mode
-    val surfaceOptions = EnhancementOptions(
-        imageReader.width,
-        imageReader.height,
-        EnhancementMode.SURFACE,
-        enableTonemap = true,
-        enableDeblurDenoise = true,
-        enableFaceDetection = false
-    ).also {
-        // 2. Bind hardware surfaces
-        it.setInputSurface(inputSurface)
-        it.setOutputSurface(outputSurface)
-    }
-
-    // 3. Create the session to process the hardware frame
-    val singleFrameSession = enhancementClient.createSessionAsync(surfaceOptions, executor)
-    // The API processes the single frame. Upon completion, release the session.
-    singleFrameSession.release()
-    // [END android_media_ai_enhancement_surface_snapshot]
 }

@@ -26,7 +26,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 
-class MediaProjectionActivity : ComponentActivity() {
+private class MediaProjectionActivity : ComponentActivity() {
 
     private var virtualDisplay: VirtualDisplay? = null
 
