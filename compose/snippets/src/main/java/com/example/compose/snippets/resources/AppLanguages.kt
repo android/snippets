@@ -32,14 +32,14 @@ import java.util.Locale
 
 private fun overrideLocaleConfigSnippet(applicationContext: Context) {
     // [START android_resources_app_languages_override_locale_config]
-    //For setOverrideLocaleConfig
+    // For setOverrideLocaleConfig
     val localeManager = applicationContext
         .getSystemService(LocaleManager::class.java)
     localeManager.overrideLocaleConfig = LocaleConfig(
         LocaleList.forLanguageTags("en-US,ja-JP,zh-Hans-SG")
     )
 
-    //For getOverrideLocaleConfig
+    // For getOverrideLocaleConfig
     // The app calls the API to get the override LocaleConfig
     val overrideLocaleConfig = localeManager.overrideLocaleConfig
     // If the returned overrideLocaleConfig isn't equal to NULL, then the app calls the API to get the supported Locales
