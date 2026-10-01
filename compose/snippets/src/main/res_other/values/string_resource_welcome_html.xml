@@ -16,6 +16,6 @@
 -->
 <!-- [START android_resources_string_resource_welcome_html_xml] -->
 <resources>
-    <string name="welcome_messages_styled">Hello, %1$s! You have &lt;b>%2$d new messages&lt;/b>.</string>
+  <string name="welcome_messages">Hello, %1$s! You have &lt;b>%2$d new messages&lt;/b>.</string>
 </resources>
 <!-- [END android_resources_string_resource_welcome_html_xml] -->
