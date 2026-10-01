@@ -64,18 +64,6 @@
     <string name="compose_shortcut_long_label1">Open Compose</string>
     <string name="compose_disabled_message1">Compose is not available</string>
 
-    <string name="hello">Hello!</string>
-    <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-    </string-array>
-    <plurals name="numberOfSongsAvailable">
-        <item quantity="one">%d song found.</item>
-        <item quantity="other">%d songs found.</item>
-    </plurals>
-
     <!-- [START android_resources_string_resource_welcome_messages_xml] -->
     <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
     <!-- [END android_resources_string_resource_welcome_messages_xml] -->
