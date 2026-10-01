@@ -145,11 +145,13 @@ private class RetainFinishedActivity : ComponentActivity() {
 
     // [START android_activities_recents_retain_finished_intent]
     private fun newDocumentIntent() =
-            Intent(this, NewDocumentActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                        android.content.Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS)
-                putExtra(KEY_EXTRA_NEW_DOCUMENT_COUNTER, getAndIncrement())
-            }
+        Intent(this, NewDocumentActivity::class.java).apply {
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    android.content.Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS
+            )
+            putExtra(KEY_EXTRA_NEW_DOCUMENT_COUNTER, getAndIncrement())
+        }
     // [END android_activities_recents_retain_finished_intent]
 }
 

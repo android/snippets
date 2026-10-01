@@ -153,7 +153,8 @@ fun AnnotatedTitle() {
         source.getSpans(0, source.length, Annotation::class.java)
             .forEach { annotation ->
                 if (annotation.key == "font" &&
-                    annotation.value == "title_emphasis") {
+                    annotation.value == "title_emphasis"
+                ) {
                     addStyle(
                         SpanStyle(
                             fontFamily = FontFamily(
