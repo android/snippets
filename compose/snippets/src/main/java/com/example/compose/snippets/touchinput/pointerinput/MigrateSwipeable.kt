@@ -32,6 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.touchinput.pointerinput.DragValue.Center
+import com.example.compose.snippets.touchinput.pointerinput.DragValue.End
+import com.example.compose.snippets.touchinput.pointerinput.DragValue.Start
 
 @OptIn(ExperimentalMaterialApi::class)
 private object SwipeableStateExample {
@@ -101,16 +104,16 @@ private object AnchoredDraggableConstructorExample {
         val density = LocalDensity.current
         val anchors = with(density) {
             DraggableAnchors {
-                DragValue.Start at -100.dp.toPx()
-                DragValue.Center at 0f
-                DragValue.End at 100.dp.toPx()
+                Start at -100.dp.toPx()
+                Center at 0f
+                End at 100.dp.toPx()
             }
         }
         val state = remember {
             AnchoredDraggableState(
                 anchors = anchors,
                 // [START_EXCLUDE silent]
-                initialValue = DragValue.Start,
+                initialValue = Start,
                 positionalThreshold = { distance: Float -> distance * 0.5f },
                 velocityThreshold = { 125f },
                 snapAnimationSpec = spring(),
@@ -135,7 +138,7 @@ private object AnchoredDraggableUpdateAnchorsExample {
         val state = remember {
             AnchoredDraggableState(
                 // [START_EXCLUDE]
-                initialValue = DragValue.Start,
+                initialValue = Start,
                 positionalThreshold = { distance: Float -> distance * 0.5f },
                 velocityThreshold = { 125f },
                 snapAnimationSpec = spring(),
@@ -146,9 +149,9 @@ private object AnchoredDraggableUpdateAnchorsExample {
         val density = LocalDensity.current
         val anchors = with(density) {
             DraggableAnchors {
-                DragValue.Start at -100.dp.toPx()
-                DragValue.Center at 0f
-                DragValue.End at 100.dp.toPx()
+                Start at -100.dp.toPx()
+                Center at 0f
+                End at 100.dp.toPx()
             }
         }
         SideEffect {
