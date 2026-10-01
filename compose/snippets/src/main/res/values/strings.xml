@@ -88,7 +88,7 @@
     <!-- [END android_resources_localization_login_submit_button] -->
     <!-- [START android_resources_localization_countdown] -->
     <string name="countdown">
-        <xliff:g id="time" example="5 days">%1$s</xliff:g> until holiday
+      <xliff:g id="time" example="5 days">%1$s</xliff:g> until holiday
     </string>
     <!-- [END android_resources_localization_countdown] -->
 </resources>
