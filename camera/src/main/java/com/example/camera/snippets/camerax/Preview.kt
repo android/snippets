@@ -18,7 +18,6 @@ package com.example.camera.snippets.camerax
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -32,7 +31,7 @@ private object PreviewRequestProviderSnippet {
     // import androidx.camera.lifecycle.ProcessCameraProvider
     // import com.google.common.util.concurrent.ListenableFuture
 
-    class MainActivity : AppCompatActivity() {
+    class MainActivity : ComponentActivity() {
         private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

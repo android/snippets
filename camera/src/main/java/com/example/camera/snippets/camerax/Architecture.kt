@@ -20,8 +20,8 @@ import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraMetadata
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.camera2.interop.Camera2Interop
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
@@ -38,7 +38,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.example.camera.snippets.R
 
-private class ArchitectureActivity : AppCompatActivity() {
+private class ArchitectureActivity : ComponentActivity() {
 
     private fun cameraProviderPreviewSnippet(
         cameraProvider: ProcessCameraProvider,
@@ -78,7 +78,7 @@ private object CustomLifecycleSnippet {
     // [END android_camerax_architecture_custom_lifecycle]
 }
 
-private class ConcurrentUseCasesActivity : AppCompatActivity() {
+private class ConcurrentUseCasesActivity : ComponentActivity() {
     private val previewView: PreviewView by lazy { findViewById(R.id.previewView) }
 
     // [START android_camerax_architecture_concurrent_use_cases]
@@ -139,7 +139,7 @@ fun isBackCameraLevel3Device(cameraProvider: ProcessCameraProvider): Boolean {
 }
 // [END android_camerax_architecture_check_level_3]
 
-private class VideoCallStreamActivity : AppCompatActivity() {
+private class VideoCallStreamActivity : ComponentActivity() {
     private var camera: Camera? = null
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

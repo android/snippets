@@ -62,8 +62,16 @@ import java.util.concurrent.TimeUnit
 private fun imageCaptureBuilderSnippet() {
     // [START android_camerax_configuration_image_capture_builder]
     val imageCapture = ImageCapture.Builder()
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        .setFlashMode(...)
+        .setTargetAspectRatio(...)
+        // [START_EXCLUDE silent]
+         */
         .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
         .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        // [END_EXCLUDE]
         .build()
     // [END android_camerax_configuration_image_capture_builder]
 }
@@ -190,21 +198,20 @@ private fun concurrentCameraSnippet(
     cameraProvider: ProcessCameraProvider,
     primaryCameraSelector: CameraSelector,
     secondaryCameraSelector: CameraSelector,
-    primaryUseCaseGroup: UseCaseGroup,
-    secondaryUseCaseGroup: UseCaseGroup,
+    useCaseGroup: UseCaseGroup,
     lifecycleOwner: LifecycleOwner,
 ) {
     // [START android_camerax_configuration_concurrent_camera]
     // Build ConcurrentCameraConfig.
     val primary = ConcurrentCamera.SingleCameraConfig(
         primaryCameraSelector,
-        primaryUseCaseGroup,
+        useCaseGroup,
         lifecycleOwner
     )
 
     val secondary = ConcurrentCamera.SingleCameraConfig(
         secondaryCameraSelector,
-        secondaryUseCaseGroup,
+        useCaseGroup,
         lifecycleOwner
     )
 
@@ -275,7 +282,14 @@ private fun meteringPointFactorySnippet(
 
     // Use SurfaceOrientedMeteringPointFactory if the point is specified in
     // ImageAnalysis ImageProxy.
-    val meteringPointFactoryAnalysis = SurfaceOrientedMeteringPointFactory(
+    // [START_EXCLUDE silent]
+    /*
+    // [END_EXCLUDE]
+    val meteringPointFactory = SurfaceOrientedMeteringPointFactory(
+    // [START_EXCLUDE silent]
+     */
+    SurfaceOrientedMeteringPointFactory(
+        // [END_EXCLUDE]
         imageWidth,
         imageHeight,
         imageAnalysis

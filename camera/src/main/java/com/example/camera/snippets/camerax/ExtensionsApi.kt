@@ -18,7 +18,7 @@ package com.example.camera.snippets.camerax
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
@@ -29,7 +29,7 @@ import androidx.core.content.ContextCompat
 
 private const val TAG = "ExtensionsApi"
 
-private class ExtensionsActivity : AppCompatActivity() {
+private class ExtensionsActivity : ComponentActivity() {
     private lateinit var surfaceProvider: Preview.SurfaceProvider
 
     // [START android_camerax_extensions_enable_night]

@@ -23,8 +23,8 @@ import android.os.Bundle
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -41,7 +41,7 @@ private fun imageProxyRotationSnippet(imageProxy: ImageProxy) {
 private object CameraUseCasesSetupSnippet {
     @RequiresApi(Build.VERSION_CODES.P)
     // [START android_camerax_orientation_rotation_use_cases_setup]
-    class CameraActivity : AppCompatActivity() {
+    class CameraActivity : ComponentActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -77,7 +77,7 @@ private object CameraUseCasesSetupSnippet {
 
 private object OrientationEventListenerSnippet {
     // [START android_camerax_orientation_rotation_orientation_listener]
-    class CameraActivity : AppCompatActivity() {
+    class CameraActivity : ComponentActivity() {
 
         private val orientationEventListener by lazy {
             object : OrientationEventListener(this) {
@@ -118,7 +118,7 @@ private object OrientationEventListenerSnippet {
 
 private object DisplayListenerSnippet {
     // [START android_camerax_orientation_rotation_display_listener]
-    class CameraActivity : AppCompatActivity() {
+    class CameraActivity : ComponentActivity() {
 
         private val displayListener = object : DisplayManager.DisplayListener {
             override fun onDisplayChanged(displayId: Int) {
@@ -150,8 +150,7 @@ private object DisplayListenerSnippet {
     }
     // [END android_camerax_orientation_rotation_display_listener]
 
-    private val CameraActivity.rootView: View
-        get() = window.decorView
+    private lateinit var rootView: View
 
     private val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder().build()
 

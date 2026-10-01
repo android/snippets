@@ -30,7 +30,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import androidx.camera.core.Camera
@@ -143,11 +143,11 @@ private fun selectCameraByFocalLength(cameraProvider: ProcessCameraProvider) {
                 )
             return@first checkFocalLength(focalLengths)
         }
-    val cameraSelector = cameraInfo.cameraSelector
+    val cameraSelector = cameraInfo.getCameraSelector()
     // [END android_camerax_camera1_to_camerax_focal_length]
 }
 
-private class ControllerStateObserversActivity : AppCompatActivity() {
+private class ControllerStateObserversActivity : ComponentActivity() {
     private lateinit var cameraController: LifecycleCameraController
 
     @Suppress("DEPRECATION")
@@ -190,12 +190,12 @@ private class ControllerStateObserversActivity : AppCompatActivity() {
     }
 }
 
-private class TapToFocusProviderActivity : AppCompatActivity() {
+private class TapToFocusProviderActivity : ComponentActivity() {
     private lateinit var previewView: PreviewView
     private var camera: Camera? = null
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION", "USELESS_ELVIS")
     private fun setUpTapToFocus(context: Context) {
         // [START android_camerax_camera1_to_camerax_tap_to_focus_provider]
         // CameraX: implement tap-to-focus with CameraProvider.
@@ -240,7 +240,7 @@ private class TapToFocusProviderActivity : AppCompatActivity() {
     }
 }
 
-private class PinchToZoomProviderActivity : AppCompatActivity() {
+private class PinchToZoomProviderActivity : ComponentActivity() {
     private lateinit var previewView: PreviewView
     private var camera: Camera? = null
     private lateinit var gestureDetector: GestureDetector
@@ -280,10 +280,9 @@ private class PinchToZoomProviderActivity : AppCompatActivity() {
     }
 }
 
-private class TakePhotoControllerActivity : AppCompatActivity() {
+private class TakePhotoControllerActivity : ComponentActivity() {
     private lateinit var cameraController: LifecycleCameraController
-    private val context: Context
-        get() = this
+    private lateinit var context: Context
 
     // [START android_camerax_camera1_to_camerax_take_photo_controller]
     // CameraX: define a function that uses CameraController to take a photo.
@@ -331,7 +330,7 @@ private class TakePhotoControllerActivity : AppCompatActivity() {
     // [END android_camerax_camera1_to_camerax_take_photo_controller]
 }
 
-private class ImageCaptureBindActivity : AppCompatActivity() {
+private class ImageCaptureBindActivity : ComponentActivity() {
     private fun bindImageCapture(
         cameraProvider: ProcessCameraProvider,
         cameraSelector: CameraSelector,
@@ -361,7 +360,7 @@ private class ImageCaptureBindActivity : AppCompatActivity() {
     }
 }
 
-private class TakePhotoProviderActivity : AppCompatActivity() {
+private class TakePhotoProviderActivity : ComponentActivity() {
     private var imageCapture: ImageCapture? = null
 
     // [START android_camerax_camera1_to_camerax_take_photo_provider_call]
@@ -379,6 +378,7 @@ private class TakePhotoProviderActivity : AppCompatActivity() {
 
         // Call takePicture on imageCapture instance.
         imageCapture.takePicture(
+            // [START_EXCLUDE]
             outputOptions,
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
@@ -394,6 +394,7 @@ private class TakePhotoProviderActivity : AppCompatActivity() {
                     Log.d(TAG, msg)
                 }
             }
+            // [END_EXCLUDE]
         )
     }
     // [END android_camerax_camera1_to_camerax_take_photo_provider_call]
@@ -407,7 +408,7 @@ private fun enableVideoCapture(cameraController: LifecycleCameraController) {
     // [END android_camerax_camera1_to_camerax_video_controller_enable]
 }
 
-private class Camera1VideoCaptureBindActivity : AppCompatActivity() {
+private class Camera1VideoCaptureBindActivity : ComponentActivity() {
     private fun bindVideoCapture(
         cameraProvider: ProcessCameraProvider,
         cameraSelector: CameraSelector,

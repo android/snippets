@@ -21,8 +21,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresPermission
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.MirrorMode.MIRROR_MODE_ON_FRONT_ONLY
 import androidx.camera.core.Preview
@@ -54,7 +54,7 @@ private fun qualitySelectorSnippet() {
     // [END android_camerax_video_capture_quality_selector]
 }
 
-private class VideoCaptureBindActivity : AppCompatActivity() {
+private class VideoCaptureBindActivity : ComponentActivity() {
     private lateinit var cameraExecutor: Executor
     private lateinit var qualitySelector: QualitySelector
     private lateinit var cameraProvider: ProcessCameraProvider
@@ -79,7 +79,7 @@ private class VideoCaptureBindActivity : AppCompatActivity() {
     }
 }
 
-private class MediaStoreRecordActivity : AppCompatActivity() {
+private class MediaStoreRecordActivity : ComponentActivity() {
     private lateinit var videoCapture: VideoCapture<Recorder>
     private lateinit var captureListener: Consumer<VideoRecordEvent>
 
