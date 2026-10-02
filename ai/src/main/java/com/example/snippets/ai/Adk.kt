@@ -27,6 +27,7 @@ import com.google.adk.kt.sessions.InMemorySessionService
 import com.google.adk.kt.types.Content
 import com.google.adk.kt.types.Part
 import com.google.adk.kt.types.Role
+import com.google.mlkit.genai.prompt.Generation
 import com.google.mlkit.genai.prompt.GenerativeModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -101,19 +102,13 @@ private fun runAgentExample(scope: CoroutineScope) {
     // [END android_ai_adk_run_agent]
 }
 
-private fun onDeviceModelExample(mockGenerativeModel: GenerativeModel) {
+private fun onDeviceModelExample() {
     // [START android_ai_adk_on_device_models]
     // import com.google.adk.kt.models.mlkit.GenaiPrompt
+    // import com.google.mlkit.genai.prompt.Generation
     // import com.google.mlkit.genai.prompt.GenerativeModel
     // Create an ML Kit GenerativeModel for on-device inference
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val generativeModel: GenerativeModel = // ... initialize using ML Kit
-    // [START_EXCLUDE silent]
-     */
-    val generativeModel: GenerativeModel = mockGenerativeModel
-    // [END_EXCLUDE]
+    val generativeModel: GenerativeModel = Generation.getClient()
     val onDeviceModel = GenaiPrompt.create(
         generativeModel = generativeModel,
         name = "gemini-nano",
