@@ -58,6 +58,8 @@ kotlin {
             dependencies {
                 implementation(libs.jetbrains.kotlin.stdlib)
                 api(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.datastore.core)
+                implementation(libs.androidx.datastore.preferences.core)
             }
         }
 
