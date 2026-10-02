@@ -77,9 +77,7 @@ private class PlayerActivity : Activity() {
 
     // [START android_media_playback_app_connect_ui]
     override fun onStart() {
-        // [START_EXCLUDE silent]
         super.onStart()
-        // [END_EXCLUDE]
         val sessionToken = SessionToken(this, ComponentName(this, PlaybackService::class.java))
         val controllerFuture = MediaController.Builder(this, sessionToken).buildAsync()
         controllerFuture.addListener(

@@ -92,9 +92,9 @@ private object CustomControlsSnippet {
         override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
             return mediaSession
         }
-
-        private fun saveToFavorites(item: MediaItem?) {}
         // [END_EXCLUDE]
     }
     // [END android_media_surfaces_mobile_custom_command_buttons]
 }
+
+private fun saveToFavorites(item: MediaItem?) {}
