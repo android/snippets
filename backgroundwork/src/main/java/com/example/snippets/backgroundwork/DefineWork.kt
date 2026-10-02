@@ -16,7 +16,6 @@
 
 package com.example.snippets.backgroundwork
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
 import androidx.work.BackoffPolicy
@@ -37,14 +36,7 @@ import java.util.concurrent.TimeUnit
 
 private fun enqueueWorkSample(myContext: Context) {
     // [START android_background_enqueue_work_request]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val myWorkRequest = ...
-    // [START_EXCLUDE silent]
-     */
     val myWorkRequest = OneTimeWorkRequestBuilder<MyWork>().build()
-    // [END_EXCLUDE]
     WorkManager.getInstance(myContext).enqueue(myWorkRequest)
     // [END android_background_enqueue_work_request]
 }
@@ -189,17 +181,14 @@ val myUploadWork = OneTimeWorkRequestBuilder<UploadWork>()
     .build()
 // [END android_background_assign_input_data]
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class MyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class MyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SaveImageToFileWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
