@@ -51,22 +51,25 @@ private object SurfaceModeLifecycleSnippet {
                 }
             }
         }
-        // [START_EXCLUDE silent]
-        private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
-            override fun onError(description: String) {}
-            override fun onCancelled() {}
-            override fun onDownloadProgressUpdate(progress: Int) {}
-            override fun onDownloadPending() {}
-            override fun onDownloadStart() {}
-            override fun onDownloadPaused() {}
-            override fun onDownloadComplete() {}
-            override fun onInstalled() {}
-        }
-        private fun notifyUiDeviceIncompatible() {}
-        private fun notifyUiDownloadingModels() {}
-        private fun notifyUiEngineReady() {}
-        private fun handleInitializationError(e: Exception) {}
-        // [END_EXCLUDE]
     }
     // [END android_media_ai_enhancement_surface_initialize_engine]
 }
+
+private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
+    override fun onError(description: String) {}
+    override fun onCancelled() {}
+    override fun onDownloadProgressUpdate(progress: Int) {}
+    override fun onDownloadPending() {}
+    override fun onDownloadStart() {}
+    override fun onDownloadPaused() {}
+    override fun onDownloadComplete() {}
+    override fun onInstalled() {}
+}
+
+private fun notifyUiDeviceIncompatible() {}
+
+private fun notifyUiDownloadingModels() {}
+
+private fun notifyUiEngineReady() {}
+
+private fun handleInitializationError(e: Exception) {}
