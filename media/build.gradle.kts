@@ -26,7 +26,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.effect)
     implementation(libs.androidx.media3.exoplayer)
