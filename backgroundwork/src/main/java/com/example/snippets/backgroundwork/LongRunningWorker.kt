@@ -100,8 +100,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
 }
 // [END android_background_long_running_coroutine_worker]
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class ForegroundServiceTypeSnippet(
+class ForegroundServiceTypeSnippet(
     context: Context,
     parameters: WorkerParameters
 ) : CoroutineWorker(context, parameters) {

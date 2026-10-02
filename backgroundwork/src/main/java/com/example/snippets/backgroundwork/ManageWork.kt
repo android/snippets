@@ -16,7 +16,6 @@
 
 package com.example.snippets.backgroundwork
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.work.Constraints
@@ -124,7 +123,6 @@ private fun cancelWork(workManager: WorkManager, syncWorker: WorkRequest) {
     // [END android_background_cancel_work]
 }
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class SendLogsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }

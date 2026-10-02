@@ -16,7 +16,6 @@
 
 package com.example.snippets.backgroundwork
 
-import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import androidx.concurrent.futures.CallbackToFutureAdapter
@@ -133,8 +132,7 @@ private fun downloadAsynchronously(url: String, callback: Callback) {}
 private val cancelDownloadsRunnable = Runnable {}
 private val executor: Executor = Executors.newSingleThreadExecutor()
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class ExampleRemoteListenableWorker(
+class ExampleRemoteListenableWorker(
     context: Context,
     parameters: WorkerParameters
 ) : RemoteListenableWorker(context, parameters) {
