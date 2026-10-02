@@ -22,12 +22,10 @@ import androidx.datastore.core.FileStorage
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.PreferencesFileSerializer
 
-private lateinit var context: Context
-
 // [START android_kmp_datastore_android]
 // shared/src/androidMain/kotlin/createDataStore.android.kt
 
-fun createDataStore(): DataStore<Preferences> = createDataStore(
+fun createDataStore(context: Context): DataStore<Preferences> = createDataStore(
     storage = FileStorage(
         serializer = PreferencesFileSerializer,
         produceFile = { context.filesDir.resolve(dataStoreFileName) }
