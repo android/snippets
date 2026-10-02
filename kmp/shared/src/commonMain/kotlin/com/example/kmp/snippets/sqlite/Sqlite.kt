@@ -44,14 +44,7 @@ fun main() {
 
 private fun performTransaction() {
     // [START android_kmp_sqlite_transaction]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val connection: SQLiteConnection = ...
-    // [START_EXCLUDE silent]
-     */
     val connection: SQLiteConnection = BundledSQLiteDriver().open("todos.db")
-    // [END_EXCLUDE]
     connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
     try {
         // perform database operations in transaction.
@@ -64,28 +57,14 @@ private fun performTransaction() {
 
 private fun queryWithNoResult() {
     // [START android_kmp_sqlite_query_no_result]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val connection: SQLiteConnection = ...
-    // [START_EXCLUDE silent]
-     */
     val connection: SQLiteConnection = BundledSQLiteDriver().open("todos.db")
-    // [END_EXCLUDE]
     connection.execSQL("ALTER TABLE ...")
     // [END android_kmp_sqlite_query_no_result]
 }
 
 private fun queryResultWithNoArgs() {
     // [START android_kmp_sqlite_query_result_no_args]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val connection: SQLiteConnection = ...
-    // [START_EXCLUDE silent]
-     */
     val connection: SQLiteConnection = BundledSQLiteDriver().open("todos.db")
-    // [END_EXCLUDE]
     connection.prepare("SELECT * FROM Pet").use { statement ->
         while (statement.step()) {
             // read columns.

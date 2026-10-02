@@ -94,14 +94,7 @@ object MyRoomCallback : RoomDatabase.Callback() {
 
 private suspend fun performWriteTransaction(builder: RoomDatabase.Builder<AppDatabase>) {
     // [START android_kmp_room_write_transaction]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val database: RoomDatabase = ...
-    // [START_EXCLUDE silent]
-     */
     val database: RoomDatabase = getRoomDatabase(builder)
-    // [END_EXCLUDE]
     database.useWriterConnection { transactor ->
         transactor.immediateTransaction {
             // perform database operations in transaction.
@@ -112,14 +105,7 @@ private suspend fun performWriteTransaction(builder: RoomDatabase.Builder<AppDat
 
 private suspend fun performReadTransaction(builder: RoomDatabase.Builder<AppDatabase>) {
     // [START android_kmp_room_read_transaction]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    val database: RoomDatabase = ...
-    // [START_EXCLUDE silent]
-     */
     val database: RoomDatabase = getRoomDatabase(builder)
-    // [END_EXCLUDE]
     database.useReaderConnection { transactor ->
         transactor.deferredTransaction {
             // perform database operations in transaction.
