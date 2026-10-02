@@ -16,7 +16,6 @@
 
 package com.example.snippets.backgroundwork
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.concurrent.futures.await
 import androidx.work.Constraints
@@ -28,11 +27,9 @@ import androidx.work.WorkerParameters
 import java.util.UUID
 
 private const val PHOTO_UPLOAD_WORK_NAME = "photo_upload"
-@SuppressLint("StaticFieldLeak")
-private lateinit var context: Context
 
 // [START android_background_update_photo_upload_work]
-suspend fun updatePhotoUploadWork() {
+suspend fun updatePhotoUploadWork(context: Context) {
     // Get instance of WorkManager.
     val workManager = WorkManager.getInstance(context)
 
@@ -70,12 +67,11 @@ private fun trackWorkGeneration(context: Context, oldWorkRequestId: UUID) {
     // Retrieve WorkInfo instance.
     val workInfo = workManager.getWorkInfoById(oldWorkRequestId).get()
 
-    // Call getGeneration to retrieve the generation.
+    // Retrieve the generation.
     val generation = workInfo?.generation
     // [END android_background_track_work_generation]
 }
 
-@SuppressLint("WorkerHasAPublicModifier")
-private class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     override fun doWork(): Result = Result.success()
 }
