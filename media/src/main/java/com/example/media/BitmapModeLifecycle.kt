@@ -68,22 +68,6 @@ class MediaSetupViewModel(application: Application) : AndroidViewModel(applicati
             }
         }
     }
-    // [START_EXCLUDE silent]
-    private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
-        override fun onError(description: String) {}
-        override fun onCancelled() {}
-        override fun onDownloadProgressUpdate(progress: Int) {}
-        override fun onDownloadPending() {}
-        override fun onDownloadStart() {}
-        override fun onDownloadPaused() {}
-        override fun onDownloadComplete() {}
-        override fun onInstalled() {}
-    }
-    private fun notifyUiDeviceIncompatible() {}
-    private fun notifyUiDownloadingModels() {}
-    private fun notifyUiEngineReady() {}
-    private fun handleInitializationError(e: Exception) {}
-    // [END_EXCLUDE]
 }
 // [END android_media_ai_enhancement_bitmap_initialize_engine]
 
@@ -110,7 +94,7 @@ suspend fun EnhancementClient.createSessionAsync(
         }
 
         // Handles errors during the initial request trigger.
-        this@createSessionAsync.createSession(options, callback).addOnFailureListener(executor) { e ->
+        createSession(options, callback).addOnFailureListener(executor) { e ->
             if (continuation.isActive) {
                 continuation.resumeWithException(e)
             }
@@ -213,3 +197,22 @@ class EnhancementViewModel(application: Application) : AndroidViewModel(applicat
     }
 }
 // [END android_media_ai_enhancement_bitmap_viewmodel]
+
+private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
+    override fun onError(description: String) {}
+    override fun onCancelled() {}
+    override fun onDownloadProgressUpdate(progress: Int) {}
+    override fun onDownloadPending() {}
+    override fun onDownloadStart() {}
+    override fun onDownloadPaused() {}
+    override fun onDownloadComplete() {}
+    override fun onInstalled() {}
+}
+
+private fun notifyUiDeviceIncompatible() {}
+
+private fun notifyUiDownloadingModels() {}
+
+private fun notifyUiEngineReady() {}
+
+private fun handleInitializationError(e: Exception) {}

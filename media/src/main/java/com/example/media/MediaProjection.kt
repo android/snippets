@@ -33,7 +33,7 @@ private class MediaProjectionActivity : ComponentActivity() {
     fun startProjection() {
         // [START android_media_projection_start]
         val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java)
-        var mediaProjection: MediaProjection
+        var mediaProjection: MediaProjection?
 
         val startMediaProjection = registerForActivityResult(
             StartActivityForResult()
@@ -41,9 +41,6 @@ private class MediaProjectionActivity : ComponentActivity() {
             if (result.resultCode == RESULT_OK) {
                 mediaProjection = mediaProjectionManager
                     .getMediaProjection(result.resultCode, result.data!!)
-                    // [START_EXCLUDE silent]
-                    ?: error("MediaProjection token missing")
-                // [END_EXCLUDE]
             }
         }
 
