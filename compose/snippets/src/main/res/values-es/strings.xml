@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="app_name">snippets</string>
   <string name="dog_content_description">Golden Retriever in fall leaves</string>
   <string name="shopping_cart_content_desc">Shopping cart</string>
@@ -62,4 +62,35 @@
   <string name="compose_shortcut_short_label1">Compose</string>
   <string name="compose_shortcut_long_label1">Abrir Compose</string>
   <string name="compose_disabled_message1">Compose no está disponible</string>
+  <string name="welcome_messages">¡Hola, %1$s! Tienes %2$d mensajes nuevos.</string>
+  <string name="hello_new_document_counter">Hola documento nuevo</string>
+  <string name="reusing_document_counter">Reutilizando documento</string>
+  <string name="login_submit_button">Iniciar sesión</string>
+  <string name="countdown">
+    <xliff:g id="time" example="5 days">%1$s</xliff:g> para las vacaciones
+  </string>
+  <string name="star_rating">Mira nuestras 5
+    <xliff:g id="star">\u2605</xliff:g>
+  </string>
+  <string name="app_homeurl">
+    Visítanos en <xliff:g id="application_homepage">http://my/app/home.html</xliff:g>
+  </string>
+  <string name="prod_name">
+    Obtén más información en <xliff:g id="prod_gamegroup">Game Group</xliff:g>
+  </string>
+  <string name="promo_message">
+    Usa el código "<xliff:g id="promotion_code">ABCDEFG</xliff:g>" para obtener un descuento.
+  </string>
+  <string name="hello">¡Hola!</string>
+  <string-array name="planets_array">
+    <item>Mercurio</item>
+    <item>Venus</item>
+    <item>Tierra</item>
+    <item>Marte</item>
+  </string-array>
+  <plurals name="numberOfSongsAvailable">
+    <item quantity="one">Se encontró %d canción.</item>
+    <item quantity="other">Se encontraron %d canciones.</item>
+  </plurals>
+  <string name="welcome">¡Te damos la bienvenida a <b>Android</b>!</string>
 </resources>
