@@ -78,6 +78,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     val composeBom = platform(libs.androidx.compose.bom)
@@ -184,4 +186,9 @@ dependencies {
 
     debugImplementation(libs.fragment.testing.manifest)
     androidTestImplementation(libs.fragment.testing)
+    androidTestImplementation(libs.androidx.paging.testing)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.kotlin.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.truth)
 }
