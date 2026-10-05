@@ -26,3 +26,4 @@
 /wearcompanion/                                                                     @android/devrel-wear
 /xr/                                                                                @android/devrel-xr
 /gradle/libs.versions.toml                                                          
+/gradle.properties
