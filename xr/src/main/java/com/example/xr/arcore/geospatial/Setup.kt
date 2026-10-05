@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.xr.arcore
+package com.example.xr.arcore.geospatial
 
+import androidx.activity.ComponentActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.xr.arcore.ArDevice
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseNotTracking
 import androidx.xr.arcore.CreateGeospatialPoseFromPoseSuccess
@@ -30,29 +36,26 @@ import androidx.xr.arcore.VpsAvailabilityNotAuthorized
 import androidx.xr.arcore.VpsAvailabilityResourceExhausted
 import androidx.xr.arcore.VpsAvailabilityUnavailable
 import androidx.xr.runtime.Config
-import androidx.xr.runtime.DeviceTrackingMode
 import androidx.xr.runtime.GeospatialMode
 import androidx.xr.runtime.Session
 import androidx.xr.runtime.SessionConfigureSuccess
 import androidx.xr.runtime.math.GeospatialPose
 import androidx.xr.runtime.math.Pose
+import kotlinx.coroutines.launch
 
 private fun configureGeospatialSession(session: Session) {
     // [START androidxr_arcore_geospatial_configure]
     // Define the configuration object to enable Geospatial features.
     val newConfig = Config.Builder(session.config)
-        // Set the GeospatialMode to SPATIAL.
         .setGeospatial(GeospatialMode.SPATIAL)
-        // Set the DeviceTrackingMode to SPATIAL.
-        .setDeviceTracking(DeviceTrackingMode.SPATIAL)
         .build()
-
     // Apply the configuration to the session.
     try {
         when (val configResult = session.configure(newConfig)) {
             is SessionConfigureSuccess -> {
                 // The session is now configured to use the Geospatial API.
             }
+
             else -> {
                 // Handle other configuration errors (e.g., missing library dependencies).
             }
@@ -63,11 +66,30 @@ private fun configureGeospatialSession(session: Session) {
     // [END androidxr_arcore_geospatial_configure]
 }
 
-private fun obtainGeospatial(session: Session) {
-    // [START androidxr_arcore_geospatial_get_instance]
-    // Get the Geospatial instance for the current session.
+@Suppress("ControlFlowWithEmptyBody")
+@Composable
+private fun CheckGeospatialStateRunning(session: Session) {
+    // [START androidxr_arcore_geospatial_compose_check_geospatial_state]
+    val geospatial = remember { Geospatial.getInstance(session) }
+    val geospatialState by geospatial.state.collectAsStateWithLifecycle()
+    if (geospatialState.geospatialTrackingState == Geospatial.GeospatialTrackingState.RUNNING) {
+        // Queries to the Geospatial API are only valid when the state is RUNNING.
+    }
+    // [END androidxr_arcore_geospatial_compose_check_geospatial_state]
+}
+
+@Suppress("ControlFlowWithEmptyBody")
+private fun ComponentActivity.checkGeospatialStateRunning(session: Session) {
+    // [START androidxr_arcore_geospatial_scenecore_check_geospatial_state]
     val geospatial = Geospatial.getInstance(session)
-    // [END androidxr_arcore_geospatial_get_instance]
+    lifecycleScope.launch {
+        geospatial.state.collect { geospatialState ->
+            if (geospatialState == Geospatial.GeospatialTrackingState.RUNNING) {
+                // Queries to the Geospatial API are only valid when the state is RUNNING.
+            }
+        }
+    }
+    // [END androidxr_arcore_geospatial_scenecore_check_geospatial_state]
 }
 
 private suspend fun checkVpsAvailability(geospatial: Geospatial) {
@@ -102,51 +124,4 @@ private suspend fun checkVpsAvailability(geospatial: Geospatial) {
         }
     }
     // [END androidxr_arcore_geospatial_check_vps]
-}
-
-private fun convertDeviceToGeospatial(session: Session, geospatial: Geospatial) {
-    // [START androidxr_arcore_geospatial_device_to_geospatial]
-    // Get the current device Pose from the AR Session's state.
-    val devicePose = ArDevice.getInstance(session).state.value.devicePose
-
-    // Convert the device Pose into a GeospatialPose.
-    when (val result = geospatial.createGeospatialPoseFromPose(devicePose)) {
-        is CreateGeospatialPoseFromPoseSuccess -> {
-            val geoPose = result.pose
-            val lat = geoPose.latitude
-            val lon = geoPose.longitude
-            val alt = geoPose.altitude
-            // Orientation is in the EUS (East-Up-South) coordinate system.
-            val orientation = geoPose.eastUpSouthQuaternion
-        }
-        is CreateGeospatialPoseFromPoseNotTracking -> {
-            // Geospatial is not currently tracking.
-        }
-
-        else -> {
-            // A newer exception was added, but your app is using an old version of the library
-        }
-    }
-    // [END androidxr_arcore_geospatial_device_to_geospatial]
-}
-
-private fun convertGeospatialToDevice(geospatial: Geospatial, geoPose: GeospatialPose) {
-    // [START androidxr_arcore_geospatial_pose_to_device]
-    // Convert a GeospatialPose (lat/long/alt) back to a device-space Pose.
-    when (val result = geospatial.createPoseFromGeospatialPose(geoPose)) {
-        is CreatePoseFromGeospatialPoseSuccess -> {
-            val devicePose: Pose = result.pose
-            // devicePose is now ready to be used relative to the tracking origin.
-        }
-        is CreatePoseFromGeospatialPoseNotTracking -> {
-            // Geospatial is not currently tracking.
-        }
-        is CreatePoseFromGeospatialPoseInternalError -> {
-            // An internal error occurred.
-        }
-        else -> {
-            // A newer exception was added, but your app is using an old version of the library
-        }
-    }
-    // [END androidxr_arcore_geospatial_pose_to_device]
 }
