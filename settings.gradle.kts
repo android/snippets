@@ -62,5 +62,6 @@ include(
     ":installprompt",
     ":telecom",
     ":room",
-    ":performance"
+    ":performance",
+    ":location"
 )

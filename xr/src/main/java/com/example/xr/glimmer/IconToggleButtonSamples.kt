@@ -24,15 +24,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.xr.glimmer.Icon
 import androidx.xr.glimmer.IconToggleButton
+import androidx.xr.glimmer.IconToggleButtonDefaults
 
 private val FavoriteIcon = Icons.Default.Favorite
 private val OutlinedFavoriteIcon = Icons.Outlined.FavoriteBorder
 
-// [START androidxr_glimmer_icon_toggle_button]
+
 @Composable
 fun IconToggleButtonSample() {
+    // [START androidxr_glimmer_icon_toggle_button]
     var checked by remember { mutableStateOf(false) }
 
     IconToggleButton(
@@ -44,5 +47,27 @@ fun IconToggleButtonSample() {
             contentDescription = "Toggle favorite"
         )
     }
+    // [END androidxr_glimmer_icon_toggle_button]
 }
-// [END androidxr_glimmer_icon_toggle_button]
+
+@Composable
+fun IconToggleButtonBrandedSample() {
+    // [START androidxr_glimmer_icon_toggle_button_with_different_branding_color]
+    var checked by remember { mutableStateOf(false) }
+
+    val additionalColors =
+        IconToggleButtonDefaults.colors(checkedBackgroundColor = Color(0xFF80B799))
+
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        colors = additionalColors
+    ) {
+        Icon(
+            if (checked) FavoriteIcon else OutlinedFavoriteIcon,
+            contentDescription = "Toggle favorite"
+        )
+    }
+    // [END androidxr_glimmer_icon_toggle_button_with_different_branding_color]
+}
+
