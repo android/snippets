@@ -94,6 +94,7 @@ mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
+playServicesLocation = "21.4.0"
 playServicesWearable = "20.0.1"
 playbilling = "9.1.0"
 protobuf = "4.35.1"
@@ -333,6 +334,7 @@ mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
