@@ -33,9 +33,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.biometric.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.car)
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.media3.exoplayer)
     implementation(libs.google.android.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
