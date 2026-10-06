@@ -139,7 +139,7 @@ private object PagingTransformSnippets {
             // [END android_architecture_paging_transform_insert_separators]
         }
 
-        fun cachedInExample() {
+        fun cachedInExample() =
             // [START android_architecture_paging_transform_cached_in]
             pager.flow // Type is Flow<PagingData<User>>.
                 .map { pagingData ->
@@ -147,8 +147,7 @@ private object PagingTransformSnippets {
                         .map { user -> UiModel.UserModel(user) }
                 }
                 .cachedIn(viewModelScope)
-            // [END android_architecture_paging_transform_cached_in]
-        }
+        // [END android_architecture_paging_transform_cached_in]
     }
 
     object UserListUiScope {

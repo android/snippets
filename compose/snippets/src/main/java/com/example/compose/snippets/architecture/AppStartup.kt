@@ -16,12 +16,14 @@
 
 package com.example.compose.snippets.architecture
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.startup.AppInitializer
 import androidx.startup.Initializer
 import androidx.work.Configuration
 import androidx.work.WorkManager
 
+@SuppressLint("EnsureInitializerMetadata")
 private object AppStartupSnippets {
     class ExampleLogger(val workManager: WorkManager)
 
