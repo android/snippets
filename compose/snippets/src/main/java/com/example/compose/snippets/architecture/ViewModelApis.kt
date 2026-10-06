@@ -110,7 +110,7 @@ private object ViewModelApisSnippet3 {
     // [END android_architecture_viewmodel_apis_remember_provider]
 }
 
-private object ViewModelApisSnippet5 {
+private class ViewModelApisSnippet5 {
     class SharedViewModel : ViewModel()
     lateinit var navController: NavController
     fun composable(route: String, content: @Composable (NavBackStackEntry) -> Unit) {}
@@ -134,7 +134,7 @@ private object ViewModelApisSnippet5 {
     // [END android_architecture_viewmodel_apis_nav_graph]
 }
 
-private object ViewModelApisSnippet6 {
+private class ViewModelApisSnippet6 {
     class SharedViewModel : ViewModel()
     lateinit var navController: NavController
     fun composable(route: String, content: @Composable (NavBackStackEntry) -> Unit) {}
