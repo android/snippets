@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.android.lint)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -58,6 +60,8 @@ kotlin {
             dependencies {
                 implementation(libs.jetbrains.kotlin.stdlib)
                 api(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.room3.runtime)
+                implementation(libs.androidx.sqlite.bundled)
             }
         }
 
@@ -91,4 +95,14 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.androidx.room3.compiler)
+    add("kspIosArm64", libs.androidx.room3.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room3.compiler)
+}
+
+room3 {
+    schemaDirectory(project.layout.buildDirectory.dir("schemas"))
 }
