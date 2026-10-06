@@ -34,5 +34,4 @@ dependencies {
     implementation(libs.androidx.concurrent.futures.ktx)
     implementation(libs.google.android.material)
     implementation(libs.guava.android)
-    implementation(libs.kotlinx.coroutines.guava)
 }
