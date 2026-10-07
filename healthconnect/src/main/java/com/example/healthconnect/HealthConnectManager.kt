@@ -1138,7 +1138,7 @@ class HealthConnectManager(
                 val records = readResponse.records
                 // Do something with records
                 pageToken = readResponse.pageToken
-            } while (pageToken != null)
+            } while (!pageToken.isNullOrEmpty())
         } catch (quotaError: IllegalStateException) {
             // Backoff
         }
