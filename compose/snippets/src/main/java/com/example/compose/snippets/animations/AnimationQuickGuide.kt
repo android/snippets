@@ -108,7 +108,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
 import java.net.URLDecoder
