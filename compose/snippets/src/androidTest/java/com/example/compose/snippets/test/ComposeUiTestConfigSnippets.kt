@@ -25,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 import org.junit.Rule
 import org.junit.Test
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "ktlint:standard:indent")
 private class DeprecatedConfigSnippets {
     // [START android_compose_test_config_deprecated]
     @get:Rule
@@ -38,24 +38,25 @@ private class DeprecatedConfigSnippets {
 
     // [START_EXCLUDE silent]
     val runTest1 =
-        // [END_EXCLUDE]
-        runComposeUiTest(
-            effectContext = EmptyCoroutineContext,
-            runTestContext = EmptyCoroutineContext,
-            testTimeout = 30.seconds
-        ) {}
+    // [END_EXCLUDE]
+    runComposeUiTest(
+        effectContext = EmptyCoroutineContext,
+        runTestContext = EmptyCoroutineContext,
+        testTimeout = 30.seconds
+    ) {}
 
     // OR
 
     // [START_EXCLUDE silent]
     val runTest2 =
-        // [END_EXCLUDE]
-        runComposeUiTest(runTestContext = EmptyCoroutineContext) {}
+    // [END_EXCLUDE]
+    runComposeUiTest(runTestContext = EmptyCoroutineContext) {}
 
     // or any other combination of parameters.
     // [END android_compose_test_config_deprecated]
 }
 
+@Suppress("ktlint:standard:indent")
 private class RecommendedConfigSnippets {
     // [START android_compose_test_config_recommended]
     val testConfig = ComposeUiTestConfig(
@@ -71,8 +72,8 @@ private class RecommendedConfigSnippets {
 
     // [START_EXCLUDE silent]
     val runTest =
-        // [END_EXCLUDE]
-        runComposeUiTest(config = testConfig) {}
+    // [END_EXCLUDE]
+    runComposeUiTest(config = testConfig) {}
     // [END android_compose_test_config_recommended]
 }
 
