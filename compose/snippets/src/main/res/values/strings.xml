@@ -64,4 +64,30 @@
     <string name="compose_shortcut_long_label1">Open Compose</string>
     <string name="compose_disabled_message1">Compose is not available</string>
 
+    <string name="hello">Hello!</string>
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <plurals name="numberOfSongsAvailable">
+        <item quantity="one">%d song found.</item>
+        <item quantity="other">%d songs found.</item>
+    </plurals>
+    <bool name="screen_small">true</bool>
+    <integer name="max_speed">75</integer>
+    <integer-array name="bits">
+        <item>4</item>
+        <item>8</item>
+        <item>16</item>
+        <item>32</item>
+    </integer-array>
+    <array name="icons">
+        <item>@drawable/cupcake</item>
+    </array>
+    <array name="colors">
+        <item>#FFFF0000</item>
+    </array>
 </resources>
