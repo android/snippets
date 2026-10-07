@@ -130,6 +130,8 @@ wearRemoteInteractions = "1.2.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.16.0"
 wfp = "1.0.0"
+media3CommonKtx = "1.11.1"
+biometricKtx = "1.1.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -345,6 +347,8 @@ validator-push = { module = "com.google.android.wearable.watchface.validator:val
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 wear-compose-navigation3 = { module = "androidx.wear.compose:compose-navigation3", version.ref = "wearComposeNavigation3" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric", version.ref = "biometricKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
