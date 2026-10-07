@@ -86,14 +86,7 @@ class Camera1ToCameraXSelectCameraFragment : Fragment() {
         val cameraProvider = ProcessCameraProvider.getInstance(requireContext()).await()
 
         // Set up UseCases (more on UseCases in later scenarios).
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        var useCases:Array<UseCase> = ...
-        // [START_EXCLUDE silent]
-         */
         var useCases: Array<UseCase> = emptyArray()
-        // [END_EXCLUDE]
 
         // Set the cameraSelector to use the default front-facing (selfie)
         // camera.
