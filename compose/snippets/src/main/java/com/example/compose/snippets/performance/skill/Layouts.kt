@@ -79,18 +79,18 @@ private fun TapGesturePositionModifier(): Modifier =
     // [END android_compose_performance_layouts_pointer_input]
 
 @Composable
-private fun OffsetPhaseDeferralBad(scrollState: ScrollState): Modifier {
+private fun OffsetPhaseDeferralBad(scrollState: ScrollState) {
     // [START android_compose_performance_layouts_offset_bad]
     val offset = scrollState.value
     Modifier.offset(x = offset.dp, y = 0.dp)
     // [END android_compose_performance_layouts_offset_bad]
-    return Modifier
 }
 
-private fun OffsetPhaseDeferralGood(scrollState: ScrollState): Modifier =
+private fun OffsetPhaseDeferralGood(scrollState: ScrollState) {
     // [START android_compose_performance_layouts_offset_good]
     Modifier.offset { IntOffset(scrollState.value, 0) }
     // [END android_compose_performance_layouts_offset_good]
+}
 
 private object analytics {
     fun logImpression(itemId: String) {}

@@ -61,35 +61,33 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-private fun StateOffsetBad(scrollState: ScrollState): Modifier {
+private fun StateOffsetBad(scrollState: ScrollState) {
     // [START android_compose_performance_state_offset_bad]
     val offset = scrollState.value
     Modifier.offset(x = offset.dp, y = 0.dp)
     // [END android_compose_performance_state_offset_bad]
-    return Modifier
 }
 
-private fun StateOffsetGood(scrollState: ScrollState): Modifier =
+private fun StateOffsetGood(scrollState: ScrollState) {
     // [START android_compose_performance_state_offset_good]
     Modifier.offset { IntOffset(scrollState.value, 0) }
     // [END android_compose_performance_state_offset_good]
+}
 
 @Composable
-private fun StateAlphaBad(targetValue: Float): Modifier {
+private fun StateAlphaBad(targetValue: Float) {
     // [START android_compose_performance_state_alpha_bad]
     val alpha by animateFloatAsState(targetValue)
     Modifier.alpha(alpha)
     // [END android_compose_performance_state_alpha_bad]
-    return Modifier
 }
 
 @Composable
-private fun StateAlphaGood(targetValue: Float): Modifier {
+private fun StateAlphaGood(targetValue: Float) {
     // [START android_compose_performance_state_alpha_good]
     val alpha by animateFloatAsState(targetValue)
     Modifier.graphicsLayer { this.alpha = alpha }
     // [END android_compose_performance_state_alpha_good]
-    return Modifier
 }
 
 // [START android_compose_performance_state_param_direct]
