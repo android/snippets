@@ -45,6 +45,8 @@ camera-camera2 = "1.6.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "37"
+# @keep
+compileSdkMinor = "1"
 compose-remote = "1.0.0-alpha17"
 composeUiTooling = "1.6.2"
 coreSplashscreen = "1.2.0"
