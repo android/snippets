@@ -18,6 +18,7 @@ package com.example.compose.snippets.performance.skill
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,18 +35,22 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
-private fun VisibilityTrackingModifier(itemId: String): Modifier =
+@Composable
+private fun VisibilityTrackingModifier(itemId: String) {
     // [START android_compose_performance_layouts_visibility_changed]
     // Optimized: Viewport entry with dwell threshold
-    Modifier.onVisibilityChanged(
-        minFractionVisible = 0.5f,
-        minDurationMs = 500L,
-    ) { isVisible ->
-        if (isVisible) {
-            analytics.logImpression(itemId)
+    Box(
+        modifier = Modifier.onVisibilityChanged(
+            minFractionVisible = 0.5f,
+            minDurationMs = 500L,
+        ) { isVisible ->
+            if (isVisible) {
+                analytics.logImpression(itemId)
+            }
         }
-    }
+    )
     // [END android_compose_performance_layouts_visibility_changed]
+}
 
 // [START android_compose_performance_layouts_require_coordinates]
 // In a custom PointerInputModifierNode:
@@ -68,27 +73,32 @@ class InteractiveTooltipNode : Modifier.Node(), PointerInputModifierNode {
 }
 // [END android_compose_performance_layouts_require_coordinates]
 
-private fun TapGesturePositionModifier(): Modifier =
+@Composable
+private fun TapGesturePositionModifier() {
     // [START android_compose_performance_layouts_pointer_input]
     // Optimized: Captures touch offset on event without onGloballyPositioned
-    Modifier.pointerInput(Unit) {
-        detectTapGestures { offset ->
-            showMenuAt(offset)
+    Box(
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures { offset ->
+                showMenuAt(offset)
+            }
         }
-    }
+    )
     // [END android_compose_performance_layouts_pointer_input]
+}
 
 @Composable
 private fun OffsetPhaseDeferralBad(scrollState: ScrollState) {
     // [START android_compose_performance_layouts_offset_bad]
     val offset = scrollState.value
-    Modifier.offset(x = offset.dp, y = 0.dp)
+    Box(modifier = Modifier.offset(x = offset.dp, y = 0.dp))
     // [END android_compose_performance_layouts_offset_bad]
 }
 
+@Composable
 private fun OffsetPhaseDeferralGood(scrollState: ScrollState) {
     // [START android_compose_performance_layouts_offset_good]
-    Modifier.offset { IntOffset(scrollState.value, 0) }
+    Box(modifier = Modifier.offset { IntOffset(scrollState.value, 0) })
     // [END android_compose_performance_layouts_offset_good]
 }
 

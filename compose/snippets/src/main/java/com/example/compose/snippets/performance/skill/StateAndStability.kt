@@ -64,13 +64,14 @@ import java.util.Locale
 private fun StateOffsetBad(scrollState: ScrollState) {
     // [START android_compose_performance_state_offset_bad]
     val offset = scrollState.value
-    Modifier.offset(x = offset.dp, y = 0.dp)
+    Box(modifier = Modifier.offset(x = offset.dp, y = 0.dp))
     // [END android_compose_performance_state_offset_bad]
 }
 
+@Composable
 private fun StateOffsetGood(scrollState: ScrollState) {
     // [START android_compose_performance_state_offset_good]
-    Modifier.offset { IntOffset(scrollState.value, 0) }
+    Box(modifier = Modifier.offset { IntOffset(scrollState.value, 0) })
     // [END android_compose_performance_state_offset_good]
 }
 
@@ -78,7 +79,7 @@ private fun StateOffsetGood(scrollState: ScrollState) {
 private fun StateAlphaBad(targetValue: Float) {
     // [START android_compose_performance_state_alpha_bad]
     val alpha by animateFloatAsState(targetValue)
-    Modifier.alpha(alpha)
+    Box(modifier = Modifier.alpha(alpha))
     // [END android_compose_performance_state_alpha_bad]
 }
 
@@ -86,7 +87,7 @@ private fun StateAlphaBad(targetValue: Float) {
 private fun StateAlphaGood(targetValue: Float) {
     // [START android_compose_performance_state_alpha_good]
     val alpha by animateFloatAsState(targetValue)
-    Modifier.graphicsLayer { this.alpha = alpha }
+    Box(modifier = Modifier.graphicsLayer { this.alpha = alpha })
     // [END android_compose_performance_state_alpha_good]
 }
 
