@@ -84,9 +84,7 @@ private fun NestedScrollInteropComposeParentWithAndroidChildExample() {
             .nestedScroll(nestedScrollConnection)
     ) {
         TopAppBar(
-            // [START_EXCLUDE silent]
             title = {},
-            // [END_EXCLUDE]
             modifier = Modifier
                 .height(ToolbarHeight)
                 .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.value.roundToInt()) }
