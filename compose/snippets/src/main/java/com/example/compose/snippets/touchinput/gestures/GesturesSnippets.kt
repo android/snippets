@@ -20,7 +20,6 @@ package com.example.compose.snippets.touchinput.gestures
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -116,6 +115,7 @@ import androidx.compose.ui.util.fastRoundToInt
 import androidx.compose.ui.util.lerp
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Preview
@@ -540,54 +540,55 @@ private fun SwipeableSample() {
 private enum class AnchoredDraggableSwipeDismissValue { DismissedStart, Resting }
 // [END android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_enum]
 
+// Custom SwipeToDismiss component that allows dragging/swiping an item away
+@Composable
+private fun SwipeToDismiss(
+    state: AnchoredDraggableState<AnchoredDraggableSwipeDismissValue>,
+    modifier: Modifier = Modifier,
+    background: @Composable () -> Unit,
+    dismissContent: @Composable () -> Unit
+) {
+    // [START android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_overscroll]
+    val overscrollEffect = rememberOverscrollEffect()
+    Box(
+        modifier.fillMaxWidth()
+    ) {
+        Box(Modifier.fillMaxWidth()) {
+            background()
+        }
+        // [START android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_layout]
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                // Read state.requireOffset() inside the offset lambda to defer reading to the placement phase
+                .offset { IntOffset(state.requireOffset().roundToInt(), 0) }
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+                    val anchors = DraggableAnchors {
+                        AnchoredDraggableSwipeDismissValue.DismissedStart at -placeable.width.toFloat()
+                        AnchoredDraggableSwipeDismissValue.Resting at 0f
+                    }
+                    state.updateAnchors(anchors)
+                    layout(placeable.width, placeable.height) { placeable.placeRelative(0, 0) }
+                }
+                // Pass overscrollEffect to anchoredDraggable so deltas beyond the bounds (min and max anchor) are dispatched to overscrollEffect, and render the visual effect with Modifier.overscroll.
+                .overscroll(overscrollEffect)
+                .anchoredDraggable(
+                    state,
+                    Orientation.Horizontal,
+                    overscrollEffect = overscrollEffect
+                )
+        ) {
+            dismissContent()
+        }
+        // [END android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_layout]
+    }
+    // [END android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_overscroll]
+}
+
 @Preview
 @Composable
 fun AnchoredDraggableSwipeToDismissSample() {
-    // Custom SwipeToDismiss component that allows dragging/swiping an item away
-    @Composable
-    fun SwipeToDismiss(
-        state: AnchoredDraggableState<AnchoredDraggableSwipeDismissValue>,
-        modifier: Modifier = Modifier,
-        background: @Composable () -> Unit,
-        dismissContent: @Composable () -> Unit
-    ) {
-        // [START android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_overscroll]
-        val overscrollEffect = rememberOverscrollEffect()
-        Box(
-            modifier.fillMaxWidth()
-        ) {
-            Box(Modifier.fillMaxWidth()) {
-                background()
-            }
-            // [START android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_layout]
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    // Read state.requireOffset() inside the offset lambda to defer reading to the placement phase
-                    .offset { IntOffset(state.requireOffset().roundToInt(), 0) }
-                    .layout { measurable, constraints ->
-                        val placeable = measurable.measure(constraints)
-                        val anchors = DraggableAnchors {
-                            AnchoredDraggableSwipeDismissValue.DismissedStart at -placeable.width.toFloat()
-                            AnchoredDraggableSwipeDismissValue.Resting at 0f
-                        }
-                        state.updateAnchors(anchors)
-                        layout(placeable.width, placeable.height) { placeable.placeRelative(0, 0) }
-                    }
-                    // Pass overscrollEffect to anchoredDraggable so deltas beyond the bounds (min and max anchor) are dispatched to overscrollEffect, and render the visual effect with Modifier.overscroll.
-                    .overscroll(overscrollEffect)
-                    .anchoredDraggable(
-                        state,
-                        Orientation.Horizontal,
-                        overscrollEffect = overscrollEffect
-                    )
-            ) {
-                dismissContent()
-            }
-            // [END android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_layout]
-        }
-        // [END android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_overscroll]
-    }
     // Use rememberSaveable with AnchoredDraggableState's saver to persist and restore the current settled value across configuration changes. For example, if a user drags the item to DismissedStart and then changes the screen orientation or battery saver gets enabled, the item will still be set to DismissedStart
     // [START android_compose_touchinput_gestures_anchored_draggable_swipetodismiss_state]
     val state =
@@ -639,7 +640,93 @@ enum class DrawerState {
     Open,
     Closed
 }
+
 // [START_EXCLUDE silent]
+@Suppress("UNUSED_VARIABLE")
+@Composable
+private fun AnchoredDraggableDrawerAnchorsSample() {
+    val density = LocalDensity.current
+    val drawerWidth = with(density) { 260.dp.toPx() }
+// [END_EXCLUDE]
+    val anchors = DraggableAnchors {
+        DrawerState.Open at drawerWidth
+        DrawerState.Closed at 0f
+    }
+    val state = remember {
+        AnchoredDraggableState(
+            initialValue = DrawerState.Closed,
+            anchors = anchors,
+        )
+    }
+// [START_EXCLUDE silent]
+}
+// [END_EXCLUDE]
+// [END android_compose_touchinput_gestures_anchored_draggable_drawer_anchors]
+
+// [START android_compose_touchinput_gestures_anchored_draggable_drawer_toggle]
+fun toggleDrawerState(
+    state: AnchoredDraggableState<DrawerState>,
+    coroutineScope: CoroutineScope
+) {
+    coroutineScope.launch {
+        if (state.currentValue == DrawerState.Open) {
+            state.animateTo(DrawerState.Closed)
+        } else {
+            state.animateTo(DrawerState.Open)
+        }
+    }
+}
+// [END android_compose_touchinput_gestures_anchored_draggable_drawer_toggle]
+
+// [START android_compose_touchinput_gestures_anchored_draggable_drawer_on_click]
+@Composable
+private fun AnchoredDraggableDrawerOnClickSample(
+    modifier: Modifier = Modifier,
+    state: AnchoredDraggableState<DrawerState>,
+    coroutineScope: CoroutineScope
+) {
+    var screenState by remember { mutableStateOf(ScreenState.Home) }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        HomeScreenDrawer(
+            selectedScreen = screenState,
+            onScreenSelected = { screen ->
+                screenState = screen
+                // Dismiss drawer when a destination is selected
+                coroutineScope.launch { state.animateTo(DrawerState.Closed) }
+            }
+        )
+
+        // ScreenContents(...)
+    }
+}
+// [END android_compose_touchinput_gestures_anchored_draggable_drawer_on_click]
+
+// [START android_compose_touchinput_gestures_anchored_draggable_drawer_graphics_layer]
+@Composable
+private fun AnchoredDraggableDrawerGraphicsLayerSample(
+    state: AnchoredDraggableState<DrawerState>,
+    drawerWidth: Float,
+    selectedScreen: ScreenState,
+    onDrawerClicked: () -> Unit
+) {
+    ScreenContents(
+        selectedScreen = selectedScreen,
+        onDrawerClicked = onDrawerClicked,
+        modifier = Modifier
+            .graphicsLayer {
+                this.translationX = state.requireOffset()
+                val scale = lerp(1f, 0.8f, state.requireOffset() / drawerWidth)
+                this.scaleX = scale
+                this.scaleY = scale
+                val cornerRadius = lerp(0f, 32f, state.requireOffset() / drawerWidth)
+                this.shape = RoundedCornerShape(cornerRadius.dp)
+                this.clip = true
+            }
+            .anchoredDraggable(state, Orientation.Horizontal)
+    )
+}
+// [END android_compose_touchinput_gestures_anchored_draggable_drawer_graphics_layer]
 
 enum class ScreenState {
     Home,
@@ -648,7 +735,7 @@ enum class ScreenState {
     Settings
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@Preview
 @Composable
 fun JetLaggedNavigationDrawer(
     modifier: Modifier = Modifier
@@ -657,7 +744,6 @@ fun JetLaggedNavigationDrawer(
     val drawerWidth = with(density) { 260.dp.toPx() }
     val coroutineScope = rememberCoroutineScope()
     var screenState by remember { mutableStateOf(ScreenState.Home) }
-// [END_EXCLUDE]
 
     val anchors = DraggableAnchors {
         DrawerState.Open at drawerWidth
@@ -669,9 +755,7 @@ fun JetLaggedNavigationDrawer(
             anchors = anchors,
         )
     }
-// [END android_compose_touchinput_gestures_anchored_draggable_drawer_anchors]
 
-    // [START android_compose_touchinput_gestures_anchored_draggable_drawer_toggle]
     fun toggleDrawerState() {
         coroutineScope.launch {
             if (state.currentValue == DrawerState.Open) {
@@ -681,21 +765,16 @@ fun JetLaggedNavigationDrawer(
             }
         }
     }
-    // [END android_compose_touchinput_gestures_anchored_draggable_drawer_toggle]
 
-    // [START android_compose_touchinput_gestures_anchored_draggable_drawer_on_click]
     Box(modifier = modifier.fillMaxSize()) {
         HomeScreenDrawer(
             selectedScreen = screenState,
             onScreenSelected = { screen ->
                 screenState = screen
-                // Dismiss drawer when a destination is selected
                 coroutineScope.launch { state.animateTo(DrawerState.Closed) }
             }
         )
-    // [END android_compose_touchinput_gestures_anchored_draggable_drawer_on_click]
 
-        // [START android_compose_touchinput_gestures_anchored_draggable_drawer_graphics_layer]
         ScreenContents(
             selectedScreen = screenState,
             onDrawerClicked = ::toggleDrawerState,
@@ -711,11 +790,9 @@ fun JetLaggedNavigationDrawer(
                 }
                 .anchoredDraggable(state, Orientation.Horizontal)
         )
-        // [END android_compose_touchinput_gestures_anchored_draggable_drawer_graphics_layer]
     }
 }
 
-// [START_EXCLUDE]
 @Composable
 fun HomeScreenDrawer(
     modifier: Modifier = Modifier,
@@ -832,7 +909,6 @@ fun ScreenContents(
         }
     }
 }
-// [END_EXCLUDE]
 
 // [START android_compose_touchinput_gestures_transformable]
 @Composable
