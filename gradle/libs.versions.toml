@@ -83,9 +83,9 @@ material = "1.14.0"
 material3-adaptive = "1.3.0"
 material3-adaptive-navigation-suite = "1.4.0"
 material3-adaptive-navigation3 = "1.3.0"
-media3 = "1.10.1"
-media3Session = "1.10.1"
-media3Ui = "1.10.1"
+media3 = "1.11.1"
+media3Session = "1.11.1"
+media3Ui = "1.11.1"
 # @keep
 minSdk = "36"
 mlkit-face-detection = "16.1.7"
@@ -93,6 +93,7 @@ mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
+playServicesLocation = "21.4.0"
 playServicesWearable = "20.0.1"
 playbilling = "9.1.0"
 protobuf = "4.35.1"
@@ -129,6 +130,8 @@ wearRemoteInteractions = "1.2.0"
 wearToolingPreview = "1.0.0"
 webkit = "1.16.0"
 wfp = "1.0.0"
+media3CommonKtx = "1.11.1"
+biometricKtx = "1.1.0"
 
 [libraries]
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
@@ -332,6 +335,7 @@ mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
@@ -345,6 +349,8 @@ validator-push = { module = "com.google.android.wearable.watchface.validator:val
 wear-compose-material = { module = "androidx.wear.compose:compose-material", version.ref = "wearComposeMaterial" }
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearComposeMaterial3" }
 wear-compose-navigation3 = { module = "androidx.wear.compose:compose-navigation3", version.ref = "wearComposeNavigation3" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric", version.ref = "biometricKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
