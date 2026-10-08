@@ -10,6 +10,10 @@ build
 .kotlin
 gradle/gradle-daemon-jvm.properties
 
+# gemini-cli settings
+.gemini/
+.agents/
+
 ### Xcode ###
 ## User settings
 xcuserdata/
