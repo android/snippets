@@ -438,3 +438,38 @@ fun AdvancedTimePickerDialog(
     }
 }
 // [END android_compose_components_advanced]
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DialUseStateCallerExample() {
+    var showDialExample by remember { mutableStateOf(false) }
+    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+
+    // [START android_compose_components_dial_usestate_caller]
+    var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
+
+    // ...
+
+    DialUseStateExample(
+        onDismiss = {
+            showDialExample = false
+        },
+        onConfirm = { time ->
+            selectedTime = time
+            showDialExample = false
+        },
+    )
+
+    // ...
+
+    if (selectedTime != null) {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
+        cal.set(Calendar.MINUTE, selectedTime!!.minute)
+        cal.isLenient = false
+        Text("Selected time = ${formatter.format(cal.time)}")
+    } else {
+        Text("No time selected.")
+    }
+    // [END android_compose_components_dial_usestate_caller]
+}
