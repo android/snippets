@@ -233,34 +233,3 @@ private fun startBluetoothAudioRecording(context: Context) {
         audioManager.clearCommunicationDevice()
     }
 }
-
-/**
- * Demonstrates how to record audio using the projected device context.
- */
-@RequiresPermission(Manifest.permission.RECORD_AUDIO)
-@OptIn(ExperimentalProjectedApi::class)
-private fun startProjectedAudioRecording(context: Context) {
-    val projectedDeviceContext = try {
-        ProjectedContext.createProjectedDeviceContext(context)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Projected device context could not be created", e)
-        return
-    }
-
-    // [START androidxr_projected_context_audio_record]
-    // Initialize AudioRecord with projected device context
-    val audioRecord = AudioRecord.Builder()
-        .setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-        .setAudioFormat(audioFormat)
-        .setBufferSizeInBytes(bufferSize)
-        // pass in the projected device context
-        .setContext(projectedDeviceContext)
-        .build()
-
-    audioRecord.startRecording()
-    // [END androidxr_projected_context_audio_record]
-
-    // Stop and release when done.
-    audioRecord.stop()
-    audioRecord.release()
-}
