@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -82,7 +83,7 @@ private object AllocationBad {
     // [START android_compose_performance_effects_allocation_bad]
     @Composable
     fun DateBadge(timestamp: Long) {
-        val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val formatter = SimpleDateFormat("MMM dd, yyyy", LocalLocale.current.platformLocale)
         Text(text = formatter.format(Date(timestamp)))
     }
     // [END android_compose_performance_effects_allocation_bad]

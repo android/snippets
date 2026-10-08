@@ -257,7 +257,7 @@ fun ScrollToTopButton(scrollState: ScrollState) {
     // Compose 1.13+: Invalidates composition only when > 0 changes,
     // with minimal invalidation overhead compared to derivedStateOf.
     // On Compose < 1.13, use remember { derivedStateOf { ... } }.
-    val showButton by computedStateOf { scrollState.value > 0 }
+    val showButton by remember { computedStateOf { scrollState.value > 0 } }
 
     if (showButton) {
         FloatingActionButton(onClick = { /* ... */ }) {
@@ -288,8 +288,8 @@ private fun ProduceStateDerivationBad(scrollState: LazyListState) {
 private fun ComputedDerivedGood1(scrollState: LazyListState) {
     // [START android_compose_performance_state_computed_derived_good]
     // Compose 1.13+:
-    val isScrolledToTop by computedStateOf {
-        scrollState.firstVisibleItemIndex == 0
+    val isScrolledToTop by remember {
+        computedStateOf { scrollState.firstVisibleItemIndex == 0 }
     }
     // [START_EXCLUDE silent]
 }
