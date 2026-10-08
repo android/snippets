@@ -172,7 +172,7 @@ private object PointAllocationGood {
 private fun BitmapImageBad() {
     // [START android_compose_performance_graphics_image_painter_bad]
     Image(
-        painter = painterResource(id = R.drawable.donut_photo),
+        painter = painterResource(id = R.drawable.donut),
         contentScale = ContentScale.Fit,
         modifier = Modifier.size(160.dp),
         contentDescription = stringResource(id = R.string.attached_image),
@@ -186,7 +186,7 @@ private fun BitmapImageGood() {
     // import coil3.compose.AsyncImage
 
     AsyncImage(
-        model = R.drawable.donut_photo,
+        model = R.drawable.donut,
         contentScale = ContentScale.Fit,
         modifier = Modifier.size(160.dp),
         contentDescription = stringResource(id = R.string.attached_image),
