@@ -35,20 +35,20 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
+@Suppress("ktlint:standard:value-parameter-comment")
 private object DataLayerSnippet1 {
     interface ExampleRemoteDataSource
     interface ExampleLocalDataSource
 
     // [START android_architecture_data_layer_repository_constructor]
     class ExampleRepository(
-        // network
-        private val exampleRemoteDataSource: ExampleRemoteDataSource,
-        // database
-        private val exampleLocalDataSource: ExampleLocalDataSource
+        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
+        private val exampleLocalDataSource: ExampleLocalDataSource // database
     ) { /* ... */ }
     // [END android_architecture_data_layer_repository_constructor]
 }
 
+@Suppress("ktlint:standard:value-parameter-comment")
 private object DataLayerSnippet2 {
     interface ExampleRemoteDataSource
     interface ExampleLocalDataSource
@@ -56,10 +56,8 @@ private object DataLayerSnippet2 {
 
     // [START android_architecture_data_layer_expose_apis]
     class ExampleRepository(
-        // network
-        private val exampleRemoteDataSource: ExampleRemoteDataSource,
-        // database
-        private val exampleLocalDataSource: ExampleLocalDataSource
+        private val exampleRemoteDataSource: ExampleRemoteDataSource, // network
+        private val exampleLocalDataSource: ExampleLocalDataSource // database
     ) {
 
         val data: Flow<Example> =
