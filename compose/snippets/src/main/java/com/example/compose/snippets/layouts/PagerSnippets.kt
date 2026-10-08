@@ -567,3 +567,18 @@ internal fun PagerSampleItem(
         )
     }
 }
+
+@Composable
+private fun HorizontalPagerQuickGuideSample() {
+    // [START android_compose_layouts_pager_horizontal_quick_guide]
+    val pagerState = rememberPagerState(pageCount = {
+        10
+    })
+    HorizontalPager(state = pagerState) { page ->
+        Text(
+            text = "Page: $page",
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+    // [END android_compose_layouts_pager_horizontal_quick_guide]
+}
