@@ -21,6 +21,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -28,6 +29,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import com.example.compose.preview.wasm.registry.previewTypography
 import kotlin.math.min
 
 /**
@@ -635,7 +638,7 @@ data class Theme(
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun CatalogTheme(theme: Theme, content: @Composable () -> Unit) {
+fun CatalogTheme(theme: Theme, fontFamily: FontFamily? = null, content: @Composable () -> Unit) {
     val lightColorScheme = when {
         theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = false)
         else -> theme.preset.lightColorScheme
@@ -657,6 +660,10 @@ fun CatalogTheme(theme: Theme, content: @Composable () -> Unit) {
             fontScale = parentDensity.fontScale,
         ),
     ) {
-        MaterialExpressiveTheme(colorScheme = colorScheme, content = content)
+        MaterialExpressiveTheme(
+            colorScheme = colorScheme,
+            typography = fontFamily?.let(::previewTypography) ?: Typography(),
+            content = content,
+        )
     }
 }

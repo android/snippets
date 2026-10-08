@@ -33,8 +33,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.unit.dp
+import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
+import com.example.compose.preview.wasm.registry.previewTypography
+import com.example.compose.snippets.R
 import com.github.takahirom.roborazzi.captureRoboImage
 import java.io.File
 import org.junit.Rule
@@ -78,6 +85,21 @@ private val PreviewColorScheme = lightColorScheme(
     outlineVariant = Color(0xFFDADCE0)
 )
 
+/**
+ * Roboto Flex, loaded from the same variable font file the WASM runner fetches, with one entry
+ * per weight pinned to its `wght` axis value. See [previewTypography].
+ */
+@OptIn(ExperimentalTextApi::class)
+internal val PreviewFontFamily = FontFamily(
+    PreviewFontWeights.map { weight ->
+        Font(
+            resId = R.font.robotoflex_variable,
+            weight = weight,
+            variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)),
+        )
+    }
+)
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -105,7 +127,10 @@ class PreviewScreenshotTest {
 
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
-            MaterialExpressiveTheme(colorScheme = PreviewColorScheme) {
+            MaterialExpressiveTheme(
+                colorScheme = PreviewColorScheme,
+                typography = previewTypography(PreviewFontFamily),
+            ) {
                 Box(
                     modifier = Modifier
                         .size(384.dp, 216.dp)

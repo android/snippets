@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import com.example.compose.preview.wasm.navigation.extractCustomSeed
 import com.example.compose.preview.wasm.navigation.extractDensityScale
 import com.example.compose.preview.wasm.navigation.extractPreset
@@ -45,7 +46,7 @@ import kotlinx.coroutines.delay
  * Manages URL hash synchronization, dynamic theme updates, density scaling, and snippet rendering.
  */
 @Composable
-fun WasmPreviewApp() {
+fun WasmPreviewApp(fontFamily: FontFamily? = null) {
     fun buildThemeFromUrl(search: String, hash: String): Theme = Theme(
         themeColorMode = extractThemeColorMode(search, hash),
         preset = extractPreset(search, hash),
@@ -76,7 +77,7 @@ fun WasmPreviewApp() {
         }
     }
 
-    CatalogTheme(theme = theme) {
+    CatalogTheme(theme = theme, fontFamily = fontFamily) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background

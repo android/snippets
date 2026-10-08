@@ -18,14 +18,21 @@ package com.example.compose.preview.wasm
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import com.example.compose.preview.wasm.theme.loadPreviewFontFamily
 import kotlinx.browser.document
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLElement
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     val root = document.getElementById("composeApp") ?: document.body!!
-    ComposeViewport(root) {
-        (document.getElementById("loading") as? HTMLElement)?.style?.display = "none"
-        WasmPreviewApp()
+    MainScope().launch {
+        // Load the preview font before the first frame so text never flashes in the fallback face.
+        val fontFamily = loadPreviewFontFamily()
+        ComposeViewport(root) {
+            (document.getElementById("loading") as? HTMLElement)?.style?.display = "none"
+            WasmPreviewApp(fontFamily = fontFamily)
+        }
     }
 }

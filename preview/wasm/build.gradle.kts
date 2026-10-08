@@ -27,6 +27,16 @@ repositories {
     mavenCentral()
 }
 
+// Both preview renderers draw text with the same variable Roboto Flex font so the live WASM
+// preview matches the Roborazzi screenshots. The WASM runner fetches it from `fonts/`.
+val copyPreviewFonts by tasks.registering(Sync::class) {
+    from("${rootProject.projectDir}/compose/snippets/src/main/res/font") {
+        include("robotoflex_variable.ttf")
+        into("fonts")
+    }
+    into(layout.buildDirectory.dir("generated/previewResources/wasmJsMain"))
+}
+
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -43,6 +53,7 @@ kotlin {
 
         val wasmJsMain by getting {
             kotlin.srcDir(generatedSnippetsDir)
+            resources.srcDir(copyPreviewFonts)
             dependencies {
                 implementation("org.jetbrains.compose.runtime:runtime:1.13.0-alpha01")
                 implementation("org.jetbrains.compose.foundation:foundation:1.13.0-alpha01")
@@ -87,6 +98,7 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
     from("src/wasmJsMain/resources/wasm.html") {
         rename("wasm.html", "index.html")
     }
+    from(copyPreviewFonts)
 
     // Copy compiled development WASM and JS from compileSync
     from(layout.buildDirectory.dir("compileSync/wasmJs/main/developmentExecutable/kotlin")) {
@@ -123,6 +135,7 @@ val packageStaticSite by tasks.registering(Copy::class) {
     from("src/wasmJsMain/resources/wasm.html") {
         rename("wasm.html", "index.html")
     }
+    from(copyPreviewFonts)
 
     // Copy compiled production WASM and JS from compileSync
     from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/kotlin")) {
