@@ -152,7 +152,7 @@ private class AudioFocusLegacyChangeHandler(
     private val mediaController: MediaController
 ) {
     // [START android_media_audio_focus_change_listener]
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         when (focusChange) {
             AudioManager.AUDIOFOCUS_LOSS -> {
