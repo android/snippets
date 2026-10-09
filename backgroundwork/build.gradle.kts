@@ -8,7 +8,11 @@ kotlin {
 
 android {
     namespace = "com.example.snippets.backgroundwork"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(libs.versions.compileSdk.get().toInt()) {
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.snippets.backgroundwork"
