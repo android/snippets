@@ -73,6 +73,7 @@ horologist = "0.8.3-alpha"
 junit = "4.13.2"
 kotlin = "2.4.10"
 kotlinCoroutinesOkhttp = "1.0"
+kotlinxCollectionsImmutable = "0.5.0"
 kotlinxCoroutinesGuava = "1.11.0"
 kotlinxSerialization = "1.11.0"
 ksp = "2.3.10"
@@ -320,6 +321,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
