@@ -45,7 +45,8 @@ private fun mediaCodecHdrFlow(
     offset: Int,
     size: Int,
     flags: Int,
-    isStreaming: Boolean
+    isStreaming: Boolean,
+    bitstream: ByteArray
 ) {
     // [START android_media_hdr_playback_mediacodec]
     // Check if there's a codec that supports the specific HDR profile.
@@ -97,14 +98,7 @@ private fun mediaCodecHdrFlow(
         // [END_EXCLUDE]
         val index = queue.poll()
         val buffer = codec.getInputBuffer(index)
-        // [START_EXCLUDE silent]
-        /*
-        // [END_EXCLUDE]
-        buffer?.put(/* write bitstream */)
-        // [START_EXCLUDE silent]
-         */
-        buffer?.put(byteArrayOf())
-        // [END_EXCLUDE]
+        buffer?.put(bitstream)
         codec.queueInputBuffer(index, offset, size, timestamp, flags)
     }
     codec.stop()
