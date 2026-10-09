@@ -25,49 +25,47 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import androidx.annotation.RequiresPermission
 
-// Define the audio format
-// the sample rate is limited to 16kHz, with support for mono or stereo channel configurations.
-private val audioFormat = AudioFormat.Builder()
-    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-    .setSampleRate(16000)
-    .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
-    .build()
-
-// Fetch the minimum required size and use it (or a small multiple)
-// to ensure the "shorter chunks" recommended for low latency.
-private val bufferSize = AudioRecord.getMinBufferSize(
-    16000,
-    AudioFormat.CHANNEL_IN_MONO,
-    AudioFormat.ENCODING_PCM_16BIT
-).coerceAtLeast(1024)
-
 /**
- * Demonstrates how to record audio using Bluetooth HFP
+ * Demonstrates how to record audio from a Bluetooth HFP device.
  */
 @RequiresPermission(allOf = [Manifest.permission.RECORD_AUDIO, Manifest.permission.BLUETOOTH_CONNECT])
-private fun startBluetoothAudioRecording(context: Context) {
+private fun recordBluetoothHfpAudio(context: Context) {
     // [START androidxr_bluetooth_audio_record]
     val audioManager = context.getSystemService(AudioManager::class.java) ?: return
-    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
-    val hfpDevice = devices.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+    val hfpDevice = audioManager.availableCommunicationDevices
+        .firstOrNull { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO } ?: return
 
-    hfpDevice?.let { device ->
-        val audioRecord = AudioRecord.Builder()
-            .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
-            .setAudioFormat(audioFormat)
-            .setBufferSizeInBytes(bufferSize)
-            .build()
+    // HFP input is limited to 16 kHz, with mono or stereo channel configurations.
+    val sampleRate = 16_000
+    val channelMask = AudioFormat.CHANNEL_IN_MONO
+    val encoding = AudioFormat.ENCODING_PCM_16BIT
 
-        // Route recording to the Bluetooth device
-        audioRecord.setPreferredDevice(device)
-        audioManager.setCommunicationDevice(device)
+    // Use a small multiple of the minimum buffer size to keep chunks short for low latency.
+    val minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelMask, encoding)
+    if (minBufferSize <= 0) return
 
+    val audioRecord = AudioRecord.Builder()
+        .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
+        .setAudioFormat(
+            AudioFormat.Builder()
+                .setSampleRate(sampleRate)
+                .setChannelMask(channelMask)
+                .setEncoding(encoding)
+                .build()
+        )
+        .setBufferSizeInBytes(minBufferSize * 2)
+        .build()
+
+    try {
+        // Route voice communication audio through the Bluetooth device.
+        if (!audioManager.setCommunicationDevice(hfpDevice)) return
         audioRecord.startRecording()
-        // [END androidxr_bluetooth_audio_record]
-
+        // Read audio with audioRecord.read() on a background thread.
+    } finally {
         // Stop and release when done.
-        audioRecord.stop()
+        if (audioRecord.recordingState == AudioRecord.RECORDSTATE_RECORDING) audioRecord.stop()
         audioRecord.release()
         audioManager.clearCommunicationDevice()
     }
+    // [END androidxr_bluetooth_audio_record]
 }
