@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+@file:SuppressLint("RestrictedApi")
+
 package com.example.wear.snippets.widget.skill
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
