@@ -16,16 +16,21 @@
 
 package com.example.wear.snippets.widget.skill
 
+// [START android_wear_widget_skill_service]
 import android.content.Context
+// [START_EXCLUDE silent]
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteText
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+// [END_EXCLUDE]
 import androidx.compose.remote.creation.compose.state.rc
+// [START_EXCLUDE silent]
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
+// [END_EXCLUDE]
 import androidx.compose.ui.graphics.Color
 import androidx.glance.wear.AssociateWithGlanceWearWidget
 import androidx.glance.wear.GlanceWearWidget
@@ -37,22 +42,6 @@ import androidx.glance.wear.color
 import androidx.glance.wear.core.ContainerInfo
 import androidx.glance.wear.core.WearWidgetParams
 
-// [START_EXCLUDE silent]
-// Stubs so mobile GlanceAppWidget anti-pattern compiles without mobile Glance dependency
-open class GlanceAppWidget {
-    open suspend fun provideGlance(context: Context, id: GlanceId) {}
-}
-typealias GlanceId = Any
-// [END_EXCLUDE]
-
-// [START android_wear_widget_skill_service]
-// WRONG: Mobile GlanceAppWidget API (don't use on Wear OS)
-class BrokenWidget : GlanceAppWidget() {
-    override suspend fun provideGlance(context: Context, id: GlanceId) {}
-}
-
-// CORRECT: Wear OS GlanceWearWidget + GlanceWearWidgetService
-// [START android_wear_widget_skill_service_manifest]
 @AssociateWithGlanceWearWidget(MyWidget::class)
 class MyWidgetService : GlanceWearWidgetService() {
     override val widget: GlanceWearWidget = MyWidget()
@@ -71,7 +60,6 @@ class MyWidget : GlanceWearWidget() {
         }
     }
 }
-// [END android_wear_widget_skill_service_manifest]
 // [END android_wear_widget_skill_service]
 
 @RemoteComposable

@@ -16,6 +16,7 @@
 
 package com.example.wear.snippets.widget.skill
 
+// [START android_wear_widget_skill_previews]
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -25,7 +26,6 @@ import androidx.glance.wear.tooling.preview.RoundAllWidgetPreviewParams
 import androidx.glance.wear.tooling.preview.SquircleAllWidgetPreviewParams
 import androidx.glance.wear.tooling.preview.WearWidgetPreview
 
-// [START android_wear_widget_skill_previews]
 @Preview(
     name = "Squircle",
     device = "spec:width=1000dp,height=1000dp,dpi=320",

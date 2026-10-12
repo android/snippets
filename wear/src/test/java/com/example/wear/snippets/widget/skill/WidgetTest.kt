@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-@file:SuppressLint("RestrictedApi")
-
 package com.example.wear.snippets.widget.skill
 
+// [START android_wear_widget_skill_unit_test]
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.glance.wear.core.ContainerInfo
@@ -32,7 +31,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-// [START android_wear_widget_skill_unit_test]
+@SuppressLint("RestrictedApi")
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class MyWidgetTest {

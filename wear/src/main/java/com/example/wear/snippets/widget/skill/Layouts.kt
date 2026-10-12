@@ -16,32 +16,21 @@
 
 package com.example.wear.snippets.widget.skill
 
-import android.graphics.Bitmap
-import androidx.compose.remote.creation.compose.action.Action
+// [START android_wear_widget_skill_adaptive_layout]
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
-import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.layout.RemoteImage
-import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.background
-import androidx.compose.remote.creation.compose.modifier.clickable
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.padding
-import androidx.compose.remote.creation.compose.modifier.size
-import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteText
 
-// [START android_wear_widget_skill_adaptive_layout]
 @RemoteComposable
 @Composable
 fun AdaptiveCardContent(
@@ -69,85 +58,3 @@ fun AdaptiveCardContent(
     }
 }
 // [END android_wear_widget_skill_adaptive_layout]
-
-// [START android_wear_widget_skill_full_bleed]
-@RemoteComposable
-@Composable
-fun FullBleedBackgroundLayout(
-    backgroundBitmap: Bitmap?,
-    isLarge: Boolean,
-    content: @RemoteComposable @Composable () -> Unit,
-) {
-    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-        if (backgroundBitmap != null) {
-            RemoteImage(
-                remoteBitmap =
-                    RemoteImageBitmap(backgroundBitmap.asImageBitmap()),
-                contentDescription = null,
-                modifier = RemoteModifier.fillMaxSize(),
-            )
-        }
-        RemoteColumn(
-            modifier = RemoteModifier.fillMaxSize()
-                .padding(if (isLarge) 12.rdp else 6.rdp),
-            verticalArrangement = RemoteArrangement.Center,
-            horizontalAlignment = RemoteAlignment.CenterHorizontally,
-        ) {
-            content()
-        }
-    }
-}
-// [END android_wear_widget_skill_full_bleed]
-
-// [START android_wear_widget_skill_grid_actions]
-@RemoteComposable
-@Composable
-fun GridWithBottomActionLayout(
-    items: List<Pair<String, Bitmap?>>,
-    isLarge: Boolean,
-    onItemClick: androidx.compose.remote.creation.compose.action.Action,
-    onMoreClick: androidx.compose.remote.creation.compose.action.Action,
-) {
-    val visibleItems = if (isLarge) items.take(6) else items.take(3)
-    val rows = visibleItems.chunked(3)
-
-    RemoteColumn(
-        modifier = RemoteModifier.fillMaxSize().padding(8.rdp),
-        verticalArrangement = RemoteArrangement.Center,
-        horizontalAlignment = RemoteAlignment.CenterHorizontally,
-    ) {
-        for (rowItems in rows) {
-            RemoteRow(
-                horizontalArrangement = RemoteArrangement.spacedBy(8.rdp),
-                verticalAlignment = RemoteAlignment.CenterVertically,
-            ) {
-                for ((label, avatar) in rowItems) {
-                    RemoteBox(
-                        modifier = RemoteModifier.size(36.rdp)
-                            .background(Color(0xFF4F378B).rc)
-                            .clickable(onItemClick),
-                        contentAlignment = RemoteAlignment.Center,
-                    ) {
-                        if (avatar != null) {
-                            RemoteImage(
-                                remoteBitmap =
-                                    RemoteImageBitmap(avatar.asImageBitmap()),
-                                contentDescription = label.rs,
-                                modifier = RemoteModifier.fillMaxSize(),
-                            )
-                        } else {
-                            RemoteText(text = label.rs, color = Color.White.rc)
-                        }
-                    }
-                }
-            }
-        }
-        RemoteButton(
-            onClick = onMoreClick,
-            modifier = RemoteModifier.padding(top = 6.rdp),
-        ) {
-            RemoteText(text = "More".rs)
-        }
-    }
-}
-// [END android_wear_widget_skill_grid_actions]

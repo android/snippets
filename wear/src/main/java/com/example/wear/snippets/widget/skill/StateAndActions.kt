@@ -18,12 +18,10 @@
 
 package com.example.wear.snippets.widget.skill
 
+// [START android_wear_widget_skill_state_adjuster]
+// [START_EXCLUDE silent]
 import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import androidx.compose.remote.creation.compose.action.pendingIntentAction
+// [END_EXCLUDE]
 import androidx.compose.remote.creation.compose.action.valueChange
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
@@ -31,7 +29,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.clickable
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
@@ -39,11 +36,7 @@ import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteText
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-// [START android_wear_widget_skill_state_adjuster]
 @RemoteComposable
 @Composable
 fun StatefulAdjusterSection() {
@@ -67,62 +60,3 @@ fun StatefulAdjusterSection() {
     }
 }
 // [END android_wear_widget_skill_state_adjuster]
-
-// [START android_wear_widget_skill_interactive_actions]
-@RemoteComposable
-@Composable
-fun InteractiveHeaderAndRefreshSection(
-    activityClass: Class<*>,
-    receiverClass: Class<out BroadcastReceiver>,
-) {
-    val launchActivityAction = pendingIntentAction { ctx ->
-        val intent = Intent(ctx, activityClass).apply {
-            flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        PendingIntent.getActivity(
-            ctx,
-            100,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
-    }
-
-    val backgroundRefreshAction = pendingIntentAction { ctx ->
-        val intent = Intent(ctx, receiverClass).apply {
-            action = ACTION_REFRESH_WIDGET
-        }
-        PendingIntent.getBroadcast(
-            ctx,
-            101,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
-    }
-
-    RemoteColumn(modifier = RemoteModifier.fillMaxSize()) {
-        RemoteText(
-            text = "Open App".rs,
-            modifier = RemoteModifier.clickable(launchActivityAction),
-        )
-        RemoteButton(onClick = backgroundRefreshAction) {
-            RemoteText(text = "Refresh".rs)
-        }
-    }
-}
-
-const val ACTION_REFRESH_WIDGET = "com.example.wear.ACTION_REFRESH_WIDGET"
-
-class WidgetUpdateReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        val pendingResult = goAsync()
-        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                MyWidget().triggerUpdateAll(context)
-            } finally {
-                pendingResult.finish()
-            }
-        }
-    }
-}
-// [END android_wear_widget_skill_interactive_actions]
