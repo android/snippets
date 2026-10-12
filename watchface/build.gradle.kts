@@ -19,7 +19,11 @@ plugins {
 
 android {
     namespace = "com.example.simpledigital"
-    compileSdk = 37
+    compileSdk {
+        version = release(libs.versions.compileSdk.get().toInt()) {
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.simpledigital"

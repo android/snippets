@@ -6,7 +6,9 @@ plugins {
 android {
     namespace = "com.example.telecom"
     compileSdk {
-        version = release(37)
+        version = release(libs.versions.compileSdk.get().toInt()) {
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
+        }
     }
 
     defaultConfig {

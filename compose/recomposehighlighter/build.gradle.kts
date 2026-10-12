@@ -3,7 +3,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 android {
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(libs.versions.compileSdk.get().toInt()) {
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
+        }
+    }
     namespace = "com.example.recompose"
 
     defaultConfig {
