@@ -208,25 +208,23 @@ fun ResistScreen() {
         }
     }
 
-    Screen() {
-        Column(
-            Modifier
-                .draggable(
-                    orientation = Orientation.Vertical,
-                    onDragStarted = {
-                        isDragging = true
-                    },
-                    onDragStopped = {
-                        isDragging = false
-                    },
-                    state = rememberDraggableState { delta ->
-                        dragOffset += delta
-                    }
-                )
-        ) {
-            // Build the indicator UI based on how much the user has dragged it.
-            ResistIndicator(dragOffset)
-        }
+    Column(
+        Modifier
+            .draggable(
+                orientation = Orientation.Vertical,
+                onDragStarted = {
+                    isDragging = true
+                },
+                onDragStopped = {
+                    isDragging = false
+                },
+                state = rememberDraggableState { delta ->
+                    dragOffset += delta
+                }
+            )
+    ) {
+        // Build the indicator UI based on how much the user has dragged it.
+        ResistIndicator(dragOffset)
     }
 }
 // [END android_haptics_custom_resist_screen]
@@ -245,36 +243,34 @@ fun ExpandScreen() {
     // Animation between expanded and collapsed states.
     val transitionData = updateTransitionData(currentState)
 
-    Screen() {
-        Column(
-            Modifier
-                .clickable(
-                    onClick = {
-                        if (currentState == ExpandShapeState.Collapsed) {
-                            currentState = ExpandShapeState.Expanded
-                            vibrator.vibrate(
-                                VibrationEffect.startComposition().addPrimitive(
-                                    VibrationEffect.Composition.PRIMITIVE_SLOW_RISE,
-                                    0.3f
-                                ).addPrimitive(
-                                    VibrationEffect.Composition.PRIMITIVE_QUICK_FALL,
-                                    0.3f
-                                ).compose()
-                            )
-                        } else {
-                            currentState = ExpandShapeState.Collapsed
-                            vibrator.vibrate(
-                                VibrationEffect.startComposition().addPrimitive(
-                                    VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
-                                ).compose()
-                            )
-                        }
+    Column(
+        Modifier
+            .clickable(
+                onClick = {
+                    if (currentState == ExpandShapeState.Collapsed) {
+                        currentState = ExpandShapeState.Expanded
+                        vibrator.vibrate(
+                            VibrationEffect.startComposition().addPrimitive(
+                                VibrationEffect.Composition.PRIMITIVE_SLOW_RISE,
+                                0.3f
+                            ).addPrimitive(
+                                VibrationEffect.Composition.PRIMITIVE_QUICK_FALL,
+                                0.3f
+                            ).compose()
+                        )
+                    } else {
+                        currentState = ExpandShapeState.Collapsed
+                        vibrator.vibrate(
+                            VibrationEffect.startComposition().addPrimitive(
+                                VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
+                            ).compose()
+                        )
                     }
-                )
-        ) {
-            // Build the indicator UI based on the current state.
-            ExpandIndicator(transitionData)
-        }
+                }
+            )
+    ) {
+        // Build the indicator UI based on the current state.
+        ExpandIndicator(transitionData)
     }
 }
 // [END android_haptics_custom_expand_screen]
@@ -383,22 +379,20 @@ fun BounceScreen() {
         hasVibratedForBallContact = false
     }
 
-    Screen() {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .clickable {
-                    if (transitionData.isAtStart) {
-                        ballPosition = BallPosition.End
-                    } else {
-                        ballPosition = BallPosition.Start
-                        bounceCount = 0
-                    }
-                },
-        ) {
-            // Build the ball UI based on the current state.
-            BouncingBall(transitionData)
-        }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .clickable {
+                if (transitionData.isAtStart) {
+                    ballPosition = BallPosition.End
+                } else {
+                    ballPosition = BallPosition.Start
+                    bounceCount = 0
+                }
+            },
+    ) {
+        // Build the ball UI based on the current state.
+        BouncingBall(transitionData)
     }
 }
 // [END android_haptics_custom_bounce_screen]
@@ -734,11 +728,6 @@ private fun List<BeatParameter>.getBeatDelayMillis(): Float {
 
 private fun calculateVibrationInterval(dragOffset: Float): Long = 50L
 private fun calculateVibrationScale(dragOffset: Float): Float = 0.5f
-
-@Composable
-private fun Screen(content: @Composable () -> Unit) {
-    content()
-}
 
 @Composable
 private fun ResistIndicator(dragOffset: Float) {}
