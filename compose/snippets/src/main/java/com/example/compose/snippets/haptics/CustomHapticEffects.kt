@@ -358,10 +358,10 @@ fun BounceScreen() {
     var transitionData = updateTransitionData(ballPosition)
     val collisionData = updateCollisionData(transitionData)
 
-    // Ball is about to contact floor, only vibrating once per collision.
-    var hasVibratedForBallContact by remember { mutableStateOf(false) }
-    if (collisionData.collisionWithFloor) {
-        if (!hasVibratedForBallContact) {
+    // Ball is about to contact floor. The effect restarts only when the
+    // collision state changes, so it vibrates once per collision.
+    LaunchedEffect(collisionData.collisionWithFloor) {
+        if (collisionData.collisionWithFloor) {
             val vibrationScale = 0.7.pow(bounceCount++).toFloat()
             vibrator.vibrate(
                 VibrationEffect.startComposition().addPrimitive(
@@ -369,11 +369,7 @@ fun BounceScreen() {
                     vibrationScale
                 ).compose()
             )
-            hasVibratedForBallContact = true
         }
-    } else {
-        // Reset for next contact with floor.
-        hasVibratedForBallContact = false
     }
 
     Box(
