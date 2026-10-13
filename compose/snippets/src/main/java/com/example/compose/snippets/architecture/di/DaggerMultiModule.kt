@@ -19,15 +19,18 @@ package com.example.compose.snippets.architecture.di
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.example.compose.snippets.architecture.di.DaggerAndroidActivityScopeDeclaration.ActivityScope
+import com.example.compose.snippets.architecture.di.DaggerDaggerMultiModuleGraph_AppComponent as DaggerAppComponent
+import com.example.compose.snippets.architecture.di.DaggerDaggerMultiModuleGraph_LoginComponent as DaggerLoginComponent
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleAppComponentInitial.UserRepository
+import com.example.compose.snippets.architecture.di.DaggerMultiModuleGraph.AppComponent
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleLoginActivityInject.LoginActivity
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleLoginViewModel.LoginViewModel
 import dagger.Component
 import javax.inject.Inject
+import javax.inject.Scope
 import javax.inject.Singleton
 
-object DaggerMultiModuleSubcomponentProblem {
+private object DaggerMultiModuleSubcomponentProblem {
     interface LoginComponent {
         interface Factory {
             fun create(): LoginComponent
@@ -65,7 +68,7 @@ object DaggerMultiModuleSubcomponentProblem {
     // [END android_di_dagger_multimodule_subcomponent_problem]
 }
 
-object DaggerMultiModuleSubcomponentSolution {
+private object DaggerMultiModuleSubcomponentSolution {
     interface LoginComponent {
         interface Factory {
             fun create(): LoginComponent
@@ -124,7 +127,8 @@ object DaggerMultiModuleSubcomponentSolution {
     // [END android_di_dagger_multimodule_application_implement_provider]
 }
 
-object DaggerMultiModuleAppComponentInitial {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleAppComponentInitial {
     // [START android_di_dagger_multimodule_app_component_initial]
     // UserRepository's dependencies.
     class UserLocalDataSource @Inject constructor() { /* ... */ }
@@ -143,7 +147,8 @@ object DaggerMultiModuleAppComponentInitial {
     // [END android_di_dagger_multimodule_app_component_initial]
 }
 
-object DaggerMultiModuleLoginViewModel {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleLoginViewModel {
     // [START android_di_dagger_multimodule_login_viewmodel]
     // LoginViewModel depends on UserRepository that is scoped to AppComponent.
     class LoginViewModel @Inject constructor(
@@ -152,7 +157,8 @@ object DaggerMultiModuleLoginViewModel {
     // [END android_di_dagger_multimodule_login_viewmodel]
 }
 
-object DaggerMultiModuleLoginComponentDependencies {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleLoginComponentDependencies {
     @ActivityScope
     // [START android_di_dagger_multimodule_login_component_dependencies]
     // Use the dependencies attribute in the Component annotation to specify the
@@ -164,23 +170,35 @@ object DaggerMultiModuleLoginComponentDependencies {
     // [END android_di_dagger_multimodule_login_component_dependencies]
 }
 
-@ActivityScope
-// [START android_di_dagger_multimodule_login_component_factory]
-@Component(dependencies = [AppComponent::class])
-interface LoginComponent {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleGraph {
+    @ActivityScope
+    // [START android_di_dagger_multimodule_login_component_factory]
+    @Component(dependencies = [AppComponent::class])
+    interface LoginComponent {
 
-    @Component.Factory
-    interface Factory {
-        // Takes an instance of AppComponent when creating
-        // an instance of LoginComponent.
-        fun create(appComponent: AppComponent): LoginComponent
+        @Component.Factory
+        interface Factory {
+            // Takes an instance of AppComponent when creating
+            // an instance of LoginComponent.
+            fun create(appComponent: AppComponent): LoginComponent
+        }
+
+        fun inject(activity: LoginActivity)
     }
+    // [END android_di_dagger_multimodule_login_component_factory]
 
-    fun inject(activity: LoginActivity)
+    // [START android_di_dagger_multimodule_app_component_expose_repository]
+    @Singleton
+    @Component
+    interface AppComponent {
+        fun userRepository(): UserRepository
+    }
+    // [END android_di_dagger_multimodule_app_component_expose_repository]
 }
-// [END android_di_dagger_multimodule_login_component_factory]
 
-object DaggerMultiModuleLoginActivityInject {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleLoginActivityInject {
     class MyApplication : Application() {
         val appComponent: AppComponent = DaggerAppComponent.create()
     }
@@ -207,15 +225,8 @@ object DaggerMultiModuleLoginActivityInject {
     // [END android_di_dagger_multimodule_login_activity_inject]
 }
 
-// [START android_di_dagger_multimodule_app_component_expose_repository]
-@Singleton
-@Component
-interface AppComponent {
-    fun userRepository(): UserRepository
-}
-// [END android_di_dagger_multimodule_app_component_expose_repository]
-
-object DaggerMultiModuleScopedDependentComponent {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleScopedDependentComponent {
     // [START android_di_dagger_multimodule_scoped_dependent_component]
     @ActivityScope
     @Component(dependencies = [AppComponent::class])
@@ -227,3 +238,7 @@ object DaggerMultiModuleScopedDependentComponent {
     ) { /* ... */ }
     // [END android_di_dagger_multimodule_scoped_dependent_component]
 }
+
+@Scope
+@Retention(value = AnnotationRetention.RUNTIME)
+private annotation class ActivityScope
