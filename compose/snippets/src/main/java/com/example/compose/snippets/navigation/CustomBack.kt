@@ -26,13 +26,15 @@ import androidx.compose.runtime.setValue
 // [START android_compose_navigation_custom_back_basic]
 @Composable
 fun MyScreen() {
-    var isExpanded by remember { mutableStateOf(true) }
+    var isExpanded by remember { mutableStateOf(false) }
 
     // Intercept the back button or gesture only when isExpanded is true
     BackHandler(enabled = isExpanded) {
+        // Collapsing also disables this handler, so the next back event
+        // goes to the system.
         isExpanded = false
     }
 
-    // Composable UI content...
+    // Composable UI content that sets isExpanded to true...
 }
 // [END android_compose_navigation_custom_back_basic]
