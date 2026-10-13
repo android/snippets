@@ -41,14 +41,9 @@ import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOW
 import com.example.compose.snippets.touchinput.Button
 import kotlinx.serialization.Serializable
 
-interface SceneExample<T : Any> {
-
+public fun interface SceneStrategyExample<T : Any> {
     // [START android_compose_navigation3_scenes_1]
-    @Composable
-    public fun calculateScene(
-        entries: List<NavEntry<T>>,
-        onBack: (count: Int) -> Unit,
-    ): Scene<T>?
+    public fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>?
     // [END android_compose_navigation3_scenes_1]
 }
 
