@@ -173,6 +173,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.glide.compose)
 
+    // Use compileOnly for hilt-compiler because Hilt's whole-module processor rejects
+    // D10 `private object` snippet wrappers and multiple `@HiltAndroidApp` examples in :compose:snippets.
     compileOnly(libs.hilt.compiler)
     ksp(libs.dagger.compiler)
 
