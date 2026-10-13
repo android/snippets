@@ -30,7 +30,7 @@ import android.view.Display
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import kotlin.math.max
 import kotlin.math.min
 
@@ -193,8 +193,7 @@ private object MultipleCameraStreamsSnippets {
         targetClass: Class<T>,
         format: Int? = null
     ): Size {
-        val display =
-            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val display = ContextCompat.getDisplayOrDefault(context)
         return getPreviewOutputSize(display, characteristics, targetClass, format)
     }
 
