@@ -314,8 +314,11 @@ fun WobbleScreen() {
             .fillMaxSize()
             .draggable(
                 onDragStopped = {
-                    // Wobble only if the user pulled the shape down.
-                    isWobbling = dragDistance > 0f
+                    // Wobble only if the shape is far enough from rest to vibrate.
+                    // It then springs back to 0f, and the finishedListener ends
+                    // the wobble.
+                    val displacement = dragDistanceAnimated / MAX_DRAG_DISTANCE
+                    isWobbling = displacement > SPIN_MIN_DISPLACEMENT
                     dragDistance = 0f
                 },
                 orientation = Orientation.Vertical,
