@@ -42,34 +42,41 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-// [START android_media_ai_enhancement_bitmap_initialize_engine]
-class MediaSetupViewModel(application: Application) : AndroidViewModel(application) {
-    private val enhancementClient = Enhancement.getClient(application)
-    fun initializeEnhancementEngine() {
-        viewModelScope.launch {
-            try {
-                // 1. Verify hardware capability.
-                val isSupported = enhancementClient.isDeviceSupportedAsync()
-                if (!isSupported) {
-                    notifyUiDeviceIncompatible()
-                    return@launch
-                }
-                // 2. Verify and download the Google Play services ML modules.
-                val isInstalled = enhancementClient.isModuleInstalledAsync()
-                if (!isInstalled) {
-                    notifyUiDownloadingModels()
-                    enhancementClient.installModule(installStatusCallback).await()
-                }
-                notifyUiEngineReady()
-            } catch (e: Exception) {
+private object BitmapModeLifecycleSnippet {
+    // [START android_media_ai_enhancement_bitmap_initialize_engine]
+    class MediaSetupViewModel(application: Application) : AndroidViewModel(application) {
+        private val enhancementClient = Enhancement.getClient(application)
+        fun initializeEnhancementEngine() {
+            viewModelScope.launch {
+                try {
+                    // 1. Verify hardware capability.
+                    val isSupported = enhancementClient.isDeviceSupportedAsync()
+                    if (!isSupported) {
+                        notifyUiDeviceIncompatible()
+                        return@launch
+                    }
+                    // 2. Verify and download the Google Play services ML modules.
+                    val isInstalled = enhancementClient.isModuleInstalledAsync()
+                    if (!isInstalled) {
+                        notifyUiDownloadingModels()
+                        enhancementClient.installModule(installStatusCallback).await()
+                    }
+                    notifyUiEngineReady()
+                } catch (e: Exception) {
 
-                // Handle potential errors during session creation or image processing.
-                handleInitializationError(e)
+                    // Handle potential errors during session creation or image processing.
+                    handleInitializationError(e)
+                }
             }
         }
     }
+    // [END android_media_ai_enhancement_bitmap_initialize_engine]
+
+    // Private copies so this file doesn't depend on GetStartedEnhancement.kt.
+    private suspend fun EnhancementClient.isDeviceSupportedAsync(): Boolean = isDeviceSupported().await()
+
+    private suspend fun EnhancementClient.isModuleInstalledAsync(): Boolean = isModuleInstalled().await()
 }
-// [END android_media_ai_enhancement_bitmap_initialize_engine]
 
 // [START android_media_ai_enhancement_bitmap_wrappers]
 // Wraps the task-based createSession callback into a suspending function.

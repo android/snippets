@@ -94,6 +94,7 @@ mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
 playServicesFitness = "21.3.0"
 playServicesLocation = "21.4.0"
+# Pinned: 16.0.0-beta05+ adds an abstract EnhancementCallback.onCancelled(int) that the guide's callback doesn't implement.
 playServicesMediaEffectEnhancement = "16.0.0-beta04"
 playServicesWearable = "20.0.1"
 playbilling = "9.1.0"

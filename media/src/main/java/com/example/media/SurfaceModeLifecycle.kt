@@ -53,6 +53,11 @@ private object SurfaceModeLifecycleSnippet {
         }
     }
     // [END android_media_ai_enhancement_surface_initialize_engine]
+
+    // Private copies so this file doesn't depend on GetStartedEnhancement.kt.
+    private suspend fun EnhancementClient.isDeviceSupportedAsync(): Boolean = isDeviceSupported().await()
+
+    private suspend fun EnhancementClient.isModuleInstalledAsync(): Boolean = isModuleInstalled().await()
 }
 
 private val installStatusCallback = object : EnhancementClient.InstallStatusCallback {
