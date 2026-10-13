@@ -171,9 +171,13 @@ dependencies {
     implementation(libs.googlemaps.maps)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
     implementation(libs.glide.compose)
 
-    ksp(libs.hilt.compiler)
+    compileOnly(libs.hilt.compiler)
+    ksp(libs.dagger.compiler)
 
     testImplementation(libs.junit)
 
@@ -196,4 +200,7 @@ dependencies {
 
     debugImplementation(libs.fragment.testing.manifest)
     androidTestImplementation(libs.fragment.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.mockito.kotlin)
+    androidTestImplementation(libs.robolectric)
 }
