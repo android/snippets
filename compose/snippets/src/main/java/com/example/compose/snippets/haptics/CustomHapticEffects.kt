@@ -281,11 +281,13 @@ fun WobbleScreen() {
             dampingRatio = Spring.DampingRatioHighBouncy,
             stiffness = Spring.StiffnessMedium
         ),
+        // The spring ends on its target. An end value of 0f means that the
+        // shape is back at rest, so the wobble is over.
+        finishedListener = { endValue -> if (endValue == 0f) isWobbling = false },
     )
 
     LaunchedEffect(isWobbling) {
-        // Stop when the shape comes to rest.
-        while (isWobbling && dragDistanceAnimated != 0f) {
+        while (isWobbling) {
             val displacement = dragDistanceAnimated / MAX_DRAG_DISTANCE
             // Use some sort of minimum displacement so the final few frames
             // of animation don't generate a vibration.
@@ -312,7 +314,8 @@ fun WobbleScreen() {
             .fillMaxSize()
             .draggable(
                 onDragStopped = {
-                    isWobbling = true
+                    // Wobble only if the user pulled the shape down.
+                    isWobbling = dragDistance > 0f
                     dragDistance = 0f
                 },
                 orientation = Orientation.Vertical,
