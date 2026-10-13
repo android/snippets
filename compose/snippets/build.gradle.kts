@@ -109,6 +109,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.googlefonts)
 
     implementation(libs.androidx.emoji2.views)
+    implementation(libs.androidx.ink.brush)
+    implementation(libs.androidx.ink.brush.compose)
+    implementation(libs.androidx.ink.storage)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.fragment.compose)
