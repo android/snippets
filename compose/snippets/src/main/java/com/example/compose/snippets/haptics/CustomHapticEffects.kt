@@ -32,7 +32,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,7 +48,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
@@ -503,7 +501,7 @@ fun BouncingSpringAnimation() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .noRippleClickable {
+            .clickable {
                 if (!isAnimating) {
                     resetAnimation()
                 }
@@ -551,7 +549,7 @@ fun RocketLaunchAnimation() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .noRippleClickable {
+            .clickable {
                 if (!isLaunched) {
                     // Play vibration with same duration as the animation, using 70% of
                     // the time for the rise of the vibration, to match the easing curve
@@ -757,11 +755,3 @@ private fun DrawText(text: String) {}
 
 @Composable
 private fun drawRocket(rocketPositionY: Float) {}
-
-private fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-    clickable(
-        indication = null,
-        interactionSource = remember { MutableInteractionSource() },
-        onClick = onClick
-    )
-}
