@@ -448,11 +448,13 @@ fun BouncingSpringAnimation() {
             )
 
             // Bounce back up to a lower height, slowing down like a thrown object.
+            // When the next bounce is too small, the spring stays on the floor.
             bounceHeight *= BOUNCE_DAMPING
-            val riseDurationMs = (DROP_DURATION_MS * sqrt(bounceHeight)).toInt()
-            springHeight.animateTo(bounceHeight, tween(riseDurationMs, easing = EaseOutQuad))
+            if (bounceHeight > MIN_BOUNCE_HEIGHT) {
+                val riseDurationMs = (DROP_DURATION_MS * sqrt(bounceHeight)).toInt()
+                springHeight.animateTo(bounceHeight, tween(riseDurationMs, easing = EaseOutQuad))
+            }
         }
-        springHeight.animateTo(0f)
         isAnimating = false
     }
 
