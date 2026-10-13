@@ -51,38 +51,36 @@ import org.junit.runners.model.Statement
 import org.mockito.Mock
 import org.robolectric.annotation.Config
 
-class HiltTestActivity : ComponentActivity()
+private class HiltTestActivity : ComponentActivity()
 
-open class BaseApplication : Application()
+private open class BaseApplication : Application()
 
-class FakeAnalyticsService @Inject constructor() : AnalyticsService {
+private class FakeAnalyticsService @Inject constructor() : AnalyticsService {
     override fun analyticsMethods() {}
 }
 
 private val fakeAnalyticsService: AnalyticsService = FakeAnalyticsService()
-private const val expected = true
-private const val actual = true
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class ExampleQualifier
+private annotation class ExampleQualifier
 
-class ExampleCustomType
+private class ExampleCustomType
 
 @Composable
 private fun SettingsScreen() {
     Text("Settings")
 }
 
-internal class SomeOtherRule : TestRule {
+private class SomeOtherRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement = base
 }
 
-internal class SettingsScreenTestRule(private val testInstance: Any) : TestRule {
+private class SettingsScreenTestRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement = base
 }
 
-internal object HiltTestingUnitTestSnippet {
+private object HiltTestingUnitTestSnippet {
     // Note: AnalyticsAdapter would normally live in the main source set.
     // [START android_di_hilt_testing_unit_test]
     @ActivityScoped
@@ -99,13 +97,20 @@ internal object HiltTestingUnitTestSnippet {
             // You don't need Hilt to create an instance of AnalyticsAdapter.
             // You can pass a fake or mock AnalyticsService.
             val adapter = AnalyticsAdapter(fakeAnalyticsService)
-            assertEquals(expected, actual)
+            // [START_EXCLUDE silent]
+            /*
+            // [END_EXCLUDE]
+            assertEquals(...)
+            // [START_EXCLUDE silent]
+            */
+            assertEquals(adapter, adapter)
+            // [END_EXCLUDE]
         }
     }
     // [END android_di_hilt_testing_unit_test]
 }
 
-internal object HiltTestingUiTestSetupSnippet {
+private object HiltTestingUiTestSetupSnippet {
     // [START android_di_hilt_testing_ui_test_setup]
     @HiltAndroidTest
     class SettingsScreenTest {
@@ -121,17 +126,19 @@ internal object HiltTestingUiTestSetupSnippet {
     // [END android_di_hilt_testing_ui_test_setup]
 }
 
-// [START android_di_hilt_testing_custom_test_runner]
-// A custom runner to set up the instrumented application class for tests.
-class CustomTestRunner : AndroidJUnitRunner() {
+private object HiltTestingCustomTestRunnerSnippet {
+    // [START android_di_hilt_testing_custom_test_runner]
+    // A custom runner to set up the instrumented application class for tests.
+    class CustomTestRunner : AndroidJUnitRunner() {
 
-    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
-        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+        override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+            return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+        }
     }
+    // [END android_di_hilt_testing_custom_test_runner]
 }
-// [END android_di_hilt_testing_custom_test_runner]
 
-internal object HiltTestingRobolectricConfigSnippet {
+private object HiltTestingRobolectricConfigSnippet {
     // [START android_di_hilt_testing_robolectric_config]
     @HiltAndroidTest
     @Config(application = HiltTestApplication::class)
@@ -145,7 +152,7 @@ internal object HiltTestingRobolectricConfigSnippet {
     // [END android_di_hilt_testing_robolectric_config]
 }
 
-internal object HiltTestingInjectInTestsSnippet {
+private object HiltTestingInjectInTestsSnippet {
     // [START android_di_hilt_testing_inject_in_tests]
     @HiltAndroidTest
     class SettingsScreenTest {
@@ -176,7 +183,7 @@ internal object HiltTestingInjectInTestsSnippet {
     // [END android_di_hilt_testing_inject_in_tests]
 }
 
-internal object HiltTestingAnalyticsModuleSnippet {
+private object HiltTestingAnalyticsModuleSnippet {
     // Note: AnalyticsModule would normally live in the main source set.
     // [START android_di_hilt_testing_analytics_module]
     @Module
@@ -208,7 +215,7 @@ internal object HiltTestingAnalyticsModuleSnippet {
     // [END android_di_hilt_testing_test_install_in]
 }
 
-internal object HiltTestingUninstallModulesSnippet {
+private object HiltTestingUninstallModulesSnippet {
     // [START android_di_hilt_testing_uninstall_modules]
     @UninstallModules(AnalyticsModule::class)
     @HiltAndroidTest
@@ -218,7 +225,7 @@ internal object HiltTestingUninstallModulesSnippet {
     // [END android_di_hilt_testing_uninstall_modules]
 }
 
-internal object HiltTestingTestModuleSnippet {
+private object HiltTestingTestModuleSnippet {
     // [START android_di_hilt_testing_test_module]
     @UninstallModules(AnalyticsModule::class)
     @HiltAndroidTest
@@ -240,7 +247,7 @@ internal object HiltTestingTestModuleSnippet {
     // [END android_di_hilt_testing_test_module]
 }
 
-internal object HiltTestingBindValueSnippet {
+private object HiltTestingBindValueSnippet {
     // [START android_di_hilt_testing_bind_value]
     @UninstallModules(AnalyticsModule::class)
     @HiltAndroidTest
@@ -254,7 +261,7 @@ internal object HiltTestingBindValueSnippet {
     // [END android_di_hilt_testing_bind_value]
 }
 
-internal object HiltTestingBindValueMockSnippet {
+private object HiltTestingBindValueMockSnippet {
     // [START android_di_hilt_testing_bind_value_mock]
     // ...
     class SettingsScreenTest {
@@ -268,14 +275,14 @@ internal object HiltTestingBindValueMockSnippet {
     // [END android_di_hilt_testing_bind_value_mock]
 }
 
-internal object HiltTestingCustomTestApplicationSnippet {
+private object HiltTestingCustomTestApplicationSnippet {
     // [START android_di_hilt_testing_custom_test_application]
     @CustomTestApplication(BaseApplication::class)
     interface HiltTestApplication
     // [END android_di_hilt_testing_custom_test_application]
 }
 
-internal object HiltTestingMultipleTestRulesSnippet {
+private object HiltTestingMultipleTestRulesSnippet {
     // [START android_di_hilt_testing_multiple_test_rules]
     @HiltAndroidTest
     class SettingsScreenTest {
@@ -294,13 +301,21 @@ internal object HiltTestingMultipleTestRulesSnippet {
     // [END android_di_hilt_testing_multiple_test_rules]
 }
 
-internal object HiltTestingRuleChainSnippet {
+private object HiltTestingRuleChainSnippet {
     // [START android_di_hilt_testing_rule_chain]
     @HiltAndroidTest
     class SettingsScreenTest {
 
         @get:Rule
-        var rule = RuleChain.outerRule(HiltAndroidRule(this)).around(SettingsScreenTestRule(this))
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        var rule = RuleChain.outerRule(HiltAndroidRule(this)).
+            around(SettingsScreenTestRule(...))
+        // [START_EXCLUDE silent]
+        */
+        var rule = RuleChain.outerRule(HiltAndroidRule(this)).around(SettingsScreenTestRule())
+        // [END_EXCLUDE]
 
         // UI tests here.
     }
