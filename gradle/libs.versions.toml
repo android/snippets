@@ -104,6 +104,7 @@ reactive-streams = "1.0.4"
 recyclerview = "1.4.0"
 registryDigitalCredentials = "1.0.0-alpha05"
 remote-material3 = "1.0.0-alpha13"
+retrofit = "2.11.0"
 robolectric = "4.16.1"
 roborazzi = "1.70.0"
 room = "2.8.4"
@@ -217,6 +218,7 @@ androidx-glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-too
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidxHiltNavigationCompose" }
 androidx-ink-brush = { module = "androidx.ink:ink-brush", version.ref = "androidx-ink" }
 androidx-ink-brush-compose = { module = "androidx.ink:ink-brush-compose", version.ref = "androidx-ink" }
 androidx-ink-storage = { module = "androidx.ink:ink-storage", version.ref = "androidx-ink" }
@@ -314,7 +316,9 @@ googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "hilt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
@@ -340,6 +344,7 @@ play-services-fitness = { module = "com.google.android.gms:play-services-fitness
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
 reactive-streams = { module = "org.reactivestreams:reactive-streams", version.ref = "reactive-streams" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
