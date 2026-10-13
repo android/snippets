@@ -27,6 +27,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -48,7 +49,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -521,8 +522,6 @@ fun BouncingSpringAnimation() {
 // [START android_haptics_custom_rocket_launch]
 @Composable
 fun RocketLaunchAnimation() {
-    val screenHeight = remember { mutableFloatStateOf(0f) }
-    var rocketPositionY by remember { mutableFloatStateOf(0f) }
     var isLaunched by remember { mutableStateOf(false) }
     val animation = remember { Animatable(0f) }
 
@@ -537,16 +536,13 @@ fun RocketLaunchAnimation() {
                     // towards the end.
                     easing = CubicBezierEasing(1f, 0f, 0.75f, 1f)
                 )
-            ) {
-                rocketPositionY = screenHeight.floatValue * value
-            }
+            )
             animation.snapTo(0f)
-            rocketPositionY = 0f
             isLaunched = false
         }
     }
 
-    Box(
+    Canvas(
         modifier = Modifier
             .fillMaxSize()
             .clickable {
@@ -559,9 +555,9 @@ fun RocketLaunchAnimation() {
                 }
             }
             .background(colorResource(R.color.background))
-            .onSizeChanged { screenHeight.floatValue = it.height.toFloat() }
     ) {
-        drawRocket(rocketPositionY)
+        // Read the animation in the draw phase, and scale it to the canvas height.
+        drawRocket(size.height * animation.value)
     }
 }
 
@@ -753,5 +749,4 @@ private fun DrawFloor() {}
 @Composable
 private fun DrawText(text: String) {}
 
-@Composable
-private fun drawRocket(rocketPositionY: Float) {}
+private fun DrawScope.drawRocket(rocketPositionY: Float) {}
