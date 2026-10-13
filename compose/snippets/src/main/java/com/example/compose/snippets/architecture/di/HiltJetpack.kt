@@ -21,6 +21,8 @@ import android.content.Context
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.hilt.work.HiltWorker
 import androidx.hilt.work.HiltWorkerFactory
@@ -41,28 +43,27 @@ import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class ExampleRepository @Inject constructor()
+// Note: Helpers and wrappers with @Inject/@AssistedInject use `internal` because Dagger KSP
+// rejects injection into private classes.
+internal class ExampleRepository @Inject constructor()
 
-class MyRepository @Inject constructor()
+internal class MyRepository @Inject constructor()
 
-class WorkerDependency @Inject constructor()
+internal class WorkerDependency @Inject constructor()
 
 private data object MyDestination
 
-@Composable
-private fun MyScreen(viewModel: MyViewModel) {}
+internal object HiltJetpackViewModelSnippet {
+    // [START android_di_hilt_jetpack_viewmodel]
+    @HiltViewModel
+    class ExampleViewModel @Inject constructor(
+        private val savedStateHandle: SavedStateHandle,
+        private val repository: ExampleRepository
+    ) : ViewModel() {
+        // ...
+    }
+    // [END android_di_hilt_jetpack_viewmodel]
 
-// [START android_di_hilt_jetpack_viewmodel]
-@HiltViewModel
-class ExampleViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val repository: ExampleRepository
-) : ViewModel() {
-    // ...
-}
-// [END android_di_hilt_jetpack_viewmodel]
-
-internal object HiltJetpackActivityViewModelSnippet {
     // [START android_di_hilt_jetpack_activity_viewmodel]
     @AndroidEntryPoint
     class ExampleActivity : AppCompatActivity() {
@@ -72,57 +73,79 @@ internal object HiltJetpackActivityViewModelSnippet {
     // [END android_di_hilt_jetpack_activity_viewmodel]
 }
 
-// [START android_di_hilt_jetpack_assisted_viewmodel]
-@HiltViewModel(assistedFactory = MyViewModel.Factory::class)
-class MyViewModel @AssistedInject constructor(
-    @Assisted val userId: String,
-    private val repository: MyRepository
-) : ViewModel() {
-    @AssistedFactory
-    interface Factory {
-        fun create(userId: String): MyViewModel
+internal object HiltJetpackAssistedViewModelSnippet {
+    // [START android_di_hilt_jetpack_assisted_viewmodel]
+    @HiltViewModel(assistedFactory = MyViewModel.Factory::class)
+    class MyViewModel @AssistedInject constructor(
+        @Assisted val userId: String,
+        private val repository: MyRepository
+    ) : ViewModel() {
+        @AssistedFactory
+        interface Factory {
+            fun create(userId: String): MyViewModel
+        }
+    }
+    // [END android_di_hilt_jetpack_assisted_viewmodel]
+
+    @Composable
+    private fun MyScreen(viewModel: MyViewModel) {}
+
+    @Composable
+    private fun HiltJetpackNav3Snippet() {
+        // [START android_di_hilt_jetpack_nav3]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        NavDisplay(...,
+          entryDecorators = listOf(..., rememberViewModelStoreNavEntryDecorator()),
+          entryProvider = entryProvider {
+            entry<MyDestination> { key ->
+              val viewModel = hiltViewModel<MyViewModel>()
+              MyScreen(viewModel = viewModel)
+            }
+          }
+        )
+        // [START_EXCLUDE silent]
+        */
+        NavDisplay(
+            backStack = remember { mutableStateListOf<Any>(MyDestination) },
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
+            ),
+            entryProvider = entryProvider {
+                entry<MyDestination> { key ->
+                    val viewModel = hiltViewModel<MyViewModel>()
+                    MyScreen(viewModel = viewModel)
+                }
+            }
+        )
+        // [END_EXCLUDE]
+        // [END android_di_hilt_jetpack_nav3]
+    }
+
+    @Composable
+    private fun HiltJetpackNavComposeSnippet() {
+        // [START android_di_hilt_jetpack_nav_compose]
+        val viewModel = hiltViewModel<MyViewModel>()
+        // [END android_di_hilt_jetpack_nav_compose]
     }
 }
-// [END android_di_hilt_jetpack_assisted_viewmodel]
 
-@Composable
-private fun HiltJetpackNav3Snippet(backStack: List<Any>) {
-    // [START android_di_hilt_jetpack_nav3]
-    NavDisplay(
-        backStack = backStack,
-        entryDecorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator(),
-            rememberViewModelStoreNavEntryDecorator()
-        ),
-        entryProvider = entryProvider {
-            entry<MyDestination> { key ->
-                val viewModel = hiltViewModel<MyViewModel>()
-                MyScreen(viewModel = viewModel)
-            }
-        }
-    )
-    // [END android_di_hilt_jetpack_nav3]
+internal object HiltJetpackWorkerSnippet {
+    // [START android_di_hilt_jetpack_worker]
+    @HiltWorker
+    class ExampleWorker @AssistedInject constructor(
+        @Assisted appContext: Context,
+        @Assisted workerParams: WorkerParameters,
+        workerDependency: WorkerDependency
+    ) : Worker(appContext, workerParams) {
+        // [START_EXCLUDE]
+        override fun doWork(): Result = Result.success()
+        // [END_EXCLUDE]
+    }
+    // [END android_di_hilt_jetpack_worker]
 }
-
-@Composable
-private fun HiltJetpackNavComposeSnippet() {
-    // [START android_di_hilt_jetpack_nav_compose]
-    val viewModel = hiltViewModel<MyViewModel>()
-    // [END android_di_hilt_jetpack_nav_compose]
-}
-
-// [START android_di_hilt_jetpack_worker]
-@HiltWorker
-class ExampleWorker @AssistedInject constructor(
-    @Assisted appContext: Context,
-    @Assisted workerParams: WorkerParameters,
-    workerDependency: WorkerDependency
-) : Worker(appContext, workerParams) {
-    // [START_EXCLUDE]
-    override fun doWork(): Result = Result.success()
-    // [END_EXCLUDE]
-}
-// [END android_di_hilt_jetpack_worker]
 
 internal object HiltJetpackApplicationSnippet {
     // [START android_di_hilt_jetpack_application]

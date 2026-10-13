@@ -45,7 +45,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 
-internal object HiltAndroidApplicationSnippet {
+private object HiltAndroidApplicationSnippet {
     // [START android_di_hilt_android_application]
     @HiltAndroidApp
     class ExampleApplication : Application() {
@@ -54,7 +54,7 @@ internal object HiltAndroidApplicationSnippet {
     // [END android_di_hilt_android_application]
 }
 
-internal object HiltAndroidEntryPointSnippet {
+private object HiltAndroidEntryPointSnippet {
     // [START android_di_hilt_android_entry_point]
     @AndroidEntryPoint
     class ExampleActivity : ComponentActivity() {
@@ -63,6 +63,8 @@ internal object HiltAndroidEntryPointSnippet {
     // [END android_di_hilt_android_entry_point]
 }
 
+// Note: Wrapper objects and helper classes enclosing @Inject or @Module declarations use `internal`
+// instead of `private` because Dagger KSP rejects private @Inject targets and private @Module enclosures.
 internal object HiltAndroidFieldInjectionSnippet {
     // [START android_di_hilt_android_field_injection]
     @AndroidEntryPoint
@@ -74,6 +76,7 @@ internal object HiltAndroidFieldInjectionSnippet {
     // [END android_di_hilt_android_field_injection]
 }
 
+// Shared across HiltAndroid.kt, HiltJetpack.kt, and HiltTesting.kt.
 // [START android_di_hilt_android_constructor_injection]
 class AnalyticsAdapter @Inject constructor(
     private val service: AnalyticsService
@@ -127,6 +130,7 @@ internal object HiltAndroidProvidesSnippet {
     // [END android_di_hilt_android_provides]
 }
 
+// Shared across HiltAndroid.kt and HiltMultiModule.kt.
 // [START android_di_hilt_android_qualifiers]
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -176,8 +180,6 @@ internal object HiltAndroidNetworkModuleSnippet {
     // [END android_di_hilt_android_network_module]
 }
 
-internal interface ExampleService
-
 internal object HiltAndroidInjectQualifiedSnippet {
     // [START android_di_hilt_android_inject_qualified]
     // As a dependency of another class.
@@ -198,9 +200,18 @@ internal object HiltAndroidInjectQualifiedSnippet {
     }
 
     // As a dependency of a constructor-injected class.
+    // [START_EXCLUDE silent]
+    /*
+    // [END_EXCLUDE]
     class ExampleServiceImpl @Inject constructor(
         @AuthInterceptorOkHttpClient private val okHttpClient: OkHttpClient
-    ) : ExampleService
+    ) : ...
+    // [START_EXCLUDE silent]
+     */
+    class ExampleServiceImpl @Inject constructor(
+        @AuthInterceptorOkHttpClient private val okHttpClient: OkHttpClient
+    )
+    // [END_EXCLUDE]
 
     // At field injection.
     @AndroidEntryPoint
@@ -247,12 +258,10 @@ internal object HiltAndroidSingletonScopedBindsSnippet {
             analyticsServiceImpl: AnalyticsServiceImpl
         ): AnalyticsService
     }
+
     // [START_EXCLUDE silent]
-}
-
-internal object HiltAndroidSingletonScopedProvidesSnippet {
+    /*
     // [END_EXCLUDE]
-
     // If you don't own AnalyticsService.
     @Module
     @InstallIn(SingletonComponent::class)
@@ -267,7 +276,26 @@ internal object HiltAndroidSingletonScopedProvidesSnippet {
                 .create(AnalyticsService::class.java)
         }
     }
+    // [START_EXCLUDE silent]
+     */
+    // [END_EXCLUDE]
     // [END android_di_hilt_android_singleton_scoped]
+}
+
+internal object HiltAndroidSingletonScopedProvidesSnippet {
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object AnalyticsModule {
+
+        @Singleton
+        @Provides
+        fun provideAnalyticsService(): AnalyticsService {
+            return Retrofit.Builder()
+                .baseUrl("https://example.com")
+                .build()
+                .create(AnalyticsService::class.java)
+        }
+    }
 }
 
 internal object HiltAndroidApplicationContextQualifiedSnippet {
@@ -279,21 +307,28 @@ internal object HiltAndroidApplicationContextQualifiedSnippet {
         override fun analyticsMethods() {}
         // [END_EXCLUDE]
     }
+
     // [START_EXCLUDE silent]
-}
-
-internal object HiltAndroidApplicationContextUnqualifiedSnippet {
+    /*
     // [END_EXCLUDE]
-
     // The Application binding is available without qualifiers.
     class AnalyticsServiceImpl @Inject constructor(
         application: Application
     ) : AnalyticsService {
-        // [START_EXCLUDE]
-        override fun analyticsMethods() {}
-        // [END_EXCLUDE]
+        // ...
     }
+    // [START_EXCLUDE silent]
+     */
+    // [END_EXCLUDE]
     // [END android_di_hilt_android_application_context]
+}
+
+internal object HiltAndroidApplicationContextUnqualifiedSnippet {
+    class AnalyticsServiceImpl @Inject constructor(
+        application: Application
+    ) : AnalyticsService {
+        override fun analyticsMethods() {}
+    }
 }
 
 internal object HiltAndroidActivityContextQualifiedSnippet {
@@ -303,22 +338,29 @@ internal object HiltAndroidActivityContextQualifiedSnippet {
     ) {
         // ...
     }
+
     // [START_EXCLUDE silent]
-}
-
-internal object HiltAndroidActivityContextUnqualifiedSnippet {
+    /*
     // [END_EXCLUDE]
-
     // The Activity binding is available without qualifiers.
     class AnalyticsAdapter @Inject constructor(
         activity: ComponentActivity
     ) {
         // ...
     }
+    // [START_EXCLUDE silent]
+     */
+    // [END_EXCLUDE]
     // [END android_di_hilt_android_activity_context]
 }
 
-internal object HiltAndroidContentProviderEntryPointSnippet {
+internal object HiltAndroidActivityContextUnqualifiedSnippet {
+    class AnalyticsAdapter @Inject constructor(
+        activity: ComponentActivity
+    )
+}
+
+private object HiltAndroidContentProviderEntryPointSnippet {
     // [START android_di_hilt_android_content_provider_entry_point]
     class ExampleContentProvider : ContentProvider() {
 
@@ -351,7 +393,7 @@ internal object HiltAndroidContentProviderEntryPointSnippet {
     // [END android_di_hilt_android_content_provider_entry_point]
 }
 
-internal object HiltAndroidEntryPointAccessorsSnippet {
+private object HiltAndroidEntryPointAccessorsSnippet {
     // [START android_di_hilt_android_entry_point_accessors]
     class ExampleContentProvider : ContentProvider() {
         // [START_EXCLUDE]
