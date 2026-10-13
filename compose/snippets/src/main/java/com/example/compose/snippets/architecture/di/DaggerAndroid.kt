@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ktlint:standard:no-empty-class-body")
+
 package com.example.compose.snippets.architecture.di
 
 import android.app.Activity
@@ -22,10 +24,15 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.compose.snippets.architecture.di.DaggerAndroidActivityScopeDeclaration.ActivityScope
+import com.example.compose.snippets.architecture.di.DaggerAndroidGraph.ApplicationComponent
+import com.example.compose.snippets.architecture.di.DaggerAndroidGraph.NetworkModule
+import com.example.compose.snippets.architecture.di.DaggerAndroidGraph.SubcomponentsModule
 import com.example.compose.snippets.architecture.di.DaggerAndroidRepositoryDependencies.UserLocalDataSource
 import com.example.compose.snippets.architecture.di.DaggerAndroidRepositoryDependencies.UserRemoteDataSource
 import com.example.compose.snippets.architecture.di.DaggerAndroidRepositoryDependencies.UserRepository
 import com.example.compose.snippets.architecture.di.DaggerAndroidSubcomponentFlow.LoginComponent
+import com.example.compose.snippets.architecture.di.DaggerDaggerAndroidGraph_ApplicationComponent as DaggerApplicationComponent
+import com.example.compose.snippets.architecture.di.DaggerDaggerAndroidGraph_TestApplicationComponent as DaggerTestApplicationComponent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -35,8 +42,10 @@ import javax.inject.Inject
 import javax.inject.Scope
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 
-object DaggerAndroidApplicationComponentBasic {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidApplicationComponentBasic {
     // [START android_di_dagger_android_application_component]
     // Definition of the Application graph.
     @Component
@@ -50,7 +59,8 @@ object DaggerAndroidApplicationComponentBasic {
     // [END android_di_dagger_android_application_component]
 }
 
-object DaggerAndroidFieldInjection {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidFieldInjection {
     class LoginViewModel @Inject constructor()
 
     // [START android_di_dagger_android_field_injection]
@@ -61,7 +71,8 @@ object DaggerAndroidFieldInjection {
     // [END android_di_dagger_android_field_injection]
 }
 
-object DaggerAndroidComponentInject {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidComponentInject {
     class LoginActivity : Activity()
 
     // [START android_di_dagger_android_component_inject]
@@ -74,7 +85,8 @@ object DaggerAndroidComponentInject {
     // [END android_di_dagger_android_component_inject]
 }
 
-object DaggerAndroidActivityOnCreateInject {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidActivityOnCreateInject {
     interface ApplicationComponent {
         fun inject(activity: LoginActivity)
     }
@@ -104,7 +116,8 @@ object DaggerAndroidActivityOnCreateInject {
     // [END android_di_dagger_android_activity_on_create_inject]
 }
 
-object DaggerAndroidRepositoryDependencies {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidRepositoryDependencies {
     // [START android_di_dagger_android_repository_dependencies]
     class UserRepository @Inject constructor(
         private val localDataSource: UserLocalDataSource,
@@ -118,28 +131,74 @@ object DaggerAndroidRepositoryDependencies {
     // [END android_di_dagger_android_repository_dependencies]
 }
 
-@DisableInstallInCheck
-// [START android_di_dagger_android_network_module]
-// @Module informs Dagger that this class is a Dagger Module
-@Module
-class NetworkModule {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidGraph {
+    @DisableInstallInCheck
+    // [START android_di_dagger_android_network_module]
+    // @Module informs Dagger that this class is a Dagger Module.
+    @Module
+    class NetworkModule {
 
-    // @Provides tell Dagger how to create instances of the type that this function
-    // returns (i.e. LoginRetrofitService).
-    // Function parameters are the dependencies of this type.
-    @Provides
-    fun provideLoginRetrofitService(): LoginRetrofitService {
-        // Whenever Dagger needs to provide an instance of type LoginRetrofitService,
-        // this code (the one inside the @Provides method) is run.
-        return Retrofit.Builder()
-            .baseUrl("https://example.com")
-            .build()
-            .create(LoginService::class.java)
+        // @Provides tell Dagger how to create instances of the type that this function
+        // returns (i.e. LoginRetrofitService).
+        // Function parameters are the dependencies of this type.
+        @Provides
+        fun provideLoginRetrofitService(): LoginRetrofitService {
+            // Whenever Dagger needs to provide an instance of type LoginRetrofitService,
+            // this code (the one inside the @Provides method) is run.
+            return Retrofit.Builder()
+                .baseUrl("https://example.com")
+                .build()
+                .create(LoginService::class.java)
+        }
     }
-}
-// [END android_di_dagger_android_network_module]
+    // [END android_di_dagger_android_network_module]
 
-object DaggerAndroidNetworkModuleOkHttp {
+    @DisableInstallInCheck
+    // [START android_di_dagger_android_subcomponents_module]
+    // The "subcomponents" attribute in the @Module annotation tells Dagger what
+    // Subcomponents are children of the Component this module is included in.
+    @Module(subcomponents = [LoginComponent::class])
+    class SubcomponentsModule {}
+    // [END android_di_dagger_android_subcomponents_module]
+
+    // [START android_di_dagger_android_expose_subcomponent_factory]
+    @Singleton
+    @Component(modules = [NetworkModule::class, SubcomponentsModule::class])
+    interface ApplicationComponent {
+        // This function exposes the LoginComponent Factory out of the graph so consumers
+        // can use it to obtain new instances of LoginComponent.
+        fun loginComponent(): LoginComponent.Factory
+    }
+    // [END android_di_dagger_android_expose_subcomponent_factory]
+
+    // [START android_di_dagger_android_test_application_component]
+    // TestApplicationComponent extends from ApplicationComponent to have them both
+    // with the same interface methods. You need to include the modules of the
+    // component here as well, and you can replace the ones you want to override.
+    // This sample uses FakeNetworkModule instead of NetworkModule.
+    @Singleton
+    @Component(modules = [FakeNetworkModule::class, SubcomponentsModule::class])
+    interface TestApplicationComponent : ApplicationComponent {
+    }
+    // [END android_di_dagger_android_test_application_component]
+
+    @DisableInstallInCheck
+    // [START android_di_dagger_android_fake_network_module]
+    // In the FakeNetworkModule, pass a fake implementation of LoginRetrofitService
+    // that you can use in your tests.
+    @Module
+    class FakeNetworkModule {
+        @Provides
+        fun provideLoginRetrofitService(): LoginRetrofitService {
+            return FakeLoginService()
+        }
+    }
+    // [END android_di_dagger_android_fake_network_module]
+}
+
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidNetworkModuleOkHttp {
     @DisableInstallInCheck
     // [START android_di_dagger_android_network_module_okhttp]
     @Module
@@ -157,7 +216,8 @@ object DaggerAndroidNetworkModuleOkHttp {
     // [END android_di_dagger_android_network_module_okhttp]
 }
 
-object DaggerAndroidComponentModules {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidComponentModules {
     // [START android_di_dagger_android_component_modules]
     // The "modules" attribute in the @Component annotation tells Dagger what Modules
     // to include when building the graph.
@@ -168,7 +228,8 @@ object DaggerAndroidComponentModules {
     // [END android_di_dagger_android_component_modules]
 }
 
-object DaggerAndroidSingletonScope {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidSingletonScope {
     class LoginViewModel @Inject constructor(
         private val userRepository: UserRepository
     )
@@ -207,14 +268,16 @@ object DaggerAndroidSingletonScope {
     // [END android_di_dagger_android_singleton_scope]
 }
 
-object DaggerAndroidLoginComponentEmpty {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidLoginComponentEmpty {
     // [START android_di_dagger_android_login_component_empty]
     @Component
     interface LoginComponent {}
     // [END android_di_dagger_android_login_component_empty]
 }
 
-object DaggerAndroidLoginComponentInject {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidLoginComponentInject {
     class LoginActivity : Activity()
 
     // [START android_di_dagger_android_login_component_inject]
@@ -225,7 +288,7 @@ object DaggerAndroidLoginComponentInject {
     // [END android_di_dagger_android_login_component_inject]
 }
 
-object DaggerAndroidLoginSubcomponent {
+private object DaggerAndroidLoginSubcomponent {
     class LoginActivity : Activity()
 
     // [START android_di_dagger_android_login_subcomponent]
@@ -241,7 +304,7 @@ object DaggerAndroidLoginSubcomponent {
     // [END android_di_dagger_android_login_subcomponent]
 }
 
-object DaggerAndroidLoginSubcomponentFactory {
+private object DaggerAndroidLoginSubcomponentFactory {
     class LoginActivity : Activity()
 
     // [START android_di_dagger_android_login_subcomponent_factory]
@@ -259,15 +322,8 @@ object DaggerAndroidLoginSubcomponentFactory {
     // [END android_di_dagger_android_login_subcomponent_factory]
 }
 
-@DisableInstallInCheck
-// [START android_di_dagger_android_subcomponents_module]
-// The "subcomponents" attribute in the @Module annotation tells Dagger what
-// Subcomponents are children of the Component this module is included in.
-@Module(subcomponents = [LoginComponent::class])
-class SubcomponentsModule {}
-// [END android_di_dagger_android_subcomponents_module]
-
-object DaggerAndroidComponentWithSubcomponentsModule {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidComponentWithSubcomponentsModule {
     // [START android_di_dagger_android_component_with_subcomponents_module]
     // Including SubcomponentsModule, tell ApplicationComponent that
     // LoginComponent is its subcomponent.
@@ -278,17 +334,7 @@ object DaggerAndroidComponentWithSubcomponentsModule {
     // [END android_di_dagger_android_component_with_subcomponents_module]
 }
 
-// [START android_di_dagger_android_expose_subcomponent_factory]
-@Singleton
-@Component(modules = [NetworkModule::class, SubcomponentsModule::class])
-interface ApplicationComponent {
-    // This function exposes the LoginComponent Factory out of the graph so consumers
-    // can use it to obtain new instances of LoginComponent.
-    fun loginComponent(): LoginComponent.Factory
-}
-// [END android_di_dagger_android_expose_subcomponent_factory]
-
-object DaggerAndroidActivityLoginComponentField {
+private object DaggerAndroidActivityLoginComponentField {
     // [START android_di_dagger_android_activity_login_component_field]
     class LoginActivity : Activity() {
         // Reference to the Login graph.
@@ -298,7 +344,8 @@ object DaggerAndroidActivityLoginComponentField {
     // [END android_di_dagger_android_activity_login_component_field]
 }
 
-object DaggerAndroidActivityScopeDeclaration {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidActivityScopeDeclaration {
     // [START android_di_dagger_android_activity_scope]
     // Definition of a custom scope called ActivityScope.
     @Scope
@@ -320,10 +367,16 @@ object DaggerAndroidActivityScopeDeclaration {
     // [END android_di_dagger_android_activity_scope]
 }
 
-object DaggerAndroidSubcomponentFlow {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidSubcomponentFlow {
     class MyDaggerApplication : Application() {
         val appComponent: ApplicationComponent = DaggerApplicationComponent.create()
     }
+
+    @ActivityScope
+    class LoginViewModel @Inject constructor(
+        private val userRepository: UserRepository
+    )
 
     // [START android_di_dagger_android_activity_create_subcomponent]
     class LoginActivity : Activity() {
@@ -402,63 +455,9 @@ object DaggerAndroidSubcomponentFlow {
         }
     }
     // [END android_di_dagger_android_login_password_fragment]
-
-    private val fakeUserRepository = UserRepository(
-        UserLocalDataSource(),
-        UserRemoteDataSource(FakeLoginService())
-    )
-
-    // [START android_di_dagger_android_unit_test]
-    @ActivityScope
-    class LoginViewModel @Inject constructor(
-        private val userRepository: UserRepository
-    ) { /* ... */ }
-
-    class LoginViewModelTest {
-
-        @Test
-        fun `Happy path`() {
-            // You don't need Dagger to create an instance of LoginViewModel.
-            // You can pass a fake or mock UserRepository.
-            val viewModel = LoginViewModel(fakeUserRepository)
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            assertEquals(...)
-            // [START_EXCLUDE silent]
-             */
-            assertEquals(viewModel, viewModel)
-            // [END_EXCLUDE]
-        }
-    }
-    // [END android_di_dagger_android_unit_test]
 }
 
-// [START android_di_dagger_android_test_application_component]
-// TestApplicationComponent extends from ApplicationComponent to have them both
-// with the same interface methods. You need to include the modules of the
-// component here as well, and you can replace the ones you want to override.
-// This sample uses FakeNetworkModule instead of NetworkModule.
-@Singleton
-@Component(modules = [FakeNetworkModule::class, SubcomponentsModule::class])
-interface TestApplicationComponent : ApplicationComponent {
-}
-// [END android_di_dagger_android_test_application_component]
-
-@DisableInstallInCheck
-// [START android_di_dagger_android_fake_network_module]
-// In the FakeNetworkModule, pass a fake implementation of LoginRetrofitService
-// that you can use in your tests.
-@Module
-class FakeNetworkModule {
-    @Provides
-    fun provideLoginRetrofitService(): LoginRetrofitService {
-        return FakeLoginService()
-    }
-}
-// [END android_di_dagger_android_fake_network_module]
-
-object DaggerAndroidTestApplication {
+private object DaggerAndroidTestApplication {
     open class MyApplication : Application() {
         open val appComponent: ApplicationComponent = DaggerApplicationComponent.create()
     }
@@ -471,7 +470,8 @@ object DaggerAndroidTestApplication {
     // [END android_di_dagger_android_my_test_application]
 }
 
-object DaggerAndroidModulesIncludes {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidModulesIncludes {
     @DisableInstallInCheck
     @Module
     class ModuleX
@@ -494,7 +494,8 @@ object DaggerAndroidModulesIncludes {
     // [END android_di_dagger_android_modules_includes]
 }
 
-object DaggerAndroidModulesDuplicateBad {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidModulesDuplicateBad {
     @DisableInstallInCheck
     @Module
     class ModuleX
@@ -518,7 +519,8 @@ object DaggerAndroidModulesDuplicateBad {
     // [END android_di_dagger_android_modules_duplicate_bad]
 }
 
-object DaggerAndroidModulesRefactorGood {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidModulesRefactorGood {
     @DisableInstallInCheck
     @Module
     class ModuleX
@@ -541,7 +543,8 @@ object DaggerAndroidModulesRefactorGood {
     // [END android_di_dagger_android_modules_refactor_good]
 }
 
-object DaggerAndroidModulesExtractCommonGood {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerAndroidModulesExtractCommonGood {
     // [START android_di_dagger_android_modules_extract_common_good]
     @Component(modules = [Module1::class, Module2::class, ModuleXCommon::class])
     interface ApplicationComponent { /* ... */ }
@@ -578,21 +581,9 @@ object DaggerAndroidModulesExtractCommonGood {
     // [END android_di_dagger_android_modules_extract_common_good]
 }
 
-interface LoginRetrofitService
+// internal required for Dagger KSP generated Java classes.
+internal interface LoginRetrofitService
 
-internal class FakeLoginService : LoginRetrofitService
+private class FakeLoginService : LoginRetrofitService
 
 private typealias LoginService = LoginRetrofitService
-
-private class Retrofit {
-    class Builder {
-        fun baseUrl(url: String): Builder = this
-        fun build(): Retrofit = Retrofit()
-    }
-
-    fun <T> create(service: Class<T>): LoginRetrofitService = FakeLoginService()
-}
-
-private annotation class Test
-
-private fun assertEquals(expected: Any?, actual: Any?) {}

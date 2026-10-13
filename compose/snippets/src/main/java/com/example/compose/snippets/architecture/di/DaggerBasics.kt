@@ -16,9 +16,11 @@
 
 package com.example.compose.snippets.architecture.di
 
+import com.example.compose.snippets.architecture.di.DaggerBasicsApplicationGraph.ApplicationGraph
 import com.example.compose.snippets.architecture.di.DaggerBasicsCore.UserLocalDataSource
 import com.example.compose.snippets.architecture.di.DaggerBasicsCore.UserRemoteDataSource
 import com.example.compose.snippets.architecture.di.DaggerBasicsCore.UserRepository
+import com.example.compose.snippets.architecture.di.DaggerDaggerBasicsApplicationGraph_ApplicationGraph as DaggerApplicationGraph
 import dagger.Component
 import javax.inject.Inject
 import javax.inject.Scope
@@ -33,7 +35,8 @@ private object DaggerBasicsNoInject {
     // [END android_di_dagger_basics_user_repository_no_inject]
 }
 
-object DaggerBasicsCore {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerBasicsCore {
     // [START android_di_dagger_basics_user_repository_inject]
     // @Inject lets Dagger know how to create instances of this object.
     class UserRepository @Inject constructor(
@@ -49,15 +52,18 @@ object DaggerBasicsCore {
     // [END android_di_dagger_basics_data_sources_inject]
 }
 
-// [START android_di_dagger_basics_application_graph]
-// @Component makes Dagger create a graph of dependencies.
-@Component
-interface ApplicationGraph {
-    // The return type  of functions inside the component interface is
-    // what can be provided from the container.
-    fun repository(): UserRepository
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerBasicsApplicationGraph {
+    // [START android_di_dagger_basics_application_graph]
+    // @Component makes Dagger create a graph of dependencies.
+    @Component
+    interface ApplicationGraph {
+        // The return type  of functions inside the component interface is
+        // what can be provided from the container.
+        fun repository(): UserRepository
+    }
+    // [END android_di_dagger_basics_application_graph]
 }
-// [END android_di_dagger_basics_application_graph]
 
 private fun createApplicationGraph() {
     // [START android_di_dagger_basics_create_graph]
@@ -79,7 +85,8 @@ private fun verifyUnscopedInstances() {
     // [END android_di_dagger_basics_unscoped_instances]
 }
 
-object DaggerBasicsSingletonScope {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerBasicsSingletonScope {
     // [START android_di_dagger_basics_singleton_scope]
     // Scope annotations on a @Component interface informs Dagger that classes annotated
     // with this annotation (i.e. @Singleton) are bound to the life of the graph and so
@@ -99,16 +106,17 @@ object DaggerBasicsSingletonScope {
     // [END android_di_dagger_basics_singleton_scope]
 }
 
-// [START android_di_dagger_basics_custom_scope_definition]
-// Creates MyCustomScope.
-@Scope
-@MustBeDocumented
-@Retention(value = AnnotationRetention.RUNTIME)
-annotation class MyCustomScope
-// [END android_di_dagger_basics_custom_scope_definition]
-
-object DaggerBasicsCustomScope {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerBasicsCustomScope {
     class UserService @Inject constructor()
+
+    // [START android_di_dagger_basics_custom_scope_definition]
+    // Creates MyCustomScope.
+    @Scope
+    @MustBeDocumented
+    @Retention(value = AnnotationRetention.RUNTIME)
+    annotation class MyCustomScope
+    // [END android_di_dagger_basics_custom_scope_definition]
 
     // [START android_di_dagger_basics_custom_scope_usage]
     @MyCustomScope
