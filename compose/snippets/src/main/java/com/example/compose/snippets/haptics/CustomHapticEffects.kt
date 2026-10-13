@@ -187,24 +187,22 @@ fun ResistScreen() {
     var dragOffset by remember { mutableStateOf(0f) }
 
     // Only vibrates while the user is dragging
-    if (isDragging) {
-        LaunchedEffect(Unit) {
-            // Continuously run the effect for vibration to occur even when the view
-            // is not being drawn, when user stops dragging midway through gesture.
-            while (true) {
-                // Calculate the interval inversely proportional to the drag offset.
-                val vibrationInterval = calculateVibrationInterval(dragOffset)
-                // Calculate the scale directly proportional to the drag offset.
-                val vibrationScale = calculateVibrationScale(dragOffset)
+    LaunchedEffect(isDragging) {
+        // Continuously run the effect for vibration to occur even when the view
+        // is not being drawn, when user stops dragging midway through gesture.
+        while (isDragging) {
+            // Calculate the interval inversely proportional to the drag offset.
+            val vibrationInterval = calculateVibrationInterval(dragOffset)
+            // Calculate the scale directly proportional to the drag offset.
+            val vibrationScale = calculateVibrationScale(dragOffset)
 
-                delay(vibrationInterval)
-                vibrator.vibrate(
-                    VibrationEffect.startComposition().addPrimitive(
-                        VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
-                        vibrationScale
-                    ).compose()
-                )
-            }
+            delay(vibrationInterval)
+            vibrator.vibrate(
+                VibrationEffect.startComposition().addPrimitive(
+                    VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
+                    vibrationScale
+                ).compose()
+            )
         }
     }
 
@@ -291,28 +289,27 @@ fun WobbleScreen() {
         ),
     )
 
-    if (isWobbling) {
-        LaunchedEffect(Unit) {
-            while (true) {
-                val displacement = dragDistanceAnimated / MAX_DRAG_DISTANCE
-                // Use some sort of minimum displacement so the final few frames
-                // of animation don't generate a vibration.
-                if (displacement > SPIN_MIN_DISPLACEMENT) {
-                    vibrator.vibrate(
-                        VibrationEffect.startComposition().addPrimitive(
-                            VibrationEffect.Composition.PRIMITIVE_SPIN,
-                            nextSpinScale(displacement)
-                        ).addPrimitive(
-                            VibrationEffect.Composition.PRIMITIVE_SPIN,
-                            nextSpinScale(displacement)
-                        ).compose()
-                    )
-                }
-                // Delay the next check for a sufficient duration until the
-                // current composition finishes. Note that you can use
-                // Vibrator.getPrimitiveDurations API to calculcate the delay.
-                delay(VIBRATION_DURATION)
+    LaunchedEffect(isWobbling) {
+        // Stop when the shape comes to rest.
+        while (isWobbling && dragDistanceAnimated != 0f) {
+            val displacement = dragDistanceAnimated / MAX_DRAG_DISTANCE
+            // Use some sort of minimum displacement so the final few frames
+            // of animation don't generate a vibration.
+            if (displacement > SPIN_MIN_DISPLACEMENT) {
+                vibrator.vibrate(
+                    VibrationEffect.startComposition().addPrimitive(
+                        VibrationEffect.Composition.PRIMITIVE_SPIN,
+                        nextSpinScale(displacement)
+                    ).addPrimitive(
+                        VibrationEffect.Composition.PRIMITIVE_SPIN,
+                        nextSpinScale(displacement)
+                    ).compose()
+                )
             }
+            // Delay the next check for a sufficient duration until the
+            // current composition finishes. Note that you can use
+            // Vibrator.getPrimitiveDurations API to calculcate the delay.
+            delay(VIBRATION_DURATION)
         }
     }
 
