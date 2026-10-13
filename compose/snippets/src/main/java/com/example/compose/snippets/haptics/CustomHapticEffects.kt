@@ -17,12 +17,13 @@
 package com.example.compose.snippets.haptics
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.EaseInQuad
+import androidx.compose.animation.core.EaseOutQuad
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -36,32 +37,27 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
-import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.pow
+import kotlin.math.sqrt
 import kotlin.random.Random
 import kotlinx.coroutines.delay
 
 private lateinit var vibrator: Vibrator
-private lateinit var context: Context
 private val smoothTimings = longArrayOf(50, 50, 100)
 private val amplitudes = intArrayOf(64, 128, 255)
 private const val smoothRepeatIdx = -1
@@ -417,103 +413,61 @@ private fun waveformEnvelopeBuilderSnippet() {
 // [START android_haptics_custom_bouncing_spring]
 @Composable
 fun BouncingSpringAnimation() {
-    var springX by remember { mutableStateOf(SPRING_WIDTH) }
-    var springY by remember { mutableStateOf(SPRING_HEIGHT) }
-    var velocityX by remember { mutableFloatStateOf(INITIAL_VELOCITY) }
-    var velocityY by remember { mutableFloatStateOf(INITIAL_VELOCITY) }
-    var sharpness by remember { mutableFloatStateOf(INITIAL_SHARPNESS) }
-    var intensity by remember { mutableFloatStateOf(INITIAL_INTENSITY) }
-    var multiplier by remember { mutableFloatStateOf(INITIAL_MULTIPLIER) }
-    var bottomBounceCount by remember { mutableIntStateOf(0) }
-    var animationStartTime by remember { mutableLongStateOf(0L) }
-    var isAnimating by remember { mutableStateOf(false) }
-
-    val (screenHeight, screenWidth) = getScreenDimensions(context)
+    // The spring's height above the floor: 1f is the drop height, 0f is the floor.
+    val springHeight = remember { Animatable(1f) }
+    var isAnimating by remember { mutableStateOf(true) }
 
     LaunchedEffect(isAnimating) {
-        animationStartTime = System.currentTimeMillis()
-        isAnimating = true
+        if (!isAnimating) return@LaunchedEffect
+        springHeight.snapTo(1f)
 
-        while (isAnimating) {
-            velocityY += GRAVITY
-            springX += velocityX.dp
-            springY += velocityY.dp
+        // Each bounce reaches a fraction of the previous height.
+        var bounceHeight = 1f
+        while (bounceHeight > MIN_BOUNCE_HEIGHT) {
+            // Fall to the floor, speeding up like a falling object. A fall from
+            // a greater height takes longer.
+            val fallDurationMs = (DROP_DURATION_MS * sqrt(bounceHeight)).toInt()
+            springHeight.animateTo(0f, tween(fallDurationMs, easing = EaseInQuad))
 
-            // Handle bottom collision
-            if (springY > screenHeight - FLOOR_HEIGHT - SPRING_HEIGHT / 2) {
-                // Set the spring's y-position to the bottom bounce point, to keep it
-                // above the floor.
-                springY = screenHeight - FLOOR_HEIGHT - SPRING_HEIGHT / 2
+            // The spring hits the floor: play a "boing" envelope effect that fades
+            // out. A higher bounce gives a stronger and sharper vibration.
+            vibrator.vibrate(
+                VibrationEffect.BasicEnvelopeBuilder()
+                    // Starting from zero sharpness here, will simulate a smoother
+                    // "boing" effect.
+                    .setInitialSharpness(0f)
+                    // Add a control point to reach the target intensity and
+                    // sharpness very quickly.
+                    .addControlPoint(bounceHeight, bounceHeight * MAX_SHARPNESS, 20L)
+                    // Add a control point to fade out the vibration intensity while
+                    // maintaining sharpness.
+                    .addControlPoint(0f, bounceHeight * MAX_SHARPNESS, fallDurationMs.toLong())
+                    .build()
+            )
 
-                // Reverse the vertical velocity and apply damping to simulate a bounce.
-                velocityY *= -BOUNCE_DAMPING
-                bottomBounceCount++
-
-                // Calculate the fade-out duration of the vibration based on the
-                // vertical velocity.
-                val fadeOutDuration =
-                    ((abs(velocityY) / GRAVITY) * FRAME_DELAY_MS).toLong()
-
-                // Create a "boing" envelope vibration effect that fades out.
-                vibrator.vibrate(
-                    VibrationEffect.BasicEnvelopeBuilder()
-                        // Starting from zero sharpness here, will simulate a smoother
-                        // "boing" effect.
-                        .setInitialSharpness(0f)
-                        // Add a control point to reach the target intensity and
-                        // sharpness very quickly.
-                        .addControlPoint(intensity, sharpness, 20L)
-                        // Add a control point to fade out the vibration intensity while
-                        // maintaining sharpness.
-                        .addControlPoint(0f, sharpness, fadeOutDuration)
-                        .build()
-                )
-
-                // Decrease the intensity and sharpness of the vibration for subsequent
-                // bounces, and reduce the multiplier to create a fading effect.
-                intensity *= multiplier
-                sharpness *= multiplier
-                multiplier -= 0.1f
-            }
-
-            if (springX > screenWidth - SPRING_WIDTH / 2) {
-                // Prevent the spring from moving beyond the right edge of the screen.
-                springX = screenWidth - SPRING_WIDTH / 2
-            }
-
-            // Check for 3 bottom bounces and then slow down.
-            if (bottomBounceCount >= MAX_BOTTOM_BOUNCE &&
-                System.currentTimeMillis() - animationStartTime > 1000
-            ) {
-                velocityX *= 0.9f
-                velocityY *= 0.9f
-            }
-
-            delay(FRAME_DELAY_MS) // Control animation speed.
-
-            // Determine if the animation should continue based on the spring's
-            // position and velocity.
-            isAnimating = (springY < screenHeight + SPRING_HEIGHT ||
-                springX < screenWidth + SPRING_WIDTH) &&
-                (velocityX >= 0.1f || velocityY >= 0.1f)
+            // Bounce back up to a lower height, slowing down like a thrown object.
+            bounceHeight *= BOUNCE_DAMPING
+            val riseDurationMs = (DROP_DURATION_MS * sqrt(bounceHeight)).toInt()
+            springHeight.animateTo(bounceHeight, tween(riseDurationMs, easing = EaseOutQuad))
         }
+        springHeight.animateTo(0f)
+        isAnimating = false
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable {
-                if (!isAnimating) {
-                    resetAnimation()
-                }
-            }
-            .width(screenWidth)
-            .height(screenHeight)
+            .clickable(enabled = !isAnimating) { isAnimating = true }
     ) {
-        DrawSpring(springX, springY)
-        DrawFloor()
+        Canvas(Modifier.fillMaxSize()) {
+            // Read the height in the draw phase, and scale it to the space above
+            // the floor.
+            val floorTop = size.height - FLOOR_HEIGHT.toPx()
+            drawSpring(bottomY = floorTop * (1f - springHeight.value))
+            drawFloor(top = floorTop)
+        }
         if (!isAnimating) {
-            DrawText("Tap to restart")
+            Text("Tap to restart", Modifier.align(Alignment.Center))
         }
     }
 }
@@ -674,17 +628,11 @@ private const val MAX_DRAG_DISTANCE = 500f
 private const val SPIN_MIN_DISPLACEMENT = 0.05f
 private const val VIBRATION_DURATION = 50L
 
-private val SPRING_WIDTH = 100.dp
-private val SPRING_HEIGHT = 100.dp
 private val FLOOR_HEIGHT = 20.dp
-private const val INITIAL_VELOCITY = 0f
-private const val INITIAL_SHARPNESS = 0.5f
-private const val INITIAL_INTENSITY = 1.0f
-private const val INITIAL_MULTIPLIER = 0.8f
-private const val GRAVITY = 0.5f
-private const val BOUNCE_DAMPING = 0.7f
-private const val FRAME_DELAY_MS = 16L
-private const val MAX_BOTTOM_BOUNCE = 3
+private const val DROP_DURATION_MS = 500f
+private const val BOUNCE_DAMPING = 0.6f
+private const val MIN_BOUNCE_HEIGHT = 0.05f
+private const val MAX_SHARPNESS = 0.5f
 
 private const val TAG = "LavaBeatsEffectPlayer"
 private const val MIN_BEAT_DELAY_MILLIS = 5f
@@ -736,17 +684,8 @@ private fun WobbleShape(dragDistanceAnimated: Float) {}
 @Composable
 private fun BouncingBall(transitionData: TransitionData) {}
 
-private fun getScreenDimensions(context: Context): Pair<Dp, Dp> = Pair(800.dp, 400.dp)
+private fun DrawScope.drawSpring(bottomY: Float) {}
 
-private fun resetAnimation() {}
-
-@Composable
-private fun DrawSpring(springX: Dp, springY: Dp) {}
-
-@Composable
-private fun DrawFloor() {}
-
-@Composable
-private fun DrawText(text: String) {}
+private fun DrawScope.drawFloor(top: Float) {}
 
 private fun DrawScope.drawRocket(rocketPositionY: Float) {}
