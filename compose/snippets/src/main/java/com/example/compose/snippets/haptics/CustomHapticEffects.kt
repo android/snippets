@@ -464,10 +464,11 @@ fun BouncingSpringAnimation() {
             .clickable(enabled = !isAnimating) { isAnimating = true }
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            // Read the height in the draw phase, and scale it to the space above
-            // the floor.
+            // Read the height in the draw phase, and scale it to the distance
+            // between the top of the canvas and the floor.
             val floorTop = size.height - FLOOR_HEIGHT.toPx()
-            drawSpring(bottomY = floorTop * (1f - springHeight.value))
+            val dropDistance = floorTop - SPRING_HEIGHT.toPx()
+            drawSpring(topY = dropDistance * (1f - springHeight.value))
             drawFloor(top = floorTop)
         }
         if (!isAnimating) {
@@ -631,6 +632,7 @@ private const val MAX_DRAG_DISTANCE = 500f
 private const val SPIN_MIN_DISPLACEMENT = 0.05f
 private const val VIBRATION_DURATION = 50L
 
+private val SPRING_HEIGHT = 100.dp
 private val FLOOR_HEIGHT = 20.dp
 private const val DROP_DURATION_MS = 500f
 private const val BOUNCE_DAMPING = 0.6f
@@ -687,7 +689,7 @@ private fun WobbleShape(dragDistanceAnimated: Float) {}
 @Composable
 private fun BouncingBall(transitionData: TransitionData) {}
 
-private fun DrawScope.drawSpring(bottomY: Float) {}
+private fun DrawScope.drawSpring(topY: Float) {}
 
 private fun DrawScope.drawFloor(top: Float) {}
 
