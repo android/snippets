@@ -40,7 +40,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -614,7 +613,6 @@ private fun createEnvelopeEffect(
         .build()
 
 /** A parameter of a haptic beat effect that represents an ECG signal parameter */
-@Stable
 data class BeatParameter(
     val description: String = "",
     val value: Float = 0f,
