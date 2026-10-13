@@ -44,22 +44,22 @@ private object MultiCameraSnippets {
     fun findDualCameras(manager: CameraManager, facing: Int? = null): List<DualCamera> {
         val dualCameras = mutableListOf<DualCamera>()
 
-        // Iterate over all the available camera characteristics
+        // Iterate over all the available camera characteristics.
         manager.cameraIdList.map {
             Pair(manager.getCameraCharacteristics(it), it)
         }.filter {
-            // Filter by cameras facing the requested direction
+            // Filter by cameras facing the requested direction.
             facing == null || it.first.get(CameraCharacteristics.LENS_FACING) == facing
         }.filter {
-            // Filter by logical cameras
-            // CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA requires API >= 28
+            // Filter by logical cameras.
+            // CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA requires API >= 28.
             it.first.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)?.contains(
                 CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA
             ) ?: false
         }.forEach {
-            // All possible pairs from the list of physical cameras are valid results
-            // NOTE: There could be N physical cameras as part of a logical camera grouping
-            // getPhysicalCameraIds() requires API >= 28
+            // All possible pairs from the list of physical cameras are valid results.
+            // NOTE: There could be N physical cameras as part of a logical camera grouping.
+            // getPhysicalCameraIds() requires API >= 28.
             val physicalCameras = it.first.physicalCameraIds.toTypedArray()
             for (idx1 in 0 until physicalCameras.size) {
                 for (idx2 in (idx1 + 1) until physicalCameras.size) {
@@ -85,7 +85,7 @@ private object MultiCameraSnippets {
         callback: (CameraDevice) -> Unit
     ) {
 
-        // openCamera() requires API >= 28
+        // openCamera() requires API >= 28.
         cameraManager.openCamera(
             dualCamera.logicalId, executor,
             object : CameraDevice.StateCallback() {
@@ -130,13 +130,13 @@ private object MultiCameraSnippets {
             OutputConfiguration(it).apply { setPhysicalCameraId(dualCamera.physicalId2) }
         }
 
-        // Put all the output configurations into a single flat array
+        // Put all the output configurations into a single flat array.
         val outputConfigsAll = arrayOf(
             outputConfigsLogical, outputConfigsPhysical1, outputConfigsPhysical2
         )
             .filterNotNull().flatMap { it }
 
-        // Instantiate a session configuration that can be used to create a session
+        // Instantiate a session configuration that can be used to create a session.
         val sessionConfiguration = SessionConfiguration(
             SessionConfiguration.SESSION_REGULAR,
             outputConfigsAll, executor,
@@ -147,10 +147,10 @@ private object MultiCameraSnippets {
             }
         )
 
-        // Open the logical camera using the previously defined function
+        // Open the logical camera using the previously defined function.
         openDualCamera(cameraManager, dualCamera, executor = executor) {
 
-            // Finally create the session and return via callback
+            // Finally create the session and return via callback.
             it.createCaptureSession(sessionConfiguration)
         }
     }
@@ -163,7 +163,7 @@ private object MultiCameraSnippets {
             val characteristics1 = manager.getCameraCharacteristics(it.physicalId1)
             val characteristics2 = manager.getCameraCharacteristics(it.physicalId2)
 
-            // Query the focal lengths advertised by each physical camera
+            // Query the focal lengths advertised by each physical camera.
             val focalLengths1 = characteristics1.get(
                 CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS
             ) ?: floatArrayOf(0F)
@@ -171,18 +171,18 @@ private object MultiCameraSnippets {
                 CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS
             ) ?: floatArrayOf(0F)
 
-            // Compute the largest difference between min and max focal lengths between cameras
+            // Compute the largest difference between min and max focal lengths between cameras.
             val focalLengthsDiff1 = (focalLengths2.maxOrNull() ?: 0f) - (focalLengths1.minOrNull() ?: 0f)
             val focalLengthsDiff2 = (focalLengths1.maxOrNull() ?: 0f) - (focalLengths2.minOrNull() ?: 0f)
 
-            // Return the pair of camera IDs and the difference between min and max focal lengths
+            // Return the pair of camera IDs and the difference between min and max focal lengths.
             if (focalLengthsDiff1 < focalLengthsDiff2) {
                 Pair(DualCamera(it.logicalId, it.physicalId1, it.physicalId2), focalLengthsDiff1)
             } else {
                 Pair(DualCamera(it.logicalId, it.physicalId2, it.physicalId1), focalLengthsDiff2)
             }
 
-            // Return only the pair with the largest difference, or null if no pairs are found
+            // Return only the pair with the largest difference, or null if no pairs are found.
         }.maxByOrNull { it.second }?.first
     }
     // [END android_camera2_multi_camera_find_short_long_camera_pair]
@@ -201,7 +201,7 @@ private object MultiCameraSnippets {
         val cameraManager: CameraManager = ...
         val cameraExecutor: Executor = ...  // owned by your activity / fragment
 
-        // Get the two output targets from the activity / fragment
+        // Get the two output targets from the activity / fragment.
         val surface1 = ...  // from SurfaceView
         val surface2 = ...  // from SurfaceView
         // [START_EXCLUDE silent]
@@ -213,19 +213,19 @@ private object MultiCameraSnippets {
             null, mutableListOf(surface1), mutableListOf(surface2)
         )
 
-        // Here you open the logical camera, configure the outputs and create a session
+        // Here you open the logical camera, configure the outputs and create a session.
         createDualCameraSession(
             manager, dualCamera, targets = outputTargets, executor = cameraExecutor
         ) { session ->
 
-            // Create a single request which has one target for each physical camera
-            // NOTE: Each target receive frames from only its associated physical camera
+            // Create a single request which has one target for each physical camera.
+            // NOTE: Each target receive frames from only its associated physical camera.
             val requestTemplate = CameraDevice.TEMPLATE_PREVIEW
             val captureRequest = session.device.createCaptureRequest(requestTemplate).apply {
                 arrayOf(surface1, surface2).forEach { addTarget(it) }
             }.build()
 
-            // Set the sticky request for the session and you are done
+            // Set the sticky request for the session and you are done.
             session.setRepeatingRequest(captureRequest, null, null)
         }
         // [END android_camera2_multi_camera_zoom_example]
@@ -245,12 +245,12 @@ private object MultiCameraSnippets {
          */
         // [END_EXCLUDE]
 
-        // Use still capture template to build the capture request
+        // Use still capture template to build the capture request.
         val captureRequest = cameraSession.device.createCaptureRequest(
             CameraDevice.TEMPLATE_STILL_CAPTURE
         )
 
-        // Determine if this device supports distortion correction
+        // Determine if this device supports distortion correction.
         // [START_EXCLUDE silent]
         /*
         // [END_EXCLUDE]
@@ -273,7 +273,7 @@ private object MultiCameraSnippets {
 
         // Add output target, set other capture request parameters...
 
-        // Dispatch the capture request
+        // Dispatch the capture request.
         // [START_EXCLUDE silent]
         cameraSession.capture(captureRequest.build(), captureCallback, null)
         /*

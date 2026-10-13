@@ -52,17 +52,17 @@ private object MultipleCameraStreamsSnippets {
 
         // You will use the preview capture template for the combined streams
         // because it is optimized for low latency; for high-quality images, use
-        // TEMPLATE_STILL_CAPTURE, and for a steady frame rate use TEMPLATE_RECORD
+        // TEMPLATE_STILL_CAPTURE, and for a steady frame rate use TEMPLATE_RECORD.
         val requestTemplate = CameraDevice.TEMPLATE_PREVIEW
         val combinedRequest = session.device.createCaptureRequest(requestTemplate)
 
-        // Link the Surface targets with the combined request
+        // Link the Surface targets with the combined request.
         combinedRequest.addTarget(previewSurface)
         combinedRequest.addTarget(imReaderSurface)
 
         // In this simple case, the SurfaceView gets updated automatically. ImageReader
         // has its own callback that you have to listen to in order to retrieve the
-        // frames so there is no need to set up a callback for the capture request
+        // frames so there is no need to set up a callback for the capture request.
         session.setRepeatingRequest(combinedRequest.build(), null, null)
         // [END android_camera2_multiple_camera_streams_combined_request]
     }
@@ -124,7 +124,7 @@ private object MultipleCameraStreamsSnippets {
             characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
         )
 
-        // If image format is provided, use it to determine supported sizes; or else use target class
+        // If image format is provided, use it to determine supported sizes; or else use target class.
         val allSizes = if (format == null)
             config.getOutputSizes(targetClass) else config.getOutputSizes(format)
         return allSizes.maxBy { it.height * it.width }
@@ -161,12 +161,12 @@ private object MultipleCameraStreamsSnippets {
         format: Int? = null
     ): Size {
 
-        // Find which is smaller: screen or 1080p
+        // Find which is smaller: screen or 1080p.
         val screenSize = getDisplaySmartSize(display)
         val hdScreen = screenSize.long >= SIZE_1080P.long || screenSize.short >= SIZE_1080P.short
         val maxSize = if (hdScreen) SIZE_1080P else screenSize
 
-        // If image format is provided, use it to determine supported sizes; else use target class
+        // If image format is provided, use it to determine supported sizes; else use target class.
         val config = checkNotNull(
             characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
         )
@@ -177,12 +177,12 @@ private object MultipleCameraStreamsSnippets {
         val allSizes = if (format == null)
             config.getOutputSizes(targetClass) else config.getOutputSizes(format)
 
-        // Get available sizes and sort them by area from largest to smallest
+        // Get available sizes and sort them by area from largest to smallest.
         val validSizes = allSizes
             .sortedWith(compareBy { it.height * it.width })
             .map { SmartSize(it.width, it.height) }.reversed()
 
-        // Then, get the largest output size that is smaller or equal than our max size
+        // Then, get the largest output size that is smaller or equal than our max size.
         return validSizes.first { it.long <= maxSize.long && it.short <= maxSize.short }.size
     }
     // [END android_camera2_multiple_camera_streams_preview_output_size]
@@ -270,8 +270,8 @@ private class MultipleStreamsActivity : Activity() {
         // [END_EXCLUDE]
         surfaceView.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
-                // You do not need to specify image format, and it will be considered of type PRIV
-                // Surface is now ready and you could use it as an output target for CameraSession
+                // You do not need to specify image format, and it will be considered of type PRIV.
+                // Surface is now ready and you could use it as an output target for CameraSession.
             }
             // [START_EXCLUDE]
             override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
@@ -293,7 +293,7 @@ private class MultipleStreamsActivity : Activity() {
         // [START android_camera2_multiple_camera_streams_image_reader_listener]
         imageReader.setOnImageAvailableListener({
             val frame = it.acquireNextImage()
-            // Do something with "frame" here
+            // Do something with "frame" here.
             it.close()
         }, null)
         // [END android_camera2_multiple_camera_streams_image_reader_listener]

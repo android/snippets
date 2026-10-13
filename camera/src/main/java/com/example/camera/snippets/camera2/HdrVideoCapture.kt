@@ -59,7 +59,7 @@ private class HdrVideoCaptureSnippets(
                 .get(CameraCharacteristics.REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES)
                 ?.getSupportedProfiles()
 
-            // Checks for the desired profile, in this case HLG10
+            // Checks for the desired profile, in this case HLG10.
             return availableProfiles?.contains(DynamicRangeProfiles.HLG10) ?: false
         }
         return false
@@ -81,7 +81,7 @@ private class HdrVideoCaptureSnippets(
             val outputConfigs = mutableListOf<OutputConfiguration>()
             for (target in targets) {
                 val outputConfig = OutputConfiguration(target)
-                // sets the dynamic range profile, for example DynamicRangeProfiles.HLG10
+                // sets the dynamic range profile, for example DynamicRangeProfiles.HLG10.
                 outputConfig.setDynamicRangeProfile(dynamicRange)
                 outputConfigs.add(outputConfig)
             }
@@ -120,7 +120,7 @@ private class HdrVideoCaptureSnippets(
         // [START android_camera2_hdr_video_capture_record_request]
         // Start recording repeating requests, which stops the ongoing preview
         //  repeating requests without having to explicitly call
-        //  `session.stopRepeating`
+        //  `session.stopRepeating`.
         session.setRepeatingRequest(
             recordRequest,
             object : CameraCaptureSession.CaptureCallback() {
@@ -167,7 +167,7 @@ private class HdrVideoCaptureSnippets(
             else -> -1
         }
         // Failing to correctly set color transfer causes quality issues
-        // for example, washout and color clipping
+        // for example, washout and color clipping.
         val transferFunction = when (codecProfile) {
             MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10 ->
                 MediaFormat.COLOR_TRANSFER_HLG

@@ -31,14 +31,14 @@ private object CameraEnumerationSnippets {
         try {
             val cameraIdList = cameraManager.cameraIdList // may be empty
 
-            // iterate over available camera devices
+            // iterate over available camera devices.
             for (cameraId in cameraIdList) {
                 val characteristics = cameraManager.getCameraCharacteristics(cameraId)
                 val cameraLensFacing = characteristics.get(CameraCharacteristics.LENS_FACING)
                 val cameraCapabilities = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)
 
                 // check if the selected camera device supports basic features
-                // ensures backward compatibility with the original Camera API
+                // ensures backward compatibility with the original Camera API.
                 val isBackwardCompatible = cameraCapabilities?.contains(
                     CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE
                 ) ?: false
@@ -57,7 +57,7 @@ private object CameraEnumerationSnippets {
         facing: Int = CameraMetadata.LENS_FACING_BACK
     ): String? {
         try {
-            // Get list of all compatible cameras
+            // Get list of all compatible cameras.
             val cameraIds = cameraManager.cameraIdList.filter {
                 val characteristics = cameraManager.getCameraCharacteristics(it)
                 val capabilities = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES)
@@ -67,7 +67,7 @@ private object CameraEnumerationSnippets {
             }
 
             // Iterate over the list of cameras and return the first one matching desired
-            // lens-facing configuration
+            // lens-facing configuration.
             cameraIds.forEach {
                 val characteristics = cameraManager.getCameraCharacteristics(it)
                 if (characteristics.get(CameraCharacteristics.LENS_FACING) == facing) {
@@ -75,7 +75,7 @@ private object CameraEnumerationSnippets {
                 }
             }
 
-            // If no camera matched desired orientation, return the first one from the list
+            // If no camera matched desired orientation, return the first one from the list.
             return cameraIds.firstOrNull()
         } catch (e: CameraAccessException) {
             e.message?.let { Log.e(TAG, it) }
@@ -109,7 +109,7 @@ private object CameraEnumerationSnippets {
     }
 
     fun getNextCameraId(cameraManager: CameraManager, currCameraId: String? = null): String? {
-        // Get all front, back and external cameras in 3 separate lists
+        // Get all front, back and external cameras in 3 separate lists.
         val cameraIds = filterCompatibleCameras(cameraManager.cameraIdList, cameraManager)
         val backCameras = filterCameraIdsFacing(
             cameraIds, cameraManager, CameraMetadata.LENS_FACING_BACK
@@ -121,23 +121,23 @@ private object CameraEnumerationSnippets {
             cameraIds, cameraManager, CameraMetadata.LENS_FACING_EXTERNAL
         )
 
-        // The recommended order of iteration is: all external, first back, first front
+        // The recommended order of iteration is: all external, first back, first front.
         val allCameras = (
             externalCameras + listOf(
                 backCameras.firstOrNull(), frontCameras.firstOrNull()
             )
             ).filterNotNull()
 
-        // Get the index of the currently selected camera in the list
+        // Get the index of the currently selected camera in the list.
         val cameraIndex = allCameras.indexOf(currCameraId)
 
         // The selected camera may not be in the list, for example it could be an
-        // external camera that has been removed by the user
+        // external camera that has been removed by the user.
         return if (cameraIndex == -1) {
-            // Return the first camera from the list
+            // Return the first camera from the list.
             allCameras.getOrNull(0)
         } else {
-            // Return the next camera from the list, wrap around if necessary
+            // Return the next camera from the list, wrap around if necessary.
             allCameras.getOrNull((cameraIndex + 1) % allCameras.size)
         }
     }

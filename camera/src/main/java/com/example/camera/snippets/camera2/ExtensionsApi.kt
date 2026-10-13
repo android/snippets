@@ -65,7 +65,7 @@ private class CameraExtensionFragment(
 
     // [START android_camera2_extensions_api_start_extension_session]
     private val captureCallbacks = object : CameraExtensionSession.ExtensionCaptureCallback() {
-        // Implement Capture Callbacks
+        // Implement Capture Callbacks.
     }
     private val extensionSessionStateCallback = object : CameraExtensionSession.StateCallback() {
         override fun onConfigured(session: CameraExtensionSession) {

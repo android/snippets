@@ -90,12 +90,12 @@ private object ScreenFlashCallbackAeModeSnippets {
             this.targetAeMode = targetAeMode
             aeModeUpdateDeferred = CompletableDeferred()
             // Makes the current coroutine wait until aeModeUpdateDeferred is completed. It is
-            // completed once targetAeMode is found in the following capture callbacks
+            // completed once targetAeMode is found in the following capture callbacks.
             aeModeUpdateDeferred?.await()
         }
 
         private fun process(result: CaptureResult) {
-            // Checks if AE mode is updated and completes any awaiting Deferred
+            // Checks if AE mode is updated and completes any awaiting Deferred.
             aeModeUpdateDeferred?.let {
                 val aeMode = result[CaptureResult.CONTROL_AE_MODE]
                 if (aeMode == targetAeMode) {
@@ -156,7 +156,7 @@ private class ScreenFlashRepeatingRequestHelper(
                 repeatingCaptureCallback, cameraHandler
             )
 
-            // Wait for the request to be processed by camera
+            // Wait for the request to be processed by camera.
             repeatingCaptureCallback.awaitAeModeUpdate(CaptureRequest.CONTROL_AE_MODE_ON_EXTERNAL_FLASH)
         }
     }
@@ -186,19 +186,19 @@ private object ScreenFlashConvergenceCallbackSnippets {
             this.targetAeMode = targetAeMode
             aeModeUpdateDeferred = CompletableDeferred()
             // Makes the current coroutine wait until aeModeUpdateDeferred is completed. It is
-            // completed once targetAeMode is found in the following capture callbacks
+            // completed once targetAeMode is found in the following capture callbacks.
             aeModeUpdateDeferred?.await()
         }
 
         suspend fun awaitAeAwbConvergence() {
             convergenceDeferred = CompletableDeferred()
             // Makes the current coroutine wait until convergenceDeferred is completed, it will be
-            // completed once both AE & AWB are reported as converged in the capture callbacks below
+            // completed once both AE & AWB are reported as converged in the capture callbacks below.
             convergenceDeferred?.await()
         }
 
         private fun process(result: CaptureResult) {
-            // Checks if AE mode is updated and completes any awaiting Deferred
+            // Checks if AE mode is updated and completes any awaiting Deferred.
             aeModeUpdateDeferred?.let {
                 val aeMode = result[CaptureResult.CONTROL_AE_MODE]
                 if (aeMode == targetAeMode) {
@@ -206,26 +206,26 @@ private object ScreenFlashConvergenceCallbackSnippets {
                 }
             }
 
-            // Checks for convergence and completes any awaiting Deferred
+            // Checks for convergence and completes any awaiting Deferred.
             convergenceDeferred?.let {
                 val aeState = result[CaptureResult.CONTROL_AE_STATE]
                 val awbState = result[CaptureResult.CONTROL_AWB_STATE]
 
                 val isAeReady = (
                     aeState == null ||
-                        // May be null in some devices (e.g. legacy camera HW level)
+                        // May be null in some devices (e.g. legacy camera HW level).
                         aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED ||
                         aeState == CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED
                     )
 
                 val isAwbReady = (
                     awbState == null ||
-                        // May be null in some devices (e.g. legacy camera HW level)
+                        // May be null in some devices (e.g. legacy camera HW level).
                         awbState == CaptureResult.CONTROL_AWB_STATE_CONVERGED
                     )
 
                 if (isAeReady && isAwbReady) {
-                    // if any non-null convergenceDeferred is set, complete it
+                    // if any non-null convergenceDeferred is set, complete it.
                     it.complete(Unit)
                 }
             }
@@ -264,13 +264,13 @@ private class ScreenFlashSetupHelper(
 
     fun setupCamera() {
         // [START android_camera2_screen_flash_setup_repeating_request]
-        // Open the selected camera
+        // Open the selected camera.
         camera = openCamera(cameraManager, cameraId, cameraHandler)
 
-        // Creates list of Surfaces where the camera will output frames
+        // Creates list of Surfaces where the camera will output frames.
         val targets = listOf(previewSurface, imageReaderSurface)
 
-        // Start a capture session using our open camera and list of Surfaces where frames will go
+        // Start a capture session using our open camera and list of Surfaces where frames will go.
         session = createCameraCaptureSession(camera, targets, cameraHandler)
 
         val captureRequest = camera.createCaptureRequest(
@@ -278,14 +278,14 @@ private class ScreenFlashSetupHelper(
         ).apply { addTarget(previewSurface) }
 
         // This will keep sending the capture request as frequently as possible until the
-        // session is torn down or session.stopRepeating() is called
+        // session is torn down or session.stopRepeating() is called.
         session.setRepeatingRequest(captureRequest.build(), repeatingCaptureCallback, cameraHandler)
         // [END android_camera2_screen_flash_setup_repeating_request]
     }
 
     // [START android_camera2_screen_flash_run_precapture_sequence]
     private suspend fun runPrecaptureSequence() {
-        // Creates a new capture request with CONTROL_AE_PRECAPTURE_TRIGGER_START
+        // Creates a new capture request with CONTROL_AE_PRECAPTURE_TRIGGER_START.
         val captureRequest = session.device.createCaptureRequest(
             CameraDevice.TEMPLATE_PREVIEW
         ).apply {
@@ -305,7 +305,7 @@ private class ScreenFlashSetupHelper(
                     request: CaptureRequest,
                     result: TotalCaptureResult
                 ) {
-                    // Waiting for this callback ensures the precapture request has been processed
+                    // Waiting for this callback ensures the precapture request has been processed.
                     precaptureDeferred.complete(Unit)
                 }
             },
@@ -314,7 +314,7 @@ private class ScreenFlashSetupHelper(
 
         precaptureDeferred.await()
 
-        // Precapture trigger request has been processed, we can wait for AE & AWB convergence now
+        // Precapture trigger request has been processed, we can wait for AE & AWB convergence now.
         repeatingCaptureCallback.awaitAeAwbConvergence()
     }
     // [END android_camera2_screen_flash_run_precapture_sequence]
@@ -342,30 +342,30 @@ private class ScreenFlashActivity : ComponentActivity() {
 
     fun setupClickListeners() {
         // [START android_camera2_screen_flash_stitch_together]
-        // User clicks captureButton to take picture
+        // User clicks captureButton to take picture.
         captureButton.setOnClickListener {
-            // Apply the screen flash related UI changes
+            // Apply the screen flash related UI changes.
             whiteColorOverlayView.visibility = View.VISIBLE
             maximizeScreenBrightness()
 
             // Launch on the main thread, then switch to IO for background operations.
             lifecycleScope.launch {
-                // Perform I/O heavy operations in a different scope
+                // Perform I/O heavy operations in a different scope.
                 withContext(Dispatchers.IO) {
-                    // Enable external flash AE mode and wait for it to be processed
+                    // Enable external flash AE mode and wait for it to be processed.
                     enableExternalFlashAeMode()
 
-                    // Run precapture sequence and wait for it to complete
+                    // Run precapture sequence and wait for it to complete.
                     runPrecaptureSequence()
 
-                    // Start taking picture and wait for it to complete
+                    // Start taking picture and wait for it to complete.
                     takePhoto()
 
                     disableExternalFlashAeMode()
                 }
 
                 // Back on the main thread automatically.
-                // Clear the screen flash related UI changes
+                // Clear the screen flash related UI changes.
                 restoreScreenBrightness()
                 whiteColorOverlayView.visibility = View.INVISIBLE
             }

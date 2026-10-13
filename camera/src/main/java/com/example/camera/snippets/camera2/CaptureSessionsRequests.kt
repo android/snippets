@@ -59,14 +59,14 @@ private class CaptureSessionSetupActivity(
             // [END_EXCLUDE]
         )
 
-        // Remember to call this only *after* SurfaceHolder.Callback.surfaceCreated()
+        // Remember to call this only *after* SurfaceHolder.Callback.surfaceCreated().
         val previewSurface = surfaceView.holder.surface
         val imReaderSurface = imageReader.surface
         val targets = listOf(previewSurface, imReaderSurface)
 
         // Create a capture session using the predefined targets; this also involves
         // defining the session state callback to be notified of when the session is
-        // ready
+        // ready.
         // Setup Stream Use Case while setting up your Output Configuration.
         @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         fun configureSession(device: CameraDevice, targets: List<Surface>) {
@@ -120,7 +120,7 @@ private object CaptureSessionsRequestsSnippets {
         // provide if you want to retrieve frame metadata or keep track of failed capture
         // requests that can indicate dropped frames; the second null argument
         // corresponds to the Handler used by the asynchronous callback, which falls
-        // back to the current thread's looper if null
+        // back to the current thread's looper if null.
         session.capture(captureRequest.build(), null, null)
         // [END android_camera2_capture_sessions_requests_capture]
     }
@@ -140,7 +140,7 @@ private object CaptureSessionsRequestsSnippets {
         // [END_EXCLUDE]
 
         // This keeps sending the capture request as frequently as possible until
-        // the session is torn down or session.stopRepeating() is called
+        // the session is torn down or session.stopRepeating() is called.
         // session.setRepeatingRequest(captureRequest.build(), null, null)
         // [END android_camera2_capture_sessions_requests_repeating_request]
     }
@@ -156,7 +156,7 @@ private object CaptureSessionsRequestsSnippets {
             sessionFromStateCallback
         // [END_EXCLUDE]
 
-        // Create the repeating request and dispatch it
+        // Create the repeating request and dispatch it.
         val repeatingRequest = session.device.createCaptureRequest(
             CameraDevice.TEMPLATE_PREVIEW
         )
@@ -165,8 +165,8 @@ private object CaptureSessionsRequestsSnippets {
 
         // Some time later...
 
-        // Create the single request and dispatch it
-        // NOTE: This can disrupt the ongoing repeating request momentarily
+        // Create the single request and dispatch it.
+        // NOTE: This can disrupt the ongoing repeating request momentarily.
         val singleRequest = session.device.createCaptureRequest(
             CameraDevice.TEMPLATE_STILL_CAPTURE
         )
