@@ -32,15 +32,17 @@ fun MyScreen() {
 
     // Intercept the back button or gesture only when isExpanded is true
     BackHandler(enabled = isExpanded) {
-        // Collapsing also disables this handler, so it does not receive
-        // the next back event.
+        // Collapsing the content disables this handler, so it does not
+        // receive the next back event.
         isExpanded = false
     }
 
-    Button(onClick = { isExpanded = true }) {
-        Text("Expand")
+    if (isExpanded) {
+        Text("Expanded content. Go back to collapse it.")
+    } else {
+        Button(onClick = { isExpanded = true }) {
+            Text("Expand")
+        }
     }
-
-    // Content to show when isExpanded is true...
 }
 // [END android_compose_navigation_custom_back_basic]
