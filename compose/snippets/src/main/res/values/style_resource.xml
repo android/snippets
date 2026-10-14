@@ -18,11 +18,6 @@
 <resources>
     <!-- [START_EXCLUDE silent] -->
     <style name="Text" parent="android:Widget.TextView" />
-    <string name="item1">Item 1</string>
-    <string name="group_item1">Group item 1</string>
-    <string name="group_item2">Group item 2</string>
-    <string name="submenu_title">Submenu</string>
-    <string name="submenu_item1">Submenu item 1</string>
     <!-- [END_EXCLUDE] -->
     <style name="CustomText" parent="@style/Text">
         <item name="android:textSize">20sp</item>

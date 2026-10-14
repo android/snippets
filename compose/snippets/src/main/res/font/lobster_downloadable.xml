@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- [START android_resources_font_downloadable] -->
+<!-- [START android_resources_font_downloadable] --><!--suppress FontValidation -->
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     android:fontProviderAuthority="com.example.fontprovider.authority"
     android:fontProviderPackage="com.example.fontprovider"
@@ -22,3 +22,4 @@
     android:fontProviderCerts="@array/certs">
 </font-family>
 <!-- [END android_resources_font_downloadable] -->
+<!-- Named lobster_downloadable.xml to avoid colliding with res/font/lobster.xml from the same page so aapt2 compiles both resources. -->
