@@ -19,11 +19,6 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
-    branches: [ '*' ]
-    paths:
-      - '**/*.kt'
-      - '.github/workflows/compose_performance_skill.yml'
   workflow_dispatch:
     inputs:
       pr_number:
