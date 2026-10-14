@@ -19,8 +19,7 @@ package com.example.android.location
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
 
-@Suppress("unused", "UNUSED_VARIABLE")
-fun createBatchedLocationRequest() {
+private fun createBatchedLocationRequest() {
     // [START android_location_battery_optimize_batch]
     val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10 * 60 * 1000)
         .setMaxUpdateDelayMillis(60 * 60 * 1000)
@@ -28,8 +27,7 @@ fun createBatchedLocationRequest() {
     // [END android_location_battery_optimize_batch]
 }
 
-@Suppress("unused", "UNUSED_VARIABLE")
-fun createPassiveLocationRequest() {
+private fun createPassiveLocationRequest() {
     // [START android_location_battery_optimize_passive]
     val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 15 * 60 * 1000)
         .setMinUpdateIntervalMillis(2 * 60 * 1000)
