@@ -52,16 +52,9 @@ jobs:
     - name: Install Jetpack Compose Performance Skill
       run: |
         set -euo pipefail
-        git clone --depth 1 https://github.com/android/skills.git /tmp/android-skills
-        SKILL_SRC="/tmp/android-skills/jetpack-compose/jetpack-compose-performance"
-        if [[ ! -d "${SKILL_SRC}" ]]; then
-          echo "::error::Skill directory not found at ${SKILL_SRC} in https://github.com/android/skills"
-          exit 1
-        fi
-        mkdir -p .agents/skills .gemini/skills
-        cp -r "${SKILL_SRC}" .agents/skills/jetpack-compose-performance
-        cp -r "${SKILL_SRC}" .gemini/skills/jetpack-compose-performance
-        rm -rf /tmp/android-skills
+        curl -fsSL https://dl.google.com/android/cli/latest/linux_x86_64/install.sh | bash
+        export PATH="${HOME}/.local/bin:${PATH}"
+        android skills add --agent=gemini --project=. jetpack-compose-performance
 
     - name: Prepare Review Context
       id: context
