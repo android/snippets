@@ -66,6 +66,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun AppBarExamples(
@@ -380,6 +383,19 @@ fun TopBarNavigationExample(
     }
 }
 // [END android_compose_components_navigation]
+
+@Composable
+private fun TopBarNavigationNavHost() {
+    val navController = rememberNavController()
+    // [START android_compose_components_navigation_navhost]
+    NavHost(navController, startDestination = "home") {
+        composable("topBarNavigationExample") {
+            TopBarNavigationExample { navController.popBackStack() }
+        }
+        // Other destinations...
+    }
+    // [END android_compose_components_navigation_navhost]
+}
 
 @Composable
 fun ScrollContent(innerPadding: PaddingValues) {
