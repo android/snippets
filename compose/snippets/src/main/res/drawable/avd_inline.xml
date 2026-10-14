@@ -47,3 +47,4 @@
     </target>
 </animated-vector>
 <!-- [END android_resources_complex_xml_avd_inline] -->
+<!-- Named avd_inline.xml to avoid colliding with res/drawable/avd.xml from the same page so aapt2 compiles both resources. -->
