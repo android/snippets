@@ -353,3 +353,23 @@ suspend fun parseEmail(email: String): ParsedEmail? {
     return typedResponse.candidates[0].response
 }
 // [END android_snippets_structured_output_after]
+
+class ReturnTypeExampleBefore {
+    // [START android_snippets_structured_output_return_type_before]
+    fun parseEmail(email: String): String {
+        // [START_EXCLUDE]
+        return ""
+        // [END_EXCLUDE]
+    }
+    // [END android_snippets_structured_output_return_type_before]
+}
+
+class ReturnTypeExampleAfter {
+    // [START android_snippets_structured_output_return_type_after]
+    fun parseEmail(email: String): ParsedEmail? {
+        // [START_EXCLUDE]
+        return null
+        // [END_EXCLUDE]
+    }
+    // [END android_snippets_structured_output_return_type_after]
+}
