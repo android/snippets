@@ -23,6 +23,7 @@ on:
     branches: [ '*' ]
     paths:
       - '**/*.kt'
+      - '.github/workflows/compose_performance_skill.yml'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -111,7 +112,7 @@ jobs:
           Follow the skill's Optimization Audit Workflow strictly:
           1. Read `.agents/skills/jetpack-compose-performance/SKILL.md` first.
           2. Inspect every target Kotlin file listed in `.gemini/target_files.txt` that uses Jetpack Compose (`@Composable`, `Modifier`, Compose state, lazy layouts, animations, effects, or custom drawing).
-          3. Whenever a file matches a rule in Categories 1-7, you MUST open and read the corresponding `.agents/skills/jetpack-compose-performance/references/*.md` file for the approved fix pattern and scope guards before reporting a finding.
+          3. Whenever a file matches a rule in Categories 1-7, you MUST open and read the corresponding `.agents/skills/jetpack-compose-performance/references/**/*.md` file for the approved fix pattern and scope guards before reporting a finding.
           4. Do NOT modify any files in the repository.
           5. Output a well-structured Markdown review report summarizing your findings:
              - For each finding, include the file path, line numbers, rule category, why it impacts Compose performance, and a concrete Kotlin `suggestion` or code snippet showing the recommended fix.
