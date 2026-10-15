@@ -19,6 +19,16 @@ permissions:
   pull-requests: write
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches: [ '*' ]
+    paths:
+      - '**/*.kt'
+      - '.github/workflows/compose_performance_skill.yml'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -34,7 +44,7 @@ jobs:
   compose-performance-review:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.repository == 'android/snippets' && (github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.fork == false)
+    if: github.repository == 'android/snippets' && (github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.fork == false && github.event.pull_request.draft == false))
 
     steps:
     - name: Checkout Repository
