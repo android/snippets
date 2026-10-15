@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.architecture.di
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.activity.viewModels
@@ -147,17 +148,16 @@ internal object HiltJetpackWorkerSnippet {
     // [END android_di_hilt_jetpack_worker]
 }
 
-internal object HiltJetpackApplicationSnippet {
-    // [START android_di_hilt_jetpack_application]
-    @HiltAndroidApp
-    class ExampleApplication : Application(), Configuration.Provider {
+@SuppressLint("RemoveWorkManagerInitializer")
+// [START android_di_hilt_jetpack_application]
+@HiltAndroidApp
+class ExampleApplication : Application(), Configuration.Provider {
 
-        @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
-        override val workManagerConfiguration: Configuration
-            get() = Configuration.Builder()
-                .setWorkerFactory(workerFactory)
-                .build()
-    }
-    // [END android_di_hilt_jetpack_application]
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 }
+// [END android_di_hilt_jetpack_application]
