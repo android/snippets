@@ -17,7 +17,17 @@
 package com.example.compose.snippets.architecture.paging
 
 import android.content.Context
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
@@ -65,7 +75,7 @@ private object PagingTestingSnapshotScope {
 
     // [START android_architecture_paging_test_snapshot_basic]
     fun test_items_contain_one_to_ten() = runTest {
-        // Get the Flow of PagingData from the ViewModel under test
+        // Get the Flow of PagingData from the ViewModel under test.
         val items: Flow<PagingData<String>> = viewModel.items
 
         val itemsSnapshot: List<String> = items.asSnapshot {
@@ -76,7 +86,7 @@ private object PagingTestingSnapshotScope {
         }
 
         // With the asSnapshot complete, you can now verify that the snapshot
-        // has the expected values
+        // has the expected values.
         assertEquals(
             expected = (0..50).map(Int::toString),
             actual = itemsSnapshot
@@ -86,11 +96,11 @@ private object PagingTestingSnapshotScope {
 
     // [START android_architecture_paging_test_snapshot_scroll]
     fun test_footer_is_visible() = runTest {
-        // Get the Flow of PagingData from the ViewModel under test
+        // Get the Flow of PagingData from the ViewModel under test.
         val items: Flow<PagingData<String>> = viewModel.items
 
         val itemsSnapshot: List<String> = items.asSnapshot {
-            // Scroll till the footer is visible
+            // Scroll till the footer is visible.
             appendScrollWhile { item: String -> item != "Footer" }
         }
     }
@@ -116,7 +126,7 @@ private object PagingTestingTransformScope {
             .map { pagingData ->
                 pagingData.insertSeparators<String, String> { before, _ ->
                     when {
-                        // Add a dashed String separator if the prior item is a multiple of 10
+                        // Add a dashed String separator if the prior item is a multiple of 10.
                         before?.last() == '0' -> "---------"
                         // Return null to avoid adding a separator between two items.
                         else -> null
@@ -132,18 +142,18 @@ private object PagingTestingTransformScope {
         private val pagingSourceFactory = items.asPagingSourceFactory()
 
         // Expose as a function so a new PagingSource instance is
-        // created each time it is called by the Pager
+        // created each time it is called by the Pager.
         override fun pagingSource() = pagingSourceFactory()
     }
     // [END android_architecture_paging_test_fake_repository]
 
     // [START android_architecture_paging_test_separators]
     fun test_separators_are_added_every_10_items() = runTest {
-        // Create your ViewModel
+        // Create your ViewModel.
         val viewModel = MyViewModel(
             myRepository = FakeMyRepository()
         )
-        // Get the Flow of PagingData from the ViewModel with the separator transformations applied
+        // Get the Flow of PagingData from the ViewModel with the separator transformations applied.
         val items: Flow<PagingData<String>> = viewModel.items
 
         val snapshot: List<String> = items.asSnapshot()
@@ -174,10 +184,17 @@ private object PagingTestingSourceScope {
     }
 
     open class FakeRedditApi : RedditApi {
+        val posts = mutableListOf<RedditPost>()
         override var failureMsg: String? = null
-        override fun addPost(post: RedditPost) {}
-        override fun clearPosts() {}
-        fun setReturnsError() {}
+        override fun addPost(post: RedditPost) {
+            posts.add(post)
+        }
+        override fun clearPosts() {
+            posts.clear()
+        }
+        fun setReturnsError() {
+            failureMsg = "Error"
+        }
     }
 
     class RedditPagingSource(
@@ -185,8 +202,13 @@ private object PagingTestingSourceScope {
         val subreddit: String
     ) : PagingSource<String, RedditPost>() {
         var errorNextLoad: Boolean = false
-        override suspend fun load(params: LoadParams<String>): LoadResult<String, RedditPost> =
-            LoadResult.Page(emptyList(), null, null)
+        override suspend fun load(params: LoadParams<String>): LoadResult<String, RedditPost> {
+            if (errorNextLoad || api.failureMsg != null) {
+                return LoadResult.Error(Exception(api.failureMsg ?: "Error"))
+            }
+            val data = (api as? FakeRedditApi)?.posts?.filter { it.subreddit == subreddit }.orEmpty()
+            return LoadResult.Page(data = data, prevKey = null, nextKey = null)
+        }
         override fun getRefreshKey(state: PagingState<String, RedditPost>): String? = null
     }
 
@@ -212,7 +234,7 @@ private object PagingTestingSourceScope {
 
             val result = pager.refresh() as LoadResult.Page
 
-            // Write assertions against the loaded data
+            // Write assertions against the loaded data.
             assertThat(result.data)
                 .containsExactlyElementsIn(mockPosts)
                 .inOrder()
@@ -249,7 +271,7 @@ private object PagingTestingSourceScope {
                 fakeApi,
                 DEFAULT_SUBREDDIT
             )
-            // Configure your fake to return errors
+            // Configure your fake to return errors.
             fakeApi.setReturnsError()
             val pager = TestPager(CONFIG, source)
 
@@ -291,7 +313,9 @@ private object PagingTestingSourceScope {
             loadType: LoadType,
             state: PagingState<Int, RedditPost>
         ): MediatorResult {
-            return MediatorResult.Success(endOfPaginationReached = true)
+            redditApi.failureMsg?.let { return MediatorResult.Error(Exception(it)) }
+            val posts = (redditApi as? FakeRedditApi)?.posts.orEmpty()
+            return MediatorResult.Success(endOfPaginationReached = posts.isEmpty())
         }
         // [END_EXCLUDE]
     }
@@ -410,7 +434,10 @@ private object PagingTestingSourceScope {
         }
 
         object ServiceLocator {
-            fun swap(locator: DefaultServiceLocator) {}
+            var current: DefaultServiceLocator = DefaultServiceLocator(useInMemoryDb = true)
+            fun swap(locator: DefaultServiceLocator) {
+                current = locator
+            }
         }
 
         @Composable
@@ -419,11 +446,33 @@ private object PagingTestingSourceScope {
         }
 
         @Composable
-        fun RedditScreen(initialSubreddit: String) {}
+        fun RedditScreen(initialSubreddit: String) {
+            var currentSubreddit by remember { mutableStateOf(initialSubreddit) }
+            var inputText by remember { mutableStateOf(initialSubreddit) }
+            val api = ServiceLocator.current.getRedditApi() as? FakeRedditApi
+            val posts = api?.posts?.filter { it.subreddit == currentSubreddit }.orEmpty()
+            Column {
+                TextField(
+                    value = inputText,
+                    onValueChange = { inputText = it },
+                    modifier = Modifier.testTag("SubredditInput")
+                )
+                Button(
+                    onClick = { currentSubreddit = inputText },
+                    modifier = Modifier.testTag("SearchButton")
+                ) {
+                    Text("Search")
+                }
+                posts.forEach { post ->
+                    Text(post.title)
+                }
+            }
+        }
 
         // [START android_architecture_paging_test_end_to_end]
         // import androidx.compose.ui.test.assertIsDisplayed
-        //         // import androidx.compose.ui.test.hasText
+        // import androidx.compose.ui.test.assertDoesNotExist
+        // import androidx.compose.ui.test.hasText
         // import androidx.compose.ui.test.junit4.createComposeRule
         // import androidx.compose.ui.test.onNodeWithTag
         // import androidx.compose.ui.test.onNodeWithText
@@ -448,10 +497,10 @@ private object PagingTestingSourceScope {
 
             @Before
             fun setup() {
-                // Pre-populate the mock API with test data for the default subreddit
+                // Pre-populate the mock API with test data for the default subreddit.
                 mockApi.addPost(postFactory.createRedditPost(subreddit = "androiddev", title = "Jetpack Compose Paging"))
 
-                // Swap your real dependency injection module/Service Locator with the mock API
+                // Swap your real dependency injection module/Service Locator with the mock API.
                 ServiceLocator.swap(
                     object : DefaultServiceLocator(useInMemoryDb = true) {
                         override fun getRedditApi(): RedditApi = mockApi
@@ -461,27 +510,27 @@ private object PagingTestingSourceScope {
 
             @Test
             fun loadsTheDefaultResults() = runTest {
-                // 1. Set the Compose UI content
+                // 1. Set the Compose UI content.
                 composeTestRule.setContent {
                     MyTheme {
-                        // Assume that this composable uses `collectAsLazyPagingItems()` internally
+                        // Assume that this composable uses `collectAsLazyPagingItems()` internally.
                         RedditScreen(initialSubreddit = "androiddev")
                     }
                 }
 
-                // 2. Wait for the asynchronous Paging loads to complete
+                // 2. Wait for the asynchronous Paging loads to complete.
                 composeTestRule.waitUntilExactlyOneExists(
                     matcher = hasText("Jetpack Compose Paging"),
                     timeoutMillis = 5000
                 )
 
-                // 3. Assert that the loaded paged items are displayed correctly on screen
+                // 3. Assert that the loaded paged items are displayed correctly on screen.
                 composeTestRule.onNodeWithText("Jetpack Compose Paging").assertIsDisplayed()
             }
 
             @Test
             fun loadsNewDataBasedOnUserInput() = runTest {
-                // Add data for a different subreddit to the mock API
+                // Add data for a different subreddit to the mock API.
                 mockApi.addPost(postFactory.createRedditPost(subreddit = "compose", title = "Compose Testing"))
 
                 composeTestRule.setContent {
@@ -490,21 +539,21 @@ private object PagingTestingSourceScope {
                     }
                 }
 
-                // Wait for the initial load to finish
+                // Wait for the initial load to finish.
                 composeTestRule.waitUntilExactlyOneExists(hasText("Jetpack Compose Paging"))
 
-                // Simulate user entering a new subreddit in a text field and clicking search
+                // Simulate user entering a new subreddit in a text field and clicking search.
                 composeTestRule.onNodeWithTag("SubredditInput").performTextClearance()
                 composeTestRule.onNodeWithTag("SubredditInput").performTextInput("compose")
                 composeTestRule.onNodeWithTag("SearchButton").performClick()
 
-                // Wait for the new paged data to load
+                // Wait for the new paged data to load.
                 composeTestRule.waitUntilExactlyOneExists(
                     matcher = hasText("Compose Testing"),
                     timeoutMillis = 5000
                 )
 
-                // Assert the old data is gone and the new data is displayed
+                // Assert the old data is gone and the new data is displayed.
                 composeTestRule.onNodeWithText("Jetpack Compose Paging").assertDoesNotExist()
                 composeTestRule.onNodeWithText("Compose Testing").assertIsDisplayed()
             }

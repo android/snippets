@@ -84,6 +84,8 @@ android {
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)

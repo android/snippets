@@ -50,9 +50,9 @@ private object PagingPagedDataSnippets {
         val query: String
     ) : PagingSource<Int, User>() {
         init {
-            // the data source is expected to be immutable
-            // invalidate PagingSource if data source
-            // has updated
+            // The data source is expected to be immutable.
+            // Invalidate PagingSource if data source
+            // has updated.
             backend.addDatabaseOnChangedListener {
                 invalidate()
             }

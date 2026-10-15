@@ -48,7 +48,7 @@ private object PagingTransformSnippets {
 
         fun outerMapExample() {
             // [START android_architecture_paging_transform_outer_map]
-                pager.flow // Type is Flow<PagingData<User>>.
+            pager.flow // Type is Flow<PagingData<User>>.
                 // Map the outer stream so that the transformations are applied to
                 // each new generation of PagingData.
                 .map { pagingData ->
@@ -85,7 +85,7 @@ private object PagingTransformSnippets {
         // [START android_architecture_paging_transform_flat_map_latest]
         val querySearchResults: Flow<User> = queryFlow.flatMapLatest { query ->
             // The database query returns a Flow which is output through
-            // querySearchResults
+            // querySearchResults.
             userDatabase.searchBy(query)
         }
         // [END android_architecture_paging_transform_flat_map_latest]

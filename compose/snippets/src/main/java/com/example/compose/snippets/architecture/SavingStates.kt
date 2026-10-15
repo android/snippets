@@ -54,19 +54,19 @@ private object SavingStatesSnippet2 {
         private var query: String? = null
 
         init {
-            // Register a LifecycleObserver for when the Lifecycle hits ON_CREATE
+            // Register a LifecycleObserver for when the Lifecycle hits ON_CREATE.
             registryOwner.lifecycle.addObserver(
                 LifecycleEventObserver { _, event ->
                     if (event == Lifecycle.Event.ON_CREATE) {
                         val registry = registryOwner.savedStateRegistry
 
-                        // Register this object for future calls to saveState()
+                        // Register this object for future calls to saveState().
                         registry.registerSavedStateProvider(PROVIDER, this)
 
-                        // Get the previously saved state and restore it
+                        // Get the previously saved state and restore it.
                         val state = registry.consumeRestoredStateForKey(PROVIDER)
 
-                        // Apply the previously saved state
+                        // Apply the previously saved state.
                         query = state?.getString(QUERY)
                     }
                 }
@@ -85,7 +85,7 @@ private object SavingStatesSnippet2 {
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            // Set up your Compose UI here
+            // Set up your Compose UI here.
             setContent {
                 // ...
             }

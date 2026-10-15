@@ -50,10 +50,10 @@ private object ViewModelFactoriesSnippet1 {
         private val savedStateHandle: SavedStateHandle
     ) : ViewModel() {
 
-        // ViewModel logic
+        // ViewModel logic.
         // ...
 
-        // Define ViewModel factory in a companion object
+        // Define ViewModel factory in a companion object.
         companion object {
 
             val Factory: ViewModelProvider.Factory = viewModelFactory {
@@ -97,17 +97,17 @@ private object ViewModelFactoriesSnippet3 {
     class MyViewModel(
         private val myRepository: MyRepository,
     ) : ViewModel() {
-        // ViewModel logic
+        // ViewModel logic.
 
-        // Define ViewModel factory in a companion object
+        // Define ViewModel factory in a companion object.
         companion object {
 
-            // Define a custom key using the factory function
+            // Define a custom key using the factory function.
             val MY_REPOSITORY_KEY = CreationExtras.Key<MyRepository>()
 
             val Factory: ViewModelProvider.Factory = viewModelFactory {
                 initializer {
-                    // Get the dependency in your factory
+                    // Get the dependency in your factory.
                     val myRepository = this[MY_REPOSITORY_KEY] as MyRepository
                     MyViewModel(
                         myRepository = myRepository,
