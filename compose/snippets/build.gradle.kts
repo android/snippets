@@ -167,12 +167,11 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.glide.compose)
 
-    // Use compileOnly for hilt-compiler because Hilt's whole-module processor rejects
-    // D10 `private object` snippet wrappers and multiple `@HiltAndroidApp` examples in :compose:snippets.
-    compileOnly(libs.hilt.compiler)
-    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.robolectric)
 
     androidTestImplementation(composeBom)
 
@@ -195,5 +194,4 @@ dependencies {
     androidTestImplementation(libs.fragment.testing)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.mockito.kotlin)
-    androidTestImplementation(libs.robolectric)
 }

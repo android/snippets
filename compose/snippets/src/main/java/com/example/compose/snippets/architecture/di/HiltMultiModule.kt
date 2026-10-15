@@ -62,9 +62,7 @@ interface LoginComponent {
 
 class LoginAnalyticsAdapter @Inject constructor(
     @AuthInterceptorOkHttpClient okHttpClient: OkHttpClient
-) {
-    // ...
-}
+) { /* ... */ }
 // [END android_di_hilt_multimodule_analytics_adapter]
 
 // [START android_di_hilt_multimodule_login_activity]
