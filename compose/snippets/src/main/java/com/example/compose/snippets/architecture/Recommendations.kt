@@ -106,10 +106,10 @@ private object RecommendationsSnippet3 {
                     LocationManager.GPS_PROVIDER,
                     1000L,
                     1f,
-                    listener
+                    listener,
                 )
             } catch (e: SecurityException) {
-                // TODO: Handle missing permissions
+                // TODO: Handle missing permissions.
             }
 
             onStopOrDispose {

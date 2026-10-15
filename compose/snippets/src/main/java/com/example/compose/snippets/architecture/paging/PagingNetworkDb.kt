@@ -28,6 +28,8 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RoomDatabase
+import androidx.room.withTransaction
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -56,7 +58,8 @@ private object PagingNetworkDbSnippets {
 
         @Query("DELETE FROM users")
         suspend fun clearAll()
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
+        @Query("DELETE FROM users WHERE label = :query")
         suspend fun deleteByQuery(query: String)
         // [END_EXCLUDE]
     }
@@ -81,11 +84,10 @@ private object PagingNetworkDbSnippets {
     }
     // [END android_architecture_paging_network_db_remote_key_dao]
 
-    abstract class RoomDb {
+    abstract class RoomDb : RoomDatabase() {
         abstract fun userDao(): UserDao
         abstract fun remoteKeyDao(): RemoteKeyDao
         fun lastUpdated(): Long = 0L
-        suspend fun <R> withTransaction(block: suspend () -> R): R = block()
     }
 
     object SkeletonScope {

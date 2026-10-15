@@ -52,11 +52,11 @@ private object ViewModelSavedStateSnippet2 {
     // [START android_architecture_viewmodel_savedstate_stateflow]
     class SavedStateViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-        // Use getMutableStateFlow to read and write the query directly
+        // Use getMutableStateFlow to read and write the query directly.
         private val _query = savedStateHandle.getMutableStateFlow("query", "")
         val query: StateFlow<String> = _query.asStateFlow()
 
-        // Use getStateFlow if you only need a read-only stream to react to changes
+        // Use getStateFlow if you only need a read-only stream to react to changes.
         val filteredData: StateFlow<List<String>> =
             query.flatMapLatest {
                 repository.getFilteredData(it)
@@ -68,7 +68,7 @@ private object ViewModelSavedStateSnippet2 {
                 )
 
         fun setQuery(newQuery: String) {
-            // Updating the MutableStateFlow automatically updates the SavedStateHandle
+            // Updating the MutableStateFlow automatically updates the SavedStateHandle.
             _query.value = newQuery
         }
     }
@@ -79,7 +79,7 @@ private object ViewModelSavedStateSnippet3 {
     // [START android_architecture_viewmodel_savedstate_serializable]
     // import androidx.lifecycle.SavedStateHandle
     // import androidx.lifecycle.ViewModel
-    // Ensure you have the savedstate-ktx dependency
+    // Ensure you have the savedstate-ktx dependency.
     // import androidx.lifecycle.serialization.saved
     // import kotlinx.serialization.Serializable
 
@@ -99,7 +99,7 @@ private object ViewModelSavedStateSnippet3 {
         }
 
         fun updateQuery(newQuery: String) {
-            // Mutating the property automatically updates the underlying SavedStateHandle
+            // Mutating the property automatically updates the underlying SavedStateHandle.
             filterState = filterState.copy(searchQuery = newQuery)
         }
     }

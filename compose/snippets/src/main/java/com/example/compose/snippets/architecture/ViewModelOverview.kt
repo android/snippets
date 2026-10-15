@@ -43,11 +43,11 @@ private object ViewModelOverviewSnippet1 {
 
     class DiceRollViewModel : ViewModel() {
 
-        // Expose screen UI state
+        // Expose screen UI state.
         private val _uiState = MutableStateFlow(DiceUiState())
         val uiState: StateFlow<DiceUiState> = _uiState.asStateFlow()
 
-        // Handle business logic
+        // Handle business logic.
         fun rollDice() {
             _uiState.update { currentState ->
                 currentState.copy(
@@ -63,13 +63,13 @@ private object ViewModelOverviewSnippet1 {
     // [START android_architecture_viewmodel_dice_roll_screen]
     // import androidx.lifecycle.viewmodel.compose.viewModel
 
-    // Use the 'viewModel()' function from the lifecycle-viewmodel-compose artifact
+    // Use the 'viewModel()' function from the lifecycle-viewmodel-compose artifact.
     @Composable
     fun DiceRollScreen(
         viewModel: DiceRollViewModel = viewModel()
     ) {
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        // Update UI elements
+        // Update UI elements.
     }
     // [END android_architecture_viewmodel_dice_roll_screen]
 }
