@@ -53,13 +53,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -207,7 +210,7 @@ private fun checkMultiplePrimitivesSupportedSnippet() {
 fun ResistScreen() {
     // Control variables for the dragging of the indicator.
     var isDragging by remember { mutableStateOf(false) }
-    var dragOffset by remember { mutableStateOf(0f) }
+    var dragOffset by remember { mutableFloatStateOf(0f) }
 
     // Only vibrates while the user is dragging
     LaunchedEffect(isDragging) {
@@ -300,7 +303,7 @@ fun ExpandScreen() {
 @Composable
 fun WobbleScreen() {
     // Control variables for the dragging and animating state of the elastic.
-    var dragDistance by remember { mutableStateOf(0f) }
+    var dragDistance by remember { mutableFloatStateOf(0f) }
     var isWobbling by remember { mutableStateOf(false) }
 
     // Use drag distance to create an animated float value behaving like a spring.
@@ -357,8 +360,10 @@ fun WobbleScreen() {
                 }
             )
     ) {
-        // Draw the wobbling shape using the animated spring-like value.
-        WobbleShape(dragDistanceAnimated)
+        // Draw the wobbling shape using the animated spring-like value. The
+        // lambda defers the read to the draw phase, so the animation doesn't
+        // recompose this screen on every frame.
+        WobbleShape { dragDistanceAnimated }
     }
 }
 
@@ -381,17 +386,20 @@ enum class BallPosition {
 fun BounceScreen() {
     // Control variable for the state of the ball.
     var ballPosition by remember { mutableStateOf(BallPosition.Start) }
-    var bounceCount by remember { mutableStateOf(0) }
+    // Plain holder for the bounce count. It's read only in the effect and in
+    // the click handler, never in composition, so it needs no snapshot state.
+    val bounceCount = remember { intArrayOf(0) }
 
     // Animation for the bouncing ball.
-    var transitionData = updateTransitionData(ballPosition)
+    val transitionData = updateTransitionData(ballPosition)
     val collisionData = updateCollisionData(transitionData)
 
-    // Ball is about to contact floor. The effect restarts only when the
-    // collision state changes, so it vibrates once per collision.
-    LaunchedEffect(collisionData.collisionWithFloor) {
+    // Ball is about to contact floor. The effect runs only when the collision
+    // state changes, so it vibrates once per collision. Nothing here suspends,
+    // so a keyed SideEffect does the job without launching a coroutine.
+    SideEffect(collisionData.collisionWithFloor) {
         if (collisionData.collisionWithFloor) {
-            val vibrationScale = 0.7.pow(bounceCount++).toFloat()
+            val vibrationScale = 0.7.pow(bounceCount[0]++).toFloat()
             vibrator.vibrate(
                 VibrationEffect.startComposition().addPrimitive(
                     VibrationEffect.Composition.PRIMITIVE_THUD,
@@ -409,7 +417,7 @@ fun BounceScreen() {
                     ballPosition = BallPosition.End
                 } else {
                     ballPosition = BallPosition.Start
-                    bounceCount = 0
+                    bounceCount[0] = 0
                 }
             },
     ) {
@@ -494,15 +502,15 @@ fun BouncingSpringAnimation() {
         modifier = Modifier
             .fillMaxSize()
             .clickable(enabled = !isAnimating) { isAnimating = true }
+            .drawBehind {
+                // Read the height in the draw phase, and scale it to the distance
+                // between the top of the box and the floor.
+                val floorTop = size.height - FLOOR_HEIGHT.toPx()
+                val dropDistance = floorTop - SPRING_HEIGHT.toPx()
+                drawSpring(topY = dropDistance * (1f - springHeight.value))
+                drawFloor(top = floorTop)
+            }
     ) {
-        Canvas(Modifier.fillMaxSize()) {
-            // Read the height in the draw phase, and scale it to the distance
-            // between the top of the canvas and the floor.
-            val floorTop = size.height - FLOOR_HEIGHT.toPx()
-            val dropDistance = floorTop - SPRING_HEIGHT.toPx()
-            drawSpring(topY = dropDistance * (1f - springHeight.value))
-            drawFloor(top = floorTop)
-        }
         if (!isAnimating) {
             Text("Tap to restart", Modifier.align(Alignment.Center))
         }
@@ -832,14 +840,15 @@ private fun ExpandIndicator(transitionData: ExpandTransitionData) {
 private val WOBBLE_MAX_BULGE = 120.dp
 
 @Composable
-private fun WobbleShape(dragDistanceAnimated: Float) {
+private fun WobbleShape(dragDistance: () -> Float) {
     val color = MaterialTheme.colorScheme.primary
     Box(Modifier.fillMaxSize()) {
         Text("Drag down and release", Modifier.align(Alignment.TopCenter).padding(top = 48.dp))
         Canvas(Modifier.fillMaxSize()) {
             // The region doesn't limit dragDistance and the spring overshoots
             // below zero, so clamp the bulge like the sample's ElasticTopShape.
-            val bulge = (dragDistanceAnimated / MAX_DRAG_DISTANCE).coerceIn(-1f, 1f) *
+            // dragDistance() is read here, in the draw phase.
+            val bulge = (dragDistance() / MAX_DRAG_DISTANCE).coerceIn(-1f, 1f) *
                 WOBBLE_MAX_BULGE.toPx()
             val top = size.height * 0.25f
             val path = Path().apply {
