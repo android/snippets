@@ -165,7 +165,6 @@ dependencies {
     implementation(libs.glide.compose)
     implementation(libs.okhttp)
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
 
     ksp(libs.hilt.compiler)
 
