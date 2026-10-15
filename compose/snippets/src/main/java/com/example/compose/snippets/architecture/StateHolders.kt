@@ -18,8 +18,6 @@ package com.example.compose.snippets.architecture
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -41,22 +39,22 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
+import kotlinx.coroutines.flow.map
 
 private object StateHoldersSnippet1 {
     // [START android_architecture_stateholders_ui_state_simple_counter]
     @Composable
     fun Counter() {
-        // The UI state is managed by the UI itself
+        // The UI state is managed by the UI itself.
         var count by remember { mutableStateOf(0) }
         Row {
             Button(onClick = { ++count }) {
@@ -84,14 +82,10 @@ private object StateHoldersSnippet2 {
             }
         }
 
-        // Create the LazyColumn with the lazyListState
-        // [START_EXCLUDE]
-        LazyColumn(state = listState) {
-            items(contacts) { Text(it.name) }
-        }
-        // [END_EXCLUDE]
+        // Create the LazyColumn with the lazyListState.
+        // ...
 
-        // Show or hide the button (UI logic) based on the list scroll position
+        // Show or hide the button (UI logic) based on the list scroll position.
         AnimatedVisibility(visible = !isAtTopOfList) {
             ScrollToTopButton()
         }
@@ -109,10 +103,10 @@ private object StateHoldersSnippet3 {
     // [START android_architecture_stateholders_business_logic_user_profile]
     @Composable
     fun UserProfileScreen(viewModel: UserProfileViewModel = hiltViewModel()) {
-        // Read screen UI state from the business logic state holder
+        // Read screen UI state from the business logic state holder.
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        // Call on the UserAvatar Composable to display the photo
+        // Call on the UserAvatar Composable to display the photo.
         UserAvatar(picture = uiState.profilePicture)
     }
     // [END android_architecture_stateholders_business_logic_user_profile]
@@ -131,26 +125,22 @@ private object StateHoldersSnippet4 {
     // [START android_architecture_stateholders_business_and_ui_logic_contacts]
     @Composable
     fun ContactsList(viewModel: ContactsViewModel = hiltViewModel()) {
-        // Read screen UI state from the business logic state holder
+        // Read screen UI state from the business logic state holder.
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val contacts = uiState.contacts
         val deepLinkedContact = uiState.deepLinkedContact
 
         val listState = rememberLazyListState()
 
-        // Create the LazyColumn with the lazyListState
-        // [START_EXCLUDE]
-        LazyColumn(state = listState) {
-            items(contacts) { Text(it.name) }
-        }
-        // [END_EXCLUDE]
+        // Create the LazyColumn with the lazyListState.
+        // ...
 
-        // Perform UI logic that depends on information from business logic
+        // Perform UI logic that depends on information from business logic.
         if (deepLinkedContact != null && contacts.isNotEmpty()) {
             LaunchedEffect(listState, deepLinkedContact, contacts) {
                 val deepLinkedContactIndex = contacts.indexOf(deepLinkedContact)
                 if (deepLinkedContactIndex >= 0) {
-                    // Scroll to deep linked item
+                    // Scroll to deep linked item.
                     listState.animateScrollToItem(deepLinkedContactIndex)
                 }
             }
@@ -159,6 +149,7 @@ private object StateHoldersSnippet4 {
     // [END android_architecture_stateholders_business_and_ui_logic_contacts]
 }
 
+// Non-private wrapper object required because Hilt/Dagger codegen (@HiltViewModel) rejects private enclosing classes.
 object StateHoldersSnippet5 {
     interface AuthorsRepository
     interface NewsRepository
@@ -172,12 +163,16 @@ object StateHoldersSnippet5 {
         newsRepository: NewsRepository
     ) : ViewModel() {
 
-        val uiState: StateFlow<AuthorScreenUiState> =
-            // [START_EXCLUDE]
-            MutableStateFlow(AuthorScreenUiState())
-            // [END_EXCLUDE]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        val uiState: StateFlow<AuthorScreenUiState> = …
+        // [START_EXCLUDE silent]
+         */
+        val uiState: StateFlow<AuthorScreenUiState> = MutableStateFlow(AuthorScreenUiState())
+        // [END_EXCLUDE]
 
-        // Business logic
+        // Business logic.
         fun followAuthor(followed: Boolean) {
             // ...
         }
@@ -195,21 +190,21 @@ private object StateHoldersSnippet6 {
         val windowSizeClass: WindowSizeClass
     ) {
 
-        // UI logic
+        // UI logic.
         val shouldShowBottomBar: Boolean
             get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact ||
                 windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
 
-        // UI logic
+        // UI logic.
         val shouldShowNavRail: Boolean
             get() = !shouldShowBottomBar
 
-        // UI State
+        // UI State.
         val currentDestination: NavDestination?
             @Composable get() = navController
                 .currentBackStackEntryAsState().value?.destination
 
-        // UI logic
+        // UI logic.
         fun navigate(destination: NiaNavigationDestination, route: String? = null) { /* ... */ }
 
         /* ... */
@@ -219,13 +214,11 @@ private object StateHoldersSnippet6 {
 
 private object StateHoldersSnippet7 {
     enum class DrawerValue { Closed, Open }
+    class SwipeableState(vararg args: Any?)
 
     // [START android_architecture_stateholders_compoundable_state_holders]
     @Stable
     class DrawerState(/* ... */) {
-        // [START_EXCLUDE silent]
-        class SwipeableState(vararg args: Any?)
-        // [END_EXCLUDE]
         internal val swipeableState = SwipeableState(/* ... */)
         // ...
     }
@@ -256,18 +249,18 @@ private object StateHoldersSnippet8 {
         fun toSomeState(): SomeState = SomeState()
     }
 
-    // Lets the snippet pass `uiState.map { ... }` where a StateFlow is expected.
-    fun <T, R> StateFlow<T>.map(transform: (T) -> R): StateFlow<R> =
-        MutableStateFlow(transform(value))
-
     fun viewModel(): MyScreenViewModel = MyScreenViewModel()
 
     // [START android_architecture_stateholders_dependencies_pass_params]
     class MyScreenViewModel(/* ... */) {
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
         val uiState: StateFlow<MyScreenUiState> = /* ... */
-            // [START_EXCLUDE silent]
-            MutableStateFlow(MyScreenUiState())
-            // [END_EXCLUDE]
+        // [START_EXCLUDE silent]
+         */
+        val uiState: StateFlow<MyScreenUiState> = MutableStateFlow(MyScreenUiState())
+        // [END_EXCLUDE]
         fun doSomething() { /* ... */ }
         fun doAnotherThing() { /* ... */ }
         // ...
@@ -275,14 +268,14 @@ private object StateHoldersSnippet8 {
 
     @Stable
     class MyScreenState(
-        // DO NOT pass a ViewModel instance to a plain state holder class
+        // DO NOT pass a ViewModel instance to a plain state holder class.
         // private val viewModel: MyScreenViewModel,
 
-        // Instead, pass only what it needs as a dependency
-        private val someState: StateFlow<SomeState>,
+        // Instead, pass only what it needs as a dependency.
+        private val someState: Flow<SomeState>,
         private val doSomething: () -> Unit,
 
-        // Other UI-scoped types
+        // Other UI-scoped types.
         private val scaffoldState: ScaffoldState
     ) {
         /* ... */
@@ -290,7 +283,7 @@ private object StateHoldersSnippet8 {
 
     @Composable
     fun rememberMyScreenState(
-        someState: StateFlow<SomeState>,
+        someState: Flow<SomeState>,
         doSomething: () -> Unit,
         scaffoldState: ScaffoldState = rememberScaffoldState()
     ): MyScreenState = remember(someState, doSomething, scaffoldState) {

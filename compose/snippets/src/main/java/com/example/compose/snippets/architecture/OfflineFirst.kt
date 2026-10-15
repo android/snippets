@@ -17,10 +17,13 @@
 package com.example.compose.snippets.architecture
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
 import androidx.paging.Pager
-import androidx.paging.PagingSource
 import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.ColumnInfo
@@ -39,8 +42,6 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlin.reflect.KClass
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +51,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
@@ -204,12 +204,16 @@ private object OfflineFirstSnippet5 {
         authorId: String = ""
         // [END_EXCLUDE]
     ) : ViewModel() {
-        private val authorId: String =
-            // [START_EXCLUDE]
-            authorId
-            // [END_EXCLUDE]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        private val authorId: String = ...
+        // [START_EXCLUDE silent]
+         */
+        private val authorId: String = authorId
+        // [END_EXCLUDE]
 
-        // Observe author information
+        // Observe author information.
         private val authorStream: Flow<Author> =
             authorsRepository.getAuthorStream(
                 id = authorId
@@ -227,7 +231,7 @@ private object OfflineFirstSnippet6 {
     }
 
     // [START android_architecture_offline_first_author_lce]
-    // Define the LCE UI state
+    // Define the LCE UI state.
     sealed interface AuthorUiState {
         data object Loading : AuthorUiState
         data class Success(val author: Author) : AuthorUiState
@@ -240,12 +244,16 @@ private object OfflineFirstSnippet6 {
         authorId: String = ""
         // [END_EXCLUDE]
     ) : ViewModel() {
-        private val authorId: String =
-            // [START_EXCLUDE]
-            authorId
-            // [END_EXCLUDE]
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        private val authorId: String = ...
+        // [START_EXCLUDE silent]
+         */
+        private val authorId: String = authorId
+        // [END_EXCLUDE]
 
-        // Observe author information and map to LCE state
+        // Observe author information and map to LCE state.
         val authorUiState: StateFlow<AuthorUiState> =
             authorsRepository.getAuthorStream(id = authorId)
                 .map<Author, AuthorUiState> { author ->
@@ -278,7 +286,7 @@ private object OfflineFirstSnippet8 {
     data class FeedItem(val id: String)
     class FeedRemoteMediator(/* ... */) : RemoteMediator<Int, FeedItem>() {
         override suspend fun load(
-            loadType: androidx.paging.LoadType,
+            loadType: LoadType,
             state: PagingState<Int, FeedItem>
         ): MediatorResult = MediatorResult.Success(endOfPaginationReached = true)
     }
@@ -288,7 +296,7 @@ private object OfflineFirstSnippet8 {
 
         fun feedPagingSource(): PagingSource<Int, FeedItem> {
             // [START_EXCLUDE]
-            return object : androidx.paging.PagingSource<Int, FeedItem>() {
+            return object : PagingSource<Int, FeedItem>() {
                 override fun getRefreshKey(state: PagingState<Int, FeedItem>): Int? = null
                 override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FeedItem> =
                     LoadResult.Page(emptyList(), null, null)
@@ -296,6 +304,7 @@ private object OfflineFirstSnippet8 {
             // [END_EXCLUDE]
         }
     }
+
     class FeedViewModel(
         private val feedRepository: FeedRepository
     ) : ViewModel() {
@@ -353,7 +362,7 @@ private object OfflineFirstSnippet10 {
         override fun create(context: Context): Sync {
             WorkManager.getInstance(context).apply {
                 // Queue sync on app startup and ensure only one
-                // sync worker runs at any time
+                // sync worker runs at any time.
                 enqueueUniqueWork(
                     SyncWorkName,
                     ExistingWorkPolicy.KEEP,
@@ -419,7 +428,7 @@ private object OfflineFirstSnippet12 {
     ) : CoroutineWorker(appContext, workerParams), Synchronizer {
 
         override suspend fun doWork(): Result = withContext(ioDispatcher) {
-            // First sync the repositories in parallel
+            // First sync the repositories in parallel.
             val syncedSuccessfully = awaitAll(
                 async { topicRepository.sync() },
                 async { authorsRepository.sync() },

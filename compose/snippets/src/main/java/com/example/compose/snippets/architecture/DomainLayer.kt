@@ -130,7 +130,7 @@ private object DomainLayerSnippet6 {
                 val result: MutableList<ArticleWithAuthor> = mutableListOf()
                 // This is not parallelized, the use case is linearly slow.
                 for (article in news) {
-                    // The repository exposes suspend functions
+                    // The repository exposes suspend functions.
                     val author = authorsRepository.getAuthor(article.authorId)
                     result.add(ArticleWithAuthor(article, author))
                 }
