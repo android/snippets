@@ -16,7 +16,6 @@
 
 package com.example.snippets.backgroundwork
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
@@ -30,7 +29,8 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 
-@SuppressLint("ObsoleteSdkInt")
+private const val notificationId = 1
+
 // [START android_background_long_running_coroutine_worker]
 class DownloadWorker(context: Context, parameters: WorkerParameters) :
     CoroutineWorker(context, parameters) {
@@ -38,10 +38,6 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as
                 NotificationManager
-
-    // [START_EXCLUDE silent]
-    private val notificationId = 1
-    // [END_EXCLUDE]
     override suspend fun doWork(): Result {
         val inputUrl = inputData.getString(KEY_INPUT_URL)
             ?: return Result.failure()
