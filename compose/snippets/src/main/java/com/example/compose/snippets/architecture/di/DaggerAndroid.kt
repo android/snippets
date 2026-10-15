@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("ktlint:standard:no-empty-class-body")
-
 package com.example.compose.snippets.architecture.di
 
 import android.app.Activity
@@ -154,6 +152,7 @@ internal object DaggerAndroidGraph {
     }
     // [END android_di_dagger_android_network_module]
 
+    @Suppress("ktlint:standard:no-empty-class-body")
     @DisableInstallInCheck
     // [START android_di_dagger_android_subcomponents_module]
     // The "subcomponents" attribute in the @Module annotation tells Dagger what
@@ -172,6 +171,7 @@ internal object DaggerAndroidGraph {
     }
     // [END android_di_dagger_android_expose_subcomponent_factory]
 
+    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_test_application_component]
     // TestApplicationComponent extends from ApplicationComponent to have them both
     // with the same interface methods. You need to include the modules of the
@@ -270,6 +270,7 @@ internal object DaggerAndroidSingletonScope {
 
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidLoginComponentEmpty {
+    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_login_component_empty]
     @Component
     interface LoginComponent {}
@@ -324,6 +325,7 @@ private object DaggerAndroidLoginSubcomponentFactory {
 
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidComponentWithSubcomponentsModule {
+    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_component_with_subcomponents_module]
     // Including SubcomponentsModule, tell ApplicationComponent that
     // LoginComponent is its subcomponent.

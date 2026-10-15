@@ -21,11 +21,15 @@ import android.app.Application
 import android.os.Bundle
 import com.example.compose.snippets.architecture.di.DaggerDaggerMultiModuleGraph_AppComponent as DaggerAppComponent
 import com.example.compose.snippets.architecture.di.DaggerDaggerMultiModuleGraph_LoginComponent as DaggerLoginComponent
+import com.example.compose.snippets.architecture.di.DaggerDaggerMultiModuleSubcomponentSolution_ApplicationComponent as DaggerApplicationComponent
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleAppComponentInitial.UserRepository
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleGraph.AppComponent
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleLoginActivityInject.LoginActivity
 import com.example.compose.snippets.architecture.di.DaggerMultiModuleLoginViewModel.LoginViewModel
 import dagger.Component
+import dagger.Module
+import dagger.Subcomponent
+import dagger.hilt.migration.DisableInstallInCheck
 import javax.inject.Inject
 import javax.inject.Scope
 import javax.inject.Singleton
@@ -68,8 +72,11 @@ private object DaggerMultiModuleSubcomponentProblem {
     // [END android_di_dagger_multimodule_subcomponent_problem]
 }
 
-private object DaggerMultiModuleSubcomponentSolution {
+// internal required for Dagger KSP generated Java classes.
+internal object DaggerMultiModuleSubcomponentSolution {
+    @Subcomponent
     interface LoginComponent {
+        @Subcomponent.Factory
         interface Factory {
             fun create(): LoginComponent
         }
@@ -77,18 +84,13 @@ private object DaggerMultiModuleSubcomponentSolution {
         fun inject(activity: LoginActivity)
     }
 
+    @DisableInstallInCheck
+    @Module(subcomponents = [LoginComponent::class])
+    class SubcomponentsModule
+
+    @Component(modules = [SubcomponentsModule::class])
     interface ApplicationComponent {
         fun loginComponent(): LoginComponent.Factory
-    }
-
-    object DaggerApplicationComponent {
-        fun create(): ApplicationComponent = object : ApplicationComponent {
-            override fun loginComponent(): LoginComponent.Factory = object : LoginComponent.Factory {
-                override fun create(): LoginComponent = object : LoginComponent {
-                    override fun inject(activity: LoginActivity) {}
-                }
-            }
-        }
     }
 
     // [START android_di_dagger_multimodule_login_component_provider]
