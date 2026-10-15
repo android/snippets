@@ -25,10 +25,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.runner.AndroidJUnitRunner
+import com.example.compose.snippets.architecture.di.HiltTestingAnalyticsModuleSnippet.AnalyticsModule
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.CustomTestApplication
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -40,7 +40,6 @@ import dagger.hilt.testing.TestInstallIn
 import javax.inject.Inject
 import javax.inject.Qualifier
 import javax.inject.Singleton
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +48,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 import org.mockito.Mock
-import org.robolectric.annotation.Config
 
 private class HiltTestActivity : ComponentActivity()
 
@@ -58,8 +56,6 @@ private open class BaseApplication : Application()
 private class FakeAnalyticsService @Inject constructor() : AnalyticsService {
     override fun analyticsMethods() {}
 }
-
-private val fakeAnalyticsService: AnalyticsService = FakeAnalyticsService()
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -78,36 +74,6 @@ private class SomeOtherRule : TestRule {
 
 private class SettingsScreenTestRule : TestRule {
     override fun apply(base: Statement, description: Description): Statement = base
-}
-
-private object HiltTestingUnitTestSnippet {
-    // Note: AnalyticsAdapter would normally live in the main source set.
-    // [START android_di_hilt_testing_unit_test]
-    @ActivityScoped
-    class AnalyticsAdapter @Inject constructor(
-        private val service: AnalyticsService
-    ) {
-        // ...
-    }
-
-    class AnalyticsAdapterTest {
-
-        @Test
-        fun `Happy path`() {
-            // You don't need Hilt to create an instance of AnalyticsAdapter.
-            // You can pass a fake or mock AnalyticsService.
-            val adapter = AnalyticsAdapter(fakeAnalyticsService)
-            // [START_EXCLUDE silent]
-            /*
-            // [END_EXCLUDE]
-            assertEquals(...)
-            // [START_EXCLUDE silent]
-            */
-            assertEquals(adapter, adapter)
-            // [END_EXCLUDE]
-        }
-    }
-    // [END android_di_hilt_testing_unit_test]
 }
 
 private object HiltTestingUiTestSetupSnippet {
@@ -136,20 +102,6 @@ private object HiltTestingCustomTestRunnerSnippet {
         }
     }
     // [END android_di_hilt_testing_custom_test_runner]
-}
-
-private object HiltTestingRobolectricConfigSnippet {
-    // [START android_di_hilt_testing_robolectric_config]
-    @HiltAndroidTest
-    @Config(application = HiltTestApplication::class)
-    class SettingsScreenTest {
-
-        @get:Rule
-        var hiltRule = HiltAndroidRule(this)
-
-        // Robolectric tests here.
-    }
-    // [END android_di_hilt_testing_robolectric_config]
 }
 
 private object HiltTestingInjectInTestsSnippet {
@@ -219,9 +171,7 @@ private object HiltTestingUninstallModulesSnippet {
     // [START android_di_hilt_testing_uninstall_modules]
     @UninstallModules(AnalyticsModule::class)
     @HiltAndroidTest
-    class SettingsScreenTest {
-        // ...
-    }
+    class SettingsScreenTest { /* ... */ }
     // [END android_di_hilt_testing_uninstall_modules]
 }
 

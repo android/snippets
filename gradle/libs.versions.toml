@@ -41,6 +41,7 @@ androidx-window-core = "1.5.1"
 androidx-window-java = "1.5.1"
 androidx-work-runtime = "2.11.2"
 androidxHiltNavigationCompose = "1.4.0"
+androidxHiltWork = "1.4.0"
 appcompat = "1.7.1"
 camera-camera2 = "1.6.1"
 coil = "2.7.0"
@@ -221,7 +222,7 @@ androidx-glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-too
 androidx-graphics-shapes = "androidx.graphics:graphics-shapes:1.1.0"
 androidx-health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
-androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidxHiltNavigationCompose" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidxHiltWork" }
 androidx-ink-authoring = { module = "androidx.ink:ink-authoring", version.ref = "androidx-ink" }
 androidx-ink-authoring-android = { module = "androidx.ink:ink-authoring-android", version.ref = "androidx-ink" }
 androidx-ink-authoring-compose = { module = "androidx.ink:ink-authoring-compose", version.ref = "androidx-ink" }
@@ -332,7 +333,6 @@ googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.
 googlemaps-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "hilt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
