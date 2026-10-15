@@ -22,8 +22,6 @@ import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import java.util.UUID
 
 private const val PHOTO_UPLOAD_WORK_NAME = "photo_upload"
@@ -70,8 +68,4 @@ private fun trackWorkGeneration(context: Context, oldWorkRequestId: UUID) {
     // Retrieve the generation.
     val generation = workInfo?.generation
     // [END android_background_track_work_generation]
-}
-
-class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
-    override fun doWork(): Result = Result.success()
 }

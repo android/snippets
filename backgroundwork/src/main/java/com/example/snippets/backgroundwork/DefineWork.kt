@@ -34,6 +34,8 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import java.util.concurrent.TimeUnit
 
+private const val NOTIFICATION_ID = 1
+
 private fun enqueueWorkSample(myContext: Context) {
     // [START android_background_enqueue_work_request]
     val myWorkRequest = OneTimeWorkRequestBuilder<MyWork>().build()
@@ -84,12 +86,6 @@ class ExpeditedWorker(appContext: Context, workerParams: WorkerParameters) :
     private fun createNotification(): Notification {
         TODO()
     }
-
-    // [START_EXCLUDE silent]
-    companion object {
-        private const val NOTIFICATION_ID = 1
-    }
-    // [END_EXCLUDE]
 }
 // [END android_background_expedited_coroutine_worker]
 

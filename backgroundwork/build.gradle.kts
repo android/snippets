@@ -26,14 +26,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.work.multiprocess)
     implementation(libs.androidx.concurrent.futures.ktx)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.work.multiprocess)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.appcompat)
     implementation(libs.google.android.material)
-    implementation(libs.guava.android)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
