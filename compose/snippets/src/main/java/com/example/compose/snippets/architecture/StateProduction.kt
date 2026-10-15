@@ -62,7 +62,7 @@ private object StateProductionSnippet1 {
         private val _uiState = MutableDiceUiState()
         val uiState: DiceUiState = _uiState
 
-        // Called from the UI
+        // Called from the UI.
         fun rollDice() {
             _uiState.firstDieValue = Random.nextInt(from = 1, until = 7)
             _uiState.secondDieValue = Random.nextInt(from = 1, until = 7)
@@ -85,7 +85,7 @@ private object StateProductionSnippet2 {
         private val _uiState = MutableStateFlow(DiceUiState())
         val uiState: StateFlow<DiceUiState> = _uiState.asStateFlow()
 
-        // Called from the UI
+        // Called from the UI.
         fun rollDice() {
             _uiState.update { currentState ->
                 currentState.copy(
@@ -231,10 +231,10 @@ private object StateProductionSnippet5 {
         private val _uiState = MutableDiceUiState()
         val uiState: DiceUiState = _uiState
 
-        // Called from the UI
+        // Called from the UI.
         fun rollDice() {
             viewModelScope.launch {
-                // Other Coroutines that may be called from the current context
+                // Other Coroutines that may be called from the current context.
                 // ...
                 withContext(defaultDispatcher) {
                     Snapshot.withMutableSnapshot {
@@ -268,10 +268,10 @@ private object StateProductionSnippet6 {
         private val _uiState = MutableStateFlow(DiceUiState())
         val uiState: StateFlow<DiceUiState> = _uiState.asStateFlow()
 
-        // Called from the UI
+        // Called from the UI.
         fun rollDice() {
             viewModelScope.launch {
-                // Other Coroutines that may be called from the current context
+                // Other Coroutines that may be called from the current context.
                 // ...
                 withContext(defaultDispatcher) {
                     _uiState.update { currentState ->
@@ -328,6 +328,7 @@ private object StateProductionSnippet7 {
     // [END android_architecture_state_production_interests_viewmodel]
 }
 
+// Non-private wrapper object required because Hilt/Dagger codegen (@Inject constructor) rejects private enclosing classes.
 object StateProductionSnippet8 {
     data class Task(val name: String)
     data class Async<T>(val data: Task? = null)
@@ -359,7 +360,7 @@ object StateProductionSnippet8 {
                 isTaskDeleted = isTaskDeleted
             )
         }
-            // Convert the result to the appropriate observable API for the UI
+            // Convert the result to the appropriate observable API for the UI.
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -374,6 +375,7 @@ object StateProductionSnippet8 {
     // [END android_architecture_state_production_task_detail_compose_state]
 }
 
+// Non-private wrapper object required because Hilt/Dagger codegen (@Inject constructor) rejects private enclosing classes.
 object StateProductionSnippet9 {
     data class Task(val name: String)
     data class Async<T>(val data: Task? = null)
@@ -405,7 +407,7 @@ object StateProductionSnippet9 {
                 isTaskDeleted = isTaskDeleted
             )
         }
-            // Convert the result to the appropriate observable API for the UI
+            // Convert the result to the appropriate observable API for the UI.
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -433,7 +435,7 @@ private object StateProductionSnippet10 {
             initializeCalled = true
 
             viewModelScope.launch {
-                // seed the state production pipeline
+                // seed the state production pipeline.
             }
         }
     }
