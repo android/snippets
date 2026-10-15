@@ -16,6 +16,7 @@
 
 package com.example.compose.snippets.architecture
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -29,8 +30,10 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.rememberViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.rememberViewModelStoreProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavigatorProvider
+import androidx.navigation.compose.composable
 
 private object ViewModelApisSnippet1 {
     class MyViewModel : ViewModel()
@@ -41,7 +44,7 @@ private object ViewModelApisSnippet1 {
     @Composable
     fun MyScreen(
         modifier: Modifier = Modifier,
-        // ViewModel API available in lifecycle.lifecycle-viewmodel-compose
+        // ViewModel API available in lifecycle.lifecycle-viewmodel-compose.
         // The ViewModel is scoped to the closest ViewModelStoreOwner provided
         // via the LocalViewModelStoreOwner CompositionLocal. In order of proximity,
         // this could be the destination of a Navigation graph
@@ -60,9 +63,9 @@ private object ViewModelApisSnippet2 {
 
     @Composable
     fun MyScreen(
-        // A custom owner passed in, such as a parent NavBackStackEntry
+        // A custom owner passed in, such as a parent NavBackStackEntry.
         customOwner: ViewModelStoreOwner,
-        // The ViewModel is now scoped to the provided customOwner
+        // The ViewModel is now scoped to the provided customOwner.
         viewModel: MyViewModel = viewModel(viewModelStoreOwner = customOwner)
     ) {
         /* ... */
@@ -86,7 +89,7 @@ private object ViewModelApisSnippet3 {
             // It will survive configuration changes but will be cleared when
             // the composable is removed from the UI tree.
             val viewModel = viewModel { TestViewModel("scoped_data") }
-            // Use the ViewModel
+            // Use the ViewModel.
         }
     }
     // [END android_architecture_viewmodel_apis_remember_owner]
@@ -103,17 +106,19 @@ private object ViewModelApisSnippet3 {
 
             CompositionLocalProvider(LocalViewModelStoreOwner provides pageOwner) {
                 val pageViewModel = viewModel { TestViewModel(pages[page]) }
-                // Use pageViewModel
+                // Use pageViewModel.
             }
         }
     }
     // [END android_architecture_viewmodel_apis_remember_provider]
 }
 
-private class ViewModelApisSnippet5 {
+@SuppressLint("ComposableDestinationInComposeScope")
+private abstract class ViewModelApisSnippet5(
+    provider: NavigatorProvider
+) : NavGraphBuilder(provider, "start", null) {
     class SharedViewModel : ViewModel()
     lateinit var navController: NavController
-    fun composable(route: String, content: @Composable (NavBackStackEntry) -> Unit) {}
 
     // [START android_architecture_viewmodel_apis_nav_graph]
     // import androidx.lifecycle.viewmodel.compose.viewModel
@@ -122,11 +127,11 @@ private class ViewModelApisSnippet5 {
     fun MyAppNavHost() {
         // ...
         composable("myScreen") { backStackEntry ->
-            // Retrieve the NavBackStackEntry of "parentNavigationRoute"
+            // Retrieve the NavBackStackEntry of "parentNavigationRoute".
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry("parentNavigationRoute")
             }
-            // Get the ViewModel scoped to the `parentNavigationRoute` Nav graph
+            // Get the ViewModel scoped to the `parentNavigationRoute` Nav graph.
             val parentViewModel: SharedViewModel = viewModel(parentEntry)
             // ...
         }
@@ -134,10 +139,12 @@ private class ViewModelApisSnippet5 {
     // [END android_architecture_viewmodel_apis_nav_graph]
 }
 
-private class ViewModelApisSnippet6 {
+@SuppressLint("ComposableDestinationInComposeScope")
+private abstract class ViewModelApisSnippet6(
+    provider: NavigatorProvider
+) : NavGraphBuilder(provider, "start", null) {
     class SharedViewModel : ViewModel()
     lateinit var navController: NavController
-    fun composable(route: String, content: @Composable (NavBackStackEntry) -> Unit) {}
 
     // [START android_architecture_viewmodel_apis_hilt_nav_graph]
     // import androidx.hilt.navigation.compose.hiltViewModel
@@ -150,9 +157,9 @@ private class ViewModelApisSnippet6 {
                 navController.getBackStackEntry("parentNavigationRoute")
             }
 
-            // ViewModel API available in hilt.hilt-navigation-compose
+            // ViewModel API available in hilt.hilt-navigation-compose.
             // The ViewModel is scoped to the `parentNavigationRoute` Navigation graph
-            // and is provided using the Hilt-generated ViewModel factory
+            // and is provided using the Hilt-generated ViewModel factory.
             val parentViewModel: SharedViewModel = hiltViewModel(parentEntry)
             // ...
         }

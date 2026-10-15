@@ -64,14 +64,14 @@ private object PagingLoadStateSnippets {
             val pagingItems = viewModel.flow.collectAsLazyPagingItems()
 
             Box(modifier = Modifier.fillMaxSize()) {
-                // Show the list content
+                // Show the list content.
                 LazyColumn {
                     items(pagingItems.itemCount) { index ->
                         UserItem(pagingItems[index])
                     }
                 }
 
-                // Handle the loading state
+                // Handle the loading state.
                 when (val state = pagingItems.loadState.refresh) {
                     is LoadState.Loading -> {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -83,7 +83,7 @@ private object PagingLoadStateSnippets {
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                    else -> {} // No separate view needed for success/not loading
+                    else -> {} // No separate view needed for success/not loading.
                 }
             }
         }
@@ -101,8 +101,8 @@ private object PagingLoadStateSnippets {
             val pagingItems = viewModel.pager.flow.collectAsLazyPagingItems()
 
             LazyColumn {
-                // 1. Header (Prepend state)
-                // Useful if you support bidirectional paging or jumping to the middle
+                // 1. Header (Prepend state).
+                // Useful if you support bidirectional paging or jumping to the middle.
                 item {
                     val prependState = pagingItems.loadState.prepend
                     if (prependState is LoadState.Loading) {
@@ -115,13 +115,13 @@ private object PagingLoadStateSnippets {
                     }
                 }
 
-                // 2. Main Data
+                // 2. Main Data.
                 items(pagingItems.itemCount) { index ->
                     UserItem(pagingItems[index])
                 }
 
-                // 3. Footer (Append state)
-                // Shows when the user scrolls to the bottom and more data is loading
+                // 3. Footer (Append state).
+                // Shows when the user scrolls to the bottom and more data is loading.
                 item {
                     val appendState = pagingItems.loadState.append
                     if (appendState is LoadState.Loading) {
@@ -194,13 +194,13 @@ private object PagingLoadStateSnippets {
             val listState = rememberLazyListState()
 
             LaunchedEffect(pagingItems) {
-                // 1. Convert the state to a Flow
+                // 1. Convert the state to a Flow.
                 snapshotFlow { pagingItems.loadState.refresh }
-                    // 2. Filter for the specific event (Refresh completed successfully)
+                    // 2. Filter for the specific event (Refresh completed successfully).
                     .distinctUntilChanged()
                     .filter { it is LoadState.NotLoading }
                     .collect {
-                        // 3. Trigger the side effect
+                        // 3. Trigger the side effect.
                         listState.animateScrollToItem(0)
                     }
             }

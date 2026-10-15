@@ -57,20 +57,20 @@ private object PagingMigrationSnippets {
         // [END android_architecture_paging_migration_refresh_key_positional]
     }
 
-    abstract class ExamplePagingSource(
+    class ExamplePagingSource(
         val backend: ExampleBackendService,
         val query: String
-    ) : PagingSource<Int, User>()
+    ) : PagingSource<Int, User>() {
+        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> =
+            LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
+
+        override fun getRefreshKey(state: PagingState<Int, User>): Int? = state.anchorPosition
+    }
 
     class MigrationViewModel(
         private val backend: ExampleBackendService,
         private val query: String
     ) : ViewModel() {
-        private fun ExamplePagingSource(
-            backend: ExampleBackendService,
-            query: String
-        ): PagingSource<Int, User> = throw UnsupportedOperationException()
-
         // [START android_architecture_paging_migration_pager_flow]
         val flow = Pager(
             // Configure how data is loaded by passing additional properties to
@@ -93,7 +93,7 @@ private object PagingMigrationSnippets {
     // [START android_architecture_paging_migration_screen]
     @Composable
     fun UserScreen(viewModel: UserViewModel) {
-        // Collects the Flow into a LazyPagingItems object
+        // Collects the Flow into a LazyPagingItems object.
         val lazyPagingItems = viewModel.pager.flow.collectAsLazyPagingItems()
 
         UserList(lazyPagingItems)
@@ -104,7 +104,7 @@ private object PagingMigrationSnippets {
         LazyColumn {
             items(
                 count = lazyPagingItems.itemCount,
-                // Provide a stable key for each item, similar to DiffUtil in Views
+                // Provide a stable key for each item, similar to DiffUtil in Views.
                 key = lazyPagingItems.itemKey { user -> user.id }
             ) { index ->
                 val user = lazyPagingItems[index]
@@ -118,17 +118,17 @@ private object PagingMigrationSnippets {
 
     @Composable
     fun LoadingStateListExample(lazyPagingItems: LazyPagingItems<User>) {
-        // [START android_architecture_paging_migration_item_content_type]
+        // [START android_architecture_paging_migration_append_loading]
         LazyColumn {
             // ... items(lazyPagingItems) go here ...
 
-            // Show loading spinner at bottom of list when appending data
+            // Show loading spinner at bottom of list when appending data.
             if (lazyPagingItems.loadState.append is LoadState.Loading) {
                 item {
                     CircularProgressIndicator(modifier = Modifier.fillMaxWidth())
                 }
             }
         }
-        // [END android_architecture_paging_migration_item_content_type]
+        // [END android_architecture_paging_migration_append_loading]
     }
 }

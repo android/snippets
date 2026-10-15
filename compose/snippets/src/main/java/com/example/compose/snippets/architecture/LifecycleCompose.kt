@@ -16,6 +16,9 @@
 
 package com.example.compose.snippets.architecture
 
+import android.annotation.SuppressLint
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -60,7 +63,7 @@ private object LifecycleComposeSnippet3 {
     // [START android_architecture_lifecycle_event_effect]
     @Composable
     fun AnalyticsTracker(screenName: String) {
-        // Log an event when the app receives ON_RESUME (e.g. comes to foreground)
+        // Log an event when the app receives ON_RESUME (e.g. comes to foreground).
         LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
             Analytics.logView(screenName)
         }
@@ -68,28 +71,20 @@ private object LifecycleComposeSnippet3 {
     // [END android_architecture_lifecycle_event_effect]
 }
 
+@SuppressLint("MissingPermission")
 private object LifecycleComposeSnippet4 {
-    fun interface LocationListener {
-        fun onLocationChanged(location: Any)
-    }
-
-    class LocationManager {
-        fun requestLocationUpdates(listener: LocationListener) {}
-        fun removeUpdates(listener: LocationListener) {}
-    }
-
     // [START android_architecture_lifecycle_start_effect]
     @Composable
     fun LocationMonitor(locationManager: LocationManager) {
-        // Starts monitoring when ON_START is dispatched
+        // Starts monitoring when ON_START is dispatched.
         // Stops monitoring when ON_STOP is dispatched
-        //   (or the composable leaves the screen)
+        //   (or the composable leaves the screen).
         LifecycleStartEffect(locationManager) {
             val listener = LocationListener { location ->
                 /* update UI */
             }
-            locationManager.requestLocationUpdates(listener)
-            // The cleanup block automatically runs on ON_STOP or on disposal
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 0f, listener)
+            // The cleanup block automatically runs on ON_STOP or on disposal.
             onStopOrDispose {
                 locationManager.removeUpdates(listener)
             }

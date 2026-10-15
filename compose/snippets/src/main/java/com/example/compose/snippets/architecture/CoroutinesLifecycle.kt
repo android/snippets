@@ -50,7 +50,7 @@ private object CoroutinesLifecycleSnippet2 {
     // [START android_architecture_coroutines_dashboard_screen]
     @Composable
     fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
-        // Both flows are collected safely in parallel and will emit updates when either changes, the composables will recompose
+        // Both flows are collected safely in parallel and will emit updates when either changes, the composables will recompose.
         val userData by viewModel.userFlow.collectAsStateWithLifecycle()
         val feedData by viewModel.feedFlow.collectAsStateWithLifecycle()
 
