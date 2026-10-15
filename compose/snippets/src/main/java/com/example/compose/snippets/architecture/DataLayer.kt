@@ -60,9 +60,13 @@ private object DataLayerSnippet2 {
         private val exampleLocalDataSource: ExampleLocalDataSource // database
     ) {
 
-        val data: Flow<Example> =
-            // [START_EXCLUDE]
-            flowOf(Example())
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        val data: Flow<Example> = ...
+        // [START_EXCLUDE silent]
+         */
+        val data: Flow<Example> = flowOf(Example())
         // [END_EXCLUDE]
 
         suspend fun modifyData(example: Example) { /* ... */ }
@@ -166,7 +170,7 @@ private object DataLayerSnippet7 {
         suspend fun getLatestNews(refresh: Boolean = false): List<ArticleHeadline> {
             if (refresh || latestNews.isEmpty()) {
                 val networkResult = newsRemoteDataSource.fetchLatestNews()
-                // Thread-safe write to latestNews
+                // Thread-safe write to latestNews.
                 latestNewsMutex.withLock {
                     this.latestNews = networkResult
                 }
@@ -183,9 +187,7 @@ private object DataLayerSnippet8 {
 
     // [START android_architecture_data_layer_external_scope_constructor]
     class NewsRepository(
-        // [START_EXCLUDE]
-        newsRemoteDataSource: NewsRemoteDataSource,
-        // [END_EXCLUDE]
+        // ...
         // This could be CoroutineScope(SupervisorJob() + Dispatchers.Default).
         private val externalScope: CoroutineScope
     ) { /* ... */ }
@@ -203,8 +205,7 @@ private object DataLayerSnippet9 {
         private val newsRemoteDataSource: NewsRemoteDataSource,
         private val externalScope: CoroutineScope
     ) {
-        /* ... */
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         private val latestNewsMutex = Mutex()
         private var latestNews: List<ArticleHeadline> = emptyList()
         // [END_EXCLUDE]

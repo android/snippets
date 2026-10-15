@@ -55,7 +55,7 @@ private object EventsSnippet1 {
     @Composable
     fun LatestNewsScreen(viewModel: LatestNewsViewModel = viewModel()) {
 
-        // State of whether more details should be shown
+        // State of whether more details should be shown.
         var expanded by remember { mutableStateOf(false) }
 
         Column {
@@ -134,14 +134,14 @@ private object EventsSnippet4 {
 
         fun tryLogin(username: String, password: String) {
             viewModelScope.launch {
-                // Emit a new state indicating that login is in progress
+                // Emit a new state indicating that login is in progress.
                 uiState = uiState.copy(isLoginInProgress = true)
 
                 uiState = if (login(username, password)) {
-                    // Emit a new state indicating that login was successful
+                    // Emit a new state indicating that login was successful.
                     uiState.copy(isLoginInProgress = false, isUserLoggedIn = true)
                 } else {
-                    // Emit a new state with the error message
+                    // Emit a new state with the error message.
                     LoginUiState(isLoginInProgress = false, errorMessage = "Login failed")
                 }
             }
@@ -268,7 +268,7 @@ private object EventsSnippet8 {
         onHelp: () -> Unit, // Caller navigates to the help screen
         viewModel: LoginViewModel = viewModel()
     ) {
-        // Rest of the UI
+        // Rest of the UI.
         Button(
             onClick = dropUnlessResumed { onHelp() }
         ) {
@@ -293,19 +293,19 @@ private object EventsSnippet9 {
     ) {
         Button(
             onClick = {
-                // ViewModel validation is triggered
+                // ViewModel validation is triggered.
                 viewModel.tryLogin()
             }
         ) {
             Text("Log in")
         }
-        // Rest of the UI
+        // Rest of the UI.
 
         val lifecycle = LocalLifecycleOwner.current.lifecycle
         val currentOnUserLogIn by rememberUpdatedState(onUserLogIn)
         LaunchedEffect(viewModel, lifecycle) {
             // Whenever the uiState changes, check if the user is logged in and
-            // call the `onUserLogin` event when `lifecycle` is at least STARTED
+            // call the `onUserLogin` event when `lifecycle` is at least STARTED.
             snapshotFlow { viewModel.uiState }
                 .filter { it.isUserLoggedIn }
                 .flowWithLifecycle(lifecycle)
@@ -334,7 +334,7 @@ private object EventsSnippet10 {
         onNavigateToNextScreen: () -> Unit, // Caller navigates to the right screen
         viewModel: DobValidationViewModel = viewModel()
     ) {
-        // TextField that updates the ViewModel when a date of birth is selected
+        // TextField that updates the ViewModel when a date of birth is selected.
 
         var validationInProgress by rememberSaveable { mutableStateOf(false) }
 
@@ -346,7 +346,7 @@ private object EventsSnippet10 {
         ) {
             Text("Continue")
         }
-        // Rest of the UI
+        // Rest of the UI.
 
         /*
          * The following code implements the requirement of advancing automatically

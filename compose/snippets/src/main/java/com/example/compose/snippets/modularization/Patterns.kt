@@ -35,21 +35,12 @@ private object ModularizationSnippet1 {
 
 private object ModularizationSnippet2 {
     class CheckoutUiState
-    class BookRepository {
-        fun getBook(id: String): String = ""
-    }
-
     // [START android_modularization_patterns_checkout_viewmodel]
-    class CheckoutViewModel(
-        savedStateHandle: SavedStateHandle,
-        // [START_EXCLUDE]
-        bookRepository: BookRepository = BookRepository()
-        // [END_EXCLUDE]
-    ) : ViewModel() {
+    class CheckoutViewModel(savedStateHandle: SavedStateHandle, /* ... */) : ViewModel() {
 
         val uiState: StateFlow<CheckoutUiState> =
             savedStateHandle.getStateFlow<String>("bookId", "").map { bookId ->
-                // produce UI state calling bookRepository.getBook(bookId)
+                // produce UI state calling bookRepository.getBook(bookId).
                 // [START_EXCLUDE silent]
                 CheckoutUiState()
                 // [END_EXCLUDE]
