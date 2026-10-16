@@ -16,6 +16,7 @@
 
 package com.example.compose.preview.wasm
 
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 import com.example.compose.preview.wasm.theme.loadPreviewFontFamily
@@ -31,7 +32,10 @@ fun main() {
         // Load the preview font before the first frame so text never flashes in the fallback face.
         val fontFamily = loadPreviewFontFamily()
         ComposeViewport(root) {
-            (document.getElementById("loading") as? HTMLElement)?.style?.display = "none"
+            // Hide the HTML loading spinner once the first composition has been applied.
+            SideEffect {
+                (document.getElementById("loading") as? HTMLElement)?.style?.display = "none"
+            }
             WasmPreviewApp(fontFamily = fontFamily)
         }
     }

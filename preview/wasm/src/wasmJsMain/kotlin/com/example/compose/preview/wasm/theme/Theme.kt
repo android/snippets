@@ -26,6 +26,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.graphics.Color
@@ -639,30 +640,35 @@ data class Theme(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CatalogTheme(theme: Theme, fontFamily: FontFamily? = null, content: @Composable () -> Unit) {
-    val lightColorScheme = when {
-        theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = false)
-        else -> theme.preset.lightColorScheme
+    val isDark = when (theme.themeColorMode) {
+        ThemeColorMode.Light -> false
+        ThemeColorMode.Dark -> true
+        ThemeColorMode.System -> isSystemInDarkTheme()
     }
-    val darkColorScheme = when {
-        theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = true)
-        else -> theme.preset.darkColorScheme
+    // Only build the active scheme, and only when its inputs change (for example not on every
+    // density change while the window is resized).
+    val colorScheme = remember(theme.customColor, theme.preset, isDark) {
+        when {
+            theme.customColor != null -> generateDynamicColorScheme(theme.customColor, darkTheme = isDark)
+            isDark -> theme.preset.darkColorScheme
+            else -> theme.preset.lightColorScheme
+        }
     }
-    val colorScheme = when (theme.themeColorMode) {
-        ThemeColorMode.Light -> lightColorScheme
-        ThemeColorMode.Dark -> darkColorScheme
-        ThemeColorMode.System -> if (isSystemInDarkTheme()) darkColorScheme else lightColorScheme
+    val typography = remember(fontFamily) {
+        fontFamily?.let(::previewTypography) ?: Typography()
     }
 
     val parentDensity = LocalDensity.current
-    CompositionLocalProvider(
-        LocalDensity provides Density(
+    val density = remember(parentDensity, theme.densityScale) {
+        Density(
             density = parentDensity.density * theme.densityScale,
             fontScale = parentDensity.fontScale,
-        ),
-    ) {
+        )
+    }
+    CompositionLocalProvider(LocalDensity provides density) {
         MaterialExpressiveTheme(
             colorScheme = colorScheme,
-            typography = fontFamily?.let(::previewTypography) ?: Typography(),
+            typography = typography,
             content = content,
         )
     }
