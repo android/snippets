@@ -43,6 +43,9 @@ import com.example.compose.preview.wasm.theme.Theme
 import kotlinx.browser.window
 import kotlinx.coroutines.delay
 
+/** Largest density scale applied when fitting a snippet to the stage (1.25x on the DAC stage). */
+private const val MaxDensityScale = 1.25f
+
 /**
  * Root Composable entry point for the WebAssembly (WASM) Compose interactive runner.
  * Manages URL hash synchronization, dynamic theme updates, density scaling, and snippet rendering.
@@ -82,14 +85,18 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
         }
     }
 
-    // Scale the density so the snippet's PreviewFrame fills the stage, matching the area the
+    // Scale the density so the snippet's PreviewFrame fits the stage, matching the area the
     // Roborazzi screenshot was captured in. The default 384x216dp frame on the 270px-tall DAC
-    // stage gives 1.25x; larger frames (dialogs, pickers) zoom out instead of being clipped.
+    // stage gives 1.25x; larger frames (dialogs, pickers) and small stages zoom out instead of
+    // being clipped. Never zoom in beyond 1.25x, so opening wasm.html in a large window keeps
+    // components at their normal size.
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val snippetId = selectedSnippetId
         val frame = previewFrameFor(snippetId.orEmpty())
         val fitScale = minOf(maxWidth.value / frame.widthDp, maxHeight.value / frame.heightDp)
-        val densityScale = densityOverride ?: fitScale.takeIf { it.isFinite() && it > 0f } ?: 1.25f
+        val densityScale = densityOverride
+            ?: fitScale.takeIf { it.isFinite() && it > 0f }?.coerceAtMost(MaxDensityScale)
+            ?: MaxDensityScale
         CatalogTheme(theme = theme.copy(densityScale = densityScale), fontFamily = fontFamily) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
