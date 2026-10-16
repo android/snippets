@@ -143,3 +143,14 @@ fun OutlinedCardExample() {
     }
 }
 // [END android_compose_components_outlinedcard]
+
+private object CardMinimalSnippet {
+    // [START android_compose_components_card_minimal]
+    @Composable
+    fun CardMinimalExample() {
+        Card() {
+            Text(text = "Hello, world!")
+        }
+    }
+    // [END android_compose_components_card_minimal]
+}
