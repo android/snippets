@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -23,8 +25,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -206,7 +206,7 @@ fun MyCustomIndicator(
             } else {
                 val distanceFraction = { state.distanceFraction.coerceIn(0f, 1f) }
                 Icon(
-                    imageVector = Icons.Filled.CloudDownload,
+                    painter = rememberVectorPainter(AppIcons.CloudDownload),
                     contentDescription = "Refresh",
                     modifier = Modifier
                         .size(18.dp)

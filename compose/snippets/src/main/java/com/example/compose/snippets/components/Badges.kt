@@ -16,13 +16,12 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
@@ -67,7 +66,7 @@ fun BadgeExample() {
         }
     ) {
         Icon(
-            imageVector = Icons.Filled.Mail,
+            painter = rememberVectorPainter(AppIcons.Mail),
             contentDescription = "Email"
         )
     }
@@ -96,7 +95,7 @@ fun BadgeInteractiveExample() {
             }
         ) {
             Icon(
-                imageVector = Icons.Filled.ShoppingCart,
+                painter = rememberVectorPainter(AppIcons.ShoppingCart),
                 contentDescription = "Shopping cart",
             )
         }
