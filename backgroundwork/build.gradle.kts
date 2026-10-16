@@ -28,4 +28,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.work.multiprocess)
+    implementation(libs.androidx.concurrent.futures.ktx)
+    implementation(libs.google.android.material)
 }
