@@ -21,7 +21,8 @@
 
 package com.example.compose.preview.wasm.registry
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -95,13 +96,46 @@ import com.example.compose.snippets.components.VerticalDividerExample
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
-    Box(
+    // A Column rather than a Box so snippets that emit several top-level elements (for example
+    // CheckboxMinimalExample's Row followed by a Text) stack instead of drawing on top of each
+    // other.
+    Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         content()
     }
 }
+
+/**
+ * The area, in dp, a snippet preview is laid out in.
+ *
+ * The Roborazzi screenshot is captured on a device of exactly this size, and the live WASM preview
+ * scales its density so this area fills the DAC stage. Both renderers therefore show the same
+ * layout, and components that need more room than [DefaultPreviewFrame] (dialogs and pickers)
+ * are zoomed out rather than clipped.
+ */
+data class PreviewFrame(val widthDp: Int, val heightDp: Int)
+
+/** 16:9, matching the default 270px-tall DAC stage at 1.25x. */
+val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
+
+/**
+ * Larger frames for snippets that don't fit [DefaultPreviewFrame]. Keep 16:9 where possible so
+ * the static image fills the DAC stage. Date pickers have no landscape layout, so they use a
+ * portrait frame; give their DAC page a taller `preview_height` (about 560px).
+ */
+private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
+    "android_compose_components_alertdialog" to PreviewFrame(576, 324),
+    "android_compose_components_dial" to PreviewFrame(768, 432),
+    "android_compose_components_input" to PreviewFrame(640, 360),
+    "android_compose_components_datepicker_modal" to PreviewFrame(400, 640),
+    "android_compose_components_datepicker_inputmodal" to PreviewFrame(400, 640),
+    "android_compose_components_datepicker_range" to PreviewFrame(400, 640),
+)
+
+fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
 
 /**
  * Single source of truth mapping DAC snippet region tag IDs to their

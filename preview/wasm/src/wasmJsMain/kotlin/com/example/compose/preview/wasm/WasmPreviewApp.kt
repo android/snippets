@@ -17,6 +17,7 @@
 package com.example.compose.preview.wasm
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,6 +37,7 @@ import com.example.compose.preview.wasm.navigation.extractPreset
 import com.example.compose.preview.wasm.navigation.extractSnippetId
 import com.example.compose.preview.wasm.navigation.extractThemeColorMode
 import com.example.compose.preview.wasm.registry.SnippetRegistry
+import com.example.compose.preview.wasm.registry.previewFrameFor
 import com.example.compose.preview.wasm.theme.CatalogTheme
 import com.example.compose.preview.wasm.theme.Theme
 import kotlinx.browser.window
@@ -51,11 +53,13 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
         themeColorMode = extractThemeColorMode(search, hash),
         preset = extractPreset(search, hash),
         customColor = extractCustomSeed(search, hash),
-        densityScale = extractDensityScale(search, hash),
     )
 
     var theme by remember {
         mutableStateOf(buildThemeFromUrl(window.location.search, window.location.hash))
+    }
+    var densityOverride by remember {
+        mutableStateOf(extractDensityScale(window.location.search, window.location.hash))
     }
     var selectedSnippetId by remember {
         mutableStateOf(extractSnippetId(window.location.search, window.location.hash))
@@ -73,29 +77,38 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
                 lastSearch = currentSearch
                 selectedSnippetId = extractSnippetId(currentSearch, currentHash)
                 theme = buildThemeFromUrl(currentSearch, currentHash)
+                densityOverride = extractDensityScale(currentSearch, currentHash)
             }
         }
     }
 
-    CatalogTheme(theme = theme, fontFamily = fontFamily) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            val currentSnippet = selectedSnippetId?.let { SnippetRegistry.getById(it) }
-
-            Box(
+    // Scale the density so the snippet's PreviewFrame fills the stage, matching the area the
+    // Roborazzi screenshot was captured in. The default 384x216dp frame on the 270px-tall DAC
+    // stage gives 1.25x; larger frames (dialogs, pickers) zoom out instead of being clipped.
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val frame = previewFrameFor(selectedSnippetId.orEmpty())
+        val fitScale = minOf(maxWidth.value / frame.widthDp, maxHeight.value / frame.heightDp)
+        val densityScale = densityOverride ?: fitScale.takeIf { it.isFinite() && it > 0f } ?: 1.25f
+        CatalogTheme(theme = theme.copy(densityScale = densityScale), fontFamily = fontFamily) {
+            Surface(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                color = MaterialTheme.colorScheme.background
             ) {
-                if (currentSnippet != null) {
-                    currentSnippet()
-                } else {
-                    Text(
-                        text = "Snippet not found: ${selectedSnippetId ?: "(no ?id= specified)"}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                val currentSnippet = selectedSnippetId?.let { SnippetRegistry.getById(it) }
+
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (currentSnippet != null) {
+                        currentSnippet()
+                    } else {
+                        Text(
+                            text = "Snippet not found: ${selectedSnippetId ?: "(no ?id= specified)"}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }

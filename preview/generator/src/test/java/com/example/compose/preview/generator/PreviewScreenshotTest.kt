@@ -18,16 +18,11 @@ package com.example.compose.preview.generator
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,17 +32,22 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
-import androidx.compose.ui.unit.dp
 import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
+import com.example.compose.preview.wasm.registry.previewFrameFor
 import com.example.compose.preview.wasm.registry.previewTypography
 import com.example.compose.snippets.R
 import com.github.takahirom.roborazzi.captureRoboImage
 import java.io.File
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
+import org.junit.runner.Description
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import org.junit.runners.model.Statement
+import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
@@ -100,14 +100,37 @@ internal val PreviewFontFamily = FontFamily(
     }
 )
 
+/**
+ * Sets the Robolectric device size before the compose rule launches its activity, so each snippet
+ * (including dialogs, which size themselves against the window) lays out in its PreviewFrame.
+ */
+private class DeviceQualifiersRule(private val qualifiers: String) : TestRule {
+    override fun apply(base: Statement, description: Description): Statement = object : Statement() {
+        override fun evaluate() {
+            RuntimeEnvironment.setQualifiers(qualifiers)
+            base.evaluate()
+        }
+    }
+}
+
+/**
+ * Captures `<region_tag>.png` for every snippet in [SnippetRegistry], one test per snippet, on a
+ * device sized to the snippet's PreviewFrame at xhdpi (so the default 384x216dp frame is 768x432).
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@RunWith(RobolectricTestRunner::class)
+@RunWith(ParameterizedRobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [36], qualifiers = "w384dp-h216dp-xhdpi")
-class PreviewScreenshotTest {
+@Config(sdk = [36])
+class PreviewScreenshotTest(private val snippetId: String) {
+
+    private val frame = previewFrameFor(snippetId)
+    private val orientation = if (frame.widthDp >= frame.heightDp) "land" else "port"
+    private val composeTestRule = createComposeRule()
 
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val rules: RuleChain = RuleChain
+        .outerRule(DeviceQualifiersRule("w${frame.widthDp}dp-h${frame.heightDp}dp-$orientation-xhdpi"))
+        .around(composeTestRule)
 
     private fun getOutputDir(): File {
         var dir: File? = File(".").canonicalFile
@@ -121,10 +144,8 @@ class PreviewScreenshotTest {
     }
 
     @Test
-    fun captureAllRegisteredSnippets() {
-        val outputDir = getOutputDir()
-        var currentEntry by mutableStateOf<Pair<String, @Composable () -> Unit>?>(null)
-
+    fun capture() {
+        val snippet = SnippetRegistry.snippets.getValue(snippetId)
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
             MaterialExpressiveTheme(
@@ -132,29 +153,25 @@ class PreviewScreenshotTest {
                 typography = previewTypography(PreviewFontFamily),
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(384.dp, 216.dp)
-                        .background(Color(0xFFFFFFFF)),
-                    contentAlignment = Alignment.Center
+                    modifier = Modifier.fillMaxSize().background(Color(0xFFFFFFFF)),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    currentEntry?.let { (id, composable) ->
-                        key(id) {
-                            composable()
-                        }
-                    }
+                    snippet()
                 }
             }
         }
+        // Let entry animations, async fonts/images and lazy lists settle before capturing.
+        composeTestRule.mainClock.advanceTimeByFrame()
+        composeTestRule.mainClock.advanceTimeBy(1_000)
+        composeTestRule.mainClock.advanceTimeByFrame()
+        composeTestRule.onRoot().captureRoboImage(
+            filePath = File(getOutputDir(), "$snippetId.png").absolutePath,
+        )
+    }
 
-        SnippetRegistry.snippets.forEach { (id, composable) ->
-            currentEntry = id to composable
-            androidx.compose.runtime.snapshots.Snapshot.sendApplyNotifications()
-            composeTestRule.mainClock.advanceTimeByFrame()
-            composeTestRule.mainClock.advanceTimeBy(500)
-            composeTestRule.mainClock.advanceTimeByFrame()
-            composeTestRule.onRoot().captureRoboImage(
-                filePath = File(outputDir, "$id.png").absolutePath
-            )
-        }
+    companion object {
+        @JvmStatic
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
+        fun snippetIds(): List<Array<Any>> = SnippetRegistry.snippets.keys.map { arrayOf(it) }
     }
 }

@@ -117,7 +117,8 @@ fun extractCustomSeed(search: String, hash: String): Color? {
 /**
  * Resolves the visual density scale factor based on URL overrides.
  */
-fun extractDensityScale(search: String, hash: String): Float {
+/** Returns the explicit `density`/`scale` URL override, or null to fit the snippet's preview frame. */
+fun extractDensityScale(search: String, hash: String): Float? {
     val combined = "$search&$hash"
     val scaleStr = when {
         combined.contains("density=") -> combined.substringAfter("density=").substringBefore("&")
@@ -131,5 +132,5 @@ fun extractDensityScale(search: String, hash: String): Float {
             return parsed
         }
     }
-    return 1.25f
+    return null
 }
