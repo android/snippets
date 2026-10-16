@@ -22,7 +22,8 @@ preview/
         │   ├── registry/SnippetRegistry.kt
         │   └── theme/Theme.kt
         └── resources/
-            └── wasm.html
+            ├── wasm.html
+            └── js-joda-core.mjs
 ```
 
 ### Single Source of Truth (`SnippetRegistry.kt`)
@@ -60,4 +61,4 @@ Screenshots are rendered at `384x216 dp` (`xhdpi` -> `768x432 px`, 16:9 aspect r
 ./gradlew :preview:wasm:packageStaticSite
 ```
 
-Outputs the self-contained WASM bundle (`wasm.html`, `snippets-wasm-preview.js`, `*.wasm`, `skiko.mjs`, `skiko.wasm`, `fonts/`) to `preview/wasm/build/dist/site/`.
+Outputs the self-contained WASM bundle (`wasm.html`, `snippets-wasm-preview.js`, `*.wasm`, `skiko.mjs`, `skiko.wasm`, `fonts/`, `js-joda-core.mjs`) to `preview/wasm/build/dist/site/`.
