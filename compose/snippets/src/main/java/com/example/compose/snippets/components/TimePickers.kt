@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,9 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.EditCalendar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,11 +53,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.char
+import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 fun TimePickerExamples() {
     var showMenu by remember { mutableStateOf(true) }
@@ -70,7 +73,15 @@ fun TimePickerExamples() {
 
     var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
 
-    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+    val formatter = remember {
+        LocalTime.Format {
+            amPmHour()
+            char(':')
+            minute()
+            char(' ')
+            amPmMarker("AM", "PM")
+        }
+    }
 
     Box(
         Modifier.fillMaxSize(),
@@ -109,11 +120,8 @@ fun TimePickerExamples() {
                     Text("Time picker with custom dialog")
                 }
                 if (selectedTime != null) {
-                    val cal = Calendar.getInstance()
-                    cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
-                    cal.set(Calendar.MINUTE, selectedTime!!.minute)
-                    cal.isLenient = false
-                    Text("Selected time = ${formatter.format(cal.time)}")
+                    val time = LocalTime(selectedTime!!.hour, selectedTime!!.minute)
+                    Text("Selected time = ${time.format(formatter)}")
                 } else {
                     Text("No time selected.")
                 }
@@ -173,18 +181,18 @@ fun TimePickerExamples() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_dial]
 @Composable
 fun DialExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -202,18 +210,18 @@ fun DialExample(
 }
 // [END android_compose_components_dial]
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_input]
 @Composable
 fun InputExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -231,18 +239,18 @@ fun InputExample(
 }
 // [END android_compose_components_input]
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_dial_usestate]
 @Composable
 fun DialUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -260,18 +268,18 @@ fun DialUseStateExample(
 }
 // [END android_compose_components_dial_usestate]
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_input_usestate]
 @Composable
 fun InputUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -289,18 +297,18 @@ fun InputUseStateExample(
 }
 // [END android_compose_components_input_usestate]
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_timepickerdialog]
 @Composable
 fun DialWithDialogExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -337,7 +345,7 @@ fun TimePickerDialog(
 }
 // [END android_compose_components_timepickerdialog]
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 // [START android_compose_components_advanced]
 @Composable
 fun AdvancedTimePickerExample(
@@ -345,11 +353,11 @@ fun AdvancedTimePickerExample(
     onDismiss: () -> Unit,
 ) {
 
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -358,9 +366,9 @@ fun AdvancedTimePickerExample(
 
     /** The icon used for the icon button that switches from dial to input */
     val toggleIcon = if (showDial) {
-        Icons.Filled.EditCalendar
+        AppIcons.EditCalendar
     } else {
-        Icons.Filled.AccessTime
+        AppIcons.AccessTime
     }
 
     AdvancedTimePickerDialog(
@@ -369,7 +377,7 @@ fun AdvancedTimePickerExample(
         toggle = {
             IconButton(onClick = { showDial = !showDial }) {
                 Icon(
-                    imageVector = toggleIcon,
+                    painter = rememberVectorPainter(toggleIcon),
                     contentDescription = "Time picker type toggle",
                 )
             }
