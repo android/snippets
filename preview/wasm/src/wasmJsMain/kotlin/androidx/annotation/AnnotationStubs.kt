@@ -16,5 +16,6 @@
 
 package androidx.annotation
 
+// `@DrawableRes` is Android-only: the multiplatform androidx.annotation artifact doesn't include
+// the resource-type annotations, so the shared snippets need this no-op stand-in on wasm.
 annotation class DrawableRes
-annotation class StringRes
