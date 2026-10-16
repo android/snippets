@@ -65,7 +65,7 @@ val generateSnippetResources by tasks.registering {
 
     doLast {
         val refs = snippetsDir.get().asFile.walk().filter { it.extension == "kt" }
-            .flatMap { Regex("""\bR\.(drawable|string)\.(\w+)""").findAll(it.readText()) }
+            .flatMap { Regex("""(?<!android\.)\bR\.(drawable|string)\.(\w+)""").findAll(it.readText()) }
             .map { it.groupValues[1] to it.groupValues[2] }
             .toSet()
         val drawables = refs.filter { it.first == "drawable" }.map { it.second }.sorted()
@@ -91,7 +91,8 @@ val generateSnippetResources by tasks.registering {
                 .writeText("<resources>\n${entries.joinToString("\n") { "    $it" }}\n</resources>\n")
         }
 
-        fun ids(names: List<String>) = names.withIndex().joinToString("\n") { (i, n) -> "        const val $n = $i" }
+        // IDs start at 1 because 0 means "no resource" on Android; ResStubs.kt indexes with id - 1.
+        fun ids(names: List<String>) = names.withIndex().joinToString("\n") { (i, n) -> "        const val $n = ${i + 1}" }
         fun accessors(type: String, names: List<String>) = names.joinToString { "Res.$type.$it" }
         val kotlinRoot = kotlinOut.get().asFile.apply { deleteRecursively() }
         File(kotlinRoot, "com/example/compose/snippets").apply { mkdirs() }.resolve("R.kt").writeText(
@@ -146,14 +147,14 @@ kotlin {
             kotlin.srcDir(files(generatedSnippetResKotlinDir).builtBy(generateSnippetResources))
             resources.srcDir(copyPreviewFonts)
             dependencies {
-                implementation("org.jetbrains.compose.runtime:runtime:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.foundation:foundation:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.material3:material3:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.ui:ui:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.13.0-alpha01")
-                implementation("org.jetbrains.compose.components:components-resources:1.13.0-alpha01")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
-                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
+                implementation(libs.jetbrains.compose.runtime)
+                implementation(libs.jetbrains.compose.foundation)
+                implementation(libs.jetbrains.compose.material3)
+                implementation(libs.jetbrains.compose.ui)
+                implementation(libs.jetbrains.compose.ui.tooling.preview)
+                implementation(libs.jetbrains.compose.components.resources)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.jetbrains.navigation.compose)
             }
         }
     }
