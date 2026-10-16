@@ -20,7 +20,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
@@ -40,7 +39,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import com.example.compose.snippets.R
 
 private class RegisterActivityResultExample : ComponentActivity() {
     // [START android_intents_result_register]
@@ -143,17 +141,12 @@ private fun createTestRegistry(expectedResult: Bitmap) {
     // [END android_intents_result_test_registry]
 }
 
-// [START android_intents_result_test_complete]
-@RunWith(AndroidJUnit4::class)
-class MyFragmentTest {
-
+private class MyFragmentTest {
+    // [START android_intents_result_test_complete]
     @Test
     fun activityResultTest() {
         // Create an expected result Bitmap.
-        val expectedBitmap = BitmapFactory.decodeResource(
-            InstrumentationRegistry.getInstrumentation().targetContext.resources,
-            R.drawable.ic_launcher_foreground
-        )
+        val expectedResult = Bitmap.createBitmap(1, 1, Bitmap.Config.RGBA_F16)
 
         // Create the test ActivityResultRegistry.
         val testRegistry = object : ActivityResultRegistry() {
@@ -163,22 +156,24 @@ class MyFragmentTest {
                 input: I,
                 options: ActivityOptionsCompat?
             ) {
-                dispatchResult(requestCode, expectedBitmap)
+                dispatchResult(requestCode, expectedResult)
             }
         }
 
-        // Launch the fragment with the testRegistry.
+        // Use the launchFragmentInContainer method that takes a
+        // lambda to construct the Fragment with the testRegistry.
         with(launchFragmentInContainer { MyFragment(testRegistry) }) {
             onFragment { fragment ->
                 // Trigger the ActivityResultLauncher.
-                fragment.takePicture.launch()
+                fragment.takePicture()
                 // Verify the result is set.
-                assertThat(fragment.thumbnailLiveData.value).isSameInstanceAs(expectedBitmap)
+                assertThat(fragment.thumbnailLiveData.value)
+                    .isSameInstanceAs(expectedResult)
             }
         }
     }
+    // [END android_intents_result_test_complete]
 }
-// [END android_intents_result_test_complete]
 
 // [START android_intents_result_custom_contract]
 class PickRingtone : ActivityResultContract<Int, Uri?>() {
@@ -249,3 +244,7 @@ private class SubjectStub<T>(private val actual: T) {
 }
 
 private fun <T> assertThat(actual: T): SubjectStub<T> = SubjectStub(actual)
+
+private operator fun ActivityResultLauncher<Void?>.invoke() {
+    launch()
+}
