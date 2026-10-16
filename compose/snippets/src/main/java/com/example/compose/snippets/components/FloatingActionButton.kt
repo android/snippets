@@ -22,9 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -63,7 +61,7 @@ fun Example(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = { onClick() },
     ) {
-        Icon(Icons.Filled.Add, "Floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Floating action button.")
     }
 }
 // [END android_compose_components_fab]
@@ -73,7 +71,7 @@ fun Example(onClick: () -> Unit) {
 fun ExtendedExample(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = { onClick() },
-        icon = { Icon(Icons.Filled.Edit, "Extended floating action button.") },
+        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), "Extended floating action button.") },
         text = { Text(text = "Extended FAB") },
     )
 }
@@ -87,7 +85,7 @@ fun SmallExample(onClick: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.secondary
     ) {
-        Icon(Icons.Filled.Add, "Small floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Small floating action button.")
     }
 }
 // [END android_compose_components_smallfab]
@@ -99,7 +97,7 @@ fun LargeExample(onClick: () -> Unit) {
         onClick = { onClick() },
         shape = CircleShape,
     ) {
-        Icon(Icons.Filled.Add, "Large floating action button")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Large floating action button")
     }
 }
 // [END android_compose_components_largefab]

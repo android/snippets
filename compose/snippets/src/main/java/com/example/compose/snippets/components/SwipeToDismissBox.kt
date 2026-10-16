@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,10 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckBox
-import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedCard
@@ -98,7 +96,7 @@ fun TodoListItem(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        painter = rememberVectorPainter(if (todoItem.isItemDone) AppIcons.CheckBox else AppIcons.CheckBoxOutlineBlank),
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
@@ -110,7 +108,7 @@ fun TodoListItem(
                 }
                 EndToStart -> {
                     Icon(
-                        imageVector = Icons.Default.Delete,
+                        painter = rememberVectorPainter(AppIcons.Delete),
                         contentDescription = "Remove item",
                         modifier = Modifier
                             .fillMaxSize()
@@ -187,7 +185,7 @@ fun TodoListItemWithAnimation(
             when (swipeToDismissBoxState.dismissDirection) {
                 StartToEnd -> {
                     Icon(
-                        if (todoItem.isItemDone) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                        painter = rememberVectorPainter(if (todoItem.isItemDone) AppIcons.CheckBox else AppIcons.CheckBoxOutlineBlank),
                         contentDescription = if (todoItem.isItemDone) "Done" else "Not done",
                         modifier = Modifier
                             .fillMaxSize()
@@ -201,7 +199,7 @@ fun TodoListItemWithAnimation(
                 }
                 EndToStart -> {
                     Icon(
-                        imageVector = Icons.Default.Delete,
+                        painter = rememberVectorPainter(AppIcons.Delete),
                         contentDescription = "Remove item",
                         modifier = Modifier
                             .fillMaxSize()
