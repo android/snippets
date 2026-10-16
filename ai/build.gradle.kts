@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -76,6 +78,10 @@ dependencies {
     implementation(libs.google.adk.core.android)
     ksp(libs.google.adk.processor)
     implementation(libs.mlkit.genai.prompt)
+// [START android_litert_runtime_skill_dependencies]
+    implementation(libs.litert)
+    implementation(libs.litert.gpu)
+// [END android_litert_runtime_skill_dependencies]
     ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
