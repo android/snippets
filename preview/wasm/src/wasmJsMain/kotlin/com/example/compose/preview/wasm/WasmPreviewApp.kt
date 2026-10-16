@@ -86,7 +86,8 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
     // Roborazzi screenshot was captured in. The default 384x216dp frame on the 270px-tall DAC
     // stage gives 1.25x; larger frames (dialogs, pickers) zoom out instead of being clipped.
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val frame = previewFrameFor(selectedSnippetId.orEmpty())
+        val snippetId = selectedSnippetId
+        val frame = previewFrameFor(snippetId.orEmpty())
         val fitScale = minOf(maxWidth.value / frame.widthDp, maxHeight.value / frame.heightDp)
         val densityScale = densityOverride ?: fitScale.takeIf { it.isFinite() && it > 0f } ?: 1.25f
         CatalogTheme(theme = theme.copy(densityScale = densityScale), fontFamily = fontFamily) {
@@ -94,7 +95,7 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                val currentSnippet = selectedSnippetId?.let { SnippetRegistry.getById(it) }
+                val currentSnippet = snippetId?.let { SnippetRegistry.getById(it) }
 
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -104,7 +105,7 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
                         currentSnippet()
                     } else {
                         Text(
-                            text = "Snippet not found: ${selectedSnippetId ?: "(no ?id= specified)"}",
+                            text = "Snippet not found: ${snippetId ?: "(no ?id= specified)"}",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
