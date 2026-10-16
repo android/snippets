@@ -153,15 +153,5 @@ private class MainActivity : ComponentActivity() {
         // [END android_camera_lowlight_gp_session_start_preview]
     }
 
-    // [START android_camera_lowlight_gp_session_release]
-    override fun onDestroy() {
-        super.onDestroy()
-        if (lowLightBoostSession != null) {
-            lowLightBoostSession?.release()
-            lowLightBoostSession = null
-        }
-    }
-    // [END android_camera_lowlight_gp_session_release]
-
     private fun startCaptureSession(cameraSurface: Surface) = Unit
 }
