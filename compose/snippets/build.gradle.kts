@@ -163,6 +163,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.glide.compose)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
 
     ksp(libs.hilt.compiler)
 
