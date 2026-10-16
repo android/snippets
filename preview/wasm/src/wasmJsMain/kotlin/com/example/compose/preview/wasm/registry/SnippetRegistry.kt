@@ -121,6 +121,9 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
+    // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
+    "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
+    "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
