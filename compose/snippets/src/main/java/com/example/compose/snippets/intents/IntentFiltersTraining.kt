@@ -20,7 +20,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import com.example.compose.snippets.R
 
 private const val RESULT_COLOR_RED = 1
 
