@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,10 +31,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -181,7 +179,7 @@ fun CustomizableSearchBar(
     modifier: Modifier = Modifier,
     // Customization options
     placeholder: @Composable () -> Unit = { Text("Search") },
-    leadingIcon: @Composable (() -> Unit)? = { Icon(Icons.Default.Search, contentDescription = "Search") },
+    leadingIcon: @Composable (() -> Unit)? = { Icon(painter = rememberVectorPainter(AppIcons.Search), contentDescription = "Search") },
     trailingIcon: @Composable (() -> Unit)? = null,
     supportingContent: (@Composable (String) -> Unit)? = null,
     leadingContent: (@Composable () -> Unit)? = null,
@@ -272,10 +270,10 @@ fun CustomizableSearchBarExample() {
             onResultClick = { query = it },
             // Customize appearance with optional parameters
             placeholder = { Text("Search desserts") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-            trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = "More options") },
+            leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Search), contentDescription = "Search") },
+            trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options") },
             supportingContent = { Text("Android dessert") },
-            leadingContent = { Icon(Icons.Filled.Star, contentDescription = "Starred item") }
+            leadingContent = { Icon(painter = rememberVectorPainter(AppIcons.Star), contentDescription = "Starred item") }
         )
 
         // Display the filtered list below the search bar
