@@ -106,6 +106,14 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
         include("skiko.wasm")
         include("skiko.mjs")
     }
+    // Compose Multiplatform material3 depends on kotlinx-datetime, whose wasm build imports
+    // '@js-joda/core'. Point it at the bundled copy (also mapped in wasm.html's import map).
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
+    }
 }
 
 val packageStaticSite by tasks.registering(Copy::class) {
@@ -136,6 +144,14 @@ val packageStaticSite by tasks.registering(Copy::class) {
     from(layout.buildDirectory.dir("compose/skiko-wasmJs-runtime")) {
         include("skiko.wasm")
         include("skiko.mjs")
+    }
+    // Compose Multiplatform material3 depends on kotlinx-datetime, whose wasm build imports
+    // '@js-joda/core'. Point it at the bundled copy (also mapped in wasm.html's import map).
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
     }
 }
 
