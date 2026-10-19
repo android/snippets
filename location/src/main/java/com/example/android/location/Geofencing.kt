@@ -21,7 +21,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -98,31 +97,29 @@ private class GeofencingActivity : ComponentActivity() {
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     private fun addGeofences() {
         // [START android_location_geofencing_add]
-        geofencingClient?.addGeofences(getGeofencingRequest(), geofencePendingIntent)?.run {
-            addOnSuccessListener {
-                // Geofences added.
+        geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)
+            .addOnSuccessListener {
+                // Geofences added
                 // ...
             }
-            addOnFailureListener {
-                // Failed to add geofences.
+            .addOnFailureListener {
+                // Failed to add geofences
                 // ...
             }
-        }
         // [END android_location_geofencing_add]
     }
 
     private fun removeGeofences() {
         // [START android_location_geofencing_remove]
-        geofencingClient?.removeGeofences(geofencePendingIntent)?.run {
-            addOnSuccessListener {
-                // Geofences removed.
+        geofencingClient.removeGeofences(geofencePendingIntent)
+            .addOnSuccessListener {
+                // Geofences removed
                 // ...
             }
-            addOnFailureListener {
-                // Failed to remove geofences.
+            .addOnFailureListener {
+                // Failed to remove geofences
                 // ...
             }
-        }
         // [END android_location_geofencing_remove]
     }
 }
@@ -131,15 +128,14 @@ private object PendingIntentSnippet {
     // [START android_location_geofencing_pending_intent]
     class MainActivity : ComponentActivity() {
 
-        // ...
-
         private val geofencePendingIntent: PendingIntent by lazy {
             // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
             // addGeofences() and removeGeofences().
-            var flags = PendingIntent.FLAG_UPDATE_CURRENT
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val flags = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                 // Starting on Android S+ the pending intent has to be mutable.
-                flags = flags or PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
             }
             val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
             PendingIntent.getBroadcast(this, 0, intent, flags)
