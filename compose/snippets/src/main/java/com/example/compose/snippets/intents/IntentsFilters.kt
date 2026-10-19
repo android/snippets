@@ -26,6 +26,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import com.example.compose.snippets.R
 
 private const val REQUEST_CODE = 0
 
@@ -130,17 +131,4 @@ private class IntentsFiltersExamplesActivity : Activity() {
 
 private class DownloadService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
-}
-
-internal object R {
-    object string {
-        const val chooser_title = 0
-    }
-    object id {
-        const val select_button = 0
-        const val start_button = 0
-    }
-    object layout {
-        const val main = 0
-    }
 }

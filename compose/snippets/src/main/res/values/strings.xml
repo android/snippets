@@ -65,4 +65,8 @@
     <string name="compose_disabled_message1">Compose is not available</string>
     <string name="attached_image" translatable="false">Attached image</string>
 
+    <string name="chooser_title">Share this photo with</string>
+    <item name="select_button" type="id" />
+    <item name="start_button" type="id" />
+
 </resources>

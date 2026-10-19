@@ -33,12 +33,12 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview
-import androidx.activity.result.launch
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import com.example.compose.snippets.R
 
 private class RegisterActivityResultExample : ComponentActivity() {
     // [START android_intents_result_register]
@@ -141,55 +141,23 @@ private fun createTestRegistry(expectedResult: Bitmap) {
     // [END android_intents_result_test_registry]
 }
 
-private class MyFragmentTest {
-    // [START android_intents_result_test_complete]
-    @Test
-    fun activityResultTest() {
-        // Create an expected result Bitmap.
-        val expectedResult = Bitmap.createBitmap(1, 1, Bitmap.Config.RGBA_F16)
-
-        // Create the test ActivityResultRegistry.
-        val testRegistry = object : ActivityResultRegistry() {
-            override fun <I, O> onLaunch(
-                requestCode: Int,
-                contract: ActivityResultContract<I, O>,
-                input: I,
-                options: ActivityOptionsCompat?
-            ) {
-                dispatchResult(requestCode, expectedResult)
+private object CustomContractScope {
+    // [START android_intents_result_custom_contract]
+    class PickRingtone : ActivityResultContract<Int, Uri?>() {
+        override fun createIntent(context: Context, ringtoneType: Int) =
+            Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, ringtoneType)
             }
-        }
 
-        // Use the launchFragmentInContainer method that takes a
-        // lambda to construct the Fragment with the testRegistry.
-        with(launchFragmentInContainer { MyFragment(testRegistry) }) {
-            onFragment { fragment ->
-                // Trigger the ActivityResultLauncher.
-                fragment.takePicture()
-                // Verify the result is set.
-                assertThat(fragment.thumbnailLiveData.value)
-                    .isSameInstanceAs(expectedResult)
+        override fun parseResult(resultCode: Int, result: Intent?): Uri? {
+            if (resultCode != Activity.RESULT_OK) {
+                return null
             }
+            return result?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
         }
     }
-    // [END android_intents_result_test_complete]
+    // [END android_intents_result_custom_contract]
 }
-
-// [START android_intents_result_custom_contract]
-class PickRingtone : ActivityResultContract<Int, Uri?>() {
-    override fun createIntent(context: Context, ringtoneType: Int) =
-        Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-            putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, ringtoneType)
-        }
-
-    override fun parseResult(resultCode: Int, result: Intent?): Uri? {
-        if (resultCode != Activity.RESULT_OK) {
-            return null
-        }
-        return result?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-    }
-}
-// [END android_intents_result_custom_contract]
 
 private class StartActivityForResultExample : ComponentActivity() {
     // [START android_intents_result_start_for_result]
@@ -218,33 +186,3 @@ private class StartActivityForResultExample : ComponentActivity() {
 }
 
 private class ResultProducingActivity : ComponentActivity()
-
-private class FragmentScenarioStub<F : Fragment>(val fragment: F) {
-    fun onFragment(action: (F) -> Unit) = action(fragment)
-}
-
-private fun <F : Fragment> launchFragmentInContainer(
-    instantiate: () -> F
-): FragmentScenarioStub<F> = FragmentScenarioStub(instantiate())
-
-private annotation class RunWith(val value: kotlin.reflect.KClass<*>)
-private class AndroidJUnit4
-private annotation class Test
-
-private object InstrumentationRegistry {
-    class InstrumentationStub {
-        val targetContext: Context
-            get() = throw UnsupportedOperationException()
-    }
-    fun getInstrumentation(): InstrumentationStub = InstrumentationStub()
-}
-
-private class SubjectStub<T>(private val actual: T) {
-    fun isSameInstanceAs(expected: T) {}
-}
-
-private fun <T> assertThat(actual: T): SubjectStub<T> = SubjectStub(actual)
-
-private operator fun ActivityResultLauncher<Void?>.invoke() {
-    launch()
-}

@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import com.example.compose.snippets.R
 
 private const val RESULT_COLOR_RED = 1
 
@@ -28,7 +29,7 @@ private class ShareActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.main)
+        setContentView(R.layout.activity_example)
 
         val data: Uri? = intent?.data
 
