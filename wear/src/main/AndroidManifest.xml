@@ -448,6 +448,20 @@
         </service>
         <!-- [END android_wear_widget_manifest] -->
 
+        <!-- [START android_wear_widget_skill_manifest] -->
+        <service
+            android:name=".snippets.widget.skill.MyWidgetService"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/my_widget_info" />
+        </service>
+        <!-- [END android_wear_widget_skill_manifest] -->
+
     </application>
 
 </manifest>
