@@ -24,7 +24,6 @@ import android.hardware.camera2.CameraCharacteristics
 import android.os.IBinder
 import android.util.Log
 import android.util.Rational
-import android.util.Size
 import android.view.Display
 import android.view.OrientationEventListener
 import android.view.Surface
@@ -33,7 +32,6 @@ import androidx.annotation.OptIn
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
-import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraControl
 import androidx.camera.core.CameraSelector
@@ -55,16 +53,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.example.camera.snippets.R
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
-
-@Suppress("DEPRECATION")
-private fun imageCaptureBuilderSnippet() {
-    // [START android_camerax_configuration_image_capture_builder]
-    val imageCapture = ImageCapture.Builder()
-        .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
-        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
-        .build()
-    // [END android_camerax_configuration_image_capture_builder]
-}
 
 private object CameraApplicationSnippet {
     // [START android_camerax_configuration_logging]
@@ -212,15 +200,6 @@ private fun concurrentCameraSnippet(
     val primaryCamera = concurrentCamera.cameras[0]
     val secondaryCamera = concurrentCamera.cameras[1]
     // [END android_camerax_configuration_concurrent_camera]
-}
-
-@Suppress("DEPRECATION")
-private fun targetResolutionSnippet() {
-    // [START android_camerax_configuration_target_resolution]
-    val imageAnalysis = ImageAnalysis.Builder()
-        .setTargetResolution(Size(1280, 720))
-        .build()
-    // [END android_camerax_configuration_target_resolution]
 }
 
 private fun cameraControlCameraInfoSnippet(

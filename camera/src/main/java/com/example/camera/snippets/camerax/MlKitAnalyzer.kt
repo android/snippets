@@ -17,16 +17,15 @@
 package com.example.camera.snippets.camerax
 
 import androidx.activity.ComponentActivity
+import androidx.camera.core.ImageAnalysis.COORDINATE_SYSTEM_VIEW_REFERENCED
 import androidx.camera.mlkit.vision.MlKitAnalyzer
 import androidx.camera.view.CameraController
-import androidx.camera.view.CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 
 private class MlKitAnalyzerActivity : ComponentActivity() {
-    @Suppress("DEPRECATION")
     private fun setUpQrCodeAnalyzer(cameraController: CameraController) {
         // [START android_camerax_mlkitanalyzer_qrcode]
         // create BarcodeScanner object.

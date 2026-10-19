@@ -53,7 +53,6 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.concurrent.futures.await
 import androidx.core.content.ContextCompat
-import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -143,31 +142,6 @@ private fun selectCameraByFocalLength(cameraProvider: ProcessCameraProvider) {
 private class ControllerStateObserversActivity : ComponentActivity() {
     private lateinit var cameraController: LifecycleCameraController
 
-    @Suppress("DEPRECATION")
-    private fun observeTapToFocusState() {
-        // [START android_camerax_camera1_to_camerax_tap_to_focus_controller]
-        // CameraX: track the state of tap-to-focus over the Lifecycle of a PreviewView,
-        // with handlers you can define for focused, not focused, and failed states.
-
-        val tapToFocusStateObserver = Observer<Int> { state ->
-            when (state) {
-                CameraController.TAP_TO_FOCUS_NOT_STARTED ->
-                    Log.d(TAG, "tap-to-focus init")
-                CameraController.TAP_TO_FOCUS_STARTED ->
-                    Log.d(TAG, "tap-to-focus started")
-                CameraController.TAP_TO_FOCUS_FOCUSED ->
-                    Log.d(TAG, "tap-to-focus finished (focus successful)")
-                CameraController.TAP_TO_FOCUS_NOT_FOCUSED ->
-                    Log.d(TAG, "tap-to-focus finished (focused unsuccessful)")
-                CameraController.TAP_TO_FOCUS_FAILED ->
-                    Log.d(TAG, "tap-to-focus failed")
-            }
-        }
-
-        cameraController.getTapToFocusState().observe(this, tapToFocusStateObserver)
-        // [END android_camerax_camera1_to_camerax_tap_to_focus_controller]
-    }
-
     private fun observeZoomState() {
         // [START android_camerax_camera1_to_camerax_pinch_to_zoom_controller]
         // CameraX: track the state of pinch-to-zoom over the Lifecycle of
@@ -188,7 +162,7 @@ private class TapToFocusProviderActivity : ComponentActivity() {
     private var camera: Camera? = null
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
-    @Suppress("DEPRECATION", "USELESS_ELVIS")
+    @Suppress("USELESS_ELVIS")
     private fun setUpTapToFocus(context: Context) {
         // [START android_camerax_camera1_to_camerax_tap_to_focus_provider]
         // CameraX: implement tap-to-focus with CameraProvider.
@@ -197,7 +171,7 @@ private class TapToFocusProviderActivity : ComponentActivity() {
         // startFocusAndMetering on CameraControl. If you want to use a
         // coroutine with await() to check the result of focusing, see the
         // preceding "Android development concepts" section.
-        val gestureDetector = GestureDetectorCompat(context,
+        val gestureDetector = GestureDetector(context,
             object : SimpleOnGestureListener() {
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
                     val previewView = previewView ?: return false
