@@ -26,9 +26,9 @@ private class RuntimeChangesActivity : ComponentActivity() {
         super.onConfigurationChanged(newConfig)
 
         // Checks whether a keyboard is available.
-        if (newConfig.keyboardHidden === Configuration.KEYBOARDHIDDEN_YES) {
+        if (newConfig.keyboardHidden === Configuration.KEYBOARDHIDDEN_NO) {
             Toast.makeText(this, "Keyboard available", Toast.LENGTH_SHORT).show()
-        } else if (newConfig.keyboardHidden === Configuration.KEYBOARDHIDDEN_NO) {
+        } else if (newConfig.keyboardHidden === Configuration.KEYBOARDHIDDEN_YES) {
             Toast.makeText(this, "No keyboard", Toast.LENGTH_SHORT).show()
         }
     }
