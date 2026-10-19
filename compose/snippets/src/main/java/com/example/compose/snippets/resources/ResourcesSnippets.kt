@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -180,3 +181,10 @@ fun CraneTheme(content: @Composable () -> Unit) {
     }
 }
 // [END android_compose_resources_fonts]
+
+@Composable
+private fun LocalizationSnippet() {
+    // [START android_resources_localization_local_configuration]
+    val locale = LocalConfiguration.current.locales[0]
+    // [END android_resources_localization_local_configuration]
+}
