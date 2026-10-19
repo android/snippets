@@ -26,15 +26,16 @@ import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.Priority
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
+import kotlin.time.Duration.Companion.seconds
 
 private const val REQUEST_CHECK_SETTINGS = 1
 
 private class MainActivity : ComponentActivity() {
 
     // [START android_location_change_location_settings_create_request]
-    fun createLocationRequest() {
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
-            .setMinUpdateIntervalMillis(5000)
+    private fun createLocationRequest() {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10.seconds.inWholeMilliseconds)
+            .setMinUpdateIntervalMillis(5.seconds.inWholeMilliseconds)
             .build()
     }
     // [END android_location_change_location_settings_create_request]
