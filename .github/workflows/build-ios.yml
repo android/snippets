@@ -13,6 +13,9 @@
 # limitations under the License.
 name: Build iOS snippets
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ '*' ]
@@ -28,29 +31,23 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-build-ios
   cancel-in-progress: true
-
-permissions:
-  contents: read
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build_ios:
     name: Build iOS app
     runs-on: macos-latest
-    permissions:
-      contents: read
     steps:
-      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
         with:
           xcode-version: latest-stable
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
 
       - name: Build iOS app
-        uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5 # v3.6.0
+        uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5 # v3
         with:
           scheme: iosApp
           platform: iOS

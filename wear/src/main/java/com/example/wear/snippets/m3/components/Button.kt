@@ -16,41 +16,68 @@
 
 package com.example.wear.snippets.m3.components
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.CompactButton
-import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
+import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import com.example.wear.R
-import com.google.android.horologist.compose.layout.ColumnItemType
-import com.google.android.horologist.compose.layout.rememberResponsiveColumnPadding
 
 @Composable
 fun EdgeButton() {
+    val transformationSpec = rememberTransformationSpec()
     // [START android_wear_edgebutton]
     val state = rememberTransformingLazyColumnState()
     ScreenScaffold(
         scrollState = state,
-        contentPadding =
-            rememberResponsiveColumnPadding(
-                first = ColumnItemType.ListHeader
-            ),
         edgeButton = {
             EdgeButton(
-                onClick = { }
+                onClick = { },
+                modifier = Modifier.scrollable(
+                    state,
+                    orientation = Orientation.Vertical,
+                    reverseDirection = true,
+                    // Apply overscroll to the EdgeButton for proper scrolling behavior.
+                    overscrollEffect = rememberOverscrollEffect(),
+                ),
             ) {
                 Text(stringResource(R.string.show))
             }
-        }
-    ){ contentPadding ->
-        TransformingLazyColumn(state = state, contentPadding = contentPadding,){
+        },
+    ) { contentPadding ->
+        TransformingLazyColumn(state = state, contentPadding = contentPadding) {
             // additional code here
+            // [START_EXCLUDE]
+            item {
+                ListHeader(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .transformedHeight(this, transformationSpec)
+                        .minimumVerticalContentPadding(
+                            ListHeaderDefaults.minimumTopListContentPadding
+                        ),
+                    transformation = SurfaceTransformation(transformationSpec),
+                ) {
+                    Text(text = "Header")
+                }
+            }
+            // [END_EXCLUDE]
         }
     }
     // [END android_wear_edgebutton]

@@ -60,5 +60,8 @@
     <string name="reply_label">Reply</string>
     <string name="replied">Replied</string>
     <string name="content">content</string>
+    <string name="compose_shortcut_short_label1">Compose</string>
+    <string name="compose_shortcut_long_label1">Open Compose</string>
+    <string name="compose_disabled_message1">Compose is not available</string>
 
 </resources>
