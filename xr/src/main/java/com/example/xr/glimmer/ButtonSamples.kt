@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.ButtonGroup
 import androidx.xr.glimmer.GlimmerTheme
@@ -74,4 +75,16 @@ fun ButtonGroupControlCurrentItemSample() {
         }
     }
     // [END androidxr_glimmer_button_group_control]
+}
+
+@Composable
+fun FocusButtonSample(brandColor: Color) {
+    // [START androidxr_glimmer_button_focus_color]
+    Button(
+        onClick = {},
+        focusedColor = brandColor,
+    ) {
+        Text("Focus Color Button")
+    }
+    // [END androidxr_glimmer_button_focus_color]
 }
