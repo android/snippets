@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +41,7 @@ import com.example.compose.preview.wasm.registry.previewFrameFor
 import com.example.compose.preview.wasm.theme.CatalogTheme
 import com.example.compose.preview.wasm.theme.Theme
 import kotlinx.browser.window
-import kotlinx.coroutines.delay
+import org.w3c.dom.events.Event
 
 /** Largest density scale applied when fitting a snippet to the stage (1.25x on the DAC stage). */
 private const val MaxDensityScale = 1.25f
@@ -68,20 +68,19 @@ fun WasmPreviewApp(fontFamily: FontFamily? = null) {
         mutableStateOf(extractSnippetId(window.location.search, window.location.hash))
     }
 
-    LaunchedEffect(Unit) {
-        var lastHash = window.location.hash
-        var lastSearch = window.location.search
-        while (true) {
-            delay(100)
-            val currentHash = window.location.hash
+    DisposableEffect(Unit) {
+        val onUrlChange: (Event) -> Unit = {
             val currentSearch = window.location.search
-            if (currentHash != lastHash || currentSearch != lastSearch) {
-                lastHash = currentHash
-                lastSearch = currentSearch
-                selectedSnippetId = extractSnippetId(currentSearch, currentHash)
-                theme = buildThemeFromUrl(currentSearch, currentHash)
-                densityOverride = extractDensityScale(currentSearch, currentHash)
-            }
+            val currentHash = window.location.hash
+            selectedSnippetId = extractSnippetId(currentSearch, currentHash)
+            theme = buildThemeFromUrl(currentSearch, currentHash)
+            densityOverride = extractDensityScale(currentSearch, currentHash)
+        }
+        window.addEventListener("hashchange", onUrlChange)
+        window.addEventListener("popstate", onUrlChange)
+        onDispose {
+            window.removeEventListener("hashchange", onUrlChange)
+            window.removeEventListener("popstate", onUrlChange)
         }
     }
 

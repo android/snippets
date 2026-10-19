@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,10 +67,10 @@ fun extractSnippetId(search: String, hash: String): String? {
  * Extracts the active ThemeColorMode from URL parameters.
  */
 fun extractThemeColorMode(search: String, hash: String): ThemeColorMode {
-    val combined = "$search&$hash"
-    return when {
-        combined.contains("theme=dark") -> ThemeColorMode.Dark
-        combined.contains("theme=light") -> ThemeColorMode.Light
+    val combined = "$hash&$search"
+    return when (combined.substringAfter("theme=", "").substringBefore("&").substringBefore("?")) {
+        "dark" -> ThemeColorMode.Dark
+        "light" -> ThemeColorMode.Light
         else -> ThemeColorMode.System
     }
 }
@@ -79,7 +79,7 @@ fun extractThemeColorMode(search: String, hash: String): ThemeColorMode {
  * Extracts the active ThemePreset from URL parameters, defaulting to MONOCHROME.
  */
 fun extractPreset(search: String, hash: String): ThemePreset {
-    val combined = "$search&$hash"
+    val combined = "$hash&$search"
     if (combined.contains("preset=")) {
         val p = combined.substringAfter("preset=").substringBefore("&")
         if (p != "custom") {
@@ -93,7 +93,7 @@ fun extractPreset(search: String, hash: String): ThemePreset {
  * Extracts a custom seed color from URL parameters only if preset is custom or unspecified.
  */
 fun extractCustomSeed(search: String, hash: String): Color? {
-    val combined = "$search&$hash"
+    val combined = "$hash&$search"
     if (combined.contains("preset=")) {
         val p = combined.substringAfter("preset=").substringBefore("&")
         if (p != "custom" && ThemePreset.fromKey(p) != null) {
@@ -119,7 +119,7 @@ fun extractCustomSeed(search: String, hash: String): Color? {
  */
 /** Returns the explicit `density`/`scale` URL override, or null to fit the snippet's preview frame. */
 fun extractDensityScale(search: String, hash: String): Float? {
-    val combined = "$search&$hash"
+    val combined = "$hash&$search"
     val scaleStr = when {
         combined.contains("density=") -> combined.substringAfter("density=").substringBefore("&")
         combined.contains("scale=") -> combined.substringAfter("scale=").substringBefore("&")

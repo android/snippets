@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,11 +51,7 @@ val pullSnippets by tasks.registering(Sync::class) {
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser {
-            commonWebpackConfig {
-                outputFileName = "snippets-wasm-preview.js"
-            }
-        }
+        browser()
         binaries.executable()
     }
 
@@ -77,10 +73,15 @@ tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false
 }
 
+tasks.named("wasmJsProcessResources") {
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
+}
+
 val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
     dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -120,6 +121,7 @@ val packageStaticSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
     dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
 
     into(layout.buildDirectory.dir("dist/site"))
 

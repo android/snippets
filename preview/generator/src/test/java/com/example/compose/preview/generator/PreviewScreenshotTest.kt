@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,8 @@ import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
+
+internal const val PreviewRobolectricSdk = 36
 
 private val PreviewColorScheme = lightColorScheme(
     primary = Color(0xFF000000),
@@ -120,7 +122,7 @@ private class DeviceQualifiersRule(private val qualifiers: String) : TestRule {
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [36])
+@Config(sdk = [PreviewRobolectricSdk])
 class PreviewScreenshotTest(private val snippetId: String) {
 
     private val frame = previewFrameFor(snippetId)

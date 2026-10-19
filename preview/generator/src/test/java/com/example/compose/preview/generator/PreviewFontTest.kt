@@ -39,7 +39,7 @@ import org.robolectric.annotation.GraphicsMode
  */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [36], qualifiers = "w384dp-h216dp-xhdpi")
+@Config(sdk = [PreviewRobolectricSdk], qualifiers = "w384dp-h216dp-xhdpi")
 class PreviewFontTest {
 
     @get:Rule
