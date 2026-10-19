@@ -24,6 +24,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 
 private const val REQUESTING_LOCATION_UPDATES_KEY = "requesting_location_updates"
 
@@ -32,6 +34,14 @@ private class RequestLocationUpdatesActivity : ComponentActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private var requestingLocationUpdates = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+            .setMinUpdateIntervalMillis(5000)
+            .build()
+    }
 
     // [START android_location_request_updates_start]
     override fun onResume() {
@@ -49,22 +59,12 @@ private class RequestLocationUpdatesActivity : ComponentActivity() {
     // [END android_location_request_updates_start]
 
     // [START android_location_request_updates_callback]
-    private lateinit var locationCallback: LocationCallback
-
-    // ...
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // [START_EXCLUDE]
-        super.onCreate(savedInstanceState)
-        // [END_EXCLUDE]
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
-                for (location in locationResult.locations) {
-                    // Update UI with location data.
-                    // ...
-                }
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult ?: return
+            for (location in locationResult.locations) {
+                // Update UI with location data.
+                // ...
             }
         }
     }
@@ -83,7 +83,7 @@ private class RequestLocationUpdatesActivity : ComponentActivity() {
 
     // [START android_location_request_updates_save_state]
     override fun onSaveInstanceState(outState: Bundle) {
-        outState?.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, requestingLocationUpdates)
+        outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, requestingLocationUpdates)
         super.onSaveInstanceState(outState)
     }
     // [END android_location_request_updates_save_state]
