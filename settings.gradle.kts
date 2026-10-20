@@ -54,6 +54,7 @@ include(
     ":watchfacepush:validator",
     ":kmp:androidApp",
     ":kmp:shared",
+    ":kmp:gradlePlugin",
     ":playbilling",
     ":tv",
     ":contacts",
