@@ -24,6 +24,9 @@ android {
     namespace = "com.example.compose.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    // When to remove: once androidx-compose-bom resolves androidx.compose.ui:ui to 1.13.0 or newer.
+    compileSdkMinor = 1
+
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
