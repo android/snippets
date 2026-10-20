@@ -18,18 +18,15 @@ package com.example.camera.snippets.camera2
 
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraMetadata
 import android.hardware.camera2.CaptureRequest
 import android.hardware.camera2.TotalCaptureResult
 import android.hardware.camera2.params.DynamicRangeProfiles
-import android.hardware.camera2.params.OutputConfiguration
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
 import android.os.Handler
-import android.view.Surface
 import androidx.annotation.RequiresApi
 
 private class HdrVideoCaptureSnippets(
@@ -65,36 +62,6 @@ private class HdrVideoCaptureSnippets(
         return false
     }
     // [END android_camera2_hdr_video_capture_is_hlg_supported]
-
-    // [START android_camera2_hdr_video_capture_setup_session]
-    /**
-     * Creates a [CameraCaptureSession] with a dynamic range profile.
-     */
-    private fun setupSessionWithDynamicRangeProfile(
-        dynamicRange: Long,
-        device: CameraDevice,
-        targets: List<Surface>,
-        handler: Handler? = null,
-        stateCallback: CameraCaptureSession.StateCallback
-    ): Boolean {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            val outputConfigs = mutableListOf<OutputConfiguration>()
-            for (target in targets) {
-                val outputConfig = OutputConfiguration(target)
-                // sets the dynamic range profile, for example DynamicRangeProfiles.HLG10.
-                outputConfig.setDynamicRangeProfile(dynamicRange)
-                outputConfigs.add(outputConfig)
-            }
-            device.createCaptureSessionByOutputConfigurations(
-                outputConfigs, stateCallback, handler
-            )
-            return true
-        } else {
-            device.createCaptureSession(targets, stateCallback, handler)
-            return false
-        }
-    }
-    // [END android_camera2_hdr_video_capture_setup_session]
 
     fun previewRequestSample(
         session: CameraCaptureSession,

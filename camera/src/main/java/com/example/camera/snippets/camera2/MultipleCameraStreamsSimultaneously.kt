@@ -19,18 +19,14 @@ package com.example.camera.snippets.camera2
 import android.app.Activity
 import android.content.Context
 import android.graphics.ImageFormat
-import android.graphics.Point
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.ImageReader
 import android.util.Size
-import android.view.Display
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import androidx.core.content.ContextCompat
 import kotlin.math.max
 import kotlin.math.min
 
@@ -131,70 +127,32 @@ private object MultipleCameraStreamsSnippets {
     }
     // [END android_camera2_multiple_camera_streams_maximum_output_size]
 
-    // [START android_camera2_multiple_camera_streams_preview_output_size]
-    /** Helper class used to pre-compute shortest and longest sides of a [Size] */
-    class SmartSize(width: Int, height: Int) {
-        var size = Size(width, height)
-        var long = max(size.width, size.height)
-        var short = min(size.width, size.height)
-        override fun toString() = "SmartSize(${long}x$short)"
-    }
-
-    /** Standard High Definition size for pictures and video */
-    val SIZE_1080P: SmartSize = SmartSize(1920, 1080)
-
-    /** Returns a [SmartSize] object for the given [Display] */
-    fun getDisplaySmartSize(display: Display): SmartSize {
-        val outPoint = Point()
-        display.getRealSize(outPoint)
-        return SmartSize(outPoint.x, outPoint.y)
-    }
-
     /**
-     * Returns the largest available PREVIEW size. For more information, see:
-     * https://d.android.com/reference/android/hardware/camera2/CameraDevice
+     * Returns the largest available output size that fits the screen, capped at 1080p.
+     * Supports the get_preview_output_sizes snippet. The page's own getPreviewOutputSize()
+     * sample stays on the guide page because it uses the deprecated Display.getRealSize().
      */
-    fun <T> getPreviewOutputSize(
-        display: Display,
-        characteristics: CameraCharacteristics,
-        targetClass: Class<T>,
-        format: Int? = null
-    ): Size {
-
-        // Find which is smaller: screen or 1080p.
-        val screenSize = getDisplaySmartSize(display)
-        val hdScreen = screenSize.long >= SIZE_1080P.long || screenSize.short >= SIZE_1080P.short
-        val maxSize = if (hdScreen) SIZE_1080P else screenSize
-
-        // If image format is provided, use it to determine supported sizes; else use target class.
-        val config = checkNotNull(
-            characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-        )
-        if (format == null)
-            assert(StreamConfigurationMap.isOutputSupportedFor(targetClass))
-        else
-            assert(config.isOutputSupportedFor(format))
-        val allSizes = if (format == null)
-            config.getOutputSizes(targetClass) else config.getOutputSizes(format)
-
-        // Get available sizes and sort them by area from largest to smallest.
-        val validSizes = allSizes
-            .sortedWith(compareBy { it.height * it.width })
-            .map { SmartSize(it.width, it.height) }.reversed()
-
-        // Then, get the largest output size that is smaller or equal than our max size.
-        return validSizes.first { it.long <= maxSize.long && it.short <= maxSize.short }.size
-    }
-    // [END android_camera2_multiple_camera_streams_preview_output_size]
-
     fun <T> getPreviewOutputSize(
         context: Context,
         characteristics: CameraCharacteristics,
         targetClass: Class<T>,
         format: Int? = null
     ): Size {
-        val display = ContextCompat.getDisplayOrDefault(context)
-        return getPreviewOutputSize(display, characteristics, targetClass, format)
+        val metrics = context.resources.displayMetrics
+        val screenLong = max(metrics.widthPixels, metrics.heightPixels)
+        val screenShort = min(metrics.widthPixels, metrics.heightPixels)
+        val hdScreen = screenLong >= 1920 || screenShort >= 1080
+        val maxLong = if (hdScreen) 1920 else screenLong
+        val maxShort = if (hdScreen) 1080 else screenShort
+
+        val config = checkNotNull(
+            characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        )
+        val allSizes = if (format == null)
+            config.getOutputSizes(targetClass) else config.getOutputSizes(format)
+        return allSizes
+            .sortedByDescending { it.height * it.width }
+            .first { max(it.width, it.height) <= maxLong && min(it.width, it.height) <= maxShort }
     }
 
     fun checkHardwareLevel(characteristics: CameraCharacteristics) {
