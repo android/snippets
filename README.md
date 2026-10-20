@@ -14,7 +14,7 @@ We love contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 The `preview/` directory provides the interactive WebAssembly (Compose Multiplatform for Web) preview runner and Roborazzi screenshot generator used by `developer.android.com`:
 
-- **`preview/wasm`**: Compiles registered Material 3 Compose snippets from `compose/snippets` into an embeddable WebAssembly application (`wasm.html` + `snippets-wasm-preview.js`) with URL-driven theme, color preset, and density controls.
+- **`preview/wasm`**: Compiles registered Material 3 Compose snippets from `compose/snippets` into an embeddable WebAssembly application (`wasm.html` + `snippets-preview-wasm.mjs`) with URL-driven theme, color preset, and density controls.
 - **`preview/generator`**: Generates 16:9 (`768x432`) monochrome static preview screenshots for every snippet in `SnippetRegistry.kt` using Robolectric Native Graphics and Roborazzi.
 
 See [`preview/README.md`](preview/README.md) for local build, screenshot generation, and development server instructions.
