@@ -99,11 +99,11 @@ private class GeofencingActivity : ComponentActivity() {
         // [START android_location_geofencing_add]
         geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)
             .addOnSuccessListener {
-                // Geofences added
+                // Geofences added.
                 // ...
             }
             .addOnFailureListener {
-                // Failed to add geofences
+                // Failed to add geofences.
                 // ...
             }
         // [END android_location_geofencing_add]
@@ -113,11 +113,11 @@ private class GeofencingActivity : ComponentActivity() {
         // [START android_location_geofencing_remove]
         geofencingClient.removeGeofences(geofencePendingIntent)
             .addOnSuccessListener {
-                // Geofences removed
+                // Geofences removed.
                 // ...
             }
             .addOnFailureListener {
-                // Failed to remove geofences
+                // Failed to remove geofences.
                 // ...
             }
         // [END android_location_geofencing_remove]
@@ -127,7 +127,7 @@ private class GeofencingActivity : ComponentActivity() {
 private object PendingIntentSnippet {
     // [START android_location_geofencing_pending_intent]
     class MainActivity : ComponentActivity() {
-
+        // ...
         private val geofencePendingIntent: PendingIntent by lazy {
             // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
             // addGeofences() and removeGeofences().
