@@ -53,7 +53,7 @@ private object RawQueryExample {
     // [END android_kmp_room_raw_query_dao]
 
     abstract class AppDatabase : RoomDatabase() {
-        abstract fun todoDao(): TodoDao
+        abstract fun getDao(): TodoDao
     }
 
     // [START android_kmp_room_raw_query_exec]
@@ -65,7 +65,7 @@ private object RawQueryExample {
             }
         )
 
-        return todoDao().getTodos(query)
+        return getDao().getTodos(query)
     }
     // [END android_kmp_room_raw_query_exec]
 }
