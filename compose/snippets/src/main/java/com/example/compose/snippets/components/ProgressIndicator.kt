@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -132,7 +132,7 @@ fun CircularDeterminateIndicator() {
         if (loading) {
             CircularProgressIndicator(
                 progress = { currentProgress },
-                modifier = Modifier.width(64.dp),
+                modifier = Modifier.size(64.dp),
             )
         }
     }
@@ -169,7 +169,7 @@ fun IndeterminateCircularIndicator() {
     if (!loading) return
 
     CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
+        modifier = Modifier.size(64.dp),
         color = MaterialTheme.colorScheme.secondary,
         trackColor = MaterialTheme.colorScheme.surfaceVariant,
     )
