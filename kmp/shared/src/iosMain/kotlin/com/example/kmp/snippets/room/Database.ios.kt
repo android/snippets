@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalForeignApi::class)
-
 package com.example.kmp.snippets.room
 
 import androidx.room3.Room
@@ -35,6 +33,7 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     )
 }
 
+@OptIn(ExperimentalForeignApi::class)
 private fun documentDirectory(): String {
     val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
