@@ -16,6 +16,7 @@
 /misc/                                                                              @android/devrel-snippets
 /security/                                                                          @android/devrel-security
 /playbilling/                                                                       @android/devrel-play-billing
+/preview/                                                                           @android/devrel-compose
 /room/                                                                              @android/eng-android-architecture
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
