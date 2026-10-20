@@ -22,8 +22,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
+import com.example.compose.snippets.R
 
 private class IntroEmailActivity : ComponentActivity() {
     // [START android_activities_intro_compose_email]
@@ -89,6 +92,19 @@ class ExampleActivity : ComponentActivity() {
     }
 }
 // [END android_activities_intro_example_activity]
+
+private object IntroMyActivitySnippet {
+    // [START android_activities_intro_my_activity]
+    class MyActivity : ComponentActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContent {
+                Text(text = stringResource(id = R.string.greeting))
+            }
+        }
+    }
+    // [END android_activities_intro_my_activity]
+}
 
 private class MyViewModel : ViewModel() {
     fun handleText(text: String) {}
