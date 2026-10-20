@@ -16,13 +16,8 @@
 
 package com.example.camera.snippets.camerax
 
-import android.content.Context
-import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
-import android.view.OrientationEventListener
-import android.view.Surface
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
@@ -73,86 +68,4 @@ private object CameraUseCasesSetupSnippet {
     private fun buildImageAnalysis(): ImageAnalysis = ImageAnalysis.Builder().build()
 
     private fun buildImageCapture(): ImageCapture = ImageCapture.Builder().build()
-}
-
-private object OrientationEventListenerSnippet {
-    // [START android_camerax_orientation_rotation_orientation_listener]
-    class CameraActivity : ComponentActivity() {
-
-        private val orientationEventListener by lazy {
-            object : OrientationEventListener(this) {
-                override fun onOrientationChanged(orientation: Int) {
-                    if (orientation == ORIENTATION_UNKNOWN) {
-                        return
-                    }
-
-                    val rotation = when (orientation) {
-                        in 45 until 135 -> Surface.ROTATION_270
-                        in 135 until 225 -> Surface.ROTATION_180
-                        in 225 until 315 -> Surface.ROTATION_90
-                        else -> Surface.ROTATION_0
-                    }
-
-                    imageAnalysis.targetRotation = rotation
-                    imageCapture.targetRotation = rotation
-                }
-            }
-        }
-
-        override fun onStart() {
-            super.onStart()
-            orientationEventListener.enable()
-        }
-
-        override fun onStop() {
-            super.onStop()
-            orientationEventListener.disable()
-        }
-    }
-    // [END android_camerax_orientation_rotation_orientation_listener]
-
-    private val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder().build()
-
-    private val imageCapture: ImageCapture = ImageCapture.Builder().build()
-}
-
-private object DisplayListenerSnippet {
-    // [START android_camerax_orientation_rotation_display_listener]
-    class CameraActivity : ComponentActivity() {
-
-        private val displayListener = object : DisplayManager.DisplayListener {
-            override fun onDisplayChanged(displayId: Int) {
-                if (rootView.display.displayId == displayId) {
-                    val rotation = rootView.display.rotation
-                    imageAnalysis.targetRotation = rotation
-                    imageCapture.targetRotation = rotation
-                }
-            }
-
-            override fun onDisplayAdded(displayId: Int) {
-            }
-
-            override fun onDisplayRemoved(displayId: Int) {
-            }
-        }
-
-        override fun onStart() {
-            super.onStart()
-            val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-            displayManager.registerDisplayListener(displayListener, null)
-        }
-
-        override fun onStop() {
-            super.onStop()
-            val displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-            displayManager.unregisterDisplayListener(displayListener)
-        }
-    }
-    // [END android_camerax_orientation_rotation_display_listener]
-
-    private lateinit var rootView: View
-
-    private val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder().build()
-
-    private val imageCapture: ImageCapture = ImageCapture.Builder().build()
 }
