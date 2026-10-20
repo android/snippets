@@ -16,4 +16,6 @@
 -->
 <resources>
     <string name="app_name">Cars Snippets</string>
+    <string name="auth_title">Authenticate using device credentials</string>
+    <string name="sync_data_to_car_notice">Authenticate to allow your data to be synced to the car</string>
 </resources>
