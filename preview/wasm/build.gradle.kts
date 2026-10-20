@@ -73,6 +73,18 @@ tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false
 }
 
+// packageStaticSite and packageDevelopmentSite copy directly from compileSync without Webpack,
+// so skip Webpack bundling and Karma browser test tasks during `./gradlew build`.
+tasks.matching {
+    it.name == "wasmJsBrowserDistribution" ||
+        it.name == "wasmJsBrowserProductionWebpack" ||
+        it.name == "wasmJsBrowserDevelopmentWebpack" ||
+        it.name == "wasmJsBrowserTest"
+}.configureEach {
+    enabled = false
+    setDependsOn(emptyList<Any>())
+}
+
 tasks.named("wasmJsProcessResources") {
     mustRunAfter(":preview:generator:recordRoborazziDebug")
 }
