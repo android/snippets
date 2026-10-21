@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.visible
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -45,6 +43,7 @@ import androidx.compose.ui.layout.onFirstVisible
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.R
 
 private object OnVisibilityChangedSample {
 
@@ -181,7 +180,7 @@ private object VisibleModifierSample {
         // [START android_compose_modifiers_visible]
         Row(modifier, verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = Icons.Default.Check,
+                painter = painterResource(R.drawable.check),
                 contentDescription = "Saved",
                 modifier = Modifier
                     // The icon keeps its space while it's hidden, so the text doesn't move.
