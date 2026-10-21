@@ -27,8 +27,6 @@ private fun formatTimeForSkeleton(context: Context) {
     val formattedTime: String = android.icu.text.DateFormat.getInstanceForSkeleton(
         skeleton,
         Locale.getDefault()
-    ).format(
-        Date()
-    )
+    ).format(Date())
     // [END android_resources_internationalization_skeleton]
 }
