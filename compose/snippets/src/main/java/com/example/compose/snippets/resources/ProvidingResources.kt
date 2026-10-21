@@ -17,7 +17,24 @@
 package com.example.compose.snippets.resources
 
 import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.compose.snippets.R
+
+@Composable
+private fun accessStringResourceExample() {
+    // [START android_resources_providing_compose_string]
+    stringResource(id = R.string.hello)
+    // [END android_resources_providing_compose_string]
+}
+
+@Composable
+private fun accessDrawableResourceExample() {
+    // [START android_resources_providing_compose_drawable]
+    painterResource(id = R.drawable.my_icon)
+    // [END android_resources_providing_compose_drawable]
+}
 
 private fun getLocalizedStringExample(context: Context) {
     // [START android_resources_providing_get_string]
