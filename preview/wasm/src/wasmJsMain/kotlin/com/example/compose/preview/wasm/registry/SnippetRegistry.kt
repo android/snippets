@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -96,6 +98,7 @@ import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
 import com.example.compose.snippets.components.VerticalDividerExample
+import kotlinx.datetime.LocalTime
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -142,6 +145,14 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_datepicker_inputmodal" to PreviewFrame(400, 640),
     "android_compose_components_datepicker_range" to PreviewFrame(400, 640),
 )
+
+/*
+ * Fixed date and time for the picker previews, so the screenshots don't change with the day they're
+ * generated on. March 2025 is in the past, so the picker never also highlights "today".
+ */
+private const val PreviewDateMillis = 1741737600000L // 2025-03-12 UTC
+private const val PreviewRangeEndMillis = 1742256000000L // 2025-03-18 UTC
+private val PreviewTime = LocalTime(hour = 10, minute = 30)
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
 
@@ -212,10 +223,29 @@ object SnippetRegistry {
         "android_compose_components_filterchip" to { CenteredBox { FilterChipExample() } },
         "android_compose_components_inputchip" to { CenteredBox { InputChipExample(text = "Input Chip", onDismiss = {}) } },
         "android_compose_components_suggestionchip" to { CenteredBox { SuggestionChipExample() } },
-        "android_compose_components_datepicker_modal" to { CenteredBox { DatePickerModal(onDateSelected = {}, onDismiss = {}) } },
+        "android_compose_components_datepicker_modal" to {
+            CenteredBox {
+                DatePickerModal(
+                    onDateSelected = {},
+                    onDismiss = {},
+                    datePickerState = rememberDatePickerState(initialSelectedDateMillis = PreviewDateMillis),
+                )
+            }
+        },
         "android_compose_components_datepicker_inputmodal" to { CenteredBox { DatePickerModalInput(onDateSelected = {}, onDismiss = {}) } },
         "android_compose_components_datepicker_docked" to { CenteredBox { DatePickerDocked() } },
-        "android_compose_components_datepicker_range" to { CenteredBox { DateRangePickerModal(onDateRangeSelected = {}, onDismiss = {}) } },
+        "android_compose_components_datepicker_range" to {
+            CenteredBox {
+                DateRangePickerModal(
+                    onDateRangeSelected = {},
+                    onDismiss = {},
+                    dateRangePickerState = rememberDateRangePickerState(
+                        initialSelectedStartDateMillis = PreviewDateMillis,
+                        initialSelectedEndDateMillis = PreviewRangeEndMillis,
+                    ),
+                )
+            }
+        },
         "android_compose_components_minimaldropdownmenu" to { CenteredBox { MinimalDropdownMenu() } },
         "android_compose_components_longbasicdropdownmenu" to { CenteredBox { LongBasicDropdownMenu() } },
         "android_compose_components_dropdownmenuwithdetails" to { CenteredBox { DropdownMenuWithDetails() } },
@@ -224,8 +254,8 @@ object SnippetRegistry {
         "android_compose_components_rangeslider" to { CenteredBox { RangeSliderExample() } },
         "android_compose_components_switchminimal" to { CenteredBox { SwitchMinimalExample() } },
         "android_compose_components_switchwithicon" to { CenteredBox { SwitchWithIconExample() } },
-        "android_compose_components_dial" to { CenteredBox { DialExample(onConfirm = {}, onDismiss = {}) } },
-        "android_compose_components_input" to { CenteredBox { InputExample(onConfirm = {}, onDismiss = {}) } },
+        "android_compose_components_dial" to { CenteredBox { DialExample(onConfirm = {}, onDismiss = {}, initialTime = PreviewTime) } },
+        "android_compose_components_input" to { CenteredBox { InputExample(onConfirm = {}, onDismiss = {}, initialTime = PreviewTime) } },
         "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } }
     )
 

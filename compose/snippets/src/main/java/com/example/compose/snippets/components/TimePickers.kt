@@ -16,8 +16,6 @@
 
 package com.example.compose.snippets.components
 
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -187,12 +186,11 @@ fun TimePickerExamples() {
 fun DialExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    initialTime: LocalTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time,
 ) {
-    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.hour,
-        initialMinute = currentTime.minute,
+        initialHour = initialTime.hour,
+        initialMinute = initialTime.minute,
         is24Hour = true,
     )
 
@@ -216,12 +214,11 @@ fun DialExample(
 fun InputExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    initialTime: LocalTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time,
 ) {
-    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.hour,
-        initialMinute = currentTime.minute,
+        initialHour = initialTime.hour,
+        initialMinute = initialTime.minute,
         is24Hour = true,
     )
 
