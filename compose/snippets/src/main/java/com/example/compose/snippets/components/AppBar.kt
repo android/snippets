@@ -393,8 +393,8 @@ private fun TopBarNavigationNavHost() {
             TopBarNavigationExample { navController.popBackStack() }
         }
         // Other destinations...
+        // [END android_compose_components_navigation_navhost]
     }
-    // [END android_compose_components_navigation_navhost]
 }
 
 @Composable
