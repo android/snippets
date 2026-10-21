@@ -21,7 +21,6 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -58,26 +57,21 @@ class IntentSecurityActivity : ComponentActivity() {
                 throw SecurityException("Nested intent contains forbidden URI permission grant flags!")
             }
 
-            val pm = packageManager
-            val target = nestedIntent.resolveActivity(pm)
-            if (target != null) {
-                // 2. Verify target is within the same package
-                if (target.packageName != packageName) {
-                    throw SecurityException("Cross-app intent redirection is forbidden!")
-                }
-                try {
-                    // 3. Verify target activity is exported
-                    val info = pm.getActivityInfo(target, 0)
-                    if (!info.exported) {
-                        throw SecurityException("Target activity is private: ${target.className}")
-                    }
-                    // 4. Explicitly set the component to prevent intent interception
-                    nestedIntent.component = target
-                    // Safe to launch
-                    startActivity(nestedIntent)
-                } catch (e: PackageManager.NameNotFoundException) {
-                    Log.e("Security", "Failed to resolve target activity", e)
-                }
+            // 2. Clear any selector intent that could override resolution
+            nestedIntent.selector = null
+
+            // 3. Resolve the target activity and verify both packageName and className
+            //    match the expected allowlisted destination
+            val target = nestedIntent.resolveActivity(packageManager)
+            if (target != null &&
+                target.packageName == packageName &&
+                target.className == TargetActivity::class.java.name
+            ) {
+                // 4. Explicitly pin the resolved component to prevent intent interception
+                nestedIntent.component = target
+                startActivity(nestedIntent)
+            } else {
+                throw SecurityException("Invalid or disallowed redirect target: $target")
             }
         }
     }
