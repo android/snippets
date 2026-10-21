@@ -210,8 +210,8 @@ fun SongListTopBottomBlurExample(lyrics: List<String>) {
     val listState = rememberLazyListState()
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
     val stepPx = with(LocalDensity.current) { (56.dp + 26.dp).toPx() }
-    // Smoothly scroll lyrics one by one in 900ms
-    LaunchedEffect(stepPx) {
+    // Smoothly scroll lyrics one by one in 900ms; restart from the top if the lyrics change
+    LaunchedEffect(stepPx, lyrics) {
         var currentLine = 0
         val maxScrollIndex = (lyrics.size - 5).coerceAtLeast(1)
         while (true) {
@@ -254,7 +254,11 @@ fun SongListTopBottomBlurExample(lyrics: List<String>) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // [START_EXCLUDE]
-        itemsIndexed(lyrics) { _, line ->
+        itemsIndexed(
+            items = lyrics,
+            key = { index, _ -> index },
+            contentType = { _, _ -> "lyric" },
+        ) { _, line ->
             Text(
                 text = line,
                 color = Color.White,
