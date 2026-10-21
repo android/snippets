@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.test
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -42,7 +41,7 @@ import androidx.compose.ui.test.printToLog
 import org.junit.Rule
 import org.junit.Test
 
-class TestingApisSnippets {
+class TestingApis {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -52,15 +51,15 @@ class TestingApisSnippets {
     @Test
     fun findersExamples() {
         // [START android_compose_testing_apis_onnode]
-        // Example.
+        // Example
         composeTestRule
-            .onNode(hasText("Button")) // Equivalent to onNodeWithText("Button").
+            .onNode(hasText("Button")) // Equivalent to onNodeWithText("Button")
         // [END android_compose_testing_apis_onnode]
 
         // [START android_compose_testing_apis_onallnodes]
-        // Example.
+        // Example
         composeTestRule
-            .onAllNodes(hasText("Button")) // Equivalent to onAllNodesWithText("Button").
+            .onAllNodes(hasText("Button")) // Equivalent to onAllNodesWithText("Button")
         // [END android_compose_testing_apis_onallnodes]
 
         // [START android_compose_testing_apis_printtolog]
@@ -132,8 +131,6 @@ class TestingApisSnippets {
 
     @Composable
     private fun MyButton(content: @Composable RowScope.() -> Unit) {
-        Button(onClick = {}) {
-            Row(content = content)
-        }
+        Button(onClick = {}, content = content)
     }
 }

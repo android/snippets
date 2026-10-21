@@ -18,16 +18,25 @@ package com.example.compose.snippets.test
 
 import android.widget.Button
 import android.widget.TextView
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.test.waitUntilAtLeastOneExists
+import androidx.compose.ui.test.waitUntilDoesNotExist
+import androidx.compose.ui.test.waitUntilExactlyOneExists
+import androidx.compose.ui.test.waitUntilNodeCount
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.launchFragmentInContainer
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -107,5 +116,92 @@ class TestSyncSnippets {
     class InteropFragment: Fragment() {
         lateinit var legacyButton: Button
         lateinit var legacyTextView: TextView
+    }
+}
+
+class Synchronization {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    private val milliseconds = 1000L
+    private val timeoutMs = 5000L
+    private val condition = true
+    private val matcher = hasText("Button")
+    private val count = 1
+    private val idlingResource = object : IdlingResource {
+        override val isIdleNow: Boolean = true
+    }
+
+    // [START android_compose_testing_synchronization_counter]
+    @Test
+    fun counterTest() {
+        val myCounter = mutableStateOf(0) // State that can cause recompositions.
+        var lastSeenValue = 0 // Used to track recompositions.
+        composeTestRule.setContent {
+            Text(myCounter.value.toString())
+            lastSeenValue = myCounter.value
+        }
+        myCounter.value = 1 // The state changes, but there is no recomposition.
+
+        // Fails because nothing triggered a recomposition.
+        assertTrue(lastSeenValue == 1)
+
+        // Passes because the assertion triggers recomposition.
+        composeTestRule.onNodeWithText("1").assertExists()
+    }
+    // [END android_compose_testing_synchronization_counter]
+
+    @Test
+    fun disableAutoSyncExample() {
+        // [START android_compose_testing_synchronization_autoadvance_false]
+        composeTestRule.mainClock.autoAdvance = false
+        // [END android_compose_testing_synchronization_autoadvance_false]
+
+        // [START android_compose_testing_synchronization_advancetime]
+        composeTestRule.mainClock.advanceTimeByFrame()
+        composeTestRule.mainClock.advanceTimeBy(milliseconds)
+        // [END android_compose_testing_synchronization_advancetime]
+    }
+
+    @Test
+    fun idlingResourcesExample() {
+        // [START android_compose_testing_synchronization_idlingresource]
+        composeTestRule.registerIdlingResource(idlingResource)
+        composeTestRule.unregisterIdlingResource(idlingResource)
+        // [END android_compose_testing_synchronization_idlingresource]
+    }
+
+    @Test
+    fun manualSyncExample() {
+        // [START android_compose_testing_synchronization_waitforidle]
+        composeTestRule.mainClock.autoAdvance = true // Default.
+        composeTestRule.waitForIdle() // Advances the clock until Compose is idle.
+
+        composeTestRule.mainClock.autoAdvance = false
+        composeTestRule.waitForIdle() // Only waits for idling resources to become idle.
+        // [END android_compose_testing_synchronization_waitforidle]
+
+        // [START android_compose_testing_synchronization_advancetimeuntil]
+        composeTestRule.mainClock.advanceTimeUntil(timeoutMs) { condition }
+        // [END android_compose_testing_synchronization_advancetimeuntil]
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun waitForConditionsExample() {
+        // [START android_compose_testing_synchronization_waituntil]
+        composeTestRule.waitUntil(timeoutMs) { condition }
+        // [END android_compose_testing_synchronization_waituntil]
+
+        // [START android_compose_testing_synchronization_waituntil_helpers]
+        composeTestRule.waitUntilAtLeastOneExists(matcher, timeoutMs)
+
+        composeTestRule.waitUntilDoesNotExist(matcher, timeoutMs)
+
+        composeTestRule.waitUntilExactlyOneExists(matcher, timeoutMs)
+
+        composeTestRule.waitUntilNodeCount(matcher, count, timeoutMs)
+        // [END android_compose_testing_synchronization_waituntil_helpers]
     }
 }
