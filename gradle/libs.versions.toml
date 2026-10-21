@@ -46,6 +46,7 @@ camera-camera2 = "1.6.1"
 coil = "2.7.0"
 # @keep
 compileSdk = "37"
+compose-multiplatform = "1.13.0-alpha01"
 compose-remote = "1.0.0-alpha21"
 composeUiTooling = "1.6.2"
 coreSplashscreen = "1.2.0"
@@ -81,6 +82,7 @@ ktlint = "1.5.0"
 lifecycleService = "2.11.0"
 maps-compose = "8.4.0"
 material = "1.14.0"
+material3 = "1.5.0-alpha27"
 material3-adaptive = "1.3.0"
 material3-adaptive-navigation-suite = "1.4.0"
 material3-adaptive-navigation3 = "1.3.0"
@@ -93,6 +95,7 @@ mlkit-face-detection = "16.1.7"
 mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
+playServicesCameraLowLightBoost = "16.0.1-beta04"
 playServicesFitness = "21.3.0"
 playServicesLocation = "21.4.0"
 playServicesWearable = "20.0.1"
@@ -164,7 +167,7 @@ androidx-compose-foundation-layout = { module = "androidx.compose.foundation:fou
 androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material-ripple = { module = "androidx.compose.material:material-ripple" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-compose-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "material3-adaptive" }
 androidx-compose-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3-adaptive" }
 androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3-adaptive" }
@@ -290,6 +293,8 @@ androidx-window-core = { module = "androidx.window:window-core", version.ref = "
 androidx-window-java = { module = "androidx.window:window-java", version.ref = "androidx-window-java" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work-runtime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work-runtime" }
+androidx-work-rxjava2 = { module = "androidx.work:work-rxjava2", version.ref = "androidx-work-runtime" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work-runtime" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-camera2" }
@@ -319,6 +324,10 @@ hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
 horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
+jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform" }
+jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
+jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
@@ -336,6 +345,7 @@ mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
+play-services-camera-low-light-boost = { module = "com.google.android.gms:play-services-camera-low-light-boost", version.ref = "playServicesCameraLowLightBoost" }
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }
@@ -360,6 +370,7 @@ android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-lint = { id = "com.android.lint", version.ref = "androidGradlePlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 google-protobuf = { id = "com.google.protobuf", version.ref = "protoc" }
 gradle-versions = { id = "io.github.ben-manes.versions", version.ref = "gradle-versions" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

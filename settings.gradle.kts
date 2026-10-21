@@ -11,7 +11,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         snapshotVersion?.let {
             println("https://androidx.dev/snapshots/builds/$it/artifacts/repository/")
@@ -63,5 +63,7 @@ include(
     ":telecom",
     ":room",
     ":performance",
-    ":location"
+    ":location",
+    ":preview:wasm",
+    ":preview:generator"
 )
