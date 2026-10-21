@@ -40,10 +40,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import kotlin.math.abs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 private const val TAG = "ProjectedHardware"
 
@@ -156,7 +156,7 @@ private fun setUpGlassesCamera(activity: ComponentActivity) {
                                 supportedResolutions
                                     .filter { abs((it.width.toDouble() / it.height) - targetAspectRatio) < tolerance }
                                     .maxByOrNull { it.width * it.height }
-                                // Case C: Absolute fallback if no 16:9 resolutions are found.
+                                    // Case C: Absolute fallback if no 16:9 resolutions are found.
                                     ?: supportedResolutions.firstOrNull()
                                     ?: preferredResolution
                             }
