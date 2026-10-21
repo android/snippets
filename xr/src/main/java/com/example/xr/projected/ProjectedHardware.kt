@@ -43,6 +43,7 @@ import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 private const val TAG = "ProjectedHardware"
 
@@ -100,13 +101,14 @@ private fun getPhoneContext(activity: ComponentActivity): Context? {
 // [END androidxr_projected_context_get_host]
 
 /**
- * Demonstrates how to capture an image using the audio and display glasses' camera.
+ * Demonstrates how to set up the audio and display glasses' camera for an image capture use case,
+ * utilizing dynamically queried and verified resolutions.
  */
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 // [START androidxr_projected_camera_capture]
-private fun startCameraOnGlasses(activity: ComponentActivity) {
+private fun setUpGlassesCamera(activity: ComponentActivity) {
     activity.lifecycleScope.launch {
         // Before creating a projected context, check to see if the projected device is connected.
         ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
@@ -133,17 +135,43 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
                             return@addListener
                         }
 
-                        // 3. Define the resolution strategy.
-                        val targetResolution = Size(1920, 1080)
+                        // 3. Query supported streaming resolutions dynamically using Camera2 Interop.
+                        val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
+                        val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
+                            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+                        )
+                        val supportedResolutions = map?.getOutputSizes(ImageFormat.JPEG)?.toList() ?: emptyList()
+                        Log.i(TAG, "Supported resolutions for JPEG: ${supportedResolutions.joinToString()}")
+
+                        // 4. Dynamically select the best target resolution from the queried list.
+                        val preferredResolution = Size(1920, 1080)
+                        val dynamicTargetResolution = when {
+                            // Case A: The preferred resolution is explicitly supported by the glasses.
+                            supportedResolutions.contains(preferredResolution) -> preferredResolution
+
+                            // Case B: Find the highest supported 16:9 resolution as a fallback.
+                            else -> {
+                                val targetAspectRatio = 16.0 / 9.0
+                                val tolerance = 0.01
+                                supportedResolutions
+                                    .filter { abs((it.width.toDouble() / it.height) - targetAspectRatio) < tolerance }
+                                    .maxByOrNull { it.width * it.height }
+                                // Case C: Absolute fallback if no 16:9 resolutions are found.
+                                    ?: supportedResolutions.firstOrNull()
+                                    ?: preferredResolution
+                            }
+                        }
+                        Log.i(TAG, "Selected target resolution: $dynamicTargetResolution")
+
                         val resolutionStrategy = ResolutionStrategy(
-                            targetResolution,
+                            dynamicTargetResolution,
                             ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
                         )
                         val resolutionSelector = ResolutionSelector.Builder()
                             .setResolutionStrategy(resolutionStrategy)
                             .build()
 
-                        // 4. Initialize the ImageCapture use case with options.
+                        // 5. Initialize the ImageCapture use case with options.
                         val imageCapture = ImageCapture.Builder()
                             // Optional: Configure resolution, format, etc.
                             .setResolutionSelector(resolutionSelector)
