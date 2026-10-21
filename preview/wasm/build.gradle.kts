@@ -41,6 +41,11 @@ val generatedSnippetsDir = layout.buildDirectory.dir("generated/sources/composeS
 val generatedSnippetResDir = layout.buildDirectory.dir("generated/snippetResources/composeResources")
 val generatedSnippetResKotlinDir = layout.buildDirectory.dir("generated/snippetResources/kotlin")
 
+// Copies every file in compose/snippets/.../components into the wasm build, so all of them must
+// compile for Kotlin/Wasm (no Android-only APIs such as android.*, java.text or java.util.Calendar).
+// R.drawable/R.string, painterResource and stringResource are supported (see
+// generateSnippetResources). Exclude a file here only if it can't be made multiplatform; its
+// snippets then can't have interactive previews. See preview/README.md.
 val pullSnippets by tasks.registering(Sync::class) {
     from("${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets/components") {
         include("*.kt")
@@ -154,7 +159,6 @@ kotlin {
         }
     }
 }
-
 
 tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false

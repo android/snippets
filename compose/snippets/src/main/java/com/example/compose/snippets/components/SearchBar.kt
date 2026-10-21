@@ -140,7 +140,7 @@ fun SimpleSearchBar(
 
 @Preview(showBackground = true)
 @Composable
-private fun SimpleSearchBarExample() {
+fun SimpleSearchBarExample() {
     // Create and remember the text field state
     val textFieldState = rememberTextFieldState()
     val items = listOf(

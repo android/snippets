@@ -133,7 +133,7 @@ fun TodoListItem(
 @Preview(showBackground = true)
 // [START android_compose_components_swipeitemexample]
 @Composable
-private fun SwipeItemExample() {
+fun SwipeItemExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),

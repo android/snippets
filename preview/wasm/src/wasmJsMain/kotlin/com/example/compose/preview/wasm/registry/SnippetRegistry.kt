@@ -28,7 +28,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.R
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
 import com.example.compose.snippets.components.AssistChipExample
@@ -40,7 +43,7 @@ import com.example.compose.snippets.components.CenterAlignedTopAppBarExample
 import com.example.compose.snippets.components.CheckboxMinimalExample
 import com.example.compose.snippets.components.CheckboxParentExample
 import com.example.compose.snippets.components.CustomizableSearchBarExample
-import com.example.compose.snippets.components.DialogExamples
+import com.example.compose.snippets.components.DialogWithImage
 import com.example.compose.snippets.components.DropdownMenuWithDetails
 import com.example.compose.snippets.components.ElevatedButtonExample
 import com.example.compose.snippets.components.ElevatedCardExample
@@ -74,14 +77,14 @@ import com.example.compose.snippets.components.RadioButtonSingleSelection
 import com.example.compose.snippets.components.RangeSliderExample
 import com.example.compose.snippets.components.RichTooltipExample
 import com.example.compose.snippets.components.ScaffoldExample
-import com.example.compose.snippets.components.SearchBarExamples
+import com.example.compose.snippets.components.SimpleSearchBarExample
 import com.example.compose.snippets.components.SingleChoiceSegmentedButton
 import com.example.compose.snippets.components.SliderAdvancedExample
 import com.example.compose.snippets.components.SliderMinimalExample
 import com.example.compose.snippets.components.SmallExample
 import com.example.compose.snippets.components.SmallTopAppBarExample
 import com.example.compose.snippets.components.SuggestionChipExample
-import com.example.compose.snippets.components.SwipeToDismissBoxExamples
+import com.example.compose.snippets.components.SwipeItemExample
 import com.example.compose.snippets.components.SwitchMinimalExample
 import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
@@ -121,6 +124,8 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
+    // The image dialog card is 375dp tall.
+    "android_compose_components_dialogwithimage" to PreviewFrame(768, 432),
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
@@ -159,7 +164,16 @@ object SnippetRegistry {
         "android_compose_carousel_uncontained_basic" to { CenteredBox { CarouselExample() } },
         "android_compose_components_alertdialog" to { CenteredBox { AlertDialogExample(onDismissRequest = {}, onConfirmation = {}, dialogTitle = "Alert", dialogText = "Example dialog message", icon = AppIcons.Info) } },
         "android_compose_components_minimaldialog" to { CenteredBox { MinimalDialog(onDismissRequest = {}) } },
-        "android_compose_components_dialogwithimage" to { CenteredBox { DialogExamples() } },
+        "android_compose_components_dialogwithimage" to {
+            CenteredBox {
+                DialogWithImage(
+                    onDismissRequest = {},
+                    onConfirmation = {},
+                    painter = painterResource(id = R.drawable.feathertop),
+                    imageDescription = stringResource(id = R.string.feathertop_content_description),
+                )
+            }
+        },
         "android_compose_components_horizontaldivider" to { CenteredBox { HorizontalDividerExample() } },
         "android_compose_components_verticaldivider" to { CenteredBox { VerticalDividerExample() } },
         "android_compose_components_scaffold" to { ScaffoldExample() },
@@ -171,8 +185,8 @@ object SnippetRegistry {
         "android_compose_components_richtooltipexample" to { CenteredBox { RichTooltipExample() } },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
         "android_compose_components_customizable_searchbar" to { CenteredBox { CustomizableSearchBarExample() } },
-        "android_compose_components_simple_searchbar" to { CenteredBox { SearchBarExamples() } },
-        "android_compose_components_swipeitemexample" to { CenteredBox { SwipeToDismissBoxExamples() } },
+        "android_compose_components_simple_searchbar" to { SimpleSearchBarExample() },
+        "android_compose_components_swipeitemexample" to { SwipeItemExample() },
         "android_compose_components_centeralignedtopappbar" to { CenterAlignedTopAppBarExample() },
         "android_compose_components_smalltopappbar" to { SmallTopAppBarExample() },
         "android_compose_components_mediumtopappbar" to { MediumTopAppBarExample() },
