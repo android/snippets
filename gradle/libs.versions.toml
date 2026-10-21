@@ -96,6 +96,7 @@ mlkit-face-detection = "16.1.7"
 mlkit-genai-prompt = "1.0.0-beta4"
 mockitoKotlin = "5.3.1"
 okHttp = "5.4.0"
+playServicesCameraLowLightBoost = "16.0.1-beta04"
 playServicesFitness = "21.3.0"
 playServicesLocation = "21.4.0"
 playServicesWearable = "20.0.1"
@@ -347,6 +348,7 @@ mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
+play-services-camera-low-light-boost = { module = "com.google.android.gms:play-services-camera-low-light-boost", version.ref = "playServicesCameraLowLightBoost" }
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-wearable = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable" }

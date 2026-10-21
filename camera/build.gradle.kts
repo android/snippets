@@ -85,6 +85,10 @@ dependencies {
     implementation(libs.play.services.wearable)
     implementation(libs.mockito.kotlin)
 
+    // Google Low Light Boost dependencies
+    implementation(libs.play.services.camera.low.light.boost)
+    implementation(libs.kotlinx.coroutines.play.services)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
