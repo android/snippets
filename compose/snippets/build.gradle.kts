@@ -29,6 +29,9 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+
+    // When to remove: once androidx-compose-bom resolves androidx.compose.ui:ui to 1.13.0 or newer.
+    compileSdkMinor = 1
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -87,6 +90,15 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.graphics)
+
+    // Progressive blur (BlurRadiusSpec, BlurStop, Modifier.blur { }) needs Compose UI 1.13.0-beta01,
+    // newer than the stable BOM. Remove once the BOM ships Compose UI 1.13.0.
+    implementation(libs.androidx.compose.ui.blur)
+    constraints {
+        // When to remove: once androidx-compose-bom resolves androidx.compose.ui:ui to 1.13.0 or newer.
+        implementation("com.google.errorprone:error_prone_annotations:2.30.0")
+    }
+
     implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.viewbinding)
