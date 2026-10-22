@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.xr.runtime.Session
 import androidx.xr.scenecore.ExperimentalGltfAnimationApi
+import androidx.xr.scenecore.GltfAnimationStartOptions
 import androidx.xr.scenecore.GltfModel
 import androidx.xr.scenecore.GltfModelEntity
 import androidx.xr.scenecore.SpatialCapability
@@ -46,8 +47,7 @@ private fun createModelEntity(session: Session, gltfModel: GltfModel) {
 private fun animateEntity(gltfEntity: GltfModelEntity) {
     // [START androidxr_scenecore_gltfmodelentity_animation]
     val animation = gltfEntity.getAnimations().find { it.name == "Walk" } ?: return
-    animation.loop = true
-    animation.start()
+    animation.start(GltfAnimationStartOptions(shouldLoop = true))
     // [END androidxr_scenecore_gltfmodelentity_animation]
 }
 
