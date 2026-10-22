@@ -69,7 +69,13 @@ kotlin {
     }
 }
 
-tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
+// Binaryen's wasm-opt only runs for the production bundle deployed to GitHub Pages. It shrinks
+// snippets-preview-wasm.wasm from about 23 MB to 6.6 MB (5 MB to 1.8 MB gzipped), but adds a
+// couple of minutes, so development and test builds skip it.
+tasks.matching {
+    it.name.contains("KotlinWasmJsOptimize") &&
+        it.name != "compileProductionExecutableKotlinWasmJsOptimize"
+}.configureEach {
     enabled = false
 }
 
@@ -132,7 +138,12 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
 val packageStaticSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
-    dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
+    dependsOn(
+        "wasmJsProductionExecutableCompileSync",
+        "compileProductionExecutableKotlinWasmJsOptimize",
+        "wasmJsProcessResources",
+        "unpackSkikoRuntimeForWasmJs",
+    )
     mustRunAfter(":preview:generator:recordRoborazziDebug")
 
     into(layout.buildDirectory.dir("dist/site"))
@@ -146,8 +157,8 @@ val packageStaticSite by tasks.registering(Copy::class) {
     }
     from(copyPreviewFonts)
 
-    // Copy compiled production WASM and JS from compileSync
-    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/kotlin")) {
+    // Copy the wasm-opt optimized production WASM and JS from compileSync
+    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/optimized")) {
         include("*.wasm")
         include("*.mjs")
         include("*.js")
