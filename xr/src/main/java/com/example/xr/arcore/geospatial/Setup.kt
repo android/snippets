@@ -70,7 +70,7 @@ private fun configureGeospatialSession(session: Session) {
 @Composable
 private fun CheckGeospatialStateRunning(session: Session) {
     // [START androidxr_arcore_geospatial_compose_check_geospatial_state]
-    val geospatial = remember { Geospatial.getInstance(session) }
+    val geospatial = remember(session) { Geospatial.getInstance(session) }
     val geospatialState by geospatial.state.collectAsStateWithLifecycle()
     if (geospatialState.geospatialTrackingState == Geospatial.GeospatialTrackingState.RUNNING) {
         // Queries to the Geospatial API are only valid when the state is RUNNING.
