@@ -69,14 +69,18 @@ kotlin {
     }
 }
 
-// Binaryen's wasm-opt only runs for the production bundle deployed to GitHub Pages. It shrinks
-// snippets-preview-wasm.wasm from about 23 MB to 6.6 MB (5 MB to 1.8 MB gzipped), but adds a
-// couple of minutes, so development and test builds skip it.
-tasks.matching {
-    it.name.contains("KotlinWasmJsOptimize") &&
-        it.name != "compileProductionExecutableKotlinWasmJsOptimize"
-}.configureEach {
+// Binaryen's wasm-opt shrinks snippets-preview-wasm.wasm by about 3.5x (for example 23 MB to
+// 6.6 MB, or 5 MB to 1.8 MB gzipped) but adds a minute or two. Only the GitHub Pages bundle
+// (packageStaticSite) needs it, so it stays off for everything else, including `./gradlew build`
+// in CI. Development and test builds never run it.
+val optimizeTaskName = "compileProductionExecutableKotlinWasmJsOptimize"
+tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false
+}
+gradle.taskGraph.whenReady {
+    if (hasTask("${project.path}:packageStaticSite")) {
+        tasks.named(optimizeTaskName).get().enabled = true
+    }
 }
 
 // packageStaticSite and packageDevelopmentSite copy directly from compileSync without Webpack,
@@ -140,7 +144,7 @@ val packageStaticSite by tasks.registering(Copy::class) {
     description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
     dependsOn(
         "wasmJsProductionExecutableCompileSync",
-        "compileProductionExecutableKotlinWasmJsOptimize",
+        optimizeTaskName,
         "wasmJsProcessResources",
         "unpackSkikoRuntimeForWasmJs",
     )
