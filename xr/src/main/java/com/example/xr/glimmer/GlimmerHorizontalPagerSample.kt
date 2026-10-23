@@ -17,22 +17,18 @@
 package com.example.xr.glimmer
 
 import androidx.compose.animation.core.animate
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextMotion
-import androidx.xr.glimmer.Button
 import androidx.xr.glimmer.Card
 import androidx.xr.glimmer.LocalTextStyle
 import androidx.xr.glimmer.Text
 import androidx.xr.glimmer.pager.GlimmerHorizontalPager
 import androidx.xr.glimmer.pager.GlimmerPagerState
 import androidx.xr.glimmer.pager.rememberGlimmerPagerState
-import kotlinx.coroutines.launch
 
 @Composable
 fun GlimmerHorizontalPagerSample() {
@@ -93,12 +89,9 @@ fun GlimmerPagerStateAnimateScrollToPageSample() {
     val state = rememberGlimmerPagerState(initialPage = 5, pageCount = { 10 })
 
     // [START androidxr_glimmer_animate_scroll_to_page]
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(0) {
-        scope.launch { state.animateScrollToPage(1) }
+    LaunchedEffect(Unit) {
+        state.animateScrollToPage(1)
     }
-
 
     GlimmerHorizontalPager(modifier = Modifier.fillMaxSize(), state = state) { page ->
         Card {
@@ -116,10 +109,9 @@ fun GlimmerPagerStateScrollToPageSample() {
     val state = rememberGlimmerPagerState(initialPage = 5, pageCount = { 10 })
 
     // [START androidxr_glimmer_scroll_to_page]
-    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(0) {
-        scope.launch { state.scrollToPage(1) }
+    LaunchedEffect(Unit) {
+        state.scrollToPage(1)
     }
 
     GlimmerHorizontalPager(modifier = Modifier.fillMaxSize(), state = state) { page ->
@@ -160,10 +152,9 @@ fun GlimmerPagerStateCustomAnimateScrollToPageSample() {
     }
 
     val state = rememberGlimmerPagerState(initialPage = 5, pageCount = { 10 })
-    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(0) {
-        scope.launch { state.customAnimateScrollToPage(1) }
+    LaunchedEffect(Unit) {
+        state.customAnimateScrollToPage(1)
     }
 
     GlimmerHorizontalPager(modifier = Modifier.fillMaxSize(), state = state) { page ->
@@ -174,7 +165,6 @@ fun GlimmerPagerStateCustomAnimateScrollToPageSample() {
             )
         }
     }
-
     // [END androidxr_glimmer_custom_animated_scroll_to_page]
 }
 
