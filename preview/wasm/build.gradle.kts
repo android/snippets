@@ -1,0 +1,193 @@
+/*
+ * Copyright 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
+plugins {
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.multiplatform)
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+// Both preview renderers draw text with the same variable Roboto Flex font so the live WASM
+// preview matches the Roborazzi screenshots. The WASM runner fetches it from `fonts/`.
+val copyPreviewFonts by tasks.registering(Sync::class) {
+    from("${rootProject.projectDir}/compose/snippets/src/main/res/font") {
+        include("robotoflex_variable.ttf")
+        into("fonts")
+    }
+    into(layout.buildDirectory.dir("generated/previewResources/wasmJsMain"))
+}
+
+val generatedSnippetsDir = layout.buildDirectory.dir("generated/sources/composeSnippets/wasmJsMain/kotlin")
+val pullSnippets by tasks.registering(Sync::class) {
+    from("${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets/components") {
+        // Only the snippets registered in SnippetRegistry. Add files here as more snippets are
+        // enabled for interactive previews.
+        include("Button.kt")
+        into("com/example/compose/snippets/components")
+    }
+    into(generatedSnippetsDir)
+}
+
+kotlin {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    sourceSets {
+        val wasmJsMain by getting {
+            kotlin.srcDir(files(generatedSnippetsDir).builtBy(pullSnippets))
+            resources.srcDir(copyPreviewFonts)
+            dependencies {
+                implementation(libs.jetbrains.compose.runtime)
+                implementation(libs.jetbrains.compose.foundation)
+                implementation(libs.jetbrains.compose.material3)
+                implementation(libs.jetbrains.compose.ui)
+            }
+        }
+    }
+}
+
+// Binaryen's wasm-opt shrinks snippets-preview-wasm.wasm by about 3.5x (for example 23 MB to
+// 6.6 MB, or 5 MB to 1.8 MB gzipped) but adds a minute or two. Only the GitHub Pages bundle
+// (packageStaticSite) needs it, so it stays off for everything else, including `./gradlew build`
+// in CI. Development and test builds never run it.
+val optimizeTaskName = "compileProductionExecutableKotlinWasmJsOptimize"
+tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
+    enabled = false
+}
+gradle.taskGraph.whenReady {
+    if (hasTask("${project.path}:packageStaticSite")) {
+        tasks.named(optimizeTaskName).get().enabled = true
+    }
+}
+
+// packageStaticSite and packageDevelopmentSite copy directly from compileSync without Webpack,
+// so skip Webpack bundling and Karma browser test tasks during `./gradlew build`.
+tasks.matching {
+    it.name == "wasmJsBrowserDistribution" ||
+        it.name == "wasmJsBrowserProductionWebpack" ||
+        it.name == "wasmJsBrowserDevelopmentWebpack" ||
+        it.name == "wasmJsBrowserTest"
+}.configureEach {
+    enabled = false
+    setDependsOn(emptyList<Any>())
+}
+
+tasks.named("wasmJsProcessResources") {
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
+}
+
+val packageDevelopmentSite by tasks.registering(Copy::class) {
+    group = "distribution"
+    description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
+    dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
+
+    into(layout.buildDirectory.dir("dist/site"))
+
+    // Copy WASM runner HTML, fonts, and generated Roborazzi screenshots
+    from("src/wasmJsMain/resources") {
+        include("**/*")
+    }
+    from("src/wasmJsMain/resources/wasm.html") {
+        rename("wasm.html", "index.html")
+    }
+    from(copyPreviewFonts)
+
+    // Copy compiled development WASM and JS from compileSync
+    from(layout.buildDirectory.dir("compileSync/wasmJs/main/developmentExecutable/kotlin")) {
+        include("*.wasm")
+        include("*.mjs")
+        include("*.js")
+        include("*.map")
+    }
+
+    // Copy skiko runtime (skiko.wasm, skiko.mjs)
+    from(layout.buildDirectory.dir("compose/skiko-wasmJs-runtime")) {
+        include("skiko.wasm")
+        include("skiko.mjs")
+    }
+    // Compose Multiplatform material3 depends on kotlinx-datetime, whose wasm build imports
+    // '@js-joda/core'. Point it at the bundled copy (also mapped in wasm.html's import map).
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
+    }
+}
+
+val packageStaticSite by tasks.registering(Copy::class) {
+    group = "distribution"
+    description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
+    dependsOn(
+        "wasmJsProductionExecutableCompileSync",
+        optimizeTaskName,
+        "wasmJsProcessResources",
+        "unpackSkikoRuntimeForWasmJs",
+    )
+    mustRunAfter(":preview:generator:recordRoborazziDebug")
+
+    into(layout.buildDirectory.dir("dist/site"))
+
+    // Copy WASM runner HTML, fonts, and generated Roborazzi screenshots
+    from("src/wasmJsMain/resources") {
+        include("**/*")
+    }
+    from("src/wasmJsMain/resources/wasm.html") {
+        rename("wasm.html", "index.html")
+    }
+    from(copyPreviewFonts)
+
+    // Copy the wasm-opt optimized production WASM and JS from compileSync
+    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/optimized")) {
+        include("*.wasm")
+        include("*.mjs")
+        include("*.js")
+        include("*.map")
+    }
+
+    // Copy skiko runtime (skiko.wasm, skiko.mjs)
+    from(layout.buildDirectory.dir("compose/skiko-wasmJs-runtime")) {
+        include("skiko.wasm")
+        include("skiko.mjs")
+    }
+    // Compose Multiplatform material3 depends on kotlinx-datetime, whose wasm build imports
+    // '@js-joda/core'. Point it at the bundled copy (also mapped in wasm.html's import map).
+    doLast {
+        val importObj = file("${layout.buildDirectory.get()}/dist/site/snippets-preview-wasm.import-object.mjs")
+        if (importObj.exists()) {
+            importObj.writeText(importObj.readText().replace("'@js-joda/core'", "'./js-joda-core.mjs'"))
+        }
+    }
+}
+
+tasks.register("buildPreviewSite") {
+    group = "distribution"
+    description = "Alias for packageStaticSite used by CI"
+    dependsOn(packageStaticSite)
+}
+
+
