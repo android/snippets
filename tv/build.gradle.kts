@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.tv.compose.material)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.tvprovider)
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
