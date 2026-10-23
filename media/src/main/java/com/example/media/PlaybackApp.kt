@@ -18,9 +18,35 @@ package com.example.media
 
 import android.content.Context
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaSession
+import androidx.media3.session.MediaSessionService
 
 private fun createExoPlayer(context: Context) {
     // [START android_media_playback_app_create_exoplayer]
     val player = ExoPlayer.Builder(context).build()
     // [END android_media_playback_app_create_exoplayer]
+}
+
+private fun createMediaSession(context: Context) {
+    // [START android_media_playback_app_create_media_session]
+    val player = ExoPlayer.Builder(context).build()
+    val mediaSession = MediaSession.Builder(context, player).build()
+    // [END android_media_playback_app_create_media_session]
+}
+
+class OnGetSessionService : MediaSessionService() {
+    private var mediaSession: MediaSession? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        val player = ExoPlayer.Builder(this).build()
+        mediaSession = MediaSession.Builder(this, player).build()
+    }
+
+    // [START android_media_playback_app_on_get_session]
+    // This example always accepts the connection request.
+    override fun onGetSession(
+        controllerInfo: MediaSession.ControllerInfo
+    ): MediaSession? = mediaSession
+    // [END android_media_playback_app_on_get_session]
 }
