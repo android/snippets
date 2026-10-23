@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.sharesheet
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
@@ -25,22 +24,56 @@ import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.service.chooser.ChooserAction
-import android.service.chooser.ChooserTarget
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.IntentCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.example.compose.snippets.R
+
+@Composable
+fun SharesheetNavHost() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable(route = "home") {
+            // Home screen
+        }
+        // [START android_receive_data_nav_deeplink]
+        composable(
+            route = "incoming_share",
+            deepLinks = listOf(
+                navDeepLink {
+                    action = Intent.ACTION_SEND
+                    mimeType = "text/plain"
+                },
+                navDeepLink {
+                    action = Intent.ACTION_SEND
+                    mimeType = "image/*"
+                },
+                navDeepLink {
+                    action = Intent.ACTION_SEND_MULTIPLE
+                    mimeType = "image/*"
+                }
+            )
+        ) {
+            SharesheetHandler()
+        }
+        // [END android_receive_data_nav_deeplink]
+    }
+}
 
 // [START android_handle_intent_action_data_sent]
 @Composable
 fun SharesheetHandler() {
-    val context = LocalContext.current
-    val intent = (context as? Activity)?.intent
+    val activity = LocalActivity.current
+    val intent = activity?.intent
 
     when (intent?.action) {
-        ACTION_SEND -> {
-            if ("text/plain" == intent.type) {
-                handleSendText(intent) // Handle text being sent.
+        Intent.ACTION_SEND -> {
+            if (intent.type == "text/plain") {
+                handleSendText(intent) // Handle text being sent
             } else if (intent.type?.startsWith("image/") == true) {
                 handleSendImage(intent) // Handle single image being sent
             }
@@ -58,21 +91,24 @@ fun SharesheetHandler() {
     }
 }
 
-fun handleSendText(intent: Intent) {
+private fun handleSendText(intent: Intent) {
     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-        // Update ViewModel state to change state of text being shared
+        // Update UI state with the shared text
     }
 }
 
-fun handleSendImage(intent: Intent) {
-    IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-        // Update ViewModel state to change state of image being shared
+private fun handleSendImage(intent: Intent) {
+    val imageUri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+    imageUri?.let {
+        // Update UI state with the shared image
     }
 }
 
-fun handleSendMultipleImages(intent: Intent) {
-    IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
-        // Update ViewModel state to change state of image(s) being shared
+private fun handleSendMultipleImages(intent: Intent) {
+    val imageUris =
+        IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+    imageUris?.let {
+        // Update UI state with the shared images
     }
 }
 // [END android_handle_intent_action_data_sent]
@@ -82,8 +118,7 @@ fun handleSendAndExtraText(intent: Intent) {
     IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).let {
         // Handle the EXTRA_TEXT as well
         val extraText = intent.getCharSequenceExtra(Intent.EXTRA_TEXT)
-        // Update ViewModel state to change state image being shared and the EXTRA_TEXT
-        // if available
+        // Update UI state with the shared image and the EXTRA_TEXT if available
     }
     // [END android_handle_intent_handle_extra_text]
 }
@@ -176,43 +211,24 @@ fun sharesheetCustomActions(context: Context, previewText: String) {
 // [END android_provide_custom_actions]
 
 fun customTargets(context: Context, previewText: String) {
-    val chooserTargetJessica = ChooserTarget(
-        "ChooserTargetJessica",
-        Icon.createWithResource(context, R.drawable.ic_logo),
-        0f,
-        ComponentName(context.packageName, context.packageName + ".SharesheetActivity"),
-        null
-    )
-    val chooserTargetSpyros = ChooserTarget(
-        "ChooserTargetSpyros",
-        Icon.createWithResource(context, R.drawable.ic_logo),
-        0f,
-        ComponentName(context.packageName, context.packageName + ".SharesheetActivity"),
-        null
-    )
-    val intentTargetNearbyShare = Intent().apply {
-        component = ComponentName(context.packageName, "${context.packageName}.AnActivity")
+// [START android_provide_custom_targets]
+    val sendIntent = Intent(ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, previewText)
     }
-    val intentTargetMaps = Intent(Intent.ACTION_VIEW).apply {
-        setPackage("com.google.android.apps.maps")
+
+    val customIntent = Intent().apply {
+        component = ComponentName(context.packageName, "${context.packageName}.CustomActivity")
     }
-    val sendIntent = Intent(ACTION_SEND)
-        .setType("text/plain")
-        .putExtra(Intent.EXTRA_TEXT, previewText)
-    val shareIntent = Intent.createChooser(sendIntent, null)
-    // [START android_provide_custom_targets]
-    val share = Intent.createChooser(shareIntent, null).apply {
-        putExtra(
-            Intent.EXTRA_CHOOSER_TARGETS,
-            arrayOf(chooserTargetJessica, chooserTargetSpyros)
-        )
+
+    val shareIntent = Intent.createChooser(sendIntent, null).apply {
         putExtra(
             Intent.EXTRA_INITIAL_INTENTS,
-            arrayOf(intentTargetNearbyShare, intentTargetMaps)
+            arrayOf(customIntent)
         )
     }
-    // [END android_provide_custom_targets]
-    context.startActivity(share)
+    context.startActivity(shareIntent)
+// [END android_provide_custom_targets]
 }
 
 // [START android_exclude_specific_targets]

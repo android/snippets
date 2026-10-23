@@ -56,5 +56,5 @@ dependencies {
     implementation(libs.google.android.material)
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.webkit)
-
+    implementation(libs.kotlinx.coroutines.jdk9)
 }

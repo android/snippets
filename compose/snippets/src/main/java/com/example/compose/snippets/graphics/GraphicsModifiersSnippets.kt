@@ -21,6 +21,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -60,6 +62,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.LayerOutsets
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
@@ -69,6 +72,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
@@ -478,6 +482,73 @@ private fun DrawScope.drawSquares() {
         topLeft = Offset(size.width / 4f * 2f, size.height / 4f * 2f)
     )
 }
+
+@Preview
+@Composable
+fun ModifierGraphicsLayerOutsets() {
+    Column(
+        modifier = Modifier
+            .background(Color(0xFF0A0E14))
+            .padding(48.dp),
+        verticalArrangement = Arrangement.spacedBy(48.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val pillShape = RoundedCornerShape(percent = 50)
+
+        // Without outsets: alpha = 0.5f creates an offscreen buffer that clips the 24.dp glow
+        Box(
+            modifier = Modifier
+                .size(
+                    width = 140.dp,
+                    height = 56.dp
+                )
+                .graphicsLayer(
+                    alpha = 0.5f,
+                    clip = false
+                )
+                .dropShadow(
+                    shape = pillShape,
+                    shadow = Shadow(radius = 24.dp, color = Color.Cyan)
+                )
+                .background(color = Color(0xFF141824), shape = pillShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "✨ Glow",
+                color = Color.White,
+                fontSize = 18.sp
+            )
+        }
+
+        // [START android_compose_graphics_modifiers_graphicsLayer_outsets]
+        Box(
+            modifier = Modifier
+                .size(
+                    width = 140.dp,
+                    height = 56.dp
+                )
+                .graphicsLayer(
+                    alpha = 0.5f,
+                    outsets = LayerOutsets(24.dp),
+                    clip = false
+                )
+                .dropShadow(
+                    shape = pillShape,
+                    shadow = Shadow(radius = 24.dp, color = Color.Cyan)
+                )
+                .background(color = Color(0xFF141824), shape = pillShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "✨ Glow",
+                color = Color.White,
+                fontSize = 18.sp
+            )
+        }
+        // [END android_compose_graphics_modifiers_graphicsLayer_outsets]
+    }
+}
+
 
 val Purple = Color(0xFF7E57C2)
 val Yellow = Color(0xFFFFCA28)

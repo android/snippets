@@ -13,6 +13,9 @@
 # limitations under the License.
 name: Build iOS snippets
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ '*' ]
@@ -34,17 +37,18 @@ jobs:
     name: Build iOS app
     runs-on: macos-latest
     steps:
-      - uses: maxim-lobanov/setup-xcode@v1
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
         with:
           xcode-version: latest-stable
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Build iOS app
-        uses: mxcl/xcodebuild@v3
+        uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5 # v3
         with:
-          xcode: ^16
           scheme: iosApp
           platform: iOS
           action: build

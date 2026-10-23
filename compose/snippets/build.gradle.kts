@@ -109,6 +109,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.googlefonts)
 
     implementation(libs.androidx.emoji2.views)
+    implementation(libs.androidx.ink.brush)
+    implementation(libs.androidx.ink.brush.compose)
+    implementation(libs.androidx.ink.storage)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.fragment.compose)
@@ -133,12 +136,15 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.pip)
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)
 
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui.compose)
+    implementation(libs.androidx.media3.ui.compose.material3)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
