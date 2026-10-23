@@ -103,12 +103,12 @@ private fun UseGeospatialAnchorCompose(session: Session, anchorCreateResult: Anc
 private fun useGeospatialAnchorSceneCore(
     context: ComponentActivity,
     session: Session,
-    anchorCreateResult: AnchorCreateSuccess
+    anchorCreateResult: AnchorCreateSuccess,
+    attachedContentEntity: Entity,
 ) {
     // [START androidxr_arcore_geospatial_useAnchorCreateResult_scenecore]
     val anchorSpace = AnchorSpace.create(session, anchorCreateResult.anchor)
-    val contentEntity = createGeospatialContentEntity(context, session)
-    anchorSpace.addChild(contentEntity)
+    anchorSpace.addChild(attachedContentEntity)
     // [END androidxr_arcore_geospatial_useAnchorCreateResult_scenecore]
 }
 
@@ -118,21 +118,5 @@ private fun GeospatialContent() {
         Modifier
             .background(Color.White)
             .fillMaxSize()
-    )
-}
-
-private fun createGeospatialContentEntity(
-    context: ComponentActivity,
-    session: Session
-): PanelEntity {
-    val panelContent = ComposeView(context).apply {
-        setViewTreeLifecycleOwner(context)
-        setViewTreeSavedStateRegistryOwner(context)
-    }
-    return PanelEntity.create(
-        session = session,
-        view = panelContent,
-        pixelDimensions = IntSize2d(500, 500),
-        name = "panel entity"
     )
 }
