@@ -19,6 +19,7 @@ package com.example.example.snippet.views.webapps
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebView
+import androidx.annotation.OptIn
 import androidx.annotation.UiThread
 import androidx.webkit.Navigation
 import androidx.webkit.NavigationListener
@@ -28,7 +29,7 @@ import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
 
 @SuppressLint("RequiresFeature")
-@OptIn(WebViewCompat.ExperimentalNavigate::class)
+@OptIn(markerClass = [WebViewCompat.ExperimentalNavigate::class])
 private object NavigateSnippets {
     // [START android_views_webapps_navigate_lifecycle]
     class WebNavigationManager(private val webView: WebView) {
@@ -99,7 +100,7 @@ private object NavigateSnippets {
 }
 
 @SuppressLint("RequiresFeature")
-@OptIn(WebViewCompat.ExperimentalNavigate::class)
+@OptIn(markerClass = [WebViewCompat.ExperimentalNavigate::class])
 private fun propagateAppStateSnippet(webView: WebView) {
     // [START android_views_webapps_navigate_headers]
     // Attach host app metadata so the server can verify compatibility and tailor content
@@ -117,6 +118,7 @@ private fun propagateAppStateSnippet(webView: WebView) {
     // [END android_views_webapps_navigate_headers]
 }
 
+@SuppressLint("RequiresFeature")
 private fun saveStateSnippet(webView: WebView) {
     // [START android_views_webapps_navigate_save_state]
     // Save state with a maximum bundle size limit (for example, 64 KB)
