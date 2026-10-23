@@ -6,6 +6,8 @@ androidGradlePlugin = "9.3.1"
 androidx-activity-compose = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-appfunctions = "1.0.0-alpha10"
+androidx-appstate-statestore = "1.0.0-SNAPSHOT"
+androidx-appstate-transform = "1.0.0-SNAPSHOT"
 androidx-cameraX = "1.6.1"
 androidx-car = "1.7.0"
 androidx-compose-bom = "2026.09.00"
@@ -138,6 +140,10 @@ media3CommonKtx = "1.11.1"
 biometricKtx = "1.1.0"
 
 [libraries]
+androidx-appstate-statestore = { group = "androidx.appstate.statestore", name = "statestore", version.ref = "androidx-appstate-statestore" }
+androidx-appstate-statestore-datastore = { group = "androidx.appstate.statestore", name = "statestore-datastore", version.ref = "androidx-appstate-statestore" }
+androidx-appstate-transform = { group = "androidx.appstate.transform", name = "transform", version.ref = "androidx-appstate-transform" }
+androidx-appstate-transform-testing = { group = "androidx.appstate.transform", name = "transform-testing", version.ref = "androidx-appstate-transform" }
 accompanist-adaptive = "com.google.accompanist:accompanist-adaptive:0.37.3"
 accompanist-permissions = "com.google.accompanist:accompanist-permissions:0.37.3"
 accompanist-theme-adapter-appcompat = { module = "com.google.accompanist:accompanist-themeadapter-appcompat", version.ref = "accompanist" }

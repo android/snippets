@@ -76,6 +76,9 @@ android {
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     lint {
         lintConfig = file("lint.xml")
     }
@@ -157,6 +160,11 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.appstate.statestore)
+    implementation(libs.androidx.appstate.statestore.datastore)
+    implementation(libs.androidx.appstate.transform)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.compose.material3.adaptive.navigation3)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
@@ -173,6 +181,9 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.appstate.transform.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
 
     androidTestImplementation(composeBom)
 
