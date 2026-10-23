@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">snippets</string>
     <string name="dog_content_description">Golden Retriever in fall leaves</string>
     <string name="shopping_cart_content_desc">Shopping cart</string>
@@ -64,4 +64,19 @@
     <string name="compose_shortcut_long_label1">Open Compose</string>
     <string name="compose_disabled_message1">Compose is not available</string>
 
+    <!-- [START android_resources_string_resource_welcome_messages_xml] -->
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+    <!-- [END android_resources_string_resource_welcome_messages_xml] -->
+    <string name="hello_new_document_counter">Hello new document</string>
+    <string name="reusing_document_counter">Reusing document</string>
+
+    <!-- [START android_resources_localization_login_submit_button] -->
+    <!-- The action for submitting a form. This text is on a button that can fit 30 chars -->
+    <string name="login_submit_button">Sign in</string>
+    <!-- [END android_resources_localization_login_submit_button] -->
+    <!-- [START android_resources_localization_countdown] -->
+    <string name="countdown">
+      <xliff:g id="time" example="5 days">%1$s</xliff:g> until holiday
+    </string>
+    <!-- [END android_resources_localization_countdown] -->
 </resources>
