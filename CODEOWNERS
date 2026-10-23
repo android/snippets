@@ -10,12 +10,14 @@
 # /datastore/                                                                         @android/
 # /healthconnect/                                                                     @android/
 /identity/                                                                          @android/devrel-identity
+/ink/                                                                               @android/devrel-adaptive-apps
 /installprompt/                                                                     @android/devrel-wear
 # /kmp/                                                                               @android/
 # /kotlin/                                                                            @android/
 /misc/                                                                              @android/devrel-snippets
 /security/                                                                          @android/devrel-security
 /playbilling/                                                                       @android/devrel-play-billing
+/preview/                                                                           @android/devrel-compose
 /room/                                                                              @android/eng-android-architecture
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
@@ -26,3 +28,4 @@
 /wearcompanion/                                                                     @android/devrel-wear
 /xr/                                                                                @android/devrel-xr
 /gradle/libs.versions.toml                                                          
+/gradle.properties

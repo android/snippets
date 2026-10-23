@@ -29,6 +29,11 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -109,6 +114,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.googlefonts)
 
     implementation(libs.androidx.emoji2.views)
+    implementation(libs.androidx.ink.brush)
+    implementation(libs.androidx.ink.brush.compose)
+    implementation(libs.androidx.ink.storage)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.fragment.compose)
@@ -133,6 +141,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.pip)
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)

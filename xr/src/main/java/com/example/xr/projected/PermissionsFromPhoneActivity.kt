@@ -33,31 +33,10 @@ class PermissionsFromPhoneActivity : ComponentActivity() {
 
     private var projectedDeviceId: Int = -1
 
-    // [START androidxr_projected_permissions_from_phone_activity_permission_result_callback]
     private companion object {
         // REQUEST_CODE_GLASSES_CAMERA is a developer-defined constant.
         const val REQUEST_CODE_GLASSES_CAMERA = 1001
     }
-
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-        deviceId: Int
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
-
-        // Handle the result of the permission request
-        if (requestCode == REQUEST_CODE_GLASSES_CAMERA && deviceId == projectedDeviceId) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Proceed with glasses camera features
-            } else {
-                // Handle glasses permission denied
-            }
-        }
-    }
-    // [END androidxr_projected_permissions_from_phone_activity_permission_result_callback]
 
     @OptIn(ExperimentalProjectedApi::class)
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
