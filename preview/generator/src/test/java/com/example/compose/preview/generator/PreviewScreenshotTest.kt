@@ -27,7 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -37,8 +43,13 @@ import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.registry.previewFrameFor
 import com.example.compose.preview.wasm.registry.previewTypography
 import com.example.compose.snippets.R
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RoboVideoOptions
+import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.recordRoboVideo
 import java.io.File
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -116,7 +127,8 @@ private class DeviceQualifiersRule(private val qualifiers: String) : TestRule {
 }
 
 /**
- * Captures `<region_tag>.png` for every snippet in [SnippetRegistry], one test per snippet, on a
+ * Captures `<region_tag>.png` for every snippet in [SnippetRegistry] (and `<region_tag>.gif` for
+ * the ones in [SnippetRecordings]), one test per snippet, on a
  * device sized to the snippet's PreviewFrame at xhdpi (so the default 384x216dp frame is 768x432).
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -145,8 +157,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
         return screenshotsDir
     }
 
-    @Test
-    fun capture() {
+    private fun setSnippetContent() {
         val snippet = SnippetRegistry.snippets.getValue(snippetId)
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
@@ -162,6 +173,11 @@ class PreviewScreenshotTest(private val snippetId: String) {
                 }
             }
         }
+    }
+
+    @Test
+    fun capture() {
+        setSnippetContent()
         // Let entry animations, async fonts/images and lazy lists settle before capturing.
         composeTestRule.mainClock.advanceTimeByFrame()
         composeTestRule.mainClock.advanceTimeBy(1_000)
@@ -170,6 +186,46 @@ class PreviewScreenshotTest(private val snippetId: String) {
             filePath = File(getOutputDir(), "$snippetId.png").absolutePath,
         )
     }
+
+    /**
+     * Records `<region_tag>.gif` for snippets in [SnippetRecordings] by playing their interaction
+     * script. DAC shows the GIF as the static preview for animation snippets.
+     */
+    @OptIn(ExperimentalRoborazziApi::class)
+    @Test
+    fun record() {
+        val recording = SnippetRecordings[snippetId]
+        assumeTrue("$snippetId has no recording", recording != null)
+        setSnippetContent()
+        composeTestRule.mainClock.advanceTimeByFrame()
+        composeTestRule.onRoot().recordRoboVideo(
+            composeTestRule,
+            File(getOutputDir(), "$snippetId.gif").absolutePath,
+            RoboVideoOptions(recording!!.fps, 0L, 0xFFFFFFFF.toInt()),
+            RoborazziOptions(recordOptions = RoborazziOptions.RecordOptions(resizeScale = recording.scale)),
+        ) {
+            recording.steps.forEach { step ->
+                when (step) {
+                    is PreviewStep.Wait -> delay(step.millis)
+                    is PreviewStep.Click -> clickTarget(step.text).performClick()
+                    is PreviewStep.Press -> {
+                        val target = clickTarget(null)
+                        target.performTouchInput { down(center) }
+                        delay(step.millis)
+                        target.performTouchInput { up() }
+                    }
+                }
+            }
+        }
+    }
+
+    /** The node showing [text], or the first clickable node when [text] is null. */
+    private fun clickTarget(text: String?): SemanticsNodeInteraction =
+        if (text != null) {
+            composeTestRule.onNodeWithText(text)
+        } else {
+            composeTestRule.onAllNodes(hasClickAction()).onFirst()
+        }
 
     companion object {
         @JvmStatic
