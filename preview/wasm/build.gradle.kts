@@ -162,7 +162,7 @@ kotlin {
                 implementation(libs.jetbrains.compose.ui)
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)
-                implementation(libs.jetbrains.navigation.compose)
+                implementation(libs.jetbrains.navigation3.ui)
                 // AnimationQuickGuide.kt loads network images with Coil 3.
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor3)
