@@ -29,6 +29,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.animations.AnimateElevation
+import com.example.compose.snippets.animations.AnimateOffset
+import com.example.compose.snippets.animations.AnimatePadding
+import com.example.compose.snippets.animations.AnimateSizeChange
+import com.example.compose.snippets.animations.AnimateTextColor
+import com.example.compose.snippets.animations.AnimatedContentExampleSwitch
+import com.example.compose.snippets.animations.AnimatedVisibilityCookbook
+import com.example.compose.snippets.animations.AnimatedVisibilityCookbook_ModifierAlpha
+import com.example.compose.snippets.animations.AnimationLayout
+import com.example.compose.snippets.animations.SmoothAnimateText
 import com.example.compose.snippets.components.ElevatedButtonExample
 import com.example.compose.snippets.components.FilledButtonExample
 import com.example.compose.snippets.components.FilledTonalButtonExample
@@ -66,7 +76,25 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
  * pickers). Keep 16:9 where possible so the static image fills the DAC stage.
  */
-private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf()
+/**
+ * 16:9 frame for the animation quick guide snippets. They're written for a phone-sized screen
+ * (for example a box that grows from 200dp to 400dp tall), so they need more room than
+ * [DefaultPreviewFrame].
+ */
+val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
+
+private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
+    "android_compose_animation_cookbook_visibility" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_visibility_alpha" to AnimationPreviewFrame,
+    "android_compose_animation_size_change" to AnimationPreviewFrame,
+    "android_compose_animation_offset_change" to AnimationPreviewFrame,
+    "android_compose_animation_layout_offset" to AnimationPreviewFrame,
+    "android_compose_animation_padding" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_elevation" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+)
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
 
@@ -85,6 +113,18 @@ object SnippetRegistry {
         "android_compose_components_elevatedbutton" to { CenteredBox { ElevatedButtonExample(onClick = {}) } },
         "android_compose_components_outlinedbutton" to { CenteredBox { OutlinedButtonExample(onClick = {}) } },
         "android_compose_components_textbutton" to { CenteredBox { TextButtonExample(onClick = {}) } },
+        // Animation quick guide. Their static DAC previews are GIFs recorded by
+        // PreviewScreenshotTest from PreviewRecordings.
+        "android_compose_animation_cookbook_visibility" to { AnimatedVisibilityCookbook() },
+        "android_compose_animation_cookbook_visibility_alpha" to { AnimatedVisibilityCookbook_ModifierAlpha() },
+        "android_compose_animation_size_change" to { AnimateSizeChange() },
+        "android_compose_animation_offset_change" to { AnimateOffset() },
+        "android_compose_animation_layout_offset" to { AnimationLayout() },
+        "android_compose_animation_padding" to { AnimatePadding() },
+        "android_compose_animation_cookbook_elevation" to { AnimateElevation() },
+        "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
+        "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
+        "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

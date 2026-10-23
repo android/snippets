@@ -65,11 +65,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -108,11 +106,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import coil.compose.AsyncImage
+import androidx.savedstate.read
+import coil3.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
-import java.net.URLDecoder
-import java.net.URLEncoder
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
@@ -329,15 +326,15 @@ fun AnimateBetweenComposableDestinations() {
         composable("landing") {
             ScreenLanding(
                 // [START_EXCLUDE]
-                onItemClicked = {
-                    navController.navigate("detail/${URLEncoder.encode(it)}")
+                onItemClicked = { photoIndex ->
+                    navController.navigate("detail/$photoIndex")
                 }
                 // [END_EXCLUDE]
             )
         }
         composable(
-            "detail/{photoUrl}",
-            arguments = listOf(navArgument("photoUrl") { type = NavType.StringType }),
+            "detail/{photoIndex}",
+            arguments = listOf(navArgument("photoIndex") { type = NavType.IntType }),
             enterTransition = {
                 fadeIn(
                     animationSpec = tween(
@@ -361,7 +358,7 @@ fun AnimateBetweenComposableDestinations() {
         ) { backStackEntry ->
             ScreenDetails(
                 // [START_EXCLUDE]
-                photo = URLDecoder.decode(backStackEntry.arguments!!.getString("photoUrl")!!),
+                photo = randomSizedPhotos[backStackEntry.arguments!!.read { getInt("photoIndex") }],
                 onBackClicked = {
                     navController.popBackStack()
                 }
@@ -867,12 +864,12 @@ fun AnimationLayoutIndividualItem() {
 }
 
 @Composable
-private fun ScreenLanding(onItemClicked: (String) -> Unit) {
+private fun ScreenLanding(onItemClicked: (photoIndex: Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(200.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
-            items(randomSizedPhotos) { photo ->
+            itemsIndexed(randomSizedPhotos) { index, photo ->
                 AsyncImage(
                     model = photo,
                     contentScale = ContentScale.Crop,
@@ -881,7 +878,7 @@ private fun ScreenLanding(onItemClicked: (String) -> Unit) {
                         .fillMaxWidth()
                         .height(200.dp)
                         .clickable {
-                            onItemClicked(photo)
+                            onItemClicked(index)
                         }
                 )
             }
@@ -902,7 +899,7 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackClicked() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(painterResource(R.drawable.ic_arrow_back), contentDescription = "Back")
                     }
                 }
             )

@@ -48,6 +48,8 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            // Recording animated GIFs keeps every frame in memory until it's encoded.
+            all { it.maxHeapSize = "4g" }
         }
     }
 

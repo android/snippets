@@ -44,6 +44,7 @@ androidxHiltNavigationCompose = "1.4.0"
 appcompat = "1.7.1"
 camera-camera2 = "1.6.1"
 coil = "2.7.0"
+coil3 = "3.6.3"
 # @keep
 compileSdk = "37"
 compose-multiplatform = "1.13.0-alpha01"
@@ -72,8 +73,10 @@ guava-android = "33.6.0-jre"
 health-connect = "1.2.0-alpha04"
 hilt = "2.60.1"
 horologist = "0.8.3-alpha"
+jetbrains-navigation = "2.9.2"
 junit = "4.13.2"
 kotlin = "2.4.10"
+ktor = "3.6.0"
 kotlinCoroutinesOkhttp = "1.0"
 kotlinxCoroutinesGuava = "1.11.0"
 kotlinxSerialization = "1.11.0"
@@ -309,6 +312,9 @@ androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 billing = { module = "com.android.billingclient:billing-ktx", version.ref = "playbilling" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-camera2" }
+coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil3-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
+coil3-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearComposeFoundation" }
 compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "composeUiTooling" }
@@ -335,13 +341,17 @@ hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologist" }
 horologist-roboscreenshots = { module = "com.google.android.horologist:horologist-roboscreenshots", version.ref = "horologist" }
+jetbrains-compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform" }
 jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+jetbrains-compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-navigation" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-okhttp", version.ref = "kotlinCoroutinesOkhttp" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
