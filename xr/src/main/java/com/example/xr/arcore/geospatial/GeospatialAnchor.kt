@@ -38,7 +38,7 @@ import androidx.xr.runtime.Session
 import androidx.xr.runtime.math.IntSize2d
 import androidx.xr.runtime.math.Quaternion
 import androidx.xr.scenecore.AnchorSpace
-import androidx.xr.scenecore.PanelEntity
+import androidx.xr.scenecore.Entity
 
 private fun createAnchor(
     geospatial: Geospatial,
