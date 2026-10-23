@@ -34,67 +34,64 @@ import com.google.common.util.concurrent.ListenableFuture
 
 private const val ACTION_FAVORITES = "ACTION_FAVORITES"
 
-// Wrapper avoids a collision with PlaybackService in PlaybackApp.kt.
-private object CustomControlsSnippet {
-    @OptIn(UnstableApi::class)
-    // [START android_media_surfaces_mobile_custom_command_buttons]
-    class PlaybackService : MediaSessionService() {
-        private val customCommandFavorites = SessionCommand(ACTION_FAVORITES, Bundle.EMPTY)
-        private var mediaSession: MediaSession? = null
+@OptIn(UnstableApi::class)
+// [START android_media_surfaces_mobile_custom_command_buttons]
+class PlaybackService : MediaSessionService() {
+    private val customCommandFavorites = SessionCommand(ACTION_FAVORITES, Bundle.EMPTY)
+    private var mediaSession: MediaSession? = null
 
-        override fun onCreate() {
-            super.onCreate()
-            val favoriteButton =
-                CommandButton.Builder(CommandButton.ICON_HEART_UNFILLED)
-                    .setDisplayName("Save to favorites")
-                    .setSessionCommand(customCommandFavorites)
-                    .build()
-            val player = ExoPlayer.Builder(this).build()
-            // Build the session with a custom layout.
-            mediaSession =
-                MediaSession.Builder(this, player)
-                    .setCallback(MyCallback())
-                    .setMediaButtonPreferences(ImmutableList.of(favoriteButton))
-                    .build()
-        }
-
-        private inner class MyCallback : MediaSession.Callback {
-            override fun onConnect(
-                session: MediaSession,
-                controller: MediaSession.ControllerInfo
-            ): ConnectionResult {
-                // Set available player and session commands.
-                return AcceptedResultBuilder(session)
-                    .setAvailableSessionCommands(
-                        ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
-                            .add(customCommandFavorites)
-                            .build()
-                    )
-                    .build()
-            }
-
-            override fun onCustomCommand(
-                session: MediaSession,
-                controller: MediaSession.ControllerInfo,
-                customCommand: SessionCommand,
-                args: Bundle
-            ): ListenableFuture<SessionResult> {
-                if (customCommand.customAction == ACTION_FAVORITES) {
-                    // Do custom logic here.
-                    saveToFavorites(session.player.currentMediaItem)
-                    return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
-                }
-                return super.onCustomCommand(session, controller, customCommand, args)
-            }
-        }
-        // [START_EXCLUDE silent]
-
-        override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
-            return mediaSession
-        }
-        // [END_EXCLUDE]
+    override fun onCreate() {
+        super.onCreate()
+        val favoriteButton =
+            CommandButton.Builder(CommandButton.ICON_HEART_UNFILLED)
+                .setDisplayName("Save to favorites")
+                .setSessionCommand(customCommandFavorites)
+                .build()
+        val player = ExoPlayer.Builder(this).build()
+        // Build the session with a custom layout.
+        mediaSession =
+            MediaSession.Builder(this, player)
+                .setCallback(MyCallback())
+                .setMediaButtonPreferences(ImmutableList.of(favoriteButton))
+                .build()
     }
-    // [END android_media_surfaces_mobile_custom_command_buttons]
+
+    private inner class MyCallback : MediaSession.Callback {
+        override fun onConnect(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo
+        ): ConnectionResult {
+            // Set available player and session commands.
+            return AcceptedResultBuilder(session)
+                .setAvailableSessionCommands(
+                    ConnectionResult.DEFAULT_SESSION_COMMANDS.buildUpon()
+                        .add(customCommandFavorites)
+                        .build()
+                )
+                .build()
+        }
+
+        override fun onCustomCommand(
+            session: MediaSession,
+            controller: MediaSession.ControllerInfo,
+            customCommand: SessionCommand,
+            args: Bundle
+        ): ListenableFuture<SessionResult> {
+            if (customCommand.customAction == ACTION_FAVORITES) {
+                // Do custom logic here.
+                saveToFavorites(session.player.currentMediaItem)
+                return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            return super.onCustomCommand(session, controller, customCommand, args)
+        }
+    }
+    // [START_EXCLUDE silent]
+
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
+        return mediaSession
+    }
+    // [END_EXCLUDE]
 }
+// [END android_media_surfaces_mobile_custom_command_buttons]
 
 private fun saveToFavorites(item: MediaItem?) {}
