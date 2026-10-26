@@ -29,6 +29,11 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -131,7 +136,6 @@ dependencies {
 
     implementation(libs.accompanist.permissions)
 
-    implementation(libs.coil.kt.compose)
     implementation(libs.coil3.compose)
     implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.activity.compose)
