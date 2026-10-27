@@ -118,9 +118,10 @@ private object CustomLayoutsSnippet4 {
         ) { measurables, constraints ->
             // measure and position children given constraints logic here
             // [START_EXCLUDE]
+            val looseConstraints = constraints.copy(minHeight = 0)
             val placeables = measurables.map { measurable ->
                 // Measure each children
-                measurable.measure(constraints)
+                measurable.measure(looseConstraints)
             }
 
             // Set the size of the layout as big as it can
