@@ -220,12 +220,14 @@ private object IntrinsicsSnippet4 {
                 height: Int
             ): Int {
                 val paddingPx = padding.roundToPx()
+                val horizontal = paddingPx * 2
+                val vertical = paddingPx * 2
                 val childHeight = if (height == Constraints.Infinity) {
                     Constraints.Infinity
                 } else {
-                    (height - paddingPx * 2).coerceAtLeast(0)
+                    (height - vertical).coerceAtLeast(0)
                 }
-                return measurable.minIntrinsicWidth(childHeight) + paddingPx * 2
+                return measurable.minIntrinsicWidth(childHeight) + horizontal
             }
 
             // Other intrinsics related methods have a default value,
