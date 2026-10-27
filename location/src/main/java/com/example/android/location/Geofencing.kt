@@ -127,15 +127,16 @@ private class GeofencingActivity : ComponentActivity() {
 private object PendingIntentSnippet {
     // [START android_location_geofencing_pending_intent]
     class MainActivity : ComponentActivity() {
+
         // ...
+
         private val geofencePendingIntent: PendingIntent by lazy {
             // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
             // addGeofences() and removeGeofences().
-            val flags = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            var flags = PendingIntent.FLAG_UPDATE_CURRENT
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                 // Starting on Android S+ the pending intent has to be mutable.
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
+                flags = flags or PendingIntent.FLAG_MUTABLE
             }
             val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
             PendingIntent.getBroadcast(this, 0, intent, flags)
