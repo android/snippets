@@ -65,5 +65,6 @@ include(
     ":performance",
     ":location",
     ":preview:wasm",
-    ":preview:generator"
+    ":preview:generator",
+    ":ink"
 )
