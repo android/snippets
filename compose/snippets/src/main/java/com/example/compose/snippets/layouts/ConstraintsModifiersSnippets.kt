@@ -94,13 +94,13 @@ private fun Demo3() {
 
 @Preview
 @Composable
-private fun Demo4() {
+private fun RequiredWidthDemo() {
     // The padding leaves room to show the part that extends past the container.
-    Box(Modifier.padding(60.dp)) {
-        Box(containerModifier, contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.padding(60.dp)) {
+        Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
             // [START android_compose_layout_constraints_modifiers_required_width]
             Box(
-                Modifier
+                modifier = Modifier
                     .requiredWidth(400.dp)
                     .height(100.dp)
                     .background(Color(0xFF3DDC84))
@@ -112,11 +112,11 @@ private fun Demo4() {
 
 @Preview
 @Composable
-private fun Demo5() {
-    Box(containerModifier, contentAlignment = Alignment.Center) {
+private fun WidthInDemo() {
+    Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
         // [START android_compose_layout_constraints_modifiers_width_in]
         Box(
-            Modifier
+            modifier = Modifier
                 .widthIn(min = 100.dp, max = 400.dp)
                 .heightIn(max = 100.dp)
                 .fillMaxSize()
@@ -128,13 +128,13 @@ private fun Demo5() {
 
 @Preview
 @Composable
-private fun Demo6() {
+private fun RequiredSizeInDemo() {
     // The padding leaves room to show the part that extends past the container.
-    Box(Modifier.padding(60.dp)) {
-        Box(containerModifier, contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.padding(60.dp)) {
+        Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
             // [START android_compose_layout_constraints_modifiers_required_size_in]
             Box(
-                Modifier
+                modifier = Modifier
                     .requiredSizeIn(minWidth = 100.dp, maxWidth = 400.dp, maxHeight = 100.dp)
                     .fillMaxSize()
                     .background(Color(0xFF3DDC84))
