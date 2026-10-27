@@ -33,6 +33,7 @@ package com.example.compose.snippets.layouts
 */
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -105,7 +106,7 @@ private fun TextWithPaddingFromBaseline() {
 @Composable
 private fun TitleWithSubtitle() {
     MaterialTheme {
-        Row {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 "Title",
                 modifier = Modifier.alignByBaseline(),
@@ -113,9 +114,7 @@ private fun TitleWithSubtitle() {
             )
             Text(
                 "Subtitle",
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .alignByBaseline(),
+                modifier = Modifier.alignByBaseline(),
                 style = MaterialTheme.typography.bodySmall
             )
         }
@@ -128,9 +127,9 @@ private fun TitleWithSubtitle() {
 @Composable
 private fun BoxMiddleOnBaseline() {
     MaterialTheme {
-        Row {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Box(
-                Modifier
+                modifier = Modifier
                     .size(8.dp)
                     .background(Color.Gray)
                     // Aligns the middle of the box with the text baseline.
@@ -138,9 +137,7 @@ private fun BoxMiddleOnBaseline() {
             )
             Text(
                 "Label",
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .alignByBaseline()
+                modifier = Modifier.alignByBaseline()
             )
         }
     }
