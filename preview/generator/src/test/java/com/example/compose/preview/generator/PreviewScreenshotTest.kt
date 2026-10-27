@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
+import com.example.compose.preview.wasm.registry.DefaultPreviewFrame
 import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.registry.previewFrameFor
@@ -201,7 +201,13 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.onRoot().recordRoboVideo(
             composeTestRule,
             File(getOutputDir(), "$snippetId.gif").absolutePath,
-            RoboVideoOptions(recording!!.fps, 0L, 0xFFFFFFFF.toInt()),
+            RoboVideoOptions(
+                fps = recording!!.fps,
+                // Stop when the script ends instead of recording until the UI settles (3 s by
+                // default), so infinite transitions loop cleanly after exactly one cycle.
+                settleTimeoutMillis = 0L,
+                backgroundColor = 0xFFFFFFFF.toInt(),
+            ),
             RoborazziOptions(recordOptions = RoborazziOptions.RecordOptions(resizeScale = recording.scale)),
         ) {
             recording.steps.forEach { step ->
@@ -219,17 +225,32 @@ class PreviewScreenshotTest(private val snippetId: String) {
         }
     }
 
-    /** The node showing [text], or the first clickable node when [text] is null. */
+    /**
+     * The node showing [text], or the snippet's only clickable node when [text] is null. Fails if
+     * there's more than one clickable node, rather than recording a GIF that doesn't animate.
+     */
     private fun clickTarget(text: String?): SemanticsNodeInteraction =
         if (text != null) {
             composeTestRule.onNodeWithText(text)
         } else {
-            composeTestRule.onAllNodes(hasClickAction()).onFirst()
+            composeTestRule.onNode(hasClickAction())
         }
 
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun snippetIds(): List<Array<Any>> = SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        fun snippetIds(): List<Array<Any>> {
+            // Recordings and frames are keyed separately from the registry, so catch typos or
+            // renamed region tags here instead of silently skipping a GIF (a 404 on DAC).
+            val unregistered = SnippetRecordings.keys - SnippetRegistry.snippets.keys
+            require(unregistered.isEmpty()) {
+                "SnippetRecordings has IDs that aren't in SnippetRegistry: $unregistered"
+            }
+            val withoutFrame = SnippetRecordings.keys.filter { previewFrameFor(it) == DefaultPreviewFrame }
+            require(withoutFrame.isEmpty()) {
+                "Recorded snippets need a frame in SnippetPreviewFrames: $withoutFrame"
+            }
+            return SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        }
     }
 }

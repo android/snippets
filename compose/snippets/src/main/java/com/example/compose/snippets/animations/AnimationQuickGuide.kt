@@ -319,6 +319,7 @@ data class Detail(val photoIndex: Int)
 @Preview
 @Composable
 fun AnimateBetweenComposableDestinations() {
+    // To keep the back stack across configuration changes, use rememberNavBackStack instead.
     val backStack = remember { mutableStateListOf<Any>(Landing) }
     NavDisplay(
         backStack = backStack,
@@ -326,11 +327,15 @@ fun AnimateBetweenComposableDestinations() {
         // Default transitions for every destination: no animation.
         transitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
         popTransitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
+        predictivePopTransitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
         entryProvider = entryProvider {
             entry<Landing> {
                 ScreenLanding(
                     // [START_EXCLUDE]
-                    onItemClicked = { photoIndex -> backStack.add(Detail(photoIndex)) }
+                    onItemClicked = { photoIndex ->
+                        // Ignore extra taps while the details screen is animating in.
+                        if (backStack.lastOrNull() is Landing) backStack.add(Detail(photoIndex))
+                    }
                     // [END_EXCLUDE]
                 )
             }
@@ -357,12 +362,24 @@ fun AnimateBetweenComposableDestinations() {
                             towards = AnimatedContentTransitionScope.SlideDirection.End
                         )
                     }
+                    put(NavDisplay.PredictivePopTransitionKey) {
+                        EnterTransition.None togetherWith fadeOut(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideOutOfContainer(
+                            animationSpec = tween(300, easing = EaseOut),
+                            towards = AnimatedContentTransitionScope.SlideDirection.End
+                        )
+                    }
                 }
             ) { detail ->
                 ScreenDetails(
                     // [START_EXCLUDE]
                     photo = randomSizedPhotos[detail.photoIndex],
-                    onBackClicked = { backStack.removeLastOrNull() }
+                    // Never pop the last entry, for example on a double tap during the exit
+                    // animation.
+                    onBackClicked = { if (backStack.size > 1) backStack.removeLastOrNull() }
                     // [END_EXCLUDE]
                 )
             }

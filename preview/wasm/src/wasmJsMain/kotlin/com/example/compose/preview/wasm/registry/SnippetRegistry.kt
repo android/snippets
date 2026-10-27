@@ -73,16 +73,16 @@ data class PreviewFrame(val widthDp: Int, val heightDp: Int)
 val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
 
 /**
- * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
- * pickers). Keep 16:9 where possible so the static image fills the DAC stage.
- */
-/**
  * 16:9 frame for the animation quick guide snippets. They're written for a phone-sized screen
  * (for example a box that grows from 200dp to 400dp tall), so they need more room than
  * [DefaultPreviewFrame].
  */
 val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
 
+/**
+ * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
+ * pickers). Keep 16:9 where possible so the static image fills the DAC stage.
+ */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_visibility" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_visibility_alpha" to AnimationPreviewFrame,

@@ -96,6 +96,6 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         ),
         fps = 10,
-        scale = 0.5,
+        scale = 0.35,
     ),
 )

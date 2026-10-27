@@ -99,3 +99,10 @@ tasks.register("generateScreenshots") {
     description = "Generates preview screenshots for all Material Component snippets using Roborazzi/Robolectric"
     dependsOn("recordRoborazziDebug")
 }
+
+// The screenshot test writes PNGs and GIFs into the wasm resources (see PreviewScreenshotTest), so
+// declare them as outputs: Gradle then restores them from the build cache instead of skipping the
+// test and leaving the gitignored directory empty.
+tasks.withType<Test>().configureEach {
+    outputs.dir(rootProject.layout.projectDirectory.dir("preview/wasm/src/wasmJsMain/resources/screenshots"))
+}

@@ -87,8 +87,12 @@ val generateSnippetResources by tasks.registering {
         val resRoot = resOut.get().asFile.apply { deleteRecursively() }
         val drawableOut = File(resRoot, "drawable").apply { mkdirs() }
         drawables.forEach { name ->
-            val source = listOf("drawable", "drawable-nodpi", "drawable-v24")
-                .flatMap { File(resDir, it).listFiles().orEmpty().toList() }
+            // Prefer unqualified and density-independent resources, then any other qualifier.
+            val drawableDirs = resDir.listFiles().orEmpty()
+                .filter { it.isDirectory && (it.name == "drawable" || it.name.startsWith("drawable-")) }
+                .sortedBy { listOf("drawable", "drawable-nodpi").indexOf(it.name).let { i -> if (i < 0) 2 else i } }
+            val source = drawableDirs
+                .flatMap { it.listFiles().orEmpty().toList() }
                 .firstOrNull { it.nameWithoutExtension == name && it.extension in setOf("png", "jpg", "jpeg", "webp", "xml") }
                 ?: error("No drawable resource found for R.drawable.$name")
             source.copyTo(File(drawableOut, source.name))
