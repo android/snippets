@@ -888,7 +888,11 @@ private fun ScreenLanding(onItemClicked: (photoIndex: Int) -> Unit) {
         columns = GridCells.Adaptive(200.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
-            itemsIndexed(randomSizedPhotos) { index, photo ->
+            itemsIndexed(
+                items = randomSizedPhotos,
+                key = { _, photo -> photo },
+                contentType = { _, _ -> "photo" },
+            ) { index, photo ->
                 AsyncImage(
                     model = photo,
                     contentScale = ContentScale.Crop,
@@ -939,31 +943,34 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
     }
 }
 
+// Seeded by index so every URL is unique and can be used as a lazy grid key.
 private val randomSizedPhotos = listOf(
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-)
+    1600 to 900,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    1600 to 900,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+).mapIndexed { index, (width, height) ->
+    randomSampleImageUrl(seed = index, width = width, height = height)
+}
