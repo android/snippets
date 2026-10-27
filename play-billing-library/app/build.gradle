@@ -1,0 +1,75 @@
+/* Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.android.gms.strict-version-matcher-plugin'
+// OSS Plugin
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+
+
+android {
+    compileSdk 36
+    namespace="com.google.play.billing.samples.managedcatalogue"
+
+    defaultConfig {
+        applicationId "com.google.play.billing.samples.managedcatalogue"
+        minSdk 23
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        all {
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+
+}
+
+
+
+dependencies {
+
+    // OSS Plugin
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.1.0'
+
+    // Play Billing Library
+    implementation "com.android.billingclient:billing:8.1.0"
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    // Align kotlin versions
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.10"))
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'com.google.guava:guava:31.1-android'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:5.15.2'
+    testImplementation 'org.mockito:mockito-android:5.15.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+}
