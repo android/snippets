@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import javax.inject.Inject
+import org.gradle.process.ExecOperations
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
@@ -105,4 +108,44 @@ tasks.register("generateScreenshots") {
 // test and leaving the gitignored directory empty.
 tasks.withType<Test>().configureEach {
     outputs.dir(rootProject.layout.projectDirectory.dir("preview/wasm/src/wasmJsMain/resources/screenshots"))
+}
+
+/**
+ * Converts the GIF recordings from `PreviewScreenshotTest.record()` into small H.264 MP4s, the
+ * format DAC shows for animated previews, and deletes the GIFs. Needs `ffmpeg` on the PATH
+ * (preinstalled on GitHub's Ubuntu runners).
+ */
+abstract class EncodePreviewVideos @Inject constructor(private val execOps: ExecOperations) : DefaultTask() {
+    @get:Internal
+    abstract val screenshotsDir: DirectoryProperty
+
+    @TaskAction
+    fun encode() {
+        val gifs = screenshotsDir.get().asFile.listFiles { file -> file.extension == "gif" }.orEmpty().sorted()
+        gifs.forEach { gif ->
+            val mp4 = File(gif.parentFile, "${gif.nameWithoutExtension}.mp4")
+            execOps.exec {
+                commandLine(
+                    "ffmpeg", "-loglevel", "error", "-y", "-i", gif.absolutePath,
+                    // Even dimensions and yuv420p for H.264 playback in every browser.
+                    "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", "-pix_fmt", "yuv420p",
+                    "-c:v", "libx264", "-crf", "23", "-movflags", "+faststart",
+                    // Reproducible output for the same recording.
+                    "-map_metadata", "-1", "-fflags", "+bitexact", "-flags:v", "+bitexact",
+                    mp4.absolutePath,
+                )
+            }
+            gif.delete()
+        }
+        logger.lifecycle("Encoded ${gifs.size} preview recording(s) to MP4.")
+    }
+}
+
+val encodePreviewVideos by tasks.registering(EncodePreviewVideos::class) {
+    description = "Converts the recorded preview GIFs to MP4 for DAC."
+    screenshotsDir.set(rootProject.layout.projectDirectory.dir("preview/wasm/src/wasmJsMain/resources/screenshots"))
+}
+
+tasks.matching { it.name == "recordRoborazziDebug" }.configureEach {
+    finalizedBy(encodePreviewVideos)
 }

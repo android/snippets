@@ -34,14 +34,10 @@ sealed interface PreviewStep {
 }
 
 /**
- * A script for recording `<region_tag>.gif`, shown as the static preview for animation snippets.
- * The recording should loop cleanly, so scripts usually end in the state they started in.
- *
- * @param fps frames per second in the GIF.
- * @param scale how much to shrink each frame. The default turns the 1536x864 px
- *   [AnimationPreviewFrame] into roughly the 1080x608 px of the existing DAC animation GIFs.
+ * A script for recording a snippet's animated preview (`<region_tag>.mp4` on DAC). The recording
+ * should loop cleanly, so scripts usually end in the state they started in.
  */
-data class PreviewRecording(val steps: List<PreviewStep>, val fps: Int = 25, val scale: Double = 0.7)
+data class PreviewRecording(val steps: List<PreviewStep>)
 
 private val ToggleTwice = PreviewRecording(
     listOf(
@@ -83,8 +79,7 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
     ),
     "android_compose_animation_cookbook_text" to OneInfiniteCycle,
     "android_compose_animation_cookbook_text_color" to OneInfiniteCycle,
-    // Each state change crossfades for 3 seconds and one state shows a photo, so record fewer,
-    // smaller frames to keep the GIF size reasonable (the original DAC GIF is 540x304 px).
+    // Each state change crossfades for 3 seconds.
     "android_compose_animation_cookbook_animated_content" to PreviewRecording(
         listOf(
             PreviewStep.Wait(800),
@@ -94,8 +89,6 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
             PreviewStep.Click(),
             PreviewStep.Wait(3_200),
-        ),
-        fps = 10,
-        scale = 0.35,
+        )
     ),
 )

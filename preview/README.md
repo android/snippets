@@ -63,8 +63,8 @@ Screenshots are rendered at `384x216 dp` (`xhdpi` -> `768x432 px`, 16:9 aspect r
 
 Outputs the self-contained WASM bundle (`wasm.html`, `snippets-preview-wasm.mjs`, `*.wasm`, `skiko.mjs`, `skiko.wasm`, `fonts/`, `js-joda-core.mjs`) to `preview/wasm/build/dist/site/`.
 
-### 4. Record Animated GIF Previews
+### 4. Record Animated (MP4) Previews
 
-For animation snippets, the static preview on DAC is a GIF instead of a PNG. Add the snippet's region tag to `SnippetRecordings` in [`PreviewRecordings.kt`](generator/src/test/java/com/example/compose/preview/generator/PreviewRecordings.kt) with a short script of `PreviewStep`s (`Wait`, `Click`, `Press`) that triggers the animation and ends in the starting state, so the GIF loops. Also give the snippet a frame in `SnippetPreviewFrames` (usually `AnimationPreviewFrame`).
+For animation snippets, the static preview on DAC is a looping MP4 instead of a PNG. Add the snippet's region tag to `SnippetRecordings` in [`PreviewRecordings.kt`](generator/src/test/java/com/example/compose/preview/generator/PreviewRecordings.kt) with a short script of `PreviewStep`s (`Wait`, `Click`, `Press`) that triggers the animation and ends in the starting state, so the video loops. Also give the snippet a frame in `SnippetPreviewFrames` (usually `AnimationPreviewFrame`).
 
-`recordRoborazziDebug` then plays each script with Roborazzi's `recordRoboVideo` and writes `screenshots/<snippet_id>.gif` next to the PNG.
+`recordRoborazziDebug` plays each script with Roborazzi's `recordRoboVideo` (25 fps GIF), then `encodePreviewVideos` converts it to `screenshots/<snippet_id>.mp4` with `ffmpeg` and deletes the GIF. Install `ffmpeg` to record previews locally.

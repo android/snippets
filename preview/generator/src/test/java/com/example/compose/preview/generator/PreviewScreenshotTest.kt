@@ -45,7 +45,6 @@ import com.example.compose.preview.wasm.registry.previewTypography
 import com.example.compose.snippets.R
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoboVideoOptions
-import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.github.takahirom.roborazzi.recordRoboVideo
 import java.io.File
@@ -127,8 +126,9 @@ private class DeviceQualifiersRule(private val qualifiers: String) : TestRule {
 }
 
 /**
- * Captures `<region_tag>.png` for every snippet in [SnippetRegistry] (and `<region_tag>.gif` for
- * the ones in [SnippetRecordings]), one test per snippet, on a
+ * Captures `<region_tag>.png` for every snippet in [SnippetRegistry] (and a `<region_tag>.gif`
+ * recording, encoded to MP4 afterwards, for the ones in [SnippetRecordings]), one test per
+ * snippet, on a
  * device sized to the snippet's PreviewFrame at xhdpi (so the default 384x216dp frame is 768x432).
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -189,26 +189,27 @@ class PreviewScreenshotTest(private val snippetId: String) {
 
     /**
      * Records `<region_tag>.gif` for snippets in [SnippetRecordings] by playing their interaction
-     * script. DAC shows the GIF as the static preview for animation snippets.
+     * script. `encodePreviewVideos` (which runs after `recordRoborazziDebug`) converts it to
+     * `<region_tag>.mp4`, the static preview DAC shows for animation snippets.
      */
     @OptIn(ExperimentalRoborazziApi::class)
     @Test
     fun record() {
         val recording = SnippetRecordings[snippetId]
         assumeTrue("$snippetId has no recording", recording != null)
+        checkNotNull(recording)
         setSnippetContent()
         composeTestRule.mainClock.advanceTimeByFrame()
         composeTestRule.onRoot().recordRoboVideo(
             composeTestRule,
             File(getOutputDir(), "$snippetId.gif").absolutePath,
             RoboVideoOptions(
-                fps = recording!!.fps,
+                fps = 25,
                 // Stop when the script ends instead of recording until the UI settles (3 s by
                 // default), so infinite transitions loop cleanly after exactly one cycle.
                 settleTimeoutMillis = 0L,
                 backgroundColor = 0xFFFFFFFF.toInt(),
             ),
-            RoborazziOptions(recordOptions = RoborazziOptions.RecordOptions(resizeScale = recording.scale)),
         ) {
             recording.steps.forEach { step ->
                 when (step) {
