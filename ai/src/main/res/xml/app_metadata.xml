@@ -16,10 +16,6 @@
 -->
 <!-- [START android_appfunction_metadata] -->
 <AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
-    appfn:description="This app manages user tasks and reminders.
-    Operational Patterns:
-    - Use 'createTask' to add new tasks or reminders with titles and content.
-    Constraints:
-    - Title or content must be non-null when creating a task."
+    appfn:instructions="This app manages a personal task list: creating tasks."
     appfn:displayDescription="@string/user_visible_description" />
 <!-- [END android_appfunction_metadata] -->
