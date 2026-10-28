@@ -33,7 +33,7 @@ import kotlinx.serialization.Serializable
 class HomeFragment : Fragment() {
     // [START android_views_navigation_kotlin_dsl_navigate]
     private fun navigateToPlant(plantId: String) {
-       findNavController().navigate(route = PlantDetail(id = plantId))
+        findNavController().navigate(route = PlantDetail(id = plantId))
     }
     // [END android_views_navigation_kotlin_dsl_navigate]
 }
