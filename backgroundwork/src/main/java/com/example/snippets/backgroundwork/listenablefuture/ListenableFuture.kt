@@ -20,7 +20,10 @@ import android.content.Context
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.guava.await
+import kotlinx.coroutines.guava.future
 
 private class QueryResult
 
@@ -87,4 +90,23 @@ private object ImmediateFutureSnippet {
         }
     }
     // [END android_backgroundwork_listenablefuture_immediate_future]
+}
+
+private object CoroutineFutureSnippet {
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
+    // [START android_backgroundwork_listenablefuture_coroutine_future]
+    // import kotlinx.coroutines.guava.future
+
+    suspend fun getResultAsync(): QueryResult = /* ... */
+        // [START_EXCLUDE silent]
+        QueryResult()
+    // [END_EXCLUDE]
+
+    fun getResultFuture(): ListenableFuture<QueryResult> {
+        return coroutineScope.future {
+            getResultAsync()
+        }
+    }
+    // [END android_backgroundwork_listenablefuture_coroutine_future]
 }
