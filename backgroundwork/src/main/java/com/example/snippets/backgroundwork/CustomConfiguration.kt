@@ -16,19 +16,9 @@
 
 package com.example.snippets.backgroundwork
 
-import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
-
-// [START android_background_custom_configuration_on_demand]
-class MyApplication() : Application(), Configuration.Provider {
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setMinimumLoggingLevel(android.util.Log.INFO)
-            .build()
-}
-// [END android_background_custom_configuration_on_demand]
 
 private fun Context.manualInitialization() {
     // [START android_background_custom_configuration_manual_init]

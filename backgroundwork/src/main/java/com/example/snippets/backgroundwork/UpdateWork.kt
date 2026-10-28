@@ -22,7 +22,6 @@ import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import java.util.UUID
 
 private const val PHOTO_UPLOAD_WORK_NAME = "photo_upload"
 
@@ -56,16 +55,3 @@ suspend fun updatePhotoUploadWork(context: Context) {
     workManager.updateWork(updatedWorkRequest)
 }
 // [END android_background_update_photo_upload_work]
-
-private fun trackWorkGeneration(context: Context, oldWorkRequestId: UUID) {
-    // [START android_background_track_work_generation]
-    // Get instance of WorkManager.
-    val workManager = WorkManager.getInstance(context)
-
-    // Retrieve WorkInfo instance.
-    val workInfo = workManager.getWorkInfoById(oldWorkRequestId).get()
-
-    // Retrieve the generation.
-    val generation = workInfo?.generation
-    // [END android_background_track_work_generation]
-}

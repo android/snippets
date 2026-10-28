@@ -26,42 +26,20 @@ import androidx.work.multiprocess.RemoteCoroutineWorker
 import androidx.work.multiprocess.RemoteListenableWorker.ARGUMENT_CLASS_NAME
 import androidx.work.multiprocess.RemoteListenableWorker.ARGUMENT_PACKAGE_NAME
 import androidx.work.multiprocess.RemoteWorkerService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-private object SimpleCoroutineDownloadWorker {
-    // [START android_background_coroutine_download_worker]
-    class CoroutineDownloadWorker(
-        context: Context,
-        params: WorkerParameters
-    ) : CoroutineWorker(context, params) {
+// [START android_background_coroutine_download_worker]
+class CoroutineDownloadWorker(
+    context: Context,
+    params: WorkerParameters
+) : CoroutineWorker(context, params) {
 
-        override suspend fun doWork(): Result {
-            val data = downloadSynchronously("https://www.google.com")
-            saveData(data)
-            return Result.success()
-        }
+    override suspend fun doWork(): Result {
+        val data = downloadSynchronously("https://www.google.com")
+        saveData(data)
+        return Result.success()
     }
-    // [END android_background_coroutine_download_worker]
 }
-
-private object WithContextCoroutineDownloadWorker {
-    // [START android_background_coroutine_download_worker_with_context]
-    class CoroutineDownloadWorker(
-        context: Context,
-        params: WorkerParameters
-    ) : CoroutineWorker(context, params) {
-
-        override suspend fun doWork(): Result {
-            return withContext(Dispatchers.IO) {
-                val data = downloadSynchronously("https://www.google.com")
-                saveData(data)
-                Result.success()
-            }
-        }
-    }
-    // [END android_background_coroutine_download_worker_with_context]
-}
+// [END android_background_coroutine_download_worker]
 
 private fun remoteCoroutineWorkerRequest(): OneTimeWorkRequest {
     // [START android_background_remote_coroutine_worker_request]
