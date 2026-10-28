@@ -42,11 +42,11 @@ private fun CircularNavigationGraph() {
         composable("c") {
             DestinationC(
                 onNavigateToA = {
-                  navController.navigate("a") {
-                    popUpTo("a") {
-                      inclusive = true
+                    navController.navigate("a") {
+                        popUpTo("a") {
+                            inclusive = true
+                        }
                     }
-                  }
                 },
             )
         }

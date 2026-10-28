@@ -32,8 +32,8 @@ private object ContactScreens {
     // Displays a list of contacts.
     @Composable
     internal fun ContactsScreen(
-      uiState: ContactsUiState,
-      onNavigateToContactDetails: (contactId: String) -> Unit
+        uiState: ContactsUiState,
+        onNavigateToContactDetails: (contactId: String) -> Unit
     ) { /* ... */ }
 
     // Displays the details for an individual contact.
@@ -46,7 +46,7 @@ private object ContactScreens {
 // ContactsNavigation.kt
 
 fun NavController.navigateToContactDetails(id: String) {
-  navigate(route = ContactDetails(id = id))
+    navigate(route = ContactDetails(id = id))
 }
 // [END android_compose_navigation_encapsulate_navigation_events]
 
@@ -55,15 +55,15 @@ fun NavController.navigateToContactDetails(id: String) {
 
 @Composable
 fun MyApp() {
-  // [START_EXCLUDE]
-  val navController = rememberNavController()
-  // [END_EXCLUDE]
-  NavHost(navController, startDestination = Contacts) {
-     contactsDestination(onNavigateToContactDetails = { contactId ->
-        navController.navigateToContactDetails(id = contactId)
-     })
-     contactDetailsDestination()
-  }
+    // [START_EXCLUDE]
+    val navController = rememberNavController()
+    // [END_EXCLUDE]
+    NavHost(navController, startDestination = Contacts) {
+        contactsDestination(onNavigateToContactDetails = { contactId ->
+            navController.navigateToContactDetails(id = contactId)
+        })
+        contactDetailsDestination()
+    }
 }
 // [END android_compose_navigation_encapsulate_my_app]
 
