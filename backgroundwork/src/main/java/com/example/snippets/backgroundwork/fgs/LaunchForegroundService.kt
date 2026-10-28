@@ -19,6 +19,7 @@ package com.example.snippets.backgroundwork.fgs
 import android.Manifest
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
@@ -26,6 +27,15 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.PermissionChecker
+
+private class StartForegroundServiceSnippet(private val context: Context) {
+    fun launch() {
+        // [START android_backgroundwork_fgs_launch_start_service]
+        val intent = Intent(/* ... */) // Build the intent for the service.
+        context.startForegroundService(intent)
+        // [END android_backgroundwork_fgs_launch_start_service]
+    }
+}
 
 // [START android_backgroundwork_fgs_launch_promote]
 class MyCameraService : Service() {
