@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
@@ -826,6 +827,57 @@ private object ColumnWithFab {
     private fun ContentColumn(padding: PaddingValues) {
     }
 }
+
+// [START android_compose_accessibility_tristate_switch]
+@Composable
+fun TriStateSwitch(
+    state: ToggleableState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // A real implementation would include custom drawing for the switch.
+    // This example uses a Box to demonstrate the semantics.
+    Box(
+        modifier = modifier
+            .size(width = 64.dp, height = 40.dp)
+            // triStateToggleable handles the semantics (Role and State)
+            // automatically, so explicit Modifier.semantics is not needed here.
+            .triStateToggleable(
+                state = state,
+                onClick = onClick,
+                role = Role.Switch
+            )
+            // Add visual feedback based on the state
+            .background(
+                when (state) {
+                    ToggleableState.On -> Color.Green
+                    ToggleableState.Off -> Color.Gray
+                    ToggleableState.Indeterminate -> Color.Yellow
+                }
+            )
+    )
+}
+
+// [START_EXCLUDE silent]
+@Composable
+private fun TriStateSwitchUsage() {
+// [END_EXCLUDE]
+// Usage within another composable:
+var state by remember { mutableStateOf(ToggleableState.Off) }
+TriStateSwitch(
+    state = state,
+    onClick = {
+        state = when (state) {
+            ToggleableState.Off -> ToggleableState.Indeterminate
+            ToggleableState.Indeterminate -> ToggleableState.On
+            ToggleableState.On -> ToggleableState.Off
+        }
+    }
+)
+// [START_EXCLUDE silent]
+}
+// [END_EXCLUDE]
+// [END android_compose_accessibility_tristate_switch]
 
 private class Post(val imageThumb: Painter? = null)
 private class Metadata(
