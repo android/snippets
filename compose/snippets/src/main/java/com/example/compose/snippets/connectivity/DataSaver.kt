@@ -29,7 +29,7 @@ private class DataSaver : ComponentActivity() {
         (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
             // Checks if the device is on a metered network.
             if (isActiveNetworkMetered) {
-                // Checks user's Data Saver settings.
+                // Checks user’s Data Saver settings.
                 when (restrictBackgroundStatus) {
                     RESTRICT_BACKGROUND_STATUS_ENABLED -> {
                         // Background data usage is blocked for this app. Wherever possible,
