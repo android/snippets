@@ -462,10 +462,11 @@ private fun DialUseStateCallerExample() {
 
     // ...
 
-    if (selectedTime != null) {
+    val currentSelectedTime = selectedTime
+    if (currentSelectedTime != null) {
         val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
-        cal.set(Calendar.MINUTE, selectedTime!!.minute)
+        cal.set(Calendar.HOUR_OF_DAY, currentSelectedTime.hour)
+        cal.set(Calendar.MINUTE, currentSelectedTime.minute)
         cal.isLenient = false
         Text("Selected time = ${formatter.format(cal.time)}")
     } else {
