@@ -347,6 +347,7 @@ private object OfflineFirstSnippet9 {
     // [END android_architecture_offline_first_push_sync]
 }
 
+@Suppress("EnsureInitializerMetadata")
 private object OfflineFirstSnippet10 {
     object Sync
     const val SyncWorkName = "SyncWork"
@@ -442,6 +443,7 @@ private object OfflineFirstSnippet12 {
     // [END android_architecture_offline_first_sync_worker]
 }
 
+@Suppress("WorkerHasAPublicModifier")
 private class DelegatingWorker(context: Context, params: WorkerParameters) : ListenableWorker(context, params) {
     override fun startWork() = throw UnsupportedOperationException()
 }
