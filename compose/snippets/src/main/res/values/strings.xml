@@ -64,4 +64,8 @@
     <string name="compose_shortcut_long_label1">Open Compose</string>
     <string name="compose_disabled_message1">Compose is not available</string>
 
+    <string name="chooser_title">Share this photo with</string>
+    <item name="select_button" type="id" />
+    <item name="start_button" type="id" />
+
 </resources>
