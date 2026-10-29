@@ -19,4 +19,19 @@
     <string name="email_sent">Email sent</string>
     <string name="email_archived">Email archived</string>
     <string name="undo_string">Undo</string>
+    <string name="hello">Hello!</string>
+    <string name="world">world</string>
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+    <string name="title">Best practices for <annotation font="title_emphasis">text</annotation> on Android</string>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <plurals name="numberOfSongsAvailable">
+        <item quantity="one">%d song found.</item>
+        <item quantity="other">%d songs found.</item>
+    </plurals>
+    <item name="permanent_marker" type="font" />
 </resources>
