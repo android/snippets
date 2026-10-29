@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2026 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!-- [START android_resources_menu_example_xml] -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/item1"
+          android:title="@string/item1"
+          android:icon="@drawable/favorite"
+          app:showAsAction="ifRoom|withText"/>
+    <group android:id="@+id/group">
+        <item android:id="@+id/group_item1"
+              android:onClick="onGroupItemClick"
+              android:title="@string/group_item1"
+              android:icon="@drawable/favorite" />
+        <item android:id="@+id/group_item2"
+              android:onClick="onGroupItemClick"
+              android:title="@string/group_item2"
+              android:icon="@drawable/mail" />
+    </group>
+    <item android:id="@+id/submenu"
+          android:title="@string/submenu_title"
+          app:showAsAction="ifRoom|withText" >
+        <menu>
+            <item android:id="@+id/submenu_item1"
+                  android:title="@string/submenu_item1" />
+        </menu>
+    </item>
+</menu>
+<!-- [END android_resources_menu_example_xml] -->
