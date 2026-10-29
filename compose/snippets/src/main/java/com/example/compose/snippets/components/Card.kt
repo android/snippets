@@ -147,7 +147,7 @@ fun OutlinedCardExample() {
 // [START android_compose_components_card_minimal]
 @Composable
 fun CardMinimalExample() {
-    Card() {
+    Card {
         Text(text = "Hello, world!")
     }
 }
