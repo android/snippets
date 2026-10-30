@@ -55,7 +55,7 @@ public class ProfilingManagerJavaSnippets {
     }
 
     void sampleRecordSystemTrace() {
-      Executor mainExecutor = Executors.newSingleThreadExecutor();
+      Executor callbackExecutor = Executors.newSingleThreadExecutor();
       Consumer<ProfilingResult> resultCallback =
           new Consumer<ProfilingResult>() {
             @Override
@@ -84,7 +84,7 @@ public class ProfilingManagerJavaSnippets {
       requestBuilder.setDurationMs(60000);
       requestBuilder.setBufferFillPolicy(BufferFillPolicy.RING_BUFFER);
       requestBuilder.setBufferSizeKb(20971520);
-      Profiling.requestProfiling(getApplicationContext(), requestBuilder.build(), mainExecutor,
+      Profiling.requestProfiling(getApplicationContext(), requestBuilder.build(), callbackExecutor,
           resultCallback);
 
       // Wait some time for profiling to start.
@@ -108,7 +108,7 @@ public class ProfilingManagerJavaSnippets {
       triggerBuilder.setRateLimitingPeriodHours(1);
       triggers.add(triggerBuilder.build());
 
-      Executor mainExecutor = Executors.newSingleThreadExecutor();
+      Executor callbackExecutor = Executors.newSingleThreadExecutor();
       Consumer<ProfilingResult> resultCallback =
           new Consumer<ProfilingResult>() {
             @Override
@@ -128,15 +128,13 @@ public class ProfilingManagerJavaSnippets {
               }
             }
           };
-      profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback);
+      profilingManager.registerForAllProfilingResults(callbackExecutor, resultCallback);
       profilingManager.addProfilingTriggers(triggers);
 
-      // [START_EXCLUDE silent]
       Choreographer.getInstance().postFrameCallback((f) -> {
         // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
         reportFullyDrawn();
       });
-      // [END_EXCLUDE]
     }
     // [END android_profiling_manager_triggered_trace_java]
 
@@ -148,12 +146,12 @@ public class ProfilingManagerJavaSnippets {
       ProfilingTrigger.Builder triggerBuilder = new ProfilingTrigger.Builder(
           ProfilingTrigger.TRIGGER_TYPE_ANR);
       triggers.add(triggerBuilder.build());
-      Executor mainExecutor = Executors.newSingleThreadExecutor();
+      Executor callbackExecutor = Executors.newSingleThreadExecutor();
       Consumer<ProfilingResult> resultCallback =
           profilingResult -> {
             // Handle uploading trace to your back-end
           };
-      profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback);
+      profilingManager.registerForAllProfilingResults(callbackExecutor, resultCallback);
       profilingManager.addProfilingTriggers(triggers);
     }
     // [END android_profiling_manager_anr_case_study_java_snippet_1]
@@ -251,6 +249,7 @@ public class ProfilingManagerJavaSnippets {
       Constraints constraints = new Constraints.Builder()
           .setRequiredNetworkType(NetworkType.UNMETERED)
           .setRequiresDeviceIdle(true)
+          .setRequiresCharging(true)
           .build();
       workRequestBuilder.setConstraints(constraints);
 
@@ -491,7 +490,7 @@ public class ProfilingManagerJavaSnippets {
       config.putInt("KEY_DURATION_MS", 15000); // 15 seconds
       config.putInt("KEY_SIZE_KB", 20480); // 20 MB buffer size
 
-      // Collect sampled CPU call stacks alongside the system trace (Android 16+).
+      // Collect sampled CPU call stacks alongside the system trace.
       config.putBoolean("KEY_COLLECT_STACK_SAMPLING", true);
       config.putInt("KEY_FREQUENCY_HZ", 100); // Sampling frequency in Hz
       // Optional: Set KEY_SAMPLE_BINDER_ONLY to true to sample only binder calls.

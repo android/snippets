@@ -26,6 +26,7 @@ import android.os.ProfilingResult
 import android.os.ProfilingTrigger
 import android.util.Log
 import android.view.Choreographer
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -112,8 +113,10 @@ class ProfilingManagerKotlinSnippets {
         // [END android_profiling_manager_record_system_trace_kotlin]
 
         // [START android_profiling_manager_triggered_trace]
+        @RequiresApi(Build.VERSION_CODES.BAKLAVA)
         fun recordWithTrigger() {
-            val profilingManager = applicationContext.getSystemService(ProfilingManager::class.java)
+            val profilingManager =
+                applicationContext.getSystemService(ProfilingManager::class.java) ?: return
 
             val triggers = ArrayList<ProfilingTrigger>()
 
@@ -122,7 +125,7 @@ class ProfilingManagerKotlinSnippets {
 
             triggers.add(triggerBuilder.build())
 
-            val mainExecutor: Executor = Executors.newSingleThreadExecutor()
+            val callbackExecutor: Executor = Executors.newSingleThreadExecutor()
 
             val resultCallback = Consumer<ProfilingResult> { profilingResult ->
                 if (profilingResult.errorCode == ProfilingResult.ERROR_NONE) {
@@ -139,19 +142,17 @@ class ProfilingManagerKotlinSnippets {
                 }
             }
 
-            profilingManager.registerForAllProfilingResults(mainExecutor, resultCallback)
+            profilingManager.registerForAllProfilingResults(callbackExecutor, resultCallback)
             profilingManager.addProfilingTriggers(triggers)
 
-            // [START_EXCLUDE silent]
             Choreographer.getInstance().postFrameCallback { frameTimeNanos ->
                 // This will cause the TRIGGER_TYPE_APP_FULLY_DRAWN to be emitted.
                 reportFullyDrawn()
             }
-            // [END_EXCLUDE]
         }
         // [END android_profiling_manager_triggered_trace]
 
-        // [START android_profiling_manager_trace_upload_job_kotlin]        // [START android_profiling_manager_trace_upload_job_kotlin]
+        // [START android_profiling_manager_trace_upload_job_kotlin]
         class TraceUploadWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
             override fun doWork(): Result {
                 // Perform your uploading work here
@@ -447,5 +448,94 @@ class ProfilingManagerKotlinSnippets {
             )
             // [END android_profiling_manager_app_driven_java_heap_dump_kotlin]
         }
+    }
+
+    private class AnrCaseStudyActivity : Activity() {
+        // [START android_profiling_manager_anr_case_study_kotlin_snippet_1]
+        fun addANRTrigger() {
+            val profilingManager =
+                applicationContext.getSystemService(ProfilingManager::class.java) ?: return
+            val triggers = ArrayList<ProfilingTrigger>()
+            val triggerBuilder = ProfilingTrigger.Builder(ProfilingTrigger.TRIGGER_TYPE_ANR)
+            triggers.add(triggerBuilder.build())
+            val callbackExecutor: Executor = Executors.newSingleThreadExecutor()
+            val resultCallback = Consumer<ProfilingResult> { profilingResult ->
+                // Handle uploading trace to your back-end
+            }
+            profilingManager.registerForAllProfilingResults(callbackExecutor, resultCallback)
+            profilingManager.addProfilingTriggers(triggers)
+        }
+        // [END android_profiling_manager_anr_case_study_kotlin_snippet_1]
+
+        // [START android_profiling_manager_anr_case_study_kotlin_snippet_2]
+        fun setupButtonCallback() {
+            findViewById<View>(R.id.submit).setOnClickListener {
+                trace("MyApp:SubmitButton") {
+                    onClickSubmit()
+                }
+            }
+        }
+
+        fun onClickSubmit() {
+            prepareNetworkRequest()
+
+            var networkRequestSuccess = false
+            var maxAttempts = 10
+            while (!networkRequestSuccess && maxAttempts > 0) {
+                networkRequestSuccess = performNetworkRequest(NETWORK_TIMEOUT_MILLISECS)
+                maxAttempts--
+            }
+
+            if (networkRequestSuccess) {
+                handleNetworkResponse()
+            }
+        }
+
+        fun performNetworkRequest(timeoutMilliseconds: Int): Boolean {
+            // [START_EXCLUDE]
+            cpuIntensiveComputation(20)
+            try {
+                if (Math.random() < 0.2) {
+                    // Simulate performing a network request by waiting a random period of time
+                    val networkRequestTimeMs = (Math.random() * timeoutMilliseconds).toLong()
+                    Thread.sleep(networkRequestTimeMs)
+                    return true
+                } else {
+                    // Simulate a timeout
+                    Thread.sleep(timeoutMilliseconds.toLong())
+                }
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+            }
+            return false
+            // [END_EXCLUDE]
+        }
+
+        // [START_EXCLUDE silent]
+        fun cpuIntensiveComputation(durationMs: Int) {
+            val start = System.currentTimeMillis()
+            while (System.currentTimeMillis() - start < durationMs) {
+                // Busy-wait to simulate CPU work.
+            }
+        }
+        // [END_EXCLUDE]
+        fun prepareNetworkRequest() {
+            // [START_EXCLUDE]
+            cpuIntensiveComputation(1000)
+            // [END_EXCLUDE]
+        }
+
+        fun handleNetworkResponse() {
+            trace("handleNetworkResponse") {
+                // [START_EXCLUDE]
+                cpuIntensiveComputation(2000)
+                // [END_EXCLUDE]
+            }
+        }
+
+        companion object {
+            private const val NETWORK_TIMEOUT_MILLISECS = 2000
+        }
+        // [END android_profiling_manager_anr_case_study_kotlin_snippet_2]
     }
 }
