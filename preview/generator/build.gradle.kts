@@ -85,6 +85,7 @@ dependencies {
 
     testImplementation(project(":compose:snippets"))
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.datetime)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.roborazzi)
