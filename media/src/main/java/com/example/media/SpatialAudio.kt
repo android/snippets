@@ -32,9 +32,9 @@ private fun querySpatializer(audioManager: AudioManager) {
 }
 
 @OptIn(UnstableApi::class)
-private fun disableChannelConstraintsPlayer(context: Context, exoPlayer: ExoPlayer) {
+private fun disableChannelConstraintsPlayer(exoPlayer: ExoPlayer) {
     // [START android_media_spatial_audio_disable_channel_constraints_player]
-    exoPlayer.trackSelectionParameters = DefaultTrackSelector.Parameters.Builder(context)
+    exoPlayer.trackSelectionParameters = DefaultTrackSelector.Parameters.Builder()
         .setConstrainAudioChannelCountToDeviceCapabilities(false)
         .build()
     // [END android_media_spatial_audio_disable_channel_constraints_player]

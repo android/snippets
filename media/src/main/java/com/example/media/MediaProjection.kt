@@ -71,7 +71,7 @@ private class MediaProjectionActivity : ComponentActivity() {
     fun getWindowMetricsExample(context: Context) {
         // [START android_media_projection_window_context_metrics]
         val windowContext = context.createWindowContext(
-            context.display!!,
+            context.display,
             WindowManager.LayoutParams.TYPE_APPLICATION, null
         )
         val projectionMetrics = windowContext.getSystemService(WindowManager::class.java)

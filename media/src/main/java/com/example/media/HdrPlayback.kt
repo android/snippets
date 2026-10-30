@@ -21,21 +21,9 @@ import android.media.MediaCodecInfo
 import android.media.MediaCodecList
 import android.media.MediaCrypto
 import android.media.MediaFormat
-import android.view.Display
-import android.view.Display.HdrCapabilities.HDR_TYPE_HLG
 import android.view.Surface
 import android.view.SurfaceView
 import java.util.Queue
-
-private fun checkHdrSupport(display: Display?) {
-    // [START android_media_hdr_playback_check_support]
-    // Check if display supports the HDR type.
-    val capabilities = display?.hdrCapabilities?.supportedHdrTypes ?: intArrayOf()
-    if (!capabilities.contains(HDR_TYPE_HLG)) {
-        throw RuntimeException("Display does not support desired HDR type")
-    }
-    // [END android_media_hdr_playback_check_support]
-}
 
 private fun mediaCodecHdrFlow(
     surfaceView: SurfaceView,
