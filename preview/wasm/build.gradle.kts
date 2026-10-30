@@ -160,8 +160,18 @@ kotlin {
     }
 }
 
+// Binaryen's wasm-opt shrinks snippets-preview-wasm.wasm by about 3.5x (for example 23 MB to
+// 6.6 MB, or 5 MB to 1.8 MB gzipped) but adds a minute or two. Only the GitHub Pages bundle
+// (packageStaticSite) needs it, so it stays off for everything else, including `./gradlew build`
+// in CI. Development and test builds never run it.
+val optimizeTaskName = "compileProductionExecutableKotlinWasmJsOptimize"
 tasks.matching { it.name.contains("KotlinWasmJsOptimize") }.configureEach {
     enabled = false
+}
+gradle.taskGraph.whenReady {
+    if (hasTask("${project.path}:packageStaticSite")) {
+        tasks.named(optimizeTaskName).get().enabled = true
+    }
 }
 
 // packageStaticSite and packageDevelopmentSite copy directly from compileSync without Webpack,
@@ -227,7 +237,12 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
 val packageStaticSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with optimized production WASM binary for deployment"
-    dependsOn("wasmJsProductionExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
+    dependsOn(
+        "wasmJsProductionExecutableCompileSync",
+        optimizeTaskName,
+        "wasmJsProcessResources",
+        "unpackSkikoRuntimeForWasmJs",
+    )
     mustRunAfter(":preview:generator:recordRoborazziDebug")
 
     into(layout.buildDirectory.dir("dist/site"))
@@ -245,8 +260,8 @@ val packageStaticSite by tasks.registering(Copy::class) {
         include("composeResources/**")
     }
 
-    // Copy compiled production WASM and JS from compileSync
-    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/kotlin")) {
+    // Copy the wasm-opt optimized production WASM and JS from compileSync
+    from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/optimized")) {
         include("*.wasm")
         include("*.mjs")
         include("*.js")
