@@ -41,14 +41,17 @@ val generatedSnippetsDir = layout.buildDirectory.dir("generated/sources/composeS
 val generatedSnippetResDir = layout.buildDirectory.dir("generated/snippetResources/composeResources")
 val generatedSnippetResKotlinDir = layout.buildDirectory.dir("generated/snippetResources/kotlin")
 
-// Copies the snippet files registered in SnippetRegistry into the wasm build, so these files must
-// compile for Kotlin/Wasm (no Android-only APIs such as android.*, java.net or java.text).
-// R.drawable/R.string and painterResource/stringResource are supported (see
-// generateSnippetResources). Add files here as more snippets get interactive previews.
+// Copies every file in compose/snippets/.../components, plus the other snippet files below, into the
+// wasm build, so all of them must compile for Kotlin/Wasm (no Android-only APIs such as android.*,
+// java.net, java.text or java.util.Calendar). R.drawable/R.string, painterResource and
+// stringResource are supported (see generateSnippetResources). Exclude a components file only if
+// it can't be made multiplatform; its snippets then can't have interactive previews. See
+// preview/README.md.
 val pullSnippets by tasks.registering(Sync::class) {
     val snippetsRoot = "${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets"
     from("$snippetsRoot/components") {
-        include("Button.kt")
+        include("*.kt")
+        exclude("ComponentsScreen.kt", "Snackbar.kt", "DatePickers.kt", "TimePickers.kt")
         into("com/example/compose/snippets/components")
     }
     from("$snippetsRoot/animations") {
@@ -166,6 +169,7 @@ kotlin {
                 implementation(libs.jetbrains.compose.ui)
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)
+                implementation(libs.jetbrains.navigation.compose)
                 implementation(libs.jetbrains.navigation3.ui)
                 // AnimationQuickGuide.kt loads network images with Coil 3.
                 implementation(libs.coil3.compose)

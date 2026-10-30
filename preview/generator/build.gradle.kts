@@ -113,7 +113,7 @@ tasks.withType<Test>().configureEach {
 /**
  * Converts the GIF recordings from `PreviewScreenshotTest.record()` into small H.264 MP4s, the
  * format DAC shows for animated previews, and deletes the GIFs. Needs `ffmpeg` on the PATH
- * (preinstalled on GitHub's Ubuntu runners).
+ * (deploy-preview-pages.yml installs it on CI).
  */
 abstract class EncodePreviewVideos @Inject constructor(private val execOps: ExecOperations) : DefaultTask() {
     @get:Internal

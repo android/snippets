@@ -63,7 +63,19 @@ Screenshots are rendered at `384x216 dp` (`xhdpi` -> `768x432 px`, 16:9 aspect r
 
 Outputs the self-contained WASM bundle (`wasm.html`, `snippets-preview-wasm.mjs`, `*.wasm`, `skiko.mjs`, `skiko.wasm`, `fonts/`, `js-joda-core.mjs`) to `preview/wasm/build/dist/site/`.
 
-### 4. Record Animated (MP4) Previews
+## Writing snippets in `compose/snippets/.../components`
+
+The WASM runner compiles **every** Kotlin file in `compose/snippets/src/main/java/com/example/compose/snippets/components/` (the `pullSnippets` task in [`wasm/build.gradle.kts`](wasm/build.gradle.kts)), not just the ones registered in `SnippetRegistry`. A new or edited file in that folder must therefore compile for Kotlin/Wasm, or the preview build and deploy fail:
+
+- Use multiplatform Compose and Kotlin APIs. Android-only APIs (`android.*`, `java.text.SimpleDateFormat`, `java.util.Calendar`, `LocalContext`-based resources, and so on) don't compile for Wasm.
+- `R.drawable.*`, `R.string.*`, `painterResource()` and `stringResource()` are supported: `generateSnippetResources` copies the referenced resources into Compose Multiplatform resources and generates a matching `R`.
+- If a file can't be made multiplatform, add it to the `exclude(...)` list in `pullSnippets`. Its snippets then can't have interactive previews.
+
+A few files outside `components/` (for example `animations/AnimationQuickGuide.kt`) are added one by one in `pullSnippets`, and the same rules apply to them.
+
+To add an interactive preview, register the snippet's region tag in `SnippetRegistry.snippets`, calling the composable inside that region (or a thin wrapper that only supplies its parameters). Add a `SnippetPreviewFrames` entry if it doesn't fit the default 384x216 dp frame, then regenerate the screenshots.
+
+### Record animated (MP4) previews
 
 For animation snippets, the static preview on DAC is a looping MP4 instead of a PNG. Add the snippet's region tag to `SnippetRecordings` in [`PreviewRecordings.kt`](generator/src/test/java/com/example/compose/preview/generator/PreviewRecordings.kt) with a short script of `PreviewStep`s (`Wait`, `Click`, `Press`) that triggers the animation and ends in the starting state, so the video loops. Also give the snippet a frame in `SnippetPreviewFrames` (usually `AnimationPreviewFrame`).
 

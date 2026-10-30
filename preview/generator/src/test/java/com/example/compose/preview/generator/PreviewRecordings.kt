@@ -63,7 +63,7 @@ private val ShowHideTwice = PreviewRecording(
 private val OneInfiniteCycle = PreviewRecording(listOf(PreviewStep.Wait(2_000)))
 
 /**
- * Snippets whose static DAC preview is an animated GIF instead of a PNG, keyed by region tag.
+ * Snippets whose static DAC preview is a looping MP4 instead of a PNG, keyed by region tag.
  * [PreviewScreenshotTest.record] plays each script against the snippet in `SnippetRegistry`.
  * Give recorded snippets a frame in `SnippetPreviewFrames` (usually [AnimationPreviewFrame]).
  */

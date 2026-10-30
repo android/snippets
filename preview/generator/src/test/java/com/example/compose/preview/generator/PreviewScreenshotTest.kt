@@ -41,6 +41,7 @@ import com.example.compose.preview.wasm.registry.DefaultPreviewFrame
 import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.registry.previewFrameFor
+import com.example.compose.preview.wasm.registry.previewFrameIds
 import com.example.compose.preview.wasm.registry.previewTypography
 import com.example.compose.snippets.R
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
@@ -228,7 +229,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
 
     /**
      * The node showing [text], or the snippet's only clickable node when [text] is null. Fails if
-     * there's more than one clickable node, rather than recording a GIF that doesn't animate.
+     * there's more than one clickable node, rather than recording a video that doesn't animate.
      */
     private fun clickTarget(text: String?): SemanticsNodeInteraction =
         if (text != null) {
@@ -242,10 +243,15 @@ class PreviewScreenshotTest(private val snippetId: String) {
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         fun snippetIds(): List<Array<Any>> {
             // Recordings and frames are keyed separately from the registry, so catch typos or
-            // renamed region tags here instead of silently skipping a GIF (a 404 on DAC).
+            // renamed region tags here instead of silently skipping a recording (a 404 on DAC) or
+            // capturing a cropped screenshot in the default frame.
             val unregistered = SnippetRecordings.keys - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
                 "SnippetRecordings has IDs that aren't in SnippetRegistry: $unregistered"
+            }
+            val unregisteredFrames = previewFrameIds - SnippetRegistry.snippets.keys
+            require(unregisteredFrames.isEmpty()) {
+                "SnippetPreviewFrames has IDs that aren't in SnippetRegistry: $unregisteredFrames"
             }
             val withoutFrame = SnippetRecordings.keys.filter { previewFrameFor(it) == DefaultPreviewFrame }
             require(withoutFrame.isEmpty()) {
