@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +29,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -129,7 +129,7 @@ fun DialogExamples() {
                     },
                     dialogTitle = "Alert dialog example",
                     dialogText = "This is an example of an alert dialog with buttons.",
-                    icon = Icons.Default.Info
+                    icon = AppIcons.Info
                 )
             }
         }
@@ -229,7 +229,7 @@ fun AlertDialogExample(
 ) {
     AlertDialog(
         icon = {
-            Icon(icon, contentDescription = "Example Icon")
+            Icon(painter = rememberVectorPainter(icon), contentDescription = "Example Icon")
         },
         title = {
             Text(text = dialogTitle)
