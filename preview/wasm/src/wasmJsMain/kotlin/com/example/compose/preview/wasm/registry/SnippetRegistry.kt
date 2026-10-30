@@ -25,7 +25,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -106,6 +112,19 @@ private fun CenteredBox(content: @Composable () -> Unit) {
 }
 
 /**
+ * Shows [dialog] open, over a button that reopens it. The snippets' dismiss and confirm callbacks
+ * then close the dialog like they do in an app, and the button gives the scrim real content to dim.
+ */
+@Composable
+private fun ReopenableDialog(buttonText: String, dialog: @Composable (onClose: () -> Unit) -> Unit) {
+    var open by remember { mutableStateOf(true) }
+    CenteredBox {
+        Button(onClick = { open = true }) { Text(buttonText) }
+    }
+    if (open) dialog { open = false }
+}
+
+/**
  * The area, in dp, a snippet preview is laid out in.
  *
  * The Roborazzi screenshot is captured on a device of exactly this size, and the live WASM preview
@@ -129,6 +148,8 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
+    // A full screen with top and bottom app bars, a FAB and three paragraphs of body text.
+    "android_compose_components_scaffold" to PreviewFrame(360, 640),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -162,13 +183,27 @@ object SnippetRegistry {
         "android_compose_components_outlinedcard" to { CenteredBox { OutlinedCardExample() } },
         "android_compose_carousel_multi_browse_basic" to { CenteredBox { CarouselExample_MultiBrowse() } },
         "android_compose_carousel_uncontained_basic" to { CenteredBox { CarouselExample() } },
-        "android_compose_components_alertdialog" to { CenteredBox { AlertDialogExample(onDismissRequest = {}, onConfirmation = {}, dialogTitle = "Alert", dialogText = "Example dialog message", icon = AppIcons.Info) } },
-        "android_compose_components_minimaldialog" to { CenteredBox { MinimalDialog(onDismissRequest = {}) } },
+        // The same arguments as DialogExamples (android_compose_components_dialogparent), which DAC
+        // shows next to these previews.
+        "android_compose_components_alertdialog" to {
+            ReopenableDialog("Alert dialog component with buttons") { onClose ->
+                AlertDialogExample(
+                    onDismissRequest = onClose,
+                    onConfirmation = onClose,
+                    dialogTitle = "Alert dialog example",
+                    dialogText = "This is an example of an alert dialog with buttons.",
+                    icon = AppIcons.Info,
+                )
+            }
+        },
+        "android_compose_components_minimaldialog" to {
+            ReopenableDialog("Minimal dialog component") { onClose -> MinimalDialog(onDismissRequest = onClose) }
+        },
         "android_compose_components_dialogwithimage" to {
-            CenteredBox {
+            ReopenableDialog("Dialog component with an image") { onClose ->
                 DialogWithImage(
-                    onDismissRequest = {},
-                    onConfirmation = {},
+                    onDismissRequest = onClose,
+                    onConfirmation = onClose,
                     painter = painterResource(id = R.drawable.feathertop),
                     imageDescription = stringResource(id = R.string.feathertop_content_description),
                 )
