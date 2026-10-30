@@ -32,6 +32,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.animations.AnimateElevation
+import com.example.compose.snippets.animations.AnimateOffset
+import com.example.compose.snippets.animations.AnimatePadding
+import com.example.compose.snippets.animations.AnimateSizeChange
+import com.example.compose.snippets.animations.AnimateTextColor
+import com.example.compose.snippets.animations.AnimatedContentExampleSwitch
+import com.example.compose.snippets.animations.AnimatedVisibilityCookbook
+import com.example.compose.snippets.animations.AnimatedVisibilityCookbook_ModifierAlpha
+import com.example.compose.snippets.animations.AnimationLayout
+import com.example.compose.snippets.animations.SmoothAnimateText
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
 import com.example.compose.snippets.components.AssistChipExample
@@ -119,6 +129,13 @@ data class PreviewFrame(val widthDp: Int, val heightDp: Int)
 val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
 
 /**
+ * 16:9 frame for the animation quick guide snippets. They're written for a phone-sized screen
+ * (for example a box that grows from 200dp to 400dp tall), so they need more room than
+ * [DefaultPreviewFrame].
+ */
+val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
+
+/**
  * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
  * pickers). Keep 16:9 where possible so the static image fills the DAC stage.
  */
@@ -129,9 +146,22 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
+    "android_compose_animation_cookbook_visibility" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_visibility_alpha" to AnimationPreviewFrame,
+    "android_compose_animation_size_change" to AnimationPreviewFrame,
+    "android_compose_animation_offset_change" to AnimationPreviewFrame,
+    "android_compose_animation_layout_offset" to AnimationPreviewFrame,
+    "android_compose_animation_padding" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_elevation" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
+    "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
+
+/** Region tags with a custom [PreviewFrame], so tests can check each one is registered. */
+val previewFrameIds: Set<String> get() = SnippetPreviewFrames.keys
 
 /**
  * Single source of truth mapping DAC snippet region tag IDs to their
@@ -208,7 +238,19 @@ object SnippetRegistry {
         "android_compose_components_rangeslider" to { CenteredBox { RangeSliderExample() } },
         "android_compose_components_switchminimal" to { CenteredBox { SwitchMinimalExample() } },
         "android_compose_components_switchwithicon" to { CenteredBox { SwitchWithIconExample() } },
-        "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } }
+        "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } },
+        // Animation quick guide. Their static DAC previews are MP4s recorded by
+        // PreviewScreenshotTest from PreviewRecordings.
+        "android_compose_animation_cookbook_visibility" to { AnimatedVisibilityCookbook() },
+        "android_compose_animation_cookbook_visibility_alpha" to { AnimatedVisibilityCookbook_ModifierAlpha() },
+        "android_compose_animation_size_change" to { AnimateSizeChange() },
+        "android_compose_animation_offset_change" to { AnimateOffset() },
+        "android_compose_animation_layout_offset" to { AnimationLayout() },
+        "android_compose_animation_padding" to { AnimatePadding() },
+        "android_compose_animation_cookbook_elevation" to { AnimateElevation() },
+        "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
+        "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
+        "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

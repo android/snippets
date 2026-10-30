@@ -65,11 +65,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -83,6 +81,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -103,16 +102,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.metadata
+import androidx.navigation3.ui.NavDisplay
 import coil3.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.util.randomSampleImageUrl
-import java.net.URLDecoder
-import java.net.URLEncoder
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
@@ -316,61 +311,82 @@ fun AnimateOffset() {
     }
 }
 
+// [START android_compose_animate_destinations]
+data object Landing
+
+data class Detail(val photoIndex: Int)
+
 @Preview
 @Composable
 fun AnimateBetweenComposableDestinations() {
-    // [START android_compose_animate_destinations]
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController, startDestination = "landing",
-        enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.None }
-    ) {
-        composable("landing") {
-            ScreenLanding(
-                // [START_EXCLUDE]
-                onItemClicked = {
-                    navController.navigate("detail/${URLEncoder.encode(it)}")
-                }
-                // [END_EXCLUDE]
-            )
-        }
-        composable(
-            "detail/{photoUrl}",
-            arguments = listOf(navArgument("photoUrl") { type = NavType.StringType }),
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(300, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
+    // To keep the back stack across configuration changes, use rememberNavBackStack instead.
+    val backStack = remember { mutableStateListOf<Any>(Landing) }
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        // Default transitions for every destination: no animation.
+        transitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
+        popTransitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
+        predictivePopTransitionSpec = { EnterTransition.None togetherWith ExitTransition.None },
+        entryProvider = entryProvider {
+            entry<Landing> {
+                ScreenLanding(
+                    // [START_EXCLUDE]
+                    onItemClicked = { photoIndex ->
+                        // Ignore extra taps while the details screen is animating in.
+                        if (backStack.lastOrNull() is Landing) backStack.add(Detail(photoIndex))
+                    }
+                    // [END_EXCLUDE]
                 )
             }
-        ) { backStackEntry ->
-            ScreenDetails(
-                // [START_EXCLUDE]
-                photo = URLDecoder.decode(backStackEntry.arguments!!.getString("photoUrl")!!),
-                onBackClicked = {
-                    navController.popBackStack()
+            entry<Detail>(
+                // Override the transitions for this destination.
+                metadata = metadata {
+                    put(NavDisplay.TransitionKey) {
+                        fadeIn(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideIntoContainer(
+                            animationSpec = tween(300, easing = EaseIn),
+                            towards = AnimatedContentTransitionScope.SlideDirection.Start
+                        ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                    }
+                    put(NavDisplay.PopTransitionKey) {
+                        EnterTransition.None togetherWith fadeOut(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideOutOfContainer(
+                            animationSpec = tween(300, easing = EaseOut),
+                            towards = AnimatedContentTransitionScope.SlideDirection.End
+                        )
+                    }
+                    put(NavDisplay.PredictivePopTransitionKey) {
+                        EnterTransition.None togetherWith fadeOut(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideOutOfContainer(
+                            animationSpec = tween(300, easing = EaseOut),
+                            towards = AnimatedContentTransitionScope.SlideDirection.End
+                        )
+                    }
                 }
-                // [END_EXCLUDE]
-            )
+            ) { detail ->
+                ScreenDetails(
+                    // [START_EXCLUDE]
+                    photo = randomSizedPhotos[detail.photoIndex],
+                    // Never pop the last entry, for example on a double tap during the exit
+                    // animation.
+                    onBackClicked = { if (backStack.size > 1) backStack.removeLastOrNull() }
+                    // [END_EXCLUDE]
+                )
+            }
         }
-    }
-    // [END android_compose_animate_destinations]
+    )
 }
+// [END android_compose_animate_destinations]
 
 @Preview
 @Composable
@@ -867,12 +883,16 @@ fun AnimationLayoutIndividualItem() {
 }
 
 @Composable
-private fun ScreenLanding(onItemClicked: (String) -> Unit) {
+private fun ScreenLanding(onItemClicked: (photoIndex: Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(200.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         content = {
-            items(randomSizedPhotos) { photo ->
+            itemsIndexed(
+                items = randomSizedPhotos,
+                key = { _, photo -> photo },
+                contentType = { _, _ -> "photo" },
+            ) { index, photo ->
                 AsyncImage(
                     model = photo,
                     contentScale = ContentScale.Crop,
@@ -881,7 +901,7 @@ private fun ScreenLanding(onItemClicked: (String) -> Unit) {
                         .fillMaxWidth()
                         .height(200.dp)
                         .clickable {
-                            onItemClicked(photo)
+                            onItemClicked(index)
                         }
                 )
             }
@@ -902,7 +922,7 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackClicked() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(painterResource(R.drawable.ic_arrow_back), contentDescription = "Back")
                     }
                 }
             )
@@ -923,31 +943,34 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
     }
 }
 
+// Seeded by index so every URL is unique and can be used as a lazy grid key.
 private val randomSizedPhotos = listOf(
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 900, height = 1600),
-    randomSampleImageUrl(width = 500, height = 500),
-    randomSampleImageUrl(width = 300, height = 400),
-    randomSampleImageUrl(width = 1600, height = 900),
-    randomSampleImageUrl(width = 500, height = 500),
-)
+    1600 to 900,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    1600 to 900,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+    900 to 1600,
+    500 to 500,
+    300 to 400,
+    1600 to 900,
+    500 to 500,
+).mapIndexed { index, (width, height) ->
+    randomSampleImageUrl(seed = index, width = width, height = height)
+}

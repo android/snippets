@@ -41,16 +41,27 @@ val generatedSnippetsDir = layout.buildDirectory.dir("generated/sources/composeS
 val generatedSnippetResDir = layout.buildDirectory.dir("generated/snippetResources/composeResources")
 val generatedSnippetResKotlinDir = layout.buildDirectory.dir("generated/snippetResources/kotlin")
 
-// Copies every file in compose/snippets/.../components into the wasm build, so all of them must
-// compile for Kotlin/Wasm (no Android-only APIs such as android.*, java.text or java.util.Calendar).
-// R.drawable/R.string, painterResource and stringResource are supported (see
-// generateSnippetResources). Exclude a file here only if it can't be made multiplatform; its
-// snippets then can't have interactive previews. See preview/README.md.
+// Copies every file in compose/snippets/.../components, plus the other snippet files below, into the
+// wasm build, so all of them must compile for Kotlin/Wasm (no Android-only APIs such as android.*,
+// java.net, java.text or java.util.Calendar). R.drawable/R.string, painterResource and
+// stringResource are supported (see generateSnippetResources). Exclude a components file only if
+// it can't be made multiplatform; its snippets then can't have interactive previews. See
+// preview/README.md.
 val pullSnippets by tasks.registering(Sync::class) {
-    from("${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets/components") {
+    val snippetsRoot = "${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets"
+    from("$snippetsRoot/components") {
         include("*.kt")
         exclude("ComponentsScreen.kt", "Snackbar.kt", "DatePickers.kt", "TimePickers.kt")
         into("com/example/compose/snippets/components")
+    }
+    from("$snippetsRoot/animations") {
+        include("AnimationQuickGuide.kt")
+        into("com/example/compose/snippets/animations")
+    }
+    // Sample image URLs used by AnimationQuickGuide.kt.
+    from("$snippetsRoot/util") {
+        include("ImageLoadingSampleUtils.kt")
+        into("com/example/compose/snippets/util")
     }
     into(generatedSnippetsDir)
 }
@@ -79,8 +90,12 @@ val generateSnippetResources by tasks.registering {
         val resRoot = resOut.get().asFile.apply { deleteRecursively() }
         val drawableOut = File(resRoot, "drawable").apply { mkdirs() }
         drawables.forEach { name ->
-            val source = listOf("drawable", "drawable-nodpi", "drawable-v24")
-                .flatMap { File(resDir, it).listFiles().orEmpty().toList() }
+            // Prefer unqualified and density-independent resources, then any other qualifier.
+            val drawableDirs = resDir.listFiles().orEmpty()
+                .filter { it.isDirectory && (it.name == "drawable" || it.name.startsWith("drawable-")) }
+                .sortedBy { listOf("drawable", "drawable-nodpi").indexOf(it.name).let { i -> if (i < 0) 2 else i } }
+            val source = drawableDirs
+                .flatMap { it.listFiles().orEmpty().toList() }
                 .firstOrNull { it.nameWithoutExtension == name && it.extension in setOf("png", "jpg", "jpeg", "webp", "xml") }
                 ?: error("No drawable resource found for R.drawable.$name")
             source.copyTo(File(drawableOut, source.name))
@@ -155,6 +170,11 @@ kotlin {
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)
                 implementation(libs.jetbrains.navigation.compose)
+                implementation(libs.jetbrains.navigation3.ui)
+                // AnimationQuickGuide.kt loads network images with Coil 3.
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor3)
+                implementation(libs.ktor.client.js)
             }
         }
     }
