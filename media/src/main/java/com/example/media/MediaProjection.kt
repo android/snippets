@@ -39,8 +39,10 @@ private class MediaProjectionActivity : ComponentActivity() {
             StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                mediaProjection = mediaProjectionManager
-                    .getMediaProjection(result.resultCode, result.data!!)
+                result.data?.let { data ->
+                    mediaProjection = mediaProjectionManager
+                        .getMediaProjection(result.resultCode, data)
+                }
             }
         }
 
