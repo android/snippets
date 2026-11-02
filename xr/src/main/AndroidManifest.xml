@@ -23,6 +23,7 @@
     <application
         android:label="XR"
         tools:ignore="MissingApplicationIcon">
+        <!--[START android_xr_projected_activity_manifest]-->
         <activity
             android:name="com.example.xr.projected.ProjectedMainActivity"
             android:exported="true"
@@ -32,6 +33,7 @@
                 <category android:name="android.intent.category.XR_PROJECTED_LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--[END android_xr_projected_activity_manifest]-->
         <activity
             android:name="com.example.xr.projected.PhoneMainActivity"
             android:exported="true">

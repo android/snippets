@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.camera.snippets"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -82,6 +82,10 @@ dependencies {
     implementation(libs.androidx.window)
     implementation(libs.play.services.wearable)
     implementation(libs.mockito.kotlin)
+
+    // Google Low Light Boost dependencies
+    implementation(libs.play.services.camera.low.light.boost)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

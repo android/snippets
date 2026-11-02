@@ -16,26 +16,22 @@
 
 package com.example.xr.projected
 
-import android.Manifest
 import android.content.Context
+import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CaptureRequest
-import android.media.AudioDeviceInfo
-import android.media.AudioFormat
-import android.media.AudioManager
-import android.media.AudioRecord
-import android.media.MediaRecorder
 import android.os.Build
 import android.util.Log
 import android.util.Range
 import android.util.Size
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import androidx.camera.camera2.interop.Camera2CameraInfo
-import androidx.camera.camera2.interop.CaptureRequestOptions
+import androidx.camera.camera2.interop.Camera2Interop
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
+import androidx.camera.core.CameraInfo
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
@@ -44,27 +40,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import kotlin.math.abs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 private const val TAG = "ProjectedHardware"
-
-// Define the audio format
-// the sample rate is limited to 16kHz, with support for mono or stereo channel configurations.
-private val audioFormat = AudioFormat.Builder()
-    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-    .setSampleRate(16000)
-    .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
-    .build()
-
-// Fetch the minimum required size and use it (or a small multiple)
-// to ensure the "shorter chunks" recommended for low latency.
-private val bufferSize = AudioRecord.getMinBufferSize(
-    16000,
-    AudioFormat.CHANNEL_IN_MONO,
-    AudioFormat.ENCODING_PCM_16BIT
-).coerceAtLeast(1024)
 
 /**
  * Demonstrates how to obtain a context for the projected device (audio and display glasses)
@@ -120,13 +101,14 @@ private fun getPhoneContext(activity: ComponentActivity): Context? {
 // [END androidxr_projected_context_get_host]
 
 /**
- * Demonstrates how to capture an image using the audio and display glasses' camera.
+ * Demonstrates how to set up the audio and display glasses' camera for an image capture use case,
+ * utilizing dynamically queried and verified resolutions.
  */
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 // [START androidxr_projected_camera_capture]
-private fun startCameraOnGlasses(activity: ComponentActivity) {
+private fun setUpGlassesCamera(activity: ComponentActivity) {
     activity.lifecycleScope.launch {
         // Before creating a projected context, check to see if the projected device is connected.
         ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
@@ -153,31 +135,43 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
                             return@addListener
                         }
 
-                        // 3. Query supported streaming resolutions using Camera2 Interop.
+                        // 3. Query supported streaming resolutions dynamically using Camera2 Interop.
                         val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
-                        val camera2CameraInfo = Camera2CameraInfo.from(cameraInfo)
-                        val cameraCharacteristics = camera2CameraInfo.getCameraCharacteristic(
+                        val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
                             CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
                         )
+                        val supportedResolutions = map?.getOutputSizes(ImageFormat.JPEG)?.toList() ?: emptyList()
+                        Log.i(TAG, "Supported resolutions for JPEG: ${supportedResolutions.joinToString()}")
 
-                        // 4. Define the resolution strategy.
-                        val targetResolution = Size(1920, 1080)
+                        // 4. Dynamically select the best target resolution from the queried list.
+                        val preferredResolution = Size(1920, 1080)
+                        val dynamicTargetResolution = when {
+                            // Case A: The preferred resolution is explicitly supported by the glasses.
+                            supportedResolutions.contains(preferredResolution) -> preferredResolution
+
+                            // Case B: Find the highest supported 16:9 resolution as a fallback.
+                            else -> {
+                                val targetAspectRatio = 16.0 / 9.0
+                                val tolerance = 0.01
+                                supportedResolutions
+                                    .filter { abs((it.width.toDouble() / it.height) - targetAspectRatio) < tolerance }
+                                    .maxByOrNull { it.width * it.height }
+                                    // Case C: Absolute fallback if no 16:9 resolutions are found.
+                                    ?: supportedResolutions.firstOrNull()
+                                    ?: preferredResolution
+                            }
+                        }
+                        Log.i(TAG, "Selected target resolution: $dynamicTargetResolution")
+
                         val resolutionStrategy = ResolutionStrategy(
-                            targetResolution,
+                            dynamicTargetResolution,
                             ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
                         )
                         val resolutionSelector = ResolutionSelector.Builder()
                             .setResolutionStrategy(resolutionStrategy)
                             .build()
 
-                        // 5. If you have other continuous use cases bound, such as Preview or ImageAnalysis,
-                        // you can use  Camera2 Interop's CaptureRequestOptions to set the FPS
-                        val fpsRange = Range(30, 60)
-                        val captureRequestOptions = CaptureRequestOptions.Builder()
-                            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
-                            .build()
-
-                        // 6. Initialize the ImageCapture use case with options.
+                        // 5. Initialize the ImageCapture use case with options.
                         val imageCapture = ImageCapture.Builder()
                             // Optional: Configure resolution, format, etc.
                             .setResolutionSelector(resolutionSelector)
@@ -204,63 +198,59 @@ private fun startCameraOnGlasses(activity: ComponentActivity) {
 // [END androidxr_projected_camera_capture]
 
 /**
- * Demonstrates how to record audio using Bluetooth HFP
+ * Query the maximum frame rate for each resolution using minimum frame durations.
  */
-@RequiresPermission(allOf = [Manifest.permission.RECORD_AUDIO, Manifest.permission.BLUETOOTH_CONNECT])
-private fun startBluetoothAudioRecording(context: Context) {
-    // [START androidxr_bluetooth_audio_record]
-    val audioManager = context.getSystemService(AudioManager::class.java) ?: return
-    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
-    val hfpDevice = devices.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+// [START androidxr_projected_camera_max_fps]
+@androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
+fun getMaxFpsBySize(cameraInfo: CameraInfo, format: Int): Map<Size, Int> {
+    val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
+        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+    ) ?: return emptyMap()
 
-    hfpDevice?.let { device ->
-        val audioRecord = AudioRecord.Builder()
-            .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
-            .setAudioFormat(audioFormat)
-            .setBufferSizeInBytes(bufferSize)
-            .build()
-
-        // Route recording to the Bluetooth device
-        audioRecord.setPreferredDevice(device)
-        audioManager.setCommunicationDevice(device)
-
-        audioRecord.startRecording()
-        // [END androidxr_bluetooth_audio_record]
-        
-        // Stop and release when done.
-        audioRecord.stop()
-        audioRecord.release()
-        audioManager.clearCommunicationDevice()
+    return map.getOutputSizes(format).associateWith { size ->
+        val minFrameDurationNs = map.getOutputMinFrameDuration(format, size)
+        if (minFrameDurationNs > 0) (1_000_000_000L / minFrameDurationNs).toInt() else 0
     }
 }
+// [END androidxr_projected_camera_max_fps]
 
 /**
- * Demonstrates how to record audio using the projected device context.
+ * Configure the camera stream frame rate dynamically using ranges for audio and display glasses.
  */
-@RequiresPermission(Manifest.permission.RECORD_AUDIO)
-@OptIn(ExperimentalProjectedApi::class)
-private fun startProjectedAudioRecording(context: Context) {
-    val projectedDeviceContext = try {
-        ProjectedContext.createProjectedDeviceContext(context)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Projected device context could not be created", e)
-        return
-    }
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
+@androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
+private fun setupCameraStreamingFps(cameraInfo: CameraInfo, size: Size, desiredFps: Int): ImageAnalysis {
+    // Calculate target min and max FPS using dynamic resolution checks
+    // [START androidxr_projected_camera_target_fps]
+    val maxFpsBySize = getMaxFpsBySize(cameraInfo, ImageFormat.YUV_420_888)
+    val maxSupportedFps = maxFpsBySize[Size(640, 480)] ?: return ImageAnalysis.Builder().build()
 
-    // [START androidxr_projected_context_audio_record]
-    // Initialize AudioRecord with projected device context
-    val audioRecord = AudioRecord.Builder()
-        .setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-        .setAudioFormat(audioFormat)
-        .setBufferSizeInBytes(bufferSize)
-        // pass in the projected device context
-        .setContext(projectedDeviceContext)
+    // minFps is the target streaming frame rate and should be at most maxSupportedFps.
+    val minFps = minOf(desiredFps, maxSupportedFps)
+    // Set the upper bound to 2x minFps so the stream can catch up if frames are delayed.
+    val maxFps = minFps * 2
+    // [END androidxr_projected_camera_target_fps]
+
+    // [START androidxr_projected_camera_set_fps_analysis]
+    // Configure Resolution Strategy for the stream
+    val resolutionStrategy = ResolutionStrategy(
+        size,
+        ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
+    )
+    val resolutionSelector = ResolutionSelector.Builder()
+        .setResolutionStrategy(resolutionStrategy)
         .build()
 
-    audioRecord.startRecording()
-    // [END androidxr_projected_context_audio_record]
+    // Create and return the ImageAnalysis builder with proper frame rate ranges
+    // ImageAnalysis: OCR, AI streaming, and VPS
+    val analysisBuilder = ImageAnalysis.Builder()
+        .setResolutionSelector(resolutionSelector)
 
-    // Stop and release when done.
-    audioRecord.stop()
-    audioRecord.release()
+    Camera2Interop.Extender(analysisBuilder)
+        .setCaptureRequestOption(
+            CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,
+            Range(minFps, maxFps)
+        )
+    return analysisBuilder.build()
+    // [END androidxr_projected_camera_set_fps_analysis]
 }

@@ -19,9 +19,10 @@ package com.example.snippets.security.intents
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.os.BadParcelableException
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -58,26 +59,21 @@ class IntentSecurityActivity : ComponentActivity() {
                 throw SecurityException("Nested intent contains forbidden URI permission grant flags!")
             }
 
-            val pm = packageManager
-            val target = nestedIntent.resolveActivity(pm)
-            if (target != null) {
-                // 2. Verify target is within the same package
-                if (target.packageName != packageName) {
-                    throw SecurityException("Cross-app intent redirection is forbidden!")
-                }
-                try {
-                    // 3. Verify target activity is exported
-                    val info = pm.getActivityInfo(target, 0)
-                    if (!info.exported) {
-                        throw SecurityException("Target activity is private: ${target.className}")
-                    }
-                    // 4. Explicitly set the component to prevent intent interception
-                    nestedIntent.component = target
-                    // Safe to launch
-                    startActivity(nestedIntent)
-                } catch (e: PackageManager.NameNotFoundException) {
-                    Log.e("Security", "Failed to resolve target activity", e)
-                }
+            // 2. Clear any selector intent that could override resolution
+            nestedIntent.selector = null
+
+            // 3. Resolve the target activity and verify both packageName and className
+            //    match the expected allowlisted destination
+            val target = nestedIntent.resolveActivity(packageManager)
+            if (target != null &&
+                target.packageName == packageName &&
+                target.className == TargetActivity::class.java.name
+            ) {
+                // 4. Explicitly pin the resolved component to prevent intent interception
+                nestedIntent.component = target
+                startActivity(nestedIntent)
+            } else {
+                throw SecurityException("Invalid or disallowed redirect target: $target")
             }
         }
     }
@@ -85,30 +81,34 @@ class IntentSecurityActivity : ComponentActivity() {
 
     // [START android_security_intent_redirect_sanitizer]
     fun safeIntentRedirectionSanitizer() {
-        val untrustedIntent = IntentCompat.getParcelableExtra(intent, "EXTRA_NESTED_INTENT", Intent::class.java)
-        if (untrustedIntent != null) {
-            // Define the strict boundaries for allowed redirection target
-            val sanitizer = IntentSanitizer.Builder()
-                .allowComponent(ComponentName("com.example.app", "com.example.app.SafeTargetActivity")) // Explicitly allowed target
-                .allowAction(Intent.ACTION_VIEW) // Explicitly allowed actions
-                .allowDataWithAuthority("com.example.app.provider") // Allowed URI authority
-                .allowType("text/plain") // Allowed mime type
-                .allowExtra("user_display_name", String::class.java) // Safe type-enforced extras
-                // Note: URI permission flags are NOT allowed, so the sanitizer will automatically strip or throw on them
-                .build()
+        // Allowlist: anything NOT listed is rejected (only component is required; other fields are optional).
+        // No allowFlags(): every flag, including FLAG_GRANT_*_URI_PERMISSION, is rejected.
+        val sanitizer = IntentSanitizer.Builder()
+            .allowComponent(ComponentName(this, TargetActivity::class.java))
+            .allowAction(Intent.ACTION_VIEW)
+            .allowData { it.scheme == ContentResolver.SCHEME_CONTENT && it.authority == "$packageName.provider" }
+            .allowType("text/plain")
+            .allowExtra("user_display_name", String::class.java) { it.length <= 100 } // type and content
+            .build()
 
-            try {
-                // Option A: Throws SecurityException if the intent violates policies
-                val safeIntent = sanitizer.sanitizeByThrowing(untrustedIntent)
-                startActivity(safeIntent)
-            } catch (e: SecurityException) {
-                Log.e("SECURITY_ALERT", "Attempted launch of non-allowlisted intent blocked", e)
-            }
-            
-            // Option B: Silently filter and launch only the authorized parts (no exception thrown)
-            // val filteredIntent = sanitizer.sanitizeByFiltering(untrustedIntent)
-            // startActivity(filteredIntent)
+        val safeIntent = try {
+            val untrusted = IntentCompat.getParcelableExtra(intent, "EXTRA_NESTED_INTENT", Intent::class.java)
+                ?: return
+            sanitizer.sanitizeByThrowing(untrusted)
+        } catch (_: SecurityException) {
+            Log.w("SECURITY_ALERT", "Blocked non-allowlisted nested intent")
+            return
+        } catch (_: BadParcelableException) { // e.g. an extra naming an unknown Parcelable/Serializable
+            Log.w("SECURITY_ALERT", "Malformed nested intent")
+            return
         }
+
+        // The sanitizer doesn't enforce presence; check what the target actually requires.
+        if (safeIntent.getStringExtra("user_display_name") == null) {
+            Log.w("SECURITY_ALERT", "Nested intent missing user_display_name")
+            return
+        }
+        startActivity(safeIntent)
     }
     // [END android_security_intent_redirect_sanitizer]
 

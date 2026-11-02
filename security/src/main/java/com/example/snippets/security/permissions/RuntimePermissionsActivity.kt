@@ -17,6 +17,7 @@
 package com.example.snippets.security.permissions
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -54,13 +55,23 @@ class RuntimePermissionsActivity : ComponentActivity() {
                 startCameraPreview()
             }
             shouldShowRequestPermissionRationale(permission) -> {
-                showSnackbar("Camera permission is needed to preview camera feed.")
-                cameraLauncher.launch(permission)
+                showRationaleDialog(permission)
             }
             else -> {
                 cameraLauncher.launch(permission)
             }
         }
+    }
+
+    private fun showRationaleDialog(permission: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Camera permission required")
+            .setMessage("Camera permission is needed to preview the camera feed.")
+            .setPositiveButton("Continue") { _, _ ->
+                cameraLauncher.launch(permission)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun startCameraPreview() {
