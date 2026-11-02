@@ -26,18 +26,30 @@ import androidx.activity.ComponentActivity
 
 private const val TAG = "ReadingNetworkState"
 
-private class ReadingNetworkState : ComponentActivity() {
-    private val myNetworkCallback = object : ConnectivityManager.NetworkCallback() {}
+// An Activity, not a plain Context, because the page registers callbacks in onResume() and
+// unregisters them in onPause().
+private class ReadingNetworkStateActivity : ComponentActivity() {
+    // Looked up once so the lifecycle methods can register and unregister callbacks.
+    private val connectivityManager by lazy {
+        getSystemService(ConnectivityManager::class.java)
+    }
 
-    private fun getConnectivityManager() {
+    // Stands in for the app's own callback in the additional-networks example. It overrides
+    // nothing, so a plain NetworkCallback instance is enough.
+    private val myNetworkCallback = ConnectivityManager.NetworkCallback()
+
+    // Kept so onPause() can unregister the callback that onResume() registered.
+    private var defaultNetworkCallback: ConnectivityManager.NetworkCallback? = null
+
+    // The three regions share one function, so each uses the connectivityManager declared in the
+    // first one.
+    private fun getInstantaneousState() {
         // [START android_connectivity_reading_network_state_get_manager]
         val connectivityManager = getSystemService(ConnectivityManager::class.java)
         // [END android_connectivity_reading_network_state_get_manager]
-    }
 
-    private fun getInstantaneousState(connectivityManager: ConnectivityManager) {
         // [START android_connectivity_reading_network_state_active_network]
-        val currentNetwork = connectivityManager.getActiveNetwork()
+        val currentNetwork = connectivityManager.activeNetwork
         // [END android_connectivity_reading_network_state_active_network]
 
         // [START android_connectivity_reading_network_state_network_info]
@@ -46,29 +58,39 @@ private class ReadingNetworkState : ComponentActivity() {
         // [END android_connectivity_reading_network_state_network_info]
     }
 
-    private fun registerDefaultCallback(connectivityManager: ConnectivityManager) {
+    // Returns the callback so the caller can unregister it later.
+    private fun registerDefaultCallback(): ConnectivityManager.NetworkCallback {
         // [START android_connectivity_reading_network_state_default_callback]
-        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+        val defaultNetworkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                Log.e(TAG, "The default network is now: " + network)
+                Log.d(TAG, "The default network is now: $network")
             }
 
             override fun onLost(network: Network) {
-                Log.e(TAG, "The application no longer has a default network. The last default network was " + network)
+                Log.d(
+                    TAG,
+                    "The application no longer has a default network. " +
+                        "The last default network was $network"
+                )
             }
 
-            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-                Log.e(TAG, "The default network changed capabilities: " + networkCapabilities)
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                Log.d(TAG, "The default network changed capabilities: $networkCapabilities")
             }
 
             override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
-                Log.e(TAG, "The default network changed link properties: " + linkProperties)
+                Log.d(TAG, "The default network changed link properties: $linkProperties")
             }
-        })
+        }
+        connectivityManager.registerDefaultNetworkCallback(defaultNetworkCallback)
         // [END android_connectivity_reading_network_state_default_callback]
+        return defaultNetworkCallback
     }
 
-    private fun registerUnmeteredCallback(connectivityManager: ConnectivityManager) {
+    private fun registerUnmeteredCallback() {
         // [START android_connectivity_reading_network_state_unmetered_request]
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
@@ -77,5 +99,19 @@ private class ReadingNetworkState : ComponentActivity() {
 
         connectivityManager.registerNetworkCallback(request, myNetworkCallback)
         // [END android_connectivity_reading_network_state_unmetered_request]
+    }
+
+    // Registers in onResume() and unregisters in onPause(), as the page recommends.
+    override fun onResume() {
+        super.onResume()
+        defaultNetworkCallback = registerDefaultCallback()
+        registerUnmeteredCallback()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        defaultNetworkCallback?.let { connectivityManager.unregisterNetworkCallback(it) }
+        defaultNetworkCallback = null
+        connectivityManager.unregisterNetworkCallback(myNetworkCallback)
     }
 }
