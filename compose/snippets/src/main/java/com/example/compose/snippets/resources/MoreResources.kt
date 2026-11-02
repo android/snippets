@@ -17,7 +17,6 @@
 package com.example.compose.snippets.resources
 
 import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import com.example.compose.snippets.R
 
@@ -53,10 +52,12 @@ private fun readIntArrayResource(resources: Resources) {
 
 private fun readTypedArrayResources(resources: Resources) {
     // [START android_resources_more_typed_array]
-    val icons: TypedArray = resources.obtainTypedArray(R.array.icons)
-    val drawable: Drawable? = icons.getDrawable(0)
+    val drawable: Drawable? = resources.obtainTypedArray(R.array.icons).use { icons ->
+        icons.getDrawable(0)
+    }
 
-    val colors: TypedArray = resources.obtainTypedArray(R.array.colors)
-    val color: Int = colors.getColor(0, 0)
+    val color: Int = resources.obtainTypedArray(R.array.colors).use { colors ->
+        colors.getColor(0, 0)
+    }
     // [END android_resources_more_typed_array]
 }
