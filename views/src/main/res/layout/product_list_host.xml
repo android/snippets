@@ -14,9 +14,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<!-- [START android_views_navigation_migrate_product_list_host] -->
 <FrameLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_content"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent" />
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/main_content"
+   android:layout_height="match_parent"
+   android:layout_width="match_parent" />
+<!-- [END android_views_navigation_migrate_product_list_host] -->

@@ -15,16 +15,20 @@
      limitations under the License.
 -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/a">
 
-    <!-- [START android_views_navigation_config_changes_destination_label] -->
-    <navigation>
-        <fragment
-            android:id="@+id/my_dest"
-            android:name="com.example.MyFragment"
-            android:label="@string/my_dest_label"
-            tools:layout="@layout/my_fragment" />
-        <!-- ... -->
-    <!-- [END android_views_navigation_config_changes_destination_label] -->
-    </navigation>
+    <fragment android:id="@+id/a">
+        <!-- [START android_views_navigation_backstack_pop_up_to_action] -->
+        <action
+          android:id="@+id/action_a_to_b"
+          app:destination="@id/b"
+          app:popUpTo="@+id/a"
+          app:popUpToInclusive="true"
+          app:restoreState="true"
+          app:popUpToSaveState="true"/>
+        <!-- [END android_views_navigation_backstack_pop_up_to_action] -->
+    </fragment>
+
+    <fragment android:id="@+id/b" />
 </navigation>
