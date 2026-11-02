@@ -24,6 +24,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import androidx.work.setInputMerger
 
 class PlantWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result = Result.success()
@@ -54,7 +55,7 @@ private class ArrayCreatingInputMergerSnippet(private val constraints: Constrain
     fun build(): OneTimeWorkRequest {
         // [START android_backgroundwork_chain_work_array_creating_input_merger]
         val cache: OneTimeWorkRequest = OneTimeWorkRequestBuilder<PlantWorker>()
-            .setInputMerger(ArrayCreatingInputMerger::class.java)
+            .setInputMerger(ArrayCreatingInputMerger::class)
             .setConstraints(constraints)
             .build()
         // [END android_backgroundwork_chain_work_array_creating_input_merger]
