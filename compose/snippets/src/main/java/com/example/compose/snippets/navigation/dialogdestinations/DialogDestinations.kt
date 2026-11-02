@@ -32,10 +32,10 @@ object Home
 @Serializable
 object Settings
 @Composable
-fun HomeScreen(onNavigateToSettings: () -> Unit){
+fun HomeScreen(onNavigateToSettings: () -> Unit) {
     Column {
         Text("Home")
-        Button(onClick = onNavigateToSettings){
+        Button(onClick = onNavigateToSettings) {
             Text("Open settings")
         }
     }
@@ -43,7 +43,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit){
 
 // This screen will be displayed as a dialog.
 @Composable
-fun SettingsScreen(){
+fun SettingsScreen() {
     Text("Settings")
     // ...
 }
