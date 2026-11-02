@@ -21,34 +21,32 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
 import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
 import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED
-import androidx.activity.ComponentActivity
 
-private class DataSaver : ComponentActivity() {
-    private fun checkDataSaverPreferences() {
-        // [START android_connectivity_data_saver_check_preferences]
-        (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).apply {
-            // Checks if the device is on a metered network.
-            if (isActiveNetworkMetered) {
-                // Checks user’s Data Saver settings.
-                when (restrictBackgroundStatus) {
-                    RESTRICT_BACKGROUND_STATUS_ENABLED -> {
-                        // Background data usage is blocked for this app. Wherever possible,
-                        // the app should also use less data in the foreground.
-                    }
-                    RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
-                        // The app is allowed to bypass Data Saver. Nevertheless, wherever possible,
-                        // the app should use less data in the foreground and background.
-                    }
-                    RESTRICT_BACKGROUND_STATUS_DISABLED -> {
-                        // Data Saver is disabled. Since the device is connected to a
-                        // metered network, the app should use less data wherever possible.
-                    }
+// A Context extension, so getSystemService() resolves without a placeholder Activity.
+private fun Context.checkDataSaverPreferences() {
+    // [START android_connectivity_data_saver_check_preferences]
+    with(getSystemService(ConnectivityManager::class.java)) {
+        // Checks if the device is on a metered network.
+        if (isActiveNetworkMetered) {
+            // Checks user’s Data Saver settings.
+            when (restrictBackgroundStatus) {
+                RESTRICT_BACKGROUND_STATUS_ENABLED -> {
+                    // Background data usage is blocked for this app. Wherever possible,
+                    // the app should also use less data in the foreground.
                 }
-            } else {
-                // The device is not on a metered network.
-                // Use data as required to perform syncs, downloads, and updates.
+                RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
+                    // The app is allowed to bypass Data Saver. Nevertheless, wherever possible,
+                    // the app should use less data in the foreground and background.
+                }
+                RESTRICT_BACKGROUND_STATUS_DISABLED -> {
+                    // Data Saver is disabled. Since the device is connected to a
+                    // metered network, the app should use less data wherever possible.
+                }
             }
+        } else {
+            // The device is not on a metered network.
+            // Use data as required to perform syncs, downloads, and updates.
         }
-        // [END android_connectivity_data_saver_check_preferences]
     }
+    // [END android_connectivity_data_saver_check_preferences]
 }

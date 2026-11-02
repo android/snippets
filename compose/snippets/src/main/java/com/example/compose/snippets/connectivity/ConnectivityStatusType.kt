@@ -22,9 +22,11 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.activity.ComponentActivity
 
-private class ConnectivityStatusType : ComponentActivity() {
+// An Activity, not a plain Context, because the callback is registered in onStart() and
+// unregistered in onStop().
+private class ConnectivityStatusTypeActivity : ComponentActivity() {
     // [START android_connectivity_status_type_configure_request]
-    val networkRequest = NetworkRequest.Builder()
+    private val networkRequest = NetworkRequest.Builder()
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -34,9 +36,8 @@ private class ConnectivityStatusType : ComponentActivity() {
 
     // [START android_connectivity_status_type_configure_callback]
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        // network is available for use.
         override fun onAvailable(network: Network) {
-            super.onAvailable(network)
+            // Network is available for use.
         }
 
         // Network capabilities have changed for the network.
@@ -44,21 +45,30 @@ private class ConnectivityStatusType : ComponentActivity() {
             network: Network,
             networkCapabilities: NetworkCapabilities
         ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            val unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+            val unmetered =
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+            if (!unmetered) {
+                // Reduce data usage, or delay it until the network is unmetered.
+            }
         }
 
-        // lost network connection.
         override fun onLost(network: Network) {
-            super.onLost(network)
+            // Lost network connection.
         }
     }
     // [END android_connectivity_status_type_configure_callback]
 
-    private fun registerForNetworkUpdates() {
+    override fun onStart() {
+        super.onStart()
         // [START android_connectivity_status_type_register_updates]
-        val connectivityManager = getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-        connectivityManager.requestNetwork(networkRequest, networkCallback)
+        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
         // [END android_connectivity_status_type_register_updates]
+    }
+
+    // Unregisters the callback so it doesn't outlive the Activity.
+    override fun onStop() {
+        super.onStop()
+        getSystemService(ConnectivityManager::class.java).unregisterNetworkCallback(networkCallback)
     }
 }
