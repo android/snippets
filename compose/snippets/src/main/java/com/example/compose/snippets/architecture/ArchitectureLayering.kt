@@ -22,11 +22,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -56,14 +55,15 @@ fun Button(
     // …
     content: @Composable RowScope.() -> Unit
 ) {
-    Surface(/* … */) {
-        CompositionLocalProvider(/* … */) { // set LocalContentAlpha
-            ProvideTextStyle(MaterialTheme.typography.button) {
-                Row(
-                    // …
-                    content = content
-                )
-            }
+    Surface(
+        // …
+        contentColor = Color.Unspecified // placeholder
+    ) {
+        ProvideTextStyle(MaterialTheme.typography.labelLarge) {
+            Row(
+                // …
+                content = content
+            )
         }
     }
 }
@@ -85,10 +85,8 @@ fun GradientButton(
                 Brush.horizontalGradient(background)
             )
     ) {
-        CompositionLocalProvider(/* … */) { // set material LocalContentAlpha
-            ProvideTextStyle(MaterialTheme.typography.button) {
-                content()
-            }
+        ProvideTextStyle(MaterialTheme.typography.labelLarge) {
+            content()
         }
     }
 }
