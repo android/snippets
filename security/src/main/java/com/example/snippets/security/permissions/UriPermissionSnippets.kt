@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.UriPermission
 import android.net.Uri
+import android.os.Build
 
 // [START android_security_uri_permission_management]
 object UriPermissionManager {
@@ -38,12 +39,20 @@ object UriPermissionManager {
         return context.contentResolver.persistedUriPermissions
     }
 
-    /** Revokes temporary URI access when data transfer completes. */
-    fun revokeScopedUriAccess(context: Context, uri: Uri) {
-        context.revokeUriPermission(
-            uri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-        )
+    /** Revokes temporary URI access for a specific partner package when data transfer completes. */
+    fun revokeScopedUriAccess(context: Context, targetPackage: String, uri: Uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.revokeUriPermission(
+                targetPackage,
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        } else {
+            context.revokeUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        }
     }
 }
 // [END android_security_uri_permission_management]
@@ -54,5 +63,5 @@ fun grantScopedUriAccess(context: Context, targetPackage: String, uri: Uri) =
 fun getActivePersistedPermissions(context: Context): List<UriPermission> =
     UriPermissionManager.getActivePersistedPermissions(context)
 
-fun revokeScopedUriAccess(context: Context, uri: Uri) =
-    UriPermissionManager.revokeScopedUriAccess(context, uri)
+fun revokeScopedUriAccess(context: Context, targetPackage: String, uri: Uri) =
+    UriPermissionManager.revokeScopedUriAccess(context, targetPackage, uri)
