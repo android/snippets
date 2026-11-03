@@ -115,7 +115,9 @@ class MyBackupAgent : BackupAgent() {
 
         runBlocking(Dispatchers.IO) {
             restoreFunctions.getRestoreKey(
-                fetchAuthenticationJson = { /* Fetch challenge JSON from server */ "" }
+                fetchAuthenticationJson = {
+                    /* Fetch challenge JSON from server */ ""
+                }
             )
         }
     }
