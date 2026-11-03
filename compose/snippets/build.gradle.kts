@@ -183,7 +183,12 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.device)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit.ktx)
+    androidTestImplementation(libs.androidx.window.testing)
     androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(libs.robolectric)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.glance.appwidget.preview)
 
