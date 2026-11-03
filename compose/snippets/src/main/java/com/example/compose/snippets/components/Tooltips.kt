@@ -16,15 +16,13 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -86,7 +84,7 @@ fun PlainTooltipExample(
     ) {
         IconButton(onClick = { /* Do something... */ }) {
             Icon(
-                imageVector = Icons.Filled.Favorite,
+                painter = rememberVectorPainter(AppIcons.Favorite),
                 contentDescription = "Add to favorites"
             )
         }
@@ -123,7 +121,7 @@ fun RichTooltipExample(
     ) {
         IconButton(onClick = { /* Icon button's click event */ }) {
             Icon(
-                imageVector = Icons.Filled.Info,
+                painter = rememberVectorPainter(AppIcons.Info),
                 contentDescription = "Show more information"
             )
         }
@@ -178,7 +176,7 @@ fun AdvancedRichTooltipExample(
             }
         }) {
             Icon(
-                imageVector = Icons.Filled.Camera,
+                painter = rememberVectorPainter(AppIcons.Camera),
                 contentDescription = "Open camera"
             )
         }
