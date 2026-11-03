@@ -17,7 +17,7 @@
 package com.example.snippets.ai
 
 import androidx.annotation.RequiresApi
-import androidx.appfunctions.AppFunction
+import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionService
 import androidx.appfunctions.AppFunctionServiceEntryPoint
 import com.example.snippets.AppFunctionApplication
@@ -34,7 +34,7 @@ import javax.inject.Inject
 abstract class BaseAppFunctionServiceHeader : AppFunctionService() {
     @Inject internal lateinit var messageRepository: MessageRepository
 
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     internal suspend fun send(
         name: String,
         endpointValue: String,
@@ -59,7 +59,7 @@ abstract class BaseAppFunctionServiceLocator : AppFunctionService() {
     // Or with Koin / alternative DI locators:
     // private val messageRepository: MessageRepository by inject()
 
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     internal suspend fun send(
         name: String,
         endpointValue: String,
