@@ -468,6 +468,12 @@
         </service>
         <!-- [END android_wear_widget_skill_manifest] -->
 
+        <!-- [START android_wear_confirm_manifest] -->
+        <activity
+            android:name="androidx.wear.activity.ConfirmationActivity">
+        </activity>
+        <!-- [END android_wear_confirm_manifest] -->
+
     </application>
 
 </manifest>
