@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.connectivity
+package com.example.snippets.connectivity
 
 import android.content.Context
 import android.net.ConnectivityManager
