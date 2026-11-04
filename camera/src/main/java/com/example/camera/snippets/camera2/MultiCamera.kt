@@ -102,9 +102,9 @@ private object MultiCameraSnippets {
     /**
      * Helper type definition that encapsulates 3 sets of output targets:
      *
-     *   1. Logical camera
-     *   2. First physical camera
-     *   3. Second physical camera
+     * 1. Logical camera
+     * 2. First physical camera
+     * 3. Second physical camera
      */
     typealias DualCameraOutputs =
         Triple<MutableList<Surface>?, MutableList<Surface>?, MutableList<Surface>?>
@@ -150,7 +150,7 @@ private object MultiCameraSnippets {
         // Open the logical camera using the previously defined function.
         openDualCamera(cameraManager, dualCamera, executor = executor) {
 
-            // Finally create the session and return via callback.
+            // Finally create the session and return using the callback.
             it.createCaptureSession(sessionConfiguration)
         }
     }

@@ -56,7 +56,7 @@ private object MultipleCameraStreamsSnippets {
         combinedRequest.addTarget(previewSurface)
         combinedRequest.addTarget(imReaderSurface)
 
-        // In this simple case, the SurfaceView gets updated automatically. ImageReader
+        // In this basic case, the SurfaceView gets updated automatically. ImageReader
         // has its own callback that you have to listen to in order to retrieve the
         // frames so there is no need to set up a callback for the capture request.
         session.setRepeatingRequest(combinedRequest.build(), null, null)
@@ -100,7 +100,7 @@ private object MultipleCameraStreamsSnippets {
         /*
         // [END_EXCLUDE]
         val characteristics: CameraCharacteristics = ...
-        val targetClass: Class <T> = ...  // such as SurfaceView::class.java
+        val targetClass: Class<T> = ...  // such as SurfaceView::class.java
         // [START_EXCLUDE silent]
          */
         // [END_EXCLUDE]
@@ -222,7 +222,7 @@ private class MultipleStreamsActivity : Activity() {
         val surfaceView = SurfaceView(this)
         /*
         // [END_EXCLUDE]
-        val surfaceView = findViewById <SurfaceView>(...)
+        val surfaceView = findViewById<SurfaceView>(...)
         // [START_EXCLUDE silent]
          */
         // [END_EXCLUDE]

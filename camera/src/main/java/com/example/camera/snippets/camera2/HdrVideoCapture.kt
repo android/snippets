@@ -56,7 +56,7 @@ private class HdrVideoCaptureSnippets(
                 .get(CameraCharacteristics.REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES)
                 ?.getSupportedProfiles()
 
-            // Checks for the desired profile, in this case HLG10.
+            // Checks for the chosen profile, in this case HLG10.
             return availableProfiles?.contains(DynamicRangeProfiles.HLG10) ?: false
         }
         return false
