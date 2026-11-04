@@ -79,6 +79,8 @@ dependencies {
     implementation(libs.androidx.camera.effects)
     implementation(libs.androidx.media3.effect)
     implementation(libs.mlkit.face.detection)
+    implementation(libs.androidx.camera.mlkit.vision)
+    implementation(libs.mlkit.barcode.scanning)
     implementation(libs.androidx.window)
     implementation(libs.play.services.wearable)
     implementation(libs.mockito.kotlin)
@@ -88,6 +90,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
 
     testImplementation(libs.junit)
+    testImplementation(libs.truth)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
