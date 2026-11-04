@@ -32,8 +32,13 @@ package com.example.compose.snippets.layouts
 * limitations under the License.
 */
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -85,6 +90,59 @@ private fun TextWithPaddingToBaseline() {
     }
 }
 // [END android_compose_alignment_lines_basic]
+
+@Preview
+// [START android_compose_alignment_lines_padding_from]
+@Composable
+private fun TextWithPaddingFromBaseline() {
+    MaterialTheme {
+        Text("Hi there!", Modifier.paddingFrom(FirstBaseline, before = 32.dp))
+    }
+}
+// [END android_compose_alignment_lines_padding_from]
+
+@Preview
+// [START android_compose_alignment_lines_align_by_baseline]
+@Composable
+private fun TitleWithSubtitle() {
+    MaterialTheme {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                "Title",
+                modifier = Modifier.alignByBaseline(),
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                "Subtitle",
+                modifier = Modifier.alignByBaseline(),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+}
+// [END android_compose_alignment_lines_align_by_baseline]
+
+@Preview
+// [START android_compose_alignment_lines_align_by_block]
+@Composable
+private fun BoxMiddleOnBaseline() {
+    MaterialTheme {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .background(Color.Gray)
+                    // Aligns the middle of the box with the text baseline.
+                    .alignBy { it.measuredHeight / 2 }
+            )
+            Text(
+                "Label",
+                modifier = Modifier.alignByBaseline()
+            )
+        }
+    }
+}
+// [END android_compose_alignment_lines_align_by_block]
 
 // [START android_compose_alignment_lines_example_max]
 /**
