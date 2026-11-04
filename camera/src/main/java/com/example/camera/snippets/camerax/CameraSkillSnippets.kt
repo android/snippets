@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,35 +17,23 @@
 package com.example.camera.snippets.camerax
 
 import android.Manifest
-import android.hardware.camera2.CameraMetadata
-import androidx.camera.camera2.interop.Camera2Interop
-import androidx.camera.camera2.interop.ExperimentalCamera2Interop
+import android.content.ContentValues
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Rect
+import android.graphics.RectF
+import android.hardware.camera2.CameraMetadata
 import android.os.PowerManager
+import android.provider.MediaStore
+import android.util.Log
 import android.util.Rational
 import android.view.Surface
 import android.view.View
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoTracker
-import androidx.camera.core.ViewPort
-import com.google.android.gms.wearable.Asset
-import com.google.android.gms.wearable.PutDataMapRequest
-import com.google.android.gms.wearable.Wearable
-import java.io.ByteArrayOutputStream
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
-import android.content.ContentValues
-import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.Rect
-import android.graphics.RectF
-import android.provider.MediaStore
-import android.util.Log
 import androidx.annotation.OptIn
+import androidx.camera.camera2.interop.Camera2Interop
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraEffect
 import androidx.camera.core.CameraSelector
@@ -57,6 +45,7 @@ import androidx.camera.core.LowLightBoostState
 import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceProcessor
 import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
 import androidx.camera.core.takePicture
 import androidx.camera.extensions.ExtensionMode
 import androidx.camera.extensions.ExtensionSessionConfig
@@ -79,11 +68,22 @@ import androidx.camera.view.transform.CoordinateTransform
 import androidx.camera.view.transform.ImageProxyTransformFactory
 import androidx.core.content.ContextCompat
 import androidx.core.util.Consumer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
+import com.google.android.gms.wearable.Asset
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.Wearable
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
+import java.io.ByteArrayOutputStream
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
 // Replaces android_camerax_skill_immutability_1.
 // [START android_camerax_skill_recording_1]
