@@ -16,7 +16,6 @@
 
 package com.example.camera.snippets.camerax
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -100,7 +99,6 @@ suspend fun bindCameraUseCases(
 // [END android_camerax_view_preview]
 
 // [START android_camerax_view_tap_to_focus]
-@SuppressLint("ClickableViewAccessibility")
 fun enableTapToFocus(previewView: PreviewView, cameraControl: CameraControl) {
     previewView.setOnTouchListener { view, event ->
         if (event.action == MotionEvent.ACTION_UP) {

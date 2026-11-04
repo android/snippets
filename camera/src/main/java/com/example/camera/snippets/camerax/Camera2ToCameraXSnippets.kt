@@ -16,7 +16,6 @@
 
 package com.example.camera.snippets.camerax
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -105,7 +104,6 @@ suspend fun bindUseCases(
 // [END android_camerax_initialize_provider_camera2]
 
 // [START android_camerax_view_preview_camera2]
-@SuppressLint("ClickableViewAccessibility")
 fun startCamera(
     activity: ComponentActivity,
     previewView: PreviewView,
