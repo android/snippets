@@ -24,6 +24,7 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.RectF
 import android.hardware.camera2.CameraMetadata
+import android.os.Build
 import android.os.PowerManager
 import android.provider.MediaStore
 import android.util.Log
@@ -32,6 +33,7 @@ import android.view.Surface
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.camera.camera2.interop.Camera2Interop
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import androidx.camera.core.Camera
@@ -82,7 +84,9 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 
 // Replaces android_camerax_skill_immutability_1.
@@ -381,6 +385,7 @@ suspend fun awaitCameraProviderForTest(context: Context): ProcessCameraProvider 
 
 // [START android_camerax_skill_thermals_2]
 /** Requires Android 10 (API level 29) or higher. */
+@RequiresApi(Build.VERSION_CODES.Q)
 fun registerThermalListener(context: Context): PowerManager.OnThermalStatusChangedListener {
     val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
     val listener = PowerManager.OnThermalStatusChangedListener { status ->
@@ -404,11 +409,13 @@ fun registerThermalListener(context: Context): PowerManager.OnThermalStatusChang
 
 // [START android_camerax_skill_wear_os_1]
 /** Phone side: sends a compressed viewfinder frame to the watch. */
-fun sendPreviewFrame(context: Context, previewView: PreviewView) {
-    val bitmap = previewView.bitmap ?: return // Capture current frame
-    val compressed = ByteArrayOutputStream().use { stream ->
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
-        stream.toByteArray()
+suspend fun sendPreviewFrame(context: Context, previewView: PreviewView) {
+    val bitmap = previewView.bitmap ?: return // Capture current frame on the main thread
+    val compressed = withContext(Dispatchers.Default) { // Compress off the main thread
+        ByteArrayOutputStream().use { stream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+            stream.toByteArray()
+        }
     }
     val request = PutDataMapRequest.create("/camera/preview").apply {
         dataMap.putAsset("image", Asset.createFromBytes(compressed))
@@ -433,6 +440,7 @@ fun buildPostviewImageCapture(): ImageCapture =
 
 // [START android_camerax_skill_thermals_1]
 /** Hints the stream use case to the camera HAL (Android 13+, API level 33). */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalCamera2Interop::class)
 fun buildVideoCallPreview(): Preview {
     val builder = Preview.Builder().setTargetName("Preview")
