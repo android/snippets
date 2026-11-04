@@ -21,12 +21,9 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.snippets.R
@@ -130,33 +128,31 @@ fun MomentaryIconButtonExample() {
 
 // [START android_compose_expressive_components_animatediconbuttons]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IconButtonWithAnimatedShapeSample() {
     IconButton(
         onClick = { /* doSomething() */ },
-        shapes = androidx.compose.material3.IconButtonDefaults.shapes(),
+        shapes = IconButtonDefaults.shapes(),
     ) {
-        Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+        Icon(painter = rememberVectorPainter(AppIcons.LockFilled), contentDescription = "Localized description")
     }
 }
 // [END android_compose_expressive_components_animatediconbuttons]
 
 // [START android_compose_expressive_components_animatedtoggleiconbuttons]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IconToggleButtonWithAnimatedShapeSample() {
     var checked by remember { mutableStateOf(false) }
     IconToggleButton(
         checked = checked,
         onCheckedChange = { checked = it },
-        shapes = androidx.compose.material3.IconButtonDefaults.toggleableShapes(),
+        shapes = IconButtonDefaults.toggleableShapes(),
     ) {
         if (checked) {
-            Icon(Icons.Filled.Lock, contentDescription = "Localized description")
+            Icon(painter = rememberVectorPainter(AppIcons.LockFilled), contentDescription = "Localized description")
         } else {
-            Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
         }
     }
 }

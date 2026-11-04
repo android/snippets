@@ -23,9 +23,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -111,12 +108,11 @@ fun LargeExample(onClick: () -> Unit) {
 // [END android_compose_components_largefab]
 
 // [START android_compose_expressive_components_mediumfab]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MediumFloatingActionButtonSample() {
     MediumFloatingActionButton(onClick = {}) {
         Icon(
-            Icons.Filled.Add,
+            painter = rememberVectorPainter(AppIcons.Add),
             contentDescription = "Add",
             modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
         )

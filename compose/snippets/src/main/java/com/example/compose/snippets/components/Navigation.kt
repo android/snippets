@@ -16,8 +16,6 @@
 
 package com.example.compose.snippets.components
 
-import android.app.Activity
-import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,22 +24,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuOpen
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalWideNavigationRail
@@ -63,7 +47,6 @@ import androidx.compose.material3.WideNavigationRailItem
 import androidx.compose.material3.WideNavigationRailValue
 import androidx.compose.material3.rememberWideNavigationRailState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -73,7 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextAlign
@@ -252,7 +235,6 @@ fun NavigationTabExample(modifier: Modifier = Modifier) {
 
 @Preview()
 // [START android_compose_expressive_components_verticalitemsnavigationbarexample]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ShortNavigationBarSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -263,7 +245,7 @@ fun ShortNavigationBarSample() {
             ShortNavigationBarItem(
                 icon = {
                     Icon(
-                        if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
                         contentDescription = null,
                     )
                 },
@@ -278,7 +260,6 @@ fun ShortNavigationBarSample() {
 
 @Preview()
 // [START android_compose_expressive_components_horizontalitemsnavigationbarexample]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ShortNavigationBarWithHorizontalItemsSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -298,7 +279,7 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
                     iconPosition = NavigationItemIconPosition.Start,
                     icon = {
                         Icon(
-                            if (selectedItem == index) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            painter = rememberVectorPainter(if (selectedItem == index) AppIcons.FavoriteFilled else AppIcons.Favorite),
                             contentDescription = null,
                         )
                     },
@@ -314,15 +295,13 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
 
 @Preview()
 // [START android_compose_expressive_components_widenavigationrailexample]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
 @Composable
 fun WideNavigationRailResponsiveSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.FavoriteFilled, AppIcons.StarFilled)
     val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -349,9 +328,9 @@ fun WideNavigationRailResponsiveSample() {
                     },
                 ) {
                     if (state.targetValue == WideNavigationRailValue.Expanded) {
-                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), "Collapse rail")
                     } else {
-                        Icon(Icons.Filled.Menu, "Expand rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.Menu), "Expand rail")
                     }
                 }
             },
@@ -366,7 +345,7 @@ fun WideNavigationRailResponsiveSample() {
                             } else {
                                 unselectedIcons[index]
                             }
-                        Icon(imageVector = imageVector, contentDescription = null)
+                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
                     },
                     label = { Text(item) },
                     selected = selectedItem == index,
@@ -389,30 +368,18 @@ fun WideNavigationRailResponsiveSample() {
             )
         }
     }
-
-    // Lock the orientation for this demo as the navigation rail may look cut off in landscape in
-    // smaller screens.
-    val context = LocalContext.current
-    DisposableEffect(context) {
-        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        onDispose {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
-    }
 }
 // [END android_compose_expressive_components_widenavigationrailexample]
 
 @Preview()
 // [START android_compose_expressive_components_modalwidenavigationrailexample]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Suppress("SourceLockedOrientationActivity")
 @Composable
 fun ModalWideNavigationRailSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Star)
+    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.FavoriteFilled, AppIcons.StarFilled)
     val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.StarBorder)
+        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -442,8 +409,8 @@ fun ModalWideNavigationRailSample() {
                     },
                 ) {
                     if (state.targetValue == WideNavigationRailValue.Expanded)
-                        Icon(Icons.AutoMirrored.Filled.MenuOpen, "Collapse rail")
-                    else Icon(Icons.Filled.Menu, "Expand rail")
+                        Icon(painter = rememberVectorPainter(AppIcons.MenuOpen), "Collapse rail")
+                    else Icon(painter = rememberVectorPainter(AppIcons.Menu), "Expand rail")
                 }
             },
         ) {
@@ -452,7 +419,7 @@ fun ModalWideNavigationRailSample() {
                     railExpanded = state.targetValue == WideNavigationRailValue.Expanded,
                     icon = {
                         Icon(
-                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
                             contentDescription = item,
                         )
                     },
@@ -475,29 +442,18 @@ fun ModalWideNavigationRailSample() {
                             " any compact screen dimensions, use a Navigation Bar instead.",
             )
         }
-
-        // Lock the orientation for this demo as the navigation rail may look cut off in landscape
-        // in smaller screens.
-        val context = LocalContext.current
-        DisposableEffect(context) {
-            (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            onDispose {
-                (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-            }
-        }
     }
 }
 // [END android_compose_expressive_components_modalwidenavigationrailexample]
 
 @Preview()
 // [START android_compose_expressive_components_dismissiblemodalwidenavigationrailexample]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DismissibleModalWideNavigationRailSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Settings)
-    val unselectedIcons = listOf(Icons.Outlined.Home, Icons.Outlined.Search, Icons.Outlined.Settings)
+    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.Search, AppIcons.SettingsFilled)
+    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -508,7 +464,7 @@ fun DismissibleModalWideNavigationRailSample() {
                     railExpanded = true,
                     icon = {
                         Icon(
-                            if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                            painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
                             contentDescription = null,
                         )
                     },

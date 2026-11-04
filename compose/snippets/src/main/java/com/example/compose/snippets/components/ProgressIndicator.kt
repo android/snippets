@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -49,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Preview
 @Composable
 fun ProgressIndicatorExamples() {
@@ -203,7 +201,6 @@ fun IndeterminateCircularIndicator() {
 
 // [START android_compose_expressive_components_determinatelinearwavyindicator]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LinearWavyProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
@@ -229,7 +226,6 @@ fun LinearWavyProgressIndicatorSample() {
 
 // [START android_compose_expressive_components_indeterminatelinearwavyindicator]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IndeterminateLinearWavyProgressIndicatorSample() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearWavyProgressIndicator() }
@@ -238,7 +234,6 @@ fun IndeterminateLinearWavyProgressIndicatorSample() {
 
 // [START android_compose_expressive_components_determinatecircularwavyindicator]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CircularWavyProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
@@ -264,7 +259,6 @@ fun CircularWavyProgressIndicatorSample() {
 
 // [START android_compose_expressive_components_indeterminatecircularwavyindicator]
 @Preview
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IndeterminateCircularWavyProgressIndicatorSample() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) { CircularWavyProgressIndicator() }

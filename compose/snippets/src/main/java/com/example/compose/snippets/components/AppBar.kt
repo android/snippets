@@ -28,15 +28,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -578,7 +574,7 @@ private fun LazyListMultiSelectionPreview() {
 }
 
 // [START android_compose_expressive_components_centeralignedtopappbarwithsubtitle]
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleCenterAlignedTopAppBarWithSubtitle() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -592,14 +588,14 @@ fun SimpleCenterAlignedTopAppBarWithSubtitle() {
                 navigationIcon = {
                     IconButton(onClick = { /* onBackClick() */ }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
                             contentDescription = "Localized description",
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
                     }
                 },
                 scrollBehavior = scrollBehavior,
@@ -628,7 +624,7 @@ private fun SimpleCenterAlignedTopAppBarWithSubtitlePreview() {
 }
 
 // [START android_compose_expressive_components_alwaysentertopappbar]
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EnterAlwaysTopAppBar() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -641,14 +637,14 @@ fun EnterAlwaysTopAppBar() {
                 navigationIcon = {
                     IconButton(onClick = { /* onBackClick() */ }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
                             contentDescription = "Localized description",
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
                     }
                 },
                 scrollBehavior = scrollBehavior,
@@ -677,7 +673,7 @@ private fun EnterAlwaysTopAppBarPreview() {
 }
 
 // [START android_compose_expressive_components_exituntillcollapsedtopappbar]
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -691,14 +687,14 @@ fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
                 navigationIcon = {
                     IconButton(onClick = { /* onBackClick() */ }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
                             contentDescription = "Localized description",
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
                     }
                 },
                 scrollBehavior = scrollBehavior,
@@ -727,7 +723,7 @@ private fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBarPreview() {
 }
 
 // [START android_compose_expressive_components_exituntillcollapsedlargetopappbar]
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -741,14 +737,14 @@ fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
                 navigationIcon = {
                     IconButton(onClick = { /* onBackClick() */ }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = rememberVectorPainter(AppIcons.ArrowBack),
                             contentDescription = "Localized description",
                         )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.Favorite), contentDescription = "Localized description")
                     }
                 },
                 scrollBehavior = scrollBehavior,

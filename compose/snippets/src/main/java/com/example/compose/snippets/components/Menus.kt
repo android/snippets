@@ -28,21 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.TagFaces
-import androidx.compose.material.icons.filled.ThumbDown
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ButtonGroupDefaults
@@ -51,7 +36,6 @@ import androidx.compose.material3.DropdownMenuGroup
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.DropdownMenuPopup
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
@@ -328,7 +312,7 @@ private fun DropdownFilterPreview() {
 }
 
 // [START android_compose_expressive_components_groupedmenusample]
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupedMenuSample() {
     val groupInteractionSource = remember { MutableInteractionSource() }
@@ -336,16 +320,16 @@ fun GroupedMenuSample() {
     val groupLabels = listOf("Modification", "Navigation")
     val groupItemLabels = listOf(listOf("Edit", "Settings"), listOf("Home", "More Options"))
     val groupItemLeadingIcons =
-        listOf(listOf(Icons.Outlined.Edit, Icons.Outlined.Settings), listOf(null, Icons.Outlined.Info))
+        listOf(listOf(AppIcons.Edit, AppIcons.Settings), listOf(null, AppIcons.Info))
     val groupItemCheckedLeadingIcons =
         listOf(
-            listOf(Icons.Filled.Edit, Icons.Filled.Settings),
-            listOf(Icons.Filled.Check, Icons.Filled.Info),
+            listOf(AppIcons.EditFilled, AppIcons.SettingsFilled),
+            listOf(AppIcons.Check, AppIcons.InfoFilled),
         )
     val groupItemTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(Icons.Outlined.Home, Icons.Outlined.MoreVert))
+        listOf(listOf(null, null), listOf(AppIcons.Home, AppIcons.MoreVert))
     val groupItemCheckedTrailingIcons: List<List<ImageVector?>> =
-        listOf(listOf(null, null), listOf(Icons.Filled.Home, Icons.Filled.MoreVert))
+        listOf(listOf(null, null), listOf(AppIcons.HomeFilled, AppIcons.MoreVert))
     val groupItemSupportingText: List<List<String?>> =
         listOf(listOf("Edit mode", null), listOf(null, "Opens menu"))
     val checked = remember {
@@ -361,7 +345,7 @@ fun GroupedMenuSample() {
             state = rememberTooltipState(),
         ) {
             IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+                Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "Localized description")
             }
         }
         DropdownMenuPopup(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -386,7 +370,7 @@ fun GroupedMenuSample() {
                                 groupItemLeadingIcons[groupIndex][itemIndex]?.let { iconData ->
                                     {
                                         Icon(
-                                            iconData,
+                                            painter = rememberVectorPainter(iconData),
                                             modifier = Modifier.size(MenuDefaults.LeadingIconSize),
                                             contentDescription = null,
                                         )
@@ -394,7 +378,7 @@ fun GroupedMenuSample() {
                                 },
                             checkedLeadingIcon = {
                                 Icon(
-                                    groupItemCheckedLeadingIcons[groupIndex][itemIndex],
+                                    painter = rememberVectorPainter(groupItemCheckedLeadingIcons[groupIndex][itemIndex]),
                                     modifier = Modifier.size(MenuDefaults.LeadingIconSize),
                                     contentDescription = null,
                                 )
@@ -404,7 +388,7 @@ fun GroupedMenuSample() {
                                     groupItemCheckedTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
                                         {
                                             Icon(
-                                                iconData,
+                                                painter = rememberVectorPainter(iconData),
                                                 modifier = Modifier.size(MenuDefaults.TrailingIconSize),
                                                 contentDescription = null,
                                             )
@@ -414,7 +398,7 @@ fun GroupedMenuSample() {
                                     groupItemTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
                                         {
                                             Icon(
-                                                iconData,
+                                                painter = rememberVectorPainter(iconData),
                                                 modifier = Modifier.size(MenuDefaults.TrailingIconSize),
                                                 contentDescription = null,
                                             )
@@ -439,7 +423,6 @@ fun GroupedMenuSample() {
 }
 // [END android_compose_expressive_components_groupedmenusample]
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun DropdownMenuButtonGroup() {
     ButtonGroup(
@@ -456,13 +439,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.ThumbUp, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.ThumbUp, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = "Localized description")
                     },
                     text = { Text("Thumbs up") },
                     onClick = {},
@@ -479,13 +462,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.ThumbDown, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.ThumbDown, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = "Localized description")
                     },
                     text = { Text("Thumbs down") },
                     onClick = {},
@@ -502,13 +485,13 @@ private fun DropdownMenuButtonGroup() {
                             containerColor = MenuDefaults.groupStandardContainerColor
                         ),
                 ) {
-                    Icon(Icons.Filled.TagFaces, contentDescription = "Localized description")
+                    Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = "Localized description")
                 }
             },
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(Icons.Filled.TagFaces, contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = "Localized description")
                     },
                     text = { Text("Emotes") },
                     onClick = {},

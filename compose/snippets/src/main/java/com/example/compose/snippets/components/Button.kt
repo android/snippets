@@ -24,16 +24,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedToggleButton
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -51,6 +45,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -153,7 +148,6 @@ fun TextButtonExample(onClick: () -> Unit) {
 // [END android_compose_components_textbutton]
 
 // [START android_compose_expressive_components_filledtogglebutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
@@ -162,7 +156,6 @@ fun ToggleButtonSample() {
 // [END android_compose_expressive_components_filledtogglebutton]
 
 // [START android_compose_expressive_components_elevatedtogglebutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ElevatedToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
@@ -173,7 +166,6 @@ fun ElevatedToggleButtonSample() {
 // [END android_compose_expressive_components_elevatedtogglebutton]
 
 // [START android_compose_expressive_components_tonaltogglebutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TonalToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
@@ -182,7 +174,6 @@ fun TonalToggleButtonSample() {
 // [END android_compose_expressive_components_tonaltogglebutton]
 
 // [START android_compose_expressive_components_outlinedtogglebutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OutlinedToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
@@ -193,7 +184,6 @@ fun OutlinedToggleButtonSample() {
 // [END android_compose_expressive_components_outlinedtogglebutton]
 
 // [START android_compose_expressive_components_buttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ButtonWithIconSample() {
     Button(
@@ -201,7 +191,7 @@ fun ButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Favorite,
+            painter = rememberVectorPainter(AppIcons.FavoriteFilled),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
         )
@@ -212,13 +202,12 @@ fun ButtonWithIconSample() {
 // [END android_compose_expressive_components_buttonwithicon]
 
 // [START android_compose_expressive_components_togglebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
     ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
         Icon(
-            if (checked) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.IconSize),
         )
@@ -229,7 +218,6 @@ fun ToggleButtonWithIconSample() {
 // [END android_compose_expressive_components_togglebuttonwithicon]
 
 // [START android_compose_expressive_components_xmsallbuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun XSmallButtonWithIconSample() {
     val size = ButtonDefaults.ExtraSmallContainerHeight
@@ -239,7 +227,7 @@ fun XSmallButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.EditFilled),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -250,7 +238,6 @@ fun XSmallButtonWithIconSample() {
 // [END android_compose_expressive_components_xmsallbuttonwithicon]
 
 // [START android_compose_expressive_components_xmsalltogglebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun XSmallToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -263,7 +250,7 @@ fun XSmallToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -274,7 +261,6 @@ fun XSmallToggleButtonWithIconSample() {
 // [END android_compose_expressive_components_xmsalltogglebuttonwithicon]
 
 // [START android_compose_expressive_components_mediumbuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MediumButtonWithIconSample() {
     val size = ButtonDefaults.MediumContainerHeight
@@ -284,7 +270,7 @@ fun MediumButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.EditFilled),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -295,7 +281,6 @@ fun MediumButtonWithIconSample() {
 // [END android_compose_expressive_components_mediumbuttonwithicon]
 
 // [START android_compose_expressive_components_mediumtogglebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MediumToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -308,7 +293,7 @@ fun MediumToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -319,7 +304,6 @@ fun MediumToggleButtonWithIconSample() {
 // [END android_compose_expressive_components_mediumtogglebuttonwithicon]
 
 // [START android_compose_expressive_components_largebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LargeButtonWithIconSample() {
     val size = ButtonDefaults.LargeContainerHeight
@@ -329,7 +313,7 @@ fun LargeButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.EditFilled),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -340,7 +324,6 @@ fun LargeButtonWithIconSample() {
 // [END android_compose_expressive_components_largebuttonwithicon]
 
 // [START android_compose_expressive_components_largetogglebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LargeToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -353,7 +336,7 @@ fun LargeToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -364,7 +347,6 @@ fun LargeToggleButtonWithIconSample() {
 // [END android_compose_expressive_components_largetogglebuttonwithicon]
 
 // [START android_compose_expressive_components_xlargebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun XLargeButtonWithIconSample() {
     val size = ButtonDefaults.ExtraLargeContainerHeight
@@ -374,7 +356,7 @@ fun XLargeButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
     ) {
         Icon(
-            Icons.Filled.Edit,
+            painter = rememberVectorPainter(AppIcons.EditFilled),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -385,7 +367,6 @@ fun XLargeButtonWithIconSample() {
 // [END android_compose_expressive_components_xlargebuttonwithicon]
 
 // [START android_compose_expressive_components_xlargetogglebuttonwithicon]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun XLargeToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -398,7 +379,7 @@ fun XLargeToggleButtonWithIconSample() {
         contentPadding = ButtonDefaults.contentPaddingFor(size),
     ) {
         Icon(
-            if (checked) Icons.Filled.Edit else Icons.Outlined.Edit,
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
             contentDescription = "Localized description",
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
@@ -409,7 +390,6 @@ fun XLargeToggleButtonWithIconSample() {
 // [END android_compose_expressive_components_xlargetogglebuttonwithicon]
 
 // [START android_compose_expressive_components_squaretogglebutton]
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SquareToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
