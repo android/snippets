@@ -228,6 +228,7 @@ private class FocusMeteringActivity : ComponentActivity() {
         y2: Float,
     ) {
         // [START android_camerax_configuration_focus_metering_action]
+        // meteringPointFactory is any MeteringPointFactory from the previous example.
         val meteringPoint1 = meteringPointFactory.createPoint(x1, y1)
         val meteringPoint2 = meteringPointFactory.createPoint(x2, y2)
         val action = FocusMeteringAction.Builder(meteringPoint1) // default AF|AE|AWB.
@@ -238,9 +239,11 @@ private class FocusMeteringActivity : ComponentActivity() {
             .build()
 
         val result = cameraControl.startFocusAndMetering(action)
-        // Adds listener to the ListenableFuture if you need to know the focusMetering result.
+        // Adds listener to the ListenableFuture if you need to know the focusMetering
+        // result.
         result.addListener({
-            // result.get().isFocusSuccessful returns if the auto focus is successful or not.
+            // result.get().isFocusSuccessful returns if the auto focus is successful
+            // or not.
         }, ContextCompat.getMainExecutor(this))
         // [END android_camerax_configuration_focus_metering_action]
     }
@@ -258,7 +261,7 @@ private fun exposureCompensationSnippet(
             // different from the asked value in case this request was
             // canceled by a newer setting request.
             val currentExposureIndex = camera.cameraInfo.exposureState.exposureCompensationIndex
-            // ...
+            // Handle the updated exposure compensation index.
         }, mainExecutor)
     // [END android_camerax_configuration_exposure_compensation]
 }
