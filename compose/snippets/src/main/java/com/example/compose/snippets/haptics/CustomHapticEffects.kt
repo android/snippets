@@ -17,9 +17,12 @@
 package com.example.compose.snippets.haptics
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.os.multisensory.MultisensoryManager
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.EaseInQuad
@@ -50,6 +53,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -778,7 +782,12 @@ private fun ResistIndicator(dragOffset: Float) {
         CircularProgressIndicator(
             progress = { 0.75f },
             modifier = Modifier
-                .offset { IntOffset(0, lerp(0f, RESIST_END_OFFSET_Y.toPx(), fraction).roundToInt()) }
+                .offset {
+                    IntOffset(
+                        0,
+                        lerp(0f, RESIST_END_OFFSET_Y.toPx(), fraction).roundToInt()
+                    )
+                }
                 .size(lerp(RESIST_START_SIZE, RESIST_END_SIZE, fraction))
                 .graphicsLayer {
                     rotationZ = lerp(RESIST_START_ROTATION, RESIST_END_ROTATION, fraction)
@@ -843,7 +852,9 @@ private val WOBBLE_MAX_BULGE = 120.dp
 private fun WobbleShape(dragDistance: () -> Float) {
     val color = MaterialTheme.colorScheme.primary
     Box(Modifier.fillMaxSize()) {
-        Text("Drag down and release", Modifier.align(Alignment.TopCenter).padding(top = 48.dp))
+        Text("Drag down and release", Modifier
+            .align(Alignment.TopCenter)
+            .padding(top = 48.dp))
         Canvas(Modifier.fillMaxSize()) {
             // The region doesn't limit dragDistance and the spring overshoots
             // below zero, so clamp the bulge like the sample's ElasticTopShape.
@@ -939,7 +950,9 @@ private fun BouncingBall(transitionData: BounceTransitionData) {
                 .background(floorColor)
         )
         if (transitionData.isAtStart) {
-            Text("Tap to drop", Modifier.align(Alignment.TopCenter).padding(top = 48.dp))
+            Text("Tap to drop", Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 48.dp))
         }
     }
 }
@@ -1050,3 +1063,25 @@ private fun DrawScope.drawRocket(rocketPositionY: Float) {
     }
     drawPath(fins, SHAPE_COLOR)
 }
+
+// [START android_haptics_msds]
+@RequiresApi(Build.VERSION_CODES_FULL.CINNAMON_BUN_2)
+@Composable
+fun MultisensorySwitch() {
+    val context = LocalContext.current
+    val multisensoryManager =
+        remember(context) { context.getSystemService(MultisensoryManager::class.java) }
+    var checked by remember { mutableStateOf(false) }
+    Switch(
+        checked = checked,
+        onCheckedChange = { isChecked ->
+            checked = isChecked
+            if (isChecked) {
+                multisensoryManager?.playToken(MultisensoryManager.TOKEN_SWITCH_ON)
+            } else {
+                multisensoryManager?.playToken(MultisensoryManager.TOKEN_SWITCH_OFF)
+            }
+        }
+    )
+}
+// [END android_haptics_msds]

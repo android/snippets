@@ -73,8 +73,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.Pager
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
 import com.example.compose.snippets.util.randomSampleImageUrl
 import kotlin.random.Random
 import kotlinx.coroutines.flow.distinctUntilChanged
