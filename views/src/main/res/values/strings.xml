@@ -19,4 +19,6 @@
     <string name="email_sent">Email sent</string>
     <string name="email_archived">Email archived</string>
     <string name="undo_string">Undo</string>
+    <string name="item_element_text">Item</string>
+    <string name="middle">This is the middle!</string>
 </resources>
