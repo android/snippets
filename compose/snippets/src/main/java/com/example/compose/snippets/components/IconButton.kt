@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.compose.snippets.R
@@ -122,3 +125,35 @@ fun MomentaryIconButtonExample() {
     }
 }
 // [END android_compose_components_momentaryiconbuttons]
+
+// [START android_compose_expressive_components_animatediconbuttons]
+@Preview
+@Composable
+fun IconButtonWithAnimatedShapeSample() {
+    IconButton(
+        onClick = { /* doSomething() */ },
+        shapes = IconButtonDefaults.shapes(),
+    ) {
+        Icon(painter = rememberVectorPainter(AppIcons.LockFilled), contentDescription = "Localized description")
+    }
+}
+// [END android_compose_expressive_components_animatediconbuttons]
+
+// [START android_compose_expressive_components_animatedtoggleiconbuttons]
+@Preview
+@Composable
+fun IconToggleButtonWithAnimatedShapeSample() {
+    var checked by remember { mutableStateOf(false) }
+    IconToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        shapes = IconButtonDefaults.toggleableShapes(),
+    ) {
+        if (checked) {
+            Icon(painter = rememberVectorPainter(AppIcons.LockFilled), contentDescription = "Localized description")
+        } else {
+            Icon(painter = rememberVectorPainter(AppIcons.Lock), contentDescription = "Localized description")
+        }
+    }
+}
+// [END android_compose_expressive_components_animatedtoggleiconbuttons]
