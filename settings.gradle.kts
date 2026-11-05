@@ -37,6 +37,7 @@ include(
     ":ai",
     ":backgroundwork",
     ":bluetoothle",
+    ":connectivity",
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
