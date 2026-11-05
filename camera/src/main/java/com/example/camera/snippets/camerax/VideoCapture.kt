@@ -28,9 +28,7 @@ import androidx.camera.core.MirrorMode.MIRROR_MODE_ON_FRONT_ONLY
 import androidx.camera.core.Preview
 import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.FallbackStrategy
 import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
 import androidx.camera.video.QualitySelector
 import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
@@ -44,15 +42,6 @@ import java.util.concurrent.Executor
 
 private const val TAG = "VideoCapture"
 private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-
-private fun qualitySelectorSnippet() {
-    // [START android_camerax_video_capture_quality_selector]
-    val qualitySelector = QualitySelector.fromOrderedList(
-        listOf(Quality.UHD, Quality.FHD, Quality.HD, Quality.SD),
-        FallbackStrategy.lowerQualityOrHigherThan(Quality.SD)
-    )
-    // [END android_camerax_video_capture_quality_selector]
-}
 
 private class VideoCaptureBindActivity : ComponentActivity() {
     private lateinit var cameraExecutor: Executor
