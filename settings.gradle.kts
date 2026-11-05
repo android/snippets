@@ -37,6 +37,7 @@ include(
     ":ai",
     ":backgroundwork",
     ":bluetoothle",
+    ":connectivity",
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
@@ -65,5 +66,6 @@ include(
     ":performance",
     ":location",
     ":preview:wasm",
-    ":preview:generator"
+    ":preview:generator",
+    ":ink"
 )

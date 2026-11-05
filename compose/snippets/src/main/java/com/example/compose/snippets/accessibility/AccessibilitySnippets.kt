@@ -50,6 +50,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -171,6 +172,24 @@ private fun LargeBox() {
     }
 }
 // [END android_compose_accessibility_box_min_size]
+
+@Preview
+// [START android_compose_accessibility_box_minimum_interactive_size]
+@Composable
+private fun MinimumInteractiveBox() {
+    var clicked by remember { mutableStateOf(false) }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            Modifier
+                .clickable { clicked = !clicked }
+                .minimumInteractiveComponentSize()
+                .size(24.dp)
+                .background(if (clicked) Color.DarkGray else Color.Black)
+        )
+        Text("Option")
+    }
+}
+// [END android_compose_accessibility_box_minimum_interactive_size]
 
 // [START android_compose_accessibility_click_label]
 @Composable

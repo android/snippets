@@ -10,6 +10,7 @@
 # /datastore/                                                                         @android/
 # /healthconnect/                                                                     @android/
 /identity/                                                                          @android/devrel-identity
+/ink/                                                                               @android/devrel-adaptive-apps
 /installprompt/                                                                     @android/devrel-wear
 # /kmp/                                                                               @android/
 # /kotlin/                                                                            @android/
