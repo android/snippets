@@ -49,7 +49,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import coil.compose.rememberAsyncImagePainter
+import coil3.compose.rememberAsyncImagePainter
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap

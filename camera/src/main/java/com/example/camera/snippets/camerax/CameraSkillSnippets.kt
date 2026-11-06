@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:android.annotation.SuppressLint("MissingPermission", "NewApi")
+@file:android.annotation.SuppressLint("MissingPermission", "NewApi", "ThreadConstraint")
 package com.example.camera.snippets.camerax
 
 import android.app.Activity

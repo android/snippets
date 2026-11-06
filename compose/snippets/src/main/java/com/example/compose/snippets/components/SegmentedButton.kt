@@ -16,16 +16,14 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
-import androidx.compose.material.icons.filled.DirectionsBus
-import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.SegmentedButton
@@ -110,18 +108,15 @@ fun MultiChoiceSegmentedButton(modifier: Modifier = Modifier) {
                 label = {
                     when (label) {
                         "Walk" -> Icon(
-                            imageVector =
-                            Icons.AutoMirrored.Filled.DirectionsWalk,
+                            painter = rememberVectorPainter(AppIcons.DirectionsWalk),
                             contentDescription = "Directions Walk"
                         )
                         "Ride" -> Icon(
-                            imageVector =
-                            Icons.Default.DirectionsBus,
+                            painter = rememberVectorPainter(AppIcons.DirectionsBus),
                             contentDescription = "Directions Bus"
                         )
                         "Drive" -> Icon(
-                            imageVector =
-                            Icons.Default.DirectionsCar,
+                            painter = rememberVectorPainter(AppIcons.DirectionsCar),
                             contentDescription = "Directions Car"
                         )
                     }
