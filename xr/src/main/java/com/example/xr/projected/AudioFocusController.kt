@@ -23,15 +23,15 @@ import android.media.AudioManager
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
 
-// 'context' can be any context: (projected, host, service, app).
-// It will be converted to the correct version.
 class AudioFocusController(
     context: Context,
     private val onFocusChanged: (Int) -> Unit,
 ) {
     // [START androidxr_projected_audio_focus]
-    // Always use ProjectedContext.createHostDeviceContext() to get the
+    // Use ProjectedContext.createHostDeviceContext() to get the
     // AudioManager that participates in the phone's primary audio focus stack.
+    // 'context' can be any context: (projected, host, service, app).
+    // It will be converted to the correct version.
     @OptIn(ExperimentalProjectedApi::class)
     private val hostAudioManager: AudioManager =
         ProjectedContext.createHostDeviceContext(context)
