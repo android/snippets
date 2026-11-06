@@ -36,11 +36,11 @@ class ImproveAudioPlayback(
         .build()
 
     fun startPlayback() {
-        // Query all supported mixer attributes
+        // Query all supported mixer attributes.
         val mixerAttributesList: List<AudioMixerAttributes?> =
             mAudioManager.getSupportedMixerAttributes(usbDevice)
 
-        // Find the wanted mixer attributes
+        // Find the wanted mixer attributes.
         val mixerAttributes = mixerAttributesList.stream()
             .filter { mixerAttr: AudioMixerAttributes? ->
                 EXPECTED_FORMAT.equals(
@@ -50,16 +50,16 @@ class ImproveAudioPlayback(
             .findAny()
             .orElse(null)
 
-        // Register a listener to mixer attributes changed
+        // Register a listener to mixer attributes changed.
         val listener = MyPreferredMixerAttributesChangedListener()
         mAudioManager.addOnPreferredMixerAttributesChangedListener(
             Executors.newSingleThreadExecutor(), listener
         )
 
-        // Currently, only media usage over USB devices will be allowed
+        // Currently, only media usage over USB devices will be allowed.
         val attr: AudioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_MEDIA).build()
-        // Set preferred mixer attributes
+        // Set preferred mixer attributes.
         mAudioManager.setPreferredMixerAttributes(
             attr, usbDevice, mixerAttributes!!
         )
@@ -73,7 +73,7 @@ class ImproveAudioPlayback(
             .build()
 
         // Clear all preferred mixer attributes related stuff when
-        // playback task is completed
+        // playback task is completed.
         mAudioManager.clearPreferredMixerAttributes(attr, usbDevice)
         mAudioManager.removeOnPreferredMixerAttributesChangedListener(listener)
     }
@@ -85,7 +85,7 @@ class ImproveAudioPlayback(
             device: AudioDeviceInfo,
             mixerAttributes: AudioMixerAttributes?,
         ) {
-            // Do something when preferred mixer attributes changed
+            // Do something when preferred mixer attributes changed.
         }
     }
     // [END android_media_platform_improve_audio_playback]
