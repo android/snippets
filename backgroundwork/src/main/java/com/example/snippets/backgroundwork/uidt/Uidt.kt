@@ -42,6 +42,7 @@ private const val NOTIFICATION_ID = 1
 private object JobServiceSkeleton {
     // [START android_backgroundwork_uidt_job_service_skeleton]
     class CustomTransferService : JobService() {
+        // ...
         // [START_EXCLUDE]
         override fun onStartJob(params: JobParameters): Boolean = false
 
