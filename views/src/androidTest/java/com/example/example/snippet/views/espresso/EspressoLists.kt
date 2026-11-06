@@ -16,6 +16,7 @@
 
 package com.example.example.snippet.views.espresso
 
+import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -44,63 +45,68 @@ import org.junit.Test
 
 private const val ITEM_BELOW_THE_FOLD = 40
 
-private fun clickRowWithOnData() {
-    // [START android_testing_espresso_lists_on_data_map]
-    onData(
-        allOf(
-            `is`(instanceOf(Map::class.java)),
-            hasEntry(equalTo("STR"), `is`("item: 50"))
-        )
-    ).perform(click())
-    // [END android_testing_espresso_lists_on_data_map]
-}
+// In a real app, MainActivity lives in src/main/java.
+private class ListsMainActivity : ComponentActivity()
 
-private fun narrowSearchWithHasEntry() {
-    // [START android_testing_espresso_lists_has_entry]
-    hasEntry(equalTo("STR"), `is`("item: 50"))
-    // [END android_testing_espresso_lists_has_entry]
-}
-
-private fun withItemContent(itemTextMatcher: Matcher<String>): Matcher<Any> {
-    // [START android_testing_espresso_lists_bounded_matcher]
-    return object : BoundedMatcher<Any, Map<*, *>>(Map::class.java) {
-        override fun matchesSafely(map: Map<*, *>): Boolean {
-            return hasEntry(equalTo("STR"), itemTextMatcher).matches(map)
-        }
-
-        override fun describeTo(description: Description) {
-            description.appendText("with item content: ")
-            itemTextMatcher.describeTo(description)
-        }
+private object EspressoListsAdapterSnippets {
+    fun clickRowWithOnData() {
+        // [START android_testing_espresso_lists_on_data_map]
+        onData(
+            allOf(
+                `is`(instanceOf(Map::class.java)),
+                hasEntry(equalTo("STR"), `is`("item: 50"))
+            )
+        ).perform(click())
+        // [END android_testing_espresso_lists_on_data_map]
     }
-    // [END android_testing_espresso_lists_bounded_matcher]
-}
 
-// [START android_testing_espresso_lists_with_item_content]
-fun withItemContent(expectedText: String): Matcher<Any> {
-    checkNotNull(expectedText)
-    return withItemContent(equalTo(expectedText))
-}
-// [END android_testing_espresso_lists_with_item_content]
+    fun narrowSearchWithHasEntry() {
+        // [START android_testing_espresso_lists_has_entry]
+        hasEntry(equalTo("STR"), `is`("item: 50"))
+        // [END android_testing_espresso_lists_has_entry]
+    }
 
-private fun clickWithCustomMatcher() {
-    // [START android_testing_espresso_lists_click_with_item_content]
-    onData(withItemContent("item: 50")).perform(click())
-    // [END android_testing_espresso_lists_click_with_item_content]
-}
+    fun withItemContent(itemTextMatcher: Matcher<String>): Matcher<Any> {
+        // [START android_testing_espresso_lists_bounded_matcher]
+        return object : BoundedMatcher<Any, Map<*, *>>(Map::class.java) {
+            override fun matchesSafely(map: Map<*, *>): Boolean {
+                return hasEntry(equalTo("STR"), itemTextMatcher).matches(map)
+            }
 
-private fun clickChildViewInRow() {
-    // [START android_testing_espresso_lists_on_child_view]
-    onData(withItemContent("item: 60"))
-        .onChildView(withId(R.id.item_size))
-        .perform(click())
-    // [END android_testing_espresso_lists_on_child_view]
+            override fun describeTo(description: Description) {
+                description.appendText("with item content: ")
+                itemTextMatcher.describeTo(description)
+            }
+        }
+        // [END android_testing_espresso_lists_bounded_matcher]
+    }
+
+    // [START android_testing_espresso_lists_with_item_content]
+    fun withItemContent(expectedText: String): Matcher<Any> {
+        checkNotNull(expectedText)
+        return withItemContent(equalTo(expectedText))
+    }
+    // [END android_testing_espresso_lists_with_item_content]
+
+    fun clickWithCustomMatcher() {
+        // [START android_testing_espresso_lists_click_with_item_content]
+        onData(withItemContent("item: 50")).perform(click())
+        // [END android_testing_espresso_lists_click_with_item_content]
+    }
+
+    fun clickChildViewInRow() {
+        // [START android_testing_espresso_lists_on_child_view]
+        onData(withItemContent("item: 60"))
+            .onChildView(withId(R.id.item_size))
+            .perform(click())
+        // [END android_testing_espresso_lists_on_child_view]
+    }
 }
 
 @Suppress("DEPRECATION")
 private class EspressoRecyclerViewTestSnippets {
     @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    val activityRule = ActivityTestRule(ListsMainActivity::class.java)
 
     private fun isInTheMiddle(): Matcher<RecyclerView.ViewHolder> {
         return object : TypeSafeMatcher<RecyclerView.ViewHolder>() {

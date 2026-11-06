@@ -29,18 +29,20 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 // In a real app, MainActivity lives in src/main/java.
-class MainActivity : ComponentActivity()
+private class MainActivity : ComponentActivity()
 
-// [START android_testing_espresso_setup_hello_world]
-@RunWith(AndroidJUnit4::class)
-@LargeTest
-class HelloWorldEspressoTest {
+private object HelloWorldEspressoTestSnippet {
+    // [START android_testing_espresso_setup_hello_world]
+    @RunWith(AndroidJUnit4::class)
+    @LargeTest
+    class HelloWorldEspressoTest {
 
-    @get:Rule
-    val activityRule = ActivityScenarioRule(MainActivity::class.java)
+        @get:Rule
+        val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Test fun listGoesOverTheFold() {
-        onView(withText("Hello world!")).check(matches(isDisplayed()))
+        @Test fun listGoesOverTheFold() {
+            onView(withText("Hello world!")).check(matches(isDisplayed()))
+        }
     }
+    // [END android_testing_espresso_setup_hello_world]
 }
-// [END android_testing_espresso_setup_hello_world]

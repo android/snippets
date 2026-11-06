@@ -27,33 +27,35 @@ import com.google.android.apps.common.testing.accessibility.framework.checks.Tex
 import org.hamcrest.Matchers.allOf
 import org.junit.runner.RunWith
 
-// [START android_testing_espresso_a11y_enable]
-// import androidx.test.espresso.accessibility.AccessibilityChecks
+private object EspressoAccessibilityCheckingSnippets {
+    // [START android_testing_espresso_a11y_enable]
+    // import androidx.test.espresso.accessibility.AccessibilityChecks
 
-@RunWith(AndroidJUnit4::class)
-@LargeTest
-class MyWelcomeWorkflowIntegrationTest {
-    init {
-        AccessibilityChecks.enable()
+    @RunWith(AndroidJUnit4::class)
+    @LargeTest
+    class MyWelcomeWorkflowIntegrationTest {
+        init {
+            AccessibilityChecks.enable()
+        }
     }
-}
-// [END android_testing_espresso_a11y_enable]
+    // [END android_testing_espresso_a11y_enable]
 
-private fun enableFromRootView() {
-    // [START android_testing_espresso_a11y_run_from_root]
-    AccessibilityChecks.enable().setRunChecksFromRootView(true)
-    // [END android_testing_espresso_a11y_run_from_root]
-}
+    fun enableFromRootView() {
+        // [START android_testing_espresso_a11y_run_from_root]
+        AccessibilityChecks.enable().setRunChecksFromRootView(true)
+        // [END android_testing_espresso_a11y_run_from_root]
+    }
 
-private fun suppressSubsetOfResults() {
-    // [START android_testing_espresso_a11y_suppress_results]
-    AccessibilityChecks.enable().apply {
-        setSuppressingResultMatcher(
-            allOf(
-                matchesCheck(TextContrastCheck::class.java),
-                matchesViews(withId(R.id.countTV))
+    fun suppressSubsetOfResults() {
+        // [START android_testing_espresso_a11y_suppress_results]
+        AccessibilityChecks.enable().apply {
+            setSuppressingResultMatcher(
+                allOf(
+                    matchesCheck(TextContrastCheck::class.java),
+                    matchesViews(withId(R.id.countTV))
+                )
             )
-        )
+        }
+        // [END android_testing_espresso_a11y_suppress_results]
     }
-    // [END android_testing_espresso_a11y_suppress_results]
 }

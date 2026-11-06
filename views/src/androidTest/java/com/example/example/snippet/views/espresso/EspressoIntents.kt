@@ -38,7 +38,7 @@ import org.junit.Rule
 import org.junit.Test
 
 // In a real app, MyActivity lives in src/main/java.
-class MyActivity : ComponentActivity()
+private class MyActivity : ComponentActivity()
 
 @Suppress("DEPRECATION")
 private class EspressoIntentsRuleExample {
