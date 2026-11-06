@@ -16,7 +16,11 @@
 
 package com.example.identity.credentialmanager
 
+import android.app.backup.BackupAgent
+import android.app.backup.BackupDataInput
+import android.app.backup.BackupDataOutput
 import android.content.Context
+import android.os.ParcelFileDescriptor
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.ClearCredentialStateRequest.Companion.TYPE_CLEAR_RESTORE_CREDENTIAL
 import androidx.credentials.CreateRestoreCredentialRequest
@@ -24,46 +28,98 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetRestoreCredentialOption
 import androidx.credentials.RestoreCredential
+import androidx.credentials.exceptions.NoCredentialException
+import androidx.credentials.exceptions.restorecredential.E2eeUnavailableException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class RestoreCredentialsFunctions(
     private val context: Context,
     private val credentialManager: CredentialManager,
 ) {
     suspend fun createRestoreKey(
-        createRestoreRequest: CreateRestoreCredentialRequest
+        requestJson: String,
     ) {
         // [START android_identity_restore_cred_create]
-        // createRestoreRequest contains the details sent by the server 
-        val response = credentialManager.createCredential(context, createRestoreRequest)
+        // requestJson contains the credential creation options sent by the server
+        val createRestoreRequest = CreateRestoreCredentialRequest(requestJson)
+        val response = try {
+            credentialManager.createCredential(context, createRestoreRequest)
+        } catch (e: E2eeUnavailableException) {
+            // Fall back to local device-to-device (D2D) restore if cloud E2EE is unavailable
+            credentialManager.createCredential(
+                context,
+                CreateRestoreCredentialRequest(requestJson, isCloudBackupEnabled = false),
+            )
+        }
         // [END android_identity_restore_cred_create]
-    }
-
-    suspend fun getRestoreKey(
-        fetchAuthenticationJson: () -> String,
-    ) {
-        // [START android_identity_restore_cred_get]
-        // Fetch the options required to get the restore key
-        val authenticationJson = fetchAuthenticationJson()
-
-        // Create the GetRestoreCredentialRequest object
-        val options = GetRestoreCredentialOption(authenticationJson)
-        val getRequest = GetCredentialRequest(listOf(options))
-
-        val response = credentialManager.getCredential(context, getRequest)
-
-        // Type-check and extract the restore credential
-        val credential = response.credential as RestoreCredential
-
-        // [END android_identity_restore_cred_get]
     }
 
     suspend fun deleteRestoreKey() {
         // [START android_identity_restore_cred_delete]
-        // Create a ClearCredentialStateRequest object
-        val clearRequest = ClearCredentialStateRequest(TYPE_CLEAR_RESTORE_CREDENTIAL)
+        // Clear active credential provider session state
+        credentialManager.clearCredentialState(ClearCredentialStateRequest())
 
         // When the user logs out, delete the restore key
+        val clearRequest = ClearCredentialStateRequest(TYPE_CLEAR_RESTORE_CREDENTIAL)
         val response = credentialManager.clearCredentialState(clearRequest)
         // [END android_identity_restore_cred_delete]
     }
+
+    // [START android_identity_restore_cred_get]
+    suspend fun getRestoreKey(
+        fetchAuthenticationJson: () -> String,
+    ) {
+        // Fetch the options required to get the restore key
+        val authenticationJson = fetchAuthenticationJson()
+
+        // Create the GetRestoreCredentialOption object
+        val options = GetRestoreCredentialOption(authenticationJson)
+        val getRequest = GetCredentialRequest(listOf(options))
+
+        try {
+            val response = credentialManager.getCredential(context, getRequest)
+
+            // Type-check and extract the restore credential
+            val credential = response.credential
+            if (credential is RestoreCredential) {
+                val responseJson = credential.authenticationResponseJson
+            }
+        } catch (e: NoCredentialException) {
+            // No restore key is present on this device
+        }
+    }
+    // [START_EXCLUDE silent]
 }
+// [END_EXCLUDE]
+
+class MyBackupAgent : BackupAgent() {
+    // [START_EXCLUDE silent]
+    override fun onBackup(
+        oldState: ParcelFileDescriptor?,
+        data: BackupDataOutput?,
+        newState: ParcelFileDescriptor?,
+    ) = Unit
+
+    override fun onRestore(
+        data: BackupDataInput?,
+        appVersionCode: Int,
+        newState: ParcelFileDescriptor?,
+    ) = Unit
+    // [END_EXCLUDE]
+
+    override fun onRestoreFinished() {
+        super.onRestoreFinished()
+        val credentialManager = CredentialManager.create(this)
+        val restoreFunctions = RestoreCredentialsFunctions(this, credentialManager)
+
+        runBlocking(Dispatchers.IO) {
+            restoreFunctions.getRestoreKey(
+                fetchAuthenticationJson = {
+                    /* Fetch challenge JSON from server */ ""
+                }
+            )
+        }
+    }
+}
+// [END android_identity_restore_cred_get]
