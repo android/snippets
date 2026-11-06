@@ -32,10 +32,10 @@ private object TestDoublesSnippets {
     // [START android_testing_fundamentals_test_doubles_viewmodel]
     @Test
     fun viewModelA_loadsUsers_showsFirstUser() {
-        // Given a VM using fake data
-        val viewModel = ViewModelA(FakeUserRepository) // Kicks off data load on init
+        // Given a VM using fake data.
+        val viewModel = ViewModelA(FakeUserRepository) // Kicks off data load on init.
 
-        // Verify that the exposed data is correct
+        // Verify that the exposed data is correct.
         assertEquals(viewModel.firstUserName, UserAlice.name)
     }
     // [END android_testing_fundamentals_test_doubles_viewmodel]
