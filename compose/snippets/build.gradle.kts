@@ -194,4 +194,5 @@ dependencies {
 
     debugImplementation(libs.fragment.testing.manifest)
     androidTestImplementation(libs.fragment.testing)
+    androidTestImplementation(libs.truth)
 }
