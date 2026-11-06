@@ -79,7 +79,6 @@ private object LogHistorySnippet {
     // [END android_instrumented_tests_log_history]
 }
 
-// LogHistory normally lives in the main source set as the class under test.
 private class LogHistory() : Parcelable {
     private val data = mutableListOf<Pair<String, Long>>()
 
