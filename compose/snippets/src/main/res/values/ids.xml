@@ -18,5 +18,9 @@
 <resources>
   <item name="compose_view_x" type="id" />
   <item name="compose_view_y" type="id" />
+  <!-- [START_EXCLUDE silent] -->
+  <item name="media_controls" type="id" />
+  <item name="player" type="id" />
+  <!-- [END_EXCLUDE] -->
 </resources>
 <!-- [END android_compose_migration_multiple_compose_view_ids] -->
