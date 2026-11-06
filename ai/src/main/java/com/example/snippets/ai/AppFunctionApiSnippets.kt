@@ -18,7 +18,7 @@ package com.example.snippets.ai
 
 import android.content.Context
 import androidx.annotation.RequiresApi
-import androidx.appfunctions.AppFunction
+import androidx.appfunctions.AppFunctionDeclaration
 import androidx.appfunctions.AppFunctionElementNotFoundException
 import androidx.appfunctions.AppFunctionInvalidArgumentException
 import androidx.appfunctions.AppFunctionManager
@@ -71,7 +71,7 @@ abstract class BaseTaskAppFunctionService : AppFunctionService() {
      *
      * @param createTaskParams The parameter to describe how to create the task.
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun createTask(
         createTaskParams: CreateTaskParams,
     ): Task = withContext(Dispatchers.IO) {
@@ -128,7 +128,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
      * @param location The physical location associated with the task (e.g., "Work").
      * @return The created Task
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun createTask(
         title: String,
         dueDateTime: LocalDateTime? = null,
@@ -143,7 +143,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
      * @param query The description used to generate the playlist (e.g., "top jazz albums from 2026").
      * @return The final created playlist based on songs.
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun createPlaylistFromQuery(
         query: String,
     ): Playlist = TODO()
@@ -156,7 +156,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
      * @param query The search term or contact name (e.g., "Lisa noodle recipe").
      * @return A list of matching email summaries containing the requested information.
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun searchEmails(
         query: String,
     ): List<EmailSummary> = TODO()
@@ -167,7 +167,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
      * @param items The names of the ingredients or products to add to the list.
      * @return The final shopping list with new items added
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun addItemsToShoppingList(
         items: List<String>,
     ): ShoppingList = TODO()
@@ -181,7 +181,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
      * @param startDateTime The specific date and time the event is scheduled to begin.
      * @return The created Event object.
      */
-    @AppFunction(isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun createCalendarEvent(
         title: String,
         startDateTime: LocalDateTime,
@@ -196,7 +196,7 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
 )
 abstract class IllustrativeGatedAppFunctions : AppFunctionService() {
     // [START android_appfunction_disabled_by_default]
-    @AppFunction(isEnabled = false, isDescribedByKDoc = true)
+    @AppFunctionDeclaration(isEnabled = false, isDescribedByKDoc = true)
     suspend fun createTask(
         createTaskParams: CreateTaskParams,
     ): Task = TODO()
