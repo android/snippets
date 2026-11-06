@@ -62,4 +62,6 @@
   <string name="compose_shortcut_short_label1">Compose</string>
   <string name="compose_shortcut_long_label1">Abrir Compose</string>
   <string name="compose_disabled_message1">Compose no está disponible</string>
+  <string name="hello">Hola</string>
+  <string name="hi">@string/hello</string>
 </resources>

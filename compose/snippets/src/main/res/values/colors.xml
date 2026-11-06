@@ -26,4 +26,5 @@
     <color name="outline_color">#FFF</color>
     <color name="background">#FFFFFF</color>
     <color name="my_special_color">#FF6200EE</color>
+    <color name="opaque_red">#f00</color>
 </resources>
