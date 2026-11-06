@@ -36,11 +36,11 @@ private class FundamentalsTest {
     @Test
     fun continueButton_displaysWelcome_espresso() {
         // [START android_testing_fundamentals_espresso]
-        // When the Continue button is clicked
+        // When the Continue button is clicked.
         onView(withText("Continue"))
             .perform(click())
 
-        // Then the Welcome screen is displayed
+        // Then the Welcome screen is displayed.
         onView(withText("Welcome"))
             .check(matches(isDisplayed()))
         // [END android_testing_fundamentals_espresso]
@@ -49,10 +49,10 @@ private class FundamentalsTest {
     @Test
     fun continueButton_displaysWelcome_compose() {
         // [START android_testing_fundamentals_compose]
-        // When the Continue button is clicked
+        // When the Continue button is clicked.
         composeTestRule.onNodeWithText("Continue").performClick()
 
-        // Then the Welcome screen is displayed
+        // Then the Welcome screen is displayed.
         composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
         // [END android_testing_fundamentals_compose]
     }
@@ -60,13 +60,13 @@ private class FundamentalsTest {
     @Test
     fun viewModel_loadsData() {
         // [START android_testing_fundamentals_viewmodel]
-        // Given an instance of MyViewModel
+        // Given an instance of MyViewModel.
         val viewModel = MyViewModel(myFakeDataRepository)
 
-        // When data is loaded
+        // When data is loaded.
         viewModel.loadData()
 
-        // Then it should be exposing data
+        // Then it should be exposing data.
         assertTrue(viewModel.data != null)
         // [END android_testing_fundamentals_viewmodel]
     }
