@@ -230,6 +230,8 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_indeterminateindicator" to "Start loading",
     "android_compose_components_partialbottomsheet" to "Display partial bottom sheet",
     "android_compose_components_detaileddrawerexample" to "Menu",
+    // The advanced rich tooltip opens when its icon button is tapped.
+    "android_compose_components_advancedrichtooltipexample" to "Open camera",
 )
 
 /**
@@ -283,8 +285,20 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
     "android_compose_components_pull_to_refresh_basic" to {
         onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
     },
+    "android_compose_components_pull_to_refresh_custom_style" to {
+        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
+    },
+    "android_compose_components_pull_to_refresh_custom_indicator" to {
+        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
+    },
     // Hold the first item part way through a swipe towards the start, showing the remove action.
     "android_compose_components_swipeitemexample" to {
+        onNodeWithText("Pay bills").performTouchInput {
+            down(center)
+            repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
+        }
+    },
+    "android_compose_components_swipecarditemexample" to {
         onNodeWithText("Pay bills").performTouchInput {
             down(center)
             repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }

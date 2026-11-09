@@ -39,11 +39,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.AdvancedRichTooltipExample
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
 import com.example.compose.snippets.components.AssistChipExample
 import com.example.compose.snippets.components.BadgeExample
 import com.example.compose.snippets.components.BadgeInteractiveExample
+import com.example.compose.snippets.components.BottomAppBarExample
 import com.example.compose.snippets.components.CarouselExample
 import com.example.compose.snippets.components.CarouselExample_MultiBrowse
 import com.example.compose.snippets.components.CenterAlignedTopAppBarExample
@@ -80,6 +82,8 @@ import com.example.compose.snippets.components.OutlinedCardExample
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.PlainTooltipExample
 import com.example.compose.snippets.components.PullToRefreshBasicPreview
+import com.example.compose.snippets.components.PullToRefreshCustomIndicatorPreview
+import com.example.compose.snippets.components.PullToRefreshCustomStylePreview
 import com.example.compose.snippets.components.RadioButtonSingleSelection
 import com.example.compose.snippets.components.RangeSliderExample
 import com.example.compose.snippets.components.RichTooltipExample
@@ -92,7 +96,9 @@ import com.example.compose.snippets.components.SmallExample
 import com.example.compose.snippets.components.SmallTopAppBarExample
 import com.example.compose.snippets.components.SuggestionChipExample
 import com.example.compose.snippets.components.SwipeItemExample
+import com.example.compose.snippets.components.SwipeItemWithAnimationExample
 import com.example.compose.snippets.components.SwitchMinimalExample
+import com.example.compose.snippets.components.SwitchWithCustomColors
 import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
@@ -171,6 +177,8 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_dropdownmenuwithdetails" to PreviewFrame(576, 324),
     // Captured with the drawer open (see PreviewTapTargets); the 360dp sheet needs a wider screen.
     "android_compose_components_detaileddrawerexample" to PreviewFrame(576, 324),
+    // The advanced rich tooltip has a title, two lines of text and an action, below its icon.
+    "android_compose_components_advancedrichtooltipexample" to PreviewFrame(576, 324),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -256,9 +264,23 @@ object SnippetRegistry {
             }
         },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
+        "android_compose_components_pull_to_refresh_custom_style" to { CenteredBox { PullToRefreshCustomStylePreview() } },
+        "android_compose_components_pull_to_refresh_custom_indicator" to { CenteredBox { PullToRefreshCustomIndicatorPreview() } },
+        // Keeps the icon near the top, so the static preview's tooltip fits below it.
+        "android_compose_components_advancedrichtooltipexample" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                AdvancedRichTooltipExample()
+            }
+        },
+        "android_compose_components_switchwithcustomcolors" to { CenteredBox { SwitchWithCustomColors() } },
+        "android_compose_components_bottomappbar" to { BottomAppBarExample() },
         "android_compose_components_customizable_searchbar" to { CustomizableSearchBarExample() },
         "android_compose_components_simple_searchbar" to { SimpleSearchBarExample() },
         "android_compose_components_swipeitemexample" to { SwipeItemExample() },
+        "android_compose_components_swipecarditemexample" to { SwipeItemWithAnimationExample() },
         "android_compose_components_centeralignedtopappbar" to { CenterAlignedTopAppBarExample() },
         "android_compose_components_smalltopappbar" to { SmallTopAppBarExample() },
         "android_compose_components_mediumtopappbar" to { MediumTopAppBarExample() },
