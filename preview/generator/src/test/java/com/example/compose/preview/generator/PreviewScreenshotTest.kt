@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onRoot
 import org.robolectric.Shadows.shadowOf
@@ -36,7 +38,6 @@ import com.github.takahirom.roborazzi.captureScreenRoboImage
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isToggleable
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
@@ -204,7 +205,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
             val unregistered =
                 PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
-                "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
+                "Tap targets or interactions have IDs that aren't in SnippetRegistry: $unregistered"
             }
             return SnippetRegistry.snippets.keys.map { arrayOf(it) }
         }
@@ -222,6 +223,7 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_longbasicdropdownmenu" to "More options",
     "android_compose_components_dropdownmenuwithdetails" to "More options",
     "android_compose_components_indeterminateindicator" to "Start loading",
+    "android_compose_components_partialbottomsheet" to "Display partial bottom sheet",
 )
 
 /**
@@ -246,6 +248,13 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
     // indeterminate state. The child checkboxes have no text of their own to tap.
     "android_compose_components_checkbox_parent" to {
         onAllNodes(isToggleable())[1].performSemanticsAction(SemanticsActions.OnClick)
+    },
+    // Tooltips open on long press, not on click.
+    "android_compose_components_plaintooltipexample" to {
+        onNode(hasContentDescription("Add to favorites")).performTouchInput { longClick() }
+    },
+    "android_compose_components_richtooltipexample" to {
+        onNode(hasContentDescription("Show more information")).performTouchInput { longClick() }
     },
 )
 
