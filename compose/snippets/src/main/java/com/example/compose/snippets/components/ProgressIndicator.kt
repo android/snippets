@@ -70,11 +70,12 @@ fun LinearDeterminateIndicator() {
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope() // Create a coroutine scope
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    if (loading) {
+        LinearProgressIndicator(
+            progress = { currentProgress },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    } else {
         Button(onClick = {
             loading = true
             scope.launch {
@@ -83,14 +84,9 @@ fun LinearDeterminateIndicator() {
                 }
                 loading = false // Reset loading when the coroutine finishes
             }
-        }, enabled = !loading) {
+        }) {
             Text("Start loading")
         }
-
-        LinearProgressIndicator(
-            progress = { currentProgress },
-            modifier = Modifier.fillMaxWidth(),
-        )
     }
 }
 
