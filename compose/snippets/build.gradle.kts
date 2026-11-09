@@ -29,6 +29,11 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -131,11 +136,13 @@ dependencies {
 
     implementation(libs.accompanist.permissions)
 
-    implementation(libs.coil.kt.compose)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.pip)
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)

@@ -24,22 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsBike
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
-import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
-import androidx.compose.material.icons.automirrored.outlined.Help
-import androidx.compose.material.icons.automirrored.outlined.OpenInNew
-import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.outlined.Feedback
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -103,7 +88,7 @@ fun MinimalDropdownMenu() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -140,7 +125,7 @@ fun LongBasicDropdownMenu() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -174,7 +159,7 @@ fun DropdownMenuWithDetails() {
             .padding(16.dp)
     ) {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(painter = rememberVectorPainter(AppIcons.MoreVert), contentDescription = "More options")
         }
         DropdownMenu(
             expanded = expanded,
@@ -183,12 +168,12 @@ fun DropdownMenuWithDetails() {
             // First section
             DropdownMenuItem(
                 text = { Text("Profile") },
-                leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Person), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
                 text = { Text("Settings") },
-                leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Settings), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
 
@@ -197,8 +182,8 @@ fun DropdownMenuWithDetails() {
             // Second section
             DropdownMenuItem(
                 text = { Text("Send Feedback") },
-                leadingIcon = { Icon(Icons.Outlined.Feedback, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Feedback), contentDescription = null) },
+                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Send), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
 
@@ -207,13 +192,13 @@ fun DropdownMenuWithDetails() {
             // Third section
             DropdownMenuItem(
                 text = { Text("About") },
-                leadingIcon = { Icon(Icons.Outlined.Info, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Info), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
             DropdownMenuItem(
                 text = { Text("Help") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Help, contentDescription = null) },
-                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Help), contentDescription = null) },
+                trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.OpenInNew), contentDescription = null) },
                 onClick = { /* Do something... */ }
             )
         }
@@ -236,7 +221,7 @@ fun DropdownFilter(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(Icons.Default.Tune, "Filters")
+        Icon(painter = rememberVectorPainter(AppIcons.Tune), "Filters")
         FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Time") })
         DropdownFilterChip()
         FilterChip(selected = false, onClick = { /*TODO*/ }, label = { Text("Wheelchair accessible") })
@@ -253,8 +238,8 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             selected = selectedChipText != null,
             onClick = { isDropdownExpanded = !isDropdownExpanded },
             label = { Text(if (selectedChipText == null) "Type" else "$selectedChipText") },
-            leadingIcon = { if (selectedChipText != null) Icon(Icons.Default.Check, null) },
-            trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+            leadingIcon = { if (selectedChipText != null) Icon(painter = rememberVectorPainter(AppIcons.Check), null) },
+            trailingIcon = { Icon(painter = rememberVectorPainter(AppIcons.ArrowDropDown), null) },
         )
         DropdownMenu(
             expanded = isDropdownExpanded,
@@ -262,7 +247,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
         ) {
             DropdownMenuItem(
                 text = { Text("Running") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsRun, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsRun), null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Running") null else "Running"
@@ -270,7 +255,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Walking") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsWalk, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsWalk), null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Walking") null else "Walking"
@@ -278,7 +263,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Hiking") },
-                leadingIcon = { Icon(Icons.Default.Hiking, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.Hiking), null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Hiking") null else "Hiking"
@@ -286,7 +271,7 @@ fun DropdownFilterChip(modifier: Modifier = Modifier) {
             )
             DropdownMenuItem(
                 text = { Text("Cycling") },
-                leadingIcon = { Icon(Icons.AutoMirrored.Default.DirectionsBike, null) },
+                leadingIcon = { Icon(painter = rememberVectorPainter(AppIcons.DirectionsBike), null) },
                 onClick = {
                     selectedChipText =
                         if (selectedChipText == "Cycling") null else "Cycling"

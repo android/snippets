@@ -74,7 +74,7 @@ class CustomBrushes(val context: Context) {
             val brushFamily = context.resources.openRawResource(resourceId).use { inputStream ->
                 BrushFamily.decode(inputStream)
             }
-            CustomBrush(name, icon, brushFamily.copy(clientBrushFamilyId = name))
+            CustomBrush(name, icon, brushFamily)
         }
         return loadedBrushes
     }

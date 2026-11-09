@@ -23,13 +23,17 @@ import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
 import androidx.core.pip.BasicPictureInPicture
 import androidx.core.pip.PictureInPictureDelegate
+import java.util.concurrent.Executors
 
 // [START android_jpip_basic_impl]
 class NavOrVideoCallJpipActivity : ComponentActivity(), PictureInPictureDelegate.OnPictureInPictureEventListener {
     private lateinit var pictureInPictureImpl: BasicPictureInPicture
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pictureInPictureImpl = BasicPictureInPicture(this)
+        pictureInPictureImpl = BasicPictureInPicture(
+            this,
+            Executors.newSingleThreadExecutor()
+        )
         // BasicPictureInPicture is ideal for Navigation and Video call use cases.
         pictureInPictureImpl.addOnPictureInPictureEventListener(
             ContextCompat.getMainExecutor(this),
