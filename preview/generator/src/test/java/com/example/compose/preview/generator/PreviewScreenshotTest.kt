@@ -35,6 +35,13 @@ import com.github.takahirom.roborazzi.captureScreenRoboImage
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -174,12 +181,17 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
         val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
-        val tapTarget = PreviewTapTargets[snippetId]
-        if (tapTarget == null) {
+        val interaction = PreviewInteractions[snippetId]
+            ?: PreviewTapTargets[snippetId]?.let { tapTarget ->
+                {
+                    onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
+                        .performSemanticsAction(SemanticsActions.OnClick)
+                }
+            }
+        if (interaction == null) {
             composeTestRule.onRoot().captureRoboImage(filePath = filePath)
         } else {
-            composeTestRule.onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
-                .performSemanticsAction(SemanticsActions.OnClick)
+            composeTestRule.interaction()
             // Let the popup window attach (Robolectric runs the main looper in paused mode).
             repeat(3) {
                 composeTestRule.mainClock.advanceTimeByFrame()
@@ -198,9 +210,11 @@ class PreviewScreenshotTest(private val snippetId: String) {
         fun snippetIds(): List<Array<Any>> {
             // Tap targets are keyed separately from the registry, so catch typos or renamed region
             // tags here instead of silently capturing the untapped state.
-            val unregistered = PreviewTapTargets.keys - SnippetRegistry.snippets.keys
+            val unregistered =
+                PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
-                "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
+                "PreviewTapTargets or PreviewInteractions has IDs that aren't in SnippetRegistry: " +
+                    "$unregistered"
             }
             return SnippetRegistry.snippets.keys.map { arrayOf(it) }
         }
@@ -218,4 +232,40 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_longbasicdropdownmenu" to "More options",
     "android_compose_components_dropdownmenuwithdetails" to "More options",
     "android_compose_components_indeterminateindicator" to "Start loading",
+    "android_compose_components_detaileddrawerexample" to "Menu",
+)
+
+/**
+ * Snippets whose static preview shows the result of an interaction that isn't a single tap (typing,
+ * swiping, or waiting for progress), keyed by region tag. Each entry runs before the same settle
+ * and whole-screen capture as [PreviewTapTargets], and takes precedence over it. The live preview
+ * still starts in the snippet's starting state.
+ */
+private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> = mapOf(
+    // Show the bar partly filled: progress advances 1% every 100ms after the tap.
+    "android_compose_components_determinateindicator" to {
+        onNodeWithText("Start loading").performSemanticsAction(SemanticsActions.OnClick)
+        mainClock.advanceTimeBy(4_000)
+    },
+    // Expand the search bar and type a query, so the suggestions show.
+    "android_compose_components_simple_searchbar" to {
+        onNode(hasSetTextAction()).performSemanticsAction(SemanticsActions.OnClick)
+        mainClock.advanceTimeBy(1_000)
+        onNode(hasSetTextAction()).performTextInput("a")
+    },
+    // Expand the search bar to show the customized suggestions.
+    "android_compose_components_customizable_searchbar" to {
+        onAllNodes(hasSetTextAction())[0].performSemanticsAction(SemanticsActions.OnClick)
+    },
+    // Pull the list down past the threshold, and capture while it refreshes (1.5s).
+    "android_compose_components_pull_to_refresh_basic" to {
+        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
+    },
+    // Hold the first item part way through a swipe towards the start, showing the remove action.
+    "android_compose_components_swipeitemexample" to {
+        onNodeWithText("Pay bills").performTouchInput {
+            down(center)
+            repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
+        }
+    },
 )
