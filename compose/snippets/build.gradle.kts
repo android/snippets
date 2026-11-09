@@ -35,6 +35,9 @@ android {
         }
     }
     namespace = "com.example.compose.snippets"
+    useLibrary("android.test.base")
+    useLibrary("android.test.mock")
+    useLibrary("android.test.runner")
 
     defaultConfig {
         applicationId = "com.example.compose.snippets"
@@ -181,8 +184,11 @@ dependencies {
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.compose.ui.test)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.glance.appwidget.preview)
