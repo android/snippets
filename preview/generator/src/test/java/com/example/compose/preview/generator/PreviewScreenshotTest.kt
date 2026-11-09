@@ -27,7 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onRoot
+import org.robolectric.Shadows.shadowOf
+import android.os.Looper
+import com.github.takahirom.roborazzi.captureScreenRoboImage
+import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -166,14 +173,49 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeByFrame()
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
-        composeTestRule.onRoot().captureRoboImage(
-            filePath = File(getOutputDir(), "$snippetId.png").absolutePath,
-        )
+        val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
+        val tapTarget = PreviewTapTargets[snippetId]
+        if (tapTarget == null) {
+            composeTestRule.onRoot().captureRoboImage(filePath = filePath)
+        } else {
+            composeTestRule.onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
+                .performSemanticsAction(SemanticsActions.OnClick)
+            // Let the popup window attach (Robolectric runs the main looper in paused mode).
+            repeat(3) {
+                composeTestRule.mainClock.advanceTimeByFrame()
+                shadowOf(Looper.getMainLooper()).idle()
+            }
+            composeTestRule.mainClock.advanceTimeBy(1_000)
+            composeTestRule.mainClock.advanceTimeByFrame()
+            // Capture every window, so popups such as an open menu are included.
+            captureScreenRoboImage(filePath = filePath)
+        }
     }
 
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun snippetIds(): List<Array<Any>> = SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        fun snippetIds(): List<Array<Any>> {
+            // Tap targets are keyed separately from the registry, so catch typos or renamed region
+            // tags here instead of silently capturing the untapped state.
+            val unregistered = PreviewTapTargets.keys - SnippetRegistry.snippets.keys
+            require(unregistered.isEmpty()) {
+                "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
+            }
+            return SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        }
     }
 }
+
+/**
+ * Snippets whose static preview shows the result of tapping a control, keyed by region tag. The
+ * value is the control's text or content description. Use it when the snippet's starting state
+ * doesn't show the component, for example a menu that opens from an icon button. The live preview
+ * still starts in the snippet's starting state.
+ */
+private val PreviewTapTargets = mapOf(
+    "android_compose_components_minimaldropdownmenu" to "More options",
+    "android_compose_components_longbasicdropdownmenu" to "More options",
+    "android_compose_components_dropdownmenuwithdetails" to "More options",
+    "android_compose_components_indeterminateindicator" to "Start loading",
+)

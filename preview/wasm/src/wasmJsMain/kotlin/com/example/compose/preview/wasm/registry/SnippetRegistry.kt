@@ -162,6 +162,10 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
     // A full screen with top and bottom app bars, a FAB and three paragraphs of body text.
     "android_compose_components_scaffold" to PreviewFrame(360, 640),
+    // These menus are captured open (see PreviewTapTargets in PreviewScreenshotTest), and the
+    // detailed menu is about 275dp tall.
+    "android_compose_components_longbasicdropdownmenu" to PreviewFrame(576, 324),
+    "android_compose_components_dropdownmenuwithdetails" to PreviewFrame(576, 324),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
