@@ -26,6 +26,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onRoot
@@ -174,12 +175,12 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
         val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
-        val tapTarget = PreviewTapTargets[snippetId]
-        if (tapTarget == null) {
+        val interaction = PreviewInteractions[snippetId]
+            ?: PreviewTapTargets[snippetId]?.let { t -> { clickOn(t) } }
+        if (interaction == null) {
             composeTestRule.onRoot().captureRoboImage(filePath = filePath)
         } else {
-            composeTestRule.onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
-                .performSemanticsAction(SemanticsActions.OnClick)
+            composeTestRule.interaction()
             // Let the popup window attach (Robolectric runs the main looper in paused mode).
             repeat(3) {
                 composeTestRule.mainClock.advanceTimeByFrame()
@@ -198,7 +199,8 @@ class PreviewScreenshotTest(private val snippetId: String) {
         fun snippetIds(): List<Array<Any>> {
             // Tap targets are keyed separately from the registry, so catch typos or renamed region
             // tags here instead of silently capturing the untapped state.
-            val unregistered = PreviewTapTargets.keys - SnippetRegistry.snippets.keys
+            val unregistered =
+                PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
                 "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
             }
@@ -219,3 +221,29 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_dropdownmenuwithdetails" to "More options",
     "android_compose_components_indeterminateindicator" to "Start loading",
 )
+
+/**
+ * Snippets whose static preview needs more than one tap (or another gesture) before capture, keyed
+ * by region tag. Runs instead of [PreviewTapTargets], before the shared settle and capture.
+ */
+private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> = mapOf(
+    // Show the selected (filled) state of the toggle.
+    "android_compose_components_togglebuttonexample" to { clickOn("Unselected icon button.") },
+    // Show a non-zero count instead of "advanced by 0 frames".
+    "android_compose_components_momentaryiconbuttons" to {
+        repeat(5) { clickOn("Increase count button") }
+    },
+    // A multi-select button with two options picked, as in M3 and the DAC figure.
+    "android_compose_components_multichoicesegmentedbutton" to {
+        clickOn("Directions Walk")
+        clickOn("Directions Bus")
+    },
+    // Show the selected state with its leading check icon.
+    "android_compose_components_filterchip" to { clickOn("Filter chip") },
+)
+
+private fun ComposeContentTestRule.clickOn(label: String) {
+    onNode(hasText(label) or hasContentDescription(label))
+        .performSemanticsAction(SemanticsActions.OnClick)
+    mainClock.advanceTimeByFrame()
+}
