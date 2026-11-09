@@ -16,6 +16,8 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,10 +71,15 @@ fun LinearDeterminateIndicator() {
     var currentProgress by remember { mutableFloatStateOf(0f) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope() // Create a coroutine scope
+    // Animate between progress updates so the indicator fills smoothly.
+    val animatedProgress by animateFloatAsState(
+        targetValue = currentProgress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
 
     if (loading) {
         LinearProgressIndicator(
-            progress = { currentProgress },
+            progress = { animatedProgress },
             modifier = Modifier.fillMaxWidth(),
         )
     } else {
