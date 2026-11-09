@@ -169,6 +169,8 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     // detailed menu is about 275dp tall.
     "android_compose_components_longbasicdropdownmenu" to PreviewFrame(576, 324),
     "android_compose_components_dropdownmenuwithdetails" to PreviewFrame(576, 324),
+    // Captured with the drawer open (see PreviewTapTargets); the 360dp sheet needs a wider screen.
+    "android_compose_components_detaileddrawerexample" to PreviewFrame(576, 324),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -254,7 +256,7 @@ object SnippetRegistry {
             }
         },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
-        "android_compose_components_customizable_searchbar" to { CenteredBox { CustomizableSearchBarExample() } },
+        "android_compose_components_customizable_searchbar" to { CustomizableSearchBarExample() },
         "android_compose_components_simple_searchbar" to { SimpleSearchBarExample() },
         "android_compose_components_swipeitemexample" to { SwipeItemExample() },
         "android_compose_components_centeralignedtopappbar" to { CenterAlignedTopAppBarExample() },
@@ -263,7 +265,7 @@ object SnippetRegistry {
         "android_compose_components_largetopappbar" to { LargeTopAppBarExample() },
         "android_compose_components_navigationbarexample" to { NavigationBarExample() },
         "android_compose_components_navigationrailexample" to { NavigationRailExample() },
-        "android_compose_components_detaileddrawerexample" to { CenteredBox { NavigationDrawerExamples() } },
+        "android_compose_components_detaileddrawerexample" to { NavigationDrawerExamples() },
         "android_compose_components_checkbox_minimal" to { CenteredBox { CheckboxMinimalExample() } },
         "android_compose_components_checkbox_parent" to { CenteredBox { CheckboxParentExample() } },
         "android_compose_components_assistchip" to { CenteredBox { AssistChipExample() } },
