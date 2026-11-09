@@ -162,6 +162,9 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
     // A full screen with top and bottom app bars, a FAB and three paragraphs of body text.
     "android_compose_components_scaffold" to PreviewFrame(360, 640),
+    // The static preview opens the sheet, which partially expands to half the screen height, so a
+    // portrait frame shows it as it appears on a phone.
+    "android_compose_components_partialbottomsheet" to PreviewFrame(360, 640),
     // These menus are captured open (see PreviewTapTargets in PreviewScreenshotTest), and the
     // detailed menu is about 275dp tall.
     "android_compose_components_longbasicdropdownmenu" to PreviewFrame(576, 324),
@@ -193,7 +196,15 @@ object SnippetRegistry {
         "android_compose_components_largefab" to { CenteredBox { LargeExample(onClick = {}) } },
         "android_compose_components_togglebuttonexample" to { CenteredBox { ToggleIconButtonExample() } },
         "android_compose_components_momentaryiconbuttons" to { CenteredBox { MomentaryIconButtonExample() } },
-        "android_compose_components_partialbottomsheet" to { CenteredBox { PartialBottomSheet() } },
+        // Keeps the button near the top, above the partially expanded sheet.
+        "android_compose_components_partialbottomsheet" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 48.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                PartialBottomSheet()
+            }
+        },
         "android_compose_components_filledcard" to { CenteredBox { FilledCardExample() } },
         "android_compose_components_elevatedcard" to { CenteredBox { ElevatedCardExample() } },
         "android_compose_components_outlinedcard" to { CenteredBox { OutlinedCardExample() } },
@@ -233,7 +244,15 @@ object SnippetRegistry {
         "android_compose_components_indeterminateindicator" to { CenteredBox { IndeterminateCircularIndicator() } },
         "android_compose_components_determinateindicator" to { CenteredBox { LinearDeterminateIndicator() } },
         "android_compose_components_plaintooltipexample" to { CenteredBox { PlainTooltipExample() } },
-        "android_compose_components_richtooltipexample" to { CenteredBox { RichTooltipExample() } },
+        // Keeps the icon near the bottom, so the static preview's tooltip fits above it.
+        "android_compose_components_richtooltipexample" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(bottom = 16.dp),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                RichTooltipExample()
+            }
+        },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
         "android_compose_components_customizable_searchbar" to { CenteredBox { CustomizableSearchBarExample() } },
         "android_compose_components_simple_searchbar" to { SimpleSearchBarExample() },

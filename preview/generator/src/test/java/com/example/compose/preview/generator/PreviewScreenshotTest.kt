@@ -26,7 +26,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onRoot
 import org.robolectric.Shadows.shadowOf
@@ -174,12 +177,17 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
         val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
-        val tapTarget = PreviewTapTargets[snippetId]
-        if (tapTarget == null) {
+        val interaction: (ComposeContentTestRule.() -> Unit)? = PreviewInteractions[snippetId]
+            ?: PreviewTapTargets[snippetId]?.let { target ->
+                {
+                    onNode(hasText(target) or hasContentDescription(target))
+                        .performSemanticsAction(SemanticsActions.OnClick)
+                }
+            }
+        if (interaction == null) {
             composeTestRule.onRoot().captureRoboImage(filePath = filePath)
         } else {
-            composeTestRule.onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
-                .performSemanticsAction(SemanticsActions.OnClick)
+            composeTestRule.interaction()
             // Let the popup window attach (Robolectric runs the main looper in paused mode).
             repeat(3) {
                 composeTestRule.mainClock.advanceTimeByFrame()
@@ -198,9 +206,10 @@ class PreviewScreenshotTest(private val snippetId: String) {
         fun snippetIds(): List<Array<Any>> {
             // Tap targets are keyed separately from the registry, so catch typos or renamed region
             // tags here instead of silently capturing the untapped state.
-            val unregistered = PreviewTapTargets.keys - SnippetRegistry.snippets.keys
+            val unregistered =
+                PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
-                "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
+                "Tap targets or interactions have IDs that aren't in SnippetRegistry: $unregistered"
             }
             return SnippetRegistry.snippets.keys.map { arrayOf(it) }
         }
@@ -218,4 +227,19 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_longbasicdropdownmenu" to "More options",
     "android_compose_components_dropdownmenuwithdetails" to "More options",
     "android_compose_components_indeterminateindicator" to "Start loading",
+    "android_compose_components_partialbottomsheet" to "Display partial bottom sheet",
+)
+
+/**
+ * Snippets whose static preview needs an interaction other than a single click, keyed by region
+ * tag. Runs instead of the [PreviewTapTargets] click, before the shared settle and capture.
+ */
+private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> = mapOf(
+    // Tooltips open on long press, not on click.
+    "android_compose_components_plaintooltipexample" to {
+        onNode(hasContentDescription("Add to favorites")).performTouchInput { longClick() }
+    },
+    "android_compose_components_richtooltipexample" to {
+        onNode(hasContentDescription("Show more information")).performTouchInput { longClick() }
+    },
 )
