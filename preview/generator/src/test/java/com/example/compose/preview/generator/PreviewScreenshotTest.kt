@@ -35,6 +35,8 @@ import android.os.Looper
 import com.github.takahirom.roborazzi.captureScreenRoboImage
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isToggleable
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
@@ -240,6 +242,11 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
     },
     // Show the selected state with its leading check icon.
     "android_compose_components_filterchip" to { clickOn("Filter chip") },
+    // Check "Option 1" (the second checkbox, after "Select all") so the parent shows the
+    // indeterminate state. The child checkboxes have no text of their own to tap.
+    "android_compose_components_checkbox_parent" to {
+        onAllNodes(isToggleable())[1].performSemanticsAction(SemanticsActions.OnClick)
+    },
 )
 
 private fun ComposeContentTestRule.clickOn(label: String) {
