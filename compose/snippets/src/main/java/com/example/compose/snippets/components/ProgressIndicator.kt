@@ -87,12 +87,10 @@ fun LinearDeterminateIndicator() {
             Text("Start loading")
         }
 
-        if (loading) {
-            LinearProgressIndicator(
-                progress = { currentProgress },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
+        LinearProgressIndicator(
+            progress = { currentProgress },
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 

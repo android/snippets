@@ -22,6 +22,7 @@
 package com.example.compose.preview.wasm.registry
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -112,6 +113,17 @@ private fun CenteredBox(content: @Composable () -> Unit) {
 }
 
 /**
+ * Centers [content] vertically without horizontal padding, for components such as carousels that
+ * span the screen width and set their own `contentPadding`.
+ */
+@Composable
+private fun EdgeToEdgeBox(content: @Composable () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        content()
+    }
+}
+
+/**
  * Shows [dialog] open, over a button that reopens it. The snippets' dismiss and confirm callbacks
  * then close the dialog like they do in an app, and the button gives the scrim real content to dim.
  */
@@ -143,8 +155,8 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
-    // The image dialog card is 375dp tall.
-    "android_compose_components_dialogwithimage" to PreviewFrame(768, 432),
+    // The image dialog card is about 330dp tall.
+    "android_compose_components_dialogwithimage" to PreviewFrame(640, 360),
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
@@ -181,8 +193,8 @@ object SnippetRegistry {
         "android_compose_components_filledcard" to { CenteredBox { FilledCardExample() } },
         "android_compose_components_elevatedcard" to { CenteredBox { ElevatedCardExample() } },
         "android_compose_components_outlinedcard" to { CenteredBox { OutlinedCardExample() } },
-        "android_compose_carousel_multi_browse_basic" to { CenteredBox { CarouselExample_MultiBrowse() } },
-        "android_compose_carousel_uncontained_basic" to { CenteredBox { CarouselExample() } },
+        "android_compose_carousel_multi_browse_basic" to { EdgeToEdgeBox { CarouselExample_MultiBrowse() } },
+        "android_compose_carousel_uncontained_basic" to { EdgeToEdgeBox { CarouselExample() } },
         // The same arguments as DialogExamples (android_compose_components_dialogparent), which DAC
         // shows next to these previews.
         "android_compose_components_alertdialog" to {
