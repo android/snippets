@@ -34,6 +34,8 @@ import android.os.Looper
 import com.github.takahirom.roborazzi.captureScreenRoboImage
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isToggleable
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
@@ -174,12 +176,17 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
         val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
-        val tapTarget = PreviewTapTargets[snippetId]
-        if (tapTarget == null) {
+        val interaction = PreviewInteractions[snippetId]
+            ?: PreviewTapTargets[snippetId]?.let { t ->
+                {
+                    onNode(hasText(t) or hasContentDescription(t))
+                        .performSemanticsAction(SemanticsActions.OnClick)
+                }
+            }
+        if (interaction == null) {
             composeTestRule.onRoot().captureRoboImage(filePath = filePath)
         } else {
-            composeTestRule.onNode(hasText(tapTarget) or hasContentDescription(tapTarget))
-                .performSemanticsAction(SemanticsActions.OnClick)
+            composeTestRule.interaction()
             // Let the popup window attach (Robolectric runs the main looper in paused mode).
             repeat(3) {
                 composeTestRule.mainClock.advanceTimeByFrame()
@@ -198,7 +205,8 @@ class PreviewScreenshotTest(private val snippetId: String) {
         fun snippetIds(): List<Array<Any>> {
             // Tap targets are keyed separately from the registry, so catch typos or renamed region
             // tags here instead of silently capturing the untapped state.
-            val unregistered = PreviewTapTargets.keys - SnippetRegistry.snippets.keys
+            val unregistered =
+                (PreviewTapTargets.keys + PreviewInteractions.keys) - SnippetRegistry.snippets.keys
             require(unregistered.isEmpty()) {
                 "PreviewTapTargets has IDs that aren't in SnippetRegistry: $unregistered"
             }
@@ -218,4 +226,16 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_longbasicdropdownmenu" to "More options",
     "android_compose_components_dropdownmenuwithdetails" to "More options",
     "android_compose_components_indeterminateindicator" to "Start loading",
+)
+
+/**
+ * Snippets whose static preview needs more than one tap on a labeled control, keyed by region tag.
+ * Each entry runs before the shared settle and capture. Takes precedence over [PreviewTapTargets].
+ */
+private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> = mapOf(
+    // Check "Option 1" (the second checkbox, after "Select all") so the parent shows the
+    // indeterminate state. The child checkboxes have no text of their own to tap.
+    "android_compose_components_checkbox_parent" to {
+        onAllNodes(isToggleable())[1].performSemanticsAction(SemanticsActions.OnClick)
+    },
 )
