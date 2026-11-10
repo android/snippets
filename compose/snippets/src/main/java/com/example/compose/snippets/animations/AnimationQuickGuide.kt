@@ -93,6 +93,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
@@ -107,6 +108,7 @@ import androidx.navigation3.runtime.metadata
 import androidx.navigation3.ui.NavDisplay
 import coil3.compose.AsyncImage
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.AppIcons
 import com.example.compose.snippets.util.randomSampleImageUrl
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
@@ -922,7 +924,7 @@ private fun ScreenDetails(photo: String, onBackClicked: () -> Unit) {
                 },
                 navigationIcon = {
                     IconButton(onClick = { onBackClicked() }) {
-                        Icon(painterResource(R.drawable.ic_arrow_back), contentDescription = "Back")
+                        Icon(painter = rememberVectorPainter(AppIcons.ArrowBack), contentDescription = "Back")
                     }
                 }
             )
