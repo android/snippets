@@ -62,6 +62,8 @@ kotlin {
                 api(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.room3.runtime)
                 implementation(libs.androidx.sqlite.bundled)
+                implementation(libs.androidx.datastore.core)
+                implementation(libs.androidx.datastore.preferences.core)
             }
         }
 
