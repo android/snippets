@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalForeignApi::class)
-
 package com.example.kmp.snippets.datastore
 
 import androidx.datastore.core.DataStore
@@ -33,6 +31,7 @@ import platform.Foundation.NSUserDomainMask
 // [START android_kmp_datastore_ios]
 // shared/src/iosMain/kotlin/createDataStore.ios.kt
 
+@OptIn(ExperimentalForeignApi::class)
 fun createDataStore(): DataStore<Preferences> = createDataStore(
     storage = OkioStorage(
         fileSystem = FileSystem.SYSTEM,
