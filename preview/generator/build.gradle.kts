@@ -23,6 +23,12 @@ plugins {
 android {
     namespace = "com.example.compose.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    // Compose 1.13.0-rc01 needs Android 37.1 APIs or later, like :compose:snippets.
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
@@ -48,6 +54,9 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                it.jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
+            }
         }
     }
 
@@ -73,7 +82,9 @@ androidComponents {
 }
 
 dependencies {
-    val composeBom = platform(libs.androidx.compose.bom)
+    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
+    // material3 version from the catalog), so the DAC previews match the latest release.
+    val composeBom = platform(libs.androidx.compose.bom.alpha)
     implementation(composeBom)
     testImplementation(composeBom)
 
