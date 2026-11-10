@@ -26,8 +26,24 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.onRoot
+import org.robolectric.Shadows.shadowOf
+import android.os.Looper
+import com.github.takahirom.roborazzi.captureScreenRoboImage
+import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isToggleable
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -166,14 +182,126 @@ class PreviewScreenshotTest(private val snippetId: String) {
         composeTestRule.mainClock.advanceTimeByFrame()
         composeTestRule.mainClock.advanceTimeBy(1_000)
         composeTestRule.mainClock.advanceTimeByFrame()
-        composeTestRule.onRoot().captureRoboImage(
-            filePath = File(getOutputDir(), "$snippetId.png").absolutePath,
-        )
+        val filePath = File(getOutputDir(), "$snippetId.png").absolutePath
+        val interaction = PreviewInteractions[snippetId]
+            ?: PreviewTapTargets[snippetId]?.let { t -> { clickOn(t) } }
+        if (interaction == null) {
+            composeTestRule.onRoot().captureRoboImage(filePath = filePath)
+        } else {
+            composeTestRule.interaction()
+            // Let the popup window attach (Robolectric runs the main looper in paused mode).
+            repeat(3) {
+                composeTestRule.mainClock.advanceTimeByFrame()
+                shadowOf(Looper.getMainLooper()).idle()
+            }
+            composeTestRule.mainClock.advanceTimeBy(1_000)
+            composeTestRule.mainClock.advanceTimeByFrame()
+            // Capture every window, so popups such as an open menu are included.
+            captureScreenRoboImage(filePath = filePath)
+        }
     }
 
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-        fun snippetIds(): List<Array<Any>> = SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        fun snippetIds(): List<Array<Any>> {
+            // Tap targets are keyed separately from the registry, so catch typos or renamed region
+            // tags here instead of silently capturing the untapped state.
+            val unregistered =
+                PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
+            require(unregistered.isEmpty()) {
+                "Tap targets or interactions have IDs that aren't in SnippetRegistry: $unregistered"
+            }
+            return SnippetRegistry.snippets.keys.map { arrayOf(it) }
+        }
     }
+}
+
+/**
+ * Snippets whose static preview shows the result of tapping a control, keyed by region tag. The
+ * value is the control's text or content description. Use it when the snippet's starting state
+ * doesn't show the component, for example a menu that opens from an icon button. The live preview
+ * still starts in the snippet's starting state.
+ */
+private val PreviewTapTargets = mapOf(
+    "android_compose_components_minimaldropdownmenu" to "More options",
+    "android_compose_components_longbasicdropdownmenu" to "More options",
+    "android_compose_components_dropdownmenuwithdetails" to "More options",
+    "android_compose_components_indeterminateindicator" to "Start loading",
+    "android_compose_components_partialbottomsheet" to "Display partial bottom sheet",
+    "android_compose_components_detaileddrawerexample" to "Menu",
+    // The advanced rich tooltip opens when its icon button is tapped.
+    "android_compose_components_advancedrichtooltipexample" to "Open camera",
+)
+
+/**
+ * Snippets whose static preview needs an interaction other than a single tap (several taps, a long
+ * press, typing, swiping, or waiting for progress), keyed by region tag. Each entry runs instead of
+ * [PreviewTapTargets], before the shared settle and whole-screen capture. The live preview still
+ * starts in the snippet's starting state.
+ */
+private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> = mapOf(
+    // Show the selected (filled) state of the toggle.
+    "android_compose_components_togglebuttonexample" to { clickOn("Unselected icon button.") },
+    // Show a non-zero count instead of "advanced by 0 frames".
+    "android_compose_components_momentaryiconbuttons" to {
+        repeat(5) { clickOn("Increase count button") }
+    },
+    // A multi-select button with two options picked, as in M3 and the DAC figure.
+    "android_compose_components_multichoicesegmentedbutton" to {
+        clickOn("Directions Walk")
+        clickOn("Directions Bus")
+    },
+    // Show the selected state with its leading check icon.
+    "android_compose_components_filterchip" to { clickOn("Filter chip") },
+    // Check "Option 1" (the second checkbox, after "Select all") so the parent shows the
+    // indeterminate state. The child checkboxes have no text of their own to tap.
+    "android_compose_components_checkbox_parent" to {
+        onAllNodes(isToggleable())[1].performSemanticsAction(SemanticsActions.OnClick)
+    },
+    // Tooltips open on long press, not on click.
+    "android_compose_components_plaintooltipexample" to {
+        onNode(hasContentDescription("Add to favorites")).performTouchInput { longClick() }
+    },
+    "android_compose_components_richtooltipexample" to {
+        onNode(hasContentDescription("Show more information")).performTouchInput { longClick() }
+    },
+    // Show the bar partly filled: progress advances 1% every 100ms after the tap.
+    "android_compose_components_determinateindicator" to {
+        onNodeWithText("Start loading").performSemanticsAction(SemanticsActions.OnClick)
+        mainClock.advanceTimeBy(4_000)
+    },
+    // Expand the search bar and type a query, so the suggestions show.
+    "android_compose_components_simple_searchbar" to {
+        onNode(hasSetTextAction()).performSemanticsAction(SemanticsActions.OnClick)
+        mainClock.advanceTimeBy(1_000)
+        onNode(hasSetTextAction()).performTextInput("a")
+    },
+    // Expand the search bar to show the customized suggestions.
+    "android_compose_components_customizable_searchbar" to {
+        onAllNodes(hasSetTextAction())[0].performSemanticsAction(SemanticsActions.OnClick)
+    },
+    // Pull the list down past the threshold, and capture while it refreshes (1.5s).
+    "android_compose_components_pull_to_refresh_basic" to {
+        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
+    },
+    // Hold the first item part way through a swipe towards the start, showing the remove action.
+    "android_compose_components_swipeitemexample" to {
+        onNodeWithText("Pay bills").performTouchInput {
+            down(center)
+            repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
+        }
+    },
+    "android_compose_components_swipecarditemexample" to {
+        onNodeWithText("Pay bills").performTouchInput {
+            down(center)
+            repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
+        }
+    },
+)
+
+private fun ComposeContentTestRule.clickOn(label: String) {
+    onNode(hasText(label) or hasContentDescription(label))
+        .performSemanticsAction(SemanticsActions.OnClick)
+    mainClock.advanceTimeByFrame()
 }

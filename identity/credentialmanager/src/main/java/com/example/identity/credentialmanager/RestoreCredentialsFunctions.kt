@@ -21,17 +21,23 @@ import android.app.backup.BackupDataInput
 import android.app.backup.BackupDataOutput
 import android.content.Context
 import android.os.ParcelFileDescriptor
+import android.util.Base64
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.ClearCredentialStateRequest.Companion.TYPE_CLEAR_RESTORE_CREDENTIAL
 import androidx.credentials.CreateRestoreCredentialRequest
+import androidx.credentials.CreateRestoreCredentialResponse
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.credentials.GetRestoreCredentialOption
+import androidx.credentials.PublicKeyCredential
 import androidx.credentials.RestoreCredential
 import androidx.credentials.exceptions.NoCredentialException
 import androidx.credentials.exceptions.restorecredential.E2eeUnavailableException
+import java.security.SecureRandom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 
 class RestoreCredentialsFunctions(
     private val context: Context,
@@ -65,6 +71,136 @@ class RestoreCredentialsFunctions(
         val response = credentialManager.clearCredentialState(clearRequest)
         // [END android_identity_restore_cred_delete]
     }
+
+    fun extractAuthenticationResponseJson(response: GetCredentialResponse): String? {
+        // [START android_identity_restore_cred_branching]
+        // RestoreCredential and PublicKeyCredential are distinct subclasses of Credential.
+        val responseJson: String? = when (val credential = response.credential) {
+            is RestoreCredential -> credential.authenticationResponseJson
+            is PublicKeyCredential -> credential.authenticationResponseJson
+            else -> null
+        }
+        // [END android_identity_restore_cred_branching]
+        return responseJson
+    }
+
+    // [START android_identity_restore_cred_large_blob_create]
+    suspend fun createRestoreKeyWithLargeBlobSupport(
+        creationOptionsJson: JSONObject,
+    ): CreateRestoreCredentialResponse {
+        // Negotiate WebAuthn largeBlob support during key creation (do not include read or write).
+        val extensions = creationOptionsJson.optJSONObject("extensions") ?: JSONObject()
+        extensions.put("largeBlob", JSONObject().put("support", "preferred"))
+        creationOptionsJson.put("extensions", extensions)
+
+        val requestJson = creationOptionsJson.toString()
+        return try {
+            credentialManager.createCredential(
+                context = context,
+                request = CreateRestoreCredentialRequest(
+                    requestJson = requestJson,
+                    isCloudBackupEnabled = true,
+                ),
+            ) as CreateRestoreCredentialResponse
+        } catch (e: E2eeUnavailableException) {
+            credentialManager.createCredential(
+                context = context,
+                request = CreateRestoreCredentialRequest(
+                    requestJson = requestJson,
+                    isCloudBackupEnabled = false,
+                ),
+            ) as CreateRestoreCredentialResponse
+        }
+    }
+
+    // Requires Google Play services 26.43+; older versions ignore the extension and return false.
+    fun isLargeBlobSupported(response: CreateRestoreCredentialResponse): Boolean =
+        JSONObject(response.responseJson)
+            .optJSONObject("clientExtensionResults")
+            ?.optJSONObject("largeBlob")
+            ?.optBoolean("supported", false) == true
+    // [END android_identity_restore_cred_large_blob_create]
+
+    // [START android_identity_restore_cred_large_blob_write]
+    suspend fun writeRestoreCredentialLargeBlob(
+        rpId: String,
+        metadataBytes: ByteArray,
+    ): Boolean {
+        val maxLargeBlobBytes = 16 * 1024 // 16 KiB raw byte limit
+        require(metadataBytes.size <= maxLargeBlobBytes) {
+            "largeBlob payload (${metadataBytes.size} bytes) exceeds 16 KiB ($maxLargeBlobBytes bytes)."
+        }
+
+        // Generate a local challenge (no server round-trip needed to update local metadata)
+        // and encode both challenge and blob as unpadded URL-safe Base64 (RFC 4648).
+        val base64UrlFlags = Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING
+        val challengeBytes = ByteArray(32).also { SecureRandom().nextBytes(it) }
+        val encodedChallenge = Base64.encodeToString(challengeBytes, base64UrlFlags)
+        val encodedBlob = Base64.encodeToString(metadataBytes, base64UrlFlags)
+
+        val writeRequestJson = JSONObject()
+            .put("challenge", encodedChallenge)
+            .put("rpId", rpId)
+            .put(
+                "extensions",
+                JSONObject().put("largeBlob", JSONObject().put("write", encodedBlob)),
+            )
+            .toString()
+
+        val result = credentialManager.getCredential(
+            context = context,
+            request = GetCredentialRequest(
+                listOf(GetRestoreCredentialOption(requestJson = writeRequestJson)),
+            ),
+        )
+        val restoreCredential = result.credential as RestoreCredential
+        return JSONObject(restoreCredential.authenticationResponseJson)
+            .optJSONObject("clientExtensionResults")
+            ?.optJSONObject("largeBlob")
+            ?.optBoolean("written", false) == true
+    }
+    // [END android_identity_restore_cred_large_blob_write]
+
+    // [START android_identity_restore_cred_large_blob_read]
+    class RestoredCredentialPayload(
+        val authenticationResponseJson: String,
+        val largeBlobBytes: ByteArray?,
+    )
+
+    suspend fun getRestoreKeyAndLargeBlob(
+        authenticationOptionsJson: JSONObject,
+    ): RestoredCredentialPayload {
+        // Request the attached largeBlob alongside the WebAuthn assertion in a single call.
+        val extensions =
+            authenticationOptionsJson.optJSONObject("extensions") ?: JSONObject()
+        extensions.put("largeBlob", JSONObject().put("read", true))
+        authenticationOptionsJson.put("extensions", extensions)
+
+        val result = credentialManager.getCredential(
+            context = context,
+            request = GetCredentialRequest(
+                listOf(GetRestoreCredentialOption(authenticationOptionsJson.toString())),
+            ),
+        )
+        val restoreCredential = result.credential as RestoreCredential
+        val responseJson = restoreCredential.authenticationResponseJson
+        val blobBase64Url = JSONObject(responseJson)
+            .optJSONObject("clientExtensionResults")
+            ?.optJSONObject("largeBlob")
+            ?.optString("blob", "")
+            .orEmpty()
+
+        val decodedBytes = if (blobBase64Url.isNotEmpty()) {
+            Base64.decode(blobBase64Url, Base64.URL_SAFE)
+        } else {
+            null // No blob was written, or Google Play services < 26.43
+        }
+        return RestoredCredentialPayload(
+            authenticationResponseJson = responseJson,
+            largeBlobBytes = decodedBytes,
+        )
+    }
+    // [END android_identity_restore_cred_large_blob_read]
 
     // [START android_identity_restore_cred_get]
     suspend fun getRestoreKey(
