@@ -59,7 +59,7 @@ fun SliderExamples() {
 @Preview
 @Composable
 fun SliderMinimalExample() {
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
+    var sliderPosition by remember { mutableFloatStateOf(0.5f) }
     Column {
         Slider(
             value = sliderPosition,
@@ -74,7 +74,7 @@ fun SliderMinimalExample() {
 @Preview
 @Composable
 fun SliderAdvancedExample() {
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
+    var sliderPosition by remember { mutableFloatStateOf(25f) }
     Column {
         Slider(
             value = sliderPosition,
@@ -96,11 +96,10 @@ fun SliderAdvancedExample() {
 @Preview
 @Composable
 fun RangeSliderExample() {
-    var sliderPosition by remember { mutableStateOf(0f..100f) }
+    var sliderPosition by remember { mutableStateOf(20f..80f) }
     Column {
         RangeSlider(
             value = sliderPosition,
-            steps = 5,
             onValueChange = { range -> sliderPosition = range },
             valueRange = 0f..100f,
             onValueChangeFinished = {
