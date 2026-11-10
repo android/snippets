@@ -32,44 +32,47 @@ class SecureBoundService : Service() {
         private const val TRUSTED_PARTNER_SHA256 = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V="
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        // Return the binder. Do NOT perform signature verification in onBind() because
-        // the binder connection is cached by Android, which can bypass checks on subsequent binds.
-        return LocalBinder()
-    }
-
-    private fun enforceTrustedCaller() {
-        val callingUid = Binder.getCallingUid()
-        // Allow calls from the same application
-        if (callingUid == Process.myUid()) {
-            return
-        }
-        val pm = packageManager
-        val packages = pm.getPackagesForUid(callingUid)
-        
-        if (packages.isNullOrEmpty() || !verifySignature(pm, packages[0])) {
-            throw SecurityException("Access Denied: Caller signature is untrusted.")
-        }
-    }
-
-    private fun verifySignature(pm: PackageManager, packageName: String): Boolean {
-        try {
-            val trustedSha256Raw = Base64.decode(TRUSTED_PARTNER_SHA256, Base64.DEFAULT)
-            // API 28+ handles rotated certificates and avoids manual hashing.
-            // Since minSdk is 36, this is always available.
-            return pm.hasSigningCertificate(packageName, trustedSha256Raw, PackageManager.CERT_INPUT_SHA256)
-        } catch (e: Exception) {
-            Log.e("SECURITY_ERROR", "Verification failed for package: $packageName", e)
-        }
-        return false
-    }
-
-    inner class LocalBinder : Binder() {
-        fun doSecureWork() {
-            // Verify caller identity on every transaction method call
+    // Use an AIDL Stub for cross-process IPC
+    private val binder = object : IMyService.Stub() {
+        override fun doSecureWork() {
+            // Verify caller identity inside the active Binder IPC transaction
             enforceTrustedCaller()
             // Safe to proceed with sensitive operations
         }
     }
+
+    override fun onBind(intent: Intent): IBinder {
+        // Return the AIDL Stub. Do NOT perform Binder.getCallingUid() checks in onBind()
+        // because onBind() is invoked asynchronously by system_server and the IBinder is cached.
+        return binder
+    }
+
+    private fun enforceTrustedCaller() {
+        val callingUid = Binder.getCallingUid()
+        if (callingUid == Process.myUid() || !verifyUidSignature(callingUid)) {
+            throw SecurityException("Access Denied: Unauthorized or local/cleared-identity caller.")
+        }
+    }
+
+    private fun verifyUidSignature(callingUid: Int): Boolean {
+        return try {
+            val trustedSha256Raw = Base64.decode(TRUSTED_PARTNER_SHA256, Base64.DEFAULT)
+            // PackageManager.hasSigningCertificate(uid, ...) (API 28+) checks the UID directly
+            // and handles certificate rotation.
+            packageManager.hasSigningCertificate(
+                callingUid,
+                trustedSha256Raw,
+                PackageManager.CERT_INPUT_SHA256
+            )
+        } catch (e: IllegalArgumentException) {
+            Log.e("SECURITY_ERROR", "Invalid certificate hash format", e)
+            false
+        }
+    }
 }
 // [END android_security_service_caller_verify]
+
+interface IMyService {
+    fun doSecureWork()
+    abstract class Stub : Binder(), IMyService
+}
