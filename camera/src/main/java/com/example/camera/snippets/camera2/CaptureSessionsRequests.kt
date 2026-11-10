@@ -141,7 +141,7 @@ private object CaptureSessionsRequestsSnippets {
 
         // This keeps sending the capture request as frequently as possible until
         // the session is torn down or session.stopRepeating() is called.
-        // session.setRepeatingRequest(captureRequest.build(), null, null)
+        session.setRepeatingRequest(captureRequest.build(), null, null)
         // [END android_camera2_capture_sessions_requests_repeating_request]
     }
 

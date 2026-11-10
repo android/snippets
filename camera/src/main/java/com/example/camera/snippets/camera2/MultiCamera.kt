@@ -189,7 +189,7 @@ private object MultiCameraSnippets {
 
     @RequiresPermission(Manifest.permission.CAMERA)
     fun zoomExample(
-        manager: CameraManager,
+        cameraManager: CameraManager,
         surface1: Surface,
         surface2: Surface,
         cameraExecutor: Executor
@@ -208,14 +208,14 @@ private object MultiCameraSnippets {
          */
         // [END_EXCLUDE]
 
-        val dualCamera = findShortLongCameraPair(manager) ?: return
+        val dualCamera = findShortLongCameraPair(cameraManager) ?: return
         val outputTargets = DualCameraOutputs(
             null, mutableListOf(surface1), mutableListOf(surface2)
         )
 
         // Here you open the logical camera, configure the outputs and create a session.
         createDualCameraSession(
-            manager, dualCamera, targets = outputTargets, executor = cameraExecutor
+            cameraManager, dualCamera, targets = outputTargets, executor = cameraExecutor
         ) { session ->
 
             // Create a single request which has one target for each physical camera.
