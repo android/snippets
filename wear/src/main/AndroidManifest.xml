@@ -83,6 +83,12 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
         <!-- [END android_wear_standalone] -->
+
+        <!-- [START android_wear_status_bar_manifest] -->
+        <meta-data
+            android:name="com.google.wear.ENABLE_GLOBAL_STATUS_BAR"
+            android:value="true" />
+        <!-- [END android_wear_status_bar_manifest] -->
         <activity
             android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
             android:exported="true"
