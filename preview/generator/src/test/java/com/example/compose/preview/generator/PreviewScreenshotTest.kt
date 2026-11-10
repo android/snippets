@@ -285,12 +285,6 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
     "android_compose_components_pull_to_refresh_basic" to {
         onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
     },
-    "android_compose_components_pull_to_refresh_custom_style" to {
-        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
-    },
-    "android_compose_components_pull_to_refresh_custom_indicator" to {
-        onRoot().performTouchInput { swipeDown(startY = top + 10f, endY = bottom, durationMillis = 300) }
-    },
     // Hold the first item part way through a swipe towards the start, showing the remove action.
     "android_compose_components_swipeitemexample" to {
         onNodeWithText("Pay bills").performTouchInput {

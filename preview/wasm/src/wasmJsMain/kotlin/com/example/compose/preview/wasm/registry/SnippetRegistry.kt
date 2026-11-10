@@ -82,8 +82,6 @@ import com.example.compose.snippets.components.OutlinedCardExample
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.PlainTooltipExample
 import com.example.compose.snippets.components.PullToRefreshBasicPreview
-import com.example.compose.snippets.components.PullToRefreshCustomIndicatorPreview
-import com.example.compose.snippets.components.PullToRefreshCustomStylePreview
 import com.example.compose.snippets.components.RadioButtonSingleSelection
 import com.example.compose.snippets.components.RangeSliderExample
 import com.example.compose.snippets.components.RichTooltipExample
@@ -264,8 +262,6 @@ object SnippetRegistry {
             }
         },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
-        "android_compose_components_pull_to_refresh_custom_style" to { CenteredBox { PullToRefreshCustomStylePreview() } },
-        "android_compose_components_pull_to_refresh_custom_indicator" to { CenteredBox { PullToRefreshCustomIndicatorPreview() } },
         // Keeps the icon near the top, so the static preview's tooltip fits below it.
         "android_compose_components_advancedrichtooltipexample" to {
             Box(
