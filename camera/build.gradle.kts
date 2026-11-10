@@ -65,6 +65,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime)
 
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.google.android.material)
+    implementation(libs.kotlinx.coroutines.android)
+
     // CameraX dependencies
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.compose)
