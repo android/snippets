@@ -48,6 +48,7 @@
         android:knownCerts="@array/trusted_partner_certs" />
     <!--[END android_security_custom_permission_known_signer_manifest]-->
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
         android:name="android.hardware.camera"
@@ -87,6 +88,9 @@
             android:exported="false" />
         <activity
             android:name=".permissions.MediaPickerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".network.WebViewTlsActivity"
             android:exported="false" />
 
         <!--[START android_security_custom_permission_service_manifest]-->

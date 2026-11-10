@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2026 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!-- [START android_security_network_config_pinning] -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- 1. Enforce pinning for production API endpoints -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api.example.com</domain>
+        <pin-set expiration="2027-01-01">
+            <!-- Example value: the hash of the key the server uses today -->
+            <pin digest="SHA-256">7HIpBPzxtMwIMA8YLjgscx95+/cQP67Bc1zS0V4ZFGs=</pin>
+            <!-- Example value: replace with the hash of your own spare key -->
+            <pin digest="SHA-256">rFW78f5fQ107V7u/mkwg62nziStY6l37AOkPh9L1234=</pin>
+        </pin-set>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
+<!-- [END android_security_network_config_pinning] -->
