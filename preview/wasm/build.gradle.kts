@@ -206,15 +206,24 @@ tasks.matching {
     setDependsOn(emptyList<Any>())
 }
 
+// These generator tasks write screenshots and recordings into `src/wasmJsMain/resources/screenshots`.
+// Run the tasks that read that directory after them, so `./gradlew build` doesn't fail Gradle's
+// implicit-dependency validation when it schedules them in parallel.
+val screenshotWriters = listOf(
+    ":preview:generator:testDebugUnitTest",
+    ":preview:generator:recordRoborazziDebug",
+    ":preview:generator:encodePreviewVideos",
+)
+
 tasks.named("wasmJsProcessResources") {
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 }
 
 val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
     dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -263,7 +272,7 @@ val packageStaticSite by tasks.registering(Copy::class) {
         "wasmJsProcessResources",
         "unpackSkikoRuntimeForWasmJs",
     )
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 
     into(layout.buildDirectory.dir("dist/site"))
 
