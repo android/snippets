@@ -262,7 +262,6 @@ private fun TrackCard(track: Track) {
 @Composable
 private fun ComparisonPanel(
     title: String,
-    caption: String,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -273,8 +272,7 @@ private fun ComparisonPanel(
             .padding(20.dp),
     ) {
         Text(title, color = ink, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text(caption, color = teal, fontSize = 15.sp, modifier = Modifier.height(44.dp))
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(20.dp))
         Box(Modifier.height(96.dp)) {
             content()
         }
@@ -293,32 +291,23 @@ fun CapturedAnimatedVisibilityComparison() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            "Closing the details sets track = null",
-            color = ink,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Spacer(Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             ComparisonPanel(
                 title = "AnimatedVisibility",
-                caption = "The track is already null, so the exit has nothing to show",
                 modifier = Modifier.weight(1f),
             ) {
                 TrackDetailsWithAnimatedVisibility(track)
             }
             ComparisonPanel(
                 title = "CapturedAnimatedVisibility",
-                caption = "The exit animates a snapshot of the last frame",
                 modifier = Modifier.weight(1f),
             ) {
                 TrackDetails(track)
             }
         }
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(28.dp))
         Button(
             onClick = { track = if (track == null) sampleTrack else null },
             colors = ButtonDefaults.buttonColors(containerColor = teal, contentColor = Color.White),
