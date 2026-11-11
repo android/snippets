@@ -84,7 +84,9 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
-    val composeBom = platform(libs.androidx.compose.bom)
+    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
+    // material3 version from the catalog), so the DAC previews match the latest release.
+    val composeBom = platform(libs.androidx.compose.bom.alpha)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -113,6 +115,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.googlefonts)
 
     implementation(libs.androidx.emoji2.views)
+    implementation(libs.androidx.ink.brush)
+    implementation(libs.androidx.ink.brush.compose)
+    implementation(libs.androidx.ink.storage)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.fragment.compose)
@@ -132,11 +137,13 @@ dependencies {
 
     implementation(libs.accompanist.permissions)
 
-    implementation(libs.coil.kt.compose)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.pip)
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewModelCompose)

@@ -45,6 +45,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{INDEX.LIST,DEPENDENCIES}"
+        }
+    }
 
 }
 
@@ -71,6 +76,8 @@ dependencies {
     implementation(libs.firebase.ai)
     implementation(libs.firebase.ondevice)
     implementation(libs.guava.android)
+    implementation(libs.google.adk.core.android)
+    ksp(libs.google.adk.processor)
     implementation(libs.mlkit.genai.prompt)
     ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)

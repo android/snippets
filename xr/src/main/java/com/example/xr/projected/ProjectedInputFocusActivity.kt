@@ -19,7 +19,6 @@ package com.example.xr.projected
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.projected.ProjectedActivityCompat
@@ -29,8 +28,6 @@ import kotlinx.coroutines.launch
 // [START androidxr_projected_input_receiver_activity]
 @OptIn(ExperimentalProjectedApi::class)
 class ProjectedInputFocusActivity : ComponentActivity() {
-
-    private lateinit var textToSpeech: TextToSpeech
 
     // [START androidxr_projected_input_receiver_pending_intent]
     // Build an explicit Intent pointing to this projected activity and wrap it in a
@@ -47,19 +44,10 @@ class ProjectedInputFocusActivity : ComponentActivity() {
     }
     // [END androidxr_projected_input_receiver_pending_intent]
 
+    // [START androidxr_projected_input_receiver_register]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Start the readout once the TTS engine is ready.
-        textToSpeech = TextToSpeech(this) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                startTurnByTurnReadout()
-            }
-        }
-    }
-
-    // [START androidxr_projected_input_receiver_register]
-    private fun startTurnByTurnReadout() {
         lifecycleScope.launch {
             // Create or obtain the ProjectedActivityCompat instance
             val projectedActivity = ProjectedActivityCompat.create(this@ProjectedInputFocusActivity)
@@ -67,11 +55,8 @@ class ProjectedInputFocusActivity : ComponentActivity() {
             // Register the PendingIntent as the designated input receiver
             projectedActivity.setActivityAsInputReceiver(pendingIntent)
         }
-
-        // Trigger perceptible audio
-        textToSpeech.speak("In 500 feet, turn left", TextToSpeech.QUEUE_FLUSH, null, "UTTERANCE_ID")
+        // [END androidxr_projected_input_receiver_register]
     }
-    // [END androidxr_projected_input_receiver_register]
 
     // [START androidxr_projected_input_receiver_clear]
     override fun onDestroy() {
@@ -80,9 +65,6 @@ class ProjectedInputFocusActivity : ComponentActivity() {
             val projectedActivity = ProjectedActivityCompat.create(this@ProjectedInputFocusActivity)
             projectedActivity.clearActivityAsInputReceiver()
         }
-        // [START_EXCLUDE]
-        textToSpeech.shutdown()
-        // [END_EXCLUDE]
     }
     // [END androidxr_projected_input_receiver_clear]
 }

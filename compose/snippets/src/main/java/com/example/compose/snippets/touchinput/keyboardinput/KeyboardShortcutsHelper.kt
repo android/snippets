@@ -31,11 +31,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 
+@RequiresApi(Build.VERSION_CODES.N)
+// [START android_compose_keyboard_shortcuts_helper]
 class MainActivity : ComponentActivity() {
     // Activity codes such as overridden onStart method.
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    // [START android_compose_keyboard_shortcuts_helper]
     override fun onProvideKeyboardShortcuts(
         data: MutableList<KeyboardShortcutGroup>?,
         menu: Menu?,
@@ -53,8 +53,8 @@ class MainActivity : ComponentActivity() {
             )
         data?.add(shortcutGroup)
     }
-    // [END android_compose_keyboard_shortcuts_helper]
 }
+// [END android_compose_keyboard_shortcuts_helper]
 
 class AnotherActivity : ComponentActivity() {
 

@@ -83,6 +83,12 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
         <!-- [END android_wear_standalone] -->
+
+        <!-- [START android_wear_status_bar_manifest] -->
+        <meta-data
+            android:name="com.google.wear.ENABLE_GLOBAL_STATUS_BAR"
+            android:value="true" />
+        <!-- [END android_wear_status_bar_manifest] -->
         <activity
             android:name=".snippets.hardwarebuttons.HardwareButtonsActivity"
             android:exported="true"
@@ -447,6 +453,20 @@
                 android:resource="@drawable/tile_preview" />
         </service>
         <!-- [END android_wear_widget_manifest] -->
+
+        <!-- [START android_wear_widget_skill_manifest] -->
+        <service
+            android:name=".snippets.widget.skill.MyWidgetService"
+            android:exported="true"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.glance.wear.action.BIND_WIDGET_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.glance.wear.widget.provider"
+                android:resource="@xml/my_widget_info" />
+        </service>
+        <!-- [END android_wear_widget_skill_manifest] -->
 
     </application>
 
