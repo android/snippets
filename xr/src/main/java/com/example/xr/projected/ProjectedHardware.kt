@@ -19,6 +19,7 @@ package com.example.xr.projected
 import android.content.Context
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
 import android.os.Build
 import android.util.Log
@@ -101,98 +102,164 @@ private fun getPhoneContext(activity: ComponentActivity): Context? {
 // [END androidxr_projected_context_get_host]
 
 /**
- * Demonstrates how to set up the audio and display glasses' camera for an image capture use case,
- * utilizing dynamically queried and verified resolutions.
+ * Demonstrates how to set up the audio and display glasses' camera.
  */
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
-// [START androidxr_projected_camera_capture]
+// [START androidxr_projected_camera_setup]
 private fun setUpGlassesCamera(activity: ComponentActivity) {
     activity.lifecycleScope.launch {
-        // Before creating a projected context, check to see if the projected device is connected.
-        ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
-            .collectLatest { isConnected ->
-                if (isConnected) {
-                    // 1. Get the CameraProvider using the projected context.
-                    // When using the projected context, DEFAULT_BACK_CAMERA maps to the audio and display glasses' camera.
-                    val projectedContext = try {
-                        ProjectedContext.createProjectedDeviceContext(activity)
-                    } catch (e: IllegalStateException) {
-                        Log.e(TAG, "Projected context could not be created", e)
-                        return@collectLatest
-                    }
+        var registeredCameraManager: CameraManager? = null
+        var availabilityCallback: CameraManager.AvailabilityCallback? = null
+        var activeCameraProvider: ProcessCameraProvider? = null
 
-                    val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
-
-                    cameraProviderFuture.addListener({
-                        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-                        // 2. Check for the presence of a camera.
-                        if (!cameraProvider.hasCamera(cameraSelector)) {
-                            Log.w(TAG, "The selected camera is not available.")
-                            return@addListener
+        try {
+            // Before creating a projected context, verify that the projected device is connected.
+            ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
+                .collectLatest { isConnected ->
+                    if (isConnected) {
+                        val projectedContext = try {
+                            ProjectedContext.createProjectedDeviceContext(activity)
+                        } catch (e: IllegalStateException) {
+                            Log.e(TAG, "Projected context could not be created", e)
+                            return@collectLatest
                         }
 
-                        // 3. Query supported streaming resolutions dynamically using Camera2 Interop.
-                        val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
-                        val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
-                            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-                        )
-                        val supportedResolutions = map?.getOutputSizes(ImageFormat.JPEG)?.toList() ?: emptyList()
-                        Log.i(TAG, "Supported resolutions for JPEG: ${supportedResolutions.joinToString()}")
+                        val cameraManager = projectedContext.getSystemService(CameraManager::class.java)
+                        if (cameraManager == null) {
+                            Log.e(TAG, "CameraManager not available on projected context")
+                            return@collectLatest
+                        }
+                        registeredCameraManager = cameraManager
 
-                        // 4. Dynamically select the best target resolution from the queried list.
-                        val preferredResolution = Size(1920, 1080)
-                        val dynamicTargetResolution = when {
-                            // Case A: The preferred resolution is explicitly supported by the glasses.
-                            supportedResolutions.contains(preferredResolution) -> preferredResolution
+                        val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
+                        cameraProviderFuture.addListener({
+                            val cameraProvider = cameraProviderFuture.get()
+                            activeCameraProvider = cameraProvider
 
-                            // Case B: Find the highest supported 16:9 resolution as a fallback.
-                            else -> {
-                                val targetAspectRatio = 16.0 / 9.0
-                                val tolerance = 0.01
-                                supportedResolutions
-                                    .filter { abs((it.width.toDouble() / it.height) - targetAspectRatio) < tolerance }
-                                    .maxByOrNull { it.width * it.height }
-                                    // Case C: Absolute fallback if no 16:9 resolutions are found.
-                                    ?: supportedResolutions.firstOrNull()
-                                    ?: preferredResolution
+                            // Set up the listener to react to camera availability changes asynchronously.
+                            val callback = object : CameraManager.AvailabilityCallback() {
+                                override fun onCameraAvailable(cameraId: String) {
+                                    super.onCameraAvailable(cameraId)
+                                    Log.i(TAG, "Glasses camera available (ID: $cameraId). Binding use case...")
+
+                                    // Delegate camera selection, resolution querying, and use-case binding.
+                                    bindGlassesImageCapture(cameraProvider, cameraId, activity)
+                                }
+
+                                override fun onCameraUnavailable(cameraId: String) {
+                                    super.onCameraUnavailable(cameraId)
+                                    Log.i(TAG, "Glasses camera unavailable (ID: $cameraId). Releasing resources...")
+
+                                    // Gracefully release the pipeline
+                                    cameraProvider.unbindAll()
+                                }
                             }
-                        }
-                        Log.i(TAG, "Selected target resolution: $dynamicTargetResolution")
 
-                        val resolutionStrategy = ResolutionStrategy(
-                            dynamicTargetResolution,
-                            ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
-                        )
-                        val resolutionSelector = ResolutionSelector.Builder()
-                            .setResolutionStrategy(resolutionStrategy)
-                            .build()
-
-                        // 5. Initialize the ImageCapture use case with options.
-                        val imageCapture = ImageCapture.Builder()
-                            // Optional: Configure resolution, format, etc.
-                            .setResolutionSelector(resolutionSelector)
-                            .build()
-
-                        try {
-                            // Unbind use cases before rebinding.
-                            cameraProvider.unbindAll()
-
-                            // Bind use cases to camera using the Activity as the LifecycleOwner.
-                            cameraProvider.bindToLifecycle(
-                                activity,
-                                cameraSelector,
-                                imageCapture
+                            availabilityCallback = callback
+                            cameraManager.registerAvailabilityCallback(
+                                ContextCompat.getMainExecutor(activity),
+                                callback
                             )
-                        } catch (exc: Exception) {
-                            Log.e(TAG, "Use case binding failed", exc)
-                        }
-                    }, ContextCompat.getMainExecutor(activity))
+                        }, ContextCompat.getMainExecutor(activity))
+                    } else {
+                        // Clean up when the projected device disconnects entirely.
+                        Log.i(TAG, "Projected device disconnected. Tearing down resources...")
+                        availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
+                        activeCameraProvider?.unbindAll()
+                        availabilityCallback = null
+                        registeredCameraManager = null
+                        activeCameraProvider = null
+                    }
                 }
+        } finally {
+            // Guarantee cleanup on scope cancellation or activity destruction.
+            availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
+            activeCameraProvider?.unbindAll()
+        }
+    }
+}
+// [END androidxr_projected_camera_setup]
+
+// [START androidxr_projected_camera_capture]
+/**
+ * Handles camera verification, supported resolution querying, and dynamic binding of
+ * the [ImageCapture] use case.
+ */
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
+@androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
+private fun bindGlassesImageCapture(
+    cameraProvider: ProcessCameraProvider,
+    cameraId: String,
+    activity: ComponentActivity
+) {
+    // Build a CameraSelector starting from DEFAULT_BACK_CAMERA
+    // and narrowing it down by the dynamic cameraId to handle recreation changes.
+    // When the projected camera is recreated, its cameraId may change dynamically.
+    val cameraSelector = CameraSelector.Builder()
+        .addCameraFilter { cameraInfos ->
+            // Filter the DEFAULT_BACK_CAMERA candidates by our target dynamic ID.
+            CameraSelector.DEFAULT_BACK_CAMERA.filter(cameraInfos).filter { info ->
+                Camera2CameraInfo.from(info).cameraId == cameraId
             }
+        }
+        .build()
+
+    // A pre-binding check uses cameraProvider.hasCamera() to verify that the
+    // selected camera is available on the device before proceeding.
+    if (!cameraProvider.hasCamera(cameraSelector)) {
+        Log.w(TAG, "The selected glasses camera (ID $cameraId) is not available on the device.")
+        return
+    }
+
+    // Query supported streaming resolutions dynamically using Camera2 Interop.
+    val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
+    val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
+        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+    )
+    val supportedResolutions = map?.getOutputSizes(ImageFormat.JPEG)?.toList() ?: emptyList()
+    Log.i(TAG, "Supported JPEG resolutions: ${supportedResolutions.joinToString()}")
+
+    // Dynamically select the best 16:9 target resolution.
+    val preferredResolution = Size(1920, 1080)
+    val dynamicTargetResolution = when {
+        supportedResolutions.contains(preferredResolution) -> preferredResolution
+        else -> {
+            val targetAspectRatio = 16.0 / 9.0
+            val tolerance = 0.01
+            supportedResolutions
+                .filter { abs((it.width.toDouble() / it.height) - targetAspectRatio) < tolerance }
+                .maxByOrNull { it.width * it.height }
+                ?: supportedResolutions.firstOrNull()
+                ?: preferredResolution
+        }
+    }
+    Log.i(TAG, "Selected target resolution: $dynamicTargetResolution")
+
+    val resolutionStrategy = ResolutionStrategy(
+        dynamicTargetResolution,
+        ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
+    )
+    val resolutionSelector = ResolutionSelector.Builder()
+        .setResolutionStrategy(resolutionStrategy)
+        .build()
+
+    // Initialize the ImageCapture use case.
+    val imageCapture = ImageCapture.Builder()
+        .setResolutionSelector(resolutionSelector)
+        .build()
+
+    try {
+        cameraProvider.unbindAll()
+        cameraProvider.bindToLifecycle(
+            activity,
+            cameraSelector,
+            imageCapture
+        )
+        Log.i(TAG, "ImageCapture successfully bound for camera ID $cameraId")
+    } catch (exc: Exception) {
+        Log.e(TAG, "Use case binding failed for camera ID $cameraId", exc)
     }
 }
 // [END androidxr_projected_camera_capture]
