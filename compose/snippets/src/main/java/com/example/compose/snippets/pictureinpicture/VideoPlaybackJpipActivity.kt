@@ -25,13 +25,17 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.core.content.ContextCompat
 import androidx.core.pip.PictureInPictureDelegate
 import androidx.core.pip.VideoPlaybackPictureInPicture
+import java.util.concurrent.Executors
 
 // [START android_jpip_video_playback_impl]
 class VideoPlaybackJpipActivity : ComponentActivity(), PictureInPictureDelegate.OnPictureInPictureEventListener {
     private lateinit var pictureInPictureImpl: VideoPlaybackPictureInPicture
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pictureInPictureImpl = VideoPlaybackPictureInPicture(this)
+        pictureInPictureImpl = VideoPlaybackPictureInPicture(
+            this,
+            Executors.newSingleThreadExecutor()
+        )
         pictureInPictureImpl.addOnPictureInPictureEventListener(
             ContextCompat.getMainExecutor(this),
             this
