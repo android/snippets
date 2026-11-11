@@ -29,6 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedToggleButton
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedToggleButton
@@ -37,7 +38,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.material3.ToggleButtonShapes
-import androidx.compose.material3.TonalToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -169,7 +169,7 @@ fun ElevatedToggleButtonSample() {
 @Composable
 fun TonalToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
-    TonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+    FilledTonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
 }
 // [END android_compose_expressive_components_tonaltogglebutton]
 
@@ -395,9 +395,9 @@ fun SquareToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
     val shapes =
         ToggleButtonShapes(
-            shape = ToggleButtonDefaults.squareShape,
+            shape = ToggleButtonDefaults.checkedShape,
             pressedShape = ToggleButtonDefaults.pressedShape,
-            checkedShape = ToggleButtonDefaults.roundShape,
+            checkedShape = ToggleButtonDefaults.shape,
         )
     ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
         Text("Button")

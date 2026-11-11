@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -92,12 +93,18 @@ fun LinearDeterminateIndicator() {
     var currentProgress by remember { mutableFloatStateOf(0f) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope() // Create a coroutine scope
+    // Animate between progress updates so the indicator fills smoothly.
+    val animatedProgress by animateFloatAsState(
+        targetValue = currentProgress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    if (loading) {
+        LinearProgressIndicator(
+            progress = { animatedProgress },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    } else {
         Button(onClick = {
             loading = true
             scope.launch {
@@ -106,15 +113,8 @@ fun LinearDeterminateIndicator() {
                 }
                 loading = false // Reset loading when the coroutine finishes
             }
-        }, enabled = !loading) {
+        }) {
             Text("Start loading")
-        }
-
-        if (loading) {
-            LinearProgressIndicator(
-                progress = { currentProgress },
-                modifier = Modifier.fillMaxWidth(),
-            )
         }
     }
 }
@@ -155,7 +155,7 @@ fun CircularDeterminateIndicator() {
         if (loading) {
             CircularProgressIndicator(
                 progress = { currentProgress },
-                modifier = Modifier.width(64.dp),
+                modifier = Modifier.size(64.dp),
             )
         }
     }
@@ -185,17 +185,17 @@ fun IndeterminateLinearIndicator() {
 fun IndeterminateCircularIndicator() {
     var loading by remember { mutableStateOf(false) }
 
-    Button(onClick = { loading = true }, enabled = !loading) {
-        Text("Start loading")
+    if (loading) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(64.dp),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+        )
+    } else {
+        Button(onClick = { loading = true }) {
+            Text("Start loading")
+        }
     }
-
-    if (!loading) return
-
-    CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
 }
 // [END android_compose_components_indeterminateindicator]
 

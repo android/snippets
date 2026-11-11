@@ -409,10 +409,9 @@ fun ScrollContent(innerPadding: PaddingValues) {
         modifier = Modifier
             .fillMaxSize(),
         contentPadding = innerPadding,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(range.count()) { index ->
-            Text(text = "- List item number ${index + 1}")
+            ListItem(headlineContent = { Text(text = "List item ${index + 1}") })
         }
     }
 }

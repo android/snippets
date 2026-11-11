@@ -22,21 +22,30 @@
 package com.example.compose.preview.wasm.registry
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.AdvancedRichTooltipExample
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
 import com.example.compose.snippets.components.AssistChipExample
 import com.example.compose.snippets.components.BadgeExample
 import com.example.compose.snippets.components.BadgeInteractiveExample
+import com.example.compose.snippets.components.BottomAppBarExample
 import com.example.compose.snippets.components.ButtonWithIconSample
 import com.example.compose.snippets.components.CarouselExample
 import com.example.compose.snippets.components.CarouselExample_MultiBrowse
@@ -113,7 +122,9 @@ import com.example.compose.snippets.components.SmallTopAppBarExample
 import com.example.compose.snippets.components.SquareToggleButtonSample
 import com.example.compose.snippets.components.SuggestionChipExample
 import com.example.compose.snippets.components.SwipeItemExample
+import com.example.compose.snippets.components.SwipeItemWithAnimationExample
 import com.example.compose.snippets.components.SwitchMinimalExample
+import com.example.compose.snippets.components.SwitchWithCustomColors
 import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleButtonSample
@@ -142,6 +153,30 @@ private fun CenteredBox(content: @Composable () -> Unit) {
 }
 
 /**
+ * Centers [content] vertically without horizontal padding, for components such as carousels that
+ * span the screen width and set their own `contentPadding`.
+ */
+@Composable
+private fun EdgeToEdgeBox(content: @Composable () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        content()
+    }
+}
+
+/**
+ * Shows [dialog] open, over a button that reopens it. The snippets' dismiss and confirm callbacks
+ * then close the dialog like they do in an app, and the button gives the scrim real content to dim.
+ */
+@Composable
+private fun ReopenableDialog(buttonText: String, dialog: @Composable (onClose: () -> Unit) -> Unit) {
+    var open by remember { mutableStateOf(true) }
+    CenteredBox {
+        Button(onClick = { open = true }) { Text(buttonText) }
+    }
+    if (open) dialog { open = false }
+}
+
+/**
  * The area, in dp, a snippet preview is laid out in.
  *
  * The Roborazzi screenshot is captured on a device of exactly this size, and the live WASM preview
@@ -160,14 +195,27 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
-    // The image dialog card is 375dp tall.
-    "android_compose_components_dialogwithimage" to PreviewFrame(768, 432),
+    // The image dialog card is about 330dp tall.
+    "android_compose_components_dialogwithimage" to PreviewFrame(640, 360),
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
     // Wide navigation rails have a header and 3 items that need more vertical room than 216dp.
     "android_compose_expressive_components_widenavigationrailexample" to PreviewFrame(576, 324),
     "android_compose_expressive_components_modalwidenavigationrailexample" to PreviewFrame(576, 324),
+    // A full screen with top and bottom app bars, a FAB and three paragraphs of body text.
+    "android_compose_components_scaffold" to PreviewFrame(360, 640),
+    // The static preview opens the sheet, which partially expands to half the screen height, so a
+    // portrait frame shows it as it appears on a phone.
+    "android_compose_components_partialbottomsheet" to PreviewFrame(360, 640),
+    // These menus are captured open (see PreviewTapTargets in PreviewScreenshotTest), and the
+    // detailed menu is about 275dp tall.
+    "android_compose_components_longbasicdropdownmenu" to PreviewFrame(576, 324),
+    "android_compose_components_dropdownmenuwithdetails" to PreviewFrame(576, 324),
+    // Captured with the drawer open (see PreviewTapTargets); the 360dp sheet needs a wider screen.
+    "android_compose_components_detaileddrawerexample" to PreviewFrame(576, 324),
+    // The advanced rich tooltip has a title, two lines of text and an action, below its icon.
+    "android_compose_components_advancedrichtooltipexample" to PreviewFrame(576, 324),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -213,19 +261,41 @@ object SnippetRegistry {
         "android_compose_components_momentaryiconbuttons" to { CenteredBox { MomentaryIconButtonExample() } },
         "android_compose_expressive_components_animatediconbuttons" to { CenteredBox { IconButtonWithAnimatedShapeSample() } },
         "android_compose_expressive_components_animatedtoggleiconbuttons" to { CenteredBox { IconToggleButtonWithAnimatedShapeSample() } },
-        "android_compose_components_partialbottomsheet" to { CenteredBox { PartialBottomSheet() } },
+        // Keeps the button near the top, above the partially expanded sheet.
+        "android_compose_components_partialbottomsheet" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 48.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                PartialBottomSheet()
+            }
+        },
         "android_compose_components_filledcard" to { CenteredBox { FilledCardExample() } },
         "android_compose_components_elevatedcard" to { CenteredBox { ElevatedCardExample() } },
         "android_compose_components_outlinedcard" to { CenteredBox { OutlinedCardExample() } },
-        "android_compose_carousel_multi_browse_basic" to { CenteredBox { CarouselExample_MultiBrowse() } },
-        "android_compose_carousel_uncontained_basic" to { CenteredBox { CarouselExample() } },
-        "android_compose_components_alertdialog" to { CenteredBox { AlertDialogExample(onDismissRequest = {}, onConfirmation = {}, dialogTitle = "Alert", dialogText = "Example dialog message", icon = AppIcons.Info) } },
-        "android_compose_components_minimaldialog" to { CenteredBox { MinimalDialog(onDismissRequest = {}) } },
+        "android_compose_carousel_multi_browse_basic" to { EdgeToEdgeBox { CarouselExample_MultiBrowse() } },
+        "android_compose_carousel_uncontained_basic" to { EdgeToEdgeBox { CarouselExample() } },
+        // The same arguments as DialogExamples (android_compose_components_dialogparent), which DAC
+        // shows next to these previews.
+        "android_compose_components_alertdialog" to {
+            ReopenableDialog("Alert dialog component with buttons") { onClose ->
+                AlertDialogExample(
+                    onDismissRequest = onClose,
+                    onConfirmation = onClose,
+                    dialogTitle = "Alert dialog example",
+                    dialogText = "This is an example of an alert dialog with buttons.",
+                    icon = AppIcons.Info,
+                )
+            }
+        },
+        "android_compose_components_minimaldialog" to {
+            ReopenableDialog("Minimal dialog component") { onClose -> MinimalDialog(onDismissRequest = onClose) }
+        },
         "android_compose_components_dialogwithimage" to {
-            CenteredBox {
+            ReopenableDialog("Dialog component with an image") { onClose ->
                 DialogWithImage(
-                    onDismissRequest = {},
-                    onConfirmation = {},
+                    onDismissRequest = onClose,
+                    onConfirmation = onClose,
                     painter = painterResource(id = R.drawable.feathertop),
                     imageDescription = stringResource(id = R.string.feathertop_content_description),
                 )
@@ -247,11 +317,31 @@ object SnippetRegistry {
         "android_compose_expressive_components_determinatecircularindicator" to { CenteredBox { CircularProgressIndicatorSample() } },
         "android_compose_expressive_components_indeterminatecircularindicator" to { CenteredBox { IndeterminateCircularProgressIndicatorSample() } },
         "android_compose_components_plaintooltipexample" to { CenteredBox { PlainTooltipExample() } },
-        "android_compose_components_richtooltipexample" to { CenteredBox { RichTooltipExample() } },
+        // Keeps the icon near the bottom, so the static preview's tooltip fits above it.
+        "android_compose_components_richtooltipexample" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(bottom = 16.dp),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                RichTooltipExample()
+            }
+        },
         "android_compose_components_pull_to_refresh_basic" to { CenteredBox { PullToRefreshBasicPreview() } },
-        "android_compose_components_customizable_searchbar" to { CenteredBox { CustomizableSearchBarExample() } },
+        // Keeps the icon near the top, so the static preview's tooltip fits below it.
+        "android_compose_components_advancedrichtooltipexample" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                AdvancedRichTooltipExample()
+            }
+        },
+        "android_compose_components_switchwithcustomcolors" to { CenteredBox { SwitchWithCustomColors() } },
+        "android_compose_components_bottomappbar" to { BottomAppBarExample() },
+        "android_compose_components_customizable_searchbar" to { CustomizableSearchBarExample() },
         "android_compose_components_simple_searchbar" to { SimpleSearchBarExample() },
         "android_compose_components_swipeitemexample" to { SwipeItemExample() },
+        "android_compose_components_swipecarditemexample" to { SwipeItemWithAnimationExample() },
         "android_compose_components_centeralignedtopappbar" to { CenterAlignedTopAppBarExample() },
         "android_compose_components_smalltopappbar" to { SmallTopAppBarExample() },
         "android_compose_components_mediumtopappbar" to { MediumTopAppBarExample() },
@@ -267,7 +357,7 @@ object SnippetRegistry {
         "android_compose_expressive_components_widenavigationrailexample" to { WideNavigationRailResponsiveSample() },
         "android_compose_expressive_components_modalwidenavigationrailexample" to { ModalWideNavigationRailSample() },
         "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample" to { DismissibleModalWideNavigationRailSample() },
-        "android_compose_components_detaileddrawerexample" to { CenteredBox { NavigationDrawerExamples() } },
+        "android_compose_components_detaileddrawerexample" to { NavigationDrawerExamples() },
         "android_compose_components_checkbox_minimal" to { CenteredBox { CheckboxMinimalExample() } },
         "android_compose_components_checkbox_parent" to { CenteredBox { CheckboxParentExample() } },
         "android_compose_components_assistchip" to { CenteredBox { AssistChipExample() } },

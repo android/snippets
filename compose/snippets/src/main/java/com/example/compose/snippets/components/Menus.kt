@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonGroup
 import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.CheckableDropdownMenuItem
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuGroup
 import androidx.compose.material3.DropdownMenuItem
@@ -355,11 +356,11 @@ fun GroupedMenuSample() {
                     shapes = MenuDefaults.groupShape(groupIndex, groupCount),
                     interactionSource = groupInteractionSource,
                 ) {
-                    MenuDefaults.Label { Text(label) }
+                    MenuDefaults.DropdownMenuGroupLabel { Text(label) }
                     HorizontalDivider(modifier = Modifier.padding(MenuDefaults.HorizontalDividerPadding))
                     val groupItemCount = groupItemLabels[groupIndex].size
                     groupItemLabels[groupIndex].fastForEachIndexed { itemIndex, itemLabel ->
-                        DropdownMenuItem(
+                        CheckableDropdownMenuItem(
                             text = { Text(itemLabel) },
                             supportingText =
                                 groupItemSupportingText[groupIndex][itemIndex]?.let { supportingText ->
@@ -383,7 +384,7 @@ fun GroupedMenuSample() {
                                     contentDescription = null,
                                 )
                             },
-                            trailingIcon =
+                            trailingContent =
                                 if (checked[groupIndex][itemIndex]) {
                                     groupItemCheckedTrailingIcons[groupIndex][itemIndex]?.let { iconData ->
                                         {
