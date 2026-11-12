@@ -18,7 +18,9 @@ package com.example.wear.snippets.m3.statusbar
 
 import android.view.View
 import android.view.Window
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,9 +34,9 @@ import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ScreenScaffold
-import androidx.wear.compose.material3.StatusBarSuppression
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
+import androidx.wear.compose.material3.suppressStatusBar
 import androidx.wear.compose.material3.timeTextCurvedText
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -86,9 +88,10 @@ fun StaticScreenStatusBar() {
 fun ScreenLevelImmersiveStatusBar() {
     // [START android_wear_status_bar_screen_immersive]
     AppScaffold {
-        ScreenScaffold {
-            StatusBarSuppression()
-            // Full-screen immersive content
+        ScreenScaffold(modifier = Modifier.suppressStatusBar()) { contentPadding ->
+            Box(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
+                // Full-screen immersive content
+            }
         }
     }
     // [END android_wear_status_bar_screen_immersive]
@@ -96,19 +99,16 @@ fun ScreenLevelImmersiveStatusBar() {
 
 @Composable
 fun AppLevelImmersiveStatusBar() {
+    val navController = rememberSwipeDismissableNavController()
     // [START android_wear_status_bar_app_immersive]
-    // Use StatusBarSuppression at AppScaffold level and wrap your content
-    // to suppress status bar in the entire scaffold.
-    AppScaffold {
-        StatusBarSuppression {
-            SwipeDismissableNavHost(
-                // [START_EXCLUDE]
-                navController = rememberSwipeDismissableNavController(),
-                startDestination = "home",
-                // [END_EXCLUDE]
-            ) {
-                // Nested screens inherit suppression and 0.dp padding
-            }
+    // Apply Modifier.suppressStatusBar() to AppScaffold to suppress the status bar
+    // and collapse insets across all child screens.
+    AppScaffold(modifier = Modifier.suppressStatusBar()) {
+        SwipeDismissableNavHost(
+            navController = navController,
+            startDestination = "home",
+        ) {
+            // Nested screens inherit suppression and 0.dp padding
         }
     }
     // [END android_wear_status_bar_app_immersive]

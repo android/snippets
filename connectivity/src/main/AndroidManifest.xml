@@ -19,7 +19,7 @@
 
     <!-- registerNetworkCallback() and isActiveNetworkMetered need ACCESS_NETWORK_STATE. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- IdentifyTransferSpikeTask opens an HttpURLConnection. -->
+    <!-- IdentifyTransferSpikeTask and DownloadCache open HTTP connections. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application tools:ignore="MissingApplicationIcon" />
