@@ -44,6 +44,7 @@ import androidx.xr.projected.experimental.ExperimentalProjectedApi
 import kotlin.math.abs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 private const val TAG = "ProjectedHardware"
@@ -142,6 +143,13 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
 
                         val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
                         cameraProviderFuture.addListener({
+                            // GUARD: If the connection scope has been canceled while waiting for
+                            // the ProcessCameraProvider instance, abort immediately to prevent callback leaks.
+                            if (!this@launch.isActive) {
+                                Log.w(TAG, "ProcessCameraProvider resolved after scope cancellation. Aborting setup.")
+                                return@addListener
+                            }
+
                             val cameraProvider = cameraProviderFuture.get()
                             activeCameraProvider = cameraProvider
 
@@ -175,7 +183,7 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
                     }
                 }
         } finally {
-            // Resource cleanup on coroutine scope cancellation or activity destruction.
+            // Guarantee final resource cleanup on coroutine scope cancellation or activity destruction.
             Log.i(TAG, "Projected camera setup scope ended. Tearing down resources...")
             availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
             activeCameraProvider?.unbindAll()
