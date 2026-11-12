@@ -40,7 +40,7 @@ import androidx.compose.ui.util.packFloats
 import androidx.compose.ui.util.packInts
 import androidx.compose.ui.util.unpackFloat1
 import androidx.compose.ui.util.unpackFloat2
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.compose.snippets.R
 import com.example.compose.snippets.performance.skill.PointAllocationGood.Holder.Point
 
