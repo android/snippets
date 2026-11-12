@@ -118,6 +118,13 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
             // Before creating a projected context, verify that the projected device is connected.
             ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
                 .collectLatest { isConnected ->
+                    // Clean up any existing listeners/providers from a previous connection run
+                    // to prevent callback leaks if the flow re-collects rapidly.
+                    availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
+                    activeCameraProvider?.unbindAll()
+                    availabilityCallback = null
+                    registeredCameraManager = null
+
                     // Return early if the projected device is not connected.
                     if (!isConnected) {
                         return@collectLatest
@@ -168,8 +175,8 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
                     }
                 }
         } finally {
-            // Resource cleanup on disconnect, scope cancellation, or activity destruction.
-            Log.i(TAG, "Projected device disconnected or scope cancelled. Tearing down resources...")
+            // Resource cleanup on coroutine scope cancellation or activity destruction.
+            Log.i(TAG, "Projected camera setup scope ended. Tearing down resources...")
             availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
             activeCameraProvider?.unbindAll()
             availabilityCallback = null
