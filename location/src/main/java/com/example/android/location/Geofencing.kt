@@ -16,7 +16,7 @@
 
 package com.example.android.location
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -94,7 +94,7 @@ private class GeofencingActivity : ComponentActivity() {
     }
     // [END android_location_geofencing_request]
 
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun addGeofences() {
         // [START android_location_geofencing_add]
         geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)
