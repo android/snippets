@@ -32,11 +32,12 @@ class CarAwarePlayer(context: Context) :
     ForwardingSimpleBasePlayer(ExoPlayer.Builder(context).build()) {
     private var shouldPreventPlay = false
     private var pausedByUxRestrictions = false
+    private lateinit var car: Car
     private lateinit var carUxRestrictionsManager: CarUxRestrictionsManager
 
     init {
         if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)) {
-            val car = Car.createCar(context)
+            car = Car.createCar(context)
             carUxRestrictionsManager =
                 car.getCarManager(Car.CAR_UX_RESTRICTION_SERVICE) as CarUxRestrictionsManager
             shouldPreventPlay =
@@ -71,6 +72,9 @@ class CarAwarePlayer(context: Context) :
     override fun handleRelease(): ListenableFuture<*> {
         if (::carUxRestrictionsManager.isInitialized) {
             carUxRestrictionsManager.unregisterListener()
+        }
+        if (::car.isInitialized) {
+            car.disconnect()
         }
         return super.handleRelease()
     }
