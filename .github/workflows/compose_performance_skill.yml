@@ -65,6 +65,9 @@ jobs:
         BASE_REF: ${{ github.base_ref }}
       run: |
         set -euo pipefail
+        # Keep the publishing script from the workflow's ref; `gh pr checkout` below may switch to
+        # a PR branch that doesn't contain it yet.
+        cp .github/scripts/compose_performance_review.js "${RUNNER_TEMP}/compose_performance_review.js"
         if [[ -n "${PR_NUMBER}" ]]; then
           if [[ -z "${BASE_REF}" ]]; then
             BASE_REF=$(gh pr view "${PR_NUMBER}" --json baseRefName --jq '.baseRefName')
@@ -105,7 +108,7 @@ jobs:
       with:
         github-token: ${{ secrets.PAT || github.token }}
         script: |
-          const review = require('./.github/scripts/compose_performance_review.js');
+          const review = require(`${process.env.RUNNER_TEMP}/compose_performance_review.js`);
           await review({ github, context, core });
 
     - name: Install Jetpack Compose Performance Skill
@@ -209,7 +212,7 @@ jobs:
       with:
         github-token: ${{ secrets.PAT || github.token }}
         script: |
-          const review = require('./.github/scripts/compose_performance_review.js');
+          const review = require(`${process.env.RUNNER_TEMP}/compose_performance_review.js`);
           await review({ github, context, core });
 
     - name: Ignore Model Capacity Errors
