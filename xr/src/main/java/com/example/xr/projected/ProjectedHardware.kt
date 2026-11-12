@@ -108,7 +108,7 @@ private fun getPhoneContext(activity: ComponentActivity): Context? {
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 // [START androidxr_projected_camera_setup]
-private fun setUpGlassesCamera(activity: ComponentActivity) {
+fun setUpGlassesCamera(activity: ComponentActivity) {
     activity.lifecycleScope.launch {
         var registeredCameraManager: CameraManager? = null
         var availabilityCallback: CameraManager.AvailabilityCallback? = null
@@ -118,19 +118,19 @@ private fun setUpGlassesCamera(activity: ComponentActivity) {
             // Before creating a projected context, verify that the projected device is connected.
             ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
                 .collectLatest { isConnected ->
-                    if (isConnected) {
-                        val projectedContext = try {
-                            ProjectedContext.createProjectedDeviceContext(activity)
-                        } catch (e: IllegalStateException) {
-                            Log.e(TAG, "Projected context could not be created", e)
-                            return@collectLatest
-                        }
+                    // Return early if the projected device is not connected.
+                    if (!isConnected) {
+                        return@collectLatest
+                    }
 
-                        val cameraManager = projectedContext.getSystemService(CameraManager::class.java)
-                        if (cameraManager == null) {
-                            Log.e(TAG, "CameraManager not available on projected context")
-                            return@collectLatest
-                        }
+                    try {
+                        val projectedContext =
+                            ProjectedContext.createProjectedDeviceContext(activity)
+
+                        val cameraManager =
+                            projectedContext.getSystemService(CameraManager::class.java)
+                                ?: throw IllegalStateException("CameraManager not available on projected context")
+
                         registeredCameraManager = cameraManager
 
                         val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
@@ -163,20 +163,18 @@ private fun setUpGlassesCamera(activity: ComponentActivity) {
                                 callback
                             )
                         }, ContextCompat.getMainExecutor(activity))
-                    } else {
-                        // Clean up when the projected device disconnects entirely.
-                        Log.i(TAG, "Projected device disconnected. Tearing down resources...")
-                        availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
-                        activeCameraProvider?.unbindAll()
-                        availabilityCallback = null
-                        registeredCameraManager = null
-                        activeCameraProvider = null
+                    } catch (e: IllegalStateException) {
+                        Log.e(TAG, "Failed to initialize projected camera services", e)
                     }
                 }
         } finally {
-            // Guarantee cleanup on scope cancellation or activity destruction.
+            // Resource cleanup on disconnect, scope cancellation, or activity destruction.
+            Log.i(TAG, "Projected device disconnected or scope cancelled. Tearing down resources...")
             availabilityCallback?.let { registeredCameraManager?.unregisterAvailabilityCallback(it) }
             activeCameraProvider?.unbindAll()
+            availabilityCallback = null
+            registeredCameraManager = null
+            activeCameraProvider = null
         }
     }
 }
@@ -189,31 +187,31 @@ private fun setUpGlassesCamera(activity: ComponentActivity) {
  */
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
-private fun bindGlassesImageCapture(
+fun bindGlassesImageCapture(
     cameraProvider: ProcessCameraProvider,
     cameraId: String,
     activity: ComponentActivity
 ) {
-    // Build a CameraSelector starting from DEFAULT_BACK_CAMERA
-    // and narrowing it down by the dynamic cameraId to handle recreation changes.
-    // When the projected camera is recreated, its cameraId may change dynamically.
+    // Build a `CameraSelector` starting from `DEFAULT_BACK_CAMERA`
+    // and narrowing it down by the dynamic `cameraId` to handle recreation changes.
+    // When the projected camera is recreated, its `cameraId` may change dynamically.
     val cameraSelector = CameraSelector.Builder()
         .addCameraFilter { cameraInfos ->
-            // Filter the DEFAULT_BACK_CAMERA candidates by our target dynamic ID.
+            // Filter the `DEFAULT_BACK_CAMERA` candidates by our target dynamic ID.
             CameraSelector.DEFAULT_BACK_CAMERA.filter(cameraInfos).filter { info ->
                 Camera2CameraInfo.from(info).cameraId == cameraId
             }
         }
         .build()
 
-    // A pre-binding check uses cameraProvider.hasCamera() to verify that the
-    // selected camera is available on the device before proceeding.
+    // Pre-binding check: Verify the selected camera is registered and available on the device.
+    // If the glasses are unworn (DOFF), the projected camera device is detached.
     if (!cameraProvider.hasCamera(cameraSelector)) {
-        Log.w(TAG, "The selected glasses camera (ID $cameraId) is not available on the device.")
-        return
+        throw IllegalStateException("Glasses camera (ID: $cameraId) is not currently available.")
     }
 
     // Query supported streaming resolutions dynamically using Camera2 Interop.
+    // While CameraX is the primary API, Camera2Interop is used here to query hardware stream characteristics.
     val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
     val map = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
@@ -226,6 +224,9 @@ private fun bindGlassesImageCapture(
     val dynamicTargetResolution = when {
         supportedResolutions.contains(preferredResolution) -> preferredResolution
         else -> {
+            // If 1080p is unavailable, filter for 16:9 aspect ratio resolutions (within a 1% aspect ratio tolerance)
+            // and choose the resolution with the largest total pixel count (width * height).
+            // Fall back to the first supported resolution, or preferredResolution if the list is empty.
             val targetAspectRatio = 16.0 / 9.0
             val tolerance = 0.01
             supportedResolutions
@@ -251,15 +252,21 @@ private fun bindGlassesImageCapture(
         .build()
 
     try {
+        // Unbind any previously bound use cases before rebinding to the lifecycle owner.
         cameraProvider.unbindAll()
+
+        // `bindToLifecycle()` can throw IllegalArgumentException if use cases
+        // are incompatible, or IllegalStateException if the LifecycleOwner is destroyed.
         cameraProvider.bindToLifecycle(
             activity,
             cameraSelector,
             imageCapture
         )
         Log.i(TAG, "ImageCapture successfully bound for camera ID $cameraId")
-    } catch (exc: Exception) {
-        Log.e(TAG, "Use case binding failed for camera ID $cameraId", exc)
+    } catch (exc: IllegalArgumentException) {
+        Log.e(TAG, "Invalid camera configuration or use case combination for ID $cameraId", exc)
+    } catch (exc: IllegalStateException) {
+        Log.e(TAG, "Camera is already bound to another lifecycle or closed", exc)
     }
 }
 // [END androidxr_projected_camera_capture]
