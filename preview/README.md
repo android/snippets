@@ -71,4 +71,12 @@ The WASM runner compiles **every** Kotlin file in `compose/snippets/src/main/jav
 - `R.drawable.*`, `R.string.*`, `painterResource()` and `stringResource()` are supported: `generateSnippetResources` copies the referenced resources into Compose Multiplatform resources and generates a matching `R`.
 - If a file can't be made multiplatform, add it to the `exclude(...)` list in `pullSnippets`. Its snippets then can't have interactive previews.
 
+A few files outside `components/` (for example `animations/AnimationQuickGuide.kt`) are added one by one in `pullSnippets`, and the same rules apply to them.
+
 To add an interactive preview, register the snippet's region tag in `SnippetRegistry.snippets`, calling the composable inside that region (or a thin wrapper that only supplies its parameters). Add a `SnippetPreviewFrames` entry if it doesn't fit the default 384x216 dp frame, then regenerate the screenshots.
+
+### Record animated (MP4) previews
+
+For animation snippets, the static preview on DAC is a looping MP4 instead of a PNG. Add the snippet's region tag to `SnippetRecordings` in [`PreviewRecordings.kt`](generator/src/test/java/com/example/compose/preview/generator/PreviewRecordings.kt) with a short script of `PreviewStep`s (`Wait`, `Click`, `Press`) that triggers the animation and ends in the starting state, so the video loops. Also give the snippet a frame in `SnippetPreviewFrames` (usually `AnimationPreviewFrame`).
+
+`recordRoborazziDebug` plays each script with Roborazzi's `recordRoboVideo` (25 fps GIF), then `encodePreviewVideos` converts it to `screenshots/<snippet_id>.mp4` with `ffmpeg` and deletes the GIF. Install `ffmpeg` to record previews locally.
