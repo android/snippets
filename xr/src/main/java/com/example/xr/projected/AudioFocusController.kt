@@ -28,45 +28,58 @@ class AudioFocusController(
     private val onFocusChanged: (Int) -> Unit,
 ) {
     // [START androidxr_projected_audio_focus]
-    // Use ProjectedContext.createHostDeviceContext() to get the
+    // Use ProjectedContext.createHostDeviceContext(context) to get the
     // AudioManager that participates in the phone's primary audio focus stack.
-    // 'context' can be any context: (projected, host, service, app).
-    // It will be converted to the correct version.
+    // context can be any context: (projected, host, service, app).
     @OptIn(ExperimentalProjectedApi::class)
-    private val hostAudioManager: AudioManager =
+    val hostAudioManager: AudioManager =
         ProjectedContext.createHostDeviceContext(context)
             .getSystemService(AudioManager::class.java)
 
+    val audioAttributes: AudioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_MEDIA)
+        // Or CONTENT_TYPE_MUSIC
+        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+        .build()
+
+    var hasAudioFocus: Boolean = false
+        private set
+
     private val focusChangeListener =
         AudioManager.OnAudioFocusChangeListener { focusChange ->
+            hasAudioFocus = when (focusChange) {
+                AudioManager.AUDIOFOCUS_GAIN,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> true
+                else -> false
+            }
             onFocusChanged(focusChange)
         }
 
-    private var activeFocusRequest: AudioFocusRequest? = null
-
-    fun requestAudioFocus(): Boolean {
-        val attributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH) // Or CONTENT_TYPE_MUSIC
-            .build()
-
-        val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-            .setAudioAttributes(attributes)
+    private val focusRequest: AudioFocusRequest =
+        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            .setAudioAttributes(audioAttributes)
             .setAcceptsDelayedFocusGain(true)
             .setOnAudioFocusChangeListener(focusChangeListener)
             .build()
 
-        activeFocusRequest = request
-        return hostAudioManager.requestAudioFocus(request) ==
+    /**
+     * Request host audio focus once the projected Activity reaches Lifecycle.State.RESUMED
+     * (for example, inside DefaultLifecycleObserver.onResume).
+     */
+    fun requestAudioFocus(): Boolean {
+        if (hasAudioFocus) return true
+        val granted = hostAudioManager.requestAudioFocus(focusRequest) ==
             AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+        hasAudioFocus = granted
+        return granted
     }
-
     // [END androidxr_projected_audio_focus]
 
     fun abandonAudioFocus() {
-        activeFocusRequest?.let { request ->
-            hostAudioManager.abandonAudioFocusRequest(request)
-            activeFocusRequest = null
+        if (hasAudioFocus) {
+            hostAudioManager.abandonAudioFocusRequest(focusRequest)
+            hasAudioFocus = false
         }
     }
 }
