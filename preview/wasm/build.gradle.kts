@@ -38,14 +38,116 @@ val copyPreviewFonts by tasks.registering(Sync::class) {
 }
 
 val generatedSnippetsDir = layout.buildDirectory.dir("generated/sources/composeSnippets/wasmJsMain/kotlin")
+val generatedSnippetResDir = layout.buildDirectory.dir("generated/snippetResources/composeResources")
+val generatedSnippetResKotlinDir = layout.buildDirectory.dir("generated/snippetResources/kotlin")
+
+// Copies every file in compose/snippets/.../components, plus the other snippet files below, into the
+// wasm build, so all of them must compile for Kotlin/Wasm (no Android-only APIs such as android.*,
+// java.net, java.text or java.util.Calendar). R.drawable/R.string, painterResource and
+// stringResource are supported (see generateSnippetResources). Exclude a components file only if
+// it can't be made multiplatform; its snippets then can't have interactive previews. See
+// preview/README.md.
 val pullSnippets by tasks.registering(Sync::class) {
-    from("${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets/components") {
-        // Only the snippets registered in SnippetRegistry. Add files here as more snippets are
-        // enabled for interactive previews.
-        include("Button.kt")
+    val snippetsRoot = "${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets"
+    from("$snippetsRoot/components") {
+        include("*.kt")
+        exclude("ComponentsScreen.kt", "Snackbar.kt", "DatePickers.kt", "TimePickers.kt")
         into("com/example/compose/snippets/components")
     }
+    from("$snippetsRoot/animations") {
+        include("AnimationQuickGuide.kt")
+        into("com/example/compose/snippets/animations")
+    }
+    // Sample image URLs used by AnimationQuickGuide.kt.
+    from("$snippetsRoot/util") {
+        include("ImageLoadingSampleUtils.kt")
+        into("com/example/compose/snippets/util")
+    }
     into(generatedSnippetsDir)
+}
+
+// The shared snippets use Android `R.drawable.*` / `R.string.*` resources. This finds the ones
+// they reference, copies those files into Compose Multiplatform resources, and generates an `R`
+// whose IDs index into tables of the matching `Res` accessors (see ResStubs.kt).
+val generateSnippetResources by tasks.registering {
+    dependsOn(pullSnippets)
+    val snippetsDir = generatedSnippetsDir
+    val resDir = file("${rootProject.projectDir}/compose/snippets/src/main/res")
+    val resOut = generatedSnippetResDir
+    val kotlinOut = generatedSnippetResKotlinDir
+    inputs.dir(snippetsDir)
+    inputs.dir(resDir)
+    outputs.dirs(resOut, kotlinOut)
+
+    doLast {
+        val refs = snippetsDir.get().asFile.walk().filter { it.extension == "kt" }
+            .flatMap { Regex("""(?<!android\.)\bR\.(drawable|string)\.(\w+)""").findAll(it.readText()) }
+            .map { it.groupValues[1] to it.groupValues[2] }
+            .toSet()
+        val drawables = refs.filter { it.first == "drawable" }.map { it.second }.sorted()
+        val strings = refs.filter { it.first == "string" }.map { it.second }.sorted()
+
+        val resRoot = resOut.get().asFile.apply { deleteRecursively() }
+        val drawableOut = File(resRoot, "drawable").apply { mkdirs() }
+        drawables.forEach { name ->
+            // Prefer unqualified and density-independent resources, then any other qualifier.
+            val drawableDirs = resDir.listFiles().orEmpty()
+                .filter { it.isDirectory && (it.name == "drawable" || it.name.startsWith("drawable-")) }
+                .sortedBy { listOf("drawable", "drawable-nodpi").indexOf(it.name).let { i -> if (i < 0) 2 else i } }
+            val source = drawableDirs
+                .flatMap { it.listFiles().orEmpty().toList() }
+                .firstOrNull { it.nameWithoutExtension == name && it.extension in setOf("png", "jpg", "jpeg", "webp", "xml") }
+                ?: error("No drawable resource found for R.drawable.$name")
+            source.copyTo(File(drawableOut, source.name))
+        }
+        if (strings.isNotEmpty()) {
+            val stringsXml = File(resDir, "values/strings.xml").readText()
+            val entries = strings.map { name ->
+                Regex("""<string name="$name"[^>]*>.*?</string>""", RegexOption.DOT_MATCHES_ALL)
+                    .find(stringsXml)?.value ?: error("No string resource found for R.string.$name")
+            }
+            File(resRoot, "values").mkdirs()
+            File(resRoot, "values/strings.xml")
+                .writeText("<resources>\n${entries.joinToString("\n") { "    $it" }}\n</resources>\n")
+        }
+
+        // IDs start at 1 because 0 means "no resource" on Android; ResStubs.kt indexes with id - 1.
+        fun ids(names: List<String>) = names.withIndex().joinToString("\n") { (i, n) -> "        const val $n = ${i + 1}" }
+        fun accessors(type: String, names: List<String>) = names.joinToString { "Res.$type.$it" }
+        val kotlinRoot = kotlinOut.get().asFile.apply { deleteRecursively() }
+        File(kotlinRoot, "com/example/compose/snippets").apply { mkdirs() }.resolve("R.kt").writeText(
+            """
+            |// Generated by :preview:wasm:generateSnippetResources. Do not edit.
+            |package com.example.compose.snippets
+            |
+            |import com.example.compose.preview.wasm.generated.resources.*
+            |import org.jetbrains.compose.resources.DrawableResource
+            |import org.jetbrains.compose.resources.StringResource
+            |
+            |object R {
+            |    object drawable {
+            |${ids(drawables)}
+            |    }
+            |    object string {
+            |${ids(strings)}
+            |    }
+            |}
+            |
+            |internal val SnippetDrawables: List<DrawableResource> = listOf(${accessors("drawable", drawables)})
+            |internal val SnippetStrings: List<StringResource> = listOf(${accessors("string", strings)})
+            |""".trimMargin()
+        )
+    }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "com.example.compose.preview.wasm.generated.resources"
+    generateResClass = always
+    customDirectory(
+        sourceSetName = "commonMain",
+        directoryProvider = generateSnippetResources.map { generatedSnippetResDir.get() },
+    )
 }
 
 kotlin {
@@ -58,12 +160,21 @@ kotlin {
     sourceSets {
         val wasmJsMain by getting {
             kotlin.srcDir(files(generatedSnippetsDir).builtBy(pullSnippets))
+            kotlin.srcDir(files(generatedSnippetResKotlinDir).builtBy(generateSnippetResources))
             resources.srcDir(copyPreviewFonts)
             dependencies {
                 implementation(libs.jetbrains.compose.runtime)
                 implementation(libs.jetbrains.compose.foundation)
                 implementation(libs.jetbrains.compose.material3)
                 implementation(libs.jetbrains.compose.ui)
+                implementation(libs.jetbrains.compose.ui.tooling.preview)
+                implementation(libs.jetbrains.compose.components.resources)
+                implementation(libs.jetbrains.navigation.compose)
+                implementation(libs.jetbrains.navigation3.ui)
+                // AnimationQuickGuide.kt loads network images with Coil 3.
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor3)
+                implementation(libs.ktor.client.js)
             }
         }
     }
@@ -95,15 +206,24 @@ tasks.matching {
     setDependsOn(emptyList<Any>())
 }
 
+// These generator tasks write screenshots and recordings into `src/wasmJsMain/resources/screenshots`.
+// Run the tasks that read that directory after them, so `./gradlew build` doesn't fail Gradle's
+// implicit-dependency validation when it schedules them in parallel.
+val screenshotWriters = listOf(
+    ":preview:generator:testDebugUnitTest",
+    ":preview:generator:recordRoborazziDebug",
+    ":preview:generator:encodePreviewVideos",
+)
+
 tasks.named("wasmJsProcessResources") {
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 }
 
 val packageDevelopmentSite by tasks.registering(Copy::class) {
     group = "distribution"
     description = "Packages the interactive WASM preview and screenshots with fast-compiling development WASM binary"
     dependsOn("wasmJsDevelopmentExecutableCompileSync", "wasmJsProcessResources", "unpackSkikoRuntimeForWasmJs")
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -115,6 +235,10 @@ val packageDevelopmentSite by tasks.registering(Copy::class) {
         rename("wasm.html", "index.html")
     }
     from(copyPreviewFonts)
+    // Compose Multiplatform resources (snippet images and strings), served from composeResources/
+    from(layout.buildDirectory.dir("processedResources/wasmJs/main")) {
+        include("composeResources/**")
+    }
 
     // Copy compiled development WASM and JS from compileSync
     from(layout.buildDirectory.dir("compileSync/wasmJs/main/developmentExecutable/kotlin")) {
@@ -148,7 +272,7 @@ val packageStaticSite by tasks.registering(Copy::class) {
         "wasmJsProcessResources",
         "unpackSkikoRuntimeForWasmJs",
     )
-    mustRunAfter(":preview:generator:recordRoborazziDebug")
+    mustRunAfter(screenshotWriters)
 
     into(layout.buildDirectory.dir("dist/site"))
 
@@ -160,6 +284,10 @@ val packageStaticSite by tasks.registering(Copy::class) {
         rename("wasm.html", "index.html")
     }
     from(copyPreviewFonts)
+    // Compose Multiplatform resources (snippet images and strings), served from composeResources/
+    from(layout.buildDirectory.dir("processedResources/wasmJs/main")) {
+        include("composeResources/**")
+    }
 
     // Copy the wasm-opt optimized production WASM and JS from compileSync
     from(layout.buildDirectory.dir("compileSync/wasmJs/main/productionExecutable/optimized")) {

@@ -20,9 +20,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredSizeIn
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -84,5 +89,57 @@ private fun Demo3() {
                 .size(100.dp)
         )
         // [END android_compose_layout_constraints_modifiers_3]
+    }
+}
+
+@Preview
+@Composable
+private fun RequiredWidthDemo() {
+    // The padding leaves room to show the part that extends past the container.
+    Box(modifier = Modifier.padding(60.dp)) {
+        Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
+            // [START android_compose_layout_constraints_modifiers_required_width]
+            Box(
+                modifier = Modifier
+                    .requiredWidth(400.dp)
+                    .height(100.dp)
+                    .background(Color(0xFF3DDC84))
+            )
+            // [END android_compose_layout_constraints_modifiers_required_width]
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun WidthInDemo() {
+    Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
+        // [START android_compose_layout_constraints_modifiers_width_in]
+        Box(
+            modifier = Modifier
+                .widthIn(min = 100.dp, max = 400.dp)
+                .heightIn(max = 100.dp)
+                .fillMaxSize()
+                .background(Color(0xFF3DDC84))
+        )
+        // [END android_compose_layout_constraints_modifiers_width_in]
+    }
+}
+
+@Preview
+@Composable
+private fun RequiredSizeInDemo() {
+    // The padding leaves room to show the part that extends past the container.
+    Box(modifier = Modifier.padding(60.dp)) {
+        Box(modifier = containerModifier, contentAlignment = Alignment.Center) {
+            // [START android_compose_layout_constraints_modifiers_required_size_in]
+            Box(
+                modifier = Modifier
+                    .requiredSizeIn(minWidth = 100.dp, maxWidth = 400.dp, maxHeight = 100.dp)
+                    .fillMaxSize()
+                    .background(Color(0xFF3DDC84))
+            )
+            // [END android_compose_layout_constraints_modifiers_required_size_in]
+        }
     }
 }
