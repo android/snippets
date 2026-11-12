@@ -17,8 +17,8 @@ kotlin {
 android {
     namespace = "com.example.wear"
     compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt()) {
-            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
+        version = release(37) {
+            minorApiLevel = 2
         }
     }
 

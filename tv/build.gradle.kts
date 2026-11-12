@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.tv"
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt()) {
-            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.tv"

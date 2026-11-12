@@ -8,11 +8,7 @@ kotlin {
 }
 
 android {
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt()) {
-            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
-        }
-    }
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.example.android.kotlin"
 
     defaultConfig {

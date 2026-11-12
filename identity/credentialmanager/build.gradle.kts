@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.identity.credentialmanager"
-    compileSdk {
-        version = release(libs.versions.compileSdk.get().toInt()) {
-            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
-        }
-    }
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.identity.credentialmanager"
