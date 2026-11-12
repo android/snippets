@@ -54,6 +54,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -187,7 +189,10 @@ fun SmallTopAppBarExample() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-                    Text("Small Top App Bar")
+                    Text(
+                        "Small Top App Bar",
+                        modifier = Modifier.semantics { heading() },
+                    )
                 }
             )
         },
@@ -217,7 +222,8 @@ fun CenterAlignedTopAppBarExample() {
                     Text(
                         "Centered Top App Bar",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.semantics { heading() },
                     )
                 },
                 navigationIcon = {
@@ -264,7 +270,8 @@ fun MediumTopAppBarExample() {
                     Text(
                         "Medium Top App Bar",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.semantics { heading() },
                     )
                 },
                 navigationIcon = {
@@ -311,7 +318,8 @@ fun LargeTopAppBarExample() {
                     Text(
                         "Large Top App Bar",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.semantics { heading() },
                     )
                 },
                 navigationIcon = {
@@ -351,6 +359,7 @@ fun TopBarNavigationExample(
                 title = {
                     Text(
                         "Navigation example",
+                        modifier = Modifier.semantics { heading() },
                     )
                 },
                 navigationIcon = {
@@ -403,7 +412,10 @@ fun AppBarSelectionActions(
 
     TopAppBar(
         title = {
-            Text(topBarText)
+            Text(
+                topBarText,
+                modifier = Modifier.semantics { heading() },
+            )
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
