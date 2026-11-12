@@ -45,4 +45,5 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     // OkHttp for the HTTP cache snippet on the avoid-unoptimized-downloads page.
     implementation(libs.okhttp)
+    implementation(libs.androidx.work.runtime)
 }
