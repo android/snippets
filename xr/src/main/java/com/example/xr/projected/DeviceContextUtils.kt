@@ -35,7 +35,7 @@ private const val TAG = "ProjectedDeviceContextUtils"
  * Demonstrates how to safely monitor projected device connectivity and obtain a projected
  * context to access the glasses' hardware (like the camera) and system services.
  */
-// [START androidxr_projected_context_get_projected]
+// [START androidxr_get_projected_device_context]
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 fun monitorProjectedDeviceConnectivity(
@@ -84,7 +84,7 @@ fun monitorProjectedDeviceConnectivity(
         }
     }
 }
-// [END androidxr_projected_context_get_projected]
+// [END androidxr_get_projected_device_context]
 
 /**
  * Demonstrates how to obtain a context for the host device (the phone) to access
@@ -95,11 +95,11 @@ fun monitorProjectedDeviceConnectivity(
  * because their default [Context] is bound to the projected device (the glasses),
  * restricting direct access to the host phone's hardware.
  */
-// [START androidxr_projected_context_get_host_context]
+// [START androidxr_get_host_device_context]
 @OptIn(ExperimentalProjectedApi::class)
 fun getHostDeviceContext(context: Context): Context {
     // Obtain the host device (phone) context.
     // The `context` argument passed in can be any context (projected, host, Service, or App).
     return ProjectedContext.createHostDeviceContext(context)
 }
-// [END androidxr_projected_context_get_host_context]
+// [END androidxr_get_host_device_context]
