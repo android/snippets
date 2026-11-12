@@ -101,9 +101,7 @@ private fun complexWorkQueries(workManager: WorkManager) {
     val workQuery = WorkQuery.Builder
         .fromTags(listOf("syncTag"))
         .addStates(listOf(WorkInfo.State.FAILED, WorkInfo.State.CANCELLED))
-        .addUniqueWorkNames(
-            listOf("preProcess", "sync")
-        )
+        .addUniqueWorkNames(listOf("preProcess", "sync"))
         .build()
 
     val workInfos: ListenableFuture<List<WorkInfo>> = workManager.getWorkInfos(workQuery)

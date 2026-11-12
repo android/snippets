@@ -38,6 +38,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as
                 NotificationManager
+
     override suspend fun doWork(): Result {
         val inputUrl = inputData.getString(KEY_INPUT_URL)
             ?: return Result.failure()
