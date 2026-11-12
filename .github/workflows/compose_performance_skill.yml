@@ -48,7 +48,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
         token: ${{ secrets.PAT || github.token }}
         fetch-depth: 0
@@ -97,6 +97,9 @@ jobs:
     - name: Run Jetpack Compose Performance Skill
       if: steps.context.outputs.file_count != '0'
       id: gemini_review
+      # The review is advisory. Model capacity errors (503/429) are ignored by the next step so they
+      # don't block merges; any other failure still fails the job.
+      continue-on-error: true
       uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
       env:
         GEMINI_CLI_TRUST_WORKSPACE: 'true'
@@ -135,6 +138,20 @@ jobs:
              - Start your response with the single heading `## ⚡ Jetpack Compose Performance Review` (do not include any other top-level `#` or `##` title heading).
              - For each finding in the changed code, include the file path, line numbers, rule category, why it impacts Compose performance, and a concrete Kotlin `suggestion` or code snippet showing the recommended fix.
              - If the newly introduced or modified code follows Jetpack Compose performance best practices (or does not contain Jetpack Compose code), state clearly under the heading that no Jetpack Compose performance issues were found in the changed code.
+
+    - name: Ignore Model Capacity Errors
+      if: steps.gemini_review.outcome == 'failure'
+      env:
+        GEMINI_ERROR: ${{ steps.gemini_review.outputs.error }}
+      run: |
+        set -euo pipefail
+        if grep -qiE '"code": *(503|429)|status: *(503|429)|high demand|UNAVAILABLE|RESOURCE_EXHAUSTED' <<< "${GEMINI_ERROR}"; then
+          echo "::warning title=Compose performance review skipped::The Gemini model is temporarily unavailable (503/429). Re-run this workflow later to get the review."
+          exit 0
+        fi
+        echo "::error title=Compose performance review failed::The Gemini CLI failed for a reason other than model capacity."
+        printf '%s\n' "${GEMINI_ERROR}"
+        exit 1
 
     - name: Post Findings on Pull Request
       if: steps.context.outputs.file_count != '0' && steps.context.outputs.pr_number != '' && steps.gemini_review.outputs.summary != ''
