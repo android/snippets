@@ -19,7 +19,6 @@ package com.example.compose.snippets.lists
 import android.provider.MediaStore
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import org.w3c.dom.Text
 
 // [START android_compose_lists_multiple_item_types]
 @Composable
@@ -27,13 +26,12 @@ fun ListWithMultipleItems(messages: List<Any>) {
     LazyColumn {
         items(
             messages.size,
-            contentType = { it }
-        ) {
-            for (message in messages)
-                when (message) {
-                    is MediaStore.Audio -> AudioMessage(message)
-                    is Text -> TextMessage(message)
-                }
+            contentType = { index -> messages[index]::class }
+        ) { index ->
+            when (val message = messages[index]) {
+                is MediaStore.Audio -> AudioMessage(message)
+                is String -> TextMessage(message)
+            }
         }
     }
 }
@@ -44,7 +42,7 @@ fun AudioMessage(message: MediaStore.Audio) {
 }
 
 @Composable
-fun TextMessage(message: Text) {
+fun TextMessage(message: String) {
     TODO("Not yet implemented.")
 }
 
