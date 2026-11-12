@@ -29,6 +29,7 @@ on:
     paths:
       - '**/*.kt'
       - '.github/workflows/compose_performance_skill.yml'
+      - '.github/scripts/compose_performance_review.js'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -51,6 +52,8 @@ jobs:
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
         token: ${{ secrets.PAT || github.token }}
+        # Check out the PR head (not the merge commit) so reported line numbers match the PR diff.
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
         fetch-depth: 0
         persist-credentials: false
 
@@ -82,9 +85,28 @@ jobs:
         mkdir -p .gemini
         git diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
         git diff -U5 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/pr_diff.patch
+        # Every added line prefixed with `path:line:` so the model can report exact new-file line
+        # numbers, which are needed to anchor inline review comments.
+        git diff -U0 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' | awk '
+          /^\+\+\+ b\// { file = substr($0, 7); next }
+          /^@@/ { match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+          /^\+/ { printf "%s:%d: %s\n", file, line, substr($0, 2); line++ }
+        ' > .gemini/added_lines.txt
         FILE_COUNT=$(grep -c '\.kt$' .gemini/target_files.txt || true)
         echo "file_count=${FILE_COUNT}" >> "${GITHUB_OUTPUT}"
         echo "Found ${FILE_COUNT} modified Kotlin file(s) to audit."
+
+    - name: Mark Review In Progress
+      if: steps.context.outputs.pr_number != ''
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      env:
+        REVIEW_PHASE: start
+        PR_NUMBER: ${{ steps.context.outputs.pr_number }}
+      with:
+        github-token: ${{ secrets.PAT || github.token }}
+        script: |
+          const review = require('./.github/scripts/compose_performance_review.js');
+          await review({ github, context, core });
 
     - name: Install Jetpack Compose Performance Skill
       if: steps.context.outputs.file_count != '0'
@@ -97,7 +119,7 @@ jobs:
     - name: Run Jetpack Compose Performance Skill
       if: steps.context.outputs.file_count != '0'
       id: gemini_review
-      # The review is advisory. Model capacity errors (503/429) are ignored by the next step so they
+      # The review is advisory. Model capacity errors (503/429) are ignored by the last step so they
       # don't block merges; any other failure still fails the job.
       continue-on-error: true
       uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
@@ -133,43 +155,74 @@ jobs:
           3. You may read the touched Kotlin files listed in `.gemini/target_files.txt` ONLY to understand the surrounding context (such as enclosing `@Composable` functions, state declarations, parameters, or imports) of the changed lines.
           4. **Strict Diff Scope**: Only report Jetpack Compose performance findings on **newly introduced or modified code (`+` lines in `.gemini/pr_diff.patch`)**. Do NOT report findings on pre-existing, untouched code elsewhere in the same file or in other files.
           5. Whenever newly introduced or modified code matches a rule in Categories 1-7, you MUST open and read the corresponding `.agents/skills/jetpack-compose-performance/references/**/*.md` file for the approved fix pattern and scope guards before reporting a finding.
-          6. Do NOT modify any files in the repository and do NOT run shell commands.
-          7. Format your output as a Markdown review report:
-             - Start your response with the single heading `## ⚡ Jetpack Compose Performance Review` (do not include any other top-level `#` or `##` title heading).
-             - For each finding in the changed code, include the file path, line numbers, rule category, why it impacts Compose performance, and a concrete Kotlin `suggestion` or code snippet showing the recommended fix.
-             - If the newly introduced or modified code follows Jetpack Compose performance best practices (or does not contain Jetpack Compose code), state clearly under the heading that no Jetpack Compose performance issues were found in the changed code.
+          6. Use `.gemini/added_lines.txt` (format `path:line: content`) to get the exact line numbers of added lines in the new version of each file. Every line number you report MUST be a new-file line number of a `+` line.
+          7. Do NOT modify any files in the repository and do NOT run shell commands.
+          8. Format your final response EXACTLY as follows, with nothing before or after:
+             - A short Markdown overview (2-5 sentences, no headings) of the overall Compose performance health of the change. Do not repeat per-finding details; each finding is posted as an inline comment on the affected lines.
+             - Then a single fenced ```json code block containing an object of this shape:
+               {
+                 "findings": [
+                   {
+                     "path": "repo-relative/path/to/File.kt",
+                     "start_line": 51,
+                     "line": 58,
+                     "symbol": "EnclosingComposableOrFunctionName",
+                     "rule_id": "short-kebab-case-rule-id",
+                     "category": "Category N: <category name> (<rule name>)",
+                     "severity": "high | medium | low",
+                     "title": "One-line summary of the issue",
+                     "explanation": "Why this impacts Compose performance (Markdown, 1-3 sentences).",
+                     "suggestion": "Exact replacement text for lines start_line..line, or an empty string",
+                     "fix_snippet": "Kotlin snippet showing the recommended fix, or an empty string"
+                   }
+                 ]
+               }
+             - `line` is the last line of the affected code and `start_line` is the first (omit `start_line` for a single line). Keep the range tight: point at the offending statement(s), not the whole function.
+             - Only set `suggestion` when it is a complete, compilable drop-in replacement for exactly lines `start_line`..`line` (preserving indentation); it is rendered as a GitHub suggested change. Otherwise leave it empty and put the recommended code in `fix_snippet`.
+             - Use a stable, descriptive `rule_id` (for example `defer-animated-alpha-read`) so the same issue gets the same id across runs.
+             - If no issues are found, return `{"findings": []}` and say so in the overview.
 
-    - name: Ignore Model Capacity Errors
+    - name: Classify Review Failure
+      id: classify
       if: steps.gemini_review.outcome == 'failure'
       env:
         GEMINI_ERROR: ${{ steps.gemini_review.outputs.error }}
       run: |
         set -euo pipefail
         if grep -qiE '"code": *(503|429)|status: *(503|429)|high demand|UNAVAILABLE|RESOURCE_EXHAUSTED' <<< "${GEMINI_ERROR}"; then
+          echo "capacity_error=true" >> "${GITHUB_OUTPUT}"
+        else
+          echo "capacity_error=false" >> "${GITHUB_OUTPUT}"
+        fi
+
+    # Keeps a single summary comment up to date and posts findings as inline review comments.
+    - name: Publish Review on Pull Request
+      if: always() && steps.context.outputs.pr_number != ''
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      env:
+        REVIEW_PHASE: finish
+        PR_NUMBER: ${{ steps.context.outputs.pr_number }}
+        FILE_COUNT: ${{ steps.context.outputs.file_count }}
+        REVIEW_OUTCOME: ${{ steps.gemini_review.outcome }}
+        CAPACITY_ERROR: ${{ steps.classify.outputs.capacity_error }}
+        REVIEW_SUMMARY: ${{ steps.gemini_review.outputs.summary }}
+      with:
+        github-token: ${{ secrets.PAT || github.token }}
+        script: |
+          const review = require('./.github/scripts/compose_performance_review.js');
+          await review({ github, context, core });
+
+    - name: Ignore Model Capacity Errors
+      if: steps.gemini_review.outcome == 'failure'
+      env:
+        CAPACITY_ERROR: ${{ steps.classify.outputs.capacity_error }}
+        GEMINI_ERROR: ${{ steps.gemini_review.outputs.error }}
+      run: |
+        set -euo pipefail
+        if [[ "${CAPACITY_ERROR}" == "true" ]]; then
           echo "::warning title=Compose performance review skipped::The Gemini model is temporarily unavailable (503/429). Re-run this workflow later to get the review."
           exit 0
         fi
         echo "::error title=Compose performance review failed::The Gemini CLI failed for a reason other than model capacity."
         printf '%s\n' "${GEMINI_ERROR}"
         exit 1
-
-    - name: Post Findings on Pull Request
-      if: steps.context.outputs.file_count != '0' && steps.context.outputs.pr_number != '' && steps.gemini_review.outputs.summary != ''
-      env:
-        GH_TOKEN: ${{ secrets.PAT || github.token }}
-        PR_NUMBER: ${{ steps.context.outputs.pr_number }}
-        REVIEW_SUMMARY: ${{ steps.gemini_review.outputs.summary }}
-      run: |
-        set -euo pipefail
-        COMMENT_FILE="$(mktemp)"
-        if [[ "${REVIEW_SUMMARY}" =~ ^[[:space:]]*# ]]; then
-          printf '%s\n' "${REVIEW_SUMMARY}" > "${COMMENT_FILE}"
-        else
-          {
-            echo "## ⚡ Jetpack Compose Performance Review"
-            echo ""
-            printf '%s\n' "${REVIEW_SUMMARY}"
-          } > "${COMMENT_FILE}"
-        fi
-        gh pr comment "${PR_NUMBER}" --body-file "${COMMENT_FILE}"
-        rm -f "${COMMENT_FILE}"
