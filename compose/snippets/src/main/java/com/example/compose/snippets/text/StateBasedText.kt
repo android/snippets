@@ -279,8 +279,8 @@ class CustomOutputTransformation : OutputTransformation {
 class PhoneNumberOutputTransformation : OutputTransformation {
     override fun TextFieldBuffer.transformOutput() {
         if (length > 0) insert(0, "(")
-        if (length > 4) insert(4, ")")
-        if (length > 8) insert(8, "-")
+        if (length > 4) insert(4, ") ")
+        if (length > 9) insert(9, "-")
     }
 }
 // [END android_compose_state_text_19]
