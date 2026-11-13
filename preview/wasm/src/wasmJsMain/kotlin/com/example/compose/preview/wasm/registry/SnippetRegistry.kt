@@ -22,22 +22,33 @@
 package com.example.compose.preview.wasm.registry
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.platform.WindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.adaptivelayouts.SampleNavigationSuiteScaffoldContainerColor
+import com.example.compose.snippets.adaptivelayouts.SampleNavigationSuiteScaffoldItemColors
+import com.example.compose.snippets.adaptivelayouts.SampleNavigationSuiteScaffoldItems
 import com.example.compose.snippets.R
 import com.example.compose.snippets.animations.AnimateElevation
 import com.example.compose.snippets.animations.AnimateOffset
@@ -138,6 +149,32 @@ private fun EdgeToEdgeBox(content: @Composable () -> Unit) {
 }
 
 /**
+ * Shows [content] in an outlined window of exactly [frame]'s size and reports that size as the
+ * window size. Adaptive snippets that read `currentWindowAdaptiveInfo()`, such as
+ * `NavigationSuiteScaffold`, then pick the same navigation UI in the live preview as in the
+ * screenshot, even when the DAC stage is wider or taller than the frame.
+ */
+@Composable
+private fun AdaptiveWindowBox(frame: PreviewFrame, content: @Composable () -> Unit) {
+    val windowInfo = LocalWindowInfo.current
+    val size = with(LocalDensity.current) {
+        IntSize(frame.widthDp.dp.roundToPx(), frame.heightDp.dp.roundToPx())
+    }
+    val frameWindowInfo = remember(windowInfo, size) {
+        object : WindowInfo by windowInfo {
+            override val containerSize: IntSize = size
+        }
+    }
+    Box(
+        modifier = Modifier
+            .requiredSize(frame.widthDp.dp, frame.heightDp.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant),
+    ) {
+        CompositionLocalProvider(LocalWindowInfo provides frameWindowInfo) { content() }
+    }
+}
+
+/**
  * Shows [dialog] open, over a button that reopens it. The snippets' dismiss and confirm callbacks
  * then close the dialog like they do in an app, and the button gives the scrim real content to dim.
  */
@@ -169,6 +206,12 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
  * [DefaultPreviewFrame].
  */
 val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
+
+/** A medium window size class (at least 600dp wide and 480dp tall). */
+private val AdaptiveMediumFrame = PreviewFrame(800, 500)
+
+/** A compact-width window, like a phone in portrait. */
+private val AdaptiveCompactFrame = PreviewFrame(360, 560)
 
 /**
  * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
@@ -204,6 +247,11 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    // NavigationSuiteScaffold picks its navigation UI from the window size: a medium-width window
+    // shows a navigation rail, and a compact (phone) width shows a navigation bar.
+    "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items" to AdaptiveMediumFrame,
+    "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_container_color" to AdaptiveCompactFrame,
+    "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_item_colors" to AdaptiveCompactFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -341,6 +389,16 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Build adaptive navigation.
+        "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items" to {
+            AdaptiveWindowBox(AdaptiveMediumFrame) { SampleNavigationSuiteScaffoldItems() }
+        },
+        "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_container_color" to {
+            AdaptiveWindowBox(AdaptiveCompactFrame) { SampleNavigationSuiteScaffoldContainerColor() }
+        },
+        "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_item_colors" to {
+            AdaptiveWindowBox(AdaptiveCompactFrame) { SampleNavigationSuiteScaffoldItemColors() }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

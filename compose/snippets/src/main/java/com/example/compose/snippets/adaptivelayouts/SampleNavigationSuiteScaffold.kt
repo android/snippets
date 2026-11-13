@@ -18,11 +18,6 @@ package com.example.compose.snippets.adaptivelayouts
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -43,6 +38,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_EXPANDED_LOWER_BOUND
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.AppIcons
 
 // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_destinations]
 enum class AppDestinations(
@@ -50,10 +46,10 @@ enum class AppDestinations(
     val icon: ImageVector,
     @StringRes val contentDescription: Int
 ) {
-    HOME(R.string.home, Icons.Default.Home, R.string.home),
-    FAVORITES(R.string.favorites, Icons.Default.Favorite, R.string.favorites),
-    SHOPPING(R.string.shopping, Icons.Default.ShoppingCart, R.string.shopping),
-    PROFILE(R.string.profile, Icons.Default.AccountBox, R.string.profile),
+    HOME(R.string.home, AppIcons.Home, R.string.home),
+    FAVORITES(R.string.favorites, AppIcons.Favorite, R.string.favorites),
+    SHOPPING(R.string.shopping, AppIcons.ShoppingCart, R.string.shopping),
+    PROFILE(R.string.profile, AppIcons.Person, R.string.profile),
 }
 // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_destinations]
 
@@ -62,6 +58,25 @@ fun SampleNavigationSuiteScaffoldParts() {
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_remember]
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_remember]
+
+    // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
+    NavigationSuiteScaffold(
+        navigationSuiteItems = { /*...*/ }
+    ) {
+        // Destination content.
+        when (currentDestination) {
+            AppDestinations.HOME -> HomeDestination()
+            AppDestinations.FAVORITES -> FavoritesDestination()
+            AppDestinations.SHOPPING -> ShoppingDestination()
+            AppDestinations.PROFILE -> ProfileDestination()
+        }
+    }
+    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
+}
+
+@Composable
+fun SampleNavigationSuiteScaffoldItems() {
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items]
     NavigationSuiteScaffold(
@@ -84,26 +99,10 @@ fun SampleNavigationSuiteScaffoldParts() {
         // TODO: Destination content.
     }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items]
-
-    // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
-    NavigationSuiteScaffold(
-        navigationSuiteItems = { /*...*/ }
-    ) {
-        // Destination content.
-        when (currentDestination) {
-            AppDestinations.HOME -> HomeDestination()
-            AppDestinations.FAVORITES -> FavoritesDestination()
-            AppDestinations.SHOPPING -> ShoppingDestination()
-            AppDestinations.PROFILE -> ProfileDestination()
-        }
-    }
-    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
 }
 
 @Composable
-fun SampleNavigationSuiteScaffoldColors() {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
-
+fun SampleNavigationSuiteScaffoldContainerColor() {
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_container_color]
     NavigationSuiteScaffold(
         navigationSuiteItems = { /* ... */ },
@@ -113,7 +112,10 @@ fun SampleNavigationSuiteScaffoldColors() {
         // Content...
     }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_container_color]
+}
 
+@Composable
+fun SampleNavigationSuiteScaffoldColors() {
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_suite_colors]
     NavigationSuiteScaffold(
         navigationSuiteItems = { /* ... */ },
@@ -124,6 +126,11 @@ fun SampleNavigationSuiteScaffoldColors() {
         // Content...
     }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_suite_colors]
+}
+
+@Composable
+fun SampleNavigationSuiteScaffoldItemColors() {
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_item_colors]
     val myNavigationSuiteItemColors = NavigationSuiteDefaults.itemColors(
