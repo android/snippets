@@ -58,6 +58,12 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("AnimationQuickGuide.kt")
         into("com/example/compose/snippets/animations")
     }
+    // Android-only APIs in this file (RuntimeShader, Build) compile against the stubs in
+    // src/wasmJsMain/kotlin/android; the AGSL snippets that use them aren't registered.
+    from("$snippetsRoot/graphics") {
+        include("BrushExampleSnippets.kt")
+        into("com/example/compose/snippets/graphics")
+    }
     // Sample image URLs used by AnimationQuickGuide.kt.
     from("$snippetsRoot/util") {
         include("ImageLoadingSampleUtils.kt")

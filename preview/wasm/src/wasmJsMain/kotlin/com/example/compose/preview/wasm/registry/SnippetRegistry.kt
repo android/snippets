@@ -24,6 +24,7 @@ package com.example.compose.preview.wasm.registry
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -111,6 +112,14 @@ import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
 import com.example.compose.snippets.components.VerticalDividerExample
+import com.example.compose.snippets.graphics.GraphicsBrushCanvasUsage
+import com.example.compose.snippets.graphics.GraphicsBrushColorStopUsage
+import com.example.compose.snippets.graphics.GraphicsBrushSize
+import com.example.compose.snippets.graphics.GraphicsBrushSizeRadialGradientAfter
+import com.example.compose.snippets.graphics.GraphicsBrushSizeRadialGradientBefore
+import com.example.compose.snippets.graphics.GraphicsBrushSizeRecreationExample
+import com.example.compose.snippets.graphics.GraphicsBrushTileMode
+import com.example.compose.snippets.graphics.GraphicsImageBrush
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -204,6 +213,14 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    // Brush snippets draw 200dp squares and circles, taller than the default 216dp frame.
+    "android_compose_brush_basic_canvas" to PreviewFrame(512, 288),
+    "android_compose_brush_color_stop" to PreviewFrame(512, 288),
+    "android_compose_brush_tile_mode" to PreviewFrame(512, 288),
+    "android_compose_graphics_brush_size" to PreviewFrame(512, 288),
+    "android_compose_graphics_brush_recreation" to PreviewFrame(512, 288),
+    // A 200dp box, a line of 36sp text and a 200dp circle, side by side.
+    "android_compose_graphics_brush_image" to PreviewFrame(768, 432),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -341,6 +358,26 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Brush: gradients and shaders. The AGSL RuntimeShader snippets need Android 13+, so
+        // they aren't registered.
+        "android_compose_brush_basic_canvas" to { CenteredBox { GraphicsBrushCanvasUsage() } },
+        "android_compose_brush_color_stop" to { CenteredBox { GraphicsBrushColorStopUsage() } },
+        "android_compose_brush_tile_mode" to { CenteredBox { GraphicsBrushTileMode() } },
+        "android_compose_graphics_brush_size" to { CenteredBox { GraphicsBrushSize() } },
+        // These fill the whole frame, so its wide shape shows where the radial gradient ends.
+        "android_compose_graphics_brush_size_radial_before" to { EdgeToEdgeBox { GraphicsBrushSizeRadialGradientBefore() } },
+        "android_compose_graphics_brush_size_radial_after" to { EdgeToEdgeBox { GraphicsBrushSizeRadialGradientAfter() } },
+        "android_compose_graphics_brush_recreation" to { CenteredBox { GraphicsBrushSizeRecreationExample() } },
+        // The snippet emits a box, text and a circle; lay them out in a row like on DAC.
+        "android_compose_graphics_brush_image" to {
+            Row(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                GraphicsImageBrush()
+            }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
