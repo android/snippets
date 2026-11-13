@@ -17,14 +17,17 @@
 package com.example.snippets.security.network
 
 import java.io.DataInputStream
-import java.io.IOException
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.security.MessageDigest
 import java.security.SecureRandom
+import java.util.concurrent.Executors
+import java.util.concurrent.Semaphore
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 // [START android_security_network_loopback_server]
+// respond runs concurrently on worker threads and must be thread-safe.
 class LoopbackServer(private val respond: (String) -> String) {
     // Share this secret with the paired client out of band (for example in a
     // signature-protected bound service); never send it over the socket.
@@ -33,28 +36,51 @@ class LoopbackServer(private val respond: (String) -> String) {
     fun start(port: Int): ServerSocket {
         // Bind to loopback only so that other devices on the network can't connect.
         val server = ServerSocket(port, 0, InetAddress.getLoopbackAddress())
+        val slots = Semaphore(4)
+        val deadlines = Executors.newSingleThreadScheduledExecutor { r ->
+            Thread(r).apply { isDaemon = true }
+        }
         thread(isDaemon = true) {
-            while (!server.isClosed) {
-                val client = runCatching { server.accept() }.getOrNull() ?: break
-                // Handle each client on its own thread so that one slow client can't
-                // block the others.
-                thread(isDaemon = true) {
-                    try {
-                        client.use { socket ->
-                            socket.soTimeout = 5_000
-                            val input = DataInputStream(socket.getInputStream())
-                            val presented = ByteArray(pairingSecret.size)
-                            input.readFully(presented)
-                            // Constant-time comparison avoids leaking the secret through timing.
-                            if (!MessageDigest.isEqual(presented, pairingSecret)) return@use
-                            val request = input.bufferedReader().readLine().orEmpty()
-                            socket.getOutputStream().write((respond(request) + "\n").toByteArray())
+            try {
+                while (!server.isClosed) {
+                    val client = runCatching { server.accept() }.getOrNull() ?: break
+                    if (!slots.tryAcquire()) {
+                        runCatching { client.close() }
+                        continue
+                    }
+                    // Handle each client on its own bounded worker thread with an overall deadline.
+                    thread(isDaemon = true) {
+                        try {
+                            val timeout = deadlines.schedule(
+                                { runCatching { client.close() } },
+                                5,
+                                TimeUnit.SECONDS,
+                            )
+                            try {
+                                client.use { socket ->
+                                    socket.soTimeout = 5_000
+                                    val input = DataInputStream(socket.getInputStream())
+                                    val presented = ByteArray(pairingSecret.size)
+                                    input.readFully(presented)
+                                    // Constant-time comparison avoids leaking the secret through timing.
+                                    if (!MessageDigest.isEqual(presented, pairingSecret)) return@use
+                                    val request = input.bufferedReader().readLine().orEmpty()
+                                    socket.getOutputStream().write((respond(request) + "\n").toByteArray())
+                                }
+                            } finally {
+                                timeout.cancel(false)
+                            }
+                        } catch (e: Exception) {
+                            // A timeout, short read, disconnect, or respond failure ends this
+                            // client only. An uncaught exception on this thread would crash the app.
+                            runCatching { client.close() }
+                        } finally {
+                            slots.release()
                         }
-                    } catch (e: IOException) {
-                        // A timeout, short read, or disconnect ends this client only. An
-                        // uncaught exception on this thread would crash the app.
                     }
                 }
+            } finally {
+                deadlines.shutdownNow()
             }
         }
         return server
