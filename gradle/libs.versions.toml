@@ -82,6 +82,7 @@ junit = "4.13.2"
 kotlin = "2.4.21"
 ktor = "3.6.0"
 kotlinCoroutinesOkhttp = "1.0"
+kotlinxCollectionsImmutable = "0.5.2"
 kotlinxCoroutinesGuava = "1.11.0"
 kotlinxSerialization = "1.12.0"
 ksp = "2.3.13"
@@ -364,6 +365,7 @@ kotlin-coroutines-okhttp = { module = "ru.gildor.coroutines:kotlin-coroutines-ok
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
