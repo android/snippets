@@ -32,9 +32,14 @@ on:
       - '**/*.kt'
       - '.github/workflows/compose_performance_skill.yml'
   # PRs from forks get no secrets on `pull_request`, so they are reviewed through
-  # `pull_request_target` instead. Those runs use the workflow from the base branch and must be
-  # approved by a maintainer in the `external-pr-review` environment before they start.
-  pull_request_target:
+  # `pull_request_target` instead. This is safe here because:
+  # - Each run must be approved by a maintainer in the `external-pr-review` environment
+  #   (required reviewers), and the job fails closed if that protection is missing.
+  # - The workflow definition always comes from the base branch, so forks can't change it.
+  # - The fork's code is only read by the review; it is never built, executed, or sourced.
+  # - Gemini CLI is limited to read-only file tools (no shell) plus the PR review MCP tools,
+  #   and checkout does not persist credentials.
+  pull_request_target: # zizmor: ignore[dangerous-triggers] gated by required-reviewer environment; fork code is never executed
     types:
       - opened
       - synchronize
