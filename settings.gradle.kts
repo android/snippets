@@ -65,6 +65,7 @@ include(
     ":room",
     ":performance",
     ":location",
+    ":sensors",
     ":preview:wasm",
     ":preview:generator",
     ":ink"
