@@ -27,6 +27,9 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -77,10 +80,11 @@ fun BadgeExample() {
 // [START android_compose_components_badgeinteractive]
 @Composable
 fun BadgeInteractiveExample() {
-    var itemCount by remember { mutableIntStateOf(0) }
+    var itemCount by remember { mutableIntStateOf(3) }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         BadgedBox(
             badge = {
@@ -99,8 +103,22 @@ fun BadgeInteractiveExample() {
                 contentDescription = "Shopping cart",
             )
         }
-        Button(onClick = { itemCount++ }) {
-            Text("Add item")
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilledTonalIconButton(
+                onClick = { itemCount-- },
+                enabled = itemCount > 0,
+            ) {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Remove),
+                    contentDescription = "Remove item",
+                )
+            }
+            FilledIconButton(onClick = { itemCount++ }) {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Add),
+                    contentDescription = "Add item",
+                )
+            }
         }
     }
 }

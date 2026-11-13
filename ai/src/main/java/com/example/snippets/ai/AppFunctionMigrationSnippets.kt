@@ -49,6 +49,14 @@ class MessageRepository @Inject constructor() {
 abstract class BaseAppFunctionService : AppFunctionService() {
     @Inject internal lateinit var messageRepository: MessageRepository
 
+    /**
+     * Sends a text message to a contact or group.
+     *
+     * @param name The display name of the contact or group.
+     * @param endpointValue The unique ID of the contact or group.
+     * @param messageBody The text of the message.
+     * @return Whether the message was sent, and when.
+     */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     internal suspend fun send(
         name: String,
@@ -74,6 +82,14 @@ abstract class ServiceLocatorBaseAppFunctionService : AppFunctionService() {
     // Or with Koin / alternative DI locators:
     // private val messageRepository: MessageRepository by inject()
 
+    /**
+     * Sends a text message to a contact or group.
+     *
+     * @param name The display name of the contact or group.
+     * @param endpointValue The unique ID of the contact or group.
+     * @param messageBody The text of the message.
+     * @return Whether the message was sent, and when.
+     */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     internal suspend fun send(
         name: String,
