@@ -17,9 +17,11 @@
 package androidx.compose.ui.res
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import com.example.compose.snippets.SnippetDrawables
 import com.example.compose.snippets.SnippetStrings
+import org.jetbrains.compose.resources.imageResource as cmpImageResource
 import org.jetbrains.compose.resources.painterResource as cmpPainterResource
 import org.jetbrains.compose.resources.stringResource as cmpStringResource
 
@@ -42,3 +44,7 @@ fun stringResource(id: Int): String = cmpStringResource(SnippetStrings[id - 1])
 @Composable
 fun stringResource(id: Int, vararg formatArgs: Any): String =
     cmpStringResource(SnippetStrings[id - 1], *formatArgs)
+
+@Composable
+fun ImageBitmap.Companion.imageResource(id: Int): ImageBitmap =
+    cmpImageResource(SnippetDrawables[id - 1])
