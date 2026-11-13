@@ -65,8 +65,11 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
         // on disconnect, coroutine cancellation, or Activity destruction.
         return@monitorProjectedDeviceConnectivity {
             Log.i(TAG, "Projected camera setup scope ended. Tearing down resources...")
-            cameraManager.unregisterAvailabilityCallback(availabilityCallback)
-            cameraProvider.unbindAll()
+            try {
+                cameraManager.unregisterAvailabilityCallback(availabilityCallback)
+            } finally {
+                cameraProvider.unbindAll()
+            }
         }
     }
 }
