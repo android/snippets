@@ -127,7 +127,7 @@ private fun RoundedShapeExample() {
 
 @Preview
 @Composable
-private fun RoundedShapeSmoothnessExample() {
+fun RoundedShapeSmoothnessExample() {
     // [START android_compose_graphics_polygon_rounding_smooth]
     Box(
         modifier = Modifier
@@ -155,7 +155,7 @@ private fun RoundedShapeSmoothnessExample() {
 
 @Preview
 @Composable
-private fun MorphExample() {
+fun MorphExample() {
     // [START android_compose_graphics_polygon_morph]
     Box(
         modifier = Modifier
@@ -192,7 +192,7 @@ private fun MorphExample() {
 
 @Preview
 @Composable
-private fun MorphExampleAnimation() {
+fun MorphExampleAnimation() {
     // [START android_compose_graphics_polygon_morph_animation]
     val infiniteAnimation = rememberInfiniteTransition(label = "infinite animation")
     val morphProgress = infiniteAnimation.animateFloat(
@@ -308,7 +308,7 @@ class MorphPolygonShape(
 // [END android_compose_morph_clip_shape]
 @Preview
 @Composable
-private fun MorphOnClick() {
+fun MorphOnClick() {
     // [START android_compose_graphics_morph_on_click]
     val shapeA = remember {
         RoundedPolygon(
@@ -467,7 +467,7 @@ class CustomRotatingMorphShape(
 
 @Preview
 @Composable
-private fun RotatingScallopedProfilePic() {
+fun RotatingScallopedProfilePic() {
     val shapeA = remember {
         RoundedPolygon(
             12,
@@ -526,7 +526,7 @@ private fun RotatingScallopedProfilePic() {
 
 @Preview
 @Composable
-private fun CartesianPoints() {
+fun CartesianPoints() {
     // [START android_compose_shapes_custom_vertices]
     val vertices = remember {
         val radius = 1f

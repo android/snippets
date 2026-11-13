@@ -111,6 +111,15 @@ import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
 import com.example.compose.snippets.components.VerticalDividerExample
+import com.example.compose.snippets.graphics.ApplyPolygonAsClipBasic
+import com.example.compose.snippets.graphics.ApplyPolygonAsClipImage
+import com.example.compose.snippets.graphics.BasicShapeCanvas
+import com.example.compose.snippets.graphics.CartesianPoints
+import com.example.compose.snippets.graphics.MorphExample
+import com.example.compose.snippets.graphics.MorphExampleAnimation
+import com.example.compose.snippets.graphics.MorphOnClick
+import com.example.compose.snippets.graphics.RotatingScallopedProfilePic
+import com.example.compose.snippets.graphics.RoundedShapeSmoothnessExample
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -204,6 +213,13 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    // Shapes snippets that are 200dp (or, for the heart, 400dp) in size.
+    "android_compose_graphics_polygon_morph_animation" to AnimationPreviewFrame,
+    "android_compose_graphics_morph_on_click" to PreviewFrame(576, 324),
+    "android_compose_shapes_apply_as_clip" to PreviewFrame(576, 324),
+    "android_compose_shapes_apply_as_clip_advanced" to PreviewFrame(576, 324),
+    "android_compose_shapes_custom_rotating_morph_shape" to PreviewFrame(576, 324),
+    "android_compose_shapes_custom_vertices_draw" to AnimationPreviewFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -341,6 +357,16 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Shapes in Compose (graphics/draw/shapes).
+        "android_compose_graphics_basic_polygon" to { CenteredBox { BasicShapeCanvas() } },
+        "android_compose_graphics_polygon_rounding_smooth" to { CenteredBox { RoundedShapeSmoothnessExample() } },
+        "android_compose_graphics_polygon_morph" to { CenteredBox { MorphExample() } },
+        "android_compose_graphics_polygon_morph_animation" to { CenteredBox { MorphExampleAnimation() } },
+        "android_compose_shapes_apply_as_clip" to { CenteredBox { ApplyPolygonAsClipBasic() } },
+        "android_compose_shapes_apply_as_clip_advanced" to { CenteredBox { ApplyPolygonAsClipImage() } },
+        "android_compose_graphics_morph_on_click" to { CenteredBox { MorphOnClick() } },
+        "android_compose_shapes_custom_rotating_morph_shape" to { CenteredBox { RotatingScallopedProfilePic() } },
+        "android_compose_shapes_custom_vertices_draw" to { EdgeToEdgeBox { CartesianPoints() } },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
