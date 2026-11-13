@@ -58,6 +58,10 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("AnimationQuickGuide.kt")
         into("com/example/compose/snippets/animations")
     }
+    from("$snippetsRoot/layouts") {
+        include("AdaptiveLayoutSnippets.kt")
+        into("com/example/compose/snippets/layouts")
+    }
     // Sample image URLs used by AnimationQuickGuide.kt.
     from("$snippetsRoot/util") {
         include("ImageLoadingSampleUtils.kt")
@@ -175,6 +179,8 @@ kotlin {
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor3)
                 implementation(libs.ktor.client.js)
+                // AdaptiveLayoutSnippets.kt uses currentWindowAdaptiveInfo and WindowSizeClass.
+                implementation(libs.jetbrains.compose.material3.adaptive)
             }
         }
     }
