@@ -14,8 +14,6 @@
 name: Jetpack Compose Performance Review
 
 permissions:
-  # Read environment protection rules for the fork approval guard.
-  actions: read
   contents: read
   issues: write
   pull-requests: write
@@ -31,23 +29,6 @@ on:
     paths:
       - '**/*.kt'
       - '.github/workflows/compose_performance_skill.yml'
-  # PRs from forks get no secrets on `pull_request`, so they are reviewed through
-  # `pull_request_target` instead. This is safe here because:
-  # - Each run must be approved by a maintainer in the `external-pr-review` environment
-  #   (required reviewers), and the job fails closed if that protection is missing.
-  # - The workflow definition always comes from the base branch, so forks can't change it.
-  # - The fork's code is only read by the review; it is never built, executed, or sourced.
-  # - Gemini CLI is limited to read-only file tools (no shell) plus the PR review MCP tools,
-  #   and checkout does not persist credentials.
-  pull_request_target: # zizmor: ignore[dangerous-triggers] gated by required-reviewer environment; fork code is never executed
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
-    branches: [ '*' ]
-    paths:
-      - '**/*.kt'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -56,8 +37,6 @@ on:
         type: string
 
 concurrency:
-  # Include the event so the skipped `pull_request` run of a fork PR doesn't cancel its
-  # `pull_request_target` run (and vice versa).
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ inputs.pr_number || github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
@@ -69,39 +48,20 @@ jobs:
   compose-performance-review:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    # Same-repo PRs run on `pull_request`; fork PRs run on `pull_request_target`.
-    if: >-
-      github.repository == 'android/snippets' && (
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && github.event.pull_request.draft == false) ||
-        (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork == true && github.event.pull_request.draft == false)
-      )
-    # Fork PRs wait for a maintainer to approve the run (required reviewers on this environment)
-    # because the review runs with secrets and a write token over untrusted code.
-    environment: ${{ github.event_name == 'pull_request_target' && 'external-pr-review' || '' }}
+    # Same-repo PRs are reviewed automatically. Fork PRs get no secrets on `pull_request`, so a
+    # maintainer can review them on demand: Actions > Run workflow > pr_number. That path is safe
+    # because the PR's code is only fetched as data, never checked out or executed.
+    if: github.repository == 'android/snippets' && (github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.fork == false && github.event.pull_request.draft == false))
 
     steps:
-    - name: Verify Fork Approval Gate
-      if: github.event_name == 'pull_request_target'
-      env:
-        GH_TOKEN: ${{ github.token }}
-        REPOSITORY: ${{ github.repository }}
-      run: |
-        set -euo pipefail
-        # GitHub auto-creates missing environments without protection rules. Refuse to run fork
-        # code with secrets unless the environment actually requires a reviewer.
-        if ! gh api "repos/${REPOSITORY}/environments/external-pr-review" \
-            --jq '.protection_rules[]?.type' | grep -qx 'required_reviewers'; then
-          echo "::error title=Fork approval gate missing::Configure required reviewers on the 'external-pr-review' environment (Settings > Environments) before reviewing fork PRs."
-          exit 1
-        fi
-
     - name: Checkout Repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
         token: ${{ secrets.PAT || github.token }}
-        # Check out the PR head (not the merge commit) so line numbers match the PR diff.
-        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        # Always check out trusted base-repo code. The PR's code is fetched below as data only
+        # (diff + file snapshots under .gemini/), so nothing from a fork, including agent config
+        # such as .gemini/settings.json or GEMINI.md, ever lands in the working tree.
+        ref: ${{ github.event.pull_request.base.sha || github.sha }}
         fetch-depth: 0
         persist-credentials: false
 
@@ -111,38 +71,71 @@ jobs:
         GH_TOKEN: ${{ secrets.PAT || github.token }}
         PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
         BASE_REF: ${{ github.base_ref }}
+        # Head commit the triggering event refers to (empty for workflow_dispatch).
+        EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       run: |
         set -euo pipefail
+        # Applies to every git command in this step: print non-ASCII paths verbatim instead of
+        # C-quoting them, so paths match the PR's file paths.
+        export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.quotePath GIT_CONFIG_VALUE_0=false
+        mkdir -p .gemini
         if [[ -n "${PR_NUMBER}" ]]; then
+          if [[ ! "${PR_NUMBER}" =~ ^[0-9]+$ ]]; then
+            echo "::error title=Invalid PR number::'${PR_NUMBER}' is not a pull request number."
+            exit 1
+          fi
           if [[ -z "${BASE_REF}" ]]; then
             BASE_REF=$(gh pr view "${PR_NUMBER}" --json baseRefName --jq '.baseRefName')
-            gh pr checkout "${PR_NUMBER}"
-            git fetch origin "${BASE_REF}"
           fi
-          DIFF_RANGE="origin/${BASE_REF}...HEAD"
+          # The commit this run must review: the event's head SHA, or for workflow_dispatch the
+          # PR's head when the run starts.
+          EXPECTED_HEAD_SHA="${EVENT_HEAD_SHA}"
+          if [[ -z "${EXPECTED_HEAD_SHA}" ]]; then
+            EXPECTED_HEAD_SHA=$(gh pr view "${PR_NUMBER}" --json headRefOid --jq '.headRefOid')
+          fi
+          # Fetch the PR head as a ref only; it is never checked out.
+          git fetch --no-tags origin "${BASE_REF}" "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
+          HEAD_REF="refs/remotes/pr/head"
+          HEAD_SHA=$(git rev-parse "${HEAD_REF}")
+          # Refuse to review a different commit than the one that was triggered (and, for fork
+          # PRs, approved): the PR may have been pushed to after the run started.
+          if [[ "${HEAD_SHA}" != "${EXPECTED_HEAD_SHA}" ]]; then
+            echo "::error title=PR head changed::refs/pull/${PR_NUMBER}/head is ${HEAD_SHA}, but this run was started for ${EXPECTED_HEAD_SHA}. The PR was updated after the run started; the newer commit needs its own run."
+            exit 1
+          fi
+          DIFF_RANGE="origin/${BASE_REF}...${HEAD_REF}"
           echo "mode=pr" >> "${GITHUB_OUTPUT}"
           echo "pr_number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
         else
+          HEAD_REF="HEAD"
+          HEAD_SHA=$(git rev-parse "${HEAD_REF}")
           DIFF_RANGE="HEAD~1...HEAD"
           echo "mode=commit" >> "${GITHUB_OUTPUT}"
           echo "pr_number=" >> "${GITHUB_OUTPUT}"
         fi
-        HEAD_SHA=$(git rev-parse HEAD)
         echo "head_sha=${HEAD_SHA}" >> "${GITHUB_OUTPUT}"
         echo "short_sha=${HEAD_SHA:0:7}" >> "${GITHUB_OUTPUT}"
         if [[ -f .gitignore ]]; then
           sed -i '/^\.gemini\/$/d; /^\.agents\/$/d' .gitignore
         fi
-        mkdir -p .gemini
         git diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
         git diff -U5 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/pr_diff.patch
         # Every added line prefixed with `path:line:` so the model can anchor inline comments on
-        # exact new-file line numbers.
+        # exact new-file line numbers. `+++ b/<path>` only counts as a file header inside the
+        # header block that starts at `diff --git` and ends at the first `@@`, so an added line
+        # whose content starts with `++ b/` is never mistaken for one.
         git diff -U0 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' | awk '
-          /^\+\+\+ b\// { file = substr($0, 7); next }
-          /^@@/ { match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+          /^diff --git / { in_header = 1; next }
+          in_header && /^\+\+\+ b\// { file = substr($0, 7); next }
+          /^@@/ { in_header = 0; match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+          in_header { next }
           /^\+/ { printf "%s:%d: %s\n", file, line, substr($0, 2); line++ }
         ' > .gemini/added_lines.txt
+        # Snapshot the PR version of each touched file for context, under .gemini/pr_files/.
+        while IFS= read -r file; do
+          mkdir -p ".gemini/pr_files/$(dirname "${file}")"
+          git show "${HEAD_REF}:${file}" > ".gemini/pr_files/${file}"
+        done < .gemini/target_files.txt
         FILE_COUNT=$(grep -c '\.kt$' .gemini/target_files.txt || true)
         echo "file_count=${FILE_COUNT}" >> "${GITHUB_OUTPUT}"
         echo "Found ${FILE_COUNT} modified Kotlin file(s) to audit."
@@ -167,9 +160,8 @@ jobs:
         export PATH="${HOME}/.local/bin:${PATH}"
         android skills add --agent=gemini --project=. jetpack-compose-performance
 
-    # Gemini posts inline review comments itself through the GitHub MCP server, following the
-    # run-gemini-cli pr-review example:
-    # https://github.com/google-github-actions/run-gemini-cli/tree/main/examples/workflows/pr-review
+    # Gemini has read-only file tools and no GitHub access. Its Markdown report is posted by the
+    # summary step below as one comment that's updated in place on every push.
     - name: Run Jetpack Compose Performance Skill
       if: steps.context.outputs.file_count != '0'
       id: gemini_review
@@ -179,18 +171,13 @@ jobs:
       uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
       env:
         GEMINI_CLI_TRUST_WORKSPACE: 'true'
-        GITHUB_TOKEN: ${{ secrets.PAT || github.token }}
-        REPOSITORY: ${{ github.repository }}
-        PR_NUMBER: ${{ steps.context.outputs.pr_number }}
-        HEAD_SHA: ${{ steps.context.outputs.head_sha }}
       with:
         gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-        github_pr_number: ${{ steps.context.outputs.pr_number }}
         upload_artifacts: 'true'
         settings: |
           {
             "model": {
-              "maxSessionTurns": 60
+              "maxSessionTurns": 40
             },
             "context": {
               "fileFiltering": {
@@ -204,27 +191,6 @@ jobs:
             },
             "tools": {
               "core": ["read_file", "read_many_files", "list_directory", "glob"]
-            },
-            "mcpServers": {
-              "github": {
-                "command": "docker",
-                "args": [
-                  "run",
-                  "-i",
-                  "--rm",
-                  "-e",
-                  "GITHUB_PERSONAL_ACCESS_TOKEN",
-                  "ghcr.io/github/github-mcp-server:v0.27.0"
-                ],
-                "includeTools": [
-                  "add_comment_to_pending_review",
-                  "pull_request_read",
-                  "pull_request_review_write"
-                ],
-                "env": {
-                  "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
-                }
-              }
             }
           }
         prompt: |
@@ -235,39 +201,24 @@ jobs:
           ## Step 1: Analyze
           1. Read `.agents/skills/jetpack-compose-performance/SKILL.md` first.
           2. Read `.gemini/pr_diff.patch` to identify the lines added or modified in this change (`+` lines). The touched Kotlin files are listed in `.gemini/target_files.txt`. `.gemini/added_lines.txt` lists every added line as `path:line: content` with its exact new-file line number.
-          3. You may read the touched Kotlin files ONLY to understand the surrounding context (enclosing `@Composable` functions, state declarations, parameters, imports) of the changed lines.
+          3. The PR version of each touched file is at `.gemini/pr_files/<path>` (the working tree contains the base branch, not the PR). Always use the plain repo path, without the `.gemini/pr_files/` prefix, when you report findings or post comments. You may read those snapshots ONLY to understand the surrounding context (enclosing `@Composable` functions, state declarations, parameters, imports) of the changed lines.
           4. **Strict Diff Scope**: Only report findings on newly introduced or modified code (`+` lines). Do NOT report findings on pre-existing, untouched code.
           5. Whenever changed code matches a rule in Categories 1-7, you MUST open and read the corresponding `.agents/skills/jetpack-compose-performance/references/**/*.md` file for the approved fix pattern and scope guards before reporting a finding.
 
-          ## Step 2: Skip issues that were already reported
-          Call `pull_request_read` with `method: "get_review_comments"` (owner/repo from `${{ github.repository }}`, `pullNumber: ${{ steps.context.outputs.pr_number }}`). Do NOT comment again on an issue that already has a review thread about the same problem in the same function, even if the line numbers moved. Count those as "already reported".
+          ## Step 2: Report
+          Do NOT modify any files. Your final response becomes the body of the PR's single review comment. Respond with ONLY this Markdown (no top-level heading):
 
-          ## Step 3: Post inline comments for NEW findings only
-          Skip this step entirely if there are no new findings. Otherwise:
-          1. Call `pull_request_review_write` with `method: "create"`, `commitID: "${{ steps.context.outputs.head_sha }}"` and NO `event`, to create a pending review. If it fails because a pending review already exists, call it with `method: "delete_pending"` and then create again.
-          2. For each new finding, call `add_comment_to_pending_review` with `subjectType: "LINE"`, `side: "RIGHT"`, `path`, `line` (last line of the affected code) and, for multi-line ranges, `startLine` and `startSide: "RIGHT"`. Every line MUST be a `+` line from `.gemini/added_lines.txt`. Keep the range tight around the offending statement(s). Use this body format:
+          **Status:** <"✅ No Jetpack Compose performance issues found in the changed code." or "⚠️ N potential Jetpack Compose performance issue(s) found.">
 
-             <severity emoji> **<one-line title>**
+          <1-3 sentence overview.>
 
-             _<rule category>_
+          Then, for each finding, a `###` heading with a short title, followed by:
+          - **File:** `<repo path>` lines <start>–<end> (new-file line numbers from `.gemini/added_lines.txt`)
+          - **Rule:** <skill category and rule>
+          - **Why it matters:** <1-3 sentences>
+          - **Suggested fix:** a ```kotlin block
 
-             <why it impacts Compose performance, 1-3 sentences>
-
-             ```suggestion
-             <exact replacement for lines startLine..line, preserving indentation>
-             ```
-
-             Severity emojis: 🔴 high, 🟠 medium, 🟡 low. Only use a ```suggestion block when it is a complete, compilable drop-in replacement for exactly the commented lines; otherwise use a ```kotlin block titled "Suggested fix".
-          3. Call `pull_request_review_write` with `method: "submit_pending"`, `event: "COMMENT"` and `body: "Jetpack Compose performance review: see the summary comment for overall status."`. NEVER use `APPROVE` or `REQUEST_CHANGES`.
-
-          ## Step 4: Final response
-          Do NOT modify any files. Your final response becomes the body of the PR's summary comment. Respond with ONLY this Markdown (no top-level heading):
-
-          **Status:** <"✅ No Jetpack Compose performance issues found." or "⚠️ N potential Jetpack Compose performance issue(s) found (X new inline comment(s), Y already reported).">
-
-          <2-4 sentence overview of the overall Compose performance health of the change.>
-
-          <If there are findings, a table with columns `File`, `Line`, `Finding`, `Inline comment` (value `new` or `already reported`), one row per finding (new and already reported). Use the file name only, not the full path.>
+          Report only findings you are confident about, and at most 10. Skip the skill's intentional "bad" examples (functions or regions named `*Bad`) and nits that would make a sample harder to read.
 
     - name: Classify Review Failure
       id: classify
@@ -283,7 +234,7 @@ jobs:
         fi
 
     - name: Write Summary
-      if: always() && steps.context.outputs.file_count != '0'
+      if: always() && !cancelled() && steps.context.outcome == 'success' && steps.context.outputs.file_count != '0'
       env:
         REVIEW_SUMMARY: ${{ steps.gemini_review.outputs.summary }}
         CAPACITY_ERROR: ${{ steps.classify.outputs.capacity_error }}
@@ -308,7 +259,7 @@ jobs:
         cat .gemini/summary.md >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Update Summary Comment
-      if: always() && steps.context.outputs.pr_number != '' && steps.context.outputs.file_count != '0'
+      if: always() && !cancelled() && steps.context.outcome == 'success' && steps.context.outputs.pr_number != '' && steps.context.outputs.file_count != '0'
       uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
       with:
         GITHUB_TOKEN: ${{ secrets.PAT || github.token }}
