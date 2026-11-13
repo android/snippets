@@ -91,9 +91,11 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.viewbinding)
