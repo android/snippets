@@ -84,6 +84,19 @@ private val ShowHideTwice = PreviewRecording(
     )
 )
 
+/** Taps DeviceToggle's Foldable, Tablet and Phone buttons in turn. */
+private val DeviceToggleTour = PreviewRecording(
+    listOf(
+        PreviewStep.Wait(1_200),
+        PreviewStep.Click("Foldable"),
+        PreviewStep.Wait(1_500),
+        PreviewStep.Click("Tablet"),
+        PreviewStep.Wait(1_500),
+        PreviewStep.Click("Phone"),
+        PreviewStep.Wait(1_200),
+    )
+)
+
 /** One full cycle of a two-second `infiniteRepeatable(tween(1000), RepeatMode.Reverse)`. */
 private val OneInfiniteCycle = PreviewRecording(listOf(PreviewStep.Wait(2_000)))
 
@@ -217,4 +230,7 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
         topYFraction = 0.25f,
         dragMillis = 800,
     ),
+    // Taps through DeviceToggle so the navigation bar (Phone) turns into a rail (Foldable, Tablet),
+    // then back to Phone so the video loops.
+    "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items" to DeviceToggleTour,
 )

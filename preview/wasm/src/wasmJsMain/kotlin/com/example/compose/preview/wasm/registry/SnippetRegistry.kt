@@ -41,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.adaptivelayouts.SampleNavigationSuiteScaffoldItems
 import com.example.compose.snippets.animations.AnimateElevation
 import com.example.compose.snippets.animations.AnimateOffset
 import com.example.compose.snippets.animations.AnimatePadding
@@ -305,6 +306,7 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_indeterminatecircularwavyindicator" to DefaultPreviewFrame,
     "android_compose_expressive_components_indeterminatelinearindicator" to DefaultPreviewFrame,
     "android_compose_expressive_components_indeterminatecircularindicator" to DefaultPreviewFrame,
+    "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items" to DeviceTogglePreviewFrame,
 )
 
 /*
@@ -542,6 +544,11 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Build adaptive navigation. Starts on Phone, so the static preview shows a navigation bar;
+        // Foldable and Tablet switch it to a navigation rail.
+        "android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items" to {
+            DeviceToggle(initialDevice = PreviewDevice.Phone) { SampleNavigationSuiteScaffoldItems() }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
