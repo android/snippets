@@ -199,7 +199,7 @@ fun ButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(AppIcons.FavoriteFilled),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
@@ -215,7 +215,7 @@ fun ToggleButtonWithIconSample() {
     ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
         Icon(
             painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.IconSize),
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -235,7 +235,7 @@ fun XSmallButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(AppIcons.EditFilled),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -258,7 +258,7 @@ fun XSmallToggleButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -278,7 +278,7 @@ fun MediumButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(AppIcons.EditFilled),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -301,7 +301,7 @@ fun MediumToggleButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -321,7 +321,7 @@ fun LargeButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(AppIcons.EditFilled),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -344,7 +344,7 @@ fun LargeToggleButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -364,7 +364,7 @@ fun XLargeButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(AppIcons.EditFilled),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
@@ -387,7 +387,7 @@ fun XLargeToggleButtonWithIconSample() {
     ) {
         Icon(
             painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
-            contentDescription = "Localized description",
+            contentDescription = null,
             modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
         )
         Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))

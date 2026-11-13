@@ -177,7 +177,7 @@ fun FilterChipWithCornerMorphingSample() {
             {
                 Icon(
                     painter = rememberVectorPainter(AppIcons.Done),
-                    contentDescription = "Localized Description",
+                    contentDescription = null,
                     modifier = Modifier.size(FilterChipDefaults.IconSize),
                 )
             }
@@ -202,7 +202,7 @@ fun ElevatedFilterChipWithCornerMorphingSample() {
             {
                 Icon(
                     painter = rememberVectorPainter(AppIcons.Done),
-                    contentDescription = "Localized Description",
+                    contentDescription = null,
                     modifier = Modifier.size(FilterChipDefaults.IconSize),
                 )
             }
@@ -210,7 +210,7 @@ fun ElevatedFilterChipWithCornerMorphingSample() {
             {
                 Icon(
                     painter = rememberVectorPainter(AppIcons.Home),
-                    contentDescription = "Localized Description",
+                    contentDescription = null,
                     modifier = Modifier.size(FilterChipDefaults.IconSize),
                 )
             }
@@ -218,7 +218,7 @@ fun ElevatedFilterChipWithCornerMorphingSample() {
         trailingIcon = {
             Icon(
                 painter = rememberVectorPainter(AppIcons.ArrowDropDown),
-                contentDescription = "Localized Description",
+                contentDescription = null,
                 modifier = Modifier.size(FilterChipDefaults.IconSize),
             )
         },
@@ -239,7 +239,7 @@ fun InputChipWithCornerMorphingSample() {
         avatar = {
             Icon(
                 painter = rememberVectorPainter(AppIcons.Person),
-                contentDescription = "Localized description",
+                contentDescription = null,
                 modifier = Modifier.size(InputChipDefaults.AvatarSize),
             )
         },

@@ -49,7 +49,7 @@ fun FilledSplitButtonSample() {
                 Icon(
                     painter = rememberVectorPainter(AppIcons.Edit),
                     modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize),
-                    contentDescription = "Edit",
+                    contentDescription = null,
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text("My Button")
@@ -76,7 +76,7 @@ fun FilledSplitButtonSample() {
                         Modifier.size(SplitButtonDefaults.TrailingIconSize).graphicsLayer {
                             this.rotationZ = rotation
                         },
-                    contentDescription = "Options",
+                    contentDescription = null,
                 )
             }
         },
@@ -96,7 +96,7 @@ fun TonalSplitButtonSample() {
                 Icon(
                     painter = rememberVectorPainter(AppIcons.Edit),
                     modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize),
-                    contentDescription = "Edit",
+                    contentDescription = null,
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text("My Button")
@@ -123,7 +123,7 @@ fun TonalSplitButtonSample() {
                         Modifier.size(SplitButtonDefaults.TrailingIconSize).graphicsLayer {
                             this.rotationZ = rotation
                         },
-                    contentDescription = "Options",
+                    contentDescription = null,
                 )
             }
         },

@@ -413,7 +413,7 @@ fun ModalWideNavigationRailSample() {
                     icon = {
                         Icon(
                             painter = rememberVectorPainter(if (selectedItem == index) selectedIcons[index] else unselectedIcons[index]),
-                            contentDescription = item,
+                            contentDescription = null,
                         )
                     },
                     label = { Text(item) },

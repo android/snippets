@@ -445,7 +445,7 @@ private fun DropdownMenuButtonGroup() {
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbUp), contentDescription = null)
                     },
                     text = { Text("Thumbs up") },
                     onClick = {},
@@ -468,7 +468,7 @@ private fun DropdownMenuButtonGroup() {
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.ThumbDown), contentDescription = null)
                     },
                     text = { Text("Thumbs down") },
                     onClick = {},
@@ -491,7 +491,7 @@ private fun DropdownMenuButtonGroup() {
             menuContent = {
                 DropdownMenuItem(
                     leadingIcon = {
-                        Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = "Localized description")
+                        Icon(painter = rememberVectorPainter(AppIcons.TagFaces), contentDescription = null)
                     },
                     text = { Text("Emotes") },
                     onClick = {},
