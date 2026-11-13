@@ -91,4 +91,6 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         )
     ),
+    // basicMarquee waits 1.2 seconds, then scrolls the text slowly; record the start of the scroll.
+    "android_compose_text_marquee" to PreviewRecording(listOf(PreviewStep.Wait(8_000))),
 )

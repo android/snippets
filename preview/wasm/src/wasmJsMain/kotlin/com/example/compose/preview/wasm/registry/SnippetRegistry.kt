@@ -111,6 +111,16 @@ import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
 import com.example.compose.snippets.components.VerticalDividerExample
+import com.example.compose.snippets.text.AlphaBrushSnippet
+import com.example.compose.snippets.text.AnnotatedStringBrushSnippet
+import com.example.compose.snippets.text.BasicMarqueeSample
+import com.example.compose.snippets.text.BigText
+import com.example.compose.snippets.text.BlueText
+import com.example.compose.snippets.text.BoldText
+import com.example.compose.snippets.text.ItalicText
+import com.example.compose.snippets.text.MultipleStylesInText
+import com.example.compose.snippets.text.TextShadow
+import com.example.compose.snippets.text.TextStyledBrushSnippet
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -203,6 +213,7 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_elevation" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
+    "android_compose_text_marquee" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
 )
 
@@ -341,6 +352,25 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Style text (text/StyleText.kt).
+        "android_compose_text_color" to { CenteredBox { BlueText() } },
+        "android_compose_text_size" to { CenteredBox { BigText() } },
+        "android_compose_text_italic" to { CenteredBox { ItalicText() } },
+        "android_compose_text_bold" to { CenteredBox { BoldText() } },
+        "android_compose_text_shadow" to { CenteredBox { TextShadow() } },
+        "android_compose_text_multistyle" to { CenteredBox { MultipleStylesInText() } },
+        "android_compose_text_brush" to {
+            CenteredBox {
+                TextStyledBrushSnippet(
+                    "Do not allow people to dim your shine because they are blinded. " +
+                        "Tell them to put some sunglasses on."
+                )
+            }
+        },
+        "android_compose_text_annotatedString_brush" to { CenteredBox { AnnotatedStringBrushSnippet() } },
+        "android_compose_text_alpha_brush" to { CenteredBox { AlphaBrushSnippet() } },
+        // Its static DAC preview is an MP4 recorded from PreviewRecordings.
+        "android_compose_text_marquee" to { CenteredBox { BasicMarqueeSample() } },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
