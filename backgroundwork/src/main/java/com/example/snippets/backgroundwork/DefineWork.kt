@@ -102,8 +102,8 @@ private fun schedulePeriodicWorkFlex() {
     // [START android_background_periodic_work_request_flex]
     val myUploadWork = PeriodicWorkRequestBuilder<SaveImageToFileWorker>(
         1, TimeUnit.HOURS, // repeatInterval (the period cycle).
-        15, TimeUnit.MINUTES
-    ) // flexInterval.
+        15, TimeUnit.MINUTES // flexInterval.
+    )
         .build()
     // [END android_background_periodic_work_request_flex]
 }
