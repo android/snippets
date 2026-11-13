@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2026 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <item name="action_lock" type="id" />
+    <item name="action_save" type="id" />
+    <item name="bottom_left" type="id" />
+    <item name="button_simple" type="id" />
+    <item name="callButton" type="id" />
+    <item name="countTV" type="id" />
+    <item name="greet_button" type="id" />
+    <item name="hide_contextual_action_bar" type="id" />
+    <item name="item_content" type="id" />
+    <item name="item_size" type="id" />
+    <item name="list" type="id" />
+    <item name="my_view" type="id" />
+    <item name="name_field" type="id" />
+    <item name="phoneNumber" type="id" />
+    <item name="pickButton" type="id" />
+    <item name="recyclerView" type="id" />
+    <item name="show_contextual_action_bar" type="id" />
+    <item name="spinner_simple" type="id" />
+    <item name="spinnertext_simple" type="id" />
+    <item name="text_action_bar_result" type="id" />
+    <item name="text_simple" type="id" />
+    <item name="list_item" type="layout" />
+</resources>
