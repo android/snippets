@@ -18,6 +18,7 @@
     <!-- [START android_security_network_config_platform_protections] -->
     <base-config cleartextTrafficPermitted="false">
         <certificateTransparency enabled="true" />
+        <domainEncryption mode="enabled" />
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

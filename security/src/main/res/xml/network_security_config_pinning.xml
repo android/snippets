@@ -26,7 +26,7 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">api.example.com</domain>
         <!-- Example date. After it passes, the platform stops enforcing the pins. -->
-        <pin-set expiration="2028-12-31">
+        <pin-set expiration="2027-12-31">
             <!-- Example values only. Each pin is the base64 SHA-256 hash of the SPKI
                  of a real key: the key the server uses today and a backup key. -->
             <pin digest="SHA-256">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</pin>
