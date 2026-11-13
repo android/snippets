@@ -192,7 +192,7 @@ private fun MorphExample() {
 
 @Preview
 @Composable
-private fun MorphExampleAnimation() {
+fun MorphExampleAnimation() {
     // [START android_compose_graphics_polygon_morph_animation]
     val infiniteAnimation = rememberInfiniteTransition(label = "infinite animation")
     val morphProgress = infiniteAnimation.animateFloat(
@@ -308,7 +308,7 @@ class MorphPolygonShape(
 // [END android_compose_morph_clip_shape]
 @Preview
 @Composable
-private fun MorphOnClick() {
+fun MorphOnClick() {
     // [START android_compose_graphics_morph_on_click]
     val shapeA = remember {
         RoundedPolygon(
@@ -523,6 +523,12 @@ private fun RotatingScallopedProfilePic() {
     }
 }
 // [END android_compose_shapes_custom_rotating_morph_shape]
+
+/** Lets the interactive preview registry show [RotatingScallopedProfilePic], which stays private. */
+@Composable
+fun RotatingScallopedProfilePicPreview() {
+    RotatingScallopedProfilePic()
+}
 
 @Preview
 @Composable

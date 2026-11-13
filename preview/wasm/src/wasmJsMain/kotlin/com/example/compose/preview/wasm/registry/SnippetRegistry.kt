@@ -165,6 +165,9 @@ import com.example.compose.snippets.components.XLargeButtonWithIconSample
 import com.example.compose.snippets.components.XLargeToggleButtonWithIconSample
 import com.example.compose.snippets.components.XSmallButtonWithIconSample
 import com.example.compose.snippets.components.XSmallToggleButtonWithIconSample
+import com.example.compose.snippets.graphics.MorphExampleAnimation
+import com.example.compose.snippets.graphics.MorphOnClick
+import com.example.compose.snippets.graphics.RotatingScallopedProfilePicPreview
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -270,6 +273,10 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
+    // Shapes in Compose: the infinite morph fills its frame; the other two are 200dp in size.
+    "android_compose_graphics_polygon_morph_animation" to AnimationPreviewFrame,
+    "android_compose_graphics_morph_on_click" to PreviewFrame(576, 324),
+    "android_compose_shapes_custom_rotating_morph_shape" to PreviewFrame(576, 324),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -461,6 +468,10 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Shapes in Compose (graphics/draw/shapes). Their static DAC previews are MP4s.
+        "android_compose_graphics_polygon_morph_animation" to { CenteredBox { MorphExampleAnimation() } },
+        "android_compose_graphics_morph_on_click" to { CenteredBox { MorphOnClick() } },
+        "android_compose_shapes_custom_rotating_morph_shape" to { CenteredBox { RotatingScallopedProfilePicPreview() } },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

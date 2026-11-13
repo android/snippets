@@ -91,4 +91,11 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         )
     ),
+    // The morph reverses every 500ms, so 2 seconds is two full cycles.
+    "android_compose_graphics_polygon_morph_animation" to OneInfiniteCycle,
+    "android_compose_graphics_morph_on_click" to PreviewRecording(
+        listOf(PreviewStep.Wait(500), PreviewStep.Press(1_200), PreviewStep.Wait(1_300))
+    ),
+    // The rotation reverses every 6 seconds, so one full cycle takes 12 seconds.
+    "android_compose_shapes_custom_rotating_morph_shape" to PreviewRecording(listOf(PreviewStep.Wait(12_000))),
 )

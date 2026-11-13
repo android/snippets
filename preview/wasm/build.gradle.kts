@@ -58,6 +58,10 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("AnimationQuickGuide.kt")
         into("com/example/compose/snippets/animations")
     }
+    from("$snippetsRoot/graphics") {
+        include("ShapesSnippets.kt")
+        into("com/example/compose/snippets/graphics")
+    }
     // Sample image URLs used by AnimationQuickGuide.kt.
     from("$snippetsRoot/util") {
         include("ImageLoadingSampleUtils.kt")
@@ -175,6 +179,8 @@ kotlin {
                 implementation(libs.coil3.compose)
                 implementation(libs.coil3.network.ktor3)
                 implementation(libs.ktor.client.js)
+                // ShapesSnippets.kt uses RoundedPolygon and Morph.
+                implementation(libs.androidx.graphics.shapes)
             }
         }
     }
