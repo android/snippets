@@ -40,12 +40,13 @@ fun connectToSecureServer(onUrlString: String) {
 
         conn.connect()
     } catch (e: SSLPeerUnverifiedException) {
-        // Triggered by certificate pinning or hostname mismatch errors
+        // Triggered by a hostname mismatch or an OkHttp CertificatePinner mismatch
         Log.w("SECURITY_HANDSHAKE_FAIL", "Peer verification failed. Host identity unconfirmed.", e)
         // Terminate request immediately; do not retry with fallback HTTP or without pins
         showErrorToUser("Connection insecure. Please try again later.")
     } catch (e: SSLHandshakeException) {
-        // Triggered by untrusted CAs, expired certificates, or protocol mismatch
+        // Triggered by untrusted CAs, expired certificates, protocol mismatch, or a
+        // pin-set mismatch in the network security config
         Log.e("SECURITY_HANDSHAKE_FAIL", "SSL Handshake failed", e)
         showErrorToUser("Secure connection failed. Please check your network and device time.")
     } catch (e: SSLProtocolException) {
