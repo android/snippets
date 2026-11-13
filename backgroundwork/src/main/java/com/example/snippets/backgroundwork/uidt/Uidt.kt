@@ -43,7 +43,7 @@ private object JobServiceSkeleton {
     // [START android_backgroundwork_uidt_job_service_skeleton]
     class CustomTransferService : JobService() {
         // ...
-        // [START_EXCLUDE]
+        // [START_EXCLUDE silent]
         override fun onStartJob(params: JobParameters): Boolean = false
 
         override fun onStopJob(params: JobParameters): Boolean = false
