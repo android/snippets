@@ -154,7 +154,9 @@ fun TextButtonExample(onClick: () -> Unit) {
 @Composable
 fun ToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
-    ToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Button") }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Button")
+    }
 }
 // [END android_compose_expressive_components_filledtogglebutton]
 
@@ -172,7 +174,9 @@ fun ElevatedToggleButtonSample() {
 @Composable
 fun TonalToggleButtonSample() {
     var checked by remember { mutableStateOf(false) }
-    FilledTonalToggleButton(checked = checked, onCheckedChange = { checked = it }) { Text("Tonal Button") }
+    FilledTonalToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Tonal Button")
+    }
 }
 // [END android_compose_expressive_components_tonaltogglebutton]
 

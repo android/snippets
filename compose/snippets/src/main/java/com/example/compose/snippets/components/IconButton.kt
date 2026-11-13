@@ -126,8 +126,8 @@ fun MomentaryIconButtonExample() {
 }
 // [END android_compose_components_momentaryiconbuttons]
 
-// [START android_compose_expressive_components_animatediconbuttons]
 @Preview
+// [START android_compose_expressive_components_animatediconbuttons]
 @Composable
 fun IconButtonWithAnimatedShapeSample() {
     IconButton(
@@ -139,8 +139,8 @@ fun IconButtonWithAnimatedShapeSample() {
 }
 // [END android_compose_expressive_components_animatediconbuttons]
 
-// [START android_compose_expressive_components_animatedtoggleiconbuttons]
 @Preview
+// [START android_compose_expressive_components_animatedtoggleiconbuttons]
 @Composable
 fun IconToggleButtonWithAnimatedShapeSample() {
     var checked by remember { mutableStateOf(false) }

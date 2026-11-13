@@ -28,11 +28,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AppBarRow
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FlexibleBottomAppBar
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -85,6 +87,7 @@ fun AppBarExamples(
             "topBarEnterAlways" -> EnterAlwaysTopAppBar()
             "topBarMediumFlexible" -> ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar()
             "topBarLargeFlexible" -> ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar()
+            "bottomBarFlexible" -> FlexibleBottomAppBarSample()
             else -> AppBarOptions(
                 toBottom = { selection = "bottomBar" },
                 toTopBarSmall = { selection = "topBar" },
@@ -97,6 +100,7 @@ fun AppBarExamples(
                 toTopBarEnterAlways = { selection = "topBarEnterAlways" },
                 toTopBarMediumFlexible = { selection = "topBarMediumFlexible" },
                 toTopBarLargeFlexible = { selection = "topBarLargeFlexible" },
+                toBottomBarFlexible = { selection = "bottomBarFlexible" },
             )
         }
     }
@@ -115,6 +119,7 @@ fun AppBarOptions(
     toTopBarEnterAlways: () -> Unit,
     toTopBarMediumFlexible: () -> Unit,
     toTopBarLargeFlexible: () -> Unit,
+    toBottomBarFlexible: () -> Unit,
 ) {
     Column() {
         Button({ toBottom() }) {
@@ -149,6 +154,9 @@ fun AppBarOptions(
         }
         Button({ toTopBarLargeFlexible() }) {
             Text("Large flexible top bar")
+        }
+        Button({ toBottomBarFlexible() }) {
+            Text("Flexible bottom bar")
         }
     }
 }
@@ -601,6 +609,7 @@ fun SimpleCenterAlignedTopAppBarWithSubtitle() {
             )
         },
         content = { innerPadding ->
+            // [START_EXCLUDE]
             LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 val list = (0..75).map { it.toString() }
                 items(count = list.size) {
@@ -611,6 +620,7 @@ fun SimpleCenterAlignedTopAppBarWithSubtitle() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         },
     )
 }
@@ -650,6 +660,7 @@ fun EnterAlwaysTopAppBar() {
             )
         },
         content = { innerPadding ->
+            // [START_EXCLUDE]
             LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 val list = (0..75).map { it.toString() }
                 items(count = list.size) {
@@ -660,6 +671,7 @@ fun EnterAlwaysTopAppBar() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         },
     )
 }
@@ -700,6 +712,7 @@ fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
             )
         },
         content = { innerPadding ->
+            // [START_EXCLUDE]
             LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 val list = (0..75).map { it.toString() }
                 items(count = list.size) {
@@ -710,6 +723,7 @@ fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         },
     )
 }
@@ -750,6 +764,7 @@ fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
             )
         },
         content = { innerPadding ->
+            // [START_EXCLUDE]
             LazyColumn(contentPadding = innerPadding, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 val list = (0..75).map { it.toString() }
                 items(count = list.size) {
@@ -760,6 +775,7 @@ fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         },
     )
 }
@@ -769,4 +785,63 @@ fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
 @Composable
 private fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBarPreview() {
     ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar()
+}
+
+// [START android_compose_expressive_components_flexiblebottomappbar]
+@Composable
+fun FlexibleBottomAppBarSample() {
+    val icons =
+        listOf(
+            AppIcons.ArrowBack,
+            AppIcons.ArrowForward,
+            AppIcons.Add,
+            AppIcons.Check,
+            AppIcons.Edit,
+            AppIcons.Favorite,
+        )
+    val items = listOf("Back", "Forward", "Add", "Check", "Edit", "Favorite")
+
+    FlexibleBottomAppBar(
+        contentPadding = PaddingValues(horizontal = 96.dp),
+        horizontalArrangement = BottomAppBarDefaults.FlexibleFixedHorizontalArrangement,
+    ) {
+        AppBarRow(
+            overflowIndicator = { menuState ->
+                IconButton(
+                    onClick = {
+                        if (menuState.isShowing) {
+                            menuState.dismiss()
+                        } else {
+                            menuState.show()
+                        }
+                    }
+                ) {
+                    Icon(
+                        painter = rememberVectorPainter(AppIcons.MoreVert),
+                        contentDescription = "Overflow",
+                    )
+                }
+            }
+        ) {
+            items.forEachIndexed { index, item ->
+                clickableItem(
+                    onClick = { /* doSomething() */ },
+                    icon = {
+                        Icon(
+                            painter = rememberVectorPainter(icons[index]),
+                            contentDescription = item,
+                        )
+                    },
+                    label = item,
+                )
+            }
+        }
+    }
+}
+// [END android_compose_expressive_components_flexiblebottomappbar]
+
+@Preview
+@Composable
+private fun FlexibleBottomAppBarSamplePreview() {
+    FlexibleBottomAppBarSample()
 }

@@ -267,7 +267,7 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
 
     Column {
         Text(
-            "Note: this is configuration is better displayed in medium screen sizes.",
+            "Note: this configuration is better displayed in medium screen sizes.",
             Modifier.padding(16.dp),
         )
 

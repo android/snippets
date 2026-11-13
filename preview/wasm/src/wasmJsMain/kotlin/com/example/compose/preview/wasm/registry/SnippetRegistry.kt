@@ -56,6 +56,7 @@ import com.example.compose.snippets.components.AssistChipExample
 import com.example.compose.snippets.components.BadgeExample
 import com.example.compose.snippets.components.BadgeInteractiveExample
 import com.example.compose.snippets.components.BottomAppBarExample
+import com.example.compose.snippets.components.ButtonGroupSample
 import com.example.compose.snippets.components.ButtonWithIconSample
 import com.example.compose.snippets.components.CarouselExample
 import com.example.compose.snippets.components.CarouselExample_MultiBrowse
@@ -64,22 +65,31 @@ import com.example.compose.snippets.components.CheckboxMinimalExample
 import com.example.compose.snippets.components.CheckboxParentExample
 import com.example.compose.snippets.components.CircularProgressIndicatorSample
 import com.example.compose.snippets.components.CircularWavyProgressIndicatorSample
+import com.example.compose.snippets.components.ContainedLoadingIndicatorSample
 import com.example.compose.snippets.components.CustomizableSearchBarExample
+import com.example.compose.snippets.components.DeterminateLoadingIndicatorSample
 import com.example.compose.snippets.components.DialogWithImage
 import com.example.compose.snippets.components.DismissibleModalWideNavigationRailSample
 import com.example.compose.snippets.components.DropdownMenuWithDetails
 import com.example.compose.snippets.components.ElevatedButtonExample
 import com.example.compose.snippets.components.ElevatedCardExample
+import com.example.compose.snippets.components.ElevatedFilterChipWithCornerMorphingSample
 import com.example.compose.snippets.components.ElevatedToggleButtonSample
 import com.example.compose.snippets.components.EnterAlwaysTopAppBar
 import com.example.compose.snippets.components.Example
 import com.example.compose.snippets.components.ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar
 import com.example.compose.snippets.components.ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar
+import com.example.compose.snippets.components.ExpandableHorizontalFloatingToolbarSample
+import com.example.compose.snippets.components.ExpandableVerticalFloatingToolbarSample
 import com.example.compose.snippets.components.ExtendedExample
 import com.example.compose.snippets.components.FilledButtonExample
 import com.example.compose.snippets.components.FilledCardExample
+import com.example.compose.snippets.components.FilledSplitButtonSample
 import com.example.compose.snippets.components.FilledTonalButtonExample
 import com.example.compose.snippets.components.FilterChipExample
+import com.example.compose.snippets.components.FilterChipWithCornerMorphingSample
+import com.example.compose.snippets.components.FlexibleBottomAppBarSample
+import com.example.compose.snippets.components.FloatingActionButtonMenuSample
 import com.example.compose.snippets.components.GroupedMenuSample
 import com.example.compose.snippets.components.HorizontalDividerExample
 import com.example.compose.snippets.components.IconButtonWithAnimatedShapeSample
@@ -90,6 +100,7 @@ import com.example.compose.snippets.components.IndeterminateCircularWavyProgress
 import com.example.compose.snippets.components.IndeterminateLinearProgressIndicatorSample
 import com.example.compose.snippets.components.IndeterminateLinearWavyProgressIndicatorSample
 import com.example.compose.snippets.components.InputChipExample
+import com.example.compose.snippets.components.InputChipWithCornerMorphingSample
 import com.example.compose.snippets.components.LargeButtonWithIconSample
 import com.example.compose.snippets.components.LargeExample
 import com.example.compose.snippets.components.LargeToggleButtonWithIconSample
@@ -97,6 +108,7 @@ import com.example.compose.snippets.components.LargeTopAppBarExample
 import com.example.compose.snippets.components.LinearDeterminateIndicator
 import com.example.compose.snippets.components.LinearProgressIndicatorSample
 import com.example.compose.snippets.components.LinearWavyProgressIndicatorSample
+import com.example.compose.snippets.components.LoadingIndicatorSample
 import com.example.compose.snippets.components.LongBasicDropdownMenu
 import com.example.compose.snippets.components.MediumButtonWithIconSample
 import com.example.compose.snippets.components.MediumFloatingActionButtonSample
@@ -107,11 +119,13 @@ import com.example.compose.snippets.components.MinimalDropdownMenu
 import com.example.compose.snippets.components.ModalWideNavigationRailSample
 import com.example.compose.snippets.components.MomentaryIconButtonExample
 import com.example.compose.snippets.components.MultiChoiceSegmentedButton
+import com.example.compose.snippets.components.MultiSelectConnectedButtonGroupSample
 import com.example.compose.snippets.components.NavigationBarExample
 import com.example.compose.snippets.components.NavigationDrawerExamples
 import com.example.compose.snippets.components.NavigationRailExample
 import com.example.compose.snippets.components.OutlinedButtonExample
 import com.example.compose.snippets.components.OutlinedCardExample
+import com.example.compose.snippets.components.OutlinedTextFieldSample
 import com.example.compose.snippets.components.OutlinedToggleButtonSample
 import com.example.compose.snippets.components.PartialBottomSheet
 import com.example.compose.snippets.components.PlainTooltipExample
@@ -120,11 +134,13 @@ import com.example.compose.snippets.components.RadioButtonSingleSelection
 import com.example.compose.snippets.components.RangeSliderExample
 import com.example.compose.snippets.components.RichTooltipExample
 import com.example.compose.snippets.components.ScaffoldExample
+import com.example.compose.snippets.components.ScrollableHorizontalFloatingToolbarSample
 import com.example.compose.snippets.components.ShortNavigationBarSample
 import com.example.compose.snippets.components.ShortNavigationBarWithHorizontalItemsSample
 import com.example.compose.snippets.components.SimpleCenterAlignedTopAppBarWithSubtitle
 import com.example.compose.snippets.components.SimpleSearchBarExample
 import com.example.compose.snippets.components.SingleChoiceSegmentedButton
+import com.example.compose.snippets.components.SingleSelectConnectedButtonGroupSample
 import com.example.compose.snippets.components.SliderAdvancedExample
 import com.example.compose.snippets.components.SliderMinimalExample
 import com.example.compose.snippets.components.SmallExample
@@ -137,9 +153,11 @@ import com.example.compose.snippets.components.SwitchMinimalExample
 import com.example.compose.snippets.components.SwitchWithCustomColors
 import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
+import com.example.compose.snippets.components.TextFieldSample
 import com.example.compose.snippets.components.ToggleButtonSample
 import com.example.compose.snippets.components.ToggleButtonWithIconSample
 import com.example.compose.snippets.components.ToggleIconButtonExample
+import com.example.compose.snippets.components.TonalSplitButtonSample
 import com.example.compose.snippets.components.TonalToggleButtonSample
 import com.example.compose.snippets.components.VerticalDividerExample
 import com.example.compose.snippets.components.WideNavigationRailResponsiveSample
@@ -243,6 +261,12 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    "android_compose_expressive_components_singleselectconnectedbuttongroup" to PreviewFrame(512, 288),
+    "android_compose_expressive_components_multiselectconnectedbuttongroup" to PreviewFrame(512, 288),
+    "android_compose_expressive_components_floatingactionbuttonmenu" to PreviewFrame(360, 640),
+    "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -282,11 +306,20 @@ object SnippetRegistry {
         "android_compose_expressive_components_xlargebuttonwithicon" to { CenteredBox { XLargeButtonWithIconSample() } },
         "android_compose_expressive_components_xlargetogglebuttonwithicon" to { CenteredBox { XLargeToggleButtonWithIconSample() } },
         "android_compose_expressive_components_squaretogglebutton" to { CenteredBox { SquareToggleButtonSample() } },
+        "android_compose_expressive_components_buttongroup" to { CenteredBox { ButtonGroupSample() } },
+        "android_compose_expressive_components_singleselectconnectedbuttongroup" to { CenteredBox { SingleSelectConnectedButtonGroupSample() } },
+        "android_compose_expressive_components_multiselectconnectedbuttongroup" to { CenteredBox { MultiSelectConnectedButtonGroupSample() } },
+        "android_compose_expressive_components_filledsplitbutton" to { CenteredBox { FilledSplitButtonSample() } },
+        "android_compose_expressive_components_tonalsplitbutton" to { CenteredBox { TonalSplitButtonSample() } },
         "android_compose_components_fab" to { CenteredBox { Example(onClick = {}) } },
         "android_compose_components_extendedfab" to { CenteredBox { ExtendedExample(onClick = {}) } },
         "android_compose_components_smallfab" to { CenteredBox { SmallExample(onClick = {}) } },
         "android_compose_components_largefab" to { CenteredBox { LargeExample(onClick = {}) } },
         "android_compose_expressive_components_mediumfab" to { CenteredBox { MediumFloatingActionButtonSample() } },
+        "android_compose_expressive_components_floatingactionbuttonmenu" to { FloatingActionButtonMenuSample() },
+        "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to { ExpandableHorizontalFloatingToolbarSample() },
+        "android_compose_expressive_components_expandableverticalfloatingtoolbar" to { ExpandableVerticalFloatingToolbarSample() },
+        "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to { ScrollableHorizontalFloatingToolbarSample() },
         "android_compose_components_togglebuttonexample" to { CenteredBox { ToggleIconButtonExample() } },
         "android_compose_components_momentaryiconbuttons" to { CenteredBox { MomentaryIconButtonExample() } },
         "android_compose_expressive_components_animatediconbuttons" to { CenteredBox { IconButtonWithAnimatedShapeSample() } },
@@ -346,6 +379,9 @@ object SnippetRegistry {
         "android_compose_expressive_components_indeterminatelinearindicator" to { CenteredBox { IndeterminateLinearProgressIndicatorSample() } },
         "android_compose_expressive_components_determinatecircularindicator" to { CenteredBox { CircularProgressIndicatorSample() } },
         "android_compose_expressive_components_indeterminatecircularindicator" to { CenteredBox { IndeterminateCircularProgressIndicatorSample() } },
+        "android_compose_expressive_components_loadingindicator" to { CenteredBox { LoadingIndicatorSample() } },
+        "android_compose_expressive_components_containedloadingindicator" to { CenteredBox { ContainedLoadingIndicatorSample() } },
+        "android_compose_expressive_components_determinateloadingindicator" to { CenteredBox { DeterminateLoadingIndicatorSample() } },
         "android_compose_components_plaintooltipexample" to { CenteredBox { PlainTooltipExample() } },
         // Keeps the icon near the bottom, so the static preview's tooltip fits above it.
         "android_compose_components_richtooltipexample" to {
@@ -380,6 +416,7 @@ object SnippetRegistry {
         "android_compose_expressive_components_alwaysentertopappbar" to { EnterAlwaysTopAppBar() },
         "android_compose_expressive_components_exituntilcollapsedtopappbar" to { ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() },
         "android_compose_expressive_components_exituntilcollapsedlargetopappbar" to { ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() },
+        "android_compose_expressive_components_flexiblebottomappbar" to { CenteredBox { FlexibleBottomAppBarSample() } },
         "android_compose_components_navigationbarexample" to { NavigationBarExample() },
         "android_compose_components_navigationrailexample" to { NavigationRailExample() },
         "android_compose_expressive_components_verticalitemsnavigationbarexample" to { CenteredBox { ShortNavigationBarSample() } },
@@ -394,6 +431,9 @@ object SnippetRegistry {
         "android_compose_components_filterchip" to { CenteredBox { FilterChipExample() } },
         "android_compose_components_inputchip" to { CenteredBox { InputChipExample(text = "Input Chip", onDismiss = {}) } },
         "android_compose_components_suggestionchip" to { CenteredBox { SuggestionChipExample() } },
+        "android_compose_expressive_components_filterchipwithcornermorphing" to { CenteredBox { FilterChipWithCornerMorphingSample() } },
+        "android_compose_expressive_components_elevatedfilterchipwithcornermorphing" to { CenteredBox { ElevatedFilterChipWithCornerMorphingSample() } },
+        "android_compose_expressive_components_inputchipwithcornermorphing" to { CenteredBox { InputChipWithCornerMorphingSample() } },
         "android_compose_components_minimaldropdownmenu" to { CenteredBox { MinimalDropdownMenu() } },
         "android_compose_components_longbasicdropdownmenu" to { CenteredBox { LongBasicDropdownMenu() } },
         "android_compose_components_dropdownmenuwithdetails" to { CenteredBox { DropdownMenuWithDetails() } },
@@ -404,6 +444,8 @@ object SnippetRegistry {
         "android_compose_components_switchminimal" to { CenteredBox { SwitchMinimalExample() } },
         "android_compose_components_switchwithicon" to { CenteredBox { SwitchWithIconExample() } },
         "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } },
+        "android_compose_expressive_text_textfield" to { CenteredBox { TextFieldSample() } },
+        "android_compose_expressive_text_outlinedtextfield" to { CenteredBox { OutlinedTextFieldSample() } },
         // Animation quick guide. Their static DAC previews are MP4s recorded by
         // PreviewScreenshotTest from PreviewRecordings.
         "android_compose_animation_cookbook_visibility" to { AnimatedVisibilityCookbook() },
