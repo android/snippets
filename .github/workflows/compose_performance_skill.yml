@@ -14,6 +14,8 @@
 name: Jetpack Compose Performance Review
 
 permissions:
+  # Read environment protection rules for the fork approval guard.
+  actions: read
   contents: read
   issues: write
   pull-requests: write
@@ -29,6 +31,23 @@ on:
     paths:
       - '**/*.kt'
       - '.github/workflows/compose_performance_skill.yml'
+  # PRs from forks get no secrets on `pull_request`, so they are reviewed through
+  # `pull_request_target` instead. This is safe here because:
+  # - Each run must be approved by a maintainer in the `external-pr-review` environment
+  #   (required reviewers), and the job fails closed if that protection is missing.
+  # - The workflow definition always comes from the base branch, so forks can't change it.
+  # - The fork's code is only read by the review; it is never built, executed, or sourced.
+  # - Gemini CLI is limited to read-only file tools (no shell) plus the PR review MCP tools,
+  #   and checkout does not persist credentials.
+  pull_request_target: # zizmor: ignore[dangerous-triggers] gated by required-reviewer environment; fork code is never executed
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches: [ '*' ]
+    paths:
+      - '**/*.kt'
   workflow_dispatch:
     inputs:
       pr_number:
@@ -37,7 +56,9 @@ on:
         type: string
 
 concurrency:
-  group: ${{ github.workflow }}-${{ inputs.pr_number || github.event.pull_request.number || github.ref }}
+  # Include the event so the skipped `pull_request` run of a fork PR doesn't cancel its
+  # `pull_request_target` run (and vice versa).
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ inputs.pr_number || github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
@@ -48,9 +69,33 @@ jobs:
   compose-performance-review:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.repository == 'android/snippets' && (github.event_name == 'workflow_dispatch' || (github.event.pull_request.head.repo.fork == false && github.event.pull_request.draft == false))
+    # Same-repo PRs run on `pull_request`; fork PRs run on `pull_request_target`.
+    if: >-
+      github.repository == 'android/snippets' && (
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && github.event.pull_request.draft == false) ||
+        (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork == true && github.event.pull_request.draft == false)
+      )
+    # Fork PRs wait for a maintainer to approve the run (required reviewers on this environment)
+    # because the review runs with secrets and a write token over untrusted code.
+    environment: ${{ github.event_name == 'pull_request_target' && 'external-pr-review' || '' }}
 
     steps:
+    - name: Verify Fork Approval Gate
+      if: github.event_name == 'pull_request_target'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPOSITORY: ${{ github.repository }}
+      run: |
+        set -euo pipefail
+        # GitHub auto-creates missing environments without protection rules. Refuse to run fork
+        # code with secrets unless the environment actually requires a reviewer.
+        if ! gh api "repos/${REPOSITORY}/environments/external-pr-review" \
+            --jq '.protection_rules[]?.type' | grep -qx 'required_reviewers'; then
+          echo "::error title=Fork approval gate missing::Configure required reviewers on the 'external-pr-review' environment (Settings > Environments) before reviewing fork PRs."
+          exit 1
+        fi
+
     - name: Checkout Repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
