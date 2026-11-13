@@ -21,15 +21,19 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.xr.projected.ProjectedContext
 import androidx.xr.projected.experimental.ExperimentalProjectedApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-private const val TAG = "ProjectedDeviceContextUtils"
+private const val TAG = "DeviceContextUtils"
 
 /**
  * Demonstrates how to safely monitor projected device connectivity and obtain a projected
@@ -39,21 +43,23 @@ private const val TAG = "ProjectedDeviceContextUtils"
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
 fun monitorProjectedDeviceConnectivity(
-    activity: ComponentActivity,
+    context: Context,
     onConnected: suspend (projectedContext: Context) -> (() -> Unit)?
 ) {
-    activity.lifecycleScope.launch {
+    val lifecycleScope = (context as? LifecycleOwner)?.lifecycleScope
+        ?: CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+    lifecycleScope.launch {
         var cleanupAction: (() -> Unit)? = null
 
         try {
             // Before creating a projected context, verify that the projected device
             // is connected to the host device (phone).
             // While this flow collects true, the active projected context remains valid.
-            ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
+            ProjectedContext.isProjectedDeviceConnected(context, coroutineContext)
                 .distinctUntilChanged()
                 .collectLatest { isConnected ->
                     // Clean up any previous session resources prior to state transitions.
-                    // Any previously acquired projected context is now invalid.
                     cleanupAction?.invoke()
                     cleanupAction = null
 
@@ -62,16 +68,14 @@ fun monitorProjectedDeviceConnectivity(
                         return@collectLatest
                     }
 
-                    // Inside a phone Activity, explicitly create a projected context
-                    // to access the glasses' hardware and system services (e.g., CameraManager).
+                    // Inside a phone Activity or Service, create a projected context.
                     // Note: If you are already inside a projected Activity, the default context
                     // is already a projected context.
-                    val projectedContext = try {
-                        ProjectedContext.createProjectedDeviceContext(activity)
-                    } catch (e: IllegalStateException) {
+                    val projectedContext = runCatching {
+                        ProjectedContext.createProjectedDeviceContext(context)
+                    }.onFailure { e ->
                         Log.e(TAG, "Failed to create projected context", e)
-                        return@collectLatest
-                    }
+                    }.getOrNull() ?: return@collectLatest
 
                     // Use the new, valid `projectedContext` to initialize system services (e.g., CameraManager).
                     Log.i(TAG, "Projected device connected. Initializing hardware...")
