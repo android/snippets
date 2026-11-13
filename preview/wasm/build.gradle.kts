@@ -55,7 +55,7 @@ val pullSnippets by tasks.registering(Sync::class) {
         into("com/example/compose/snippets/components")
     }
     from("$snippetsRoot/animations") {
-        include("AnimationQuickGuide.kt")
+        include("AnimationQuickGuide.kt", "AnimationSnippets.kt")
         into("com/example/compose/snippets/animations")
     }
     // Sample image URLs used by AnimationQuickGuide.kt.

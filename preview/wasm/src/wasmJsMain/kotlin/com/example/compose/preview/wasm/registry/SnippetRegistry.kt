@@ -24,8 +24,12 @@ package com.example.compose.preview.wasm.registry
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +43,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.animations.AnimatableSimple
+import com.example.compose.snippets.animations.AnimateAsStateSimple
 import com.example.compose.snippets.animations.AnimateElevation
 import com.example.compose.snippets.animations.AnimateOffset
 import com.example.compose.snippets.animations.AnimatePadding
@@ -48,7 +54,10 @@ import com.example.compose.snippets.animations.AnimatedContentExampleSwitch
 import com.example.compose.snippets.animations.AnimatedVisibilityCookbook
 import com.example.compose.snippets.animations.AnimatedVisibilityCookbook_ModifierAlpha
 import com.example.compose.snippets.animations.AnimationLayout
+import com.example.compose.snippets.animations.RememberInfiniteTransitionSimple
 import com.example.compose.snippets.animations.SmoothAnimateText
+import com.example.compose.snippets.animations.UpdateTransitionAnimatedVisibility
+import com.example.compose.snippets.animations.UpdateTransitionEncapsulating
 import com.example.compose.snippets.components.AdvancedRichTooltipExample
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
@@ -150,6 +159,32 @@ private fun ReopenableDialog(buttonText: String, dialog: @Composable (onClose: (
     if (open) dialog { open = false }
 }
 
+/** Toggles `AnimatingBox` between its states with a button. */
+@Composable
+private fun EncapsulatedTransitionPreview() {
+    var expanded by remember { mutableStateOf(false) }
+    CenteredBox {
+        Box(Modifier.size(128.dp), contentAlignment = Alignment.Center) {
+            UpdateTransitionEncapsulating.AnimatingBox(
+                if (expanded) UpdateTransitionEncapsulating.BoxState.Expanded
+                else UpdateTransitionEncapsulating.BoxState.Collapsed
+            )
+        }
+        Spacer(Modifier.height(24.dp))
+        Button(onClick = { expanded = !expanded }) { Text(if (expanded) "Collapse" else "Expand") }
+    }
+}
+
+/** Flips `AnimatableSimple`'s `ok` flag with a button drawn over the animated box. */
+@Composable
+private fun AnimatableSimplePreview() {
+    var ok by remember { mutableStateOf(true) }
+    Box(contentAlignment = Alignment.Center) {
+        AnimatableSimple(ok)
+        Button(onClick = { ok = !ok }) { Text("Toggle ok") }
+    }
+}
+
 /**
  * The area, in dp, a snippet preview is laid out in.
  *
@@ -204,6 +239,11 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    "android_compose_animations_animate_as_state" to AnimationPreviewFrame,
+    "android_compose_animations_transitions_animated_visibility" to AnimationPreviewFrame,
+    "android_compose_animations_transitions_encapsulating" to AnimationPreviewFrame,
+    "android_compose_animations_infinite_transition_simple" to AnimationPreviewFrame,
+    "android_compose_animations_animatable_simple" to AnimationPreviewFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -341,6 +381,14 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Value-based animations (AnimationSnippets.kt), also recorded as MP4s.
+        "android_compose_animations_animate_as_state" to { AnimateAsStateSimple() },
+        "android_compose_animations_transitions_animated_visibility" to {
+            CenteredBox { Box(Modifier.widthIn(max = 360.dp)) { UpdateTransitionAnimatedVisibility() } }
+        },
+        "android_compose_animations_transitions_encapsulating" to { EncapsulatedTransitionPreview() },
+        "android_compose_animations_infinite_transition_simple" to { RememberInfiniteTransitionSimple() },
+        "android_compose_animations_animatable_simple" to { AnimatableSimplePreview() },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
