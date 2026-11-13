@@ -100,8 +100,10 @@ jobs:
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       with:
         token: ${{ secrets.PAT || github.token }}
-        # Check out the PR head (not the merge commit) so line numbers match the PR diff.
-        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        # Always check out trusted base-repo code. The PR's code is fetched below as data only
+        # (diff + file snapshots under .gemini/), so nothing from a fork, including agent config
+        # such as .gemini/settings.json or GEMINI.md, ever lands in the working tree.
+        ref: ${{ github.event.pull_request.base.sha || github.sha }}
         fetch-depth: 0
         persist-credentials: false
 
@@ -116,25 +118,27 @@ jobs:
         if [[ -n "${PR_NUMBER}" ]]; then
           if [[ -z "${BASE_REF}" ]]; then
             BASE_REF=$(gh pr view "${PR_NUMBER}" --json baseRefName --jq '.baseRefName')
-            gh pr checkout "${PR_NUMBER}"
-            git fetch origin "${BASE_REF}"
           fi
-          DIFF_RANGE="origin/${BASE_REF}...HEAD"
+          # Fetch the PR head as a ref only; it is never checked out.
+          git fetch --no-tags origin "${BASE_REF}" "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
+          HEAD_REF="refs/remotes/pr/head"
+          DIFF_RANGE="origin/${BASE_REF}...${HEAD_REF}"
           echo "mode=pr" >> "${GITHUB_OUTPUT}"
           echo "pr_number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
         else
+          HEAD_REF="HEAD"
           DIFF_RANGE="HEAD~1...HEAD"
           echo "mode=commit" >> "${GITHUB_OUTPUT}"
           echo "pr_number=" >> "${GITHUB_OUTPUT}"
         fi
-        HEAD_SHA=$(git rev-parse HEAD)
+        HEAD_SHA=$(git rev-parse "${HEAD_REF}")
         echo "head_sha=${HEAD_SHA}" >> "${GITHUB_OUTPUT}"
         echo "short_sha=${HEAD_SHA:0:7}" >> "${GITHUB_OUTPUT}"
         if [[ -f .gitignore ]]; then
           sed -i '/^\.gemini\/$/d; /^\.agents\/$/d' .gitignore
         fi
         mkdir -p .gemini
-        git diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
+        git -c core.quotePath=false diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
         git diff -U5 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/pr_diff.patch
         # Every added line prefixed with `path:line:` so the model can anchor inline comments on
         # exact new-file line numbers.
@@ -143,6 +147,11 @@ jobs:
           /^@@/ { match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
           /^\+/ { printf "%s:%d: %s\n", file, line, substr($0, 2); line++ }
         ' > .gemini/added_lines.txt
+        # Snapshot the PR version of each touched file for context, under .gemini/pr_files/.
+        while IFS= read -r file; do
+          mkdir -p ".gemini/pr_files/$(dirname "${file}")"
+          git show "${HEAD_REF}:${file}" > ".gemini/pr_files/${file}"
+        done < .gemini/target_files.txt
         FILE_COUNT=$(grep -c '\.kt$' .gemini/target_files.txt || true)
         echo "file_count=${FILE_COUNT}" >> "${GITHUB_OUTPUT}"
         echo "Found ${FILE_COUNT} modified Kotlin file(s) to audit."
@@ -235,7 +244,7 @@ jobs:
           ## Step 1: Analyze
           1. Read `.agents/skills/jetpack-compose-performance/SKILL.md` first.
           2. Read `.gemini/pr_diff.patch` to identify the lines added or modified in this change (`+` lines). The touched Kotlin files are listed in `.gemini/target_files.txt`. `.gemini/added_lines.txt` lists every added line as `path:line: content` with its exact new-file line number.
-          3. You may read the touched Kotlin files ONLY to understand the surrounding context (enclosing `@Composable` functions, state declarations, parameters, imports) of the changed lines.
+          3. The PR version of each touched file is at `.gemini/pr_files/<path>` (the working tree contains the base branch, not the PR). Always use the plain repo path, without the `.gemini/pr_files/` prefix, when you report findings or post comments. You may read those snapshots ONLY to understand the surrounding context (enclosing `@Composable` functions, state declarations, parameters, imports) of the changed lines.
           4. **Strict Diff Scope**: Only report findings on newly introduced or modified code (`+` lines). Do NOT report findings on pre-existing, untouched code.
           5. Whenever changed code matches a rule in Categories 1-7, you MUST open and read the corresponding `.agents/skills/jetpack-compose-performance/references/**/*.md` file for the approved fix pattern and scope guards before reporting a finding.
 
