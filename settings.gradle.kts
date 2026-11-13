@@ -67,5 +67,6 @@ include(
     ":location",
     ":preview:wasm",
     ":preview:generator",
-    ":ink"
+    ":ink",
+    ":studio"
 )
