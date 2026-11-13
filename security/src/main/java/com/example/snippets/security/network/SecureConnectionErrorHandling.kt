@@ -33,12 +33,15 @@ fun connectToSecureServer(onUrlString: String) {
     try {
         val url = URL(onUrlString)
         val conn = url.openConnection() as HttpsURLConnection
+        try {
+            // Timeout configurations to prevent hanging connections
+            conn.connectTimeout = 5000
+            conn.readTimeout = 5000
 
-        // Timeout configurations to prevent hanging connections
-        conn.connectTimeout = 5000
-        conn.readTimeout = 5000
-
-        conn.connect()
+            conn.connect()
+        } finally {
+            conn.disconnect()
+        }
     } catch (e: SSLPeerUnverifiedException) {
         // Triggered by a hostname mismatch or an OkHttp CertificatePinner mismatch
         Log.w("SECURITY_HANDSHAKE_FAIL", "Peer verification failed. Host identity unconfirmed.", e)
