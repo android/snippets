@@ -41,6 +41,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.graphics.GraphicsBrushCanvasUsage
+import com.example.compose.snippets.graphics.GraphicsBrushColorStopUsage
+import com.example.compose.snippets.graphics.GraphicsBrushSize
+import com.example.compose.snippets.graphics.GraphicsBrushSizeRadialGradientAfter
+import com.example.compose.snippets.graphics.GraphicsBrushSizeRadialGradientBefore
 import com.example.compose.snippets.animations.AnimateElevation
 import com.example.compose.snippets.animations.AnimateOffset
 import com.example.compose.snippets.animations.AnimatePadding
@@ -305,6 +310,13 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_indeterminatecircularwavyindicator" to DefaultPreviewFrame,
     "android_compose_expressive_components_indeterminatelinearindicator" to DefaultPreviewFrame,
     "android_compose_expressive_components_indeterminatecircularindicator" to DefaultPreviewFrame,
+    // Brush snippets draw 200dp squares and circles, taller than the default 216dp frame. The
+    // radial gradients fill the frame, so they use the same size to keep the page consistent.
+    "android_compose_brush_basic_canvas" to PreviewFrame(512, 288),
+    "android_compose_brush_color_stop" to PreviewFrame(512, 288),
+    "android_compose_graphics_brush_size" to PreviewFrame(512, 288),
+    "android_compose_graphics_brush_size_radial_before" to PreviewFrame(512, 288),
+    "android_compose_graphics_brush_size_radial_after" to PreviewFrame(512, 288),
 )
 
 /*
@@ -542,6 +554,14 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Brush: gradients and shaders. The AGSL RuntimeShader snippets need Android 13+, so
+        // they aren't registered.
+        "android_compose_brush_basic_canvas" to { CenteredBox { GraphicsBrushCanvasUsage() } },
+        "android_compose_brush_color_stop" to { CenteredBox { GraphicsBrushColorStopUsage() } },
+        "android_compose_graphics_brush_size" to { CenteredBox { GraphicsBrushSize() } },
+        // These fill the whole frame, so its wide shape shows where the radial gradient ends.
+        "android_compose_graphics_brush_size_radial_before" to { EdgeToEdgeBox { GraphicsBrushSizeRadialGradientBefore() } },
+        "android_compose_graphics_brush_size_radial_after" to { EdgeToEdgeBox { GraphicsBrushSizeRadialGradientAfter() } },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
