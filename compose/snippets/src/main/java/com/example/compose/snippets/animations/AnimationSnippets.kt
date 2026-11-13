@@ -276,7 +276,7 @@ private fun AnimatedVisibilityTransition() {
 
 @Composable
 @Preview
-private fun AnimateAsStateSimple() {
+fun AnimateAsStateSimple() {
     // [START android_compose_animations_animate_as_state]
     var enabled by remember { mutableStateOf(true) }
 
@@ -288,7 +288,8 @@ private fun AnimateAsStateSimple() {
             .background(Color.Red)
     )
     // [END android_compose_animations_animate_as_state]
-    { Button(onClick = { enabled = !enabled }) { Text("Animate me!") } }
+    // The button is a sibling of the box; the caller's layout (for example a Box) places it.
+    Button(onClick = { enabled = !enabled }) { Text("Animate me!") }
 }
 
 @Preview
@@ -516,7 +517,7 @@ private object UpdateTransitionCreateChildTransition {
 }
 
 @Composable
-private fun UpdateTransitionAnimatedVisibility() {
+fun UpdateTransitionAnimatedVisibility() {
     // [START android_compose_animations_transitions_animated_visibility]
     var selected by remember { mutableStateOf(false) }
     // Animates changes when `selected` is changed.
@@ -606,7 +607,7 @@ private object UpdateTransitionEncapsulating {
 }
 
 @Composable
-private fun RememberInfiniteTransitionSimple() {
+fun RememberInfiniteTransitionSimple() {
     // [START android_compose_animations_infinite_transition_simple]
     val infiniteTransition = rememberInfiniteTransition(label = "infinite")
     val color by infiniteTransition.animateColor(
@@ -628,7 +629,7 @@ private fun RememberInfiniteTransitionSimple() {
 }
 
 @Composable
-private fun AnimatableSimple(ok: Boolean) {
+fun AnimatableSimple(ok: Boolean) {
     // [START android_compose_animations_animatable_simple]
     // Start out gray and animate to green/red based on `ok`
     val color = remember { Animatable(Color.Gray) }
