@@ -19,6 +19,7 @@ package com.example.snippets.security.network
 import android.net.http.SslError
 import android.os.Bundle
 import android.webkit.SslErrorHandler
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -32,6 +33,10 @@ class WebViewTlsActivity : ComponentActivity() {
         // [START android_security_network_webview_tls]
         webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
         webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                return !(request.url.scheme == "https" && request.url.host == "help.example.com")
+            }
+
             override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
                 handler?.cancel()
             }
