@@ -19,3 +19,7 @@ package androidx.annotation
 // `@DrawableRes` is Android-only: the multiplatform androidx.annotation artifact doesn't include
 // the resource-type annotations, so the shared snippets need this no-op stand-in on wasm.
 annotation class DrawableRes
+
+// The multiplatform `@RequiresApi` is an `@OptionalExpectation` with no wasm actual, so it can't be
+// used outside common code. This no-op stand-in lets Android-version-gated snippets compile.
+annotation class RequiresApi(val value: Int = 1, val api: Int = 1)
