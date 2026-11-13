@@ -16,7 +16,7 @@
 
 package com.example.android.sensors
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -114,7 +114,7 @@ private object SensorsMotionAccelerometer {
 }
 
 private object SensorsMotionFilterAccelerometer {
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
         private val gravity = FloatArray(3)
         private val linear_acceleration = FloatArray(3)
 
@@ -156,7 +156,7 @@ private object SensorsMotionGyroscope {
 private object SensorsMotionGyroscopeDeltaRotation {
     private const val EPSILON: Float = 0.000000001f
 
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
         // [START android_sensors_motion_gyroscope_delta_rotation]

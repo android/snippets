@@ -16,17 +16,17 @@
 
 package com.example.android.sensors
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 
 private object SensorsPositionOrientationActivity {
     // [START android_sensors_position_orientation_activity]
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
 
         private lateinit var sensorManager: SensorManager
         private val accelerometerReading = FloatArray(3)
@@ -37,7 +37,6 @@ private object SensorsPositionOrientationActivity {
 
         public override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            setContentView(R.layout.main)
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         }
 
@@ -114,14 +113,13 @@ private object SensorsPositionOrientationActivity {
 
 private object SensorsPositionProximityActivity {
     // [START android_sensors_position_proximity_activity]
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
 
         private lateinit var sensorManager: SensorManager
         private var proximity: Sensor? = null
 
         public override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            setContentView(R.layout.main)
 
             // Get an instance of the sensor service, and use that to get an instance of
             // a particular sensor.

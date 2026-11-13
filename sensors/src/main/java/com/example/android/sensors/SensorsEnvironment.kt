@@ -16,24 +16,23 @@
 
 package com.example.android.sensors
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 
 private object SensorsEnvironmentPressureActivity {
     // [START android_sensors_environment_pressure_activity]
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
 
         private lateinit var sensorManager: SensorManager
         private var pressure: Sensor? = null
 
         public override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            setContentView(R.layout.main)
 
             // Get an instance of the sensor service, and use that to get an instance of
             // a particular sensor.

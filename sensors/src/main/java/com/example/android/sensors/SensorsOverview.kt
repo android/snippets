@@ -16,13 +16,13 @@
 
 package com.example.android.sensors
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 
 private object SensorsOverviewDeviceSensors {
     fun listSensors(sensorManager: SensorManager) {
@@ -34,13 +34,12 @@ private object SensorsOverviewDeviceSensors {
 
 private object SensorsOverviewSensorActivity {
     // [START android_sensors_overview_sensor_activity]
-    class SensorActivity : Activity(), SensorEventListener {
+    class SensorActivity : ComponentActivity(), SensorEventListener {
         private lateinit var sensorManager: SensorManager
         private var mLight: Sensor? = null
 
         public override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            setContentView(R.layout.main)
 
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
             mLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
