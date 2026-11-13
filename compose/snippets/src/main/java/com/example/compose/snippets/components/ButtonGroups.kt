@@ -16,8 +16,9 @@
 
 package com.example.compose.snippets.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.FlexBox
+import androidx.compose.foundation.layout.FlexDirection
+import androidx.compose.foundation.layout.FlexWrap
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -82,10 +83,14 @@ fun SingleSelectConnectedButtonGroupSample() {
         )
     var selectedIndex by remember { mutableIntStateOf(0) }
 
-    FlowRow(
-        Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+    FlexBox(
+        modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+        config = {
+            direction(FlexDirection.Row)
+            wrap(FlexWrap.Wrap)
+            columnGap(ButtonGroupDefaults.ConnectedSpaceBetween)
+            rowGap(2.dp)
+        },
     ) {
         options.forEachIndexed { index, label ->
             ToggleButton(
@@ -104,7 +109,7 @@ fun SingleSelectConnectedButtonGroupSample() {
                         rememberVectorPainter(
                             if (selectedIndex == index) checkedIcons[index] else unCheckedIcons[index]
                         ),
-                    contentDescription = "Localized description",
+                    contentDescription = null,
                 )
                 Spacer(Modifier.size(ToggleButtonDefaults.IconSpacing))
                 Text(label)
@@ -137,10 +142,14 @@ fun MultiSelectConnectedButtonGroupSample() {
         )
     val checked = remember { mutableStateListOf(false, false, false, false, false) }
 
-    FlowRow(
-        Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+    FlexBox(
+        modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
+        config = {
+            direction(FlexDirection.Row)
+            wrap(FlexWrap.Wrap)
+            columnGap(ButtonGroupDefaults.ConnectedSpaceBetween)
+            rowGap(2.dp)
+        },
     ) {
         options.forEachIndexed { index, label ->
             ToggleButton(
@@ -158,7 +167,7 @@ fun MultiSelectConnectedButtonGroupSample() {
                         rememberVectorPainter(
                             if (checked[index]) checkedIcons[index] else unCheckedIcons[index]
                         ),
-                    contentDescription = "Localized description",
+                    contentDescription = null,
                 )
                 Spacer(Modifier.size(ToggleButtonDefaults.IconSpacing))
                 Text(label)
