@@ -21,12 +21,17 @@
 
 package com.example.compose.preview.wasm.registry
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -111,6 +116,11 @@ import com.example.compose.snippets.components.SwitchWithIconExample
 import com.example.compose.snippets.components.TextButtonExample
 import com.example.compose.snippets.components.ToggleIconButtonExample
 import com.example.compose.snippets.components.VerticalDividerExample
+import com.example.compose.snippets.layouts.ManualMeasurementSnippets2
+import com.example.compose.snippets.layouts.ManualMeasurementSnippets3
+import com.example.compose.snippets.layouts.ManualMeasurementsSnippets
+import com.example.compose.snippets.layouts.SampleCardDescription
+import com.example.compose.snippets.layouts.SampleCardTitle
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -134,6 +144,41 @@ private fun CenteredBox(content: @Composable () -> Unit) {
 private fun EdgeToEdgeBox(content: @Composable () -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         content()
+    }
+}
+
+/**
+ * Shows [content] twice, in a narrow and a wide container, for snippets that change their layout
+ * with the width they're given (for example with `BoxWithConstraints`).
+ */
+@Composable
+private fun NarrowAndWide(content: @Composable () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        WidthLabeledBox(260) { content() }
+        WidthLabeledBox(440) { content() }
+    }
+}
+
+/** An outlined container [widthDp] wide, labeled with its width. */
+@Composable
+private fun WidthLabeledBox(widthDp: Int, content: @Composable () -> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            Modifier
+                .width(widthDp.dp)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp))
+                .padding(8.dp)
+        ) { content() }
+        Text(
+            "$widthDp dp",
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 8.dp),
+        )
     }
 }
 
@@ -204,6 +249,10 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    // Shown at a narrow (260dp) and a wide (440dp) width side by side.
+    "android_compose_layouts_manual_measurements" to AnimationPreviewFrame,
+    "android_compose_layouts_manual_measurements_2" to AnimationPreviewFrame,
+    "android_compose_layouts_manual_measurements_3" to AnimationPreviewFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -341,6 +390,14 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Support different display sizes: cards that switch layout at 400dp of available width.
+        "android_compose_layouts_manual_measurements" to { NarrowAndWide { ManualMeasurementsSnippets.Card() } },
+        "android_compose_layouts_manual_measurements_2" to {
+            NarrowAndWide { ManualMeasurementSnippets2.Card("", SampleCardTitle, SampleCardDescription) }
+        },
+        "android_compose_layouts_manual_measurements_3" to {
+            NarrowAndWide { ManualMeasurementSnippets3.Card("", SampleCardTitle, SampleCardDescription) }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

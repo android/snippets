@@ -18,15 +18,26 @@
 
 package com.example.compose.snippets.layouts
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 
@@ -94,7 +105,7 @@ fun OnePane() {
 fun TwoPane() {
     // your content here
 }
-private object ManualMeasurementsSnippets {
+object ManualMeasurementsSnippets {
     // [START android_compose_layouts_manual_measurements]
     @Composable
     fun Card(/* ... */) {
@@ -118,16 +129,19 @@ private object ManualMeasurementsSnippets {
     // [END android_compose_layouts_manual_measurements]
     @Composable
     private fun Image() {
+        CardImagePlaceholder()
     }
     @Composable
     private fun Description() {
+        CardDescription(SampleCardDescription)
     }
     @Composable
     private fun Title() {
+        CardTitle(SampleCardTitle)
     }
 }
 
-private object ManualMeasurementSnippets2 {
+object ManualMeasurementSnippets2 {
     // [START android_compose_layouts_manual_measurements_2]
     @Composable
     fun Card(
@@ -155,16 +169,19 @@ private object ManualMeasurementSnippets2 {
     // [END android_compose_layouts_manual_measurements_2]
     @Composable
     private fun Image(imageUrl: String) {
+        CardImagePlaceholder()
     }
     @Composable
     private fun Description(description: String) {
+        CardDescription(description)
     }
     @Composable
     private fun Title(title: String) {
+        CardTitle(title)
     }
 }
 
-private object ManualMeasurementSnippets3 {
+object ManualMeasurementSnippets3 {
     // [START android_compose_layouts_manual_measurements_3]
     @Composable
     fun Card(
@@ -200,6 +217,7 @@ private object ManualMeasurementSnippets3 {
     // [END android_compose_layouts_manual_measurements_3]
     @Composable
     private fun Image(imageUrl: String) {
+        CardImagePlaceholder()
     }
     @Composable
     private fun Description(
@@ -207,8 +225,47 @@ private object ManualMeasurementSnippets3 {
         showMore: Boolean,
         onShowMoreToggled: (Boolean) -> Unit
     ) {
+        Column {
+            CardDescription(description, maxLines = if (showMore) Int.MAX_VALUE else 1)
+            TextButton(onClick = { onShowMoreToggled(!showMore) }) {
+                Text(if (showMore) "Show less" else "Show more")
+            }
+        }
     }
     @Composable
     private fun Title(title: String) {
+        CardTitle(title)
     }
+}
+
+// Sample content for the Card snippets above, so their previews show how the layout changes with
+// the available width.
+const val SampleCardTitle = "Mountain lake"
+const val SampleCardDescription =
+    "A calm lake surrounded by pine forest, a short walk from the trailhead. Best visited early in the morning."
+
+@Composable
+private fun CardImagePlaceholder() {
+    Box(
+        Modifier
+            .padding(8.dp)
+            .size(80.dp)
+            .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(12.dp))
+    )
+}
+
+@Composable
+private fun CardTitle(title: String) {
+    Text(title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 8.dp))
+}
+
+@Composable
+private fun CardDescription(description: String, maxLines: Int = Int.MAX_VALUE) {
+    Text(
+        description,
+        style = MaterialTheme.typography.bodyMedium,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.padding(horizontal = 8.dp).widthIn(max = 280.dp)
+    )
 }
