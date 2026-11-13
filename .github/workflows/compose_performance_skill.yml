@@ -113,38 +113,64 @@ jobs:
         GH_TOKEN: ${{ secrets.PAT || github.token }}
         PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
         BASE_REF: ${{ github.base_ref }}
+        # Head commit the triggering event refers to (empty for workflow_dispatch).
+        EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       run: |
         set -euo pipefail
+        # Applies to every git command in this step: print non-ASCII paths verbatim instead of
+        # C-quoting them, so paths match the PR's file paths.
+        export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.quotePath GIT_CONFIG_VALUE_0=false
+        mkdir -p .gemini
         if [[ -n "${PR_NUMBER}" ]]; then
+          if [[ ! "${PR_NUMBER}" =~ ^[0-9]+$ ]]; then
+            echo "::error title=Invalid PR number::'${PR_NUMBER}' is not a pull request number."
+            exit 1
+          fi
           if [[ -z "${BASE_REF}" ]]; then
             BASE_REF=$(gh pr view "${PR_NUMBER}" --json baseRefName --jq '.baseRefName')
+          fi
+          # The commit this run must review: the event's head SHA, or for workflow_dispatch the
+          # PR's head when the run starts.
+          EXPECTED_HEAD_SHA="${EVENT_HEAD_SHA}"
+          if [[ -z "${EXPECTED_HEAD_SHA}" ]]; then
+            EXPECTED_HEAD_SHA=$(gh pr view "${PR_NUMBER}" --json headRefOid --jq '.headRefOid')
           fi
           # Fetch the PR head as a ref only; it is never checked out.
           git fetch --no-tags origin "${BASE_REF}" "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
           HEAD_REF="refs/remotes/pr/head"
+          HEAD_SHA=$(git rev-parse "${HEAD_REF}")
+          # Refuse to review a different commit than the one that was triggered (and, for fork
+          # PRs, approved): the PR may have been pushed to after the run started.
+          if [[ "${HEAD_SHA}" != "${EXPECTED_HEAD_SHA}" ]]; then
+            echo "::error title=PR head changed::refs/pull/${PR_NUMBER}/head is ${HEAD_SHA}, but this run was started for ${EXPECTED_HEAD_SHA}. The PR was updated after the run started; the newer commit needs its own run."
+            exit 1
+          fi
           DIFF_RANGE="origin/${BASE_REF}...${HEAD_REF}"
           echo "mode=pr" >> "${GITHUB_OUTPUT}"
           echo "pr_number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
         else
           HEAD_REF="HEAD"
+          HEAD_SHA=$(git rev-parse "${HEAD_REF}")
           DIFF_RANGE="HEAD~1...HEAD"
           echo "mode=commit" >> "${GITHUB_OUTPUT}"
           echo "pr_number=" >> "${GITHUB_OUTPUT}"
         fi
-        HEAD_SHA=$(git rev-parse "${HEAD_REF}")
         echo "head_sha=${HEAD_SHA}" >> "${GITHUB_OUTPUT}"
         echo "short_sha=${HEAD_SHA:0:7}" >> "${GITHUB_OUTPUT}"
         if [[ -f .gitignore ]]; then
           sed -i '/^\.gemini\/$/d; /^\.agents\/$/d' .gitignore
         fi
-        mkdir -p .gemini
-        git -c core.quotePath=false diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
+        git diff --name-only --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/target_files.txt
         git diff -U5 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' > .gemini/pr_diff.patch
         # Every added line prefixed with `path:line:` so the model can anchor inline comments on
-        # exact new-file line numbers.
+        # exact new-file line numbers. `+++ b/<path>` only counts as a file header inside the
+        # header block that starts at `diff --git` and ends at the first `@@`, so an added line
+        # whose content starts with `++ b/` is never mistaken for one.
         git diff -U0 --diff-filter=ACMRT "${DIFF_RANGE}" -- '*.kt' | awk '
-          /^\+\+\+ b\// { file = substr($0, 7); next }
-          /^@@/ { match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+          /^diff --git / { in_header = 1; next }
+          in_header && /^\+\+\+ b\// { file = substr($0, 7); next }
+          /^@@/ { in_header = 0; match($0, /\+[0-9]+/); line = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+          in_header { next }
           /^\+/ { printf "%s:%d: %s\n", file, line, substr($0, 2); line++ }
         ' > .gemini/added_lines.txt
         # Snapshot the PR version of each touched file for context, under .gemini/pr_files/.
@@ -188,7 +214,9 @@ jobs:
       uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
       env:
         GEMINI_CLI_TRUST_WORKSPACE: 'true'
-        GITHUB_TOKEN: ${{ secrets.PAT || github.token }}
+        # The GitHub MCP server gets the job's own short-lived token, never the bot PAT: the model
+        # reads untrusted PR content, so its write access is limited to this repo and this run.
+        GITHUB_TOKEN: ${{ github.token }}
         REPOSITORY: ${{ github.repository }}
         PR_NUMBER: ${{ steps.context.outputs.pr_number }}
         HEAD_SHA: ${{ steps.context.outputs.head_sha }}
@@ -292,7 +320,7 @@ jobs:
         fi
 
     - name: Write Summary
-      if: always() && steps.context.outputs.file_count != '0'
+      if: always() && !cancelled() && steps.context.outcome == 'success' && steps.context.outputs.file_count != '0'
       env:
         REVIEW_SUMMARY: ${{ steps.gemini_review.outputs.summary }}
         CAPACITY_ERROR: ${{ steps.classify.outputs.capacity_error }}
@@ -317,7 +345,7 @@ jobs:
         cat .gemini/summary.md >> "${GITHUB_STEP_SUMMARY}"
 
     - name: Update Summary Comment
-      if: always() && steps.context.outputs.pr_number != '' && steps.context.outputs.file_count != '0'
+      if: always() && !cancelled() && steps.context.outcome == 'success' && steps.context.outputs.pr_number != '' && steps.context.outputs.file_count != '0'
       uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
       with:
         GITHUB_TOKEN: ${{ secrets.PAT || github.token }}
