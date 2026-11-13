@@ -50,16 +50,13 @@ Java_com_example_snippets_security_jni_SecureNativeDataProcessor_processPacketNa
         return -1;
     }
 
-    jbyte* elements = env->GetByteArrayElements(packet, nullptr);
-    if (elements == nullptr) {
-        return -1; // OutOfMemoryError already pending in JVM
-    }
-
+    // Copy into a bounds-checked native buffer without pinning the managed array
     uint8_t frameBuffer[kMaxFrameSize];
-    std::memcpy(frameBuffer, elements, static_cast<size_t>(length));
-
-    // Always release pinned array elements; JNI_ABORT avoids copying back read-only data
-    env->ReleaseByteArrayElements(packet, elements, JNI_ABORT);
+    env->GetByteArrayRegion(
+        packet, 0, length, reinterpret_cast<jbyte*>(frameBuffer));
+    if (env->ExceptionCheck()) {
+        return -1;
+    }
 
     uint32_t checksum = 0;
     for (jint i = 0; i < length; ++i) {
@@ -88,7 +85,7 @@ Java_com_example_snippets_security_jni_SecureNativeFileLoader_readHeaderFromFdNa
     char header[256];
     std::memset(header, 0, sizeof(header));
 
-    // Read directly from the verified file descriptor rather than opening a path string
+    // Borrow fd with pread; never close(fd) because ParcelFileDescriptor owns it
     ssize_t bytesRead = pread(fd, header, sizeof(header) - 1, 0);
     if (bytesRead < 0) {
         jclass ioExClass = env->FindClass("java/io/IOException");
@@ -123,46 +120,49 @@ void secureZeroMemory(void* ptr, size_t len) {
 
 extern "C"
 JNIEXPORT jbyteArray JNICALL
-Java_com_example_snippets_security_jni_SecureNativeCryptoBridge_processCiphertextNative(
+Java_com_example_snippets_security_jni_SecureNativeCryptoBridge_framePlaintextNative(
         JNIEnv* env,
         jclass /*clazz*/,
-        jbyteArray ciphertext) {
-    if (ciphertext == nullptr) {
+        jbyteArray plaintext) {
+    constexpr jsize kMaxPayloadSize = 65536;
+    if (plaintext == nullptr) {
         jclass exClass = env->FindClass("java/lang/IllegalArgumentException");
         if (exClass != nullptr) {
-            env->ThrowNew(exClass, "Ciphertext array must not be null");
+            env->ThrowNew(exClass, "Plaintext array must not be null");
             env->DeleteLocalRef(exClass);
         }
         return nullptr;
     }
 
-    jsize length = env->GetArrayLength(ciphertext);
-    if (length <= 0) {
+    jsize length = env->GetArrayLength(plaintext);
+    if (length <= 0 || length > kMaxPayloadSize) {
         jclass exClass = env->FindClass("java/lang/IllegalArgumentException");
         if (exClass != nullptr) {
-            env->ThrowNew(exClass, "Ciphertext array must not be empty");
+            env->ThrowNew(exClass, "Plaintext length out of valid bounds");
             env->DeleteLocalRef(exClass);
         }
         return nullptr;
     }
 
-    jbyte* inputBytes = env->GetByteArrayElements(ciphertext, nullptr);
-    if (inputBytes == nullptr) {
-        return nullptr; // OutOfMemoryError pending
+    // Copy sensitive bytes into an owned buffer via GetByteArrayRegion without pinning
+    std::vector<uint8_t> sensitiveBuffer(static_cast<size_t>(length) + 1);
+    sensitiveBuffer[0] = 0x01;  // Protocol frame version
+    env->GetByteArrayRegion(
+        plaintext, 0, length, reinterpret_cast<jbyte*>(sensitiveBuffer.data() + 1));
+    if (env->ExceptionCheck()) {
+        secureZeroMemory(sensitiveBuffer.data(), sensitiveBuffer.size());
+        return nullptr;
     }
 
-    std::vector<jbyte> workingBuffer(inputBytes, inputBytes + length);
-    // Release the pinned Java byte array immediately after copying
-    env->ReleaseByteArrayElements(ciphertext, inputBytes, JNI_ABORT);
-
-    jbyteArray result = env->NewByteArray(length);
-    if (result != nullptr && !env->ExceptionCheck()) {
-        env->SetByteArrayRegion(result, 0, length, workingBuffer.data());
+    jbyteArray framed = env->NewByteArray(length + 1);
+    if (framed != nullptr && !env->ExceptionCheck()) {
+        env->SetByteArrayRegion(
+            framed, 0, length + 1, reinterpret_cast<const jbyte*>(sensitiveBuffer.data()));
     }
 
-    // Zero transient native buffers before returning to managed code
-    secureZeroMemory(workingBuffer.data(), workingBuffer.size());
-    return result;
+    // Wipe transient sensitive native memory before returning to managed code
+    secureZeroMemory(sensitiveBuffer.data(), sensitiveBuffer.size());
+    return framed;
 }
 // [END android_security_jni_keystore_cpp]
 
@@ -193,7 +193,7 @@ Java_com_example_snippets_security_jni_SecureSessionMonitor_registerListener(
         gListenerGlobalRef = nullptr;
     }
     if (listener != nullptr) {
-        // Promote local jobject to a Global Reference so it remains valid across threads
+        // Promote local jobject to a Global Reference so it stays reachable across threads
         gListenerGlobalRef = env->NewGlobalRef(listener);
     }
 }
@@ -234,8 +234,9 @@ Java_com_example_snippets_security_jni_SecureSessionMonitor_dispatchBackgroundCh
             threadEnv->DeleteLocalRef(localListener);
         }
 
-        // Clear any pending JVM exception before detaching the native thread
+        // Log and clear any pending JVM exception before detaching the native thread
         if (threadEnv->ExceptionCheck()) {
+            threadEnv->ExceptionDescribe();
             threadEnv->ExceptionClear();
         }
         gJavaVm->DetachCurrentThread();

@@ -95,21 +95,26 @@ object SecureNativeCryptoBridge {
     }
 
     @JvmStatic
-    private external fun processCiphertextNative(ciphertext: ByteArray): ByteArray
+    private external fun framePlaintextNative(plaintext: ByteArray): ByteArray
 
     @JvmStatic
     fun encryptAndProcess(payload: ByteArray): ByteArray {
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, getOrCreateSecretKey())
-        val iv = cipher.iv
-        val encrypted = cipher.doFinal(payload)
+        val framedPlaintext = framePlaintextNative(payload)
+        try {
+            val cipher = Cipher.getInstance(TRANSFORMATION)
+            cipher.init(Cipher.ENCRYPT_MODE, getOrCreateSecretKey())
+            val iv = cipher.iv
+            val encrypted = cipher.doFinal(framedPlaintext)
 
-        // Combine IV length (1 byte) + IV + ciphertext before passing to native layer
-        val framed = ByteArray(1 + iv.size + encrypted.size)
-        framed[0] = iv.size.toByte()
-        System.arraycopy(iv, 0, framed, 1, iv.size)
-        System.arraycopy(encrypted, 0, framed, 1 + iv.size, encrypted.size)
-        return processCiphertextNative(framed)
+            // Prepend IV length (1 byte) + IV + authenticated ciphertext
+            val output = ByteArray(1 + iv.size + encrypted.size)
+            output[0] = iv.size.toByte()
+            System.arraycopy(iv, 0, output, 1, iv.size)
+            System.arraycopy(encrypted, 0, output, 1 + iv.size, encrypted.size)
+            return output
+        } finally {
+            framedPlaintext.fill(0)
+        }
     }
 
     private fun getOrCreateSecretKey(): SecretKey {
