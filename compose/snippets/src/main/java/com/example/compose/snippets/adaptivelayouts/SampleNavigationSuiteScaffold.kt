@@ -63,6 +63,26 @@ fun SampleNavigationSuiteScaffoldParts() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_remember]
 
+    // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
+    NavigationSuiteScaffold(
+        navigationSuiteItems = { /*...*/ }
+    ) {
+        // Destination content.
+        when (currentDestination) {
+            AppDestinations.HOME -> HomeDestination()
+            AppDestinations.FAVORITES -> FavoritesDestination()
+            AppDestinations.SHOPPING -> ShoppingDestination()
+            AppDestinations.PROFILE -> ProfileDestination()
+        }
+    }
+    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
+}
+
+// Separate from SampleNavigationSuiteScaffoldParts so the interactive DAC preview can show it alone.
+@Composable
+fun SampleNavigationSuiteScaffoldItems() {
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+
     // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items]
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -84,20 +104,6 @@ fun SampleNavigationSuiteScaffoldParts() {
         // TODO: Destination content.
     }
     // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_items]
-
-    // [START android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
-    NavigationSuiteScaffold(
-        navigationSuiteItems = { /*...*/ }
-    ) {
-        // Destination content.
-        when (currentDestination) {
-            AppDestinations.HOME -> HomeDestination()
-            AppDestinations.FAVORITES -> FavoritesDestination()
-            AppDestinations.SHOPPING -> ShoppingDestination()
-            AppDestinations.PROFILE -> ProfileDestination()
-        }
-    }
-    // [END android_compose_adaptivelayouts_sample_navigation_suite_scaffold_content]
 }
 
 @Composable
