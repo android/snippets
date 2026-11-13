@@ -16,7 +16,6 @@
 
 package com.example.xr.projected
 
-import android.content.Context
 import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
@@ -48,59 +47,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 private const val TAG = "ProjectedHardware"
-
-/**
- * Demonstrates how to obtain a context for the projected device (audio and display glasses)
- * from the host device (phone) and how to monitor the projected device's
- * connectivity to manage resources.
- */
-// [START androidxr_projected_context_get_projected]
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
-@OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
-private fun monitorProjectedConnectivity(activity: ComponentActivity) {
-    activity.lifecycleScope.launch {
-        // Before creating a projected context, check to see if the projected device is connected.
-        // While this method returns true, the projected context remains valid.
-        ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
-            .collectLatest { isConnected ->
-                if (isConnected) {
-                    // From a phone Activity or Service, get a context for the audio and display glasses.
-                    // Re-initialize on reconnect: Obtain another context instance.
-                    val projectedContext = try {
-                        ProjectedContext.createProjectedDeviceContext(activity)
-                    } catch (e: IllegalStateException) {
-                        Log.e(TAG, "Failed to create projected context", e)
-                        return@collectLatest
-                    }
-
-                    // Use the projectedContext to initialize system services (e.g., CameraManager).
-                    Log.i(TAG, "Projected device connected. Initializing hardware...")
-                } else {
-                    // The projected context is destroyed when the device disconnects.
-                    // Clean up on disconnect: Listen for 'false' and release resources.
-                    Log.i(TAG, "Projected device disconnected. Cleaning up hardware resources...")
-                }
-            }
-    }
-}
-// [END androidxr_projected_context_get_projected]
-
-/**
- * Demonstrates how to obtain a context for the host device (phone)
- * from the projected device (audio and display glasses).
- */
-// [START androidxr_projected_context_get_host]
-@OptIn(ExperimentalProjectedApi::class)
-private fun getPhoneContext(activity: ComponentActivity): Context? {
-    return try {
-        // From a projected Activity, get a context for the phone.
-        ProjectedContext.createHostDeviceContext(activity)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Failed to create host device context", e)
-        null
-    }
-}
-// [END androidxr_projected_context_get_host]
 
 /**
  * Demonstrates how to set up the audio and display glasses' camera.
