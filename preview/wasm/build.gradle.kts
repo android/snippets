@@ -58,6 +58,10 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("AnimationQuickGuide.kt")
         into("com/example/compose/snippets/animations")
     }
+    from("$snippetsRoot/adaptivelayouts") {
+        include("SampleNavigationSuiteScaffold.kt")
+        into("com/example/compose/snippets/adaptivelayouts")
+    }
     // Sample image URLs used by AnimationQuickGuide.kt.
     from("$snippetsRoot/util") {
         include("ImageLoadingSampleUtils.kt")
@@ -166,6 +170,8 @@ kotlin {
                 implementation(libs.jetbrains.compose.runtime)
                 implementation(libs.jetbrains.compose.foundation)
                 implementation(libs.jetbrains.compose.material3)
+                // NavigationSuiteScaffold and currentWindowAdaptiveInfo, for adaptivelayouts/SampleNavigationSuiteScaffold.kt.
+                implementation(libs.jetbrains.compose.material3.adaptive.navigation.suite)
                 implementation(libs.jetbrains.compose.ui)
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)
