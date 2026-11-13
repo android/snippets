@@ -180,6 +180,7 @@ dependencies {
     androidTestImplementation(composeBom)
 
     androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
