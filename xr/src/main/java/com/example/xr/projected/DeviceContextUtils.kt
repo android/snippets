@@ -19,7 +19,6 @@ package com.example.xr.projected
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
