@@ -16,6 +16,8 @@
 
 package com.example.snippets.security.network
 
+import java.io.DataInputStream
+import java.io.IOException
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.security.MessageDigest
@@ -34,17 +36,24 @@ class LoopbackServer(private val respond: (String) -> String) {
         thread(isDaemon = true) {
             while (!server.isClosed) {
                 val client = runCatching { server.accept() }.getOrNull() ?: break
-                client.use { socket ->
-                    socket.soTimeout = 5_000
-                    val input = socket.getInputStream()
-                    val presented = ByteArray(pairingSecret.size)
-                    val read = input.readNBytes(presented, 0, presented.size)
-                    // Constant-time comparison avoids leaking the secret through timing.
-                    if (read != presented.size || !MessageDigest.isEqual(presented, pairingSecret)) {
-                        return@use
+                // Handle each client on its own thread so that one slow client can't
+                // block the others.
+                thread(isDaemon = true) {
+                    try {
+                        client.use { socket ->
+                            socket.soTimeout = 5_000
+                            val input = DataInputStream(socket.getInputStream())
+                            val presented = ByteArray(pairingSecret.size)
+                            input.readFully(presented)
+                            // Constant-time comparison avoids leaking the secret through timing.
+                            if (!MessageDigest.isEqual(presented, pairingSecret)) return@use
+                            val request = input.bufferedReader().readLine().orEmpty()
+                            socket.getOutputStream().write((respond(request) + "\n").toByteArray())
+                        }
+                    } catch (e: IOException) {
+                        // A timeout, short read, or disconnect ends this client only. An
+                        // uncaught exception on this thread would crash the app.
                     }
-                    val request = input.bufferedReader().readLine().orEmpty()
-                    socket.getOutputStream().write((respond(request) + "\n").toByteArray())
                 }
             }
         }
