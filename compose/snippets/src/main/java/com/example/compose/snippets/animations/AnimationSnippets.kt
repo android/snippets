@@ -86,8 +86,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -123,6 +121,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import com.example.compose.snippets.R
+import com.example.compose.snippets.components.AppIcons
 import java.text.BreakIterator
 import java.text.StringCharacterIterator
 import kotlinx.coroutines.delay
@@ -276,19 +275,21 @@ private fun AnimatedVisibilityTransition() {
 
 @Composable
 @Preview
-private fun AnimateAsStateSimple() {
-    // [START android_compose_animations_animate_as_state]
-    var enabled by remember { mutableStateOf(true) }
+fun AnimateAsStateSimple() {
+    Box(contentAlignment = Alignment.Center) {
+        // [START android_compose_animations_animate_as_state]
+        var enabled by remember { mutableStateOf(true) }
 
-    val animatedAlpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f, label = "alpha")
-    Box(
-        Modifier
-            .fillMaxSize()
-            .graphicsLayer { alpha = animatedAlpha }
-            .background(Color.Red)
-    )
-    // [END android_compose_animations_animate_as_state]
-    { Button(onClick = { enabled = !enabled }) { Text("Animate me!") } }
+        val animatedAlpha: Float by animateFloatAsState(if (enabled) 1f else 0.5f, label = "alpha")
+        Box(
+            Modifier
+                .fillMaxSize()
+                .graphicsLayer { alpha = animatedAlpha }
+                .background(Color.Red)
+        )
+        // [END android_compose_animations_animate_as_state]
+        Button(onClick = { enabled = !enabled }) { Text("Animate me!") }
+    }
 }
 
 @Preview
@@ -516,7 +517,7 @@ private object UpdateTransitionCreateChildTransition {
 }
 
 @Composable
-private fun UpdateTransitionAnimatedVisibility() {
+fun UpdateTransitionAnimatedVisibility() {
     // [START android_compose_animations_transitions_animated_visibility]
     var selected by remember { mutableStateOf(false) }
     // Animates changes when `selected` is changed.
@@ -552,7 +553,7 @@ private fun UpdateTransitionAnimatedVisibility() {
                 if (targetState) {
                     Text(text = "Selected")
                 } else {
-                    Icon(imageVector = Icons.Default.Phone, contentDescription = "Phone")
+                    Icon(imageVector = AppIcons.Phone, contentDescription = "Phone")
                 }
             }
         }
@@ -560,7 +561,7 @@ private fun UpdateTransitionAnimatedVisibility() {
     // [END android_compose_animations_transitions_animated_visibility]
 }
 
-private object UpdateTransitionEncapsulating {
+object UpdateTransitionEncapsulating {
     // [START android_compose_animations_transitions_encapsulating]
     enum class BoxState { Collapsed, Expanded }
 
@@ -606,7 +607,7 @@ private object UpdateTransitionEncapsulating {
 }
 
 @Composable
-private fun RememberInfiniteTransitionSimple() {
+fun RememberInfiniteTransitionSimple() {
     // [START android_compose_animations_infinite_transition_simple]
     val infiniteTransition = rememberInfiniteTransition(label = "infinite")
     val color by infiniteTransition.animateColor(
@@ -628,7 +629,7 @@ private fun RememberInfiniteTransitionSimple() {
 }
 
 @Composable
-private fun AnimatableSimple(ok: Boolean) {
+fun AnimatableSimple(ok: Boolean) {
     // [START android_compose_animations_animatable_simple]
     // Start out gray and animate to green/red based on `ok`
     val color = remember { Animatable(Color.Gray) }
