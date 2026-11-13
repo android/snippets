@@ -25,11 +25,12 @@
     <!-- 1. Enforce pinning for production API endpoints -->
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">api.example.com</domain>
-        <pin-set expiration="2027-01-01">
-            <!-- Example value: the hash of the key the server uses today -->
-            <pin digest="SHA-256">7HIpBPzxtMwIMA8YLjgscx95+/cQP67Bc1zS0V4ZFGs=</pin>
-            <!-- Example value: replace with the hash of your own spare key -->
-            <pin digest="SHA-256">rFW78f5fQ107V7u/mkwg62nziStY6l37AOkPh9L1234=</pin>
+        <!-- Example date. After it passes, the platform stops enforcing the pins. -->
+        <pin-set expiration="2028-12-31">
+            <!-- Example values only. Each pin is the base64 SHA-256 hash of the SPKI
+                 of a real key: the key the server uses today and a backup key. -->
+            <pin digest="SHA-256">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</pin>
+            <pin digest="SHA-256">BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA=</pin>
         </pin-set>
         <trust-anchors>
             <certificates src="system" />
