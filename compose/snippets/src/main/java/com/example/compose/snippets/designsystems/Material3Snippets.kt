@@ -189,6 +189,17 @@ private object ColorScheme {
     }
 }
 
+private object DesignThemesSnippet {
+    // [START android_compose_styles_themes_colors]
+    val md_theme_light_primary = Color(0xFF476810)
+    val md_theme_light_onPrimary = Color(0xFFFFFFFF)
+    val md_theme_light_primaryContainer = Color(0xFFC7F089)
+    val md_theme_dark_primary = Color(0xFFACD370)
+    val md_theme_dark_onPrimary = Color(0xFF213600)
+    val md_theme_dark_primaryContainer = Color(0xFF324F00)
+    // [END android_compose_styles_themes_colors]
+}
+
 private object TypographySnippets {
     // [START android_compose_material3_typography_definition]
     val replyTypography = Typography(
