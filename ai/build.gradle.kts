@@ -85,8 +85,3 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     implementation(libs.kotlinx.serialization.json)
 }
-// [START android_appfunction_ksp_arg]
-ksp {
-    arg("appfunctions:aggregateAppFunctions", "true")
-}
-// [END android_appfunction_ksp_arg]
