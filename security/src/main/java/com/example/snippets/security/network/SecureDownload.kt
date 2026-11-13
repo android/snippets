@@ -32,7 +32,7 @@ fun downloadToAppStorage(client: OkHttpClient, url: String, token: String, dest:
         .build()
     client.newCall(request).execute().use { response ->
         if (!response.isSuccessful) throw IOException("HTTP ${response.code}")
-        dest.outputStream().use { out -> response.body!!.byteStream().copyTo(out) }
+        dest.outputStream().use { out -> checkNotNull(response.body).byteStream().copyTo(out) }
     }
 }
 // [END android_security_network_secure_download]
