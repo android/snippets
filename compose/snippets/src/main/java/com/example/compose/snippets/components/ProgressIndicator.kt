@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
@@ -55,7 +57,8 @@ fun ProgressIndicatorExamples() {
     Column(
         modifier = Modifier
             .padding(48.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -204,8 +207,7 @@ fun IndeterminateCircularIndicator() {
 @Composable
 fun LinearWavyProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
+    val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
     )
@@ -237,8 +239,7 @@ fun IndeterminateLinearWavyProgressIndicatorSample() {
 @Composable
 fun CircularWavyProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
+    val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
     )
@@ -270,8 +271,7 @@ fun IndeterminateCircularWavyProgressIndicatorSample() {
 @Composable
 fun LinearProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
+    val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
     )
@@ -303,8 +303,7 @@ fun IndeterminateLinearProgressIndicatorSample() {
 @Composable
 fun CircularProgressIndicatorSample() {
     var progress by remember { mutableFloatStateOf(0.1f) }
-    val animatedProgress by
-    animateFloatAsState(
+    val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
     )

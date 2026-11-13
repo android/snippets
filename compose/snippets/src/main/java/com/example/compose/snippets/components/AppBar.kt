@@ -671,7 +671,7 @@ private fun EnterAlwaysTopAppBarPreview() {
     EnterAlwaysTopAppBar()
 }
 
-// [START android_compose_expressive_components_exituntillcollapsedtopappbar]
+// [START android_compose_expressive_components_exituntilcollapsedtopappbar]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
@@ -713,7 +713,7 @@ fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar() {
         },
     )
 }
-// [END android_compose_expressive_components_exituntillcollapsedtopappbar]
+// [END android_compose_expressive_components_exituntilcollapsedtopappbar]
 
 @Preview
 @Composable
@@ -721,7 +721,7 @@ private fun ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBarPreview() {
     ExitUntilCollapsedCenterAlignedMediumFlexibleTopAppBar()
 }
 
-// [START android_compose_expressive_components_exituntillcollapsedlargetopappbar]
+// [START android_compose_expressive_components_exituntilcollapsedlargetopappbar]
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
@@ -763,7 +763,7 @@ fun ExitUntilCollapsedCenterAlignedLargeFlexibleTopAppBar() {
         },
     )
 }
-// [END android_compose_expressive_components_exituntillcollapsedlargetopappbar]
+// [END android_compose_expressive_components_exituntilcollapsedlargetopappbar]
 
 @Preview
 @Composable

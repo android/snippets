@@ -422,7 +422,6 @@ fun GroupedMenuSample() {
         }
     }
 }
-// [END android_compose_expressive_components_groupedmenusample]
 
 @Composable
 private fun DropdownMenuButtonGroup() {
@@ -501,6 +500,7 @@ private fun DropdownMenuButtonGroup() {
         )
     }
 }
+// [END android_compose_expressive_components_groupedmenusample]
 
 @Preview
 @Composable

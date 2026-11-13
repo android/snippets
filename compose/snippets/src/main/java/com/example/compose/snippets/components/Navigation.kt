@@ -299,9 +299,8 @@ fun ShortNavigationBarWithHorizontalItemsSample() {
 fun WideNavigationRailResponsiveSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
+    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.Search, AppIcons.SettingsFilled)
+    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -345,7 +344,10 @@ fun WideNavigationRailResponsiveSample() {
                             } else {
                                 unselectedIcons[index]
                             }
-                        Icon(painter = rememberVectorPainter(imageVector), contentDescription = null)
+                        Icon(
+                            painter = rememberVectorPainter(imageVector),
+                            contentDescription = null
+                        )
                     },
                     label = { Text(item) },
                     selected = selectedItem == index,
@@ -357,15 +359,7 @@ fun WideNavigationRailResponsiveSample() {
         val textString =
             if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
         Column {
-            Text(modifier = Modifier.padding(16.dp), text = "Is animating: " + state.isAnimating)
             Text(modifier = Modifier.padding(16.dp), text = "The rail is $textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
         }
     }
 }
@@ -377,9 +371,8 @@ fun WideNavigationRailResponsiveSample() {
 fun ModalWideNavigationRailSample() {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Search", "Settings")
-    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.FavoriteFilled, AppIcons.StarFilled)
-    val unselectedIcons =
-        listOf(AppIcons.Home, AppIcons.Favorite, AppIcons.Star)
+    val selectedIcons = listOf(AppIcons.HomeFilled, AppIcons.Search, AppIcons.SettingsFilled)
+    val unselectedIcons = listOf(AppIcons.Home, AppIcons.Search, AppIcons.Settings)
     val state = rememberWideNavigationRailState()
     val scope = rememberCoroutineScope()
 
@@ -434,13 +427,6 @@ fun ModalWideNavigationRailSample() {
             if (state.currentValue == WideNavigationRailValue.Expanded) "expanded" else "collapsed"
         Column {
             Text(modifier = Modifier.padding(16.dp), text = "The rail is $textString.")
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text =
-                    "Note: The orientation of this demo has been locked to portrait mode, because" +
-                            " landscape mode may result in a compact height in certain devices. For" +
-                            " any compact screen dimensions, use a Navigation Bar instead.",
-            )
         }
     }
 }

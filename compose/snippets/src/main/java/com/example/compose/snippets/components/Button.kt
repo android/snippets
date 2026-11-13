@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -53,7 +55,8 @@ fun ButtonExamples() {
     Column(
         modifier = Modifier
             .padding(48.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -217,7 +220,7 @@ fun ToggleButtonWithIconSample() {
 }
 // [END android_compose_expressive_components_togglebuttonwithicon]
 
-// [START android_compose_expressive_components_xmsallbuttonwithicon]
+// [START android_compose_expressive_components_xsmallbuttonwithicon]
 @Composable
 fun XSmallButtonWithIconSample() {
     val size = ButtonDefaults.ExtraSmallContainerHeight
@@ -235,9 +238,9 @@ fun XSmallButtonWithIconSample() {
         Text("Label")
     }
 }
-// [END android_compose_expressive_components_xmsallbuttonwithicon]
+// [END android_compose_expressive_components_xsmallbuttonwithicon]
 
-// [START android_compose_expressive_components_xmsalltogglebuttonwithicon]
+// [START android_compose_expressive_components_xsmalltogglebuttonwithicon]
 @Composable
 fun XSmallToggleButtonWithIconSample() {
     var checked by remember { mutableStateOf(false) }
@@ -258,7 +261,7 @@ fun XSmallToggleButtonWithIconSample() {
         Text("Label")
     }
 }
-// [END android_compose_expressive_components_xmsalltogglebuttonwithicon]
+// [END android_compose_expressive_components_xsmalltogglebuttonwithicon]
 
 // [START android_compose_expressive_components_mediumbuttonwithicon]
 @Composable
