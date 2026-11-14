@@ -19,15 +19,21 @@ package com.example.snippets.security.network
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.LocalSocket
+import java.util.Locale
 
 // [START android_security_network_local_peer_checks]
 // Header names are lowercased by the caller.
 fun isAllowedLoopbackRequest(headers: Map<String, String>, port: Int, allowedOrigins: Set<String>): Boolean {
     val origin = headers["origin"] ?: return false
-    val host = headers["host"] ?: return false
-    return origin in allowedOrigins && (host == "127.0.0.1:$port" || host == "localhost:$port")
+    val host = headers["host"]?.lowercase(Locale.ROOT) ?: return false
+    // InetAddress.getLoopbackAddress() is ::1 on Android, so clients connect
+    // through localhost or [::1].
+    val loopbackHosts = setOf("localhost:$port", "[::1]:$port", "127.0.0.1:$port")
+    return origin.startsWith("https://") && origin in allowedOrigins && host in loopbackHosts
 }
 
+// On targetSdk 30+, declare <queries><package android:name="..." /></queries>
+// for expectedPackage in the manifest, or getPackagesForUid returns null.
 fun isTrustedPeer(context: Context, socket: LocalSocket, expectedPackage: String): Boolean {
     val packages = context.packageManager.getPackagesForUid(socket.peerCredentials.uid) ?: return false
     return expectedPackage in packages &&

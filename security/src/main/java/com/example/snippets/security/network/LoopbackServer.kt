@@ -64,7 +64,7 @@ class LoopbackServer(private val respond: (String) -> String) {
                                     input.readFully(presented)
                                     // Constant-time comparison avoids leaking the secret through timing.
                                     if (!MessageDigest.isEqual(presented, pairingSecret)) return@use
-                                    val request = input.bufferedReader().readLine().orEmpty()
+                                    val request = input.bufferedReader().readLine() ?: return@use
                                     socket.getOutputStream().write((respond(request) + "\n").toByteArray())
                                 }
                             } finally {
