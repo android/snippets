@@ -29,6 +29,7 @@ private fun showErrorToUser(message: String) {
 }
 
 // [START android_security_network_tls_error_handling]
+// Call this from a background thread.
 fun connectToSecureServer(onUrlString: String) {
     try {
         val url = URL(onUrlString)
@@ -46,7 +47,7 @@ fun connectToSecureServer(onUrlString: String) {
             conn.disconnect()
         }
     } catch (e: SSLPeerUnverifiedException) {
-        // Triggered by a hostname mismatch or a pin mismatch
+        // Triggered by a hostname mismatch (or an OkHttp CertificatePinner mismatch)
         Log.w("SECURITY_HANDSHAKE_FAIL", "Peer verification failed. Host identity unconfirmed.", e)
         // Terminate request immediately; do not retry with fallback HTTP or without pins
         showErrorToUser("Connection insecure. Please try again later.")

@@ -26,9 +26,9 @@ import java.util.Locale
 fun isAllowedLoopbackRequest(headers: Map<String, String>, port: Int, allowedOrigins: Set<String>): Boolean {
     val origin = headers["origin"] ?: return false
     val host = headers["host"]?.lowercase(Locale.ROOT) ?: return false
-    // InetAddress.getLoopbackAddress() is ::1 on Android, so clients connect
-    // through localhost or [::1].
-    val loopbackHosts = setOf("localhost:$port", "[::1]:$port", "127.0.0.1:$port")
+    // InetAddress.getLoopbackAddress() is ::1 on Android; app clients use
+    // [::1], since Android maps localhost to 127.0.0.1. Browsers send localhost.
+    val loopbackHosts = setOf("localhost:$port", "[::1]:$port")
     return origin.startsWith("https://") && origin in allowedOrigins && host in loopbackHosts
 }
 
