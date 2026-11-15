@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 // [START android_security_network_secure_download]
+// Call this from a background thread or a Worker.
 fun downloadToAppStorage(client: OkHttpClient, url: String, token: String, dest: File) {
     val httpUrl = url.toHttpUrl()
     require(httpUrl.isHttps && httpUrl.host == "cdn.example.com")

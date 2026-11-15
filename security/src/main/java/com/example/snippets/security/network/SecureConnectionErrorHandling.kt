@@ -32,7 +32,10 @@ private fun showErrorToUser(message: String) {
 fun connectToSecureServer(onUrlString: String) {
     try {
         val url = URL(onUrlString)
-        val conn = url.openConnection() as HttpsURLConnection
+        val conn = url.openConnection() as? HttpsURLConnection ?: run {
+            showErrorToUser("Connection insecure. Please try again later.")
+            return
+        }
         try {
             // Timeout configurations to prevent hanging connections
             conn.connectTimeout = 5000
@@ -43,7 +46,7 @@ fun connectToSecureServer(onUrlString: String) {
             conn.disconnect()
         }
     } catch (e: SSLPeerUnverifiedException) {
-        // Triggered by a hostname mismatch or an OkHttp CertificatePinner mismatch
+        // Triggered by a hostname mismatch or a pin mismatch
         Log.w("SECURITY_HANDSHAKE_FAIL", "Peer verification failed. Host identity unconfirmed.", e)
         // Terminate request immediately; do not retry with fallback HTTP or without pins
         showErrorToUser("Connection insecure. Please try again later.")

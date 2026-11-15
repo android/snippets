@@ -30,7 +30,8 @@ import kotlin.concurrent.thread
 // respond runs concurrently on worker threads and must be thread-safe.
 class LoopbackServer(private val respond: (String) -> String) {
     // Share this secret with the paired client out of band (for example in a
-    // signature-protected bound service); never send it over the socket.
+    // signature-protected bound service). The server never sends it; the client
+    // presents it once per connection.
     val pairingSecret: ByteArray = ByteArray(32).also { SecureRandom().nextBytes(it) }
 
     fun start(port: Int): ServerSocket {
