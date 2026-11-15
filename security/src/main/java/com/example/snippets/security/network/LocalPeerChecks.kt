@@ -22,7 +22,7 @@ import android.net.LocalSocket
 import java.util.Locale
 
 // [START android_security_network_local_peer_checks]
-// Header names are lowercased by the caller.
+// Browser requests only (app clients send no Origin). Header names are lowercase.
 fun isAllowedLoopbackRequest(headers: Map<String, String>, port: Int, allowedOrigins: Set<String>): Boolean {
     val origin = headers["origin"] ?: return false
     val host = headers["host"]?.lowercase(Locale.ROOT) ?: return false
