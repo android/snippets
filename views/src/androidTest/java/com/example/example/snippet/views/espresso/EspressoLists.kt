@@ -16,21 +16,17 @@
 
 package com.example.example.snippet.views.espresso
 
-import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.rule.ActivityTestRule
 import com.example.example.snippet.views.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -39,14 +35,7 @@ import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasEntry
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.TypeSafeMatcher
-import org.junit.Rule
 import org.junit.Test
-
-private const val ITEM_BELOW_THE_FOLD = 40
-
-// In a real app, MainActivity lives in src/main/java.
-private class ListsMainActivity : ComponentActivity()
 
 private object EspressoListsAdapterSnippets {
     fun clickRowWithOnData() {
@@ -103,20 +92,7 @@ private object EspressoListsAdapterSnippets {
     }
 }
 
-@Suppress("DEPRECATION")
 private class EspressoRecyclerViewTestSnippets {
-    @get:Rule
-    val activityRule = ActivityTestRule(ListsMainActivity::class.java)
-
-    private fun isInTheMiddle(): Matcher<RecyclerView.ViewHolder> {
-        return object : TypeSafeMatcher<RecyclerView.ViewHolder>() {
-            override fun matchesSafely(item: RecyclerView.ViewHolder): Boolean = true
-            override fun describeTo(description: Description) {
-                description.appendText("item in the middle")
-            }
-        }
-    }
-
     // [START android_testing_espresso_lists_item_does_not_exist]
     @Test(expected = PerformException::class)
     fun itemWithText_doesNotExist() {
@@ -130,35 +106,4 @@ private class EspressoRecyclerViewTestSnippets {
             )
     }
     // [END android_testing_espresso_lists_item_does_not_exist]
-
-    // [START android_testing_espresso_lists_scroll_below_fold]
-    @Test fun scrollToItemBelowFold_checkItsText() {
-        // First, scroll to the position that needs to be matched and click on it.
-        onView(ViewMatchers.withId(R.id.recyclerView))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    ITEM_BELOW_THE_FOLD,
-                    click()
-                )
-            )
-
-        // Match the text in an item below the fold and check that it's displayed.
-        val itemElementText = "${activityRule.activity.resources
-            .getString(R.string.item_element_text)} ${ITEM_BELOW_THE_FOLD}"
-        onView(withText(itemElementText)).check(matches(isDisplayed()))
-    }
-    // [END android_testing_espresso_lists_scroll_below_fold]
-
-    // [START android_testing_espresso_lists_item_in_middle]
-    @Test fun itemInMiddleOfList_hasSpecialText() {
-        // First, scroll to the view holder using the isInTheMiddle() matcher.
-        onView(ViewMatchers.withId(R.id.recyclerView))
-            .perform(RecyclerViewActions.scrollToHolder(isInTheMiddle()))
-
-        // Check that the item has the special text.
-        val middleElementText = activityRule.activity.resources
-            .getString(R.string.middle)
-        onView(withText(middleElementText)).check(matches(isDisplayed()))
-    }
-    // [END android_testing_espresso_lists_item_in_middle]
 }

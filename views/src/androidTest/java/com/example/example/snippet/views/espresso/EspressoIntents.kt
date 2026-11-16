@@ -21,7 +21,6 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import androidx.activity.ComponentActivity
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -29,24 +28,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.truth.content.IntentSubject.assertThat
 import com.example.example.snippet.views.R
-import org.junit.Rule
 import org.junit.Test
-
-// In a real app, MyActivity lives in src/main/java.
-private class MyActivity : ComponentActivity()
-
-@Suppress("DEPRECATION")
-private class EspressoIntentsRuleExample {
-    // [START android_testing_espresso_intents_rule]
-    @get:Rule
-    val intentsTestRule = IntentsTestRule(MyActivity::class.java)
-    // [END android_testing_espresso_intents_rule]
-}
 
 private fun validateIntentWithTruth(intent: Intent) {
     // [START android_testing_espresso_intents_assert_that]
