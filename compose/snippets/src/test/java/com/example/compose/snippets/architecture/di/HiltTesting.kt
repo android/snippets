@@ -60,16 +60,14 @@ private object HiltTestingUnitTestSnippet {
     // [END android_di_hilt_testing_unit_test]
 }
 
-private object HiltTestingRobolectricConfigSnippet {
-    // [START android_di_hilt_testing_robolectric_config]
-    @HiltAndroidTest
-    @Config(application = HiltTestApplication::class)
-    class SettingsScreenTest {
+// [START android_di_hilt_testing_robolectric_config]
+@HiltAndroidTest
+@Config(application = HiltTestApplication::class)
+class SettingsScreenTest {
 
-        @get:Rule
-        var hiltRule = HiltAndroidRule(this)
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
-        // Robolectric tests here.
-    }
-    // [END android_di_hilt_testing_robolectric_config]
+    // Robolectric tests here.
 }
+// [END android_di_hilt_testing_robolectric_config]

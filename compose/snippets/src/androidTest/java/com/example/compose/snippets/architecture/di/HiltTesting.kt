@@ -92,17 +92,15 @@ private object HiltTestingUiTestSetupSnippet {
     // [END android_di_hilt_testing_ui_test_setup]
 }
 
-private object HiltTestingCustomTestRunnerSnippet {
-    // [START android_di_hilt_testing_custom_test_runner]
-    // A custom runner to set up the instrumented application class for tests.
-    class CustomTestRunner : AndroidJUnitRunner() {
+// [START android_di_hilt_testing_custom_test_runner]
+// A custom runner to set up the instrumented application class for tests.
+class CustomTestRunner : AndroidJUnitRunner() {
 
-        override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
-            return super.newApplication(cl, HiltTestApplication::class.java.name, context)
-        }
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
     }
-    // [END android_di_hilt_testing_custom_test_runner]
 }
+// [END android_di_hilt_testing_custom_test_runner]
 
 private object HiltTestingInjectInTestsSnippet {
     // [START android_di_hilt_testing_inject_in_tests]
@@ -220,7 +218,7 @@ private object HiltTestingBindValueMockSnippet {
         @BindValue @ExampleQualifier @Mock
         lateinit var qualifiedVariable: ExampleCustomType
 
-        // Robolectric tests here.
+        // Robolectric tests here
     }
     // [END android_di_hilt_testing_bind_value_mock]
 }

@@ -31,6 +31,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -44,19 +45,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 
-// internal required for Hilt/Dagger KSP generated Java classes.
-internal object HiltAndroidApplicationSnippet {
-    // [START android_di_hilt_android_application]
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
-    @HiltAndroidApp
-    // [START_EXCLUDE silent]
-     */
-    // [END_EXCLUDE]
-    class ExampleApplication : Application() { /* ... */ }
-    // [END android_di_hilt_android_application]
-}
+// [START android_di_hilt_android_application]
+@HiltAndroidApp
+class ExampleApplication : Application() { /* ... */ }
+// [END android_di_hilt_android_application]
 
 // internal required for Hilt/Dagger KSP generated Java classes.
 internal object HiltAndroidEntryPointSnippet {
@@ -133,7 +125,7 @@ internal object HiltAndroidProvidesSnippet {
 
         @Provides
         fun provideAnalyticsService(
-            // Potential dependencies of this type.
+            // Potential dependencies of this type
         ): AnalyticsService {
             return Retrofit.Builder()
                 .baseUrl("https://example.com")
@@ -155,45 +147,42 @@ annotation class AuthInterceptorOkHttpClient
 annotation class OtherInterceptorOkHttpClient
 // [END android_di_hilt_android_qualifiers]
 
-internal class AuthInterceptor @Inject constructor() : Interceptor {
+class AuthInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response =
         chain.proceed(chain.request())
 }
 
-internal class OtherInterceptor @Inject constructor() : Interceptor {
+class OtherInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response =
         chain.proceed(chain.request())
 }
 
-// internal required for Hilt/Dagger KSP generated Java classes.
-internal object HiltAndroidNetworkModuleSnippet {
-    // [START android_di_hilt_android_network_module]
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object NetworkModule {
+// [START android_di_hilt_android_network_module]
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
 
-        @AuthInterceptorOkHttpClient
-        @Provides
-        fun provideAuthInterceptorOkHttpClient(
-            authInterceptor: AuthInterceptor
-        ): OkHttpClient {
-            return OkHttpClient.Builder()
-                .addInterceptor(authInterceptor)
-                .build()
-        }
-
-        @OtherInterceptorOkHttpClient
-        @Provides
-        fun provideOtherInterceptorOkHttpClient(
-            otherInterceptor: OtherInterceptor
-        ): OkHttpClient {
-            return OkHttpClient.Builder()
-                .addInterceptor(otherInterceptor)
-                .build()
-        }
+    @AuthInterceptorOkHttpClient
+    @Provides
+    fun provideAuthInterceptorOkHttpClient(
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
     }
-    // [END android_di_hilt_android_network_module]
+
+    @OtherInterceptorOkHttpClient
+    @Provides
+    fun provideOtherInterceptorOkHttpClient(
+        otherInterceptor: OtherInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(otherInterceptor)
+            .build()
+    }
 }
+// [END android_di_hilt_android_network_module]
 
 // internal required for Hilt/Dagger KSP generated Java classes.
 internal object HiltAndroidInjectQualifiedSnippet {
@@ -263,7 +252,7 @@ internal object HiltAndroidActivityScopedSnippet {
 
 // internal required for Hilt/Dagger KSP generated Java classes.
 internal object HiltAndroidSingletonScopedBindsSnippet {
-    // [START android_di_hilt_android_singleton_scoped]
+    // [START android_di_hilt_android_singleton_scoped_binds]
     // If AnalyticsService is an interface.
     @Module
     @InstallIn(SingletonComponent::class)
@@ -275,10 +264,14 @@ internal object HiltAndroidSingletonScopedBindsSnippet {
             analyticsServiceImpl: AnalyticsServiceImpl
         ): AnalyticsService
     }
+    // [END android_di_hilt_android_singleton_scoped_binds]
+}
 
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
+// internal required for Hilt/Dagger KSP generated Java classes.
+internal object HiltAndroidSingletonScopedProvidesSnippet {
+    interface AnalyticsService
+
+    // [START android_di_hilt_android_singleton_scoped_provides]
     // If you don't own AnalyticsService.
     @Module
     @InstallIn(SingletonComponent::class)
@@ -293,52 +286,49 @@ internal object HiltAndroidSingletonScopedBindsSnippet {
                 .create(AnalyticsService::class.java)
         }
     }
-    // [START_EXCLUDE silent]
-     */
-    // [END_EXCLUDE]
-    // [END android_di_hilt_android_singleton_scoped]
+    // [END android_di_hilt_android_singleton_scoped_provides]
 }
 
 // internal required for Hilt/Dagger KSP generated Java classes.
 internal object HiltAndroidApplicationContextQualifiedSnippet {
     interface AnalyticsService
 
-    // [START android_di_hilt_android_application_context]
+    // [START android_di_hilt_android_application_context_qualified]
     class AnalyticsServiceImpl @Inject constructor(
         @ApplicationContext context: Context
     ) : AnalyticsService { /* ... */ }
+    // [END android_di_hilt_android_application_context_qualified]
+}
 
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
+// internal required for Hilt/Dagger KSP generated Java classes.
+internal object HiltAndroidApplicationContextUnqualifiedSnippet {
+    interface AnalyticsService
+
+    // [START android_di_hilt_android_application_context_unqualified]
     // The Application binding is available without qualifiers.
     class AnalyticsServiceImpl @Inject constructor(
         application: Application
     ) : AnalyticsService { /* ... */ }
-    // [START_EXCLUDE silent]
-     */
-    // [END_EXCLUDE]
-    // [END android_di_hilt_android_application_context]
+    // [END android_di_hilt_android_application_context_unqualified]
 }
 
 // internal required for Hilt/Dagger KSP generated Java classes.
 internal object HiltAndroidActivityContextQualifiedSnippet {
-    // [START android_di_hilt_android_activity_context]
+    // [START android_di_hilt_android_activity_context_qualified]
     class AnalyticsAdapter @Inject constructor(
         @ActivityContext context: Context
     ) { /* ... */ }
+    // [END android_di_hilt_android_activity_context_qualified]
+}
 
-    // [START_EXCLUDE silent]
-    /*
-    // [END_EXCLUDE]
+// internal required for Hilt/Dagger KSP generated Java classes.
+internal object HiltAndroidActivityContextUnqualifiedSnippet {
+    // [START android_di_hilt_android_activity_context_unqualified]
     // The Activity binding is available without qualifiers.
     class AnalyticsAdapter @Inject constructor(
         activity: ComponentActivity
     ) { /* ... */ }
-    // [START_EXCLUDE silent]
-     */
-    // [END_EXCLUDE]
-    // [END android_di_hilt_android_activity_context]
+    // [END android_di_hilt_android_activity_context_unqualified]
 }
 
 // internal required for Hilt/Dagger KSP generated Java classes.

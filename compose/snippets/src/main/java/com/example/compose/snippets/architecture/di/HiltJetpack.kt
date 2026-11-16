@@ -16,8 +16,6 @@
 
 package com.example.compose.snippets.architecture.di
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,21 +24,18 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.hilt.work.HiltWorker
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import androidx.work.Configuration
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -50,7 +45,7 @@ internal class ExampleRepository @Inject constructor()
 
 internal class MyRepository @Inject constructor()
 
-internal class WorkerDependency @Inject constructor()
+class WorkerDependency @Inject constructor()
 
 private data object MyDestination
 
@@ -133,31 +128,15 @@ internal object HiltJetpackAssistedViewModelSnippet {
     }
 }
 
-internal object HiltJetpackWorkerSnippet {
-    // [START android_di_hilt_jetpack_worker]
-    @HiltWorker
-    class ExampleWorker @AssistedInject constructor(
-        @Assisted appContext: Context,
-        @Assisted workerParams: WorkerParameters,
-        workerDependency: WorkerDependency
-    ) : Worker(appContext, workerParams) {
-        // [START_EXCLUDE]
-        override fun doWork(): Result = Result.success()
-        // [END_EXCLUDE]
-    }
-    // [END android_di_hilt_jetpack_worker]
+// [START android_di_hilt_jetpack_worker]
+@HiltWorker
+class ExampleWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
+    workerDependency: WorkerDependency
+) : Worker(appContext, workerParams) {
+    // [START_EXCLUDE]
+    override fun doWork(): Result = Result.success()
+    // [END_EXCLUDE]
 }
-
-@SuppressLint("RemoveWorkManagerInitializer")
-// [START android_di_hilt_jetpack_application]
-@HiltAndroidApp
-class ExampleApplication : Application(), Configuration.Provider {
-
-    @Inject lateinit var workerFactory: HiltWorkerFactory
-
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-}
-// [END android_di_hilt_jetpack_application]
+// [END android_di_hilt_jetpack_worker]
