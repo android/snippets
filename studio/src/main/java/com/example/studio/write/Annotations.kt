@@ -28,6 +28,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.CallSuper
 import androidx.annotation.CheckResult
 import androidx.annotation.FloatRange
+import androidx.annotation.IntDef
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresPermission
 import androidx.annotation.Size
@@ -36,8 +37,8 @@ import androidx.annotation.VisibleForTesting
 import java.io.IOException
 
 // [START android_studio_write_annotations_typedef]
-import androidx.annotation.IntDef
-//...
+// import androidx.annotation.IntDef
+// ...
 // Define the list of accepted constants and declare the NavigationMode annotation.
 @Retention(AnnotationRetention.SOURCE)
 @IntDef(NAVIGATION_MODE_STANDARD, NAVIGATION_MODE_LIST, NAVIGATION_MODE_TABS)
@@ -58,12 +59,12 @@ abstract class ActionBar {
 }
 // [END android_studio_write_annotations_typedef]
 
-class LayoutInflaterSnippet : LayoutInflaterParent() {
+class LayoutInflaterSnippet : ComponentActivity() {
     // [START android_studio_write_annotations_nullness]
     // ...
     /** Annotation not used because of the safe-call operator(?)**/
     override fun onCreateView(
-        name: String?,
+        name: String,
         context: Context,
         attrs: AttributeSet
     ): View? {
@@ -94,7 +95,7 @@ fun setAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float) {
 // [END android_studio_write_annotations_float_range]
 
 // [START android_studio_write_annotations_size]
-fun getLocation(button: View, @Size(min=1) location: IntArray) {
+fun getLocation(button: View, @Size(min = 1) location: IntArray) {
     button.getLocationOnScreen(location)
 }
 // [END android_studio_write_annotations_size]
@@ -108,10 +109,12 @@ abstract class WallpaperSnippet {
 }
 
 // [START android_studio_write_annotations_requires_permission_all_of]
-@RequiresPermission(allOf = [
-    Manifest.permission.READ_EXTERNAL_STORAGE,
-    Manifest.permission.ACCESS_MEDIA_LOCATION
-])
+@RequiresPermission(
+    allOf = [
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_MEDIA_LOCATION
+    ]
+)
 fun copyImageFile(dest: String, source: String) {
     // ...
 }
@@ -163,14 +166,6 @@ fun myMethod() {
     // ...
 }
 // [END android_studio_write_annotations_visible_for_testing]
-
-open class LayoutInflaterParent {
-    open fun onCreateView(
-        name: String?,
-        context: Context,
-        attrs: AttributeSet,
-    ): View? = null
-}
 
 private const val READ_HISTORY_BOOKMARKS = "com.android.browser.permission.READ_HISTORY_BOOKMARKS"
 private const val WRITE_HISTORY_BOOKMARKS = "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"

@@ -18,9 +18,10 @@ package com.example.studio.debug
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 
 // [START android_studio_debug_log_state]
-import android.util.Log
+// import android.util.Log
 // ...
 class MyActivity : Activity() {
     // ...
@@ -49,7 +50,7 @@ class MyActivity : Activity() {
 fun someOtherMethod() {
     try {
         // ...
-    } catch (e : SomeException) {
+    } catch (e: SomeException) {
         Log.d(TAG, "someOtherMethod()", e)
     }
 }

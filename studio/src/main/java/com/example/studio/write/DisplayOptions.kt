@@ -16,8 +16,10 @@
 
 package com.example.studio.write
 
-// [START android_studio_write_annotations_typedef_flags]
 import androidx.annotation.IntDef
+
+// [START android_studio_write_annotations_typedef_flags]
+// import androidx.annotation.IntDef
 // ...
 
 @IntDef(
