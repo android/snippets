@@ -200,7 +200,7 @@ private object DlTdoaSnippet {
             val capabilitiesCallback = object : RangingManager.RangingCapabilitiesCallback {
                 override fun onRangingCapabilities(capabilities: RangingCapabilities) {
                     // Make sure DL-TDoA is supported before starting the session.
-                    if (capabilities.uwbCapabilities != null && capabilities.uwbCapabilities!!.isDlTdoaSupported) {
+                    if (capabilities.uwbCapabilities?.isDlTdoaSupported == true) {
                         startDlTDoASession(context)
                     }
                 }
