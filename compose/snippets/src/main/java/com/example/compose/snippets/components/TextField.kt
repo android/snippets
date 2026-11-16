@@ -28,7 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
-// [START android_compose_expressive_text_textfield]
+// [START android_compose_expressive_components_textfield]
 @Composable
 fun TextFieldSample() {
     TextField(
@@ -39,10 +39,10 @@ fun TextFieldSample() {
         colors = TextFieldDefaults.tonalColors(),
     )
 }
-// [END android_compose_expressive_text_textfield]
+// [END android_compose_expressive_components_textfield]
 
 @Preview
-// [START android_compose_expressive_text_outlinedtextfield]
+// [START android_compose_expressive_components_outlinedtextfield]
 @Composable
 fun OutlinedTextFieldSample() {
     OutlinedTextField(
@@ -54,4 +54,4 @@ fun OutlinedTextFieldSample() {
         labelPosition = TextFieldLabelPosition.Inside(),
     )
 }
-// [END android_compose_expressive_text_outlinedtextfield]
+// [END android_compose_expressive_components_outlinedtextfield]

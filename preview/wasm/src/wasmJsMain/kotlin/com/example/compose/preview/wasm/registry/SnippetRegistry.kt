@@ -444,8 +444,8 @@ object SnippetRegistry {
         "android_compose_components_switchminimal" to { CenteredBox { SwitchMinimalExample() } },
         "android_compose_components_switchwithicon" to { CenteredBox { SwitchWithIconExample() } },
         "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } },
-        "android_compose_expressive_text_textfield" to { CenteredBox { TextFieldSample() } },
-        "android_compose_expressive_text_outlinedtextfield" to { CenteredBox { OutlinedTextFieldSample() } },
+        "android_compose_expressive_components_textfield" to { CenteredBox { TextFieldSample() } },
+        "android_compose_expressive_components_outlinedtextfield" to { CenteredBox { OutlinedTextFieldSample() } },
         // Animation quick guide. Their static DAC previews are MP4s recorded by
         // PreviewScreenshotTest from PreviewRecordings.
         "android_compose_animation_cookbook_visibility" to { AnimatedVisibilityCookbook() },

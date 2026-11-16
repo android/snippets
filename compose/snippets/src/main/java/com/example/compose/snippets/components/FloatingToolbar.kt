@@ -84,6 +84,7 @@ fun ExpandableHorizontalFloatingToolbarSample() {
                     }
                 },
             )
+            // [START_EXCLUDE]
             LazyColumn(
                 modifier =
                     Modifier.floatingToolbarVerticalNestedScroll(
@@ -92,7 +93,6 @@ fun ExpandableHorizontalFloatingToolbarSample() {
                         onCollapse = { expanded = false },
                     ),
                 state = rememberLazyListState(),
-                contentPadding = innerPadding,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 val list = (0..75).map { it.toString() }
@@ -104,6 +104,7 @@ fun ExpandableHorizontalFloatingToolbarSample() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         }
     }
 }
@@ -144,6 +145,7 @@ fun ExpandableVerticalFloatingToolbarSample() {
                     }
                 },
             )
+            // [START_EXCLUDE]
             LazyColumn(
                 modifier =
                     Modifier.floatingToolbarVerticalNestedScroll(
@@ -152,7 +154,6 @@ fun ExpandableVerticalFloatingToolbarSample() {
                         onCollapse = { expanded = false },
                     ),
                 state = rememberLazyListState(),
-                contentPadding = innerPadding,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 val list = (0..75).map { it.toString() }
@@ -164,6 +165,7 @@ fun ExpandableVerticalFloatingToolbarSample() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         }
     }
 }
@@ -208,9 +210,9 @@ fun ScrollableHorizontalFloatingToolbarSample() {
                 },
                 scrollBehavior = exitAlwaysScrollBehavior,
             )
+            // [START_EXCLUDE]
             LazyColumn(
                 state = rememberLazyListState(),
-                contentPadding = innerPadding,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 val list = (0..75).map { it.toString() }
@@ -222,6 +224,7 @@ fun ScrollableHorizontalFloatingToolbarSample() {
                     )
                 }
             }
+            // [END_EXCLUDE]
         }
     }
 }
