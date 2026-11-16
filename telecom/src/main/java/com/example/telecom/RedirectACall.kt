@@ -23,8 +23,8 @@ import android.os.Build
 import android.os.Bundle
 import android.telecom.CallRedirectionService
 import android.telecom.PhoneAccountHandle
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 
 @RequiresApi(Build.VERSION_CODES.Q)
 // [START android_telecom_redirection_service]
@@ -55,10 +55,9 @@ class RedirectionService : CallRedirectionService() {
 // [END android_telecom_redirection_service]
 
 // [START android_telecom_redirection_role_request]
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         // Tell the system that you want your app to handle call redirects. This
         // is done by using the RoleManager to register your app to handle redirects.
