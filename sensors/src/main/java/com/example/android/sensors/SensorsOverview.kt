@@ -24,12 +24,10 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 
-private object SensorsOverviewDeviceSensors {
-    fun listSensors(sensorManager: SensorManager) {
-        // [START android_sensors_overview_device_sensors]
-        val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
-        // [END android_sensors_overview_device_sensors]
-    }
+private fun listDeviceSensors(sensorManager: SensorManager) {
+    // [START android_sensors_overview_device_sensors]
+    val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+    // [END android_sensors_overview_device_sensors]
 }
 
 private object SensorsOverviewSensorActivity {

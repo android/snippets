@@ -28,88 +28,74 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-private object SensorsMotionGravity {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_gravity]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
-            // [END android_sensors_motion_default_gravity]
-        }
+private fun defaultGravitySensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_gravity]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+        // [END android_sensors_motion_default_gravity]
     }
 }
 
-private object SensorsMotionLinearAcceleration {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_linear_acceleration]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
-            // [END android_sensors_motion_default_linear_acceleration]
-        }
+private fun defaultLinearAccelerationSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_linear_acceleration]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+        // [END android_sensors_motion_default_linear_acceleration]
     }
 }
 
-private object SensorsMotionRotationVector {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_rotation_vector]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-            // [END android_sensors_motion_default_rotation_vector]
-        }
+private fun defaultRotationVectorSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_rotation_vector]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        // [END android_sensors_motion_default_rotation_vector]
     }
 }
 
-private object SensorsMotionSignificantMotion {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_significant_motion]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val mSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION)
-            val triggerEventListener = object : TriggerEventListener() {
-                override fun onTrigger(event: TriggerEvent?) {
-                    // Do work
-                }
+private fun requestSignificantMotionTrigger(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_significant_motion]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val mSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION)
+        val triggerEventListener = object : TriggerEventListener() {
+            override fun onTrigger(event: TriggerEvent?) {
+                // Do work
             }
-            mSensor?.also { sensor ->
-                sensorManager.requestTriggerSensor(triggerEventListener, sensor)
-            }
-            // [END android_sensors_motion_significant_motion]
         }
+        mSensor?.also { sensor ->
+            sensorManager.requestTriggerSensor(triggerEventListener, sensor)
+        }
+        // [END android_sensors_motion_significant_motion]
     }
 }
 
-private object SensorsMotionStepCounter {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_step_counter]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-            // [END android_sensors_motion_default_step_counter]
-        }
+private fun defaultStepCounterSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_step_counter]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        // [END android_sensors_motion_default_step_counter]
     }
 }
 
-private object SensorsMotionStepDetector {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_step_detector]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-            // [END android_sensors_motion_default_step_detector]
-        }
+private fun defaultStepDetectorSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_step_detector]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+        // [END android_sensors_motion_default_step_detector]
     }
 }
 
-private object SensorsMotionAccelerometer {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_accelerometer]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-            // [END android_sensors_motion_default_accelerometer]
-        }
+private fun defaultAccelerometerSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_accelerometer]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        // [END android_sensors_motion_default_accelerometer]
     }
 }
 
@@ -142,14 +128,12 @@ private object SensorsMotionFilterAccelerometer {
     }
 }
 
-private object SensorsMotionGyroscope {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_gyroscope]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-            // [END android_sensors_motion_default_gyroscope]
-        }
+private fun defaultGyroscopeSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_gyroscope]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        // [END android_sensors_motion_default_gyroscope]
     }
 }
 
@@ -209,13 +193,11 @@ private object SensorsMotionGyroscopeDeltaRotation {
     }
 }
 
-private object SensorsMotionGyroscopeUncalibrated {
-    fun init(context: Context) {
-        context.apply {
-            // [START android_sensors_motion_default_gyroscope_uncalibrated]
-            val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)
-            // [END android_sensors_motion_default_gyroscope_uncalibrated]
-        }
+private fun defaultUncalibratedGyroscopeSensor(context: Context) {
+    context.apply {
+        // [START android_sensors_motion_default_gyroscope_uncalibrated]
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)
+        // [END android_sensors_motion_default_gyroscope_uncalibrated]
     }
 }
