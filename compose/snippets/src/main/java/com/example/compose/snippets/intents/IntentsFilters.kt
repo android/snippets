@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.intents
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.app.Service
 import android.content.ActivityNotFoundException
@@ -26,30 +25,27 @@ import android.os.Build
 import android.os.IBinder
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import androidx.activity.ComponentActivity
 import com.example.compose.snippets.R
 
 private const val REQUEST_CODE = 0
 
-private object ActionTimeTravelScope {
-    // [START android_intents_filters_action_timetravel]
-    const val ACTION_TIMETRAVEL = "com.example.action.TIMETRAVEL"
-    // [END android_intents_filters_action_timetravel]
-}
+// [START android_intents_filters_action_timetravel]
+const val ACTION_TIMETRAVEL = "com.example.action.TIMETRAVEL"
+// [END android_intents_filters_action_timetravel]
 
-private object ExtraGigawattsScope {
-    // [START android_intents_filters_extra_gigawatts]
-    const val EXTRA_GIGAWATTS = "com.example.EXTRA_GIGAWATTS"
-    // [END android_intents_filters_extra_gigawatts]
-}
+// [START android_intents_filters_extra_gigawatts]
+const val EXTRA_GIGAWATTS = "com.example.EXTRA_GIGAWATTS"
+// [END android_intents_filters_extra_gigawatts]
 
-private class IntentsFiltersExamplesActivity : Activity() {
+private class IntentsFiltersExamplesActivity : ComponentActivity() {
     private val fileUrl = "http://www.example.com/image.png"
     private val textMessage = "Hello, world!"
 
     fun startDownloadService() {
         // [START android_intents_filters_explicit_intent]
-        // Executed in an Activity, so 'this' is the Context.
-        // The fileUrl is a string URL, such as "http://www.example.com/image.png".
+        // Executed in an Activity, so 'this' is the Context
+        // The fileUrl is a string URL, such as "http://www.example.com/image.png"
         val downloadIntent = Intent(this, DownloadService::class.java).apply {
             data = Uri.parse(fileUrl)
         }
@@ -81,12 +77,12 @@ private class IntentsFiltersExamplesActivity : Activity() {
         // ...
 
         // Always use string resources for UI text.
-        // This says something like "Share this photo with".
+        // This says something like "Share this photo with"
         val title: String = resources.getString(R.string.chooser_title)
-        // Create intent to show the chooser dialog.
+        // Create intent to show the chooser dialog
         val chooser: Intent = Intent.createChooser(sendIntent, title)
 
-        // Verify the original intent will resolve to at least one activity.
+        // Verify the original intent will resolve to at least one activity
         if (sendIntent.resolveActivity(packageManager) != null) {
             startActivity(chooser)
         }
@@ -101,7 +97,7 @@ private class IntentsFiltersExamplesActivity : Activity() {
                 // ...
                 .detectUnsafeIntentLaunch()
                 .penaltyLog()
-                // Consider also adding penaltyDeath().
+                // Consider also adding penaltyDeath()
                 .build()
         )
     }

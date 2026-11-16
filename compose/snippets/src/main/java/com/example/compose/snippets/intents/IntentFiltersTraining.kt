@@ -20,11 +20,12 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import com.example.compose.snippets.R
 
 private const val RESULT_COLOR_RED = 1
 
-private class ShareActivity : Activity() {
+private class ShareActivity : ComponentActivity() {
     // [START android_intents_filters_training_handle_intent]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +34,18 @@ private class ShareActivity : Activity() {
 
         val data: Uri? = intent?.data
 
-        // Figure out what to do based on the intent type.
+        // Figure out what to do based on the intent type
         if (intent?.type?.startsWith("image/") == true) {
-            // Handle intents with image data.
+            // Handle intents with image data
         } else if (intent?.type == "text/plain") {
-            // Handle intents with text.
+            // Handle intents with text
         }
     }
     // [END android_intents_filters_training_handle_intent]
 
     fun returnResultWithData() {
         // [START android_intents_filters_training_return_result]
-        // Create intent to deliver some kind of result data.
+        // Create intent to deliver some kind of result data
         Intent("com.example.RESULT_ACTION", Uri.parse("content://result_uri")).also { result ->
             setResult(Activity.RESULT_OK, result)
         }

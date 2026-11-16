@@ -16,20 +16,20 @@
 
 package com.example.compose.snippets.intents
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.ComponentActivity
 
-private class GoogleMapsIntentsActivity : Activity() {
+private class GoogleMapsIntentsActivity : ComponentActivity() {
     fun requestStreetView() {
         // [START android_maps_intents_street_view_request]
         // Create a Uri from an intent string. Use the result to create an Intent.
         val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
-        // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW.
+        // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        // Make the Intent explicit by setting the Google Maps package.
+        // Make the Intent explicit by setting the Google Maps package
         mapIntent.setPackage("com.google.android.apps.maps")
-        // Attempt to start an activity that can handle the Intent.
+        // Attempt to start an activity that can handle the Intent
         startActivity(mapIntent)
         // [END android_maps_intents_street_view_request]
     }
@@ -62,7 +62,7 @@ private class GoogleMapsIntentsActivity : Activity() {
 
     fun displayMap() {
         // [START android_maps_intents_display_map]
-        // Creates an Intent that loads a map of San Francisco.
+        // Creates an Intent that loads a map of San Francisco
         val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")

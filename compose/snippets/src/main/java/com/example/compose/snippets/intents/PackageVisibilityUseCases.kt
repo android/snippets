@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.intents
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
@@ -25,12 +24,13 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.Intent.FLAG_ACTIVITY_REQUIRE_DEFAULT
 import android.content.Intent.FLAG_ACTIVITY_REQUIRE_NON_BROWSER
 import android.net.Uri
+import androidx.activity.ComponentActivity
 
 private const val URL_TO_LOAD = "https://www.example.com"
 private val CONTENT_URI_TO_SHARE_WITH_OTHER_APP: Uri =
     Uri.parse("content://com.example.provider/data")
 
-private class PackageVisibilityUseCasesActivity : Activity() {
+private class PackageVisibilityUseCasesActivity : ComponentActivity() {
     fun openUrlInNonBrowserApp(url: String) {
         // [START android_package_visibility_require_non_browser]
         try {

@@ -22,7 +22,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Bundle
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
@@ -75,18 +74,7 @@ private class CommonIntentsActivity : Activity() {
     }
     // [END android_intents_common_add_event]
 
-    // [START android_intents_common_image_capture_dispatch]
-    val REQUEST_IMAGE_CAPTURE = 1
-
-    private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            // Display error state to the user.
-        }
-    }
-    // [END android_intents_common_image_capture_dispatch]
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     // [START android_intents_common_camera_video]
     fun capturePhoto() {
@@ -202,63 +190,6 @@ private class CommonIntentsActivity : Activity() {
     }
     // [END android_intents_common_play_search_artist]
 
-    // [START android_intents_common_handle_play_search]
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // [START_EXCLUDE]
-        super.onCreate(savedInstanceState)
-        // [END_EXCLUDE]
-        if (intent.action?.compareTo(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH) == 0) {
-
-            val mediaFocus: String? = intent.getStringExtra(MediaStore.EXTRA_MEDIA_FOCUS)
-            val query: String? = intent.getStringExtra(SearchManager.QUERY)
-
-            // Some of these extras might not be available depending on the search mode.
-            val album: String? = intent.getStringExtra(MediaStore.EXTRA_MEDIA_ALBUM)
-            val artist: String? = intent.getStringExtra(MediaStore.EXTRA_MEDIA_ARTIST)
-            val genre: String? = intent.getStringExtra("android.intent.extra.genre")
-            val playlist: String? = intent.getStringExtra("android.intent.extra.playlist")
-            val title: String? = intent.getStringExtra(MediaStore.EXTRA_MEDIA_TITLE)
-
-            // Determine the search mode and use the corresponding extras.
-            when {
-                mediaFocus == null -> {
-                    // 'Unstructured' search mode (backward compatible).
-                    playUnstructuredSearch(query)
-                }
-                mediaFocus.compareTo("vnd.android.cursor.item/*") == 0 -> {
-                    if (query?.isNotEmpty() == true) {
-                        // 'Unstructured' search mode.
-                        playUnstructuredSearch(query)
-                    } else {
-                        // 'Any' search mode.
-                        playResumeLastPlaylist()
-                    }
-                }
-                mediaFocus.compareTo(MediaStore.Audio.Genres.ENTRY_CONTENT_TYPE) == 0 -> {
-                    // 'Genre' search mode.
-                    playGenre(genre)
-                }
-                mediaFocus.compareTo(MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE) == 0 -> {
-                    // 'Artist' search mode.
-                    playArtist(artist, genre)
-                }
-                mediaFocus.compareTo(MediaStore.Audio.Albums.ENTRY_CONTENT_TYPE) == 0 -> {
-                    // 'Album' search mode.
-                    playAlbum(album, artist)
-                }
-                mediaFocus.compareTo("vnd.android.cursor.item/audio") == 0 -> {
-                    // 'Song' search mode.
-                    playSong(album, artist, genre, title)
-                }
-                mediaFocus.compareTo(MediaStore.Audio.Playlists.ENTRY_CONTENT_TYPE) == 0 -> {
-                    // 'Playlist' search mode.
-                    playPlaylist(album, artist, genre, playlist, title)
-                }
-            }
-        }
-    }
-    // [END android_intents_common_handle_play_search]
-
     // [START android_intents_common_create_note]
     fun createNote(subject: String, text: String) {
         val intent = Intent(NoteIntents.ACTION_CREATE_NOTE).apply {
@@ -325,19 +256,6 @@ private class CommonIntentsActivity : Activity() {
     }
     // [END android_intents_common_open_web_page]
 
-    private fun playUnstructuredSearch(query: String?) {}
-    private fun playResumeLastPlaylist() {}
-    private fun playGenre(genre: String?) {}
-    private fun playArtist(artist: String?, genre: String?) {}
-    private fun playAlbum(album: String?, artist: String?) {}
-    private fun playSong(album: String?, artist: String?, genre: String?, title: String?) {}
-    private fun playPlaylist(
-        album: String?,
-        artist: String?,
-        genre: String?,
-        playlist: String?,
-        title: String?
-    ) {}
 }
 
 private class CameraStillActivity : Activity() {
@@ -393,7 +311,7 @@ private object ImageCaptureScope : Activity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val thumbnail: Bitmap? = data?.getParcelableExtra("data")
+            val thumbnail: Bitmap? = data?.getParcelableExtra("data", Bitmap::class.java)
             // Do other work with full size photo saved in locationForPhotos.
             // ...
         }
@@ -472,7 +390,7 @@ private object GetFileScope : Activity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-            val thumbnail: Bitmap? = data?.getParcelableExtra("data")
+            val thumbnail: Bitmap? = data?.getParcelableExtra("data", Bitmap::class.java)
             val fullPhotoUri: Uri? = data?.data
             // Do work with photo saved at fullPhotoUri.
             // ...

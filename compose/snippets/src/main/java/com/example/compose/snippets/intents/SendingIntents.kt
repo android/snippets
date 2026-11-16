@@ -16,15 +16,15 @@
 
 package com.example.compose.snippets.intents
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
+import androidx.activity.ComponentActivity
 import java.util.Calendar
 
-private class SendingIntentsActivity : Activity() {
+private class SendingIntentsActivity : ComponentActivity() {
     fun buildDialIntent() {
         // [START android_intents_sending_dial]
         val callIntent: Intent = Uri.parse("tel:5551234").let { number ->
@@ -35,11 +35,11 @@ private class SendingIntentsActivity : Activity() {
 
     fun buildMapIntent() {
         // [START android_intents_sending_view_map]
-        // Map point based on address.
+        // Map point based on address
         val mapIntent: Intent = Uri.parse(
             "geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California"
         ).let { location ->
-            // Or map point based on latitude/longitude.
+            // Or map point based on latitude/longitude
             // val location: Uri = Uri.parse("geo:37.422219,-122.08364?z=14") // z param is zoom level
             Intent(Intent.ACTION_VIEW, location)
         }
@@ -57,13 +57,13 @@ private class SendingIntentsActivity : Activity() {
     fun buildEmailAttachmentIntent() {
         // [START android_intents_sending_email_attachment]
         Intent(Intent.ACTION_SEND).apply {
-            // The intent does not have a URI, so declare the "text/plain" MIME type.
+            // The intent does not have a URI, so declare the "text/plain" MIME type
             type = "text/plain"
             putExtra(Intent.EXTRA_EMAIL, arrayOf("jan@example.com")) // recipients
             putExtra(Intent.EXTRA_SUBJECT, "Email subject")
             putExtra(Intent.EXTRA_TEXT, "Email message text")
             putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"))
-            // You can also attach multiple items by passing an ArrayList of Uris.
+            // You can also attach multiple items by passing an ArrayList of Uris
         }
         // [END android_intents_sending_email_attachment]
     }
@@ -121,7 +121,7 @@ private class SendingIntentsActivity : Activity() {
         // [START android_intents_sending_app_chooser]
         val intent = Intent(Intent.ACTION_SEND)
 
-        // Create intent to show chooser.
+        // Create intent to show chooser
         val chooser = Intent.createChooser(intent, /* title */ null)
 
         // Try to invoke the intent.

@@ -25,15 +25,14 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-// MyFragmentTest is an instrumented test class that normally lives in the androidTest source set.
 class MyFragmentTest {
     // [START android_intents_result_test_complete]
     @Test
     fun activityResultTest() {
-        // Create an expected result Bitmap.
+        // Create an expected result Bitmap
         val expectedResult = Bitmap.createBitmap(1, 1, Bitmap.Config.RGBA_F16)
 
-        // Create the test ActivityResultRegistry.
+        // Create the test ActivityResultRegistry
         val testRegistry = object : ActivityResultRegistry() {
             override fun <I, O> onLaunch(
                 requestCode: Int,
@@ -46,12 +45,12 @@ class MyFragmentTest {
         }
 
         // Use the launchFragmentInContainer method that takes a
-        // lambda to construct the Fragment with the testRegistry.
+        // lambda to construct the Fragment with the testRegistry
         with(launchFragmentInContainer { MyFragment(testRegistry) }) {
             onFragment { fragment ->
-                // Trigger the ActivityResultLauncher.
+                // Trigger the ActivityResultLauncher
                 fragment.takePicture.launch()
-                // Verify the result is set.
+                // Verify the result is set
                 assertThat(fragment.thumbnailLiveData.value)
                     .isSameInstanceAs(expectedResult)
             }

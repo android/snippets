@@ -43,7 +43,7 @@ import com.example.compose.snippets.R
 private class RegisterActivityResultExample : ComponentActivity() {
     // [START android_intents_result_register]
     val getContent = registerForActivityResult(GetContent()) { uri: Uri? ->
-        // Handle the returned Uri.
+        // Handle the returned Uri
     }
     // [END android_intents_result_register]
 }
@@ -51,7 +51,7 @@ private class RegisterActivityResultExample : ComponentActivity() {
 private class LaunchActivityResultExample : ComponentActivity() {
     // [START android_intents_result_launch]
     val getContent = registerForActivityResult(GetContent()) { uri: Uri? ->
-        // Handle the returned Uri.
+        // Handle the returned Uri
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +63,7 @@ private class LaunchActivityResultExample : ComponentActivity() {
 
         selectButton.setOnClickListener {
             // Pass in the mime type you want to let the user select
-            // as the input.
+            // as the input
             getContent.launch("image/*")
         }
     }
@@ -78,7 +78,7 @@ private object SeparateClassScope {
 
         override fun onCreate(owner: LifecycleOwner) {
             getContent = registry.register("key", owner, GetContent()) { uri ->
-                // Handle the returned Uri.
+                // Handle the returned Uri
             }
         }
 
@@ -103,7 +103,7 @@ private object SeparateClassScope {
             val selectButton = view.findViewById<Button>(R.id.select_button)
 
             selectButton.setOnClickListener {
-                // Open the activity to select an image.
+                // Open the activity to select an image
                 observer.selectImage()
             }
         }
@@ -117,8 +117,7 @@ class MyFragment(
 ) : Fragment() {
     val thumbnailLiveData = MutableLiveData<Bitmap?>()
 
-    val takePicture = registerForActivityResult(TakePicturePreview(), registry) {
-            bitmap: Bitmap? ->
+    val takePicture = registerForActivityResult(TakePicturePreview(), registry) { bitmap: Bitmap? ->
         thumbnailLiveData.setValue(bitmap)
     }
 
@@ -141,23 +140,21 @@ private fun createTestRegistry(expectedResult: Bitmap) {
     // [END android_intents_result_test_registry]
 }
 
-private object CustomContractScope {
-    // [START android_intents_result_custom_contract]
-    class PickRingtone : ActivityResultContract<Int, Uri?>() {
-        override fun createIntent(context: Context, ringtoneType: Int) =
-            Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, ringtoneType)
-            }
-
-        override fun parseResult(resultCode: Int, result: Intent?): Uri? {
-            if (resultCode != Activity.RESULT_OK) {
-                return null
-            }
-            return result?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+// [START android_intents_result_custom_contract]
+class PickRingtone : ActivityResultContract<Int, Uri?>() {
+    override fun createIntent(context: Context, ringtoneType: Int) =
+        Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+            putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, ringtoneType)
         }
+
+    override fun parseResult(resultCode: Int, result: Intent?): Uri? {
+        if (resultCode != Activity.RESULT_OK) {
+            return null
+        }
+        return result?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri::class.java)
     }
-    // [END android_intents_result_custom_contract]
 }
+// [END android_intents_result_custom_contract]
 
 private class StartActivityForResultExample : ComponentActivity() {
     // [START android_intents_result_start_for_result]
@@ -165,7 +162,7 @@ private class StartActivityForResultExample : ComponentActivity() {
         registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
-                // Handle the Intent.
+                // Handle the Intent
             }
         }
 
@@ -178,7 +175,7 @@ private class StartActivityForResultExample : ComponentActivity() {
 
         startButton.setOnClickListener {
             // Use the Kotlin extension in activity-ktx
-            // passing it the Intent you want to start.
+            // passing it the Intent you want to start
             startForResult.launch(Intent(this, ResultProducingActivity::class.java))
         }
     }
