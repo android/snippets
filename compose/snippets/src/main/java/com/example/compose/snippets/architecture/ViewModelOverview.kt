@@ -33,46 +33,44 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-private object ViewModelOverviewSnippet1 {
-    // [START android_architecture_viewmodel_dice_roll]
-    data class DiceUiState(
-        val firstDieValue: Int? = null,
-        val secondDieValue: Int? = null,
-        val numberOfRolls: Int = 0,
-    )
+// [START android_architecture_viewmodel_dice_roll]
+data class DiceUiState(
+    val firstDieValue: Int? = null,
+    val secondDieValue: Int? = null,
+    val numberOfRolls: Int = 0,
+)
 
-    class DiceRollViewModel : ViewModel() {
+class DiceRollViewModel : ViewModel() {
 
-        // Expose screen UI state.
-        private val _uiState = MutableStateFlow(DiceUiState())
-        val uiState: StateFlow<DiceUiState> = _uiState.asStateFlow()
+    // Expose screen UI state.
+    private val _uiState = MutableStateFlow(DiceUiState())
+    val uiState: StateFlow<DiceUiState> = _uiState.asStateFlow()
 
-        // Handle business logic.
-        fun rollDice() {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    firstDieValue = Random.nextInt(from = 1, until = 7),
-                    secondDieValue = Random.nextInt(from = 1, until = 7),
-                    numberOfRolls = currentState.numberOfRolls + 1,
-                )
-            }
+    // Handle business logic.
+    fun rollDice() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                firstDieValue = Random.nextInt(from = 1, until = 7),
+                secondDieValue = Random.nextInt(from = 1, until = 7),
+                numberOfRolls = currentState.numberOfRolls + 1,
+            )
         }
     }
-    // [END android_architecture_viewmodel_dice_roll]
-
-    // [START android_architecture_viewmodel_dice_roll_screen]
-    // import androidx.lifecycle.viewmodel.compose.viewModel
-
-    // Use the 'viewModel()' function from the lifecycle-viewmodel-compose artifact.
-    @Composable
-    fun DiceRollScreen(
-        viewModel: DiceRollViewModel = viewModel()
-    ) {
-        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        // Update UI elements.
-    }
-    // [END android_architecture_viewmodel_dice_roll_screen]
 }
+// [END android_architecture_viewmodel_dice_roll]
+
+// [START android_architecture_viewmodel_dice_roll_screen]
+// import androidx.lifecycle.viewmodel.compose.viewModel
+
+// Use the 'viewModel()' function from the lifecycle-viewmodel-compose artifact.
+@Composable
+fun DiceRollScreen(
+    viewModel: DiceRollViewModel = viewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    // Update UI elements.
+}
+// [END android_architecture_viewmodel_dice_roll_screen]
 
 private object ViewModelOverviewSnippet3 {
     // [START android_architecture_viewmodel_custom_scope_cleared]

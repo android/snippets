@@ -19,7 +19,6 @@ package com.example.compose.snippets.architecture
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.savedstate.SavedStateRegistry
@@ -37,7 +36,7 @@ private object SavingStatesSnippet1 {
         // ...
 
         override fun saveState(): Bundle {
-            return bundleOf(QUERY to query)
+            return Bundle().apply { putString(QUERY, query) }
         }
     }
     // [END android_architecture_saving_states_search_manager]
@@ -74,7 +73,7 @@ private object SavingStatesSnippet2 {
         }
 
         override fun saveState(): Bundle {
-            return bundleOf(QUERY to query)
+            return Bundle().apply { putString(QUERY, query) }
         }
 
         // ...

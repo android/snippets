@@ -16,10 +16,11 @@
 
 package com.example.compose.snippets.architecture
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
@@ -86,36 +87,39 @@ class BookmarksViewModel @Inject constructor(
 }
 // [END android_architecture_recommendations_bookmarks_viewmodel]
 
-@SuppressLint("MissingPermission")
-private object RecommendationsSnippet3 {
-    // [START android_architecture_recommendations_location_effect]
-    @Composable
-    fun LocationChangedEffect(
-        locationManager: LocationManager,
-        onLocationChanged: (Location) -> Unit
-    ) {
-        val currentOnLocationChanged by rememberUpdatedState(onLocationChanged)
+@RequiresPermission(
+    anyOf = [
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ]
+)
+// [START android_architecture_recommendations_location_effect]
+@Composable
+fun LocationChangedEffect(
+    locationManager: LocationManager,
+    onLocationChanged: (Location) -> Unit
+) {
+    val currentOnLocationChanged by rememberUpdatedState(onLocationChanged)
 
-        LifecycleStartEffect(locationManager) {
-            val listener = LocationListener { newLocation ->
-                currentOnLocationChanged(newLocation)
-            }
+    LifecycleStartEffect(locationManager) {
+        val listener = LocationListener { newLocation ->
+            currentOnLocationChanged(newLocation)
+        }
 
-            try {
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    1000L,
-                    1f,
-                    listener,
-                )
-            } catch (e: SecurityException) {
-                // TODO: Handle missing permissions.
-            }
+        try {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000L,
+                1f,
+                listener,
+            )
+        } catch (e: SecurityException) {
+            // TODO: Handle missing permissions.
+        }
 
-            onStopOrDispose {
-                locationManager.removeUpdates(listener)
-            }
+        onStopOrDispose {
+            locationManager.removeUpdates(listener)
         }
     }
-    // [END android_architecture_recommendations_location_effect]
 }
+// [END android_architecture_recommendations_location_effect]

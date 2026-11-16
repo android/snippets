@@ -41,23 +41,21 @@ private object CoroutinesLifecycleSnippet1 {
     // [END android_architecture_coroutines_viewmodel_scope]
 }
 
-private object CoroutinesLifecycleSnippet2 {
-    class DashboardViewModel : ViewModel() {
-        val userFlow: StateFlow<String> = MutableStateFlow("")
-        val feedFlow: StateFlow<List<String>> = MutableStateFlow(emptyList())
-    }
-
-    // [START android_architecture_coroutines_dashboard_screen]
-    @Composable
-    fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
-        // Both flows are collected safely in parallel and will emit updates when either changes, the composables will recompose.
-        val userData by viewModel.userFlow.collectAsStateWithLifecycle()
-        val feedData by viewModel.feedFlow.collectAsStateWithLifecycle()
-
-        // ...
-    }
-    // [END android_architecture_coroutines_dashboard_screen]
+class DashboardViewModel : ViewModel() {
+    val userFlow: StateFlow<String> = MutableStateFlow("")
+    val feedFlow: StateFlow<List<String>> = MutableStateFlow(emptyList())
 }
+
+// [START android_architecture_coroutines_dashboard_screen]
+@Composable
+fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
+    // Both flows are collected safely in parallel and will emit updates when either changes, the composables will recompose.
+    val userData by viewModel.userFlow.collectAsStateWithLifecycle()
+    val feedData by viewModel.feedFlow.collectAsStateWithLifecycle()
+
+    // ...
+}
+// [END android_architecture_coroutines_dashboard_screen]
 
 private object CoroutinesLifecycleSnippet3 {
     sealed interface Result {

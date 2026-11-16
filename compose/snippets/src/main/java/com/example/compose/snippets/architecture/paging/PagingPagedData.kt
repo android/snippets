@@ -128,12 +128,17 @@ private object PagingPagedDataSnippets {
     ) : ViewModel() {
 
         val userPagingFlow: Flow<PagingData<User>> = Pager(
-            // Configure how data is loaded by passing additional properties to
-            // PagingConfig, such as pageSize and enabling or disabling placeholders.
             config = PagingConfig(
                 pageSize = 20,
+                // Load 3 pages initially so the user can scroll immediately without
+                // hitting a loading state.
+                initialLoadSize = 60,
+                // Fetch the next page far enough ahead of the scroll position to
+                // avoid visible pauses.
+                prefetchDistance = 20,
                 enablePlaceholders = true
             ),
+            initialKey = 1,
             pagingSourceFactory = {
                 ExamplePagingSource(backend, query)
             }

@@ -16,9 +16,10 @@
 
 package com.example.compose.snippets.architecture
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.location.LocationListener
 import android.location.LocationManager
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -33,115 +34,106 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
 import androidx.lifecycle.compose.rememberLifecycleOwner
 
-private object LifecycleComposeSnippet1 {
-    @Composable
-    fun CurrentStateFlowExample() {
-        // [START android_architecture_lifecycle_current_state_flow]
-        val lifecycleOwner = LocalLifecycleOwner.current
-        val stateFlow = lifecycleOwner.lifecycle.currentStateFlow
-        // ...
-        val currentLifecycleState by stateFlow.collectAsState()
-        // [END android_architecture_lifecycle_current_state_flow]
-    }
+@Composable
+private fun CurrentStateFlowExample() {
+    // [START android_architecture_lifecycle_current_state_flow]
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val stateFlow = lifecycleOwner.lifecycle.currentStateFlow
+    // ...
+    val currentLifecycleState by stateFlow.collectAsState()
+    // [END android_architecture_lifecycle_current_state_flow]
 }
 
-private object LifecycleComposeSnippet2 {
-    @Composable
-    fun CurrentStateAsStateExample() {
-        // [START android_architecture_lifecycle_current_state_as_state]
-        val lifecycleOwner = LocalLifecycleOwner.current
-        val currentLifecycleState = lifecycleOwner.lifecycle.currentStateAsState()
-        // [END android_architecture_lifecycle_current_state_as_state]
-    }
+@Composable
+private fun CurrentStateAsStateExample() {
+    // [START android_architecture_lifecycle_current_state_as_state]
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val currentLifecycleState = lifecycleOwner.lifecycle.currentStateAsState()
+    // [END android_architecture_lifecycle_current_state_as_state]
 }
 
-private object LifecycleComposeSnippet3 {
-    object Analytics {
-        fun logView(screenName: String) {}
-    }
+private object Analytics {
+    fun logView(screenName: String) {}
+}
 
-    // [START android_architecture_lifecycle_event_effect]
-    @Composable
-    fun AnalyticsTracker(screenName: String) {
-        // Log an event when the app receives ON_RESUME (e.g. comes to foreground).
-        LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-            Analytics.logView(screenName)
+// [START android_architecture_lifecycle_event_effect]
+@Composable
+fun AnalyticsTracker(screenName: String) {
+    // Log an event when the app receives ON_RESUME (e.g. comes to foreground).
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        Analytics.logView(screenName)
+    }
+}
+// [END android_architecture_lifecycle_event_effect]
+
+@RequiresPermission(
+    anyOf = [
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ]
+)
+// [START android_architecture_lifecycle_start_effect]
+@Composable
+fun LocationMonitor(locationManager: LocationManager) {
+    // Starts monitoring when ON_START is dispatched.
+    // Stops monitoring when ON_STOP is dispatched
+    //   (or the composable leaves the screen).
+    LifecycleStartEffect(locationManager) {
+        val listener = LocationListener { location ->
+            /* update UI */
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 0f, listener)
+        // The cleanup block automatically runs on ON_STOP or on disposal.
+        onStopOrDispose {
+            locationManager.removeUpdates(listener)
         }
     }
-    // [END android_architecture_lifecycle_event_effect]
+}
+// [END android_architecture_lifecycle_start_effect]
+
+class CameraController {
+    fun startPreview() {}
+    fun stopPreview() {}
 }
 
-@SuppressLint("MissingPermission")
-private object LifecycleComposeSnippet4 {
-    // [START android_architecture_lifecycle_start_effect]
-    @Composable
-    fun LocationMonitor(locationManager: LocationManager) {
-        // Starts monitoring when ON_START is dispatched.
-        // Stops monitoring when ON_STOP is dispatched
-        //   (or the composable leaves the screen).
-        LifecycleStartEffect(locationManager) {
-            val listener = LocationListener { location ->
-                /* update UI */
-            }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 0f, listener)
-            // The cleanup block automatically runs on ON_STOP or on disposal.
-            onStopOrDispose {
-                locationManager.removeUpdates(listener)
-            }
+// [START android_architecture_lifecycle_resume_effect]
+@Composable
+fun CameraPreview(cameraController: CameraController) {
+    LifecycleResumeEffect(cameraController) {
+        cameraController.startPreview()
+
+        onPauseOrDispose {
+            cameraController.stopPreview()
         }
     }
-    // [END android_architecture_lifecycle_start_effect]
+}
+// [END android_architecture_lifecycle_resume_effect]
+
+@Composable
+private fun LocalOwnerExample() {
+    // [START android_architecture_lifecycle_local_owner]
+    val lifecycleOwner = LocalLifecycleOwner.current
+    // [END android_architecture_lifecycle_local_owner]
 }
 
-private object LifecycleComposeSnippet5 {
-    class CameraController {
-        fun startPreview() {}
-        fun stopPreview() {}
-    }
+@Composable
+private fun PagerRememberOwnerExample() {
+    // [START android_architecture_lifecycle_pager_remember_owner]
+    val pagerState = rememberPagerState(pageCount = { 10 })
 
-    // [START android_architecture_lifecycle_resume_effect]
-    @Composable
-    fun CameraPreview(cameraController: CameraController) {
-        LifecycleResumeEffect(cameraController) {
-            cameraController.startPreview()
-
-            onPauseOrDispose {
-                cameraController.stopPreview()
+    HorizontalPager(state = pagerState) { pageNum ->
+        val pageLifecycleOwner = rememberLifecycleOwner(
+            maxLifecycle = if (pagerState.settledPage == pageNum) {
+                Lifecycle.State.RESUMED
+            } else {
+                Lifecycle.State.STARTED
             }
+        )
+
+        CompositionLocalProvider(LocalLifecycleOwner provides pageLifecycleOwner) {
+            // Your pages here. Their lifecycle-aware components respect the
+            // custom maxLifecycle defined above.
         }
     }
-    // [END android_architecture_lifecycle_resume_effect]
-}
-
-private object LifecycleComposeSnippet6 {
-    @Composable
-    fun LocalOwnerExample() {
-        // [START android_architecture_lifecycle_local_owner]
-        val lifecycleOwner = LocalLifecycleOwner.current
-        // [END android_architecture_lifecycle_local_owner]
-    }
-}
-
-private object LifecycleComposeSnippet7 {
-    @Composable
-    fun PagerRememberOwnerExample() {
-        // [START android_architecture_lifecycle_pager_remember_owner]
-        val pagerState = rememberPagerState(pageCount = { 10 })
-
-        HorizontalPager(state = pagerState) { pageNum ->
-            val pageLifecycleOwner = rememberLifecycleOwner(
-                maxLifecycle = if (pagerState.settledPage == pageNum) {
-                    Lifecycle.State.RESUMED
-                } else {
-                    Lifecycle.State.STARTED
-                }
-            )
-
-            CompositionLocalProvider(LocalLifecycleOwner provides pageLifecycleOwner) {
-                // Your pages here. Their lifecycle-aware components respect the
-                // custom maxState defined above.
-            }
-        }
-        // [END android_architecture_lifecycle_pager_remember_owner]
-    }
+    // [END android_architecture_lifecycle_pager_remember_owner]
 }

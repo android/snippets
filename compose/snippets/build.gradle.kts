@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the

@@ -289,7 +289,7 @@ private object PagingNetworkDbSnippets {
                     }
 
                     // End of pagination has been reached if no users are returned from the
-                    // service
+                    // service.
                     MediatorResult.Success(
                         endOfPaginationReached = response.users.isEmpty()
                     )

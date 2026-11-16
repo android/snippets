@@ -19,7 +19,6 @@ package com.example.compose.snippets.architecture
 import android.os.Bundle
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.Snapshot.Companion.withMutableSnapshot
-import androidx.core.os.bundleOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -75,36 +74,34 @@ private object ViewModelSavedStateSnippet2 {
     // [END android_architecture_viewmodel_savedstate_stateflow]
 }
 
-private object ViewModelSavedStateSnippet3 {
-    // [START android_architecture_viewmodel_savedstate_serializable]
-    // import androidx.lifecycle.SavedStateHandle
-    // import androidx.lifecycle.ViewModel
-    // Ensure you have the savedstate-ktx dependency.
-    // import androidx.lifecycle.serialization.saved
-    // import kotlinx.serialization.Serializable
+// [START android_architecture_viewmodel_savedstate_serializable]
+// import androidx.lifecycle.SavedStateHandle
+// import androidx.lifecycle.ViewModel
+// Ensure you have the savedstate-ktx dependency.
+// import androidx.lifecycle.serialization.saved
+// import kotlinx.serialization.Serializable
 
-    @Serializable
-    data class UserFilterState(
-        val searchQuery: String,
-        val minAge: Int,
-        val includeInactive: Boolean
-    )
+@Serializable
+data class UserFilterState(
+    val searchQuery: String,
+    val minAge: Int,
+    val includeInactive: Boolean
+)
 
-    class FilterViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
+class FilterViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
-        // The state is automatically serialized to a Bundle on process death,
-        // and deserialized upon recreation.
-        var filterState by savedStateHandle.saved {
-            UserFilterState(searchQuery = "", minAge = 18, includeInactive = false)
-        }
-
-        fun updateQuery(newQuery: String) {
-            // Mutating the property automatically updates the underlying SavedStateHandle.
-            filterState = filterState.copy(searchQuery = newQuery)
-        }
+    // The state is automatically serialized to a Bundle on process death,
+    // and deserialized upon recreation.
+    var filterState by savedStateHandle.saved {
+        UserFilterState(searchQuery = "", minAge = 18, includeInactive = false)
     }
-    // [END android_architecture_viewmodel_savedstate_serializable]
+
+    fun updateQuery(newQuery: String) {
+        // Mutating the property automatically updates the underlying SavedStateHandle.
+        filterState = filterState.copy(searchQuery = newQuery)
+    }
 }
+// [END android_architecture_viewmodel_savedstate_serializable]
 
 @OptIn(SavedStateHandleSaveableApi::class)
 private object ViewModelSavedStateSnippet4 {
@@ -140,17 +137,13 @@ private object ViewModelSavedStateSnippet5 {
 
 private object ViewModelSavedStateSnippet6 {
     // [START android_architecture_viewmodel_savedstate_provider]
-    private fun File.saveTempFile() = bundleOf("path" to absolutePath)
+    private fun File.saveTempFile() = Bundle().apply { putString("path", absolutePath) }
 
     class TempFileViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         private var tempFile: File? = null
         init {
             savedStateHandle.setSavedStateProvider("temp_file") { // saveState()
-                if (tempFile != null) {
-                    tempFile!!.saveTempFile()
-                } else {
-                    Bundle()
-                }
+                tempFile?.saveTempFile() ?: Bundle()
             }
         }
 
@@ -165,13 +158,9 @@ private object ViewModelSavedStateSnippet6 {
 
 private object ViewModelSavedStateSnippet7 {
     // [START android_architecture_viewmodel_savedstate_restore_provider]
-    private fun File.saveTempFile() = bundleOf("path" to absolutePath)
+    private fun File.saveTempFile() = Bundle().apply { putString("path", absolutePath) }
 
-    private fun Bundle.restoreTempFile() = if (containsKey("path")) {
-        File(getString("path")!!)
-    } else {
-        null
-    }
+    private fun Bundle.restoreTempFile() = getString("path")?.let { File(it) }
 
     class TempFileViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         private var tempFile: File? = null
@@ -181,11 +170,7 @@ private object ViewModelSavedStateSnippet7 {
                 tempFile = tempFileBundle.restoreTempFile()
             }
             savedStateHandle.setSavedStateProvider("temp_file") { // saveState()
-                if (tempFile != null) {
-                    tempFile!!.saveTempFile()
-                } else {
-                    Bundle()
-                }
+                tempFile?.saveTempFile() ?: Bundle()
             }
         }
 
