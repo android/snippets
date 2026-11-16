@@ -85,10 +85,10 @@ private object AppContainerBasicExample {
     class UserRepository(private val apiService: ApiService)
 
     // [START android_di_manual_app_container_basic]
-    // Container of objects shared across the whole app.
+    // Container of objects shared across the whole app
     class AppContainer {
 
-        // apiService and userRepository aren't private and will be exposed.
+        // apiService and userRepository aren't private and will be exposed
         val apiService = ApiService()
         val userRepository = UserRepository(apiService)
     }
@@ -96,10 +96,10 @@ private object AppContainerBasicExample {
 
     // [START android_di_manual_my_application]
     // Custom Application class that needs to be specified
-    // in the AndroidManifest.xml file.
+    // in the AndroidManifest.xml file
     class MyApplication : Application() {
 
-        // Instance of AppContainer that will be used by all the Activities of the app.
+        // Instance of AppContainer that will be used by all the Activities of the app
         val appContainer = AppContainer()
     }
     // [END android_di_manual_my_application]
@@ -152,7 +152,7 @@ private object FactoryExample {
     class LoginViewModel(private val userRepository: UserRepository)
 
     // [START android_di_manual_factory]
-    // Definition of a Factory interface with a function to create objects of a type.
+    // Definition of a Factory interface with a function to create objects of a type
     interface Factory<T> {
         fun create(): T
     }
@@ -184,7 +184,7 @@ private object AppContainerFactoryExample {
     }
 
     // [START android_di_manual_app_container_factory]
-    // AppContainer exposing the factory (unchanged from the snippet above).
+    // AppContainer exposing the factory (unchanged from the snippet above)
     class AppContainer {
         // [START_EXCLUDE]
         private val localDataSource = UserLocalDataSource()
@@ -194,7 +194,7 @@ private object AppContainerFactoryExample {
         val loginViewModelFactory = LoginViewModelFactory(userRepository)
     }
 
-    // Compose entry point + screen composable.
+    // Compose entry point + screen composable
     class LoginActivity : ComponentActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -234,7 +234,7 @@ private object LoginFlowExample {
         val loginViewModelFactory = LoginViewModelFactory(userRepository)
     }
 
-    // AppContainer contains LoginContainer now.
+    // AppContainer contains LoginContainer now
     class AppContainer {
         // [START_EXCLUDE]
         private val localDataSource = UserLocalDataSource()
@@ -242,7 +242,7 @@ private object LoginFlowExample {
         // [END_EXCLUDE]
         val userRepository = UserRepository(localDataSource, remoteDataSource)
 
-        // LoginContainer will be null when the user is NOT in the login flow.
+        // LoginContainer will be null when the user is NOT in the login flow
         var loginContainer: LoginContainer? = null
     }
     // [END android_di_manual_login_container]
