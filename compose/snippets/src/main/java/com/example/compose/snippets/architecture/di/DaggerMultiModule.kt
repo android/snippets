@@ -58,11 +58,11 @@ private object DaggerMultiModuleSubcomponentProblem {
         // [END_EXCLUDE]
 
         override fun onCreate(savedInstanceState: Bundle?) {
-            // Creation of the login graph using the application graph.
+            // Creation of the login graph using the application graph
             loginComponent = (applicationContext as MyDaggerApplication)
                 .appComponent.loginComponent().create()
 
-            // Make Dagger instantiate @Inject fields in LoginActivity.
+            // Make Dagger instantiate @Inject fields in LoginActivity
             loginComponent.inject(this)
             // [START_EXCLUDE]
             super.onCreate(savedInstanceState)
@@ -119,7 +119,7 @@ internal object DaggerMultiModuleSubcomponentSolution {
 
     // [START android_di_dagger_multimodule_application_implement_provider]
     class MyApplication : Application(), LoginComponentProvider {
-        // Reference to the application graph that is used across the whole app.
+        // Reference to the application graph that is used across the whole app
         val appComponent = DaggerApplicationComponent.create()
 
         override fun provideLoginComponent(): LoginComponent {
@@ -132,11 +132,11 @@ internal object DaggerMultiModuleSubcomponentSolution {
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerMultiModuleAppComponentInitial {
     // [START android_di_dagger_multimodule_app_component_initial]
-    // UserRepository's dependencies.
+    // UserRepository's dependencies
     class UserLocalDataSource @Inject constructor() { /* ... */ }
     class UserRemoteDataSource @Inject constructor() { /* ... */ }
 
-    // UserRepository is scoped to AppComponent.
+    // UserRepository is scoped to AppComponent
     @Singleton
     class UserRepository @Inject constructor(
         private val localDataSource: UserLocalDataSource,
@@ -152,7 +152,7 @@ internal object DaggerMultiModuleAppComponentInitial {
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerMultiModuleLoginViewModel {
     // [START android_di_dagger_multimodule_login_viewmodel]
-    // LoginViewModel depends on UserRepository that is scoped to AppComponent.
+    // LoginViewModel depends on UserRepository that is scoped to AppComponent
     class LoginViewModel @Inject constructor(
         private val userRepository: UserRepository
     ) { /* ... */ }
@@ -164,7 +164,7 @@ internal object DaggerMultiModuleLoginComponentDependencies {
     @ActivityScope
     // [START android_di_dagger_multimodule_login_component_dependencies]
     // Use the dependencies attribute in the Component annotation to specify the
-    // dependencies of this Component.
+    // dependencies of this Component
     @Component(dependencies = [AppComponent::class])
     interface LoginComponent {
         fun inject(activity: LoginActivity)
@@ -182,7 +182,7 @@ internal object DaggerMultiModuleGraph {
         @Component.Factory
         interface Factory {
             // Takes an instance of AppComponent when creating
-            // an instance of LoginComponent.
+            // an instance of LoginComponent
             fun create(appComponent: AppComponent): LoginComponent
         }
 
@@ -208,20 +208,20 @@ internal object DaggerMultiModuleLoginActivityInject {
     // [START android_di_dagger_multimodule_login_activity_inject]
     class LoginActivity : Activity() {
 
-        // You want Dagger to provide an instance of LoginViewModel from the Login graph.
+        // You want Dagger to provide an instance of LoginViewModel from the Login graph
         @Inject lateinit var loginViewModel: LoginViewModel
 
         override fun onCreate(savedInstanceState: Bundle?) {
-            // Gets appComponent from MyApplication available in the base Gradle module.
+            // Gets appComponent from MyApplication available in the base Gradle module
             val appComponent = (applicationContext as MyApplication).appComponent
 
-            // Creates a new instance of LoginComponent.
-            // Injects the component to populate the @Inject fields.
+            // Creates a new instance of LoginComponent
+            // Injects the component to populate the @Inject fields
             DaggerLoginComponent.factory().create(appComponent).inject(this)
 
             super.onCreate(savedInstanceState)
 
-            // Now you can access loginViewModel.
+            // Now you can access loginViewModel
         }
     }
     // [END android_di_dagger_multimodule_login_activity_inject]

@@ -21,6 +21,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.example.compose.snippets.architecture.di.DaggerAndroidActivityScopeDeclaration.ActivityScope
 import com.example.compose.snippets.architecture.di.DaggerAndroidGraph.ApplicationComponent
 import com.example.compose.snippets.architecture.di.DaggerAndroidGraph.NetworkModule
@@ -45,13 +46,13 @@ import retrofit2.Retrofit
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidApplicationComponentBasic {
     // [START android_di_dagger_android_application_component]
-    // Definition of the Application graph.
+    // Definition of the Application graph
     @Component
     interface ApplicationComponent { /* ... */ }
 
-    // appComponent lives in the Application class to share its lifecycle.
+    // appComponent lives in the Application class to share its lifecycle
     class MyApplication : Application() {
-        // Reference to the application graph that is used across the whole app.
+        // Reference to the application graph that is used across the whole app
         val appComponent = DaggerApplicationComponent.create()
     }
     // [END android_di_dagger_android_application_component]
@@ -63,7 +64,7 @@ internal object DaggerAndroidFieldInjection {
 
     // [START android_di_dagger_android_field_injection]
     class LoginActivity : Activity() {
-        // You want Dagger to provide an instance of LoginViewModel from the graph.
+        // You want Dagger to provide an instance of LoginViewModel from the graph
         @Inject lateinit var loginViewModel: LoginViewModel
     }
     // [END android_di_dagger_android_field_injection]
@@ -95,19 +96,19 @@ internal object DaggerAndroidActivityOnCreateInject {
 
     // [START android_di_dagger_android_activity_on_create_inject]
     class LoginActivity : Activity() {
-        // You want Dagger to provide an instance of LoginViewModel from the graph.
+        // You want Dagger to provide an instance of LoginViewModel from the graph
         @Inject lateinit var loginViewModel: LoginViewModel
 
         override fun onCreate(savedInstanceState: Bundle?) {
-            // Make Dagger instantiate @Inject fields in LoginActivity.
+            // Make Dagger instantiate @Inject fields in LoginActivity
             (applicationContext as MyApplication).appComponent.inject(this)
-            // Now loginViewModel is available.
+            // Now loginViewModel is available
 
             super.onCreate(savedInstanceState)
         }
     }
 
-    // @Inject tells Dagger how to create instances of LoginViewModel.
+    // @Inject tells Dagger how to create instances of LoginViewModel
     class LoginViewModel @Inject constructor(
         private val userRepository: UserRepository
     ) { /* ... */ }
@@ -133,7 +134,7 @@ internal object DaggerAndroidRepositoryDependencies {
 internal object DaggerAndroidGraph {
     @DisableInstallInCheck
     // [START android_di_dagger_android_network_module]
-    // @Module informs Dagger that this class is a Dagger Module.
+    // @Module informs Dagger that this class is a Dagger Module
     @Module
     class NetworkModule {
 
@@ -152,13 +153,12 @@ internal object DaggerAndroidGraph {
     }
     // [END android_di_dagger_android_network_module]
 
-    @Suppress("ktlint:standard:no-empty-class-body")
     @DisableInstallInCheck
     // [START android_di_dagger_android_subcomponents_module]
     // The "subcomponents" attribute in the @Module annotation tells Dagger what
     // Subcomponents are children of the Component this module is included in.
     @Module(subcomponents = [LoginComponent::class])
-    class SubcomponentsModule {}
+    class SubcomponentsModule
     // [END android_di_dagger_android_subcomponents_module]
 
     // [START android_di_dagger_android_expose_subcomponent_factory]
@@ -166,21 +166,19 @@ internal object DaggerAndroidGraph {
     @Component(modules = [NetworkModule::class, SubcomponentsModule::class])
     interface ApplicationComponent {
         // This function exposes the LoginComponent Factory out of the graph so consumers
-        // can use it to obtain new instances of LoginComponent.
+        // can use it to obtain new instances of LoginComponent
         fun loginComponent(): LoginComponent.Factory
     }
     // [END android_di_dagger_android_expose_subcomponent_factory]
 
-    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_test_application_component]
     // TestApplicationComponent extends from ApplicationComponent to have them both
     // with the same interface methods. You need to include the modules of the
     // component here as well, and you can replace the ones you want to override.
-    // This sample uses FakeNetworkModule instead of NetworkModule.
+    // This sample uses FakeNetworkModule instead of NetworkModule
     @Singleton
     @Component(modules = [FakeNetworkModule::class, SubcomponentsModule::class])
-    interface TestApplicationComponent : ApplicationComponent {
-    }
+    interface TestApplicationComponent : ApplicationComponent
     // [END android_di_dagger_android_test_application_component]
 
     @DisableInstallInCheck
@@ -203,7 +201,7 @@ internal object DaggerAndroidNetworkModuleOkHttp {
     // [START android_di_dagger_android_network_module_okhttp]
     @Module
     class NetworkModule {
-        // Hypothetical dependency on LoginRetrofitService.
+        // Hypothetical dependency on LoginRetrofitService
         @Provides
         fun provideLoginRetrofitService(
             okHttpClient: OkHttpClient
@@ -220,7 +218,7 @@ internal object DaggerAndroidNetworkModuleOkHttp {
 internal object DaggerAndroidComponentModules {
     // [START android_di_dagger_android_component_modules]
     // The "modules" attribute in the @Component annotation tells Dagger what Modules
-    // to include when building the graph.
+    // to include when building the graph
     @Component(modules = [NetworkModule::class])
     interface ApplicationComponent {
         // ...
@@ -256,7 +254,7 @@ internal object DaggerAndroidSingletonScope {
     // [END_EXCLUDE]
     @Module
     class NetworkModule {
-        // Way to scope types inside a Dagger Module.
+        // Way to scope types inside a Dagger Module
         @Singleton
         @Provides
         fun provideLoginRetrofitService(): LoginRetrofitService {
@@ -270,10 +268,9 @@ internal object DaggerAndroidSingletonScope {
 
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidLoginComponentEmpty {
-    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_login_component_empty]
     @Component
-    interface LoginComponent {}
+    interface LoginComponent
     // [END android_di_dagger_android_login_component_empty]
 }
 
@@ -293,13 +290,13 @@ private object DaggerAndroidLoginSubcomponent {
     class LoginActivity : Activity()
 
     // [START android_di_dagger_android_login_subcomponent]
-    // @Subcomponent annotation informs Dagger this interface is a Dagger Subcomponent.
+    // @Subcomponent annotation informs Dagger this interface is a Dagger Subcomponent
     @Subcomponent
     interface LoginComponent {
 
         // This tells Dagger that LoginActivity requests injection from LoginComponent
         // so that this subcomponent graph needs to satisfy all the dependencies of the
-        // fields that LoginActivity is injecting.
+        // fields that LoginActivity is injecting
         fun inject(loginActivity: LoginActivity)
     }
     // [END android_di_dagger_android_login_subcomponent]
@@ -312,7 +309,7 @@ private object DaggerAndroidLoginSubcomponentFactory {
     @Subcomponent
     interface LoginComponent {
 
-        // Factory that is used to create instances of this subcomponent.
+        // Factory that is used to create instances of this subcomponent
         @Subcomponent.Factory
         interface Factory {
             fun create(): LoginComponent
@@ -325,21 +322,19 @@ private object DaggerAndroidLoginSubcomponentFactory {
 
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidComponentWithSubcomponentsModule {
-    @Suppress("ktlint:standard:no-empty-class-body")
     // [START android_di_dagger_android_component_with_subcomponents_module]
     // Including SubcomponentsModule, tell ApplicationComponent that
     // LoginComponent is its subcomponent.
     @Singleton
     @Component(modules = [NetworkModule::class, SubcomponentsModule::class])
-    interface ApplicationComponent {
-    }
+    interface ApplicationComponent
     // [END android_di_dagger_android_component_with_subcomponents_module]
 }
 
 private object DaggerAndroidActivityLoginComponentField {
     // [START android_di_dagger_android_activity_login_component_field]
     class LoginActivity : Activity() {
-        // Reference to the Login graph.
+        // Reference to the Login graph
         lateinit var loginComponent: LoginComponent
         // ...
     }
@@ -349,7 +344,7 @@ private object DaggerAndroidActivityLoginComponentField {
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerAndroidActivityScopeDeclaration {
     // [START android_di_dagger_android_activity_scope]
-    // Definition of a custom scope called ActivityScope.
+    // Definition of a custom scope called ActivityScope
     @Scope
     @Retention(value = AnnotationRetention.RUNTIME)
     annotation class ActivityScope
@@ -361,7 +356,7 @@ internal object DaggerAndroidActivityScopeDeclaration {
     interface LoginComponent { /* ... */ }
 
     // A unique instance of LoginViewModel is provided in Components
-    // annotated with @ActivityScope.
+    // annotated with @ActivityScope
     @ActivityScope
     class LoginViewModel @Inject constructor(
         private val userRepository: UserRepository
@@ -381,22 +376,22 @@ internal object DaggerAndroidSubcomponentFlow {
     )
 
     // [START android_di_dagger_android_activity_create_subcomponent]
-    class LoginActivity : Activity() {
-        // Reference to the Login graph.
+    class LoginActivity : FragmentActivity() {
+        // Reference to the Login graph
         lateinit var loginComponent: LoginComponent
 
-        // Fields that need to be injected by the login graph.
+        // Fields that need to be injected by the login graph
         @Inject lateinit var loginViewModel: LoginViewModel
 
         override fun onCreate(savedInstanceState: Bundle?) {
-            // Creation of the login graph using the application graph.
+            // Creation of the login graph using the application graph
             loginComponent = (applicationContext as MyDaggerApplication)
                 .appComponent.loginComponent().create()
 
-            // Make Dagger instantiate @Inject fields in LoginActivity.
+            // Make Dagger instantiate @Inject fields in LoginActivity
             loginComponent.inject(this)
 
-            // Now loginViewModel is available.
+            // Now loginViewModel is available
 
             super.onCreate(savedInstanceState)
         }
@@ -415,7 +410,7 @@ internal object DaggerAndroidSubcomponentFlow {
 
         // All LoginActivity, LoginUsernameFragment and LoginPasswordFragment
         // request injection from LoginComponent. The graph needs to satisfy
-        // all the dependencies of the fields those classes are injecting.
+        // all the dependencies of the fields those classes are injecting
         fun inject(loginActivity: LoginActivity)
         fun inject(usernameFragment: LoginUsernameFragment)
         fun inject(passwordFragment: LoginPasswordFragment)
@@ -425,18 +420,18 @@ internal object DaggerAndroidSubcomponentFlow {
     // [START android_di_dagger_android_login_username_fragment]
     class LoginUsernameFragment : Fragment() {
 
-        // Fields that need to be injected by the login graph.
+        // Fields that need to be injected by the login graph
         @Inject lateinit var loginViewModel: LoginViewModel
 
         override fun onAttach(context: Context) {
             super.onAttach(context)
 
             // Obtaining the login graph from LoginActivity and instantiate
-            // the @Inject fields with objects from the graph.
+            // the @Inject fields with objects from the graph
             (activity as LoginActivity).loginComponent.inject(this)
 
             // Now you can access loginViewModel here and onCreateView too
-            // (shared instance with the Activity and the other Fragment).
+            // (shared instance with the Activity and the other Fragment)
         }
     }
     // [END android_di_dagger_android_login_username_fragment]
@@ -444,7 +439,7 @@ internal object DaggerAndroidSubcomponentFlow {
     // [START android_di_dagger_android_login_password_fragment]
     class LoginPasswordFragment : Fragment() {
 
-        // Fields that need to be injected by the login graph.
+        // Fields that need to be injected by the login graph
         @Inject lateinit var loginViewModel: LoginViewModel
 
         override fun onAttach(context: Context) {
@@ -453,7 +448,7 @@ internal object DaggerAndroidSubcomponentFlow {
             (activity as LoginActivity).loginComponent.inject(this)
 
             // Now you can access loginViewModel here and onCreateView too
-            // (shared instance with the Activity and the other Fragment).
+            // (shared instance with the Activity and the other Fragment)
         }
     }
     // [END android_di_dagger_android_login_password_fragment]
@@ -465,7 +460,7 @@ private object DaggerAndroidTestApplication {
     }
 
     // [START android_di_dagger_android_my_test_application]
-    // Your test application needs an instance of the test graph.
+    // Your test application needs an instance of the test graph
     class MyTestApplication : MyApplication() {
         override val appComponent = DaggerTestApplicationComponent.create()
     }
@@ -503,7 +498,7 @@ internal object DaggerAndroidModulesDuplicateBad {
     class ModuleX
 
     // [START android_di_dagger_android_modules_duplicate_bad]
-    // Bad practice: ModuleX is declared multiple times in this Dagger graph.
+    // Bad practice: ModuleX is declared multiple times in this Dagger graph
     @Component(modules = [Module1::class, Module2::class])
     interface ApplicationComponent { /* ... */ }
 

@@ -38,7 +38,7 @@ private object DaggerBasicsNoInject {
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerBasicsCore {
     // [START android_di_dagger_basics_user_repository_inject]
-    // @Inject lets Dagger know how to create instances of this object.
+    // @Inject lets Dagger know how to create instances of this object
     class UserRepository @Inject constructor(
         private val localDataSource: UserLocalDataSource,
         private val remoteDataSource: UserRemoteDataSource
@@ -46,7 +46,7 @@ internal object DaggerBasicsCore {
     // [END android_di_dagger_basics_user_repository_inject]
 
     // [START android_di_dagger_basics_data_sources_inject]
-    // @Inject lets Dagger know how to create instances of these objects.
+    // @Inject lets Dagger know how to create instances of these objects
     class UserLocalDataSource @Inject constructor() { /* ... */ }
     class UserRemoteDataSource @Inject constructor() { /* ... */ }
     // [END android_di_dagger_basics_data_sources_inject]
@@ -55,11 +55,11 @@ internal object DaggerBasicsCore {
 // internal required for Dagger KSP generated Java classes.
 internal object DaggerBasicsApplicationGraph {
     // [START android_di_dagger_basics_application_graph]
-    // @Component makes Dagger create a graph of dependencies.
+    // @Component makes Dagger create a graph of dependencies
     @Component
     interface ApplicationGraph {
         // The return type  of functions inside the component interface is
-        // what can be provided from the container.
+        // what can be provided from the container
         fun repository(): UserRepository
     }
     // [END android_di_dagger_basics_application_graph]
@@ -67,9 +67,9 @@ internal object DaggerBasicsApplicationGraph {
 
 private fun createApplicationGraph() {
     // [START android_di_dagger_basics_create_graph]
-    // Create an instance of the application graph.
+    // Create an instance of the application graph
     val applicationGraph: ApplicationGraph = DaggerApplicationGraph.create()
-    // Grab an instance of UserRepository from the application graph.
+    // Grab an instance of UserRepository from the application graph
     val userRepository: UserRepository = applicationGraph.repository()
     // [END android_di_dagger_basics_create_graph]
 }
@@ -97,7 +97,7 @@ internal object DaggerBasicsSingletonScope {
         fun repository(): UserRepository
     }
 
-    // Scope this class to a component using @Singleton scope (i.e. ApplicationGraph).
+    // Scope this class to a component using @Singleton scope (i.e. ApplicationGraph)
     @Singleton
     class UserRepository @Inject constructor(
         private val localDataSource: UserLocalDataSource,
@@ -111,7 +111,7 @@ internal object DaggerBasicsCustomScope {
     class UserService @Inject constructor()
 
     // [START android_di_dagger_basics_custom_scope_definition]
-    // Creates MyCustomScope.
+    // Creates MyCustomScope
     @Scope
     @MustBeDocumented
     @Retention(value = AnnotationRetention.RUNTIME)

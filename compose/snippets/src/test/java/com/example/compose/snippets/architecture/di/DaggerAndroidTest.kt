@@ -40,8 +40,8 @@ private object DaggerAndroidUnitTest {
 
         @Test
         fun `Happy path`() {
-            // You don't need Dagger to create an instance of LoginViewModel.
-            // You can pass a fake or mock UserRepository.
+            // You don't need Dagger to create an instance of LoginViewModel
+            // You can pass a fake or mock UserRepository
             val viewModel = LoginViewModel(fakeUserRepository)
             // [START_EXCLUDE silent]
             /*
