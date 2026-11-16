@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.compose.snippets.resources
+package com.example.example.snippet.views.resources
 
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.ComponentActivity
-import com.example.compose.snippets.R
+import com.example.example.snippet.views.R
 
 private class MenuResourceActivity : ComponentActivity() {
     // [START android_resources_menu_inflate]
