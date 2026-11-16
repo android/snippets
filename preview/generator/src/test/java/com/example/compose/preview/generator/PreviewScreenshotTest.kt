@@ -312,6 +312,8 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_detaileddrawerexample" to "Menu",
     // The advanced rich tooltip opens when its icon button is tapped.
     "android_compose_components_advancedrichtooltipexample" to "Open camera",
+    "android_compose_expressive_components_groupedmenusample" to "Localized description",
+    "android_compose_expressive_components_floatingactionbuttonmenu" to "Toggle menu",
 )
 
 /**
@@ -377,6 +379,10 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
             down(center)
             repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
         }
+    },
+    // The button text is "$currentPage Page\nOpen modal rail".
+    "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample" to {
+        onNodeWithText("Open modal rail", substring = true).performSemanticsAction(SemanticsActions.OnClick)
     },
 )
 
