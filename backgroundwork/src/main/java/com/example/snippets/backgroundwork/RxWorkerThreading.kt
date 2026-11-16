@@ -17,10 +17,10 @@
 package com.example.snippets.backgroundwork
 
 import android.content.Context
-import androidx.work.RxWorker
 import androidx.work.WorkerParameters
-import io.reactivex.Observable
-import io.reactivex.Single
+import androidx.work.rxjava3.RxWorker
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 // [START android_background_rx_download_worker]
 class RxDownloadWorker(
