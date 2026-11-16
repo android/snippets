@@ -236,8 +236,8 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
     // Wide navigation rails have a header and 3 items that need more vertical room than 216dp.
-    "android_compose_expressive_components_widenavigationrailexample" to PreviewFrame(576, 324),
-    "android_compose_expressive_components_modalwidenavigationrailexample" to PreviewFrame(576, 324),
+    "android_compose_expressive_components_widenavigationrailexample" to PreviewFrame(640, 360),
+    "android_compose_expressive_components_modalwidenavigationrailexample" to PreviewFrame(640, 360),
     // A full screen with top and bottom app bars, a FAB and three paragraphs of body text.
     "android_compose_components_scaffold" to PreviewFrame(360, 640),
     // The static preview opens the sheet, which partially expands to half the screen height, so a
@@ -261,8 +261,11 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
-    "android_compose_expressive_components_singleselectconnectedbuttongroup" to PreviewFrame(512, 288),
-    "android_compose_expressive_components_multiselectconnectedbuttongroup" to PreviewFrame(512, 288),
+    "android_compose_expressive_components_singleselectconnectedbuttongroup" to PreviewFrame(640, 360),
+    "android_compose_expressive_components_multiselectconnectedbuttongroup" to PreviewFrame(640, 360),
+    "android_compose_expressive_components_groupedmenusample" to PreviewFrame(640, 360),
+    "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample" to PreviewFrame(640, 360),
+    "android_compose_expressive_components_flexiblebottomappbar" to PreviewFrame(640, 360),
     "android_compose_expressive_components_floatingactionbuttonmenu" to PreviewFrame(360, 640),
     "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
