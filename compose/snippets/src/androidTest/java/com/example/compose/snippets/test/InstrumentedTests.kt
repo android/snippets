@@ -18,20 +18,19 @@ package com.example.compose.snippets.test
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import androidx.test.runner.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Suppress("DEPRECATION")
 private object LogHistorySnippet {
     // [START android_instrumented_tests_log_history]
     // import android.os.Parcel
     // import android.text.TextUtils.writeToParcel
+    // import androidx.test.ext.junit.runners.AndroidJUnit4
     // import androidx.test.filters.SmallTest
-    // import androidx.test.runner.AndroidJUnit4
     // import com.google.common.truth.Truth.assertThat
     // import org.junit.Before
     // import org.junit.Test
