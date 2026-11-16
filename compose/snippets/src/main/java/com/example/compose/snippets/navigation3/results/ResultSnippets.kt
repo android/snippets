@@ -59,7 +59,7 @@ enum class ProductFilter {
 }
 
 @Serializable
-data class ConfirmationResult(val confirmed: Boolean = true)
+private data object CouponPickerRoute : NavKey
 
 class ComposeMessageViewModel : ViewModel() {
     var recipient: Contact? = null
@@ -79,12 +79,9 @@ class RideSummaryViewModel : ViewModel() {
     }
 }
 
-class NotificationViewModel : ViewModel() {
-    fun onPermissionConfirmed(confirmation: ConfirmationResult) {}
-}
-
 class Navigator {
     fun goBack() {}
+    fun goToHome() {}
 }
 
 @Composable
@@ -124,6 +121,9 @@ fun ThemePreviewContent(
     onPickPrimary: () -> Unit,
     onPickAccent: () -> Unit
 ) {}
+
+@Composable
+fun CouponPickerScreen(onCouponSelected: (String) -> Unit, onCancelCheckout: () -> Unit) {}
 
 private object BasicResultSnippet {
     @Composable
@@ -372,26 +372,27 @@ private object HoistedBusSnippet {
 private object ClearResultSnippet {
     /*
     // [START android_compose_navigation3_result_clear]
-    import androidx.compose.runtime.Composable
-    import androidx.lifecycle.viewmodel.compose.viewModel
     import androidx.navigation3.runtime.result.LocalResultEventBus
-    import androidx.navigation3.runtime.result.ResultEffect
     // [START_EXCLUDE silent]
     */
+    fun EntryProviderScope<NavKey>.couponPickerEntry(navigator: Navigator) {
     // [END_EXCLUDE]
 
-    @Composable
-    fun NotificationSettingsScreen(
-        viewModel: NotificationViewModel = viewModel()
-    ) {
+    entry<CouponPickerRoute> {
         val resultBus = LocalResultEventBus.current
 
-        ResultEffect<ConfirmationResult>(resultKey = "confirm_permission") { confirmation ->
-            viewModel.onPermissionConfirmed(confirmation)
-
-            // Clear the result after consumption to prevent re-delivery
-            resultBus.removeResult(resultKey = "confirm_permission")
-        }
+        CouponPickerScreen(
+            onCouponSelected = { couponCode: String ->
+                resultBus.sendResult(resultKey = "coupon", result = couponCode)
+                navigator.goBack()
+            },
+            onCancelCheckout = {
+                // Discard any coupon result that hasn't been received yet
+                resultBus.removeResult(resultKey = "coupon")
+                navigator.goToHome()
+            }
+        )
     }
     // [END android_compose_navigation3_result_clear]
+    }
 }
