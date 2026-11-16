@@ -87,7 +87,11 @@ private object MediaRouterCallbacks {
         // Define the Callback object and its methods, save the object in a class variable.
         private val mediaRouterCallback = object : MediaRouter.Callback() {
 
-            override fun onRouteSelected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            override fun onRouteSelected(
+                router: MediaRouter,
+                route: MediaRouter.RouteInfo,
+                reason: Int
+            ) {
                 Log.d(TAG, "onRouteSelected: route=$route")
                 if (route.supportsControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)) {
                     // Stop local playback (if necessary).
