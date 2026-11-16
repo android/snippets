@@ -25,10 +25,9 @@ import android.util.Log
 class MyActivity : Activity() {
     // ...
     override fun onCreate(savedInstanceState: Bundle?) {
-        // [START_EXCLUDE silent]
+        // [START_EXCLUDE]
         super.onCreate(savedInstanceState)
         // [END_EXCLUDE]
-        // ...
         if (savedInstanceState != null) {
             Log.d(TAG, "onCreate() Restoring previous state")
             /* restore state */

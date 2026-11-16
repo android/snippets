@@ -30,7 +30,7 @@ fun startAndStopTracing() {
     Debug.startMethodTracing("sample")
 
     // The system begins buffering the generated trace data, until your
-    // application calls <code><a href="/reference/android/os/Debug.html#stopMethodTracing()">stopMethodTracing()</a></code>, at which time it writes
+    // application calls stopMethodTracing(), at which time it writes
     // the buffered data to the output file.
     Debug.stopMethodTracing()
     // [END android_studio_profile_generate_trace_logs_start_stop]
@@ -38,7 +38,7 @@ fun startAndStopTracing() {
 
 fun saveMultipleLogs() {
     // [START android_studio_profile_generate_trace_logs_save_multiple]
-    // Uses the <code><a href="/reference/java/text/SimpleDateFormat.html">SimpleDateFormat</a></code> class to create a String with
+    // Uses the SimpleDateFormat class to create a String with
     // the current date and time.
     val dateFormat: DateFormat = SimpleDateFormat("dd_MM_yyyy_hh_mm_ss", Locale.getDefault())
     val logDate: String = dateFormat.format(Date())

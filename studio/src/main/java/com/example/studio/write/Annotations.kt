@@ -24,6 +24,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import androidx.activity.ComponentActivity
 import androidx.annotation.CallSuper
 import androidx.annotation.CheckResult
 import androidx.annotation.FloatRange
@@ -80,6 +81,18 @@ abstract class TitleSnippet {
     // [END android_studio_write_annotations_resource_string]
 }
 
+// [START android_studio_write_annotations_int_range]
+fun setAlpha(@IntRange(from = 0, to = 255) alpha: Int) {
+    // ...
+}
+// [END android_studio_write_annotations_int_range]
+
+// [START android_studio_write_annotations_float_range]
+fun setAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float) {
+    // ...
+}
+// [END android_studio_write_annotations_float_range]
+
 // [START android_studio_write_annotations_size]
 fun getLocation(button: View, @Size(min=1) location: IntArray) {
     button.getLocationOnScreen(location)
@@ -133,10 +146,13 @@ abstract class PermissionCheckerSnippet {
     // [END android_studio_write_annotations_check_result]
 }
 
-class CallSuperSnippet : BaseActivity() {
+class CallSuperSnippet : ComponentActivity() {
     // [START android_studio_write_annotations_call_super]
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        // [START_EXCLUDE silent]
+        super.onCreate(savedInstanceState)
+        // [END_EXCLUDE]
     }
     // [END android_studio_write_annotations_call_super]
 }
@@ -154,10 +170,6 @@ open class LayoutInflaterParent {
         context: Context,
         attrs: AttributeSet,
     ): View? = null
-}
-
-open class BaseActivity {
-    open fun onCreate(savedInstanceState: Bundle?) {}
 }
 
 private const val READ_HISTORY_BOOKMARKS = "com.android.browser.permission.READ_HISTORY_BOOKMARKS"
