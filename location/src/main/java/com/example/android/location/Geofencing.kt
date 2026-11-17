@@ -149,7 +149,8 @@ private object PendingIntentSnippet {
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
     // ...
     override fun onReceive(context: Context?, intent: Intent?) {
-        val geofencingEvent = intent?.let { GeofencingEvent.fromIntent(it) } ?: return
+        if (context == null || intent == null) return
+        val geofencingEvent = GeofencingEvent.fromIntent(intent)
         if (geofencingEvent.hasError()) {
             val errorMessage = GeofenceStatusCodes
                 .getStatusCodeString(geofencingEvent.errorCode)
@@ -183,10 +184,10 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
             // Log the error.
             Log.e(
                 TAG,
-                context?.getString(
+                context.getString(
                     R.string.geofence_transition_invalid_type,
                     geofenceTransition
-                ).toString()
+                )
             )
         }
     }
