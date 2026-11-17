@@ -21,7 +21,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 
 private fun navigateToBottomNavRoute(navController: NavController, selectedBottomNavRoute: String) {
     // [START android_compose_navigation_multi_back_stacks_nav_options]
-    // Use the navigate() method that takes a navOptions DSL Builder.
+    // Use the navigate() method that takes a navOptions DSL Builder
     navController.navigate(selectedBottomNavRoute) {
         launchSingleTop = true
         restoreState = true

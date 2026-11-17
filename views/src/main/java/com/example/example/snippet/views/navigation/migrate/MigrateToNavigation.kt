@@ -27,7 +27,7 @@ class ProductListActivity : AppCompatActivity() {
         // [START_EXCLUDE]
         super.onCreate(savedInstanceState)
         // [END_EXCLUDE]
-        // Replace setContentView(R.layout.product_list) with the line below.
+        // Replace setContentView(R.layout.product_list) with the line below
         setContentView(R.layout.product_list_host)
         // ...
     }

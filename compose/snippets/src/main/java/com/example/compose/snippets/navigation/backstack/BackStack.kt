@@ -50,7 +50,7 @@ private class FailedPopActivity : ComponentActivity() {
         // ...
 
         if (!navController.popBackStack()) {
-            // Call finish() on your Activity.
+            // Call finish() on your Activity
             finish()
         }
         // [END android_compose_navigation_backstack_handle_failed_pop]
@@ -119,20 +119,20 @@ fun DestinationA(onNavigateToB: () -> Unit) {
 private fun navigateWithPopUpTo(navController: NavController) {
     // [START android_compose_navigation_backstack_pop_up_to]
     // Pop everything up to the destination_a destination off the back stack before
-    // navigating to the "destination_b" destination.
+    // navigating to the "destination_b" destination
     navController.navigate("destination_b") {
         popUpTo("destination_a")
     }
 
     // Pop everything up to and including the "destination_a" destination off
-    // the back stack before navigating to the "destination_b" destination.
+    // the back stack before navigating to the "destination_b" destination
     navController.navigate("destination_b") {
         popUpTo("destination_a") { inclusive = true }
     }
 
     // Navigate to the "search” destination only if we’re not already on
     // the "search" destination, avoiding multiple copies on the top of the
-    // back stack.
+    // back stack
     navController.navigate("search") {
         launchSingleTop = true
     }
