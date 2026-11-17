@@ -56,8 +56,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
     implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.webkit)
     implementation(libs.kotlinx.coroutines.jdk9)
-    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.kotlinx.serialization.core)
 }

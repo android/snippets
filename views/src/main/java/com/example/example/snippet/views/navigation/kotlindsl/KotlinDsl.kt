@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
 private fun NavController.addCustomDestination() {
     graph = createGraph(startDestination = Graph.CustomDestination.route) {
         // [START android_views_navigation_kotlin_dsl_custom_destination]
-        // The NavigatorProvider is retrieved from the NavController.
+        // The NavigatorProvider is retrieved from the NavController
         val customDestination = navigatorProvider[CustomNavigator::class].createDestination().apply {
             route = Graph.CustomDestination.route
         }
@@ -53,7 +53,7 @@ private fun NavController.addCustomDestination() {
 private fun NavController.addCustomDestinationWithUnaryPlus() {
     graph = createGraph(startDestination = Graph.CustomDestination.route) {
         // [START android_views_navigation_kotlin_dsl_custom_destination_unary_plus]
-        // The NavigatorProvider is retrieved from the NavController.
+        // The NavigatorProvider is retrieved from the NavController
         +navigatorProvider[CustomNavigator::class].createDestination().apply {
             route = Graph.CustomDestination.route
         }
