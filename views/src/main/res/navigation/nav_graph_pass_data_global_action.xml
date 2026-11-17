@@ -21,7 +21,8 @@
             android:id="@+id/main_nav"
             app:startDestination="@id/mainFragment">
 
-    <!-- [START_EXCLUDE] -->
+    <!-- ... -->
+    <!-- [START_EXCLUDE silent] -->
     <fragment android:id="@+id/mainFragment" />
     <!-- [END_EXCLUDE] -->
 

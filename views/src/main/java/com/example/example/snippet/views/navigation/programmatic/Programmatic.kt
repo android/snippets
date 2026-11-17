@@ -32,7 +32,7 @@ private fun observeBackStackEntry(myViewModel: MyViewModel, backStackEntry: NavB
     myViewModel.liveData.observe(
         backStackEntry,
         Observer { myData ->
-            // react to live data update.
+            // react to live data update
         }
     )
     // [END android_views_navigation_programmatic_observe_back_stack_entry]

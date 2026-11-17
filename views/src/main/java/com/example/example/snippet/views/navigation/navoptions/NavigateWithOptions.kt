@@ -34,7 +34,7 @@ private fun Fragment.navigateWithProgrammaticOptions() {
     findNavController().navigate(
         R.id.action_fragmentOne_to_fragmentTwo,
         null,
-        navOptions { // Use the Kotlin DSL for building NavOptions.
+        navOptions { // Use the Kotlin DSL for building NavOptions
             anim {
                 enter = android.R.animator.fade_in
                 exit = android.R.animator.fade_out
@@ -48,7 +48,7 @@ private fun Fragment.navigateToDeepLink(deepLinkUri: Uri) {
     // [START android_views_navigation_navoptions_deep_link]
     findNavController().navigate(
         deepLinkUri,
-        navOptions { // Use the Kotlin DSL for building NavOptions.
+        navOptions { // Use the Kotlin DSL for building NavOptions
             anim {
                 enter = android.R.animator.fade_in
                 exit = android.R.animator.fade_out
