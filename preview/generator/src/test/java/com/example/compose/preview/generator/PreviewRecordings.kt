@@ -217,4 +217,7 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
         topYFraction = 0.25f,
         dragMillis = 800,
     ),
+    // One full basicMarquee cycle: the initial delay, about 35 seconds of scrolling, then the
+    // pause back at the starting position, so the video loops cleanly.
+    "android_compose_text_marquee" to PreviewRecording(listOf(PreviewStep.Wait(37_400))),
 )
