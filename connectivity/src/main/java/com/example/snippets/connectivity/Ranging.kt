@@ -46,9 +46,9 @@ import java.time.Duration
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-// Wrapped in an object so that RangingApp stays private to this file. start() and stop() need
-// the RANGING permission, which the module's manifest declares; an app must also request it at
-// runtime before it calls into RangingApp.
+// The page shows two classes named RangingApp, so each one is wrapped in its own object to avoid
+// a name clash. start() and stop() need the RANGING permission, which the module's manifest
+// declares; an app must also request it at runtime before it calls into RangingApp.
 private object RangingSessionSnippet {
     // [START android_connectivity_ranging_session]
     class RangingApp {
@@ -185,8 +185,8 @@ private fun createIosInteropPreference(
 }
 
 // DL-TDoA (isDlTdoaSupported, DEVICE_ROLE_DT_TAG, RawDtTagRangingConfig, DlTdoaRangingParams and
-// onDlTdoaResults) is new in Android 17 (API level 37), above the module's minSdk. The object keeps
-// RangingApp and RangingSessionCallback private to this file.
+// onDlTdoaResults) is new in Android 17 (API level 37), above the module's minSdk. The object also
+// keeps this RangingApp apart from the one in RangingSessionSnippet.
 @RequiresApi(37)
 private object DlTdoaSnippet {
     // [START android_connectivity_ranging_dl_tdoa]
