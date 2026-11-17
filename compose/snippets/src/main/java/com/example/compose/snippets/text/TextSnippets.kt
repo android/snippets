@@ -167,6 +167,8 @@ private object TextAlignmentSnippet {
     // [END android_compose_text_alignment]
 }
 
+// Also in StyleText.kt, which the Style text page uses for its interactive previews. Remove
+// this copy once that page points to StyleText.kt.
 private object TextShadowSnippet {
     // [START android_compose_text_shadow]
     @Composable
@@ -292,6 +294,8 @@ private object TextOverflowSnippet {
     // [END android_compose_text_overflow]
 }
 
+// Also in StyleText.kt, which the Style text page uses for its interactive previews. Remove
+// this copy once that page points to StyleText.kt.
 private object TextBrushSnippet1 {
     @Composable
     fun TextStyledBrushSnippet(text: String) {
@@ -328,6 +332,8 @@ private object TextBrushSnippet2 {
     }
 }
 
+// Also in StyleText.kt, which the Style text page uses for its interactive previews. Remove
+// this copy once that page points to StyleText.kt.
 private object TextBrushSnippet3 {
     @Composable
     fun TextStyledBrushSnippet() {
@@ -352,6 +358,8 @@ private object TextBrushSnippet3 {
     }
 }
 
+// Also in StyleText.kt, which the Style text page uses for its interactive previews. Remove
+// this copy once that page points to StyleText.kt.
 private object TextBrushSnippet4 {
     @Composable
     fun TextStyledBrushSnippet() {
@@ -778,20 +786,23 @@ fun HyphenateTextSnippet() {
     // [END android_compose_text_hyphen]
 }
 
-@Preview(showBackground = true)
-// [START android_compose_text_marquee]
-@Composable
-fun BasicMarqueeSample() {
-    // Marquee only animates when the content doesn't fit in the max width.
-    Column(Modifier.width(400.dp)) {
-        Text(
-            "Learn about why it's great to use Jetpack Compose",
-            modifier = Modifier.basicMarquee(),
-            fontSize = 50.sp
-        )
+// Also in StyleText.kt, which the Style text page uses for its interactive previews. Remove
+// this copy once that page points to StyleText.kt.
+private object TextMarqueeSnippet {
+    // [START android_compose_text_marquee]
+    @Composable
+    fun BasicMarqueeSample() {
+        // Marquee only animates when the content doesn't fit in the max width.
+        Column(Modifier.width(400.dp)) {
+            Text(
+                "Learn about why it's great to use Jetpack Compose",
+                modifier = Modifier.basicMarquee(),
+                fontSize = 50.sp
+            )
+        }
     }
+    // [END android_compose_text_marquee]
 }
-// [END android_compose_text_marquee]
 
 // [START android_compose_text_auto_format_phone_number_textfieldconfig]
 @Composable
@@ -860,9 +871,6 @@ class NanpVisualTransformation : VisualTransformation {
 // [END android_compose_text_auto_format_phone_number_transformtext]
 
 private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
-
-val LightBlue = Color(0xFF0066FF)
-val Purple = Color(0xFF800080)
 
 // [START android_compose_text_showhidepassword]
 @Composable
