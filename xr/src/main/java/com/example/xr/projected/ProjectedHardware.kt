@@ -26,24 +26,26 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
-import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
+import androidx.camera.lifecycle.LifecycleCameraProvider
 import androidx.lifecycle.LifecycleOwner
 
 private const val TAG = "ProjecteHardware"
 
 // [START androidxr_projected_camera_capture]
 /**
- * Filters [CameraSelector.DEFAULT_BACK_CAMERA] by dynamic [cameraId], verifies availability,
- * and binds an [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
+ * Selects the projected camera matching dynamic [cameraId] from
+ * [LifecycleCameraProvider.availableCameraInfos], verifies availability, and binds an
+ * [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
  *
  * Note: Depending on your application's needs, [ImageCapture] can be swapped out for other
  * standard CameraX use cases:
  * - Use [ImageAnalysis] for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
  * - Use [VideoCapture] for video recording pipelines.
  */
-@OptIn(ExperimentalCamera2Interop::class)
+@OptIn(ExperimentalCamera2Interop::class, ExperimentalCameraProviderConfiguration::class)
 fun bindGlassesImageCapture(
-    cameraProvider: ProcessCameraProvider,
+    cameraProvider: LifecycleCameraProvider,
     cameraId: String,
     lifecycleOwner: LifecycleOwner,
     preferredResolution: Size = Size(1920, 1080)
