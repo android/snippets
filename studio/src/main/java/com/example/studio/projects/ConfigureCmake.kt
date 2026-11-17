@@ -16,7 +16,7 @@
 
 package com.example.studio.projects
 
-class MainActivity {
+class NativeLibraryLoader {
     // [START android_studio_projects_configure_cmake_load_library]
     companion object {
         init {

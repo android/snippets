@@ -16,14 +16,14 @@
 
 package com.example.studio.debug
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.ComponentActivity
 
 // [START android_studio_debug_log_state]
 // import android.util.Log
 // ...
-class MyActivity : Activity() {
+class MyActivity : ComponentActivity() {
     // ...
     override fun onCreate(savedInstanceState: Bundle?) {
         // [START_EXCLUDE]
