@@ -465,8 +465,11 @@ private object UpdateTransitionEnumState {
     private fun UpdateTransitionMutableTransitionState() {
         // [START android_compose_animations_transitions_state]
         // Start in collapsed state and immediately animate to expanded
-        var currentState = remember { MutableTransitionState(BoxState.Collapsed) }
-        currentState.targetState = BoxState.Expanded
+        val currentState = remember {
+            MutableTransitionState(BoxState.Collapsed).apply {
+                targetState = BoxState.Expanded
+            }
+        }
         val transition = rememberTransition(currentState, label = "box state")
         // ……
         // [END android_compose_animations_transitions_state]
