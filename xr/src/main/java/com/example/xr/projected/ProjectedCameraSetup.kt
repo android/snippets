@@ -16,6 +16,7 @@
 
 package com.example.xr.projected
 
+import android.annotation.SuppressLint
 import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.util.Log
@@ -37,6 +38,7 @@ private const val TAG = "ProjectedCameraSetup"
 // [START androidxr_projected_camera_setup]
 @OptIn(ExperimentalCameraProviderConfiguration::class)
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
+@SuppressLint("RestrictedApi")
 fun setUpGlassesCamera(activity: ComponentActivity) {
     monitorProjectedDeviceConnectivity(activity) { projectedContext ->
         val cameraManager = projectedContext.getSystemService(CameraManager::class.java)
@@ -45,6 +47,7 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
                 return@monitorProjectedDeviceConnectivity null
             }
 
+        // `setRepeatingStreamForced()` is currently internal but will be public soon.
         val cameraConfig = CameraXConfig.Builder
             .fromConfig(Camera2Config.defaultConfig())
             .setRepeatingStreamForced(false)
