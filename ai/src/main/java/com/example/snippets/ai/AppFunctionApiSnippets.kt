@@ -35,7 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 // [START android_appfunction_serializable]
-/** The parameter to create the task. */
+/** The title and content of a new task. */
 @AppFunctionSerializable(isDescribedByKDoc = true)
 data class CreateTaskParams(
     /** The title of the task. */
@@ -67,9 +67,11 @@ abstract class BaseTaskAppFunctionService : AppFunctionService() {
     @Inject internal lateinit var taskRepository: TaskRepository
 
     /**
-     * Creates a task based on [createTaskParams].
+     * Creates a task with a title, content, or both.
      *
-     * @param createTaskParams The parameter to describe how to create the task.
+     * @param createTaskParams The title and content of the task. At least one
+     *   of them is required.
+     * @return The created task, including its ID.
      */
     @AppFunctionDeclaration(isDescribedByKDoc = true)
     suspend fun createTask(
@@ -78,7 +80,7 @@ abstract class BaseTaskAppFunctionService : AppFunctionService() {
         // Developers can use predefined exceptions to let the agent know
         // why it failed.
         if (createTaskParams.title == null && createTaskParams.content == null) {
-            throw AppFunctionInvalidArgumentException("Title or content should be non-null")
+            throw AppFunctionInvalidArgumentException("A task needs a title, content, or both.")
         }
 
         val id = taskRepository.createTask(
@@ -187,6 +189,18 @@ abstract class IllustrativeAppFunctions : AppFunctionService() {
         startDateTime: LocalDateTime,
     ): Event = TODO()
     // [END android_appfunction_calendar_event]
+
+    // [START android_appfunction_kdoc_refined]
+    /**
+     * Searches for message recipients by name or email.
+     * @param query Search string for name/email. If null, returns 3 most recent contacts.
+     * @return List of "Recipient" objects matching the query.
+     */
+    @AppFunctionDeclaration(isDescribedByKDoc = true)
+    suspend fun searchRecipients(
+        query: String? = null,
+    ): List<Recipient> = TODO()
+    // [END android_appfunction_kdoc_refined]
 }
 
 @RequiresApi(36)
@@ -245,3 +259,14 @@ data class ShoppingList(val id: String, val items: List<String>)
 
 @AppFunctionSerializable(isDescribedByKDoc = true)
 data class Event(val id: String, val title: String)
+
+/** A contact that can receive messages. */
+@AppFunctionSerializable(isDescribedByKDoc = true)
+data class Recipient(
+    /** The unique ID of the contact. */
+    val id: String,
+    /** The display name of the contact. */
+    val name: String,
+    /** The email address of the contact. */
+    val email: String,
+)
