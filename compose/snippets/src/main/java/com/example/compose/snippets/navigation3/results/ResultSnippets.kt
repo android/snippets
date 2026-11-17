@@ -81,7 +81,6 @@ class RideSummaryViewModel : ViewModel() {
 
 class Navigator {
     fun goBack() {}
-    fun goToHome() {}
 }
 
 @Composable
@@ -123,7 +122,11 @@ fun ThemePreviewContent(
 ) {}
 
 @Composable
-fun CouponPickerScreen(onCouponSelected: (String) -> Unit, onCancelCheckout: () -> Unit) {}
+fun CouponPickerScreen(
+    onCouponSelected: (String) -> Unit,
+    onCouponDeselected: () -> Unit,
+    onDismiss: () -> Unit
+) {}
 
 private object BasicResultSnippet {
     @Composable
@@ -377,22 +380,20 @@ private object ClearResultSnippet {
     */
     fun EntryProviderScope<NavKey>.couponPickerEntry(navigator: Navigator) {
     // [END_EXCLUDE]
+        entry<CouponPickerRoute> {
+            val resultBus = LocalResultEventBus.current
 
-    entry<CouponPickerRoute> {
-        val resultBus = LocalResultEventBus.current
-
-        CouponPickerScreen(
-            onCouponSelected = { couponCode: String ->
-                resultBus.sendResult(resultKey = "coupon", result = couponCode)
-                navigator.goBack()
-            },
-            onCancelCheckout = {
-                // Discard any coupon result that hasn't been received yet
-                resultBus.removeResult(resultKey = "coupon")
-                navigator.goToHome()
-            }
-        )
-    }
+            CouponPickerScreen(
+                onCouponSelected = { couponCode: String ->
+                    resultBus.sendResult(resultKey = "coupon", result = couponCode)
+                },
+                onCouponDeselected = {
+                    // Discard the pending coupon result before returning
+                    resultBus.removeResult(resultKey = "coupon")
+                },
+                onDismiss = { navigator.goBack() }
+            )
+        }
     // [END android_compose_navigation3_result_clear]
     }
 }
