@@ -41,7 +41,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
     }
 }
 
-// This screen will be displayed as a dialog.
+// This screen will be displayed as a dialog
 @Composable
 fun SettingsScreen() {
     Text("Settings")

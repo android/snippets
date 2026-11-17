@@ -21,7 +21,7 @@
    android:id="@+id/in_game_nav_graph"
    app:startDestination="@id/in_game">
 
-   <!-- Action back to destination which launched into this in_game_nav_graph. -->
+   <!-- Action back to destination which launched into this in_game_nav_graph -->
    <action android:id="@+id/action_pop_out_of_game"
                        app:popUpTo="@id/in_game_nav_graph"
                        app:popUpToInclusive="true" />
