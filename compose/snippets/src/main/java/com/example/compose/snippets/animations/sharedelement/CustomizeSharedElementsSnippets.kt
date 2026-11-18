@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package com.example.compose.snippets.animations.sharedelement
 
 import androidx.activity.compose.PredictiveBackHandler
@@ -25,11 +23,9 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.ArcMode
-import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.SeekableTransitionState
 import androidx.compose.animation.core.keyframes
@@ -88,7 +84,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.currentState
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -132,7 +127,6 @@ fun SharedElementApp_BoundsTransformExample() {
     }
 }
 
-@OptIn(ExperimentalAnimationSpecApi::class)
 @Composable
 private fun MainContent(
     onShowDetails: () -> Unit,
@@ -206,7 +200,6 @@ private fun MainContent(
     }
 }
 
-@OptIn(ExperimentalAnimationSpecApi::class)
 @Composable
 private fun DetailsContent(
     modifier: Modifier = Modifier,
