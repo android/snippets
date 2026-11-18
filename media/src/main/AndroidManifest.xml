@@ -18,6 +18,9 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <!-- Required by AudioManager.setPreferredMixerAttributes and
+         clearPreferredMixerAttributes, used in ImproveAudioPlayback.kt. -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application>
         <service
