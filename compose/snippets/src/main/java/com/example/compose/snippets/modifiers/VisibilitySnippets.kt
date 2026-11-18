@@ -21,12 +21,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.visible
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +43,7 @@ import androidx.compose.ui.layout.onFirstVisible
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.compose.snippets.R
 
 private object OnVisibilityChangedSample {
 
@@ -51,9 +55,9 @@ private object OnVisibilityChangedSample {
             modifier = Modifier
                 .onVisibilityChanged { visible ->
                     if (visible) {
-                        // Do something if visible
+                        // Do something if visible.
                     } else {
-                        // Do something if not visible
+                        // Do something if not visible.
                     }
                 }
                 .padding(vertical = 8.dp)
@@ -77,12 +81,12 @@ private object OnVisibilityChangedMinFractionVisible {
                         .fillParentMaxWidth()
                         .border(0.5.dp, Color.Gray)
                         // [END_EXCLUDE]
-                        // Here the visible callback gets triggered when 20% of the composable is visible
+                        // Here `visible` is `true` when more than 20% of the composable is visible.
                         .onVisibilityChanged(
                             minFractionVisible = 0.2f,
                         ) { visible ->
                             if (visible) {
-                                // Call specific logic here
+                                // Call specific logic here.
                                 // viewModel.fetchDataFromNetwork()
                             }
                         }
@@ -166,5 +170,24 @@ private object OnFirstVisibleSample {
             )
             // [END android_compose_modifiers_onFirstVisible]
         }
+    }
+}
+
+private object VisibleModifierSample {
+
+    @Composable
+    fun SaveStatus(isSaved: Boolean, modifier: Modifier = Modifier) {
+        // [START android_compose_modifiers_visible]
+        Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.check),
+                contentDescription = "Saved",
+                modifier = Modifier
+                    // The icon keeps its space while it's hidden, so the text doesn't move.
+                    .visible(isSaved)
+            )
+            Text("Draft", Modifier.padding(start = 8.dp))
+        }
+        // [END android_compose_modifiers_visible]
     }
 }

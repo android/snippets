@@ -46,8 +46,8 @@ private fun createModelEntity(session: Session, gltfModel: GltfModel) {
 @OptIn(ExperimentalGltfAnimationApi::class)
 private fun animateEntity(gltfEntity: GltfModelEntity) {
     // [START androidxr_scenecore_gltfmodelentity_animation]
-    val animation = gltfEntity.getAnimations().find { it.name == "Walk" }
-    animation?.start(GltfAnimationStartOptions(shouldLoop = true))
+    val animation = gltfEntity.getAnimations().find { it.name == "Walk" } ?: return
+    animation.start(GltfAnimationStartOptions(shouldLoop = true))
     // [END androidxr_scenecore_gltfmodelentity_animation]
 }
 

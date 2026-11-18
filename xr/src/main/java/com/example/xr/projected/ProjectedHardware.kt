@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 The Android Open Source Project
+ * Copyright 2026 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,251 +16,96 @@
 
 package com.example.xr.projected
 
-import android.Manifest
-import android.content.Context
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CaptureRequest
-import android.media.AudioDeviceInfo
-import android.media.AudioFormat
-import android.media.AudioManager
-import android.media.AudioRecord
-import android.media.MediaRecorder
-import android.os.Build
 import android.util.Log
-import android.util.Range
 import android.util.Size
-import androidx.activity.ComponentActivity
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
+import androidx.annotation.OptIn
 import androidx.camera.camera2.interop.Camera2CameraInfo
-import androidx.camera.camera2.interop.CaptureRequestOptions
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
-import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraInfoUnavailableException
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import androidx.xr.projected.ProjectedContext
-import androidx.xr.projected.experimental.ExperimentalProjectedApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
+import androidx.camera.lifecycle.LifecycleCameraProvider
+import androidx.lifecycle.LifecycleOwner
 
-private const val TAG = "ProjectedHardware"
+private const val TAG = "ProjecteHardware"
 
-// Define the audio format
-// the sample rate is limited to 16kHz, with support for mono or stereo channel configurations.
-private val audioFormat = AudioFormat.Builder()
-    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-    .setSampleRate(16000)
-    .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
-    .build()
-
-// Fetch the minimum required size and use it (or a small multiple)
-// to ensure the "shorter chunks" recommended for low latency.
-private val bufferSize = AudioRecord.getMinBufferSize(
-    16000,
-    AudioFormat.CHANNEL_IN_MONO,
-    AudioFormat.ENCODING_PCM_16BIT
-).coerceAtLeast(1024)
-
+// [START androidxr_projected_camera_capture]
 /**
- * Demonstrates how to obtain a context for the projected device (audio and display glasses)
- * from the host device (phone) and how to monitor the projected device's
- * connectivity to manage resources.
+ * Selects the projected camera matching dynamic [cameraId] from
+ * [LifecycleCameraProvider.availableCameraInfos], verifies availability, and binds an
+ * [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
+ *
+ * Note: Depending on your application's needs, [ImageCapture] can be swapped out for other
+ * standard CameraX use cases:
+ * - Use [ImageAnalysis] for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
+ * - Use [VideoCapture] for video recording pipelines.
  */
-// [START androidxr_projected_context_get_projected]
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
-@OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
-private fun monitorProjectedConnectivity(activity: ComponentActivity) {
-    activity.lifecycleScope.launch {
-        // Before creating a projected context, check to see if the projected device is connected.
-        // While this method returns true, the projected context remains valid.
-        ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
-            .collectLatest { isConnected ->
-                if (isConnected) {
-                    // From a phone Activity or Service, get a context for the audio and display glasses.
-                    // Re-initialize on reconnect: Obtain another context instance.
-                    val projectedContext = try {
-                        ProjectedContext.createProjectedDeviceContext(activity)
-                    } catch (e: IllegalStateException) {
-                        Log.e(TAG, "Failed to create projected context", e)
-                        return@collectLatest
-                    }
-
-                    // Use the projectedContext to initialize system services (e.g., CameraManager).
-                    Log.i(TAG, "Projected device connected. Initializing hardware...")
-                } else {
-                    // The projected context is destroyed when the device disconnects.
-                    // Clean up on disconnect: Listen for 'false' and release resources.
-                    Log.i(TAG, "Projected device disconnected. Cleaning up hardware resources...")
-                }
-            }
-    }
-}
-// [END androidxr_projected_context_get_projected]
-
-/**
- * Demonstrates how to obtain a context for the host device (phone)
- * from the projected device (audio and display glasses).
- */
-// [START androidxr_projected_context_get_host]
-@OptIn(ExperimentalProjectedApi::class)
-private fun getPhoneContext(activity: ComponentActivity): Context? {
+@OptIn(ExperimentalCamera2Interop::class, ExperimentalCameraProviderConfiguration::class)
+fun bindGlassesImageCapture(
+    cameraProvider: LifecycleCameraProvider,
+    cameraId: String,
+    lifecycleOwner: LifecycleOwner,
+    preferredResolution: Size = Size(1920, 1080)
+): ImageCapture? {
     return try {
-        // From a projected Activity, get a context for the phone.
-        ProjectedContext.createHostDeviceContext(activity)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Failed to create host device context", e)
+        // [START androidxr_projected_camera_dynamic_id]
+        // Discover available cameras dynamically via `availableCameraInfos`
+        // Narrow it down by the dynamic `cameraId` because the projected camera's ID may
+        // change when recreated
+        val cameraInfo = cameraProvider.availableCameraInfos.firstOrNull { info ->
+            Camera2CameraInfo.from(info).cameraId == cameraId
+        }
+
+        // Pre-binding check: Verify the selected camera is registered and available on the device.
+        // The projected camera may be unavailable (for example, if the user took off the glasses).
+        if (cameraInfo == null) {
+            Log.w(TAG, "Glasses camera (ID: $cameraId) is not currently available.")
+            return null
+        }
+        val cameraSelector = cameraInfo.cameraSelector
+        // [END androidxr_projected_camera_dynamic_id]
+
+        val resolutionSelector = ResolutionSelector.Builder()
+            .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
+            .setResolutionStrategy(
+                ResolutionStrategy(
+                    preferredResolution,
+                    ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
+                )
+            )
+            .build()
+
+        // Initialize the ImageCapture use case.
+        val imageCapture = ImageCapture.Builder()
+            .setResolutionSelector(resolutionSelector)
+            .build()
+
+        // Unbind any previously bound use cases before rebinding to the lifecycle owner.
+        cameraProvider.unbindAll()
+
+        // Bind the configured use case. You can swap `imageCapture` out for an `ImageAnalysis`
+        // (e.g., from `setupCameraStreamingFps`) or `VideoCapture` instance here to match your use case.
+        // `bindToLifecycle()` can throw IllegalArgumentException if use cases
+        // are incompatible, or IllegalStateException if the LifecycleOwner is destroyed.
+        cameraProvider.bindToLifecycle(
+            lifecycleOwner,
+            cameraSelector,
+            imageCapture
+        )
+        Log.i(TAG, "ImageCapture successfully bound for camera ID $cameraId")
+        imageCapture
+    } catch (exc: CameraInfoUnavailableException) {
+        Log.e(TAG, "Unable to access camera info for ID $cameraId", exc)
+        null
+    } catch (exc: IllegalArgumentException) {
+        Log.e(TAG, "Invalid camera configuration or use case combination for ID $cameraId", exc)
+        null
+    } catch (exc: IllegalStateException) {
+        Log.e(TAG, "Camera is already bound to another lifecycle or closed", exc)
         null
     }
 }
-// [END androidxr_projected_context_get_host]
-
-/**
- * Demonstrates how to capture an image using the audio and display glasses' camera.
- */
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
-@androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
-@OptIn(ExperimentalProjectedApi::class, ExperimentalCoroutinesApi::class)
-// [START androidxr_projected_camera_capture]
-private fun startCameraOnGlasses(activity: ComponentActivity) {
-    activity.lifecycleScope.launch {
-        // Before creating a projected context, check to see if the projected device is connected.
-        ProjectedContext.isProjectedDeviceConnected(activity, coroutineContext)
-            .collectLatest { isConnected ->
-                if (isConnected) {
-                    // 1. Get the CameraProvider using the projected context.
-                    // When using the projected context, DEFAULT_BACK_CAMERA maps to the audio and display glasses' camera.
-                    val projectedContext = try {
-                        ProjectedContext.createProjectedDeviceContext(activity)
-                    } catch (e: IllegalStateException) {
-                        Log.e(TAG, "Projected context could not be created", e)
-                        return@collectLatest
-                    }
-
-                    val cameraProviderFuture = ProcessCameraProvider.getInstance(projectedContext)
-
-                    cameraProviderFuture.addListener({
-                        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                        val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-                        // 2. Check for the presence of a camera.
-                        if (!cameraProvider.hasCamera(cameraSelector)) {
-                            Log.w(TAG, "The selected camera is not available.")
-                            return@addListener
-                        }
-
-                        // 3. Query supported streaming resolutions using Camera2 Interop.
-                        val cameraInfo = cameraProvider.getCameraInfo(cameraSelector)
-                        val camera2CameraInfo = Camera2CameraInfo.from(cameraInfo)
-                        val cameraCharacteristics = camera2CameraInfo.getCameraCharacteristic(
-                            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
-                        )
-
-                        // 4. Define the resolution strategy.
-                        val targetResolution = Size(1920, 1080)
-                        val resolutionStrategy = ResolutionStrategy(
-                            targetResolution,
-                            ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
-                        )
-                        val resolutionSelector = ResolutionSelector.Builder()
-                            .setResolutionStrategy(resolutionStrategy)
-                            .build()
-
-                        // 5. If you have other continuous use cases bound, such as Preview or ImageAnalysis,
-                        // you can use  Camera2 Interop's CaptureRequestOptions to set the FPS
-                        val fpsRange = Range(30, 60)
-                        val captureRequestOptions = CaptureRequestOptions.Builder()
-                            .setCaptureRequestOption(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange)
-                            .build()
-
-                        // 6. Initialize the ImageCapture use case with options.
-                        val imageCapture = ImageCapture.Builder()
-                            // Optional: Configure resolution, format, etc.
-                            .setResolutionSelector(resolutionSelector)
-                            .build()
-
-                        try {
-                            // Unbind use cases before rebinding.
-                            cameraProvider.unbindAll()
-
-                            // Bind use cases to camera using the Activity as the LifecycleOwner.
-                            cameraProvider.bindToLifecycle(
-                                activity,
-                                cameraSelector,
-                                imageCapture
-                            )
-                        } catch (exc: Exception) {
-                            Log.e(TAG, "Use case binding failed", exc)
-                        }
-                    }, ContextCompat.getMainExecutor(activity))
-                }
-            }
-    }
-}
 // [END androidxr_projected_camera_capture]
-
-/**
- * Demonstrates how to record audio using Bluetooth HFP
- */
-@RequiresPermission(allOf = [Manifest.permission.RECORD_AUDIO, Manifest.permission.BLUETOOTH_CONNECT])
-private fun startBluetoothAudioRecording(context: Context) {
-    // [START androidxr_bluetooth_audio_record]
-    val audioManager = context.getSystemService(AudioManager::class.java) ?: return
-    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
-    val hfpDevice = devices.find { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
-
-    hfpDevice?.let { device ->
-        val audioRecord = AudioRecord.Builder()
-            .setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION)
-            .setAudioFormat(audioFormat)
-            .setBufferSizeInBytes(bufferSize)
-            .build()
-
-        // Route recording to the Bluetooth device
-        audioRecord.setPreferredDevice(device)
-        audioManager.setCommunicationDevice(device)
-
-        audioRecord.startRecording()
-        // [END androidxr_bluetooth_audio_record]
-        
-        // Stop and release when done.
-        audioRecord.stop()
-        audioRecord.release()
-        audioManager.clearCommunicationDevice()
-    }
-}
-
-/**
- * Demonstrates how to record audio using the projected device context.
- */
-@RequiresPermission(Manifest.permission.RECORD_AUDIO)
-@OptIn(ExperimentalProjectedApi::class)
-private fun startProjectedAudioRecording(context: Context) {
-    val projectedDeviceContext = try {
-        ProjectedContext.createProjectedDeviceContext(context)
-    } catch (e: IllegalStateException) {
-        Log.e(TAG, "Projected device context could not be created", e)
-        return
-    }
-
-    // [START androidxr_projected_context_audio_record]
-    // Initialize AudioRecord with projected device context
-    val audioRecord = AudioRecord.Builder()
-        .setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-        .setAudioFormat(audioFormat)
-        .setBufferSizeInBytes(bufferSize)
-        // pass in the projected device context
-        .setContext(projectedDeviceContext)
-        .build()
-
-    audioRecord.startRecording()
-    // [END androidxr_projected_context_audio_record]
-
-    // Stop and release when done.
-    audioRecord.stop()
-    audioRecord.release()
-}

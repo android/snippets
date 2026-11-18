@@ -29,15 +29,13 @@ object CallerVerifier {
 
     fun isCallerAuthorized(context: Context): Boolean {
         val callingUid = Binder.getCallingUid()
-        if (callingUid == android.os.Process.myUid()) return true
+        if (callingUid == android.os.Process.myUid()) return false
 
         val pm = context.packageManager
         // Modern API 28+ check by UID:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val certBytes = hexStringToByteArray(TRUSTED_PARTNER_SHA256)
-            if (pm.hasSigningCertificate(callingUid, certBytes, PackageManager.CERT_INPUT_SHA256)) {
-                return true
-            }
+            return pm.hasSigningCertificate(callingUid, certBytes, PackageManager.CERT_INPUT_SHA256)
         }
 
         // Fallback for legacy APIs:
