@@ -182,7 +182,7 @@ private class StringResourceViewsActivity : ComponentActivity() {
                 // check the value associated to the annotation key
                 if (fontName == "title_emphasis") {
                     // create the typeface
-                    val typeface = getFontCompat(R.font.permanent_marker)
+                    val typeface = getFontCompat(R.font.robotoflex_static_regular)
                     // set the span at the same indices as the annotation
                     spannableString.setSpan(
                         CustomTypefaceSpan(typeface),

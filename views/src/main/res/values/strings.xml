@@ -33,5 +33,4 @@
         <item quantity="one">%d song found.</item>
         <item quantity="other">%d songs found.</item>
     </plurals>
-    <item name="permanent_marker" type="font" />
 </resources>
