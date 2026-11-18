@@ -29,10 +29,10 @@ val INPROC_AAC_CODEC = "c2.android.inproc.aac.decoder"
 
 fun createAudioDecoder(): MediaCodec {
     return try {
-        // Attempt to opt in to the low-latency in-process AAC decoder.
+        // Attempt to opt in to the low-latency in-process AAC decoder
         MediaCodec.createByCodecName(INPROC_AAC_CODEC)
     } catch (e: IllegalArgumentException) {
-        // Fall back to the default platform AAC decoder.
+        // Fall back to the default platform AAC decoder
         MediaCodec.createDecoderByType(MediaFormat.MIMETYPE_AUDIO_AAC)
     }
 }
@@ -55,7 +55,7 @@ class InprocPreferredMediaCodecSelector : MediaCodecSelector {
             "c2.android.inproc.opus.decoder",
             "c2.android.inproc.aac.decoder"
         )
-        // Sort in-process decoders to the top of the selection list.
+        // Sort in-process decoders to the top of the selection list
         return defaultInfos.sortedByDescending { it.name in inprocNames }
     }
 }

@@ -27,7 +27,7 @@ import android.os.Build
  * Checks if the current device supports xHE-AAC audio encoding.
  */
 fun isXheAacEncodingSupported(): Boolean {
-    // Verify API Level >= 37.1 (CINNAMON_BUN_1 / SDK 3700001).
+    // Verify API Level >= 37.1 (CINNAMON_BUN_1 / SDK 3700001)
     if (Build.VERSION.SDK_INT_FULL < Build.VERSION_CODES_FULL.CINNAMON_BUN_1) {
         return false
     }
@@ -39,7 +39,7 @@ fun isXheAacEncodingSupported(): Boolean {
         if (MediaFormat.MIMETYPE_AUDIO_AAC in codecInfo.supportedTypes) {
             val capabilities =
                 codecInfo.getCapabilitiesForType(MediaFormat.MIMETYPE_AUDIO_AAC)
-            // Check if AACObjectXHE (42) is present in profileLevels.
+            // Check if AACObjectXHE (42) is present in profileLevels
             val supportsXhe = capabilities.profileLevels.any { profileLevel ->
                 profileLevel.profile == CodecProfileLevel.AACObjectXHE
             }
@@ -60,15 +60,15 @@ fun setupXheAacEncoder(): MediaCodec? {
 
     val mimeType = MediaFormat.MIMETYPE_AUDIO_AAC
     val sampleRate = 48000
-    val channelCount = 1 // Mono voice recording.
-    val bitRate = 20000  // 20 kbps delivers superior speech clarity.
+    val channelCount = 1 // Mono voice recording
+    val bitRate = 20000  // 20 kbps delivers superior speech clarity
 
     val format = MediaFormat.createAudioFormat(mimeType, sampleRate, channelCount).apply {
         setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
         setInteger(MediaFormat.KEY_AAC_PROFILE, CodecProfileLevel.AACObjectXHE)
     }
 
-    // Find the hardware or software encoder supporting this format and profile.
+    // Find the hardware or software encoder supporting this format and profile
     val codecList = MediaCodecList(MediaCodecList.REGULAR_CODECS)
     val encoderName = codecList.findEncoderForFormat(format) ?: return null
     val encoder = MediaCodec.createByCodecName(encoderName)
