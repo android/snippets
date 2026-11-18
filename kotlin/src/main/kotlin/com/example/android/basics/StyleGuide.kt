@@ -33,8 +33,6 @@ class SomeMutableType
 object Joiner {
     fun on(c: Char): Joiner = this
 }
-@Target(FIELD)
-annotation class JvmStatic
 
 private object SingleClassSnippet {
     // [START android_kotlin_style_single_class]
@@ -349,7 +347,7 @@ private object AnnotationsSingleDeclarationSnippet {
 
 private object AnnotationsUseSiteSnippet {
     // [START android_kotlin_style_annotations_use_site]
-    @field:[JvmStatic Volatile]
+    @field:[JvmField Volatile]
     var disposable: Disposable? = null
     // [END android_kotlin_style_annotations_use_site]
 }
