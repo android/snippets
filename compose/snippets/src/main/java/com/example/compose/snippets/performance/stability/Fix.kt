@@ -16,69 +16,40 @@
 
 package com.example.compose.snippets.performance.stability
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.Modifier
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableSet
-import kotlinx.collections.immutable.persistentSetOf
 
-private object SnackImmutableSetExample {
-    // [START android_compose_stability_fix_snack_immutable_set]
-    data class Snack(
-        // ...
-        val tags: ImmutableSet<String> = persistentSetOf()
-        // ...
+private object SnackCategoryExample {
+    // [START android_compose_stability_fix_snack_category]
+    data class SnackCategory(
+        val name: String,
+        val snacks: ImmutableList<Snack>
     )
-    // [END android_compose_stability_fix_snack_immutable_set]
+
+    @Composable
+    fun CategorySection(category: SnackCategory) {
+        Text(category.name)
+        // Compose compares category.snacks twice: once in SnackCategory.equals()
+        // for CategorySection, and again for HighlightedSnacks.
+        HighlightedSnacks(snacks = category.snacks)
+    }
+    // [END android_compose_stability_fix_snack_category]
+
+    @Composable
+    private fun HighlightedSnacks(snacks: ImmutableList<Snack>) {}
 }
 
-private object SnackAnnotatedImmutableExample {
+private object SnackSummaryAnnotatedImmutableExample {
     // [START android_compose_stability_fix_snack_annotated_immutable]
     @Immutable
-    data class Snack(
-        // [START_EXCLUDE]
+    data class SnackSummary(
         val id: Long,
         val name: String,
-        val imageUrl: String,
-        val price: Long,
-        val tagline: String = "",
-        val tags: Set<String> = emptySet()
-        // [END_EXCLUDE]
+        val price: Long
     )
     // [END android_compose_stability_fix_snack_annotated_immutable]
-}
-
-private object HighlightedSnacksImmutableListExample {
-    // [START android_compose_stability_fix_highlighted_snacks_immutable_list]
-    @Composable
-    private fun HighlightedSnacks(
-        // ...
-        snacks: ImmutableList<Snack>,
-        // ...
-    )
-    // [END android_compose_stability_fix_highlighted_snacks_immutable_list]
-    {}
-}
-
-private object SnackCollectionWrapperExample {
-    // [START android_compose_stability_fix_snack_collection_wrapper]
-    @Immutable
-    data class SnackCollection(
-        val snacks: List<Snack>
-    )
-    // [END android_compose_stability_fix_snack_collection_wrapper]
-
-    // [START android_compose_stability_fix_highlighted_snacks_wrapper]
-    @Composable
-    private fun HighlightedSnacks(
-        index: Int,
-        snacks: SnackCollection,
-        onSnackClick: (Long) -> Unit,
-        modifier: Modifier = Modifier
-    )
-    // [END android_compose_stability_fix_highlighted_snacks_wrapper]
-    {}
 }
 
 private data class Snack(val id: Long)
