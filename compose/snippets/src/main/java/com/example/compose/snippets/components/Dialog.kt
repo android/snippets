@@ -37,6 +37,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -169,46 +170,43 @@ fun DialogWithImage(
     imageDescription: String,
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
-        // Draw a rectangle shape with rounded corners inside the dialog
+        // Use the Material dialog shape and color. The Card clips the image to its rounded corners.
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(375.dp)
                 .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
+            shape = MaterialTheme.shapes.extraLarge,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            ),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+            Column {
+                // The image fills the full width of the dialog.
                 Image(
                     painter = painter,
                     contentDescription = imageDescription,
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
+                        .fillMaxWidth()
                         .height(160.dp)
                 )
                 Text(
                     text = "This is a dialog with buttons and an image.",
-                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 24.dp, top = 24.dp, end = 24.dp),
                 )
+                // Material dialogs align their actions to the end, 8.dp apart.
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
                 ) {
-                    TextButton(
-                        onClick = { onDismissRequest() },
-                        modifier = Modifier.padding(8.dp),
-                    ) {
+                    TextButton(onClick = { onDismissRequest() }) {
                         Text("Dismiss")
                     }
-                    TextButton(
-                        onClick = { onConfirmation() },
-                        modifier = Modifier.padding(8.dp),
-                    ) {
+                    TextButton(onClick = { onConfirmation() }) {
                         Text("Confirm")
                     }
                 }

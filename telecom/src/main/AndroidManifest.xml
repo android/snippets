@@ -20,6 +20,8 @@
     <!-- Required permission for Jetpack Telecom -->
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
     <!--    [END android_telecom_own_calls_permission_entry]-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
 
     <application
         android:allowBackup="true"
@@ -46,6 +48,10 @@
             android:name=".DialerActivity"
             android:exported="true"
             android:theme="@style/Theme.Snippets" />
+
+        <service
+            android:name=".TelecomVoipService"
+            android:foregroundServiceType="phoneCall" />
     </application>
 
 </manifest>

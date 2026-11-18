@@ -226,7 +226,7 @@ fun TodoListItemWithAnimation(
 @Preview
 // [START android_compose_components_swipecarditemexample]
 @Composable
-private fun SwipeItemWithAnimationExample() {
+fun SwipeItemWithAnimationExample() {
     val todoItems = remember {
         mutableStateListOf(
             TodoItem("Pay bills"), TodoItem("Buy groceries"),
