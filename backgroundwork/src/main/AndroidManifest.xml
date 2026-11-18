@@ -37,6 +37,9 @@
             </intent-filter>
         </activity>
         <service
+            android:name=".aidl.RemoteService"
+            android:exported="false" />
+        <service
             android:name=".fgs.MyCameraService"
             android:exported="false"
             android:foregroundServiceType="camera" />
