@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 // import kotlinx.serialization.Serializable
 
 @Serializable
-object Home
+data object Home
 
 @Serializable
 data class Profile(val userId: String)
