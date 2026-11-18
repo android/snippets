@@ -16,13 +16,17 @@
 
 package com.example.xr.projected
 
+import android.annotation.SuppressLint
 import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.lifecycle.awaitInstance
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
+import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
+import androidx.camera.lifecycle.LifecycleCameraProvider
 import androidx.core.content.ContextCompat
 import java.util.concurrent.Executor
 
@@ -32,7 +36,9 @@ private const val TAG = "ProjectedCameraSetup"
  * Demonstrates how to set up the audio and display glasses' camera.
  */
 // [START androidxr_projected_camera_setup]
+@OptIn(ExperimentalCameraProviderConfiguration::class)
 @RequiresApi(Build.VERSION_CODES.BAKLAVA)
+@SuppressLint("RestrictedApi")
 fun setUpGlassesCamera(activity: ComponentActivity) {
     monitorProjectedDeviceConnectivity(activity) { projectedContext ->
         val cameraManager = projectedContext.getSystemService(CameraManager::class.java)
@@ -41,10 +47,16 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
                 return@monitorProjectedDeviceConnectivity null
             }
 
+        // `setRepeatingStreamForced()` is currently internal but will be public soon.
+        val cameraConfig = CameraXConfig.Builder
+            .fromConfig(Camera2Config.defaultConfig())
+            .setRepeatingStreamForced(false)
+            .build()
+
         val cameraProvider = try {
             // Acquire CameraX provider specifically bound to the projected context.
             // If the device disconnects while suspending, collectLatest cancels this coroutine.
-            ProcessCameraProvider.awaitInstance(projectedContext)
+            LifecycleCameraProvider.createInstance(projectedContext, cameraConfig)
         } catch (e: IllegalStateException) {
             Log.e(TAG, "Failed to initialize projected camera services", e)
             return@monitorProjectedDeviceConnectivity null
@@ -83,9 +95,10 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
  * between the glasses and host must finish before the OS finishes recreating the glasses' camera.
  */
 // [START androidxr_projected_camera_availability]
+@OptIn(ExperimentalCameraProviderConfiguration::class)
 fun registerAvailabilityListener(
     cameraManager: CameraManager,
-    cameraProvider: ProcessCameraProvider,
+    cameraProvider: LifecycleCameraProvider,
     executor: Executor,
     onCameraAvailable: (cameraId: String) -> Unit
 ): CameraManager.AvailabilityCallback {
