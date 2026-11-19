@@ -261,6 +261,7 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    "android_compose_animation_captured_animated_visibility" to AnimationPreviewFrame,
     "android_compose_expressive_components_singleselectconnectedbuttongroup" to PreviewFrame(640, 360),
     "android_compose_expressive_components_multiselectconnectedbuttongroup" to PreviewFrame(640, 360),
     "android_compose_expressive_components_groupedmenusample" to PreviewFrame(640, 360),
@@ -461,6 +462,8 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Shows CapturedAnimatedVisibility next to AnimatedVisibility, so the difference is visible.
+        "android_compose_animation_captured_animated_visibility" to { CapturedAnimatedVisibilityComparison() },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

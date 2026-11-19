@@ -21,6 +21,7 @@ package com.example.compose.snippets.animations
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.CapturedAnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateColor
@@ -43,8 +44,10 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -69,6 +72,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -90,6 +94,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
@@ -98,6 +103,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -183,6 +189,130 @@ fun AnimatedVisibilityCookbook_ModifierAlpha() {
             visible = !visible
         }) {
             Text("Show/Hide")
+        }
+    }
+}
+
+data class Track(val title: String, val artist: String)
+
+private val sampleTrack = Track(title = "Ocean Drive", artist = "The Tidepools")
+
+// [START android_compose_animation_captured_animated_visibility]
+@Composable
+fun TrackDetails(track: Track?) {
+    // `track` becomes null as soon as the details are closed. CapturedAnimatedVisibility
+    // removes the content right away and animates a snapshot of its last frame instead.
+    CapturedAnimatedVisibility(
+        visible = track != null,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut(tween(800)) + shrinkVertically(tween(800)),
+    ) {
+        if (track != null) {
+            TrackCard(track)
+        }
+    }
+}
+// [END android_compose_animation_captured_animated_visibility]
+
+/** The same as [TrackDetails], but with [AnimatedVisibility], to show the problem it solves. */
+@Composable
+private fun TrackDetailsWithAnimatedVisibility(track: Track?) {
+    AnimatedVisibility(
+        visible = track != null,
+        enter = fadeIn() + expandVertically(),
+        exit = fadeOut(tween(800)) + shrinkVertically(tween(800)),
+    ) {
+        // AnimatedVisibility keeps composing this during the exit, when `track` is already null.
+        if (track != null) {
+            TrackCard(track)
+        }
+    }
+}
+
+private val tealDark = Color(0xFF00504A)
+private val teal = Color(0xFF00897B)
+private val tealLight = Color(0xFF4DD0C4)
+private val mint = Color(0xFFE3F4F1)
+private val ink = Color(0xFF12302C)
+
+@Composable
+private fun TrackCard(track: Track) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .background(tealDark)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(Brush.linearGradient(listOf(tealLight, teal))),
+        )
+        Spacer(Modifier.size(16.dp))
+        Column {
+            Text(track.title, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(track.artist, color = tealLight, fontSize = 16.sp)
+        }
+    }
+}
+
+@Composable
+private fun ComparisonPanel(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .background(Color.White)
+            .padding(20.dp),
+    ) {
+        Text(title, color = ink, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(20.dp))
+        Box(Modifier.height(96.dp)) {
+            content()
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CapturedAnimatedVisibilityComparison() {
+    var track by remember { mutableStateOf<Track?>(sampleTrack) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(mint)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
+        ) {
+            ComparisonPanel(
+                title = "AnimatedVisibility",
+                modifier = Modifier.weight(1f),
+            ) {
+                TrackDetailsWithAnimatedVisibility(track)
+            }
+            ComparisonPanel(
+                title = "CapturedAnimatedVisibility",
+                modifier = Modifier.weight(1f),
+            ) {
+                TrackDetails(track)
+            }
+        }
+        Spacer(Modifier.height(28.dp))
+        Button(
+            onClick = { track = if (track == null) sampleTrack else null },
+            colors = ButtonDefaults.buttonColors(containerColor = teal, contentColor = Color.White),
+        ) {
+            Text(if (track == null) "Show details" else "Close details", fontSize = 16.sp)
         }
     }
 }

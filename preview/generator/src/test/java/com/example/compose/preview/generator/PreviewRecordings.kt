@@ -91,4 +91,14 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         )
     ),
+    // Closes the details (both panels exit at once), then shows them again.
+    "android_compose_animation_captured_animated_visibility" to PreviewRecording(
+        listOf(
+            PreviewStep.Wait(1_000),
+            PreviewStep.Click("Close details"),
+            PreviewStep.Wait(1_600),
+            PreviewStep.Click("Show details"),
+            PreviewStep.Wait(1_400),
+        )
+    ),
 )
