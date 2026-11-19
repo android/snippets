@@ -200,8 +200,16 @@ private class BlockStoreActivity : ComponentActivity() {
         val bytes = byteArrayOf(1, 2, 3, 4)
         // [START android_identity_block_store_enable_cloud_backup]
         val client = Blockstore.getClient(this)
+        // [START_EXCLUDE silent]
+        /*
+        // [END_EXCLUDE]
+        val storeBytesDataBuilder = StoreBytesData.Builder()
+            .setBytes(/* BYTE_ARRAY */)
+        // [START_EXCLUDE silent]
+         */
         val storeBytesDataBuilder = StoreBytesData.Builder()
             .setBytes(bytes)
+        // [END_EXCLUDE]
 
         client.isEndToEndEncryptionAvailable()
             .addOnSuccessListener { isE2EEAvailable ->
