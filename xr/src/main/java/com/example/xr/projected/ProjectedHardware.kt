@@ -29,7 +29,7 @@ import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
 import androidx.camera.lifecycle.LifecycleCameraProvider
 import androidx.lifecycle.LifecycleOwner
 
-private const val TAG = "ProjecteHardware"
+private const val TAG = "ProjectedHardware"
 
 // [START androidxr_projected_camera_capture]
 /**
