@@ -28,6 +28,7 @@ kotlin {
 android {
     namespace = "com.example.ink.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = 2
 
     defaultConfig {
         applicationId = "com.example.ink.snippets"
