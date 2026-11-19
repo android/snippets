@@ -165,6 +165,10 @@ import com.example.compose.snippets.components.XLargeButtonWithIconSample
 import com.example.compose.snippets.components.XLargeToggleButtonWithIconSample
 import com.example.compose.snippets.components.XSmallButtonWithIconSample
 import com.example.compose.snippets.components.XSmallToggleButtonWithIconSample
+import com.example.compose.snippets.layouts.ManualMeasurementSnippets3
+import com.example.compose.snippets.layouts.ManualMeasurementsSnippets
+import com.example.compose.snippets.layouts.SampleCardDescription
+import com.example.compose.snippets.layouts.SampleCardTitle
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -270,6 +274,9 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
+    // Support different display sizes: cards that switch layout at 400dp, in a DeviceToggle.
+    "android_compose_layouts_manual_measurements" to DeviceTogglePreviewFrame,
+    "android_compose_layouts_manual_measurements_3" to DeviceTogglePreviewFrame,
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -461,6 +468,17 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Support different display sizes: the card shows only the image and title when it's less
+        // than 400dp wide (Phone), and adds the description next to the image when it's wider.
+        "android_compose_layouts_manual_measurements" to {
+            DeviceToggle(PreviewDevice.Phone) { CenteredBox { ManualMeasurementsSnippets.Card() } }
+        },
+        // Starts on Tablet so the Show more button is visible; its state survives switching devices.
+        "android_compose_layouts_manual_measurements_3" to {
+            DeviceToggle(PreviewDevice.Tablet) {
+                CenteredBox { ManualMeasurementSnippets3.Card("", SampleCardTitle, SampleCardDescription) }
+            }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
