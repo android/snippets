@@ -325,11 +325,11 @@ private fun SharedElement_Clipping() {
                         painter = painterResource(id = R.drawable.cupcake),
                         contentDescription = "Cupcake",
                         modifier = Modifier
+                            .size(100.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
                             )
-                            .size(100.dp)
                             .clip(RoundedCornerShape(16.dp)),
                         contentScale = ContentScale.Crop
                     )
@@ -361,11 +361,11 @@ private fun SharedElement_Clipping() {
                         painter = painterResource(id = R.drawable.cupcake),
                         contentDescription = "Cupcake",
                         modifier = Modifier
+                            .size(200.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = "image"),
                                 animatedVisibilityScope = this@AnimatedContent
                             )
-                            .size(200.dp)
                             .clip(RoundedCornerShape(16.dp)),
                         contentScale = ContentScale.Crop
                     )
