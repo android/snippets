@@ -51,6 +51,8 @@ coil3 = "3.6.3"
 # @keep
 compileSdk = "37"
 compose-multiplatform = "1.13.0-beta02"
+# The last Compose Multiplatform material-icons-core release; icons stopped following the CMP version.
+jetbrains-material-icons = "1.7.3"
 compose-remote = "1.0.0-alpha22"
 composeUiTooling = "1.7.1"
 coreSplashscreen = "1.2.0"
@@ -357,6 +359,8 @@ horologist-roboscreenshots = { module = "com.google.android.horologist:horologis
 jetbrains-compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform" }
+jetbrains-compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "jetbrains-material-icons" }
+jetbrains-compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "compose-multiplatform" }
 jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 jetbrains-compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
