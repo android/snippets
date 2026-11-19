@@ -53,14 +53,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerExamples() {
     var showMenu by remember { mutableStateOf(true) }
@@ -180,7 +179,7 @@ fun TimePickerExamples() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_dial]
 @Composable
 fun DialExample(
@@ -208,7 +207,7 @@ fun DialExample(
 }
 // [END android_compose_components_dial]
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_input]
 @Composable
 fun InputExample(
@@ -236,7 +235,7 @@ fun InputExample(
 }
 // [END android_compose_components_input]
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_dial_usestate]
 @Composable
 fun DialUseStateExample(
@@ -265,7 +264,7 @@ fun DialUseStateExample(
 }
 // [END android_compose_components_dial_usestate]
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_input_usestate]
 @Composable
 fun InputUseStateExample(
@@ -294,7 +293,7 @@ fun InputUseStateExample(
 }
 // [END android_compose_components_input_usestate]
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_timepickerdialog]
 @Composable
 fun DialWithDialogExample(
@@ -342,7 +341,7 @@ fun TimePickerDialog(
 }
 // [END android_compose_components_timepickerdialog]
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
+@OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_advanced]
 @Composable
 fun AdvancedTimePickerExample(

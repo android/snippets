@@ -61,7 +61,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.example.compose.snippets.ui.theme.SnippetsTheme
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -321,7 +320,6 @@ fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalTime::class)
 fun convertMillisToDate(millis: Long): String {
     val formatter = LocalDate.Format {
         monthNumber()
