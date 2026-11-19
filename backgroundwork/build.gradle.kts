@@ -32,6 +32,7 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.work.rxjava3)
     implementation(libs.appcompat)
     implementation(libs.guava.android)
     implementation(libs.kotlinx.coroutines.guava)
