@@ -19,8 +19,7 @@ package com.example.xr.projected
 import android.util.Log
 import android.util.Size
 import androidx.annotation.OptIn
-import androidx.camera.camera2.interop.Camera2CameraInfo
-import androidx.camera.camera2.interop.ExperimentalCamera2Interop
+import androidx.camera.core.CameraIdentifier
 import androidx.camera.core.CameraInfoUnavailableException
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
@@ -34,35 +33,34 @@ private const val TAG = "ProjecteHardware"
 
 // [START androidxr_projected_camera_capture]
 /**
- * Selects the projected camera matching dynamic [cameraId] from
+ * Selects the projected camera matching [cameraIdentifier] from
  * [LifecycleCameraProvider.availableCameraInfos], verifies availability, and binds an
- * [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
+ * [ImageCapture] use case targeting an example 16:9 resolution to [lifecycleOwner].
  *
  * Note: Depending on your application's needs, [ImageCapture] can be swapped out for other
  * standard CameraX use cases:
- * - Use [ImageAnalysis] for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
- * - Use [VideoCapture] for video recording pipelines.
+ * - Use `ImageAnalysis` for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
+ * - Use `VideoCapture` for video recording pipelines.
  */
-@OptIn(ExperimentalCamera2Interop::class, ExperimentalCameraProviderConfiguration::class)
+@OptIn(ExperimentalCameraProviderConfiguration::class)
 fun bindGlassesImageCapture(
     cameraProvider: LifecycleCameraProvider,
-    cameraId: String,
+    cameraIdentifier: CameraIdentifier,
     lifecycleOwner: LifecycleOwner,
     preferredResolution: Size = Size(1920, 1080)
 ): ImageCapture? {
     return try {
         // [START androidxr_projected_camera_dynamic_id]
-        // Discover available cameras dynamically via `availableCameraInfos`
-        // Narrow it down by the dynamic `cameraId` because the projected camera's ID may
-        // change when recreated
+        // Discover available cameras dynamically via `availableCameraInfos` and match by
+        // CameraIdentifier because the projected camera's ID may change when recreated.
         val cameraInfo = cameraProvider.availableCameraInfos.firstOrNull { info ->
-            Camera2CameraInfo.from(info).cameraId == cameraId
+            cameraIdentifier.isOf(info)
         }
 
         // Pre-binding check: Verify the selected camera is registered and available on the device.
         // The projected camera may be unavailable (for example, if the user took off the glasses).
         if (cameraInfo == null) {
-            Log.w(TAG, "Glasses camera (ID: $cameraId) is not currently available.")
+            Log.w(TAG, "Glasses camera ($cameraIdentifier) is not currently available.")
             return null
         }
         val cameraSelector = cameraInfo.cameraSelector
@@ -85,26 +83,13 @@ fun bindGlassesImageCapture(
 
         // Unbind any previously bound use cases before rebinding to the lifecycle owner.
         cameraProvider.unbindAll()
-
-        // Bind the configured use case. You can swap `imageCapture` out for an `ImageAnalysis`
-        // (e.g., from `setupCameraStreamingFps`) or `VideoCapture` instance here to match your use case.
-        // `bindToLifecycle()` can throw IllegalArgumentException if use cases
-        // are incompatible, or IllegalStateException if the LifecycleOwner is destroyed.
-        cameraProvider.bindToLifecycle(
-            lifecycleOwner,
-            cameraSelector,
-            imageCapture
-        )
-        Log.i(TAG, "ImageCapture successfully bound for camera ID $cameraId")
+        cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, imageCapture)
         imageCapture
-    } catch (exc: CameraInfoUnavailableException) {
-        Log.e(TAG, "Unable to access camera info for ID $cameraId", exc)
+    } catch (e: CameraInfoUnavailableException) {
+        Log.e(TAG, "Unable to query camera availability", e)
         null
-    } catch (exc: IllegalArgumentException) {
-        Log.e(TAG, "Invalid camera configuration or use case combination for ID $cameraId", exc)
-        null
-    } catch (exc: IllegalStateException) {
-        Log.e(TAG, "Camera is already bound to another lifecycle or closed", exc)
+    } catch (e: IllegalArgumentException) {
+        Log.e(TAG, "Failed to bind ImageCapture use case to lifecycle", e)
         null
     }
 }
