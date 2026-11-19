@@ -21,70 +21,68 @@ import android.util.Size
 import androidx.annotation.OptIn
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop
-import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraInfoUnavailableException
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
-import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
+import androidx.camera.lifecycle.LifecycleCameraProvider
 import androidx.lifecycle.LifecycleOwner
 
 private const val TAG = "ProjecteHardware"
 
 // [START androidxr_projected_camera_capture]
 /**
- * Filters [CameraSelector.DEFAULT_BACK_CAMERA] by dynamic [cameraId], verifies availability,
- * and binds an [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
+ * Selects the projected camera matching dynamic [cameraId] from
+ * [LifecycleCameraProvider.availableCameraInfos], verifies availability, and binds an
+ * [ImageCapture] use case targeting a 16:9 resolution to [lifecycleOwner].
  *
  * Note: Depending on your application's needs, [ImageCapture] can be swapped out for other
  * standard CameraX use cases:
  * - Use [ImageAnalysis] for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
  * - Use [VideoCapture] for video recording pipelines.
  */
-@OptIn(ExperimentalCamera2Interop::class)
+@OptIn(ExperimentalCamera2Interop::class, ExperimentalCameraProviderConfiguration::class)
 fun bindGlassesImageCapture(
-    cameraProvider: ProcessCameraProvider,
+    cameraProvider: LifecycleCameraProvider,
     cameraId: String,
     lifecycleOwner: LifecycleOwner,
     preferredResolution: Size = Size(1920, 1080)
 ): ImageCapture? {
-    // [START androidxr_projected_camera_dynamic_id]
-    // Within a projected context, the glasses' primary outward-facing camera maps to
-    // `DEFAULT_BACK_CAMERA`. Narrow it down by the dynamic `cameraId` because the projected
-    // camera's ID may change when recreated.
-    val cameraSelector = CameraSelector.Builder()
-        .addCameraFilter { cameraInfos ->
-            // Filter the `DEFAULT_BACK_CAMERA` candidates by our target dynamic ID.
-            CameraSelector.DEFAULT_BACK_CAMERA.filter(cameraInfos).filter { info ->
-                Camera2CameraInfo.from(info).cameraId == cameraId
-            }
-        }
-        .build()
-
-    // Pre-binding check: Verify the selected camera is registered and available on the device.
-    // The projected camera may be unavailable (for example, if the user took off the glasses).
-    if (!cameraProvider.hasCamera(cameraSelector)) {
-        Log.w(TAG, "Glasses camera (ID: $cameraId) is not currently available.")
-        return null
-    }
-    // [END androidxr_projected_camera_dynamic_id]
-
-    val resolutionSelector = ResolutionSelector.Builder()
-        .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
-        .setResolutionStrategy(
-            ResolutionStrategy(
-                preferredResolution,
-                ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
-            )
-        )
-        .build()
-
-    // Initialize the ImageCapture use case.
-    val imageCapture = ImageCapture.Builder()
-        .setResolutionSelector(resolutionSelector)
-        .build()
-
     return try {
+        // [START androidxr_projected_camera_dynamic_id]
+        // Discover available cameras dynamically via `availableCameraInfos`
+        // Narrow it down by the dynamic `cameraId` because the projected camera's ID may
+        // change when recreated
+        val cameraInfo = cameraProvider.availableCameraInfos.firstOrNull { info ->
+            Camera2CameraInfo.from(info).cameraId == cameraId
+        }
+
+        // Pre-binding check: Verify the selected camera is registered and available on the device.
+        // The projected camera may be unavailable (for example, if the user took off the glasses).
+        if (cameraInfo == null) {
+            Log.w(TAG, "Glasses camera (ID: $cameraId) is not currently available.")
+            return null
+        }
+        val cameraSelector = cameraInfo.cameraSelector
+        // [END androidxr_projected_camera_dynamic_id]
+
+        val resolutionSelector = ResolutionSelector.Builder()
+            .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
+            .setResolutionStrategy(
+                ResolutionStrategy(
+                    preferredResolution,
+                    ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
+                )
+            )
+            .build()
+
+        // Initialize the ImageCapture use case.
+        val imageCapture = ImageCapture.Builder()
+            .setResolutionSelector(resolutionSelector)
+            .build()
+
         // Unbind any previously bound use cases before rebinding to the lifecycle owner.
         cameraProvider.unbindAll()
 
@@ -99,6 +97,9 @@ fun bindGlassesImageCapture(
         )
         Log.i(TAG, "ImageCapture successfully bound for camera ID $cameraId")
         imageCapture
+    } catch (exc: CameraInfoUnavailableException) {
+        Log.e(TAG, "Unable to access camera info for ID $cameraId", exc)
+        null
     } catch (exc: IllegalArgumentException) {
         Log.e(TAG, "Invalid camera configuration or use case combination for ID $cameraId", exc)
         null
