@@ -85,7 +85,9 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
-    val composeBom = platform(libs.androidx.compose.bom)
+    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
+    // material3 version from the catalog), so the DAC previews match the latest release.
+    val composeBom = platform(libs.androidx.compose.bom.alpha)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 

@@ -21,20 +21,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -54,6 +55,8 @@ fun FloatingActionButtonExamples() {
         LargeExample(onClick = { Log.d("FAB", "Large FAB clicked.") })
         Text("Floating action button with text:")
         ExtendedExample(onClick = { Log.d("FAB", "Extended FAB clicked.") })
+        Text("Medium floating action button:")
+        MediumFloatingActionButtonSample()
     }
 }
 
@@ -63,7 +66,7 @@ fun Example(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = { onClick() },
     ) {
-        Icon(Icons.Filled.Add, "Floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Floating action button.")
     }
 }
 // [END android_compose_components_fab]
@@ -73,7 +76,7 @@ fun Example(onClick: () -> Unit) {
 fun ExtendedExample(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = { onClick() },
-        icon = { Icon(Icons.Filled.Edit, "Extended floating action button.") },
+        icon = { Icon(painter = rememberVectorPainter(AppIcons.Edit), "Extended floating action button.") },
         text = { Text(text = "Extended FAB") },
     )
 }
@@ -87,7 +90,7 @@ fun SmallExample(onClick: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.secondary
     ) {
-        Icon(Icons.Filled.Add, "Small floating action button.")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Small floating action button.")
     }
 }
 // [END android_compose_components_smallfab]
@@ -99,7 +102,20 @@ fun LargeExample(onClick: () -> Unit) {
         onClick = { onClick() },
         shape = CircleShape,
     ) {
-        Icon(Icons.Filled.Add, "Large floating action button")
+        Icon(painter = rememberVectorPainter(AppIcons.Add), "Large floating action button")
     }
 }
 // [END android_compose_components_largefab]
+
+// [START android_compose_expressive_components_mediumfab]
+@Composable
+fun MediumFloatingActionButtonSample() {
+    MediumFloatingActionButton(onClick = {}) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.Add),
+            contentDescription = "Add",
+            modifier = Modifier.size(FloatingActionButtonDefaults.MediumIconSize),
+        )
+    }
+}
+// [END android_compose_expressive_components_mediumfab]
