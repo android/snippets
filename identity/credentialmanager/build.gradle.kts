@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.okhttp)
     implementation(libs.androidx.webkit)
     implementation(libs.appcompat)
+    implementation(libs.play.services.auth.blockstore)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
