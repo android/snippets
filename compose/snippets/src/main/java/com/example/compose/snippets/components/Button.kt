@@ -19,17 +19,35 @@ package com.example.compose.snippets.components
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ElevatedToggleButton
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalToggleButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedToggleButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
+import androidx.compose.material3.ToggleButtonShapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -37,7 +55,8 @@ fun ButtonExamples() {
     Column(
         modifier = Modifier
             .padding(48.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -51,6 +70,36 @@ fun ButtonExamples() {
         OutlinedButtonExample(onClick = { Log.d("Outlined button", "Outlined button clicked.") })
         Text("Text button")
         TextButtonExample(onClick = { Log.d("Text button", "Text button clicked.") })
+        Text("Toggle button:")
+        ToggleButtonSample()
+        Text("Elevated toggle button:")
+        ElevatedToggleButtonSample()
+        Text("Tonal toggle button:")
+        TonalToggleButtonSample()
+        Text("Outlined toggle button:")
+        OutlinedToggleButtonSample()
+        Text("Button with icon:")
+        ButtonWithIconSample()
+        Text("Toggle button with icon:")
+        ToggleButtonWithIconSample()
+        Text("XSmall button with icon:")
+        XSmallButtonWithIconSample()
+        Text("XSmall toggle button with icon:")
+        XSmallToggleButtonWithIconSample()
+        Text("Medium button with icon:")
+        MediumButtonWithIconSample()
+        Text("Medium toggle button with icon:")
+        MediumToggleButtonWithIconSample()
+        Text("Large button with icon:")
+        LargeButtonWithIconSample()
+        Text("Large toggle button with icon:")
+        LargeToggleButtonWithIconSample()
+        Text("XLarge button with icon:")
+        XLargeButtonWithIconSample()
+        Text("XLarge toggle button with icon:")
+        XLargeToggleButtonWithIconSample()
+        Text("Square toggle button:")
+        SquareToggleButtonSample()
     }
 }
 
@@ -100,3 +149,265 @@ fun TextButtonExample(onClick: () -> Unit) {
     }
 }
 // [END android_compose_components_textbutton]
+
+// [START android_compose_expressive_components_filledtogglebutton]
+@Composable
+fun ToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Button")
+    }
+}
+// [END android_compose_expressive_components_filledtogglebutton]
+
+// [START android_compose_expressive_components_elevatedtogglebutton]
+@Composable
+fun ElevatedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    ElevatedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Elevated Button")
+    }
+}
+// [END android_compose_expressive_components_elevatedtogglebutton]
+
+// [START android_compose_expressive_components_tonaltogglebutton]
+@Composable
+fun TonalToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    FilledTonalToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Tonal Button")
+    }
+}
+// [END android_compose_expressive_components_tonaltogglebutton]
+
+// [START android_compose_expressive_components_outlinedtogglebutton]
+@Composable
+fun OutlinedToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    OutlinedToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Text("Outlined Button")
+    }
+}
+// [END android_compose_expressive_components_outlinedtogglebutton]
+
+// [START android_compose_expressive_components_buttonwithicon]
+@Composable
+fun ButtonWithIconSample() {
+    Button(
+        onClick = { /* Do something! */ },
+        contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MinHeight, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.FavoriteFilled),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(ButtonDefaults.MinHeight)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(ButtonDefaults.MinHeight)))
+        Text("Like")
+    }
+}
+// [END android_compose_expressive_components_buttonwithicon]
+
+// [START android_compose_expressive_components_togglebuttonwithicon]
+@Composable
+fun ToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.FavoriteFilled else AppIcons.Favorite),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.IconSize),
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("Like")
+    }
+}
+// [END android_compose_expressive_components_togglebuttonwithicon]
+
+// [START android_compose_expressive_components_xsmallbuttonwithicon]
+@Composable
+fun XSmallButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.EditFilled),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}
+// [END android_compose_expressive_components_xsmallbuttonwithicon]
+
+// [START android_compose_expressive_components_xsmalltogglebuttonwithicon]
+@Composable
+fun XSmallToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraSmallContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label")
+    }
+}
+// [END android_compose_expressive_components_xsmalltogglebuttonwithicon]
+
+// [START android_compose_expressive_components_mediumbuttonwithicon]
+@Composable
+fun MediumButtonWithIconSample() {
+    val size = ButtonDefaults.MediumContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.EditFilled),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_mediumbuttonwithicon]
+
+// [START android_compose_expressive_components_mediumtogglebuttonwithicon]
+@Composable
+fun MediumToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.MediumContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_mediumtogglebuttonwithicon]
+
+// [START android_compose_expressive_components_largebuttonwithicon]
+@Composable
+fun LargeButtonWithIconSample() {
+    val size = ButtonDefaults.LargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.EditFilled),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_largebuttonwithicon]
+
+// [START android_compose_expressive_components_largetogglebuttonwithicon]
+@Composable
+fun LargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.LargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_largetogglebuttonwithicon]
+
+// [START android_compose_expressive_components_xlargebuttonwithicon]
+@Composable
+fun XLargeButtonWithIconSample() {
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    Button(
+        onClick = { /* Do something! */ },
+        modifier = Modifier.heightIn(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size, hasStartIcon = true),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(AppIcons.EditFilled),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_xlargebuttonwithicon]
+
+// [START android_compose_expressive_components_xlargetogglebuttonwithicon]
+@Composable
+fun XLargeToggleButtonWithIconSample() {
+    var checked by remember { mutableStateOf(false) }
+    val size = ButtonDefaults.ExtraLargeContainerHeight
+    ToggleButton(
+        checked = checked,
+        onCheckedChange = { checked = it },
+        modifier = Modifier.heightIn(size),
+        shapes = ToggleButtonDefaults.shapesFor(size),
+        contentPadding = ButtonDefaults.contentPaddingFor(size),
+    ) {
+        Icon(
+            painter = rememberVectorPainter(if (checked) AppIcons.EditFilled else AppIcons.Edit),
+            contentDescription = null,
+            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size)),
+        )
+        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
+        Text("Label", style = ButtonDefaults.textStyleFor(size))
+    }
+}
+// [END android_compose_expressive_components_xlargetogglebuttonwithicon]
+
+// [START android_compose_expressive_components_squaretogglebutton]
+@Composable
+fun SquareToggleButtonSample() {
+    var checked by remember { mutableStateOf(false) }
+    val shapes =
+        ToggleButtonShapes(
+            shape = ToggleButtonDefaults.checkedShape,
+            pressedShape = ToggleButtonDefaults.pressedShape,
+            checkedShape = ToggleButtonDefaults.shape,
+        )
+    ToggleButton(checked = checked, onCheckedChange = { checked = it }, shapes = shapes) {
+        Text("Button")
+    }
+}
+// [END android_compose_expressive_components_squaretogglebutton]
