@@ -24,21 +24,32 @@ package com.example.compose.preview.wasm.registry
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.compose.snippets.R
+import com.example.compose.snippets.animations.AnimatableSimple
+import com.example.compose.snippets.animations.AnimateAsStateSimple
 import com.example.compose.snippets.animations.AnimateElevation
 import com.example.compose.snippets.animations.AnimateOffset
 import com.example.compose.snippets.animations.AnimatePadding
@@ -48,7 +59,9 @@ import com.example.compose.snippets.animations.AnimatedContentExampleSwitch
 import com.example.compose.snippets.animations.AnimatedVisibilityCookbook
 import com.example.compose.snippets.animations.AnimatedVisibilityCookbook_ModifierAlpha
 import com.example.compose.snippets.animations.AnimationLayout
+import com.example.compose.snippets.animations.RememberInfiniteTransitionSimple
 import com.example.compose.snippets.animations.SmoothAnimateText
+import com.example.compose.snippets.animations.UpdateTransitionAnimatedVisibility
 import com.example.compose.snippets.components.AdvancedRichTooltipExample
 import com.example.compose.snippets.components.AlertDialogExample
 import com.example.compose.snippets.components.AppIcons
@@ -205,6 +218,41 @@ private fun ReopenableDialog(buttonText: String, dialog: @Composable (onClose: (
 }
 
 /**
+ * Draws a snippet that fills its parent (for example a `fillMaxSize()` color box) in a card-sized
+ * area instead of the whole preview, with [content]'s other children (such as a button) centered
+ * on top.
+ */
+@Composable
+private fun ValueAnimationStage(height: Dp = 158.dp, content: @Composable () -> Unit) {
+    Box(
+        modifier = Modifier.size(width = 280.dp, height = height).clip(RoundedCornerShape(16.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        content()
+    }
+}
+
+/**
+ * Flips `AnimatableSimple`'s `ok` flag, and replays it from the start (re-keying it so a new
+ * `Animatable` starts gray again).
+ */
+@Composable
+private fun AnimatableSimplePreview() {
+    var ok by remember { mutableStateOf(true) }
+    var replays by remember { mutableIntStateOf(0) }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        ValueAnimationStage(height = 120.dp) { key(replays) { AnimatableSimple(ok) } }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { ok = !ok }) { Text("Toggle ok") }
+            OutlinedButton(onClick = { replays++ }) { Text("Replay") }
+        }
+    }
+}
+
+/**
  * The area, in dp, a snippet preview is laid out in.
  *
  * The Roborazzi screenshot is captured on a device of exactly this size, and the live WASM preview
@@ -270,6 +318,11 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
+    // Value-based animations: a bit more room than the default frame for their controls.
+    "android_compose_animations_animate_as_state" to PreviewFrame(480, 270),
+    "android_compose_animations_transitions_animated_visibility" to PreviewFrame(480, 270),
+    "android_compose_animations_infinite_transition_simple" to PreviewFrame(480, 270),
+    "android_compose_animations_animatable_simple" to PreviewFrame(480, 270),
 )
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
@@ -461,6 +514,15 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Value-based animations (AnimationSnippets.kt), also recorded as MP4s.
+        "android_compose_animations_animate_as_state" to { ValueAnimationStage { AnimateAsStateSimple() } },
+        "android_compose_animations_transitions_animated_visibility" to {
+            CenteredBox { Box(Modifier.widthIn(max = 360.dp)) { UpdateTransitionAnimatedVisibility() } }
+        },
+        "android_compose_animations_infinite_transition_simple" to {
+            ValueAnimationStage { RememberInfiniteTransitionSimple() }
+        },
+        "android_compose_animations_animatable_simple" to { AnimatableSimplePreview() },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]

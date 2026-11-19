@@ -55,7 +55,7 @@ val pullSnippets by tasks.registering(Sync::class) {
         into("com/example/compose/snippets/components")
     }
     from("$snippetsRoot/animations") {
-        include("AnimationQuickGuide.kt")
+        include("AnimationQuickGuide.kt", "AnimationSnippets.kt")
         into("com/example/compose/snippets/animations")
     }
     // Sample image URLs used by AnimationQuickGuide.kt.
@@ -166,6 +166,8 @@ kotlin {
                 implementation(libs.jetbrains.compose.runtime)
                 implementation(libs.jetbrains.compose.foundation)
                 implementation(libs.jetbrains.compose.material3)
+                // Icons.Default.* in snippet regions (for example AnimationSnippets.kt).
+                implementation(libs.jetbrains.compose.material.icons.core)
                 implementation(libs.jetbrains.compose.ui)
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)

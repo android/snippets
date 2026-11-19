@@ -91,4 +91,19 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         )
     ),
+    // Value-based animations (AnimationSnippets.kt).
+    "android_compose_animations_animate_as_state" to ToggleTwice,
+    "android_compose_animations_transitions_animated_visibility" to ToggleTwice,
+    "android_compose_animations_infinite_transition_simple" to OneInfiniteCycle,
+    // Replay first, so the video starts on the gray Animatable before it animates to green.
+    "android_compose_animations_animatable_simple" to PreviewRecording(
+        listOf(
+            PreviewStep.Click("Replay"),
+            PreviewStep.Wait(1_200),
+            PreviewStep.Click("Toggle ok"),
+            PreviewStep.Wait(1_200),
+            PreviewStep.Click("Toggle ok"),
+            PreviewStep.Wait(1_200),
+        )
+    ),
 )
