@@ -17,13 +17,14 @@
 package com.example.xr.projected
 
 import android.annotation.SuppressLint
-import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraIdentifier
+import androidx.camera.core.CameraPresenceListener
 import androidx.camera.core.CameraXConfig
 import androidx.camera.lifecycle.ExperimentalCameraProviderConfiguration
 import androidx.camera.lifecycle.LifecycleCameraProvider
@@ -41,13 +42,6 @@ private const val TAG = "ProjectedCameraSetup"
 @SuppressLint("RestrictedApi")
 fun setUpGlassesCamera(activity: ComponentActivity) {
     monitorProjectedDeviceConnectivity(activity) { projectedContext ->
-        val cameraManager = projectedContext.getSystemService(CameraManager::class.java)
-            ?: run {
-                Log.e(TAG, "CameraManager not available on projected context")
-                return@monitorProjectedDeviceConnectivity null
-            }
-
-        // `setRepeatingStreamForced()` is currently internal but will be public soon.
         val cameraConfig = CameraXConfig.Builder
             .fromConfig(Camera2Config.defaultConfig())
             .setRepeatingStreamForced(false)
@@ -62,14 +56,12 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
             return@monitorProjectedDeviceConnectivity null
         }
 
-        // Set up the listener to react to camera availability changes asynchronously.
-        val availabilityCallback = registerAvailabilityListener(
-            cameraManager = cameraManager,
+        // Listen for camera additions/removals.
+        val presenceListener = registerPresenceListener(
             cameraProvider = cameraProvider,
             executor = ContextCompat.getMainExecutor(activity),
-            onCameraAvailable = { cameraId ->
-                // Delegate camera selection, resolution querying, and use-case binding.
-                bindGlassesImageCapture(cameraProvider, cameraId, activity)
+            onCameraAdded = { cameraIdentifier ->
+                bindGlassesImageCapture(cameraProvider, cameraIdentifier, activity)
             }
         )
 
@@ -78,7 +70,7 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
         return@monitorProjectedDeviceConnectivity {
             Log.i(TAG, "Projected camera setup scope ended. Tearing down resources...")
             try {
-                cameraManager.unregisterAvailabilityCallback(availabilityCallback)
+                cameraProvider.removeCameraPresenceListener(presenceListener)
             } finally {
                 cameraProvider.unbindAll()
             }
@@ -88,38 +80,35 @@ fun setUpGlassesCamera(activity: ComponentActivity) {
 // [END androidxr_projected_camera_setup]
 
 /**
- * Registers a [CameraManager.AvailabilityCallback] to react when the projected camera becomes
- * available or unavailable (for example, when the user takes off the glasses).
+ * Registers a [CameraPresenceListener] to react when the projected camera is added or removed.
  *
- * Avoid opening the camera immediately when the glasses connect or are put on—asynchronous setup
- * between the glasses and host must finish before the OS finishes recreating the glasses' camera.
+ * Avoid opening the camera immediately when the glasses connect, asynchronous setup between
+ * the glasses and host must finish before the OS finishes recreating the glasses' camera.
  */
 // [START androidxr_projected_camera_availability]
 @OptIn(ExperimentalCameraProviderConfiguration::class)
-fun registerAvailabilityListener(
-    cameraManager: CameraManager,
+fun registerPresenceListener(
     cameraProvider: LifecycleCameraProvider,
     executor: Executor,
-    onCameraAvailable: (cameraId: String) -> Unit
-): CameraManager.AvailabilityCallback {
-    val callback = object : CameraManager.AvailabilityCallback() {
-        override fun onCameraAvailable(cameraId: String) {
-            super.onCameraAvailable(cameraId)
-            Log.i(TAG, "Glasses camera available (ID: $cameraId). Binding use case...")
-            // Fires only after the OS finishes re-registering the glasses' camera.
-            // Pass the fresh cameraId directly—never cache it, as it may change when recreated.
-            onCameraAvailable(cameraId)
+    onCameraAdded: (cameraIdentifier: CameraIdentifier) -> Unit
+): CameraPresenceListener {
+    val listener = object : CameraPresenceListener {
+        override fun onCamerasAdded(cameraIdentifiers: Set<CameraIdentifier>) {
+            // CameraProvider.availableCameraInfos is already updated when this fires,
+            // so the onCameraAdded callback can look up and bind the camera immediately.
+            val cameraIdentifier = cameraIdentifiers.firstOrNull() ?: return
+            Log.i(TAG, "Glasses camera added ($cameraIdentifier). Binding use case...")
+            onCameraAdded(cameraIdentifier)
         }
 
-        override fun onCameraUnavailable(cameraId: String) {
-            super.onCameraUnavailable(cameraId)
-            Log.i(TAG, "Glasses camera unavailable (ID: $cameraId). Releasing resources...")
-            // Gracefully release the pipeline when the projected camera becomes unavailable.
+        override fun onCamerasRemoved(cameraIdentifiers: Set<CameraIdentifier>) {
+            Log.i(TAG, "Glasses camera removed ($cameraIdentifiers). Releasing resources...")
+            // Tracks camera presence rather than in-use state, so this only fires on removal.
             cameraProvider.unbindAll()
         }
     }
 
-    cameraManager.registerAvailabilityCallback(executor, callback)
-    return callback
+    cameraProvider.addCameraPresenceListener(executor, listener)
+    return listener
 }
 // [END androidxr_projected_camera_availability]
