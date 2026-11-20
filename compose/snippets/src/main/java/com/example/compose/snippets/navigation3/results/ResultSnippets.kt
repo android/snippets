@@ -59,7 +59,7 @@ enum class ProductFilter {
 }
 
 @Serializable
-data class ConfirmationResult(val confirmed: Boolean = true)
+private data object CouponPickerRoute : NavKey
 
 class ComposeMessageViewModel : ViewModel() {
     var recipient: Contact? = null
@@ -77,10 +77,6 @@ class RideSummaryViewModel : ViewModel() {
     fun onDestinationAddressSelected(address: Address) {
         destinationAddress = address
     }
-}
-
-class NotificationViewModel : ViewModel() {
-    fun onPermissionConfirmed(confirmation: ConfirmationResult) {}
 }
 
 class Navigator {
@@ -123,6 +119,13 @@ fun ThemePreviewContent(
     accentColor: Color,
     onPickPrimary: () -> Unit,
     onPickAccent: () -> Unit
+) {}
+
+@Composable
+fun CouponPickerScreen(
+    onCouponSelected: (String) -> Unit,
+    onCouponDeselected: () -> Unit,
+    onDismiss: () -> Unit
 ) {}
 
 private object BasicResultSnippet {
@@ -372,26 +375,25 @@ private object HoistedBusSnippet {
 private object ClearResultSnippet {
     /*
     // [START android_compose_navigation3_result_clear]
-    import androidx.compose.runtime.Composable
-    import androidx.lifecycle.viewmodel.compose.viewModel
     import androidx.navigation3.runtime.result.LocalResultEventBus
-    import androidx.navigation3.runtime.result.ResultEffect
     // [START_EXCLUDE silent]
     */
+    fun EntryProviderScope<NavKey>.couponPickerEntry(navigator: Navigator) {
     // [END_EXCLUDE]
+        entry<CouponPickerRoute> {
+            val resultBus = LocalResultEventBus.current
 
-    @Composable
-    fun NotificationSettingsScreen(
-        viewModel: NotificationViewModel = viewModel()
-    ) {
-        val resultBus = LocalResultEventBus.current
-
-        ResultEffect<ConfirmationResult>(resultKey = "confirm_permission") { confirmation ->
-            viewModel.onPermissionConfirmed(confirmation)
-
-            // Clear the result after consumption to prevent re-delivery
-            resultBus.removeResult(resultKey = "confirm_permission")
+            CouponPickerScreen(
+                onCouponSelected = { couponCode: String ->
+                    resultBus.sendResult(resultKey = "coupon", result = couponCode)
+                },
+                onCouponDeselected = {
+                    // Discard the pending coupon result before returning
+                    resultBus.removeResult(resultKey = "coupon")
+                },
+                onDismiss = { navigator.goBack() }
+            )
         }
-    }
     // [END android_compose_navigation3_result_clear]
+    }
 }
