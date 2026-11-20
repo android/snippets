@@ -18,6 +18,7 @@ package com.example.compose.snippets.resources
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import androidx.core.content.res.use
 import com.example.compose.snippets.R
 
 private fun readBooleanResource(resources: Resources) {
