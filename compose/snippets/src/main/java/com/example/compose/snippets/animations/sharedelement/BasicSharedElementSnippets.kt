@@ -451,11 +451,9 @@ val LocalSharedTransitionScope = compositionLocalOf<SharedTransitionScope?> { nu
 @Composable
 private fun SharedElementScope_CompositionLocal() {
     // An example of how to use composition locals to pass around the shared transition scope, far down your UI tree.
-    // [START_EXCLUDE]
-    val state = remember {
+    var state by remember {
         mutableStateOf(false)
     }
-    // [END_EXCLUDE]
     SharedTransitionLayout {
         CompositionLocalProvider(
             LocalSharedTransitionScope provides this
@@ -468,12 +466,12 @@ private fun SharedElementScope_CompositionLocal() {
                         ?: throw IllegalStateException("No SharedElementScope found")
                     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
                         ?: throw IllegalStateException("No AnimatedVisibility found")
+                    // [START_EXCLUDE]
+                    if (targetState) {
+                        // do something
+                    }
+                    // [END_EXCLUDE]
                 }
-                // [START_EXCLUDE]
-                if (targetState.value) {
-                    // do something
-                }
-                // [END_EXCLUDE]
             }
         }
     }
