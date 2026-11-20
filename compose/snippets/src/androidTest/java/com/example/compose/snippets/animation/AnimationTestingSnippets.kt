@@ -77,7 +77,7 @@ class AnimationTestingSnippets {
         rule.mainClock.advanceTimeBy(50L)
 
         // Compare the result with the image showing the expected result.
-        // `assertAgainGolden` needs to be implemented in your code.
+        // `assertAgainstGolden` needs to be implemented in your code.
         rule.onRoot().captureToImage().assertAgainstGolden()
     }
     // [END android_compose_animations_testing_example]
