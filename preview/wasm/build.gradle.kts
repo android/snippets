@@ -51,7 +51,7 @@ val pullSnippets by tasks.registering(Sync::class) {
     val snippetsRoot = "${rootProject.projectDir}/compose/snippets/src/main/java/com/example/compose/snippets"
     from("$snippetsRoot/components") {
         include("*.kt")
-        exclude("ComponentsScreen.kt", "Snackbar.kt", "DatePickers.kt", "TimePickers.kt")
+        exclude("ComponentsScreen.kt", "Snackbar.kt")
         into("com/example/compose/snippets/components")
     }
     from("$snippetsRoot/animations") {
@@ -169,6 +169,7 @@ kotlin {
                 implementation(libs.jetbrains.compose.ui)
                 implementation(libs.jetbrains.compose.ui.tooling.preview)
                 implementation(libs.jetbrains.compose.components.resources)
+                implementation(libs.kotlinx.datetime)
                 implementation(libs.jetbrains.navigation.compose)
                 implementation(libs.jetbrains.navigation3.ui)
                 // AnimationQuickGuide.kt loads network images with Coil 3.
