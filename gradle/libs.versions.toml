@@ -71,6 +71,7 @@ genaiSchemaCompiler = "1.0.0-alpha2"
 glance-wear = "1.0.0-alpha21"
 glide = "1.0.0-beta10"
 google-adk = "0.1.0"
+googleApiServicesDrive = "v3-rev20261106-2.9.2"
 google-ar-core = "1.57.0"
 google-maps = "20.1.0"
 gradle-versions = "0.66.0"
@@ -106,6 +107,7 @@ mlkit-face-detection = "16.1.7"
 mlkit-genai-prompt = "1.0.0-beta5"
 mockitoKotlin = "6.4.0"
 okHttp = "5.5.1"
+playServicesAuth = "22.0.0"
 playServicesCameraLowLightBoost = "16.0.1-beta09"
 playServicesFitness = "21.3.0"
 playServicesLocation = "21.4.0"
@@ -356,6 +358,7 @@ glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "g
 google-adk-core-android = { module = "com.google.adk:google-adk-kotlin-core-android", version.ref = "google-adk" }
 google-adk-processor = { module = "com.google.adk:google-adk-kotlin-processor", version.ref = "google-adk" }
 google-android-material = { module = "com.google.android.material:material", version.ref = "material" }
+google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "googleApiServicesDrive" }
 google-ar-core = { module = "com.google.ar:core", version.ref = "google-ar-core" }
 google-protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
 googlemaps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
@@ -394,6 +397,7 @@ mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 play-services-camera-low-light-boost = { module = "com.google.android.gms:play-services-camera-low-light-boost", version.ref = "playServicesCameraLowLightBoost" }
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
