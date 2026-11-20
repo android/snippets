@@ -85,7 +85,9 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
-    val composeBom = platform(libs.androidx.compose.bom)
+    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
+    // material3 version from the catalog), so the DAC previews match the latest release.
+    val composeBom = platform(libs.androidx.compose.bom.alpha)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -136,7 +138,8 @@ dependencies {
 
     implementation(libs.accompanist.permissions)
 
-    implementation(libs.coil.kt.compose)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
@@ -176,11 +179,12 @@ dependencies {
 
     androidTestImplementation(composeBom)
 
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.glance.appwidget.preview)
 
