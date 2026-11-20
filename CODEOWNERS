@@ -7,7 +7,6 @@
 /compose/                                                                           @android/devrel-compose
 /compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/       @android/devrel-adaptive-apps
 # /contacts/                                                                          @android/
-# /datastore/                                                                         @android/
 /datastorage/src/**/com/example/snippets/room/                                      @android/eng-android-architecture
 # /healthconnect/                                                                     @android/
 /identity/                                                                          @android/devrel-identity

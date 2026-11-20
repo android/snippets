@@ -41,7 +41,6 @@ include(
     ":compose:recomposehighlighter",
     ":kotlin",
     ":compose:snippets",
-    ":datastore",
     ":camera",
     ":watchface",
     ":wear",
