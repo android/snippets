@@ -97,8 +97,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -657,16 +657,23 @@ private fun TargetBasedAnimationSimple(someCustomCondition: () -> Boolean) {
             targetValue = 1000f
         )
     }
-    var playTime by remember { mutableLongStateOf(0L) }
+    var animationValue by remember { mutableFloatStateOf(200f) }
 
     LaunchedEffect(anim) {
         val startTime = withFrameNanos { it }
 
         do {
-            playTime = withFrameNanos { it } - startTime
-            val animationValue = anim.getValueFromNanos(playTime)
+            val playTime = withFrameNanos { it } - startTime
+            animationValue = anim.getValueFromNanos(playTime)
         } while (someCustomCondition())
     }
+
+    Box(
+        Modifier
+            .size(100.dp)
+            .graphicsLayer { translationX = animationValue }
+            .background(Color.Blue)
+    )
     // [END android_compose_animations_target_based_animation_simple]
 }
 
