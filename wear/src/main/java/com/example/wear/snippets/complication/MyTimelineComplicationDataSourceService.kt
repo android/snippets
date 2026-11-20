@@ -44,7 +44,7 @@ class MyTimelineComplicationDataSourceService : SuspendingTimelineComplicationDa
                 timelineEntries = emptyList()
             )
         }
-        // Retrieve list of events from your own datasource / database.
+        // Retrieve the list of events from your own data source or database.
         val events = getCalendarEvents()
         return ComplicationDataTimeline(
             defaultComplicationData = shortTextComplicationData("No event"),
@@ -66,7 +66,7 @@ class MyTimelineComplicationDataSourceService : SuspendingTimelineComplicationDa
             text = PlainComplicationText.Builder(text).build(),
             contentDescription = PlainComplicationText.Builder(text).build()
         )
-            // Add further optional details here such as icon, tap action, title etc
+            // Add further optional details here such as icon, tap action, and title.
             .build()
 
     // [START_EXCLUDE]
