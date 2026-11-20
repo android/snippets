@@ -55,6 +55,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- [START android_security_local_network_permission_manifest] -->
+    <!-- Required for apps targeting Android 17+ to access the LAN -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+    <!-- [END android_security_local_network_permission_manifest] -->
 
     <application>
         <!--[START android_security_custom_permission_activity_manifest]-->
