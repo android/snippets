@@ -185,6 +185,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.truth)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.glance.appwidget.preview)
 
