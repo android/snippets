@@ -94,7 +94,8 @@ fun registerPresenceListener(
 ): CameraPresenceListener {
     val listener = object : CameraPresenceListener {
         override fun onCamerasAdded(cameraIdentifiers: Set<CameraIdentifier>) {
-            // Fires after availableCameraInfos has been updated with the newly added cameras.
+            // CameraProvider.availableCameraInfos is already updated when this fires,
+            // so the onCameraAdded callback can look up and bind the camera immediately.
             val cameraIdentifier = cameraIdentifiers.firstOrNull() ?: return
             Log.i(TAG, "Glasses camera added ($cameraIdentifier). Binding use case...")
             onCameraAdded(cameraIdentifier)

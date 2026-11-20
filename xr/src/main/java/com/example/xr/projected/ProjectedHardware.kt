@@ -39,8 +39,8 @@ private const val TAG = "ProjectedHardware"
  *
  * Note: Depending on your application's needs, [ImageCapture] can be swapped out for other
  * standard CameraX use cases:
- * - Use `ImageAnalysis` for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
- * - Use `VideoCapture` for video recording pipelines.
+ * - Use [ImageAnalysis](https://developer.android.com/reference/androidx/camera/core/ImageAnalysis) for real-time streaming workloads (e.g., OCR, AI vision, or VPS).
+ * - Use [`VideoCapture`](https://developer.android.com/reference/androidx/camera/video/VideoCapture) for video recording pipelines.
  */
 @OptIn(ExperimentalCameraProviderConfiguration::class)
 fun bindGlassesImageCapture(
