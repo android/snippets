@@ -276,6 +276,7 @@ private fun DetailsContent(
                     )
                 )
                 // [END android_compose_shared_element_text_bounds_transform]
+                // [START android_compose_shared_element_skip_to_lookahead_size]
                 Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lobortis velit. " +
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
@@ -284,6 +285,7 @@ private fun DetailsContent(
                             "hendrerit massa quis ultricies. Curabitur congue ullamcorper leo, at maximus",
                     modifier = Modifier.skipToLookaheadSize()
                 )
+                // [END android_compose_shared_element_skip_to_lookahead_size]
             }
         }
     }
