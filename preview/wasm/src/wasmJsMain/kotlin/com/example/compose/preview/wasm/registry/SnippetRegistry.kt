@@ -234,10 +234,12 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
 val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
 
 /**
- * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
- * pickers). Keep 16:9 where possible so the static image fills the DAC stage. Date pickers have
- * no landscape layout, so they use a portrait frame; give their DAC page a taller
- * `preview_height` (about 560px).
+ * Custom frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs, pickers,
+ * and scrollable layouts), plus explicit [DefaultPreviewFrame] entries for recorded component
+ * snippets so `PreviewScreenshotTest` can verify every recording chose a frame intentionally.
+ * Keep 16:9 where possible so the static image fills the DAC stage. Date pickers have no
+ * landscape layout, so they use a portrait frame; give their DAC page a taller `preview_height`
+ * (about 560px).
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
@@ -286,6 +288,21 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_expandableverticalfloatingtoolbar" to PreviewFrame(360, 480),
     "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to PreviewFrame(360, 480),
+    // Scrollable top app bars need vertical space so collapse/expand behavior is clearly visible.
+    "android_compose_expressive_components_alwaysentertopappbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_exituntilcollapsedtopappbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_exituntilcollapsedlargetopappbar" to PreviewFrame(360, 480),
+    // Recorded loading and progress indicators fit DefaultPreviewFrame, matching adjacent static
+    // progress previews at the same scale.
+    "android_compose_expressive_components_loadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_containedloadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinateloadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinatelinearwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatelinearwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinatecircularwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatecircularwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatelinearindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatecircularindicator" to DefaultPreviewFrame,
 )
 
 /*
