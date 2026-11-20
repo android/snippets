@@ -43,4 +43,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
 }

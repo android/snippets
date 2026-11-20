@@ -28,22 +28,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.longClick
-import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.test.onRoot
-import org.robolectric.Shadows.shadowOf
 import android.os.Looper
-import com.github.takahirom.roborazzi.captureScreenRoboImage
-import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isToggleable
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
+import com.github.takahirom.roborazzi.captureScreenRoboImage
+import org.robolectric.Shadows.shadowOf
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -51,10 +55,15 @@ import androidx.compose.ui.text.font.FontVariation
 import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.registry.previewFrameFor
+import com.example.compose.preview.wasm.registry.previewFrameIds
 import com.example.compose.preview.wasm.registry.previewTypography
 import com.example.compose.snippets.R
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RoboVideoOptions
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.recordRoboVideo
 import java.io.File
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -68,6 +77,8 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
 internal const val PreviewRobolectricSdk = 36
+private const val RecordingFps = 25
+private const val RecordingFrameMillis = 1_000L / RecordingFps
 
 private val PreviewColorScheme = lightColorScheme(
     primary = Color(0xFF000000),
@@ -132,7 +143,9 @@ private class DeviceQualifiersRule(private val qualifiers: String) : TestRule {
 }
 
 /**
- * Captures `<region_tag>.png` for every snippet in [SnippetRegistry], one test per snippet, on a
+ * Captures `<region_tag>.png` for every snippet in [SnippetRegistry] (and a `<region_tag>.gif`
+ * recording, encoded to MP4 afterwards, for the ones in [SnippetRecordings]), one test per
+ * snippet, on a
  * device sized to the snippet's PreviewFrame at xhdpi (so the default 384x216dp frame is 768x432).
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -161,8 +174,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
         return screenshotsDir
     }
 
-    @Test
-    fun capture() {
+    private fun setSnippetContent() {
         val snippet = SnippetRegistry.snippets.getValue(snippetId)
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
@@ -178,6 +190,11 @@ class PreviewScreenshotTest(private val snippetId: String) {
                 }
             }
         }
+    }
+
+    @Test
+    fun capture() {
+        setSnippetContent()
         // Let entry animations, async fonts/images and lazy lists settle before capturing.
         composeTestRule.mainClock.advanceTimeByFrame()
         composeTestRule.mainClock.advanceTimeBy(1_000)
@@ -201,16 +218,118 @@ class PreviewScreenshotTest(private val snippetId: String) {
         }
     }
 
+    /**
+     * Records `<region_tag>.gif` for snippets in [SnippetRecordings] by playing their interaction
+     * script. `encodePreviewVideos` (which runs after `recordRoborazziDebug`) converts it to
+     * `<region_tag>.mp4`, the static preview DAC shows for animation snippets.
+     */
+    @OptIn(ExperimentalRoborazziApi::class)
+    @Test
+    fun record() {
+        val recording = SnippetRecordings[snippetId]
+        assumeTrue("$snippetId has no recording", recording != null)
+        checkNotNull(recording)
+        setSnippetContent()
+        composeTestRule.mainClock.advanceTimeByFrame()
+        composeTestRule.onRoot().recordRoboVideo(
+            composeTestRule,
+            File(getOutputDir(), "$snippetId.gif").absolutePath,
+            RoboVideoOptions(
+                fps = RecordingFps,
+                // Stop when the script ends instead of recording until the UI settles (3 s by
+                // default), so infinite transitions loop cleanly after exactly one cycle.
+                settleTimeoutMillis = 0L,
+                backgroundColor = 0xFFFFFFFF.toInt(),
+            ),
+        ) {
+            recording.steps.forEach { step ->
+                when (step) {
+                    is PreviewStep.Wait -> delay(step.millis)
+                    is PreviewStep.Click -> clickTarget(step.text).performClick()
+                    is PreviewStep.Press -> {
+                        val target = clickTarget(null)
+                        target.performTouchInput { down(center) }
+                        delay(step.millis)
+                        target.performTouchInput { up() }
+                    }
+                    is PreviewStep.Drag -> {
+                        val root = composeTestRule.onRoot()
+                        val steps = (step.durationMillis / RecordingFrameMillis).toInt().coerceAtLeast(1)
+                        val stepMillis = step.durationMillis / steps
+                        root.performTouchInput {
+                            down(Offset(width * step.startXFraction, height * step.startYFraction))
+                        }
+                        for (i in 1..steps) {
+                            delay(stepMillis)
+                            val fraction = i.toFloat() / steps
+                            val xFraction =
+                                step.startXFraction + (step.endXFraction - step.startXFraction) * fraction
+                            val yFraction =
+                                step.startYFraction + (step.endYFraction - step.startYFraction) * fraction
+                            root.performTouchInput {
+                                moveTo(Offset(width * xFraction, height * yFraction), delayMillis = 0L)
+                            }
+                        }
+                        // Hold briefly before lifting so VelocityTracker doesn't trigger a fling overshoot.
+                        delay(RecordingFrameMillis * 2)
+                        root.performTouchInput { up() }
+                    }
+                    is PreviewStep.Slide -> {
+                        val slider = composeTestRule.onNode(
+                            SemanticsMatcher.keyIsDefined(SemanticsActions.SetProgress)
+                        )
+                        val steps = (step.durationMillis / RecordingFrameMillis).toInt().coerceAtLeast(1)
+                        val stepMillis = step.durationMillis / steps
+                        for (i in 1..steps) {
+                            delay(stepMillis)
+                            val fraction = i.toFloat() / steps
+                            val value = step.from + (step.to - step.from) * fraction
+                            slider.performSemanticsAction(SemanticsActions.SetProgress) { setProgress ->
+                                setProgress(value)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * The node showing [text], or the snippet's only clickable node when [text] is null. Fails if
+     * there's more than one clickable node, rather than recording a video that doesn't animate.
+     */
+    private fun clickTarget(text: String?): SemanticsNodeInteraction =
+        if (text != null) {
+            composeTestRule.onNodeWithText(text)
+        } else {
+            composeTestRule.onNode(hasClickAction())
+        }
+
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         fun snippetIds(): List<Array<Any>> {
+            // Recordings and frames are keyed separately from the registry, so catch typos or
+            // renamed region tags here instead of silently skipping a recording (a 404 on DAC) or
+            // capturing a cropped screenshot in the default frame.
+            val unregistered = SnippetRecordings.keys - SnippetRegistry.snippets.keys
+            require(unregistered.isEmpty()) {
+                "SnippetRecordings has IDs that aren't in SnippetRegistry: $unregistered"
+            }
+            val unregisteredFrames = previewFrameIds - SnippetRegistry.snippets.keys
+            require(unregisteredFrames.isEmpty()) {
+                "SnippetPreviewFrames has IDs that aren't in SnippetRegistry: $unregisteredFrames"
+            }
+            val withoutFrame = SnippetRecordings.keys - previewFrameIds
+            require(withoutFrame.isEmpty()) {
+                "Recorded snippets need a frame in SnippetPreviewFrames: $withoutFrame"
+            }
             // Tap targets are keyed separately from the registry, so catch typos or renamed region
             // tags here instead of silently capturing the untapped state.
-            val unregistered =
+            val unregisteredInteractions =
                 PreviewTapTargets.keys + PreviewInteractions.keys - SnippetRegistry.snippets.keys
-            require(unregistered.isEmpty()) {
-                "Tap targets or interactions have IDs that aren't in SnippetRegistry: $unregistered"
+            require(unregisteredInteractions.isEmpty()) {
+                "Tap targets or interactions have IDs that aren't in SnippetRegistry: $unregisteredInteractions"
             }
             return SnippetRegistry.snippets.keys.map { arrayOf(it) }
         }
@@ -232,6 +351,8 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_detaileddrawerexample" to "Menu",
     // The advanced rich tooltip opens when its icon button is tapped.
     "android_compose_components_advancedrichtooltipexample" to "Open camera",
+    "android_compose_expressive_components_groupedmenusample" to "Localized description",
+    "android_compose_expressive_components_floatingactionbuttonmenu" to "Toggle menu",
 )
 
 /**
@@ -297,6 +418,10 @@ private val PreviewInteractions: Map<String, ComposeContentTestRule.() -> Unit> 
             down(center)
             repeat(10) { moveBy(Offset(-width * 0.04f, 0f), delayMillis = 16) }
         }
+    },
+    // The button text is "$currentPage Page\nOpen modal rail".
+    "android_compose_expressive_components_dismissiblemodalwidenavigationrailexample" to {
+        onNodeWithText("Open modal rail", substring = true).performSemanticsAction(SemanticsActions.OnClick)
     },
 )
 
