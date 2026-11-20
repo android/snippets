@@ -173,8 +173,6 @@ fun TimePicker() {
 
 @Composable
 fun SnapScrollableScreen() {
-    // This sample doesn't add a Time Text at the top of the screen.
-    // If using Time Text, add padding to ensure content does not overlap with Time Text.
     // [START android_wear_rotary_input_snap_fling]
     val listState = rememberScalingLazyListState()
     ScreenScaffold(
@@ -182,13 +180,12 @@ fun SnapScrollableScreen() {
         scrollIndicator = {
             ScrollIndicator(state = listState)
         }
-    ) {
-
-        val state = rememberScalingLazyListState()
+    ) { contentPadding ->
         ScalingLazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            state = state,
-            flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = state)
+            state = listState,
+            contentPadding = contentPadding,
+            flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = listState)
         ) {
             // Content goes here
             // [START_EXCLUDE]

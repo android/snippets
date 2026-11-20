@@ -16,19 +16,17 @@
 
 package com.example.compose.snippets.components
 
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -64,6 +62,12 @@ fun ChipExamples() {
         InputChipExample("Input chip") { Log.d("Input chip", "Chip dismissed") }
         Text("Suggestion chip")
         SuggestionChipExample()
+        Text("Filter chip with corner morphing")
+        FilterChipWithCornerMorphingSample()
+        Text("Elevated filter chip with corner morphing")
+        ElevatedFilterChipWithCornerMorphingSample()
+        Text("Input chip with corner morphing")
+        InputChipWithCornerMorphingSample()
     }
 }
 
@@ -76,7 +80,7 @@ fun AssistChipExample() {
         label = { Text("Assist chip") },
         leadingIcon = {
             Icon(
-                Icons.Filled.Settings,
+                painter = rememberVectorPainter(AppIcons.Settings),
                 contentDescription = "Localized description",
                 Modifier.size(AssistChipDefaults.IconSize)
             )
@@ -100,7 +104,7 @@ fun FilterChipExample() {
         leadingIcon = if (selected) {
             {
                 Icon(
-                    imageVector = Icons.Filled.Done,
+                    painter = rememberVectorPainter(AppIcons.Done),
                     contentDescription = "Done icon",
                     modifier = Modifier.size(FilterChipDefaults.IconSize)
                 )
@@ -132,14 +136,14 @@ fun InputChipExample(
         selected = enabled,
         avatar = {
             Icon(
-                Icons.Filled.Person,
+                painter = rememberVectorPainter(AppIcons.Person),
                 contentDescription = "Localized description",
                 Modifier.size(InputChipDefaults.AvatarSize)
             )
         },
         trailingIcon = {
             Icon(
-                Icons.Default.Close,
+                painter = rememberVectorPainter(AppIcons.Close),
                 contentDescription = "Localized description",
                 Modifier.size(InputChipDefaults.AvatarSize)
             )
@@ -158,3 +162,87 @@ fun SuggestionChipExample() {
     )
 }
 // [END android_compose_components_suggestionchip]
+
+@Preview
+// [START android_compose_expressive_components_filterchipwithcornermorphing]
+@Composable
+fun FilterChipWithCornerMorphingSample() {
+    var selected by remember { mutableStateOf(false) }
+    FilterChip(
+        selected = selected,
+        onClick = { selected = !selected },
+        label = { Text("Filter chip") },
+        shapes = FilterChipDefaults.shapes(),
+        leadingIcon = if (selected) {
+            {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Done),
+                    contentDescription = null,
+                    modifier = Modifier.size(FilterChipDefaults.IconSize),
+                )
+            }
+        } else {
+            null
+        },
+    )
+}
+// [END android_compose_expressive_components_filterchipwithcornermorphing]
+
+@Preview
+// [START android_compose_expressive_components_elevatedfilterchipwithcornermorphing]
+@Composable
+fun ElevatedFilterChipWithCornerMorphingSample() {
+    var selected by remember { mutableStateOf(false) }
+    ElevatedFilterChip(
+        selected = selected,
+        onClick = { selected = !selected },
+        label = { Text("Filter chip") },
+        shapes = FilterChipDefaults.shapes(),
+        leadingIcon = if (selected) {
+            {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Done),
+                    contentDescription = null,
+                    modifier = Modifier.size(FilterChipDefaults.IconSize),
+                )
+            }
+        } else {
+            {
+                Icon(
+                    painter = rememberVectorPainter(AppIcons.Home),
+                    contentDescription = null,
+                    modifier = Modifier.size(FilterChipDefaults.IconSize),
+                )
+            }
+        },
+        trailingIcon = {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.ArrowDropDown),
+                contentDescription = null,
+                modifier = Modifier.size(FilterChipDefaults.IconSize),
+            )
+        },
+    )
+}
+// [END android_compose_expressive_components_elevatedfilterchipwithcornermorphing]
+
+@Preview
+// [START android_compose_expressive_components_inputchipwithcornermorphing]
+@Composable
+fun InputChipWithCornerMorphingSample() {
+    var selected by remember { mutableStateOf(false) }
+    InputChip(
+        selected = selected,
+        onClick = { selected = !selected },
+        label = { Text("Input Chip") },
+        shapes = InputChipDefaults.shapes(),
+        avatar = {
+            Icon(
+                painter = rememberVectorPainter(AppIcons.Person),
+                contentDescription = null,
+                modifier = Modifier.size(InputChipDefaults.AvatarSize),
+            )
+        },
+    )
+}
+// [END android_compose_expressive_components_inputchipwithcornermorphing]
