@@ -8,7 +8,11 @@ kotlin {
 
 android {
     namespace = "com.example.media"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.media"
