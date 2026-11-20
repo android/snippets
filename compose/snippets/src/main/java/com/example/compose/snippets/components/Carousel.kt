@@ -56,6 +56,16 @@ fun CarouselExample_MultiBrowse() {
             CarouselItem(2, R.drawable.eclair, "eclair"),
             CarouselItem(3, R.drawable.froyo, "froyo"),
             CarouselItem(4, R.drawable.gingerbread, "gingerbread"),
+            CarouselItem(5, R.drawable.honeycomb, "honeycomb"),
+            CarouselItem(6, R.drawable.dog, "dog"),
+            CarouselItem(7, R.drawable.cheese_1, "cheese"),
+            CarouselItem(8, R.drawable.sunset, "sunset"),
+            CarouselItem(9, R.drawable.feathertop, "mountain"),
+            CarouselItem(10, R.drawable.cupcake, "cupcake"),
+            CarouselItem(11, R.drawable.donut, "donut"),
+            CarouselItem(12, R.drawable.eclair, "eclair"),
+            CarouselItem(13, R.drawable.froyo, "froyo"),
+            CarouselItem(14, R.drawable.gingerbread, "gingerbread"),
         )
     }
 
@@ -100,6 +110,16 @@ fun CarouselExample() {
             CarouselItem(2, R.drawable.eclair, "eclair"),
             CarouselItem(3, R.drawable.froyo, "froyo"),
             CarouselItem(4, R.drawable.gingerbread, "gingerbread"),
+            CarouselItem(5, R.drawable.honeycomb, "honeycomb"),
+            CarouselItem(6, R.drawable.dog, "dog"),
+            CarouselItem(7, R.drawable.cheese_1, "cheese"),
+            CarouselItem(8, R.drawable.sunset, "sunset"),
+            CarouselItem(9, R.drawable.feathertop, "mountain"),
+            CarouselItem(10, R.drawable.cupcake, "cupcake"),
+            CarouselItem(11, R.drawable.donut, "donut"),
+            CarouselItem(12, R.drawable.eclair, "eclair"),
+            CarouselItem(13, R.drawable.froyo, "froyo"),
+            CarouselItem(14, R.drawable.gingerbread, "gingerbread"),
         )
     }
 
