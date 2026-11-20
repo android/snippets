@@ -29,4 +29,5 @@
     <string name="default_wf_token">abcdef123456</string>
     <string name="hello_widget_label">Hello Widget</string>
     <string name="hello_widget_description">A simple hello world widget.</string>
+    <string name="msg_sent">Message sent</string>
 </resources>
