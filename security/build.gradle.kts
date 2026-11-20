@@ -25,14 +25,33 @@ android {
         jvmToolchain(17)
     }
 
+    // [START android_security_network_build_config]
+    buildFeatures {
+        buildConfig = true
+    }
+    // [END android_security_network_build_config]
+
     buildFeatures {
         compose = true
     }
+
+    // [START android_security_network_debug_base_url]
+    buildTypes {
+        debug {
+            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:3000/api\"")
+        }
+        release {
+            buildConfigField("String", "API_BASE_URL", "\"https://api.example.com/api\"")
+        }
+    }
+    // [END android_security_network_debug_base_url]
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
