@@ -88,6 +88,9 @@
         <activity
             android:name=".permissions.MediaPickerActivity"
             android:exported="false" />
+        <activity
+            android:name=".webview.WebViewSecurityActivity"
+            android:exported="false" />
 
         <!--[START android_security_custom_permission_service_manifest]-->
         <service
