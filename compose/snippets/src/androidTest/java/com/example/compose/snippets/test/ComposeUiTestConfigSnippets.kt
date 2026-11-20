@@ -18,10 +18,16 @@ package com.example.compose.snippets.test
 
 import androidx.compose.ui.input.InputMode
 import androidx.compose.ui.test.ComposeUiTestConfig
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.v2.runComposeUiTest
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.test.runCurrent
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -104,4 +110,54 @@ private fun focusTestRunComposeScope() {
         }
     }
     // [END android_compose_test_input_mode_run_compose_ui_test]
+}
+
+class MigrateV2 {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    private val viewModel = MyViewModel()
+
+    @Test
+    fun waitForIdleExample() {
+        // [START android_compose_testing_migrate_v2_waitforidle]
+        viewModel.loadData()
+
+        // Explicitly run all queued tasks.
+        composeTestRule.waitForIdle()
+
+        assertEquals(Success, viewModel.state.value)
+        // [END android_compose_testing_migrate_v2_waitforidle]
+    }
+
+    @Test
+    fun runOnIdleExample() {
+        // [START android_compose_testing_migrate_v2_runonidle]
+        viewModel.loadData()
+
+        // Run the assertion after the UI is idle.
+        composeTestRule.runOnIdle {
+            assertEquals(Success, viewModel.state.value)
+        }
+        // [END android_compose_testing_migrate_v2_runonidle]
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTestApi::class)
+    @Test
+    fun runCurrentExample() {
+        // [START android_compose_testing_migrate_v2_runcurrent]
+        composeTestRule.mainClock.scheduler.runCurrent()
+        // [END android_compose_testing_migrate_v2_runcurrent]
+    }
+
+    private class MyViewModel {
+        private val _state = MutableStateFlow(Success)
+        val state: StateFlow<Any> = _state
+        fun loadData() {}
+    }
+
+    private companion object {
+        val Success = Any()
+    }
 }
