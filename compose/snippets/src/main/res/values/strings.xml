@@ -66,4 +66,8 @@
     <string name="next" translatable="false">Next</string>
     <string name="attached_image" translatable="false">Attached image</string>
 
+    <string name="chooser_title" translatable="false">Share this photo with</string>
+    <item name="select_button" type="id" />
+    <item name="start_button" type="id" />
+
 </resources>
