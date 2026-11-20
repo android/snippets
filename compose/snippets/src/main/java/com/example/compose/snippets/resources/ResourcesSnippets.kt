@@ -45,7 +45,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.core.os.ConfigurationCompat
 import com.example.compose.snippets.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun Strings() {
@@ -180,3 +184,16 @@ fun CraneTheme(content: @Composable () -> Unit) {
     }
 }
 // [END android_compose_resources_fonts]
+
+// [START android_resources_runtime_changes_date_text]
+@Composable
+fun DateText(year: Int, dayOfYear: Int) {
+    val dateTimeFormatter = DateTimeFormatter.ofPattern(
+        "MMM dd",
+        ConfigurationCompat.getLocales(LocalConfiguration.current)[0]
+    )
+    Text(
+        dateTimeFormatter.format(LocalDate.ofYearDay(year, dayOfYear))
+    )
+}
+// [END android_resources_runtime_changes_date_text]
