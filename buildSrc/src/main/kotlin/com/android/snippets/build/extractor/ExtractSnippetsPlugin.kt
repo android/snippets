@@ -55,11 +55,11 @@ import org.gradle.api.Project
  *
  * **4. Filter by package or directory substring in a module (e.g. Room database snippets):**
  * ```bash
- * ./gradlew :room:extractSnippets --package=migration
+ * ./gradlew :datastorage:extractSnippets --package=migration
  * # Or using property flag:
- * ./gradlew :room:extractSnippets -Ppackage=migration
+ * ./gradlew :datastorage:extractSnippets -Ppackage=migration
  * ```
- * Output: Saved to `room/build/extracted-snippets/` for matching snippets under `room/.../migration/`.
+ * Output: Saved to `datastorage/build/extracted-snippets/` for matching snippets under `datastorage/.../migration/`.
  */
 class ExtractSnippetsPlugin : Plugin<Project> {
     override fun apply(project: Project) {

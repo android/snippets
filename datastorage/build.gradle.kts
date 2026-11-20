@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.snippets.room"
+    namespace = "com.example.snippets.datastorage"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

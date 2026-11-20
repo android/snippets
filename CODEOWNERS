@@ -7,7 +7,7 @@
 /compose/                                                                           @android/devrel-compose
 /compose/snippets/src/main/java/com/example/compose/snippets/adaptivelayouts/       @android/devrel-adaptive-apps
 # /contacts/                                                                          @android/
-# /datastore/                                                                         @android/
+/datastorage/src/**/com/example/snippets/room/                                      @android/eng-android-architecture
 # /healthconnect/                                                                     @android/
 /identity/                                                                          @android/devrel-identity
 /ink/                                                                               @android/devrel-adaptive-apps
@@ -18,7 +18,6 @@
 /security/                                                                          @android/devrel-security
 /playbilling/                                                                       @android/devrel-play-billing
 /preview/                                                                           @android/devrel-compose
-/room/                                                                              @android/eng-android-architecture
 # /telecom/                                                                           @android/
 /tv/                                                                                @android/devrel-tv
 # /views/                                                                             @android/
