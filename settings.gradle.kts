@@ -62,7 +62,7 @@ include(
     ":cars",
     ":installprompt",
     ":telecom",
-    ":room",
+    ":datastorage",
     ":performance",
     ":location",
     ":preview:wasm",
