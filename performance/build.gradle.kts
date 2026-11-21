@@ -10,6 +10,7 @@ kotlin {
 android {
     namespace = "com.example.android.performance"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = 2
 
     defaultConfig {
         applicationId = "com.example.android.performance"

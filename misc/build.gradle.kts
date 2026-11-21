@@ -8,6 +8,7 @@ plugins {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = 2
     namespace = "com.example.snippets"
 
     defaultConfig {

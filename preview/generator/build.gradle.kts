@@ -87,9 +87,8 @@ androidComponents {
 }
 
 dependencies {
-    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
-    // material3 version from the catalog), so the DAC previews match the latest release.
-    val composeBom = platform(libs.androidx.compose.bom.alpha)
+    // Use the stable BOM (2026.11.01) bringing Compose 1.13.0 and material3 1.5.0.
+    val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     testImplementation(composeBom)
 

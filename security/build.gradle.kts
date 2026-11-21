@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.snippets.security"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = 2
 
     defaultConfig {
         applicationId = "com.example.snippets.security"
