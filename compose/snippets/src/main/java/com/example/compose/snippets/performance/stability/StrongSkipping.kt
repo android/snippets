@@ -33,7 +33,7 @@ private object NonSkippableExample {
 private object LambdaUnmemoizedExample {
     // [START android_compose_stability_strong_skipping_lambda_unmemoized]
     @Composable
-    fun MyComposable(unstableObject: Unstable, stableObject: Stable) {
+    fun MyComposable(unstableObject: Unstable, stableObject: StableObject) {
         val lambda = {
             use(unstableObject)
             use(stableObject)
@@ -45,7 +45,7 @@ private object LambdaUnmemoizedExample {
 private object LambdaMemoizedExample {
     // [START android_compose_stability_strong_skipping_lambda_memoized]
     @Composable
-    fun MyComposable(unstableObject: Unstable, stableObject: Stable) {
+    fun MyComposable(unstableObject: Unstable, stableObject: StableObject) {
         val lambda = remember(unstableObject, stableObject) {
             {
                 use(unstableObject)
@@ -70,6 +70,6 @@ private class Unstable {
 }
 
 @Stable
-private class Stable
+private class StableObject
 
 private fun use(value: Any) {}
