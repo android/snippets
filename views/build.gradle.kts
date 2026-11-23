@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.webkit)
     implementation(libs.kotlinx.coroutines.jdk9)
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.androidx.navigation.fragment.ktx)
 
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.espresso.accessibility)
