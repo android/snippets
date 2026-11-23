@@ -20,7 +20,7 @@ kotlin {
 
 android {
     namespace = "com.example.datastore.snippets"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
     compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
