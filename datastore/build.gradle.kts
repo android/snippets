@@ -20,7 +20,8 @@ kotlin {
 
 android {
     namespace = "com.example.datastore.snippets"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.datastore.snippets"
@@ -107,7 +108,7 @@ dependencies {
 // [START android_datastore_proto_task]
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.34.0"
+        artifact = "com.google.protobuf:protoc:4.36.2"
     }
     generateProtoTasks {
         all().forEach { task ->

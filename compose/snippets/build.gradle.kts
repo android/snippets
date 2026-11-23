@@ -29,11 +29,7 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 2
-        }
-    }
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -85,6 +81,7 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
+    // Use the stable BOM (2026.11.01) bringing Compose 1.13.0 and material3 1.5.0.
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -177,11 +174,12 @@ dependencies {
 
     androidTestImplementation(composeBom)
 
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.glance.appwidget.preview)
 

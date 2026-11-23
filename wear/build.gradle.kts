@@ -16,7 +16,8 @@ kotlin {
 
 android {
     namespace = "com.example.wear"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.wear"

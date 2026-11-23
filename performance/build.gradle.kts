@@ -10,6 +10,7 @@ kotlin {
 android {
     namespace = "com.example.android.performance"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.android.performance"
@@ -31,5 +32,11 @@ android {
 }
 
 dependencies {
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.tracing)
+    implementation(libs.androidx.work.runtime)
 }

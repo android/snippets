@@ -63,6 +63,8 @@
     <string name="compose_shortcut_short_label1">Compose</string>
     <string name="compose_shortcut_long_label1">Open Compose</string>
     <string name="compose_disabled_message1">Compose is not available</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="attached_image" translatable="false">Attached image</string>
 
     <!-- [START android_resources_string_resource_welcome_messages_xml] -->
     <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>

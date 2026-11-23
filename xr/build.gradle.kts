@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.xr"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.xr"
@@ -115,7 +116,6 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core.ktx)
-    testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlin.test)
 }
