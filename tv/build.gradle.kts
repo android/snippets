@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.tv"
     compileSdk = 37
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.tv"
@@ -63,6 +64,7 @@ dependencies {
     implementation(libs.tv.compose.material)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.tvprovider)
     implementation(libs.coil.kt.compose)
     implementation(libs.androidx.media3.common)
     implementation(libs.androidx.media3.exoplayer)

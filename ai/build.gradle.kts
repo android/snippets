@@ -8,6 +8,7 @@ plugins {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
     namespace = "com.example.snippets.ai"
 
     defaultConfig {
@@ -41,6 +42,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{INDEX.LIST,DEPENDENCIES}"
+        }
+    }
 
 }
 
@@ -67,6 +73,8 @@ dependencies {
     implementation(libs.firebase.ai)
     implementation(libs.firebase.ondevice)
     implementation(libs.guava.android)
+    implementation(libs.google.adk.core.android)
+    ksp(libs.google.adk.processor)
     implementation(libs.mlkit.genai.prompt)
     ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)
@@ -78,8 +86,3 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     implementation(libs.kotlinx.serialization.json)
 }
-// [START android_appfunction_ksp_arg]
-ksp {
-    arg("appfunctions:aggregateAppFunctions", "true")
-}
-// [END android_appfunction_ksp_arg]
