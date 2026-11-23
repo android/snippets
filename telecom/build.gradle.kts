@@ -7,7 +7,7 @@ android {
     namespace = "com.example.telecom"
     compileSdk {
         version = release(37) {
-            minorApiLevel = 2
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
         }
     }
 

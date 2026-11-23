@@ -21,7 +21,7 @@ kotlin {
 android {
     namespace = "com.example.datastore.snippets"
     compileSdk = 37
-    compileSdkMinor = 2
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.datastore.snippets"

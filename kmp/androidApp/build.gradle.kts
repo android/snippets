@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.kmp.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    compileSdkMinor = 2
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.kmp.snippets"

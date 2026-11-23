@@ -29,7 +29,7 @@ android {
     // Compose 1.13.0-rc01 needs Android 37.1 APIs or later, like :compose:snippets.
     compileSdk {
         version = release(37) {
-            minorApiLevel = 2
+            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
         }
     }
 

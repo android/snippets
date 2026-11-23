@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.contacts"
     compileSdk = 37
-    compileSdkMinor = 2
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.contacts"

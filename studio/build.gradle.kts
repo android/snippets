@@ -26,7 +26,7 @@ kotlin {
 android {
     namespace = "com.example.studio"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    compileSdkMinor = 2
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.studio"

@@ -52,6 +52,8 @@ coil = "2.7.0"
 coil3 = "3.6.3"
 # @keep
 compileSdk = "37"
+# @keep
+compileSdkMinor = "2"
 compose-multiplatform = "1.13.0-beta02"
 compose-remote = "1.0.0-alpha22"
 composeUiTooling = "1.7.1"
