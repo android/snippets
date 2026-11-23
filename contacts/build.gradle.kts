@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.contacts"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
     compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
