@@ -16,18 +16,27 @@
 
 package com.android.snippets.build.extractor
 
+import java.io.File
+import org.gradle.api.GradleException
+import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
 /**
- * Unit test suite for SnippetExtractor, verifying region tag parsing,
- * exclusion blocks, delimiter stripping, and indentation normalization.
+ * Unit test suite for SnippetExtractor and ExtractSnippetsTask, verifying region tag parsing,
+ * exclusion blocks, delimiter stripping, indentation normalization, binary skipping, and collision handling.
  */
 class ExtractSnippetsTest {
+
+    @get:Rule
+    val tempFolder = TemporaryFolder()
 
     @Test
     fun testRegionTagRegex() {
@@ -45,13 +54,14 @@ class ExtractSnippetsTest {
 
     @Test
     fun testRegionTagStartPatterns() {
-        val samples = listOf(
-            "// [START foo]" to "foo",
-            "/* [START foo_bar] */" to "foo_bar",
-            "<!-- [START xml_tag] -->" to "xml_tag",
-            "# [START python_tag]" to "python_tag",
-            "  // [START nested-tag]  " to "nested-tag"
-        )
+        val samples =
+            listOf(
+                "// [START foo]" to "foo",
+                "/* [START foo_bar] */" to "foo_bar",
+                "<!-- [START xml_tag] -->" to "xml_tag",
+                "# [START python_tag]" to "python_tag",
+                "  // [START nested-tag]  " to "nested-tag",
+            )
 
         for ((input, expectedTag) in samples) {
             val match = SnippetExtractor.START_TAG_REGEX.find(input)
@@ -62,13 +72,14 @@ class ExtractSnippetsTest {
 
     @Test
     fun testRegionTagEndPatterns() {
-        val samples = listOf(
-            "// [END foo]" to "foo",
-            "/* [END foo_bar] */" to "foo_bar",
-            "<!-- [END xml_tag] -->" to "xml_tag",
-            "# [END python_tag]" to "python_tag",
-            "  // [END nested-tag]  " to "nested-tag"
-        )
+        val samples =
+            listOf(
+                "// [END foo]" to "foo",
+                "/* [END foo_bar] */" to "foo_bar",
+                "<!-- [END xml_tag] -->" to "xml_tag",
+                "# [END python_tag]" to "python_tag",
+                "  // [END nested-tag]  " to "nested-tag",
+            )
 
         for ((input, expectedTag) in samples) {
             val match = SnippetExtractor.END_TAG_REGEX.find(input)
@@ -79,7 +90,8 @@ class ExtractSnippetsTest {
 
     @Test
     fun testBasicRegionExtraction() {
-        val code = """
+        val code =
+            """
             package com.example
             
             // [START basic_sample]
@@ -89,14 +101,15 @@ class ExtractSnippetsTest {
             // [END basic_sample]
             
             fun otherCode() {}
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "basic_sample")
-        val expected = """
+        val expected =
+            """
             fun helloWorld() {
                 println("Hello, World!")
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
@@ -106,7 +119,8 @@ class ExtractSnippetsTest {
      */
     @Test
     fun testCanonicalNestedAndOverlappingRegions() {
-        val text = """
+        val text =
+            """
             one
             abc [START foo] def
             two
@@ -116,7 +130,7 @@ class ExtractSnippetsTest {
             four
             [END foo] pqr
             five
-        """.trimIndent()
+            """.trimIndent()
 
         val fooSnippet = SnippetExtractor.parseRegion(text, "foo")
         val barSnippet = SnippetExtractor.parseRegion(text, "bar")
@@ -127,7 +141,8 @@ class ExtractSnippetsTest {
 
     @Test
     fun testExclusionBlockWithKotlinEllipsisComment() {
-        val code = """
+        val code =
+            """
             // [START sample_with_exclude]
             fun calculate(): Int {
                 // [START_EXCLUDE]
@@ -137,22 +152,24 @@ class ExtractSnippetsTest {
                 return 42
             }
             // [END sample_with_exclude]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "sample_with_exclude")
-        val expected = """
+        val expected =
+            """
             fun calculate(): Int {
                 // ...
                 return 42
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
 
     @Test
-    fun testExclusionBlockWithXmlEllipsisComment() {
-        val code = """
+    fun testExclusionBlockWithXmlEllipsisMatchesDocSiteAndWarns() {
+        val code =
+            """
             <!-- [START xml_sample] -->
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android">
                 <!-- [START_EXCLUDE] -->
@@ -161,22 +178,27 @@ class ExtractSnippetsTest {
                 <TextView android:text="Hello" />
             </FrameLayout>
             <!-- [END xml_sample] -->
-        """.trimIndent()
+            """.trimIndent()
 
-        val snippet = SnippetExtractor.parseRegion(code, "xml_sample")
-        val expected = """
+        val warnings = mutableListOf<String>()
+        val snippet = SnippetExtractor.parseRegion(code, "xml_sample") { warnings.add(it) }
+        val expected =
+            """
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android">
-                <!-- ... -->
+                <!-- ...
                 <TextView android:text="Hello" />
             </FrameLayout>
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
+        assertEquals(1, warnings.size)
+        assertTrue(warnings[0].contains("consider [START_EXCLUDE silent]"))
     }
 
     @Test
-    fun testExclusionBlockWithBlockComment() {
-        val code = """
+    fun testExclusionBlockWithBlockCommentMatchesDocSiteAndWarns() {
+        val code =
+            """
             /* [START block_comment_sample] */
             int process() {
                 /* [START_EXCLUDE] */
@@ -185,22 +207,47 @@ class ExtractSnippetsTest {
                 return 1;
             }
             /* [END block_comment_sample] */
-        """.trimIndent()
+            """.trimIndent()
 
-        val snippet = SnippetExtractor.parseRegion(code, "block_comment_sample")
-        val expected = """
+        val warnings = mutableListOf<String>()
+        val snippet = SnippetExtractor.parseRegion(code, "block_comment_sample") { warnings.add(it) }
+        val expected =
+            """
             int process() {
-                /* ... */
+                /* ...
                 return 1;
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
+        assertEquals(1, warnings.size)
+        assertTrue(warnings[0].contains("consider [START_EXCLUDE silent]"))
+    }
+
+    @Test
+    fun testLineCommentExcludeAfterStringWithSlashStarDoesNotWarn() {
+        val code =
+            """
+            // [START glob_sample]
+            include("src/*") // [START_EXCLUDE]
+            exclude("build/*")
+            // [END_EXCLUDE]
+            println("done")
+            // [END glob_sample]
+            """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        val snippet = SnippetExtractor.parseRegion(code, "glob_sample") { warnings.add(it) }
+        val expected = "include(\"src/*\") // ...\nprintln(\"done\")"
+
+        assertEquals(expected, snippet)
+        assertEquals(0, warnings.size)
     }
 
     @Test
     fun testExclusionBlockWithPythonEllipsisComment() {
-        val code = """
+        val code =
+            """
             # [START py_sample]
             def process():
                 # [START_EXCLUDE]
@@ -208,21 +255,23 @@ class ExtractSnippetsTest {
                 # [END_EXCLUDE]
                 return True
             # [END py_sample]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "py_sample")
-        val expected = """
+        val expected =
+            """
             def process():
                 # ...
                 return True
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
 
     @Test
     fun testSilentExclusionBlock() {
-        val code = """
+        val code =
+            """
             // [START silent_exclude_sample]
             class Service {
                 // [START_EXCLUDE silent]
@@ -231,21 +280,23 @@ class ExtractSnippetsTest {
                 fun execute() {}
             }
             // [END silent_exclude_sample]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "silent_exclude_sample")
-        val expected = """
+        val expected =
+            """
             class Service {
                 fun execute() {}
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
 
     @Test
     fun testDelimiterStrippingFromEnclosingRegion() {
-        val code = """
+        val code =
+            """
             // [START outer_tag]
             fun outerFunction() {
                 // [START inner_tag]
@@ -253,14 +304,15 @@ class ExtractSnippetsTest {
                 // [END inner_tag]
             }
             // [END outer_tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val outerSnippet = SnippetExtractor.parseRegion(code, "outer_tag")
-        val expectedOuter = """
+        val expectedOuter =
+            """
             fun outerFunction() {
                 println("Inside inner")
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expectedOuter, outerSnippet)
     }
@@ -270,7 +322,8 @@ class ExtractSnippetsTest {
      */
     @Test
     fun testIndentationNormalizationAuto() {
-        val indentedCode = """
+        val indentedCode =
+            """
                 // [START indented_sample]
                 val a = 1
                 val b = 2
@@ -278,23 +331,25 @@ class ExtractSnippetsTest {
                     println(a)
                 }
                 // [END indented_sample]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(indentedCode, "indented_sample")
-        val expected = """
+        val expected =
+            """
             val a = 1
             val b = 2
             if (a < b) {
                 println(a)
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
 
     @Test
     fun testMultipleRegionsInOneFile() {
-        val code = """
+        val code =
+            """
             package com.example
             
             // [START region_one]
@@ -306,7 +361,7 @@ class ExtractSnippetsTest {
             // [START region_two]
             fun second() = 2
             // [END region_two]
-        """.trimIndent()
+            """.trimIndent()
 
         val regions = SnippetExtractor.extractRegions(code.split("\n"))
         assertEquals(2, regions.size)
@@ -315,12 +370,58 @@ class ExtractSnippetsTest {
     }
 
     @Test
+    fun testUnclosedExcludeInOneRegionDoesNotCorruptSubsequentRegions() {
+        val code =
+            """
+            // [START first_region]
+            val visibleInFirst = 1
+            // [START_EXCLUDE]
+            val hiddenAtEnd = 2
+            // [END first_region]
+
+            // [START second_region]
+            val visibleInSecond = 3
+            // [END second_region]
+            """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        val regions = SnippetExtractor.extractRegions(code.lines(), onWarning = { warnings.add(it) })
+
+        assertEquals("val visibleInFirst = 1\n// ...", regions["first_region"])
+        assertEquals("val visibleInSecond = 3", regions["second_region"])
+        assertEquals(1, warnings.size)
+        assertTrue(warnings[0].contains("unclosed [START_EXCLUDE] block"))
+    }
+
+    @Test
+    fun testExcludeTagInKdocOutsideRegionIsIgnored() {
+        val code =
+            """
+            /**
+             * Excluded from public docs via `[START_EXCLUDE silent]`.
+             */
+            fun helper() {}
+
+            // [START after_kdoc]
+            val visible = 42
+            // [END after_kdoc]
+            """.trimIndent()
+
+        val warnings = mutableListOf<String>()
+        val regions = SnippetExtractor.extractRegions(code.lines(), onWarning = { warnings.add(it) })
+
+        assertEquals("val visible = 42", regions["after_kdoc"])
+        assertEquals(0, warnings.size)
+    }
+
+    @Test
     fun testNonExistentTagReturnsNull() {
-        val code = """
+        val code =
+            """
             // [START some_tag]
             val x = 10
             // [END some_tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "non_existent_tag")
         assertNull(snippet)
@@ -336,10 +437,11 @@ class ExtractSnippetsTest {
 
     @Test
     fun testWarningReportingForUnclosedTag() {
-        val code = """
+        val code =
+            """
             // [START unclosed_tag]
             fun something() = true
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         SnippetExtractor.parseRegion(code, "unclosed_tag", onWarning = { warnings.add(it) })
@@ -349,13 +451,14 @@ class ExtractSnippetsTest {
 
     @Test
     fun testWarningReportingForUnclosedExclude() {
-        val code = """
+        val code =
+            """
             // [START tag]
             fun calculate(): Int {
                 // [START_EXCLUDE]
                 return 0
             // [END tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         SnippetExtractor.parseRegion(code, "tag", onWarning = { warnings.add(it) })
@@ -365,13 +468,14 @@ class ExtractSnippetsTest {
 
     @Test
     fun testEndExcludeAndEndRegionOnSameLine() {
-        val code = """
+        val code =
+            """
             // [START my_tag]
             val a = 1
             // [START_EXCLUDE]
             val b = 2
             // [END_EXCLUDE] // [END my_tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         val snippet = SnippetExtractor.parseRegion(code, "my_tag", onWarning = { warnings.add(it) })
@@ -395,7 +499,8 @@ class ExtractSnippetsTest {
 
     @Test
     fun testMultipleExcludeBlocksInSingleRegion() {
-        val code = """
+        val code =
+            """
             // [START multi_exclude]
             import com.example.internal.Secret
             // [START_EXCLUDE]
@@ -409,10 +514,11 @@ class ExtractSnippetsTest {
                 println("Visible")
             }
             // [END multi_exclude]
-        """.trimIndent()
+            """.trimIndent()
 
         val snippet = SnippetExtractor.parseRegion(code, "multi_exclude")
-        val expected = """
+        val expected =
+            """
             import com.example.internal.Secret
             // ...
             
@@ -420,21 +526,22 @@ class ExtractSnippetsTest {
                 // ...
                 println("Visible")
             }
-        """.trimIndent()
+            """.trimIndent()
 
         assertEquals(expected, snippet)
     }
 
     @Test
     fun testWarningReportingForNestedExclude() {
-        val code = """
+        val code =
+            """
             // [START tag]
             // [START_EXCLUDE]
             // [START_EXCLUDE]
             val x = 1
             // [END_EXCLUDE]
             // [END tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         SnippetExtractor.parseRegion(code, "tag", onWarning = { warnings.add(it) })
@@ -443,12 +550,13 @@ class ExtractSnippetsTest {
 
     @Test
     fun testWarningReportingForOrphanEndExclude() {
-        val code = """
+        val code =
+            """
             // [START tag]
             val x = 1
             // [END_EXCLUDE]
             // [END tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         SnippetExtractor.parseRegion(code, "tag", onWarning = { warnings.add(it) })
@@ -457,10 +565,11 @@ class ExtractSnippetsTest {
 
     @Test
     fun testWarningReportingForOrphanEndTag() {
-        val code = """
+        val code =
+            """
             val x = 1
             // [END orphan_tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val warnings = mutableListOf<String>()
         SnippetExtractor.extractRegions(code.split("\n"), onWarning = { warnings.add(it) })
@@ -469,7 +578,8 @@ class ExtractSnippetsTest {
 
     @Test
     fun testTargetTagFilteringIgnoresUnrelatedTags() {
-        val code = """
+        val code =
+            """
             // [START desired_tag]
             val visible = 1
             // [END desired_tag]
@@ -477,12 +587,80 @@ class ExtractSnippetsTest {
             // [START unrelated_tag]
             val hidden = 2
             // [END unrelated_tag]
-        """.trimIndent()
+            """.trimIndent()
 
         val extracted = SnippetExtractor.extractRegions(code.split("\n"), targetTag = "desired_tag")
         assertEquals(1, extracted.size)
         assertTrue(extracted.containsKey("desired_tag"))
         assertFalse(extracted.containsKey("unrelated_tag"))
     }
-}
 
+    @Test
+    fun testTaskSkipsBinaryFilesWithNulBytes() {
+        val projectDir = tempFolder.newFolder("module-bin")
+        val outDir = File(projectDir, "build/extracted-snippets")
+        val binaryFile = File(projectDir, "src/main/assets/data").apply {
+            parentFile.mkdirs()
+            writeBytes(byteArrayOf(0x50, 0x4B, 0x00, 0x01) + "// [START fake_bin]\nval x = 1\n// [END fake_bin]".toByteArray())
+        }
+        val textFile = File(projectDir, "src/main/digitalAssetLinking/othersnippets").apply {
+            parentFile.mkdirs()
+            writeText("// [START extless_tag]\nval ok = true\n// [END extless_tag]\n")
+        }
+
+        val project = ProjectBuilder.builder().withProjectDir(projectDir).build()
+        val task = project.tasks.register("extractSnippets", ExtractSnippetsTask::class.java).get()
+        task.projectRootDir.set(projectDir)
+        task.sourceFiles.setFrom(binaryFile, textFile)
+        task.outputDir.set(outDir)
+
+        task.extract()
+
+        assertFalse(File(outDir, "fake_bin").exists())
+        assertEquals("val ok = true", File(outDir, "extless_tag").readText())
+    }
+
+    @Test
+    fun testTaskDeterministicSortOnBulkCollisionAndFailsOnAmbiguousTargetTag() {
+        val projectDir = tempFolder.newFolder("module-dup")
+        val outDir = File(projectDir, "build/extracted-snippets")
+        val fileA = File(projectDir, "src/main/a/List.kt").apply {
+            parentFile.mkdirs()
+            writeText("// [START shared_tag]\nval version = \"a\"\n// [END shared_tag]\n")
+        }
+        val fileB = File(projectDir, "src/main/m3/List.kt").apply {
+            parentFile.mkdirs()
+            writeText("// [START shared_tag]\nval version = \"m3\"\n// [END shared_tag]\n")
+        }
+
+        val project = ProjectBuilder.builder().withProjectDir(projectDir).build()
+
+        // 1. Bulk run (no --tag): succeeds deterministically (sorted path order -> m3 overwrites a)
+        val bulkTask = project.tasks.register("extractBulk", ExtractSnippetsTask::class.java).get()
+        bulkTask.projectRootDir.set(projectDir)
+        bulkTask.sourceFiles.setFrom(fileB, fileA)
+        bulkTask.outputDir.set(outDir)
+        bulkTask.extract()
+        assertEquals("val version = \"m3\"", File(outDir, "shared_tag.kt").readText())
+
+        // 2. Filtered --tag without --package: fails with disambiguation message and cleans up file
+        val ambiguousTask = project.tasks.register("extractAmbiguous", ExtractSnippetsTask::class.java).get()
+        ambiguousTask.projectRootDir.set(projectDir)
+        ambiguousTask.sourceFiles.setFrom(fileB, fileA)
+        ambiguousTask.outputDir.set(outDir)
+        ambiguousTask.targetTag.set("shared_tag")
+        val ex = assertThrows(GradleException::class.java) { ambiguousTask.extract() }
+        assertTrue(ex.message!!.contains("Pass --package=<path-substring> to disambiguate"))
+        assertFalse(File(outDir, "shared_tag.kt").exists())
+
+        // 3. Filtered --tag WITH --package=a: extracts fileA cleanly
+        val disambiguatedTask = project.tasks.register("extractDisambiguated", ExtractSnippetsTask::class.java).get()
+        disambiguatedTask.projectRootDir.set(projectDir)
+        disambiguatedTask.sourceFiles.setFrom(fileB, fileA)
+        disambiguatedTask.outputDir.set(outDir)
+        disambiguatedTask.targetTag.set("shared_tag")
+        disambiguatedTask.targetPackage.set("src/main/a")
+        disambiguatedTask.extract()
+        assertEquals("val version = \"a\"", File(outDir, "shared_tag.kt").readText())
+    }
+}
