@@ -68,5 +68,6 @@ include(
     ":sensors",
     ":preview:wasm",
     ":preview:generator",
-    ":ink"
+    ":ink",
+    ":studio"
 )
