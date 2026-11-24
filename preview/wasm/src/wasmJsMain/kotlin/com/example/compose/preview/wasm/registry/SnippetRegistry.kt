@@ -253,6 +253,8 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_datepicker_modal" to PreviewFrame(400, 640),
     "android_compose_components_datepicker_inputmodal" to PreviewFrame(400, 640),
     "android_compose_components_datepicker_range" to PreviewFrame(400, 640),
+    // The docked picker opens in a popup below its text field, so it needs the same tall frame.
+    "android_compose_components_datepicker_docked" to PreviewFrame(400, 640),
     // Wide navigation rails have a header and 3 items that need more vertical room than 216dp.
     "android_compose_expressive_components_widenavigationrailexample" to PreviewFrame(640, 360),
     "android_compose_expressive_components_modalwidenavigationrailexample" to PreviewFrame(640, 360),
@@ -489,7 +491,11 @@ object SnippetRegistry {
                 DatePickerModalInput(onDateSelected = {}, onDismiss = onClose)
             }
         },
-        "android_compose_components_datepicker_docked" to { CenteredBox { DatePickerDocked() } },
+        // The docked picker's popup fills the window width from the text field's start, so the
+        // field sits at the top with no side padding to keep the popup inside the frame.
+        "android_compose_components_datepicker_docked" to {
+            Box(modifier = Modifier.fillMaxSize().padding(top = 16.dp)) { DatePickerDocked() }
+        },
         "android_compose_components_datepicker_range" to {
             ReopenableDialog("Open date range picker") { onClose ->
                 DateRangePickerModal(
