@@ -25,7 +25,8 @@ kotlin {
 
 android {
     namespace = "com.example.camera.snippets"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.camera.snippets"
