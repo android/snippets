@@ -16,6 +16,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.webkit)
     implementation(libs.kotlinx.coroutines.jdk9)
+    implementation(libs.kotlinx.serialization.core)
     implementation(libs.androidx.navigation.fragment.ktx)
 
     androidTestImplementation(libs.androidx.test.core)
