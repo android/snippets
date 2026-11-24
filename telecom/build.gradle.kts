@@ -5,9 +5,8 @@ plugins {
 
 android {
     namespace = "com.example.telecom"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.telecom"
