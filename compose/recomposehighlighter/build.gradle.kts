@@ -4,6 +4,7 @@ plugins {
 }
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
     namespace = "com.example.recompose"
 
     defaultConfig {

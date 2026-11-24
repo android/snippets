@@ -28,9 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.EditCalendar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,12 +48,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import kotlin.time.Clock
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.char
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +71,15 @@ fun TimePickerExamples() {
 
     var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
 
-    val formatter = remember { SimpleDateFormat("hh:mm a", Locale.getDefault()) }
+    val formatter = remember {
+        LocalTime.Format {
+            amPmHour()
+            char(':')
+            minute()
+            char(' ')
+            amPmMarker("AM", "PM")
+        }
+    }
 
     Box(
         Modifier.fillMaxSize(),
@@ -109,11 +118,8 @@ fun TimePickerExamples() {
                     Text("Time picker with custom dialog")
                 }
                 if (selectedTime != null) {
-                    val cal = Calendar.getInstance()
-                    cal.set(Calendar.HOUR_OF_DAY, selectedTime!!.hour)
-                    cal.set(Calendar.MINUTE, selectedTime!!.minute)
-                    cal.isLenient = false
-                    Text("Selected time = ${formatter.format(cal.time)}")
+                    val time = LocalTime(selectedTime!!.hour, selectedTime!!.minute)
+                    Text("Selected time = ${time.format(formatter)}")
                 } else {
                     Text("No time selected.")
                 }
@@ -179,12 +185,11 @@ fun TimePickerExamples() {
 fun DialExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    initialTime: LocalTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time,
 ) {
-    val currentTime = Calendar.getInstance()
-
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = initialTime.hour,
+        initialMinute = initialTime.minute,
         is24Hour = true,
     )
 
@@ -208,12 +213,11 @@ fun DialExample(
 fun InputExample(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    initialTime: LocalTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time,
 ) {
-    val currentTime = Calendar.getInstance()
-
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = initialTime.hour,
+        initialMinute = initialTime.minute,
         is24Hour = true,
     )
 
@@ -238,11 +242,11 @@ fun DialUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -267,11 +271,11 @@ fun InputUseStateExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -296,11 +300,11 @@ fun DialWithDialogExample(
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -345,11 +349,11 @@ fun AdvancedTimePickerExample(
     onDismiss: () -> Unit,
 ) {
 
-    val currentTime = Calendar.getInstance()
+    val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
     val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
+        initialHour = currentTime.hour,
+        initialMinute = currentTime.minute,
         is24Hour = true,
     )
 
@@ -358,9 +362,9 @@ fun AdvancedTimePickerExample(
 
     /** The icon used for the icon button that switches from dial to input */
     val toggleIcon = if (showDial) {
-        Icons.Filled.EditCalendar
+        AppIcons.EditCalendar
     } else {
-        Icons.Filled.AccessTime
+        AppIcons.AccessTime
     }
 
     AdvancedTimePickerDialog(
@@ -369,7 +373,7 @@ fun AdvancedTimePickerExample(
         toggle = {
             IconButton(onClick = { showDial = !showDial }) {
                 Icon(
-                    imageVector = toggleIcon,
+                    painter = rememberVectorPainter(toggleIcon),
                     contentDescription = "Time picker type toggle",
                 )
             }
