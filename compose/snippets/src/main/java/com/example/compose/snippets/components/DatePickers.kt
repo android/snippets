@@ -265,7 +265,8 @@ fun DatePickerDocked() {
             Popup(
                 onDismissRequest = { showDatePicker = false },
                 alignment = Alignment.TopStart,
-                offset = IntOffset(x = 0, y = with(LocalDensity.current) { 64.dp.roundToPx() })
+                // Place the picker 8dp below the 64dp-tall text field.
+                offset = IntOffset(x = 0, y = with(LocalDensity.current) { 72.dp.roundToPx() })
             ) {
                 Surface(
                     modifier = Modifier.width(360.dp),
