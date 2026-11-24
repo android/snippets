@@ -18,4 +18,5 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="min_width">8dp</dimen>
     <dimen name="padding_2">8dp</dimen>
+    <dimen name="font_size">16sp</dimen>
 </resources>
