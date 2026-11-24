@@ -19,6 +19,7 @@
     <string name="email_sent">Email sent</string>
     <string name="email_archived">Email archived</string>
     <string name="undo_string">Undo</string>
+    <string name="label_blank">Blank</string>
     <string name="hello">Hello!</string>
     <string name="world">world</string>
     <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
