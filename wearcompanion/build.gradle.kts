@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.wear.snippets"
     compileSdk = 37
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.wear.snippets"
