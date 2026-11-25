@@ -79,6 +79,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
     // Use the stable BOM (2026.11.01) bringing Compose 1.13.0 and material3 1.5.0.
