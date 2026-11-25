@@ -81,4 +81,20 @@
       <xliff:g id="time" example="5 days">%1$s</xliff:g> until holiday
     </string>
     <!-- [END android_resources_localization_countdown] -->
+    <bool name="screen_small">true</bool>
+    <integer name="max_speed">75</integer>
+    <integer-array name="bits">
+        <item>4</item>
+        <item>8</item>
+        <item>16</item>
+        <item>32</item>
+    </integer-array>
+    <array name="icons">
+        <item>@drawable/cupcake</item>
+    </array>
+    <array name="colors">
+        <item>#FFFF0000</item>
+        <item>#FF00FF00</item>
+        <item>#FF0000FF</item>
+    </array>
 </resources>

@@ -81,7 +81,6 @@
   <string name="promo_message">
     Usa el código "<xliff:g id="promotion_code">ABCDEFG</xliff:g>" para obtener un descuento.
   </string>
-  <string name="hello">¡Hola!</string>
   <string-array name="planets_array">
     <item>Mercurio</item>
     <item>Venus</item>
@@ -93,4 +92,6 @@
     <item quantity="other">Se encontraron %d canciones.</item>
   </plurals>
   <string name="welcome">¡Te damos la bienvenida a <b>Android</b>!</string>
+  <string name="hello">Hola</string>
+  <string name="hi">@string/hello</string>
 </resources>
