@@ -39,20 +39,11 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 // [START androidxr_projected_camera_center_crop_rect]
-private const val DEFAULT_MAX_DIGITAL_ZOOM = 4.0f
-
 fun computeCenterCropRect(
     activeArray: Rect,
-    zoomFactor: Float,
-    reportedMaxDigitalZoom: Float = DEFAULT_MAX_DIGITAL_ZOOM
+    outputSize: Size,
+    zoomFactor: Float
 ): Rect {
-    val maxZoom = if (reportedMaxDigitalZoom > 1.0f) {
-        reportedMaxDigitalZoom
-    } else {
-        DEFAULT_MAX_DIGITAL_ZOOM
-    }
-    val effectiveZoom = zoomFactor.coerceIn(1.0f, maxZoom)
-
     // Align the active array bounds to even integers for YUV_420_888 2x2 chroma planes.
     val baseLeft = activeArray.left and 1.inv()
     val baseTop = activeArray.top and 1.inv()
@@ -60,12 +51,19 @@ fun computeCenterCropRect(
     val activeHeight = activeArray.height() and 1.inv()
     if (activeWidth <= 0 || activeHeight <= 0) return Rect(activeArray)
 
-    val minWidth = (activeWidth / maxZoom).roundToInt().coerceAtLeast(2)
-    val minHeight = (activeHeight / maxZoom).roundToInt().coerceAtLeast(2)
+    // Cap zoom so the cropped sensor region never shrinks below outputSize (avoiding upscaling).
+    val minCropWidth = ((outputSize.width + 1) and 1.inv()).coerceIn(2, activeWidth)
+    val minCropHeight = ((outputSize.height + 1) and 1.inv()).coerceIn(2, activeHeight)
+    val maxDetailZoom = minOf(
+        activeWidth.toFloat() / minCropWidth,
+        activeHeight.toFloat() / minCropHeight
+    ).coerceAtLeast(1.0f)
+    val effectiveZoom = zoomFactor.coerceIn(1.0f, maxDetailZoom)
+
     val targetWidth = (activeWidth / effectiveZoom).roundToInt()
-        .coerceIn(minWidth, activeWidth)
+        .coerceIn(minCropWidth, activeWidth)
     val targetHeight = (activeHeight / effectiveZoom).roundToInt()
-        .coerceIn(minHeight, activeHeight)
+        .coerceIn(minCropHeight, activeHeight)
 
     // Apply even-aligned insets on opposite edges so the crop stays centered and even-sized.
     val horizontalInset = ((activeWidth - targetWidth) / 2) and 1.inv()
@@ -82,10 +80,11 @@ fun computeCenterCropRect(
 
 // [START androidxr_projected_camera_bind_cropped_analysis]
 @OptIn(ExperimentalCamera2Interop::class, ExperimentalCameraProviderConfiguration::class)
-fun bindCroppedHighResAnalysis(
+fun bindCroppedAnalysis(
     cameraProvider: LifecycleCameraProvider,
     cameraIdentifier: CameraIdentifier,
     lifecycleOwner: LifecycleOwner,
+    targetSize: Size,
     analyzerExecutor: Executor,
     analyzer: ImageAnalysis.Analyzer,
     zoomFactor: Float = 1.4f,
@@ -95,21 +94,15 @@ fun bindCroppedHighResAnalysis(
         cameraIdentifier.isOf(info)
     } ?: return null
 
-    val camera2Info = Camera2CameraInfo.from(cameraInfo)
-    val activeArray = camera2Info.getCameraCharacteristic(
-        CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE
-    )
-    val reportedMaxZoom = camera2Info.getCameraCharacteristic(
-        CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM
-    ) ?: DEFAULT_MAX_DIGITAL_ZOOM
-
-    // Query supported YUV_420_888 sizes and per-size maximum FPS.
+    // Verify targetSize is supported for YUV_420_888 and look up its maximum FPS.
     val maxFpsBySize = getMaxFpsBySize(cameraInfo, ImageFormat.YUV_420_888)
-    val targetSize = maxFpsBySize.keys.maxByOrNull { it.width * it.height }
-        ?: Size(1920, 1080)
-    val maxSupportedFps = maxFpsBySize[targetSize] ?: 1
+    val maxSupportedFps = maxFpsBySize[targetSize] ?: return null
     val minFps = minOf(targetFps, maxSupportedFps).coerceAtLeast(1)
     val maxFps = minFps * 2
+
+    val activeArray = Camera2CameraInfo.from(cameraInfo).getCameraCharacteristic(
+        CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE
+    )
 
     val isSixteenByNine = targetSize.height > 0 &&
         abs(targetSize.width.toFloat() / targetSize.height - 16f / 9f) < 0.05f
@@ -124,7 +117,7 @@ fun bindCroppedHighResAnalysis(
         .setResolutionStrategy(
             ResolutionStrategy(
                 targetSize,
-                ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER
+                ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER
             )
         )
         .build()
@@ -136,7 +129,7 @@ fun bindCroppedHighResAnalysis(
 
     Camera2Interop.Extender(analysisBuilder).apply {
         if (activeArray != null && activeArray.width() > 0 && activeArray.height() > 0) {
-            val cropRect = computeCenterCropRect(activeArray, zoomFactor, reportedMaxZoom)
+            val cropRect = computeCenterCropRect(activeArray, targetSize, zoomFactor)
             setCaptureRequestOption(CaptureRequest.SCALER_CROP_REGION, cropRect)
             setCaptureRequestOption(CaptureRequest.CONTROL_ZOOM_RATIO, 1.0f)
         }
@@ -150,7 +143,6 @@ fun bindCroppedHighResAnalysis(
         setAnalyzer(analyzerExecutor, analyzer)
     }
 
-    cameraProvider.unbindAll()
     cameraProvider.bindToLifecycle(
         lifecycleOwner,
         cameraInfo.cameraSelector,
