@@ -46,7 +46,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.os.ConfigurationCompat
 import com.example.compose.snippets.R
 import java.time.LocalDate
@@ -192,6 +191,7 @@ private fun LocalizationSnippet() {
     val locale = LocalConfiguration.current.locales[0]
     // [END android_resources_localization_local_configuration]
 }
+
 // [START android_resources_runtime_changes_date_text]
 @Composable
 fun DateText(year: Int, dayOfYear: Int) {
