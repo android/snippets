@@ -19,12 +19,10 @@ package com.example.compose.snippets.accessibility
 import android.accessibilityservice.AccessibilityButtonController
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
-import android.accessibilityservice.FingerprintGestureController
 import android.accessibilityservice.GestureDescription
 import android.content.Context
 import android.graphics.Path
 import android.media.AudioManager
-import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.LocaleSpan
@@ -32,38 +30,36 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import java.util.Locale
 
-private object CreateAccessibilityServiceSnippet {
-    // [START android_compose_accessibility_service_create]
-    // package com.example.android.apis.accessibility
+// [START android_compose_accessibility_service_create]
+// package com.example.android.apis.accessibility
 
-    // import android.accessibilityservice.AccessibilityService
-    // import android.accessibilityservice.AccessibilityServiceInfo
-    // import android.accessibilityservice.FingerprintGestureController
-    // import android.accessibilityservice.AccessibilityButtonController
-    // import android.accessibilityservice.GestureDescription
-    // import android.view.accessibility.AccessibilityEvent
-    // import android.view.accessibility.AccessibilityNodeInfo
-    // import android.graphics.Path
-    // import android.os.Build
-    // import android.media.AudioManager
-    // import android.content.Context
+// import android.accessibilityservice.AccessibilityService
+// import android.accessibilityservice.AccessibilityServiceInfo
+// import android.accessibilityservice.FingerprintGestureController
+// import android.accessibilityservice.AccessibilityButtonController
+// import android.accessibilityservice.GestureDescription
+// import android.view.accessibility.AccessibilityEvent
+// import android.view.accessibility.AccessibilityNodeInfo
+// import android.graphics.Path
+// import android.os.Build
+// import android.media.AudioManager
+// import android.content.Context
 
-    class MyAccessibilityService : AccessibilityService() {
+class MyAccessibilityService : AccessibilityService() {
 
-        override fun onAccessibilityEvent(event: AccessibilityEvent) {
-            // Interpret the event and provide feedback to the user.
-        }
-
-        override fun onInterrupt() {
-            // Interrupt any ongoing feedback.
-        }
-
-        override fun onServiceConnected() {
-            // Perform initialization here.
-        }
+    override fun onAccessibilityEvent(event: AccessibilityEvent) {
+        // Interpret the event and provide feedback to the user.
     }
-    // [END android_compose_accessibility_service_create]
+
+    override fun onInterrupt() {
+        // Interrupt any ongoing feedback.
+    }
+
+    override fun onServiceConnected() {
+        // Perform initialization here.
+    }
 }
+// [END android_compose_accessibility_service_create]
 
 private abstract class RuntimeConfigAccessibilityService : AccessibilityService() {
     // [START android_compose_accessibility_service_runtime_config]
@@ -95,15 +91,16 @@ private abstract class InterpretUiAccessibilityService : AccessibilityService() 
 
         // Inspect properties.
         if (sourceNode.isCheckable) {
-            val state = if (sourceNode.isChecked) "Checked" else "Unchecked"
+            val state = if (sourceNode.checked == AccessibilityNodeInfo.CHECKED_STATE_TRUE) {
+                "Checked"
+            } else {
+                "Unchecked"
+            }
             val label = sourceNode.text ?: sourceNode.contentDescription
 
             // Provide feedback (for example, speak to the user).
             speakToUser("$label is $state")
         }
-
-        // Always recycle nodes to prevent memory leaks.
-        sourceNode.recycle()
     }
 
     private fun speakToUser(text: String) {
@@ -112,15 +109,13 @@ private abstract class InterpretUiAccessibilityService : AccessibilityService() 
     // [END android_compose_accessibility_service_interpret_ui]
 }
 
-private object PerformClickSnippet {
-    // [START android_compose_accessibility_service_perform_click]
-    fun performClick(node: AccessibilityNodeInfo) {
-        if (node.isClickable) {
-            node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-        }
+// [START android_compose_accessibility_service_perform_click]
+fun performClick(node: AccessibilityNodeInfo) {
+    if (node.isClickable) {
+        node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
     }
-    // [END android_compose_accessibility_service_perform_click]
 }
+// [END android_compose_accessibility_service_perform_click]
 
 private abstract class NavigateBackAccessibilityService : AccessibilityService() {
     // [START android_compose_accessibility_service_navigate_back]
@@ -141,23 +136,17 @@ private abstract class FindFocusAccessibilityService : AccessibilityService() {
             val focusedNode = root.findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY)
 
             // Do something with focusedNode.
-
-            // Always recycle nodes.
-            focusedNode?.recycle()
-            // rootInActiveWindow doesn't need to be recycled, but obtained nodes do.
         }
         // [END android_compose_accessibility_service_find_focus]
     }
 }
 
-private object FocusNodeSnippet {
-    // [START android_compose_accessibility_service_focus_node]
-    // Request that the system give focus to a given node.
-    fun focusNode(node: AccessibilityNodeInfo) {
-        node.performAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS)
-    }
-    // [END android_compose_accessibility_service_focus_node]
+// [START android_compose_accessibility_service_focus_node]
+// Request that the system give focus to a given node.
+fun focusNode(node: AccessibilityNodeInfo) {
+    node.performAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS)
 }
+// [END android_compose_accessibility_service_focus_node]
 
 private abstract class SwipeRightAccessibilityService : AccessibilityService() {
     // [START android_compose_accessibility_service_swipe_right]
@@ -228,37 +217,6 @@ private abstract class IncreaseVolumeAccessibilityService : AccessibilityService
         )
     }
     // [END android_compose_accessibility_service_increase_volume]
-}
-
-private abstract class FingerprintGestureAccessibilityService : AccessibilityService() {
-    // [START android_compose_accessibility_service_fingerprint_gesture]
-    // Import: android.os.Build.
-    // Import: android.accessibilityservice.FingerprintGestureController.
-
-    private var gestureController: FingerprintGestureController? = null
-
-    override fun onServiceConnected() {
-        // Check if the device is running Android 10 (Q) or higher.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            gestureController = fingerprintGestureController
-
-            val callback = object : FingerprintGestureController.FingerprintGestureCallback() {
-                override fun onGestureDetected(gesture: Int) {
-                    when (gesture) {
-                        FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_DOWN -> {
-                            // Handle swipe down.
-                        }
-                        FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_UP -> {
-                            // Handle swipe up.
-                        }
-                    }
-                }
-            }
-
-            gestureController?.registerFingerprintGestureCallback(callback, null)
-        }
-    }
-    // [END android_compose_accessibility_service_fingerprint_gesture]
 }
 
 private abstract class AccessibilityButtonAccessibilityService : AccessibilityService() {
