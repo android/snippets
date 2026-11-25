@@ -491,10 +491,15 @@ object SnippetRegistry {
                 DatePickerModalInput(onDateSelected = {}, onDismiss = onClose)
             }
         },
-        // The docked picker's popup fills the window width from the text field's start, so the
-        // field sits at the top with no side padding to keep the popup inside the frame.
+        // The docked picker opens below its text field, so center the field horizontally at the
+        // top of the frame and leave room underneath for the popup.
         "android_compose_components_datepicker_docked" to {
-            Box(modifier = Modifier.fillMaxSize().padding(top = 16.dp)) { DatePickerDocked() }
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                DatePickerDocked()
+            }
         },
         "android_compose_components_datepicker_range" to {
             ReopenableDialog("Open date range picker") { onClose ->

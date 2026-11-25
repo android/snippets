@@ -240,9 +240,7 @@ fun DatePickerDocked() {
         convertMillisToDate(it)
     } ?: ""
 
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Box {
         OutlinedTextField(
             value = selectedDate,
             onValueChange = { },
@@ -257,7 +255,7 @@ fun DatePickerDocked() {
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
+                .width(360.dp)
                 .height(64.dp)
         )
 
