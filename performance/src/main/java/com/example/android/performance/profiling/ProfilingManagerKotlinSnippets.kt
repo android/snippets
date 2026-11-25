@@ -538,4 +538,33 @@ class ProfilingManagerKotlinSnippets {
         }
         // [END android_profiling_manager_anr_case_study_kotlin_snippet_2]
     }
+
+    private object AnomalyTriggerSnippets {
+        @RequiresApi(Build.VERSION_CODES.CINNAMON_BUN)
+        // [START android_performance_profiling_anomaly_trigger]
+        fun registerAnomalyTrigger(context: Context) {
+            val profilingManager =
+                context.getSystemService(ProfilingManager::class.java) ?: return
+            val triggers = listOf(
+                ProfilingTrigger.Builder(ProfilingTrigger.TRIGGER_TYPE_ANOMALY).build()
+            )
+            val callbackExecutor: Executor = Executors.newSingleThreadExecutor()
+            val resultCallback = Consumer<ProfilingResult> { profilingResult ->
+                if (profilingResult.errorCode == ProfilingResult.ERROR_NONE) {
+                    // Upload profile result to server for further analysis
+                    profilingResult.resultFilePath?.let { setupProfileUploadWorker(it) }
+                }
+            }
+            profilingManager.registerForAllProfilingResults(
+                callbackExecutor,
+                resultCallback
+            )
+            profilingManager.addProfilingTriggers(triggers)
+        }
+        // [END android_performance_profiling_anomaly_trigger]
+
+        private fun setupProfileUploadWorker(filePath: String) {
+            // Background upload worker implementation
+        }
+    }
 }
