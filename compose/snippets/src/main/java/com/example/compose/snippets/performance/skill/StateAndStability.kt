@@ -41,7 +41,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -176,18 +175,6 @@ fun OptimizedLayout(modifier: Modifier = Modifier) {
     )
 }
 // [END android_compose_performance_state_layout_write_good]
-
-// [START android_compose_performance_state_never_equal_policy]
-class ActiveQueueManager {
-    private val list = mutableListOf<Item>()
-    val items = mutableStateOf(list, neverEqualPolicy())
-
-    fun enqueue(item: Item) {
-        list.add(item)
-        items.value = list // Load-bearing assignment triggers recomposition
-    }
-}
-// [END android_compose_performance_state_never_equal_policy]
 
 private object SnapshotListBad {
     // [START android_compose_performance_state_snapshot_list_bad]
