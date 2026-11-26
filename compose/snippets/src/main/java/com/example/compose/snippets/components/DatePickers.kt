@@ -373,7 +373,8 @@ fun DateRangePickerModal(
             state = dateRangePickerState,
             title = {
                 Text(
-                    text = "Select date range"
+                    text = "Select date range",
+                    modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp)
                 )
             },
             showModeToggle = false,
