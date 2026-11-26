@@ -93,6 +93,7 @@ kotlinxSerialization = "1.12.0"
 ksp = "2.3.13"
 ktlint = "1.5.0"
 lifecycleService = "2.11.0"
+litert = "2.4.1"
 maps-compose = "9.0.1"
 material = "1.14.0"
 material3 = "1.5.0"
@@ -395,6 +396,8 @@ kotlinx-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", ve
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+litert = { module = "com.google.ai.edge.litert:litert", version.ref = "litert" }
+litert-gpu = { module = "com.google.ai.edge.litert:litert-gpu", version.ref = "litert" }
 mlkit-barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "mlkit-barcode-scanning" }
 mlkit-genai-prompt = { module = "com.google.mlkit:genai-prompt", version.ref = "mlkit-genai-prompt" }
 mlkit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "mlkit-face-detection" }
