@@ -78,10 +78,8 @@ dependencies {
     implementation(libs.google.adk.core.android)
     ksp(libs.google.adk.processor)
     implementation(libs.mlkit.genai.prompt)
-// [START android_litert_runtime_skill_dependencies]
     implementation(libs.litert)
     implementation(libs.litert.gpu)
-// [END android_litert_runtime_skill_dependencies]
     ksp(libs.genai.schema.compiler)
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))

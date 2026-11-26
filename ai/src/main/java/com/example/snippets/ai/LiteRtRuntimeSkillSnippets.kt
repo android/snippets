@@ -16,7 +16,6 @@
 
 package com.example.snippets.ai
 
-// [START android_litert_runtime_skill_imports]
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
@@ -44,7 +43,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-// [END android_litert_runtime_skill_imports]
 
 // [START android_litert_runtime_skill_classifier]
 // Replace with your model's input element count (here 224 x 224 x 3 RGB).
