@@ -156,6 +156,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation(libs.kotlinx.collections.immutable)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
