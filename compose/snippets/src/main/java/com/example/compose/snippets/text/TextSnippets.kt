@@ -21,7 +21,6 @@ package com.example.compose.snippets.text
 import android.graphics.Typeface
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,11 +56,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Cyan
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -165,24 +161,6 @@ private object TextAlignmentSnippet {
         )
     }
     // [END android_compose_text_alignment]
-}
-
-private object TextShadowSnippet {
-    // [START android_compose_text_shadow]
-    @Composable
-    fun TextShadow() {
-        val offset = Offset(5.0f, 10.0f)
-        Text(
-            text = "Hello world!",
-            style = TextStyle(
-                fontSize = 24.sp,
-                shadow = Shadow(
-                    color = Color.Blue, offset = offset, blurRadius = 3f
-                )
-            )
-        )
-    }
-    // [END android_compose_text_shadow]
 }
 
 private object TextMultipleFontsSnippet {
@@ -292,24 +270,6 @@ private object TextOverflowSnippet {
     // [END android_compose_text_overflow]
 }
 
-private object TextBrushSnippet1 {
-    @Composable
-    fun TextStyledBrushSnippet(text: String) {
-        // [START android_compose_text_brush]
-        val gradientColors = listOf(Cyan, LightBlue, Purple /*...*/)
-
-        Text(
-            text = text,
-            style = TextStyle(
-                brush = Brush.linearGradient(
-                    colors = gradientColors
-                )
-            )
-        )
-        // [END android_compose_text_brush]
-    }
-}
-
 private object TextBrushSnippet2 {
     @Composable
     fun TextStyledBrushSnippet() {
@@ -325,57 +285,6 @@ private object TextBrushSnippet2 {
             value = text, onValueChange = { text = it }, textStyle = TextStyle(brush = brush)
         )
         // [END android_compose_text_textfield_brush]
-    }
-}
-
-private object TextBrushSnippet3 {
-    @Composable
-    fun TextStyledBrushSnippet() {
-        val rainbowColors: List<Color> = listOf()
-        // [START android_compose_text_annotatedString_brush]
-        Text(
-            text = buildAnnotatedString {
-                append("Do not allow people to dim your shine\n")
-                withStyle(
-                    SpanStyle(
-                        brush = Brush.linearGradient(
-                            colors = rainbowColors
-                        )
-                    )
-                ) {
-                    append("because they are blinded.")
-                }
-                append("\nTell them to put some sunglasses on.")
-            }
-        )
-        // [END android_compose_text_annotatedString_brush]
-    }
-}
-
-private object TextBrushSnippet4 {
-    @Composable
-    fun TextStyledBrushSnippet() {
-        val rainbowColors: List<Color> = listOf()
-        // [START android_compose_text_alpha_brush]
-        val brush = Brush.linearGradient(colors = rainbowColors)
-
-        buildAnnotatedString {
-            withStyle(
-                SpanStyle(
-                    brush = brush, alpha = .5f
-                )
-            ) {
-                append("Text in ")
-            }
-            withStyle(
-                SpanStyle(
-                    brush = brush, alpha = 1f
-                )
-            ) {
-                append("Compose ❤️")
-            }
-        }
-        // [END android_compose_text_alpha_brush]
     }
 }
 
@@ -778,21 +687,6 @@ fun HyphenateTextSnippet() {
     // [END android_compose_text_hyphen]
 }
 
-@Preview(showBackground = true)
-// [START android_compose_text_marquee]
-@Composable
-fun BasicMarqueeSample() {
-    // Marquee only animates when the content doesn't fit in the max width.
-    Column(Modifier.width(400.dp)) {
-        Text(
-            "Learn about why it's great to use Jetpack Compose",
-            modifier = Modifier.basicMarquee(),
-            fontSize = 50.sp
-        )
-    }
-}
-// [END android_compose_text_marquee]
-
 // [START android_compose_text_auto_format_phone_number_textfieldconfig]
 @Composable
 fun PhoneNumber() {
@@ -860,9 +754,6 @@ class NanpVisualTransformation : VisualTransformation {
 // [END android_compose_text_auto_format_phone_number_transformtext]
 
 private val firaSansFamily = FontFamily(typeface = Typeface.DEFAULT)
-
-val LightBlue = Color(0xFF0066FF)
-val Purple = Color(0xFF800080)
 
 // [START android_compose_text_showhidepassword]
 @Composable

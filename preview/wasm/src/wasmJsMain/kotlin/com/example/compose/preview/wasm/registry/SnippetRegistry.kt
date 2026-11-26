@@ -21,6 +21,7 @@
 
 package com.example.compose.preview.wasm.registry
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -173,6 +175,11 @@ import com.example.compose.snippets.components.XLargeButtonWithIconSample
 import com.example.compose.snippets.components.XLargeToggleButtonWithIconSample
 import com.example.compose.snippets.components.XSmallButtonWithIconSample
 import com.example.compose.snippets.components.XSmallToggleButtonWithIconSample
+import com.example.compose.snippets.text.AlphaBrushSnippet
+import com.example.compose.snippets.text.AnnotatedStringBrushSnippet
+import com.example.compose.snippets.text.BasicMarqueeSample
+import com.example.compose.snippets.text.TextShadow
+import com.example.compose.snippets.text.TextStyledBrushSnippet
 import kotlinx.datetime.LocalTime
 
 @Composable
@@ -281,6 +288,13 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_animation_cookbook_text" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_text_color" to AnimationPreviewFrame,
     "android_compose_animation_cookbook_animated_content" to AnimationPreviewFrame,
+    // Style text: small 16:9 frames, so the text fills a short DAC stage at 1.25x.
+    "android_compose_text_shadow" to PreviewFrame(256, 144),
+    "android_compose_text_alpha_brush" to PreviewFrame(288, 162),
+    "android_compose_text_brush" to PreviewFrame(320, 180),
+    "android_compose_text_annotatedstring_brush" to PreviewFrame(320, 180),
+    // Fits the snippet's 400dp-wide marquee and its outline.
+    "android_compose_text_marquee" to PreviewFrame(480, 270),
     "android_compose_expressive_components_singleselectconnectedbuttongroup" to PreviewFrame(640, 360),
     "android_compose_expressive_components_multiselectconnectedbuttongroup" to PreviewFrame(640, 360),
     "android_compose_expressive_components_groupedmenusample" to PreviewFrame(640, 360),
@@ -542,6 +556,27 @@ object SnippetRegistry {
         "android_compose_animation_cookbook_text" to { SmoothAnimateText() },
         "android_compose_animation_cookbook_text_color" to { AnimateTextColor() },
         "android_compose_animation_cookbook_animated_content" to { AnimatedContentExampleSwitch() },
+        // Style text (text/StyleText.kt).
+        "android_compose_text_shadow" to { CenteredBox { TextShadow() } },
+        "android_compose_text_brush" to {
+            CenteredBox {
+                TextStyledBrushSnippet(
+                    "Do not allow people to dim your shine because they are blinded. " +
+                        "Tell them to put some sunglasses on."
+                )
+            }
+        },
+        "android_compose_text_annotatedstring_brush" to { CenteredBox { AnnotatedStringBrushSnippet() } },
+        "android_compose_text_alpha_brush" to { CenteredBox { AlphaBrushSnippet() } },
+        // Outlines the marquee's 400dp-wide Column, so readers can see where the text is clipped.
+        // Its static DAC preview is an MP4 recorded from PreviewRecordings.
+        "android_compose_text_marquee" to {
+            CenteredBox {
+                Box(Modifier.border(1.dp, MaterialTheme.colorScheme.outline).padding(vertical = 8.dp)) {
+                    BasicMarqueeSample()
+                }
+            }
+        },
     )
 
     fun getById(id: String): (@Composable () -> Unit)? = snippets[id]
