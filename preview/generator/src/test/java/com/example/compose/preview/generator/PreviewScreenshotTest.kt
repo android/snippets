@@ -353,6 +353,8 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_advancedrichtooltipexample" to "Open camera",
     "android_compose_expressive_components_groupedmenusample" to "Localized description",
     "android_compose_expressive_components_floatingactionbuttonmenu" to "Toggle menu",
+    // Capture the docked date picker open, below its text field.
+    "android_compose_components_datepicker_docked" to "Select date",
 )
 
 /**

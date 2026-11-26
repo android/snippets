@@ -16,7 +16,6 @@
 
 package com.example.compose.snippets.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -26,8 +25,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
@@ -41,6 +40,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -52,12 +52,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.example.compose.snippets.ui.theme.SnippetsTheme
@@ -239,9 +240,7 @@ fun DatePickerDocked() {
         convertMillisToDate(it)
     } ?: ""
 
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Box {
         OutlinedTextField(
             value = selectedDate,
             onValueChange = { },
@@ -256,26 +255,31 @@ fun DatePickerDocked() {
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
+                .width(360.dp)
                 .height(64.dp)
         )
 
         if (showDatePicker) {
             Popup(
                 onDismissRequest = { showDatePicker = false },
-                alignment = Alignment.TopStart
+                alignment = Alignment.TopStart,
+                // Place the picker 8dp below the 64dp-tall text field.
+                offset = IntOffset(x = 0, y = with(LocalDensity.current) { 72.dp.roundToPx() })
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 64.dp)
-                        .shadow(elevation = 4.dp)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(16.dp)
+                Surface(
+                    modifier = Modifier.width(360.dp),
+                    shape = MaterialTheme.shapes.large,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    shadowElevation = 6.dp
                 ) {
                     DatePicker(
                         state = datePickerState,
-                        showModeToggle = false
+                        title = null,
+                        headline = null,
+                        showModeToggle = false,
+                        colors = DatePickerDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                        )
                     )
                 }
             }
@@ -369,14 +373,14 @@ fun DateRangePickerModal(
             state = dateRangePickerState,
             title = {
                 Text(
-                    text = "Select date range"
+                    text = "Select date range",
+                    modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp)
                 )
             },
             showModeToggle = false,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp)
-                .padding(16.dp)
         )
     }
 }
