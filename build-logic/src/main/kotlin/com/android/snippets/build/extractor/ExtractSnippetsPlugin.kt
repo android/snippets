@@ -17,16 +17,17 @@
 package com.android.snippets.build.extractor
 
 import org.gradle.api.Plugin
-import org.gradle.api.Project
+import org.gradle.api.initialization.Settings
 
 /**
- * Gradle plugin that registers documentation snippet extraction tasks across all subprojects
- * and an aggregating task at the root project.
+ * Gradle Settings plugin that registers documentation snippet extraction tasks across all
+ * non-root projects in an Isolated-Projects-compatible manner.
  *
  * This plugin scans source files across standard Android, JVM, iOS, and Kotlin Multiplatform
  * source sets (including `.kt`, `.java`, `.xml`, `.json`, `.proto`, `.swift`, `.kts`, `.gradle`,
- * and `.pro` files), extracts regions bounded by `[START <tag>]` and `[END <tag>]`, and applies
- * transformations (such as exclusion handling and indentation normalization) to match documentation site rendering.
+ * `.pro`, and extensionless snippet files), extracts regions bounded by `[START <tag>]` and
+ * `[END <tag>]`, and applies transformations (exclusion handling and indentation normalization)
+ * matching documentation site rendering.
  *
  * ### Output Destination
  * Extracted snippets are written to `<subproject>/build/extracted-snippets/<tag>.<extension>`.
@@ -61,48 +62,80 @@ import org.gradle.api.Project
  * ```
  * Output: Saved to `room/build/extracted-snippets/` for matching snippets under `room/.../migration/`.
  */
-class ExtractSnippetsPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        // Register extractSnippets on all subprojects
-        project.subprojects {
+class ExtractSnippetsPlugin : Plugin<Settings> {
+    override fun apply(settings: Settings) {
+        settings.gradle.lifecycle.beforeProject {
+            if (path == ":") return@beforeProject
+
+            val projectPath = path
+            val projectProviders = providers
+            val projectLayout = layout
+
             tasks.register("extractSnippets", ExtractSnippetsTask::class.java) {
                 group = "documentation"
-                description = "Extracts documentation snippets for $name matching documentation site transformations."
+                description =
+                    "Extracts documentation snippets for $projectPath matching documentation site transformations."
 
-                targetTag.convention(project.providers.gradleProperty("tag"))
-                targetPackage.convention(project.providers.gradleProperty("package"))
+                targetTag.convention(projectProviders.gradleProperty("tag"))
+                targetPackage.convention(projectProviders.gradleProperty("package"))
+                projectRootDir.set(projectLayout.projectDirectory)
 
                 sourceFiles.setFrom(
-                    fileTree(projectDir) {
+                    projectLayout.projectDirectory.asFileTree.matching {
                         include(
                             "src/**",
                             "iosApp/**",
                             "*.gradle.kts",
                             "*.gradle",
-                            "*.pro"
+                            "*.pro",
                         )
                         exclude(
                             "**/build/**",
                             "**/spotless/**",
                             "**/.gradle/**",
                             "**/.idea/**",
+                            "**/.DS_Store",
                             "**/*.png",
                             "**/*.jpg",
+                            "**/*.jpeg",
                             "**/*.webp",
+                            "**/*.gif",
+                            "**/*.bmp",
+                            "**/*.ico",
+                            "**/*.heic",
+                            "**/*.mp4",
+                            "**/*.mkv",
+                            "**/*.webm",
+                            "**/*.mp3",
+                            "**/*.wav",
+                            "**/*.ogg",
+                            "**/*.ttf",
+                            "**/*.otf",
+                            "**/*.woff",
+                            "**/*.woff2",
+                            "**/*.apk",
+                            "**/*.aab",
                             "**/*.jar",
-                            "**/*.class"
+                            "**/*.aar",
+                            "**/*.dex",
+                            "**/*.class",
+                            "**/*.so",
+                            "**/*.dylib",
+                            "**/*.a",
+                            "**/*.tflite",
+                            "**/*.pb",
+                            "**/*.bin",
+                            "**/*.pdf",
+                            "**/*.zip",
+                            "**/*.gz",
+                            "**/*.tar",
+                            "**/*.keystore",
+                            "**/*.jks",
                         )
                     }
                 )
-                outputDir.set(layout.buildDirectory.dir("extracted-snippets"))
+                outputDir.set(projectLayout.buildDirectory.dir("extracted-snippets"))
             }
-        }
-
-        // Register root task that aggregates all subprojects
-        project.tasks.register("extractSnippets") {
-            group = "documentation"
-            description = "Extracts documentation snippets across all submodules."
-            dependsOn(project.subprojects.map { "${it.path}:extractSnippets" })
         }
     }
 }

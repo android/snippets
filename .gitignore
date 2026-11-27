@@ -5,6 +5,7 @@ gradle/gradle-daemon-jvm.properties
 .idea/
 .DS_Store
 build
+!/build-logic/src/**/build/
 /captures
 .externalNativeBuild
 .kotlin

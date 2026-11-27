@@ -18,9 +18,13 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    gradlePluginPortal()
-    mavenCentral()
+gradlePlugin {
+    plugins {
+        register("extractSnippets") {
+            id = "com.android.snippets.extract-snippets"
+            implementationClass = "com.android.snippets.build.extractor.ExtractSnippetsPlugin"
+        }
+    }
 }
 
 dependencies {

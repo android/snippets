@@ -32,17 +32,19 @@ jobs:
     timeout-minutes: 60
 
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         token: ${{ secrets.PAT || github.token }}
         persist-credentials: false
     - name: set up Java 25
-      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
       with:
         distribution: 'zulu'
         java-version: '25'
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6
+      uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+    - name: Test build-logic
+      run: ./gradlew :build-logic:test --stacktrace
     - name: Build All
       run: ./gradlew build --stacktrace
     - name: Build Watch Face Push validation snippets
