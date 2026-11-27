@@ -34,6 +34,11 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{INDEX.LIST,DEPENDENCIES}"
+        }
+    }
 }
 
 dependencies {
@@ -73,6 +78,9 @@ dependencies {
     // [END android_identity_siwg_gradle_dependencies]
 
     implementation(libs.androidx.credentials.providerevents)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.google.api.services.drive)
+    implementation(libs.play.services.auth)
     implementation(libs.okhttp)
     implementation(libs.kotlin.coroutines.okhttp)
     implementation(libs.androidx.webkit)
