@@ -133,6 +133,37 @@ private fun verticalScrollCycle(
  * Every recorded snippet must also declare its frame in `SnippetPreviewFrames` (for example
  * [DefaultPreviewFrame], [AnimationPreviewFrame], or a custom portrait frame for scrollable demos).
  */
+/** Taps DeviceToggle's Foldable, Tablet and Phone buttons, so the card's layout switches. */
+private val CardDeviceTour = PreviewRecording(
+    listOf(
+        PreviewStep.Wait(1_200),
+        PreviewStep.Click("Foldable"),
+        PreviewStep.Wait(1_500),
+        PreviewStep.Click("Tablet"),
+        PreviewStep.Wait(1_500),
+        PreviewStep.Click("Phone"),
+        PreviewStep.Wait(1_200),
+    )
+)
+
+/**
+ * Starts on Tablet, expands the description, switches to Phone and back to show the expanded
+ * state survives, then collapses it again so the video loops.
+ */
+private val CardShowMoreTour = PreviewRecording(
+    listOf(
+        PreviewStep.Wait(1_000),
+        PreviewStep.Click("Show more"),
+        PreviewStep.Wait(1_200),
+        PreviewStep.Click("Phone"),
+        PreviewStep.Wait(1_200),
+        PreviewStep.Click("Tablet"),
+        PreviewStep.Wait(1_200),
+        PreviewStep.Click("Show less"),
+        PreviewStep.Wait(1_000),
+    )
+)
+
 val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
     "android_compose_animation_cookbook_visibility" to ShowHideTwice,
     "android_compose_animation_cookbook_visibility_alpha" to ShowHideTwice,
@@ -157,6 +188,9 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
             PreviewStep.Wait(3_200),
         )
     ),
+    // Support different display sizes: cards in a DeviceToggle.
+    "android_compose_layouts_manual_measurements" to CardDeviceTour,
+    "android_compose_layouts_manual_measurements_3" to CardShowMoreTour,
     // Material 3 Expressive loading indicators.
     "android_compose_expressive_components_loadingindicator" to LoadingIndicatorCycle,
     "android_compose_expressive_components_containedloadingindicator" to LoadingIndicatorCycle,
