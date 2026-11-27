@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.snippets.ai"
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 26 // This is required by firebase-ai-ondevice, mlkit:genai-prompt, and google-adk
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"

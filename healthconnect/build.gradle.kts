@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.healthconnect"
-        minSdk = 26
+        minSdk = 26 // This is required by androidx.health.connect:connect-client
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"

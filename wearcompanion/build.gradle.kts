@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wear.snippets"
-        minSdk = 28
+        minSdk = 25 // This is required by androidx.wear:wear-phone-interactions
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"

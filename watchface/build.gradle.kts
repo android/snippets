@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.simpledigital"
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 36 // This is required by Watch Face Format v4 (Wear OS 6)
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0.0"
