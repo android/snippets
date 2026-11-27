@@ -16,14 +16,18 @@
 
 package android.os
 
-// Lets shared snippets with Android version checks compile on wasm. The web isn't an Android
-// version, so SDK_INT is 0 and version-gated code takes its fallback path.
+/**
+ * Lets shared snippets with Android version checks compile on the web. The web build supports
+ * the APIs those checks guard (for example `RuntimeShader`, see android/graphics), so it reports
+ * the latest SDK and the guarded code runs.
+ */
 object Build {
     object VERSION {
-        val SDK_INT: Int = 0
+        val SDK_INT: Int = VERSION_CODES.BAKLAVA
     }
 
     object VERSION_CODES {
         const val TIRAMISU: Int = 33
+        const val BAKLAVA: Int = 36
     }
 }

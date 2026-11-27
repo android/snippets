@@ -16,17 +16,65 @@
 
 package android.graphics
 
-// Compile-only stand-ins so graphics/BrushExampleSnippets.kt builds for wasm. Its AGSL
-// RuntimeShader snippets need Android 13+ and aren't registered for interactive previews.
+import org.jetbrains.skia.RuntimeEffect
+import org.jetbrains.skia.RuntimeShaderBuilder
+import org.jetbrains.skia.Shader
 
-class RuntimeShader(@Suppress("UNUSED_PARAMETER") shader: String) {
-    fun setFloatUniform(uniformName: String, value1: Float, value2: Float) = Unit
+/**
+ * Web version of Android's AGSL `RuntimeShader`, backed by Skia's runtime effects. AGSL is based
+ * on SkSL, so the same shader source compiles here. Uniforms set with [setFloatUniform] and
+ * [setColorUniform] are applied when the shader is built (see `ShaderBrush(RuntimeShader)`).
+ */
+class RuntimeShader(shader: String) {
+    private val builder = RuntimeShaderBuilder(RuntimeEffect.makeForShader(shader))
 
-    fun setColorUniform(uniformName: String, color: Color) = Unit
+    fun setFloatUniform(uniformName: String, value: Float) {
+        builder.uniform(uniformName, value)
+    }
+
+    fun setFloatUniform(uniformName: String, value1: Float, value2: Float) {
+        builder.uniform(uniformName, value1, value2)
+    }
+
+    fun setFloatUniform(uniformName: String, value1: Float, value2: Float, value3: Float) {
+        builder.uniform(uniformName, value1, value2, value3)
+    }
+
+    fun setFloatUniform(
+        uniformName: String,
+        value1: Float,
+        value2: Float,
+        value3: Float,
+        value4: Float,
+    ) {
+        builder.uniform(uniformName, value1, value2, value3, value4)
+    }
+
+    fun setColorUniform(uniformName: String, color: Color) {
+        builder.uniform(uniformName, color.red(), color.green(), color.blue(), color.alpha())
+    }
+
+    /** Builds a Skia shader with the uniforms set so far. */
+    fun makeShader(): Shader = builder.makeShader()
 }
 
-class Color private constructor() {
+/** The subset of Android's `Color` that the shared snippets use to pass colors to shaders. */
+class Color private constructor(
+    private val red: Float,
+    private val green: Float,
+    private val blue: Float,
+    private val alpha: Float,
+) {
+    fun red(): Float = red
+
+    fun green(): Float = green
+
+    fun blue(): Float = blue
+
+    fun alpha(): Float = alpha
+
     companion object {
-        fun valueOf(red: Float, green: Float, blue: Float, alpha: Float): Color = Color()
+        fun valueOf(red: Float, green: Float, blue: Float, alpha: Float): Color =
+            Color(red, green, blue, alpha)
     }
 }

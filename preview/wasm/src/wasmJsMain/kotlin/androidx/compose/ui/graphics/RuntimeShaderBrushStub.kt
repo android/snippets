@@ -17,9 +17,13 @@
 package androidx.compose.ui.graphics
 
 import android.graphics.RuntimeShader
+import androidx.compose.ui.geometry.Size
 
-// On Android, RuntimeShader is a Shader, so `ShaderBrush(runtimeShader)` compiles. This overload
-// lets graphics/BrushExampleSnippets.kt build for wasm against the RuntimeShader stub; the AGSL
-// snippet that uses it isn't registered for interactive previews, so it draws nothing.
-@Suppress("UNUSED_PARAMETER")
-fun ShaderBrush(shader: RuntimeShader): Brush = SolidColor(Color.Transparent)
+/**
+ * On Android, `RuntimeShader` is a `Shader`, so `ShaderBrush(runtimeShader)` is the regular
+ * factory. On the web, [RuntimeShader] wraps a Skia runtime effect, so this overload builds the
+ * Skia shader when the brush is first drawn at a size, after the snippet has set its uniforms.
+ */
+fun ShaderBrush(shader: RuntimeShader): ShaderBrush = object : ShaderBrush() {
+    override fun createShader(size: Size): Shader = shader.makeShader().asComposeShader()
+}
