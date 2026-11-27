@@ -30,7 +30,6 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.AnimationVector2D
 import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.ExperimentalTransitionApi
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -62,7 +61,6 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
@@ -728,7 +726,6 @@ private fun AnimationSpecKeyframe() {
     // [END android_compose_animations_spec_keyframe]
 }
 
-@OptIn(ExperimentalAnimationSpecApi::class)
 @Composable
 private fun AnimationSpecKeyframeWithSpline() {
     // [START android_compose_animation_spec_keyframes_with_spline]
@@ -744,7 +741,6 @@ private fun AnimationSpecKeyframeWithSpline() {
     // [END android_compose_animation_spec_keyframes_with_spline]
 }
 
-@OptIn(ExperimentalAnimationSpecApi::class)
 @Preview
 @Composable
 private fun OffsetKeyframeWithSplineDemo() {
@@ -912,7 +908,6 @@ private object AnimationVectorCustomType {
     // [END android_compose_animations_vector_convertor_custom_type]
 }
 
-@OptIn(ExperimentalAnimationGraphicsApi::class)
 @Preview
 // [START android_compose_animations_vector_drawable]
 @Composable

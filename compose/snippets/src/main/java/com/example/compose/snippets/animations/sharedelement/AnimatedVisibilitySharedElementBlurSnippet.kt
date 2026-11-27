@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package com.example.compose.snippets.animations.sharedelement
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.BoundsTransform
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
@@ -68,7 +65,6 @@ private fun <T> animationSpec() = tween<T>(durationMillis = 500)
 private val boundsTransition = BoundsTransform { _, _ -> animationSpec() }
 private val shapeForSharedElement = RoundedCornerShape(16.dp)
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Preview
 @Composable
 private fun AnimatedVisibilitySharedElementBlurLayer() {
