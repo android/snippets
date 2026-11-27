@@ -29,6 +29,8 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.AnimationVector2D
+import androidx.compose.animation.core.ArcMode
+import androidx.compose.animation.core.DecayAnimation
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.ExperimentalAnimationSpecApi
 import androidx.compose.animation.core.ExperimentalTransitionApi
@@ -37,8 +39,11 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.PathEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.StartOffset
+import androidx.compose.animation.core.StartOffsetType
 import androidx.compose.animation.core.TargetBasedAnimation
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.TwoWayConverter
@@ -49,6 +54,7 @@ import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.animateRect
 import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.animation.core.createChildTransition
+import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.keyframesWithSpline
@@ -97,6 +103,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -110,6 +117,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.graphicsLayer
@@ -671,6 +679,36 @@ private fun TargetBasedAnimationSimple(someCustomCondition: () -> Boolean) {
 }
 
 @Composable
+private fun DecayAnimationSimple() {
+    // [START android_compose_animations_decay_animation_simple]
+    val anim = remember {
+        DecayAnimation(
+            animationSpec = exponentialDecay(),
+            typeConverter = Float.VectorConverter,
+            initialValue = 0f,
+            initialVelocity = 1000f
+        )
+    }
+    var animationValue by remember { mutableFloatStateOf(0f) }
+
+    LaunchedEffect(anim) {
+        val startTime = withFrameNanos { it }
+
+        do {
+            val playTime = withFrameNanos { it } - startTime
+            animationValue = anim.getValueFromNanos(playTime)
+        } while (!anim.isFinishedFromNanos(playTime))
+    }
+
+    Box(
+        Modifier
+            .size(100.dp)
+            .graphicsLayer { translationX = animationValue }
+    )
+    // [END android_compose_animations_decay_animation_simple]
+}
+
+@Composable
 private fun AnimationSpecTween(enabled: Boolean) {
     // [START android_compose_animations_spec_tween]
     val alpha: Float by animateFloatAsState(
@@ -726,6 +764,23 @@ private fun AnimationSpecKeyframe() {
         label = "keyframe"
     )
     // [END android_compose_animations_spec_keyframe]
+}
+
+@Composable
+private fun AnimationSpecKeyframeArcMode() {
+    // [START android_compose_animations_spec_keyframe_arc_mode]
+    val offset by animateOffsetAsState(
+        targetValue = Offset(300f, 300f),
+        animationSpec = keyframes {
+            durationMillis = 500
+            // Arc below from 0 ms to 250 ms.
+            Offset(0f, 0f) at 0 using ArcMode.ArcBelow using FastOutSlowInEasing
+            // Arc above from 250 ms to 500 ms.
+            Offset(150f, 200f) at 250 using ArcMode.ArcAbove
+        },
+        label = "keyframe arc mode"
+    )
+    // [END android_compose_animations_spec_keyframe_arc_mode]
 }
 
 @OptIn(ExperimentalAnimationSpecApi::class)
@@ -839,6 +894,25 @@ private fun AnimationSpecRepeatable() {
 }
 
 @Composable
+private fun AnimationSpecRepeatableStartOffset() {
+    // [START android_compose_animations_spec_repeatable_start_offset]
+    val value by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = repeatable(
+            iterations = 3,
+            animation = tween(durationMillis = 300),
+            repeatMode = RepeatMode.Reverse,
+            initialStartOffset = StartOffset(
+                offsetMillis = 100,
+                offsetType = StartOffsetType.FastForward
+            )
+        ),
+        label = "repeatable start offset"
+    )
+    // [END android_compose_animations_spec_repeatable_start_offset]
+}
+
+@Composable
 private fun AnimationSpecInfiniteRepeatable() {
     // [START android_compose_animations_spec_infinite_repeatable]
     val value by animateFloatAsState(
@@ -880,6 +954,28 @@ private object Easing {
         // ……
     }
     // [END android_compose_animations_easing_usage]
+}
+
+@Composable
+private fun AnimationSpecPathEasing() {
+    // [START android_compose_animations_spec_path_easing]
+    val pathEasing = remember {
+        val path = Path().apply {
+            moveTo(0f, 0f)
+            cubicTo(0.05f, 0f, 0.133333f, 0.06f, 0.166666f, 0.4f)
+            cubicTo(0.208333f, 0.82f, 0.25f, 1f, 1f, 1f)
+        }
+        PathEasing(path)
+    }
+    val value by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = tween(
+            durationMillis = 500,
+            easing = pathEasing
+        ),
+        label = "path easing"
+    )
+    // [END android_compose_animations_spec_path_easing]
 }
 
 private object AnimationVectorTwoWayConverter {
