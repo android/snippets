@@ -1,3 +1,4 @@
 alwaysCreateStatusCheck: true
 ignoreFiles:
   - "buildSrc/**"
+  - "build-logic/**"
