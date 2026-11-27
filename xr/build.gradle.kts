@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.xr"
-        minSdk = 34
+        minSdk = 34 // This is required by Android XR
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"

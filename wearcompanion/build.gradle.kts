@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "com.example.wear.snippets"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
     compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.wear.snippets"
-        minSdk = 28
-        targetSdk = 37
+        minSdk = 25 // This is required by androidx.wear:wear-phone-interactions
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 

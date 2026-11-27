@@ -25,8 +25,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.datastore.snippets"
-        minSdk = 24
-        targetSdk = 37
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -108,7 +108,7 @@ dependencies {
 // [START android_datastore_proto_task]
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.36.2"
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     generateProtoTasks {
         all().forEach { task ->

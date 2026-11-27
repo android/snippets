@@ -19,9 +19,11 @@ package com.example.compose.snippets.adaptivelayouts
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.view.Display
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
 
 class MultiWindowActivity : ComponentActivity() {
 
@@ -46,6 +48,7 @@ class MultiWindowActivity : ComponentActivity() {
     }
     // [END android_adaptive_top_resumed]
 
+    @RequiresApi(Build.VERSION_CODES.R)
     fun showWindowMetrics(context: Context, display: Display) {
         // [START android_adaptive_metrics_other_displays]
         val windowMetrics = context.createDisplayContext(display)

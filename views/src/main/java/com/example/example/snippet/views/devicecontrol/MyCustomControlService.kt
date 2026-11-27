@@ -16,9 +16,11 @@
 
 package com.example.example.snippet.views.devicecontrol
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.service.controls.Control
 import android.service.controls.ControlsProviderService
 import android.service.controls.DeviceTypes
@@ -29,6 +31,7 @@ import android.service.controls.templates.ControlButton
 import android.service.controls.templates.ControlTemplate
 import android.service.controls.templates.RangeTemplate
 import android.service.controls.templates.ToggleTemplate
+import androidx.annotation.RequiresApi
 import java.util.Locale
 import java.util.concurrent.Flow
 import java.util.function.Consumer
@@ -47,6 +50,7 @@ private const val EXTRA_MESSAGE = "com.example.devicecontrol.EXTRA_MESSAGE"
 
 private class MainActivity : Activity()
 
+@RequiresApi(Build.VERSION_CODES.R)
 private object DeclareServiceSnippet {
     // [START android_views_device_control_declare_service]
     class MyCustomControlService : ControlsProviderService() {
@@ -65,6 +69,7 @@ private object DeclareServiceSnippet {
     // [END android_views_device_control_declare_service]
 }
 
+@RequiresApi(Build.VERSION_CODES.R)
 private object DeclareConstantsSnippet {
     // [START android_views_device_control_declare_constants]
     private const val LIGHT_ID = 1234
@@ -90,6 +95,7 @@ private object DeclareConstantsSnippet {
     // [END android_views_device_control_declare_constants]
 }
 
+@RequiresApi(Build.VERSION_CODES.R)
 @OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
 private object CreatePublisherAllAvailableSnippet {
     // [START android_views_device_control_create_publisher_all_available]
@@ -135,11 +141,14 @@ private object CreatePublisherAllAvailableSnippet {
 
 private const val LIGHT_ID = 1234
 private const val LIGHT_TITLE = "My fancy light"
+@SuppressLint("InlinedApi")
 private const val LIGHT_TYPE = DeviceTypes.TYPE_LIGHT
 private const val THERMOSTAT_ID = 5678
 private const val THERMOSTAT_TITLE = "My fancy thermostat"
+@SuppressLint("InlinedApi")
 private const val THERMOSTAT_TYPE = DeviceTypes.TYPE_THERMOSTAT
 
+@RequiresApi(Build.VERSION_CODES.R)
 class MyCustomControlService : ControlsProviderService() {
 
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> = TODO()

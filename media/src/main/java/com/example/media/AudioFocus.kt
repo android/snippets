@@ -22,8 +22,10 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.session.MediaController
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import androidx.annotation.RequiresApi
 import java.util.concurrent.TimeUnit
 
 private class AudioFocusManager(
@@ -39,6 +41,7 @@ private class AudioFocusManager(
     private var resumeOnFocusGain = false
     private val focusLock = Any()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun requestFocusPostOreo() {
         // [START android_media_audio_focus_request]
         // initializing variables for audio focus and playback management.

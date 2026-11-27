@@ -22,9 +22,12 @@ import android.media.MediaFeature
 import android.media.MediaFormat
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 
+@RequiresApi(Build.VERSION_CODES.S)
 class MediaTranscoding(
     private val contentResolver: ContentResolver,
     private val mediaUri: Uri,

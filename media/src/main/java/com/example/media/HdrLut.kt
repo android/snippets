@@ -18,8 +18,11 @@ package com.example.media
 
 import android.hardware.DisplayLuts
 import android.hardware.LutProperties
+import android.os.Build
 import android.view.SurfaceControl
+import androidx.annotation.RequiresApi
 
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private fun applyLutExample() {
     // [START android_media_hdr_lut_apply]
     val sc = SurfaceControl.Builder().build()

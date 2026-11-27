@@ -35,6 +35,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -315,6 +316,7 @@ fun NotificationSnippetRequestPostPermission() {
     // [END android_notification_request_post_permission]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun deleteNotificationChannelId(context: Context, channelId: String) {
     // Side effects like deleting a channel should be triggered by events or wrapped in a
     // LaunchedEffect to avoid executing them on every recomposition. This is only
@@ -326,6 +328,7 @@ fun deleteNotificationChannelId(context: Context, channelId: String) {
     // [END android_notification_delete_channel]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 // [START android_notification_create_group_channel]
 fun createNotificationChannelGroup(context: Context, groupId: String, groupName: String) {
     val notificationManager =
@@ -560,6 +563,7 @@ fun notificationChannel(context: Context) {
     // [END android_notification_channel_create]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun notificationChannelSettings(context: Context) {
     // [START android_notification_channel_setting_intent]

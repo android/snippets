@@ -17,9 +17,12 @@
 package com.example.example.snippet.views.appwidget
 
 import android.app.PendingIntent
+import android.os.Build
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import com.example.example.snippet.views.R
 
+@RequiresApi(Build.VERSION_CODES.S)
 private fun statefulBehaviorSnippet(
     remoteView: RemoteViews,
     onCheckedChangePendingIntent: PendingIntent

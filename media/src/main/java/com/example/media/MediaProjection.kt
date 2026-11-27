@@ -21,10 +21,12 @@ import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.os.Build
 import android.view.Surface
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.annotation.RequiresApi
 
 private class MediaProjectionActivity : ComponentActivity() {
 
@@ -70,6 +72,7 @@ private class MediaProjectionActivity : ComponentActivity() {
         // [END android_media_projection_virtual_display]
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     fun getWindowMetricsExample(context: Context) {
         // [START android_media_projection_window_context_metrics]
         val windowContext = context.createWindowContext(

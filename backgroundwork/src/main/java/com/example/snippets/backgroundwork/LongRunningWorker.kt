@@ -97,6 +97,7 @@ class DownloadWorker(context: Context, parameters: WorkerParameters) :
 }
 // [END android_background_long_running_coroutine_worker]
 
+@RequiresApi(Build.VERSION_CODES.R)
 class ForegroundServiceTypeSnippet(
     context: Context,
     parameters: WorkerParameters

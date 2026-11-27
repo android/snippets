@@ -17,6 +17,7 @@
 package com.example.snippets.connectivity
 
 import android.content.Context
+import android.os.Build
 import android.ranging.DataNotificationConfig
 import android.ranging.DlTdoaMeasurement
 import android.ranging.RangingCapabilities
@@ -49,6 +50,7 @@ import java.util.concurrent.Executors
 // The page shows two classes named RangingApp, so each one is wrapped in its own object to avoid
 // a name clash. start() and stop() need the RANGING permission, which the module's manifest
 // declares; an app must also request it at runtime before it calls into RangingApp.
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private object RangingSessionSnippet {
     // [START android_connectivity_ranging_session]
     class RangingApp {
@@ -126,6 +128,7 @@ private object RangingSessionSnippet {
 
 // The values come from the app's own out-of-band exchange with the iOS device, so they're
 // parameters here. Returns the preference so the caller can start a session with it.
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private fun createIosInteropPreference(
     sessionId: Int,
     sourceAddress: UwbAddress,

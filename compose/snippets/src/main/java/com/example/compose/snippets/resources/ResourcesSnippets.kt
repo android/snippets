@@ -18,6 +18,8 @@
 
 package com.example.compose.snippets.resources
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
@@ -185,6 +187,7 @@ fun CraneTheme(content: @Composable () -> Unit) {
 }
 // [END android_compose_resources_fonts]
 
+@RequiresApi(Build.VERSION_CODES.O)
 // [START android_resources_runtime_changes_date_text]
 @Composable
 fun DateText(year: Int, dayOfYear: Int) {

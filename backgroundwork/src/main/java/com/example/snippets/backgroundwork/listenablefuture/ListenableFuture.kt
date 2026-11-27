@@ -17,6 +17,8 @@
 package com.example.snippets.backgroundwork.listenablefuture
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -30,6 +32,7 @@ private class QueryResult
 private fun getQueryResult(): QueryResult = QueryResult()
 
 private class AddCallbackSnippet(private val context: Context) {
+    @RequiresApi(Build.VERSION_CODES.P)
     fun addCallback(queryResultFuture: ListenableFuture<QueryResult>) {
         // [START android_backgroundwork_listenablefuture_add_callback]
         // [START_EXCLUDE silent]

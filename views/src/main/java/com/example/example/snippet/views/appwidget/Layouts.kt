@@ -20,12 +20,15 @@ package com.example.example.snippet.views.appwidget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.SizeF
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import androidx.core.os.BundleCompat
 import com.example.example.snippet.views.R
 
+@RequiresApi(Build.VERSION_CODES.S)
 private object LayoutsResponsive {
     class ResponsiveAppWidgetProvider : AppWidgetProvider() {
         private lateinit var appWidgetManager: AppWidgetManager
@@ -75,6 +78,7 @@ private object LayoutsResponsive {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 private object LayoutsExact {
     class ExactAppWidgetProvider : AppWidgetProvider() {
         // [START android_views_appwidgets_layouts_exact]
@@ -112,6 +116,7 @@ private object LayoutsExact {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 private fun weatherResponsiveSnippet(
     context: Context,
     appWidgetManager: AppWidgetManager,

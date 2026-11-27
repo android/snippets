@@ -17,12 +17,15 @@
 package com.example.example.snippet.views.appwidget
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.util.TypedValue
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import com.example.example.snippet.views.R
 
 private fun createProgressColorStateList(): ColorStateList = ColorStateList.valueOf(0)
 
+@RequiresApi(Build.VERSION_CODES.S)
 private fun runtimeModRemoteViewsSnippet(remoteView: RemoteViews) {
     // [START android_views_appwidgets_enhance_runtime_mod_remoteviews]
     // Set the colors of a progress bar at runtime.

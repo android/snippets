@@ -64,6 +64,7 @@ class ProfilingManagerKotlinSnippets {
             const val TAG = "MyApp"
         }
 
+        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             sampleRecordSystemTrace()
@@ -401,6 +402,7 @@ class ProfilingManagerKotlinSnippets {
         }
         // [END android_profiling_manager_app_driven_record_system_trace_kotlin]
 
+        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
         fun recordSystemTraceWithCallstacks(
             context: Context,
             callbackExecutor: Executor,
@@ -430,6 +432,7 @@ class ProfilingManagerKotlinSnippets {
             // [END android_profiling_manager_app_driven_stack_sampling_kotlin]
         }
 
+        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
         fun captureJavaHeapDump(
             appContext: Context,
             callbackExecutor: Executor,
@@ -450,6 +453,7 @@ class ProfilingManagerKotlinSnippets {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.BAKLAVA)
     private class AnrCaseStudyActivity : Activity() {
         // [START android_profiling_manager_anr_case_study_kotlin_snippet_1]
         fun addANRTrigger() {

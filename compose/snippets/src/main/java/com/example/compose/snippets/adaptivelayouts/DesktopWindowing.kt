@@ -21,10 +21,12 @@ import android.app.PendingIntent
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
@@ -119,6 +121,7 @@ fun CaptionBar() {
 /**
  * Transparent System Caption Bar
  */
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 class TransparentActionBarActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,6 +138,7 @@ class TransparentActionBarActivity : Activity() {
 /**
  * Simple drag source for plain text data.
  */
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 fun dragAndDropSourceModifier() {
     // [START android_compose_desktop_drag_drop_source]
     Modifier.dragAndDropSource { _ ->
@@ -149,6 +153,7 @@ fun dragAndDropSourceModifier() {
 /**
  * Custom drag source that launches a new Activity instance when dropped.
  */
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 fun customDragAndDropSource(activity: Activity, itemId: String) {
     // [START android_compose_desktop_drag_drop_source_unhandled_flag]
     Modifier.dragAndDropSource { _ ->

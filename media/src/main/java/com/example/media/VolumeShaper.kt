@@ -19,7 +19,10 @@ package com.example.media
 import android.media.AudioTrack
 import android.media.MediaPlayer
 import android.media.VolumeShaper
+import android.os.Build
+import androidx.annotation.RequiresApi
 
+@RequiresApi(Build.VERSION_CODES.O)
 class VolumeShaperSnippets(
     private val myMediaPlayer: MediaPlayer,
     private val myAudioTrack: AudioTrack

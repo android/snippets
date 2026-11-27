@@ -18,6 +18,8 @@ package com.example.media
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.api.Status
@@ -45,6 +47,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
+@RequiresApi(Build.VERSION_CODES.R)
 private object BitmapModeLifecycleSnippet {
     // [START android_media_ai_enhancement_bitmap_initialize_engine]
     class MediaSetupViewModel(application: Application) : AndroidViewModel(application) {
@@ -145,6 +148,9 @@ data class EnhancementUiState(
     val enhancedImage: ImageInfo? = null
 )
 
+// [START_EXCLUDE silent]
+@RequiresApi(Build.VERSION_CODES.R)
+// [END_EXCLUDE]
 class EnhancementViewModel(application: Application) : AndroidViewModel(application) {
 
     // Backing field for UI state, initialized with default values.

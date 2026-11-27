@@ -17,8 +17,10 @@
 package com.example.snippets.security.permissions
 
 import android.Manifest
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 
 class LocationPermissionActivity : ComponentActivity() {
 
@@ -50,6 +52,7 @@ class LocationPermissionActivity : ComponentActivity() {
         }
     // [END android_security_sequential_location_permission]
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun requestBackgroundLocation() {
         backgroundLocationLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     }

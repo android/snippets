@@ -23,8 +23,10 @@ import android.content.Intent
 import android.content.Intent.ACTION_SEND
 import android.graphics.drawable.Icon
 import android.net.Uri
+import android.os.Build
 import android.service.chooser.ChooserAction
 import androidx.activity.compose.LocalActivity
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.core.content.IntentCompat
 import androidx.navigation.compose.NavHost
@@ -187,6 +189,7 @@ fun richContentToTextPreviewShares(context: Context) {
 }
 // [END android_provide_rich_content_text_previews]
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 // [START android_provide_custom_actions]
 fun sharesheetCustomActions(context: Context, previewText: String) {
     val sendIntent = Intent(ACTION_SEND)
@@ -257,6 +260,7 @@ fun infoAboutSharing(context: Context, requestCode: Int) {
 }
 // [END android_info_on_sharing]
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 // [START android_custom_action]
 fun customActions(context: Context, text: String) {
     val sendIntent = Intent(ACTION_SEND)
