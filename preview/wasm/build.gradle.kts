@@ -58,6 +58,12 @@ val pullSnippets by tasks.registering(Sync::class) {
         include("AnimationQuickGuide.kt")
         into("com/example/compose/snippets/animations")
     }
+    // The AGSL snippets in this file use Android's RuntimeShader and Build, which the web build
+    // implements with Skia runtime effects (see src/wasmJsMain/kotlin/android).
+    from("$snippetsRoot/graphics") {
+        include("BrushExampleSnippets.kt")
+        into("com/example/compose/snippets/graphics")
+    }
     // Sample image URLs used by AnimationQuickGuide.kt.
     from("$snippetsRoot/util") {
         include("ImageLoadingSampleUtils.kt")
