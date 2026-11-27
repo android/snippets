@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId = "com.example.wear"
         minSdk = 33
-        targetSdk = 37
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
         vectorDrawables {

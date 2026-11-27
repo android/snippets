@@ -19,8 +19,10 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
 }
 
+val spotlessPluginId = libs.plugins.spotless.get().pluginId
+
 allprojects {
-    apply(plugin = "com.diffplug.spotless")
+    apply(plugin = spotlessPluginId)
     extensions.configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
             target("**/*.kt")

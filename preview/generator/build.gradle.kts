@@ -27,11 +27,7 @@ android {
     namespace = "com.example.compose.snippets"
     compileSdk = libs.versions.compileSdk.get().toInt()
     // Compose 1.13.0-rc01 needs Android 37.1 APIs or later, like :compose:snippets.
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = libs.versions.compileSdkMinor.get().toInt()
-        }
-    }
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()

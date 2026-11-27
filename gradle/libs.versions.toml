@@ -128,6 +128,7 @@ room = "2.8.5"
 room3 = "3.0.3"
 spotless = "8.10.4"
 sqlite = "2.7.1"
+# @keep
 targetSdk = "37"
 tiles = "1.6.2"
 tracing = "2.0.5"

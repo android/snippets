@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "com.example.tv"
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
     compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.tv"
         minSdk = 28
-        targetSdk = 37
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
