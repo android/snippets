@@ -21,10 +21,13 @@ import android.media.MediaCodecInfo
 import android.media.MediaCodecList
 import android.media.MediaCrypto
 import android.media.MediaFormat
+import android.os.Build
 import android.view.Surface
 import android.view.SurfaceView
+import androidx.annotation.RequiresApi
 import java.util.Queue
 
+@RequiresApi(Build.VERSION_CODES.Q)
 private fun mediaCodecHdrFlow(
     surfaceView: SurfaceView,
     queue: Queue<Int>,

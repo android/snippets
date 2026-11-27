@@ -563,6 +563,7 @@ fun notificationChannel(context: Context) {
     // [END android_notification_channel_create]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun notificationChannelSettings(context: Context) {
     // [START android_notification_channel_setting_intent]

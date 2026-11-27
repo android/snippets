@@ -58,7 +58,7 @@ class SecureDataProvider : ContentProvider() {
             "_id" to "_id",
             "display_name" to "display_name"
         )
-        // Enable strict validation (always available since minSdk is 36)
+        // Enable strict validation (setStrictColumns and setStrictGrammar require API 30+)
         queryBuilder.setStrict(true)
         queryBuilder.setStrictColumns(true)
         queryBuilder.setStrictGrammar(true)

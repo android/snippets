@@ -171,7 +171,7 @@ private fun createComposedVibrationEffectsSnippet() {
     // [END android_haptics_custom_composition_basic]
 }
 
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 private fun addGapsBetweenVibrationPrimitivesSnippet() {
     // [START android_haptics_custom_composition_delays]
     val delayMs = 100
@@ -187,7 +187,7 @@ private fun addGapsBetweenVibrationPrimitivesSnippet() {
     // [END android_haptics_custom_composition_delays]
 }
 
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 private fun checkSinglePrimitiveSupportedSnippet() {
     // [START android_haptics_custom_check_single_primitive]
     val primitive = VibrationEffect.Composition.PRIMITIVE_LOW_TICK
@@ -203,7 +203,7 @@ private fun checkSinglePrimitiveSupportedSnippet() {
     // [END android_haptics_custom_check_single_primitive]
 }
 
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 @SuppressLint("WrongConstant")
 private fun checkMultiplePrimitivesSupportedSnippet() {
     // [START android_haptics_custom_check_multiple_primitives]
@@ -216,7 +216,7 @@ private fun checkMultiplePrimitivesSupportedSnippet() {
     // [END android_haptics_custom_check_multiple_primitives]
 }
 
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 // [START android_haptics_custom_resist_screen]
 @Composable
 fun ResistScreen() {
@@ -314,7 +314,7 @@ fun ExpandScreen() {
 }
 // [END android_haptics_custom_expand_screen]
 
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 // [START android_haptics_custom_wobble_screen]
 @Composable
 fun WobbleScreen() {
@@ -399,7 +399,7 @@ enum class BallPosition {
 }
 
 // [START_EXCLUDE silent]
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.S)
 // [END_EXCLUDE]
 @Composable
 fun BounceScreen() {

@@ -27,10 +27,12 @@ import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresExtension
 
 // Takes the ConnectivityManager as cm, the name the page uses, and returns the callback and
 // thread so the caller can unregister the callback and quit the thread when it's done.
 @RequiresApi(Build.VERSION_CODES.S)
+@RequiresExtension(extension = Build.VERSION_CODES.UPSIDE_DOWN_CAKE, version = 16)
 private fun monitorConstrainedNetworks(
     cm: ConnectivityManager,
 ): Pair<NetworkCallback, HandlerThread> {

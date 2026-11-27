@@ -16,6 +16,7 @@
 
 package com.example.example.snippet.views.devicecontrol
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
@@ -140,9 +141,11 @@ private object CreatePublisherAllAvailableSnippet {
 
 private const val LIGHT_ID = 1234
 private const val LIGHT_TITLE = "My fancy light"
+@SuppressLint("InlinedApi")
 private const val LIGHT_TYPE = DeviceTypes.TYPE_LIGHT
 private const val THERMOSTAT_ID = 5678
 private const val THERMOSTAT_TITLE = "My fancy thermostat"
+@SuppressLint("InlinedApi")
 private const val THERMOSTAT_TYPE = DeviceTypes.TYPE_THERMOSTAT
 
 @RequiresApi(Build.VERSION_CODES.R)

@@ -27,7 +27,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 
-@RequiresApi(Build.VERSION_CODES.S_V2)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun querySpatializer(audioManager: AudioManager) {
     // [START android_media_spatial_audio_get_spatializer]
     val spatializer = audioManager.spatializer
@@ -63,6 +63,7 @@ private fun setMaxAudioChannels(exoPlayer: ExoPlayer) {
     // [END android_media_spatial_audio_set_max_channels]
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun setMaxOutputChannels() {
     // [START android_media_spatial_audio_max_output_channels]
     val mediaFormat = MediaFormat()

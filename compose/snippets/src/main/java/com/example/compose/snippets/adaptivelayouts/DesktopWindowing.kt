@@ -121,7 +121,7 @@ fun CaptionBar() {
 /**
  * Transparent System Caption Bar
  */
-@RequiresApi(Build.VERSION_CODES.R)
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 class TransparentActionBarActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,6 +138,7 @@ class TransparentActionBarActivity : Activity() {
 /**
  * Simple drag source for plain text data.
  */
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 fun dragAndDropSourceModifier() {
     // [START android_compose_desktop_drag_drop_source]
     Modifier.dragAndDropSource { _ ->
