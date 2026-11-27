@@ -20,11 +20,14 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.MediaFormat
+import android.os.Build
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 
+@RequiresApi(Build.VERSION_CODES.S_V2)
 private fun querySpatializer(audioManager: AudioManager) {
     // [START android_media_spatial_audio_get_spatializer]
     val spatializer = audioManager.spatializer

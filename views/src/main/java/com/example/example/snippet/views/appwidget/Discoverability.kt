@@ -22,9 +22,12 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 private class ExampleAppWidgetProvider : AppWidgetProvider()
 
+@RequiresApi(Build.VERSION_CODES.O)
 private fun discoverabilitySnippet(context: Context) {
     // [START android_views_appwidgets_discoverability_request_pin]
     val appWidgetManager = AppWidgetManager.getInstance(context)

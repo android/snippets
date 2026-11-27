@@ -29,6 +29,7 @@ import android.os.IBinder
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +42,7 @@ import com.example.compose.snippets.R
 
 private const val CHANNEL_ID = "channelId"
 
+@RequiresApi(Build.VERSION_CODES.O)
 // [START android_notifications_time_sensitive_channel]
 class MyApplication : Application() {
     override fun onCreate() {

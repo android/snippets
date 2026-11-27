@@ -36,6 +36,7 @@ import java.util.function.Consumer;
 
 public class ProfilingManagerJavaSnippets {
 
+  @RequiresApi(Build.VERSION_CODES.BAKLAVA)
   public class MainActivityJava extends Activity {
 
     // [START android_profiling_manager_anr_case_study_java_snippet_2]
@@ -400,6 +401,7 @@ public class ProfilingManagerJavaSnippets {
     // [END android_profiling_manager_oom_case_study_oom_sample_activity_fixed_java]
   }
 
+  @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
   public class AppDrivenProfilingActivityJava extends Activity {
 
     // [START android_profiling_manager_app_driven_record_system_trace_java]

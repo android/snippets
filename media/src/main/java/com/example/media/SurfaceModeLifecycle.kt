@@ -17,6 +17,8 @@
 package com.example.media
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.media.effect.enhancement.Enhancement
@@ -24,6 +26,7 @@ import com.google.android.gms.media.effect.enhancement.EnhancementClient
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+@RequiresApi(Build.VERSION_CODES.R)
 private object SurfaceModeLifecycleSnippet {
     // [START android_media_ai_enhancement_surface_initialize_engine]
     class MediaSetupViewModel(application: Application) : AndroidViewModel(application) {

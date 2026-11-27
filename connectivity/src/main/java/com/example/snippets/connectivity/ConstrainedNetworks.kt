@@ -23,11 +23,14 @@ import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_BANDWIDTH_CONSTRAINED
 import android.net.NetworkRequest
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
+import androidx.annotation.RequiresApi
 
 // Takes the ConnectivityManager as cm, the name the page uses, and returns the callback and
 // thread so the caller can unregister the callback and quit the thread when it's done.
+@RequiresApi(Build.VERSION_CODES.S)
 private fun monitorConstrainedNetworks(
     cm: ConnectivityManager,
 ): Pair<NetworkCallback, HandlerThread> {

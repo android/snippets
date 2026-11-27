@@ -19,11 +19,14 @@ package com.example.compose.snippets.sharesheet
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.service.chooser.ChooserResult
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.content.IntentCompat
 
 class ShareBroadcastReceiver : BroadcastReceiver() {
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     // [START android_receiver_info_on_sharing]
     override fun onReceive(context: Context?, intent: Intent) {
         val TAG = ShareBroadcastReceiver::class.simpleName

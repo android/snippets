@@ -18,12 +18,15 @@ package com.example.tv.ui
 
 import android.app.PictureInPictureParams
 import android.content.pm.PackageManager.FEATURE_PICTURE_IN_PICTURE
+import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import android.view.View
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MultitaskingFragment : Fragment() {
 
     private lateinit var pictureInPictureButton: Button

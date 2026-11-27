@@ -16,11 +16,13 @@
 
 package com.example.example.snippet.views.appwidget
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.widget.RemoteViews
 import com.example.example.snippet.views.R
 
+@SuppressLint("RemoteViewLayout")
 private fun fullUpdateSnippet(
     context: Context,
     appWidgetId: Int
@@ -35,6 +37,7 @@ private fun fullUpdateSnippet(
     // [END android_views_appwidgets_advanced_full_update]
 }
 
+@SuppressLint("RemoteViewLayout")
 private fun partialUpdateSnippet(
     context: Context,
     appWidgetId: Int

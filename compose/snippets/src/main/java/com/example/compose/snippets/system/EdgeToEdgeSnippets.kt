@@ -17,10 +17,12 @@
 package com.example.compose.snippets.system
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -276,6 +278,7 @@ private class SetupE2ESnippetsActivity : ComponentActivity() {
         // [END android_compose_e2e_status_bar_icons]
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun navigationBarContrastExample(window: Window) {
         // [START android_compose_e2e_navigation_bar_contrast]
         window.isNavigationBarContrastEnforced = false

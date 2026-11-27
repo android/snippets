@@ -24,6 +24,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 // Placeholder DB Helper for compilation
 class MyDbHelper(context: Context) : SQLiteOpenHelper(context, "mydb", null, 1) {
@@ -40,6 +42,7 @@ class SecureDataProvider : ContentProvider() {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     // [START android_security_contentprovider_secure]
     override fun query(
         uri: Uri,

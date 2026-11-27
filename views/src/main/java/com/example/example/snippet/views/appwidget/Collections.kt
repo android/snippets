@@ -22,10 +22,12 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.example.snippet.views.R
 
 private data class WidgetItem(val text: String)
@@ -317,6 +319,7 @@ private object CollectionsFactoryFillInIntent {
     // [END android_views_appwidgets_collections_factory_fill_in_intent]
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 private fun remoteCollectionItemsSnippet(
     context: Context,
     remoteView: RemoteViews

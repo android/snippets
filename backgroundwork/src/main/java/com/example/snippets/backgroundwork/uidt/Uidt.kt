@@ -16,6 +16,7 @@
 
 package com.example.snippets.backgroundwork.uidt
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -55,6 +56,7 @@ private object JobServiceSkeleton {
 private class ScheduleJobSnippet(private val mContext: Context) {
     private val jobId = 1
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun schedule(): JobInfo {
         // [START android_backgroundwork_uidt_schedule_job]
         val networkRequestBuilder = NetworkRequest.Builder()
@@ -128,12 +130,14 @@ class DownloadWorker(context: Context, params: WorkerParameters) : Worker(contex
 }
 
 private class BackCompatSnippet(private val context: Context) {
-    private val jobInfo: JobInfo by lazy {
+    private val jobInfo: JobInfo by lazy { buildJobInfo() }
+
+    @SuppressLint("NewApi")
+    private fun buildJobInfo(): JobInfo =
         JobInfo.Builder(1, ComponentName(context, CustomTransferService::class.java))
             .setUserInitiated(true)
             .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
             .build()
-    }
 
     // [START android_backgroundwork_uidt_back_compat]
     fun beginTask() {

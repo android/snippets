@@ -24,11 +24,13 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.PermissionChecker
 
 private class StartForegroundServiceSnippet(private val context: Context) {
+    @RequiresApi(Build.VERSION_CODES.O)
     fun launch() {
         // [START android_backgroundwork_fgs_launch_start_service]
         val intent = Intent(/* ... */) // Build the intent for the service.

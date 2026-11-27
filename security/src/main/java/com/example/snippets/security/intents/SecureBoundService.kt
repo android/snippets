@@ -20,11 +20,14 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.os.Process
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
 
+@RequiresApi(Build.VERSION_CODES.P)
 // [START android_security_service_caller_verify]
 class SecureBoundService : Service() {
     companion object {

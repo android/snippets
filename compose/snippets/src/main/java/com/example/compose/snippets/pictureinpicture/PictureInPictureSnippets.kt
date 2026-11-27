@@ -64,6 +64,7 @@ const val EXTRA_CONTROL_PLAY = 1
 const val EXTRA_CONTROL_PAUSE = 2
 // [END android_compose_pip_broadcast_receiver_constants]
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PiPBuilderSetAutoEnterEnabled(
     modifier: Modifier = Modifier
@@ -178,6 +179,7 @@ fun releasePlayer() {
 }
 // [END android_compose_pip_release_player]
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PiPBuilderSetAutoEnterEnabledUsingState(
     shouldEnterPipMode: Boolean,
@@ -199,6 +201,7 @@ fun PiPBuilderSetAutoEnterEnabledUsingState(
     // [END android_compose_pip_post_12_should_enter_pip]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PiPBuilderSetSourceRect(
     shouldEnterPipMode: Boolean,
@@ -224,6 +227,7 @@ fun PiPBuilderSetSourceRect(
     // [END android_compose_pip_set_source_rect]
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PiPBuilderSetAspectRatio(
     player: Player?,
@@ -294,6 +298,7 @@ fun listOfRemoteActions(): List<RemoteAction> {
     return listOf()
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PiPBuilderAddRemoteActions(
     player: Player?,

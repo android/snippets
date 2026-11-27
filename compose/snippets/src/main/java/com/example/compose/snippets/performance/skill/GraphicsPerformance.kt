@@ -17,6 +17,8 @@
 package com.example.compose.snippets.performance.skill
 
 import android.graphics.RuntimeShader
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.collection.MutableLongSet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -80,6 +82,7 @@ private fun DrawPathGood() {
     // [END android_compose_performance_graphics_path_good]
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun DrawShaderUniforms(timeState: State<Float>, modifier: Modifier = Modifier) {
     // [START android_compose_performance_graphics_shader_uniforms]

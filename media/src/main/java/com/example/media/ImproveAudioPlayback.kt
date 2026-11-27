@@ -22,8 +22,11 @@ import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioMixerAttributes
 import android.media.AudioTrack
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.util.concurrent.Executors
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class ImproveAudioPlayback(
     private val mAudioManager: AudioManager,
     private val usbDevice: AudioDeviceInfo
