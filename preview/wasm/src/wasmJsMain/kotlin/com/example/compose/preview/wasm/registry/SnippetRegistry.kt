@@ -26,6 +26,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,6 +69,11 @@ import com.example.compose.snippets.components.CircularProgressIndicatorSample
 import com.example.compose.snippets.components.CircularWavyProgressIndicatorSample
 import com.example.compose.snippets.components.ContainedLoadingIndicatorSample
 import com.example.compose.snippets.components.CustomizableSearchBarExample
+import com.example.compose.snippets.components.DatePickerDocked
+import com.example.compose.snippets.components.DatePickerModal
+import com.example.compose.snippets.components.DatePickerModalInput
+import com.example.compose.snippets.components.DateRangePickerModal
+import com.example.compose.snippets.components.DialExample
 import com.example.compose.snippets.components.DeterminateLoadingIndicatorSample
 import com.example.compose.snippets.components.DialogWithImage
 import com.example.compose.snippets.components.DismissibleModalWideNavigationRailSample
@@ -100,6 +107,7 @@ import com.example.compose.snippets.components.IndeterminateCircularWavyProgress
 import com.example.compose.snippets.components.IndeterminateLinearProgressIndicatorSample
 import com.example.compose.snippets.components.IndeterminateLinearWavyProgressIndicatorSample
 import com.example.compose.snippets.components.InputChipExample
+import com.example.compose.snippets.components.InputExample
 import com.example.compose.snippets.components.InputChipWithCornerMorphingSample
 import com.example.compose.snippets.components.LargeButtonWithIconSample
 import com.example.compose.snippets.components.LargeExample
@@ -169,6 +177,7 @@ import com.example.compose.snippets.layouts.ManualMeasurementSnippets3
 import com.example.compose.snippets.layouts.ManualMeasurementsSnippets
 import com.example.compose.snippets.layouts.SampleCardDescription
 import com.example.compose.snippets.layouts.SampleCardTitle
+import kotlinx.datetime.LocalTime
 
 @Composable
 private fun CenteredBox(content: @Composable () -> Unit) {
@@ -229,8 +238,12 @@ val DefaultPreviewFrame = PreviewFrame(widthDp = 384, heightDp = 216)
 val AnimationPreviewFrame = PreviewFrame(widthDp = 768, heightDp = 432)
 
 /**
- * Larger frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs and
- * pickers). Keep 16:9 where possible so the static image fills the DAC stage.
+ * Custom frames for snippets that don't fit [DefaultPreviewFrame] (for example dialogs, pickers,
+ * and scrollable layouts), plus explicit [DefaultPreviewFrame] entries for recorded component
+ * snippets so `PreviewScreenshotTest` can verify every recording chose a frame intentionally.
+ * Keep 16:9 where possible so the static image fills the DAC stage. Date pickers have no
+ * landscape layout, so they use a portrait frame; give their DAC page a taller `preview_height`
+ * (about 560px).
  */
 private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     "android_compose_components_alertdialog" to PreviewFrame(576, 324),
@@ -239,6 +252,13 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     // Carousel items are 205dp tall plus padding, so they need more than the default 216dp.
     "android_compose_carousel_multi_browse_basic" to PreviewFrame(512, 288),
     "android_compose_carousel_uncontained_basic" to PreviewFrame(512, 288),
+    "android_compose_components_dial" to PreviewFrame(768, 432),
+    "android_compose_components_input" to PreviewFrame(640, 360),
+    "android_compose_components_datepicker_modal" to PreviewFrame(400, 640),
+    "android_compose_components_datepicker_inputmodal" to PreviewFrame(400, 640),
+    "android_compose_components_datepicker_range" to PreviewFrame(400, 640),
+    // The docked picker opens in a popup below its text field, so it needs the same tall frame.
+    "android_compose_components_datepicker_docked" to PreviewFrame(400, 640),
     // Wide navigation rails have a header and 3 items that need more vertical room than 216dp.
     "android_compose_expressive_components_widenavigationrailexample" to PreviewFrame(640, 360),
     "android_compose_expressive_components_modalwidenavigationrailexample" to PreviewFrame(640, 360),
@@ -277,7 +297,30 @@ private val SnippetPreviewFrames: Map<String, PreviewFrame> = mapOf(
     // Support different display sizes: cards that switch layout at 400dp, in a DeviceToggle.
     "android_compose_layouts_manual_measurements" to DeviceTogglePreviewFrame,
     "android_compose_layouts_manual_measurements_3" to DeviceTogglePreviewFrame,
+    // Scrollable top app bars need vertical space so collapse/expand behavior is clearly visible.
+    "android_compose_expressive_components_alwaysentertopappbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_exituntilcollapsedtopappbar" to PreviewFrame(360, 480),
+    "android_compose_expressive_components_exituntilcollapsedlargetopappbar" to PreviewFrame(360, 480),
+    // Recorded loading and progress indicators fit DefaultPreviewFrame, matching adjacent static
+    // progress previews at the same scale.
+    "android_compose_expressive_components_loadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_containedloadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinateloadingindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinatelinearwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatelinearwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_determinatecircularwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatecircularwavyindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatelinearindicator" to DefaultPreviewFrame,
+    "android_compose_expressive_components_indeterminatecircularindicator" to DefaultPreviewFrame,
 )
+
+/*
+ * Fixed date and time for the picker previews, so the screenshots don't change with the day they're
+ * generated on. March 2025 is in the past, so the picker never also highlights "today".
+ */
+private const val PreviewDateMillis = 1741737600000L // 2025-03-12 UTC
+private const val PreviewRangeEndMillis = 1742256000000L // 2025-03-18 UTC
+private val PreviewTime = LocalTime(hour = 10, minute = 30)
 
 fun previewFrameFor(id: String): PreviewFrame = SnippetPreviewFrames[id] ?: DefaultPreviewFrame
 
@@ -441,6 +484,42 @@ object SnippetRegistry {
         "android_compose_components_filterchip" to { CenteredBox { FilterChipExample() } },
         "android_compose_components_inputchip" to { CenteredBox { InputChipExample(text = "Input Chip", onDismiss = {}) } },
         "android_compose_components_suggestionchip" to { CenteredBox { SuggestionChipExample() } },
+        "android_compose_components_datepicker_modal" to {
+            ReopenableDialog("Open date picker") { onClose ->
+                DatePickerModal(
+                    onDateSelected = {},
+                    onDismiss = onClose,
+                    datePickerState = rememberDatePickerState(initialSelectedDateMillis = PreviewDateMillis),
+                )
+            }
+        },
+        "android_compose_components_datepicker_inputmodal" to {
+            ReopenableDialog("Open date picker") { onClose ->
+                DatePickerModalInput(onDateSelected = {}, onDismiss = onClose)
+            }
+        },
+        // The docked picker opens below its text field, so center the field horizontally at the
+        // top of the frame and leave room underneath for the popup.
+        "android_compose_components_datepicker_docked" to {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                DatePickerDocked()
+            }
+        },
+        "android_compose_components_datepicker_range" to {
+            ReopenableDialog("Open date range picker") { onClose ->
+                DateRangePickerModal(
+                    onDateRangeSelected = {},
+                    onDismiss = onClose,
+                    dateRangePickerState = rememberDateRangePickerState(
+                        initialSelectedStartDateMillis = PreviewDateMillis,
+                        initialSelectedEndDateMillis = PreviewRangeEndMillis,
+                    ),
+                )
+            }
+        },
         "android_compose_expressive_components_filterchipwithcornermorphing" to { CenteredBox { FilterChipWithCornerMorphingSample() } },
         "android_compose_expressive_components_elevatedfilterchipwithcornermorphing" to { CenteredBox { ElevatedFilterChipWithCornerMorphingSample() } },
         "android_compose_expressive_components_inputchipwithcornermorphing" to { CenteredBox { InputChipWithCornerMorphingSample() } },
@@ -453,6 +532,8 @@ object SnippetRegistry {
         "android_compose_components_rangeslider" to { CenteredBox { RangeSliderExample() } },
         "android_compose_components_switchminimal" to { CenteredBox { SwitchMinimalExample() } },
         "android_compose_components_switchwithicon" to { CenteredBox { SwitchWithIconExample() } },
+        "android_compose_components_dial" to { CenteredBox { DialExample(onConfirm = {}, onDismiss = {}, initialTime = PreviewTime) } },
+        "android_compose_components_input" to { CenteredBox { InputExample(onConfirm = {}, onDismiss = {}, initialTime = PreviewTime) } },
         "android_compose_components_radiobuttonsingleselection" to { CenteredBox { RadioButtonSingleSelection() } },
         "android_compose_expressive_components_textfield" to { CenteredBox { TextFieldSample() } },
         "android_compose_expressive_components_outlinedtextfield" to { CenteredBox { OutlinedTextFieldSample() } },

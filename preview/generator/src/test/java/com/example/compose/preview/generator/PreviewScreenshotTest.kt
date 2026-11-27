@@ -31,6 +31,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import android.os.Looper
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
@@ -51,7 +52,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
-import com.example.compose.preview.wasm.registry.DefaultPreviewFrame
 import com.example.compose.preview.wasm.registry.PreviewFontWeights
 import com.example.compose.preview.wasm.registry.SnippetRegistry
 import com.example.compose.preview.wasm.registry.previewFrameFor
@@ -77,6 +77,8 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
 internal const val PreviewRobolectricSdk = 36
+private const val RecordingFps = 25
+private const val RecordingFrameMillis = 1_000L / RecordingFps
 
 private val PreviewColorScheme = lightColorScheme(
     primary = Color(0xFF000000),
@@ -233,7 +235,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
             composeTestRule,
             File(getOutputDir(), "$snippetId.gif").absolutePath,
             RoboVideoOptions(
-                fps = 25,
+                fps = RecordingFps,
                 // Stop when the script ends instead of recording until the UI settles (3 s by
                 // default), so infinite transitions loop cleanly after exactly one cycle.
                 settleTimeoutMillis = 0L,
@@ -249,6 +251,43 @@ class PreviewScreenshotTest(private val snippetId: String) {
                         target.performTouchInput { down(center) }
                         delay(step.millis)
                         target.performTouchInput { up() }
+                    }
+                    is PreviewStep.Drag -> {
+                        val root = composeTestRule.onRoot()
+                        val steps = (step.durationMillis / RecordingFrameMillis).toInt().coerceAtLeast(1)
+                        val stepMillis = step.durationMillis / steps
+                        root.performTouchInput {
+                            down(Offset(width * step.startXFraction, height * step.startYFraction))
+                        }
+                        for (i in 1..steps) {
+                            delay(stepMillis)
+                            val fraction = i.toFloat() / steps
+                            val xFraction =
+                                step.startXFraction + (step.endXFraction - step.startXFraction) * fraction
+                            val yFraction =
+                                step.startYFraction + (step.endYFraction - step.startYFraction) * fraction
+                            root.performTouchInput {
+                                moveTo(Offset(width * xFraction, height * yFraction), delayMillis = 0L)
+                            }
+                        }
+                        // Hold briefly before lifting so VelocityTracker doesn't trigger a fling overshoot.
+                        delay(RecordingFrameMillis * 2)
+                        root.performTouchInput { up() }
+                    }
+                    is PreviewStep.Slide -> {
+                        val slider = composeTestRule.onNode(
+                            SemanticsMatcher.keyIsDefined(SemanticsActions.SetProgress)
+                        )
+                        val steps = (step.durationMillis / RecordingFrameMillis).toInt().coerceAtLeast(1)
+                        val stepMillis = step.durationMillis / steps
+                        for (i in 1..steps) {
+                            delay(stepMillis)
+                            val fraction = i.toFloat() / steps
+                            val value = step.from + (step.to - step.from) * fraction
+                            slider.performSemanticsAction(SemanticsActions.SetProgress) { setProgress ->
+                                setProgress(value)
+                            }
+                        }
                     }
                 }
             }
@@ -281,7 +320,7 @@ class PreviewScreenshotTest(private val snippetId: String) {
             require(unregisteredFrames.isEmpty()) {
                 "SnippetPreviewFrames has IDs that aren't in SnippetRegistry: $unregisteredFrames"
             }
-            val withoutFrame = SnippetRecordings.keys.filter { previewFrameFor(it) == DefaultPreviewFrame }
+            val withoutFrame = SnippetRecordings.keys - previewFrameIds
             require(withoutFrame.isEmpty()) {
                 "Recorded snippets need a frame in SnippetPreviewFrames: $withoutFrame"
             }
@@ -314,6 +353,8 @@ private val PreviewTapTargets = mapOf(
     "android_compose_components_advancedrichtooltipexample" to "Open camera",
     "android_compose_expressive_components_groupedmenusample" to "Localized description",
     "android_compose_expressive_components_floatingactionbuttonmenu" to "Toggle menu",
+    // Capture the docked date picker open, below its text field.
+    "android_compose_components_datepicker_docked" to "Select date",
 )
 
 /**

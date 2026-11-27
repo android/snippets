@@ -29,11 +29,7 @@ kotlin {
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 2
-        }
-    }
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
     namespace = "com.example.compose.snippets"
 
     defaultConfig {
@@ -83,11 +79,13 @@ android {
 
 dependencies {
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.media3.session)
     implementation(libs.glance.preview)
-    // The alpha BOM brings Compose 1.13.0-rc01 and material3 1.5.0-rc01 (it overrides the
-    // material3 version from the catalog), so the DAC previews match the latest release.
-    val composeBom = platform(libs.androidx.compose.bom.alpha)
+    // Use the stable BOM (2026.11.01) bringing Compose 1.13.0 and material3 1.5.0.
+    val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -159,6 +157,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.compose.material3.adaptive.navigation3)
     implementation(libs.androidx.navigation3.runtime)
@@ -197,4 +196,9 @@ dependencies {
 
     debugImplementation(libs.fragment.testing.manifest)
     androidTestImplementation(libs.fragment.testing)
+    androidTestImplementation(libs.androidx.paging.testing)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.kotlin.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.truth)
 }

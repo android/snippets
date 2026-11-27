@@ -17,6 +17,7 @@
 package com.example.compose.preview.generator
 
 import com.example.compose.preview.wasm.registry.AnimationPreviewFrame
+import com.example.compose.preview.wasm.registry.DefaultPreviewFrame
 
 /** One step of the interaction script used to record a snippet's animated preview. */
 sealed interface PreviewStep {
@@ -31,6 +32,30 @@ sealed interface PreviewStep {
 
     /** Presses and holds the first clickable node for [millis], then releases it. */
     data class Press(val millis: Long) : PreviewStep
+
+    /**
+     * Smoothly drags across the root viewport from ([startXFraction], [startYFraction]) to
+     * ([endXFraction], [endYFraction]) over [durationMillis], stepping frame-by-frame so
+     * `recordRoboVideo` captures intermediate scroll frames without fling overshoot.
+     */
+    data class Drag(
+        val startXFraction: Float = 0.5f,
+        val startYFraction: Float,
+        val endXFraction: Float = startXFraction,
+        val endYFraction: Float,
+        val durationMillis: Long = 800L,
+    ) : PreviewStep
+
+    /**
+     * Smoothly moves the snippet's `Slider` from [from] to [to] over [durationMillis] via
+     * `SemanticsActions.SetProgress`, so determinate indicators animate smoothly and return to
+     * their exact starting value for seamless looping.
+     */
+    data class Slide(
+        val from: Float,
+        val to: Float,
+        val durationMillis: Long = 1_200L,
+    ) : PreviewStep
 }
 
 /**
@@ -62,10 +87,51 @@ private val ShowHideTwice = PreviewRecording(
 /** One full cycle of a two-second `infiniteRepeatable(tween(1000), RepeatMode.Reverse)`. */
 private val OneInfiniteCycle = PreviewRecording(listOf(PreviewStep.Wait(2_000)))
 
+/** Full polygon morphing cycle for M3 indeterminate `LoadingIndicator` (7 shapes × 650 ms). */
+private val LoadingIndicatorCycle = PreviewRecording(listOf(PreviewStep.Wait(4_550)))
+
+/** Slides a determinate wavy progress indicator from its initial 0.1f up to 0.9f and back. */
+private val DeterminateWavySliderCycle = PreviewRecording(
+    listOf(
+        PreviewStep.Wait(500),
+        PreviewStep.Slide(from = 0.1f, to = 0.9f, durationMillis = 1_200),
+        PreviewStep.Wait(600),
+        PreviewStep.Slide(from = 0.9f, to = 0.1f, durationMillis = 1_200),
+        PreviewStep.Wait(500),
+    )
+)
+
+/** Scrolls down and back to the top using drags below a top app bar or above a bottom toolbar. */
+private fun verticalScrollCycle(
+    xFraction: Float = 0.5f,
+    bottomYFraction: Float,
+    topYFraction: Float,
+    dragMillis: Long = 800L,
+): PreviewRecording = PreviewRecording(
+    listOf(
+        PreviewStep.Wait(500),
+        PreviewStep.Drag(
+            startXFraction = xFraction,
+            startYFraction = bottomYFraction,
+            endYFraction = topYFraction,
+            durationMillis = dragMillis,
+        ),
+        PreviewStep.Wait(600),
+        PreviewStep.Drag(
+            startXFraction = xFraction,
+            startYFraction = topYFraction,
+            endYFraction = bottomYFraction,
+            durationMillis = dragMillis,
+        ),
+        PreviewStep.Wait(600),
+    )
+)
+
 /**
  * Snippets whose static DAC preview is a looping MP4 instead of a PNG, keyed by region tag.
  * [PreviewScreenshotTest.record] plays each script against the snippet in `SnippetRegistry`.
- * Give recorded snippets a frame in `SnippetPreviewFrames` (usually [AnimationPreviewFrame]).
+ * Every recorded snippet must also declare its frame in `SnippetPreviewFrames` (for example
+ * [DefaultPreviewFrame], [AnimationPreviewFrame], or a custom portrait frame for scrollable demos).
  */
 /** Taps DeviceToggle's Foldable, Tablet and Phone buttons, so the card's layout switches. */
 private val CardDeviceTour = PreviewRecording(
@@ -125,4 +191,64 @@ val SnippetRecordings: Map<String, PreviewRecording> = mapOf(
     // Support different display sizes: cards in a DeviceToggle.
     "android_compose_layouts_manual_measurements" to CardDeviceTour,
     "android_compose_layouts_manual_measurements_3" to CardShowMoreTour,
+    // Material 3 Expressive loading indicators.
+    "android_compose_expressive_components_loadingindicator" to LoadingIndicatorCycle,
+    "android_compose_expressive_components_containedloadingindicator" to LoadingIndicatorCycle,
+    "android_compose_expressive_components_determinateloadingindicator" to PreviewRecording(
+        listOf(
+            PreviewStep.Wait(400),
+            PreviewStep.Slide(from = 0f, to = 1f, durationMillis = 1_400),
+            PreviewStep.Wait(800),
+            PreviewStep.Slide(from = 1f, to = 0f, durationMillis = 1_400),
+            PreviewStep.Wait(800),
+        )
+    ),
+    // Material 3 Expressive wavy and indeterminate progress indicators.
+    "android_compose_expressive_components_determinatelinearwavyindicator" to DeterminateWavySliderCycle,
+    "android_compose_expressive_components_indeterminatelinearwavyindicator" to PreviewRecording(
+        listOf(PreviewStep.Wait(3_000))
+    ),
+    "android_compose_expressive_components_determinatecircularwavyindicator" to DeterminateWavySliderCycle,
+    "android_compose_expressive_components_indeterminatecircularwavyindicator" to PreviewRecording(
+        listOf(PreviewStep.Wait(3_000))
+    ),
+    "android_compose_expressive_components_indeterminatelinearindicator" to PreviewRecording(
+        listOf(PreviewStep.Wait(1_800))
+    ),
+    "android_compose_expressive_components_indeterminatecircularindicator" to PreviewRecording(
+        listOf(PreviewStep.Wait(2_664))
+    ),
+    // Material 3 Expressive scrollable top app bars (drag starts below the expanded bar).
+    "android_compose_expressive_components_alwaysentertopappbar" to verticalScrollCycle(
+        bottomYFraction = 0.80f,
+        topYFraction = 0.35f,
+        dragMillis = 800,
+    ),
+    "android_compose_expressive_components_exituntilcollapsedtopappbar" to verticalScrollCycle(
+        bottomYFraction = 0.85f,
+        topYFraction = 0.40f,
+        dragMillis = 900,
+    ),
+    "android_compose_expressive_components_exituntilcollapsedlargetopappbar" to verticalScrollCycle(
+        bottomYFraction = 0.85f,
+        topYFraction = 0.45f,
+        dragMillis = 900,
+    ),
+    // Material 3 Expressive floating toolbars (drag avoids the bottom/right floating toolbar).
+    "android_compose_expressive_components_expandablehorizontalfloatingtoolbar" to verticalScrollCycle(
+        bottomYFraction = 0.70f,
+        topYFraction = 0.25f,
+        dragMillis = 800,
+    ),
+    "android_compose_expressive_components_expandableverticalfloatingtoolbar" to verticalScrollCycle(
+        xFraction = 0.35f,
+        bottomYFraction = 0.75f,
+        topYFraction = 0.25f,
+        dragMillis = 800,
+    ),
+    "android_compose_expressive_components_scrollablehorizontalfloatingtoolbar" to verticalScrollCycle(
+        bottomYFraction = 0.70f,
+        topYFraction = 0.25f,
+        dragMillis = 800,
+    ),
 )

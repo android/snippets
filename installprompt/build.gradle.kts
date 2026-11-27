@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.crossdeviceinstallprompt"
     compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.crossdeviceinstallprompt"
