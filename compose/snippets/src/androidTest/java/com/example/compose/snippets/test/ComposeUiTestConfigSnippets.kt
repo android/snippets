@@ -21,23 +21,21 @@ import androidx.compose.ui.test.ComposeUiTestConfig
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.v2.runComposeUiTest
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.test.runCurrent
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("DEPRECATION")
 private class DeprecatedConfigSnippets {
     // [START android_compose_test_config_deprecated]
     @get:Rule
     val rule = createComposeRule(
-        effectContext = EmptyCoroutineContext,
-        testTimeout = 30.seconds
+        config = ComposeUiTestConfig(testTimeout = 30.seconds)
     )
 
     // OR

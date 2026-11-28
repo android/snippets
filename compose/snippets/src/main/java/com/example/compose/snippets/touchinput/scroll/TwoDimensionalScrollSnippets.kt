@@ -26,9 +26,9 @@ import androidx.compose.foundation.gestures.scrollable2D
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -242,10 +242,10 @@ private fun NestedScrollable2DSample() {
 // [END android_compose_touchinput_scroll_scrollable2D_nested_scrolling]
 
 
-@Preview
+@Preview()
 // [START android_compose_touchinput_scroll_draggable2D_basic]
 @Composable
-private fun DraggableComposableElement() {
+internal fun DraggableComposableElement() {
     // 1. Track the position of the floating window
     var offset by remember { mutableStateOf(Offset.Zero) }
 
@@ -253,7 +253,8 @@ private fun DraggableComposableElement() {
         Box(
             modifier = Modifier
                 // 2. Apply the offset to the box's position
-                .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
+                // Use absoluteOffset to preserve the drag direction in RTL layouts.
+                .absoluteOffset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
                 // [START_EXCLUDE]
                 .size(160.dp, 90.dp)
                 .background(Color(0xFF6200EE), RoundedCornerShape(8.dp))
